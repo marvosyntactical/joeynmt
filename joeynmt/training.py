@@ -54,7 +54,7 @@ class TrainManager:
         self.logger = make_logger(model_dir=self.model_dir)
         self.logging_freq = train_config.get("logging_freq", 100)
         self.valid_report_file = "{}/validations.txt".format(self.model_dir)
-        self.tb_writer = SummaryWriter(log_dir=self.model_dir+"/tensorboard/")
+        #self.tb_writer = SummaryWriter(log_dir=self.model_dir+"/tensorboard/")
 
         # model
         self.model = model
@@ -261,8 +261,7 @@ class TrainManager:
                 update = count == 0
                 # print(count, update, self.steps)
                 batch_loss = self._train_batch(batch, update=update)
-                self.tb_writer.add_scalar("train/train_batch_loss", batch_loss,
-                                          self.steps)
+                #self.tb_writer.add_scalar("train/train_batch_loss", batch_loss, self.steps)
                 count = self.batch_multiplier if update else count
                 count -= 1
                 epoch_loss += batch_loss.detach().cpu().numpy()
@@ -303,12 +302,12 @@ class TrainManager:
                             batch_type=self.eval_batch_type
                         )
 
-                    self.tb_writer.add_scalar("valid/valid_loss",
-                                              valid_loss, self.steps)
-                    self.tb_writer.add_scalar("valid/valid_score",
-                                              valid_score, self.steps)
-                    self.tb_writer.add_scalar("valid/valid_ppl",
-                                              valid_ppl, self.steps)
+                    #self.tb_writer.add_scalar("valid/valid_loss",
+                    #                          valid_loss, self.steps)
+                    #self.tb_writer.add_scalar("valid/valid_score",
+                    #                          valid_score, self.steps)
+                    #self.tb_writer.add_scalar("valid/valid_ppl",
+                    #                          valid_ppl, self.steps)
 
                     if self.early_stopping_metric == "loss":
                         ckpt_score = valid_loss
@@ -360,7 +359,7 @@ class TrainManager:
                     self._store_outputs(valid_hypotheses)
 
                     # store attention plots for selected valid sentences
-                    if valid_attention_scores:
+                    """if valid_attention_scores:
                         store_attention_plots(
                             attentions=valid_attention_scores,
                             targets=valid_hypotheses_raw,
@@ -369,7 +368,7 @@ class TrainManager:
                             output_prefix="{}/att.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps)
-
+                    """
                 if self.stop:
                     break
             if self.stop:
@@ -386,7 +385,7 @@ class TrainManager:
                          self.best_ckpt_iteration, self.best_ckpt_score,
                          self.early_stopping_metric)
 
-        self.tb_writer.close()  # close Tensorboard writer
+        #self.tb_writer.close()  # close Tensorboard writer
 
     def _train_batch(self, batch: Batch, update: bool = True) -> Tensor:
         """
