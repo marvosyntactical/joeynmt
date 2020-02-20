@@ -1,292 +1,121 @@
-2020-02-18 16:34:21,103 Hello! This is Joey-NMT.
-2020-02-18 16:34:21,105 Total params: 2130140
-2020-02-18 16:34:21,105 Trainable parameters: ['decoder.att_vector_layer.bias', 'decoder.att_vector_layer.weight', 'decoder.attention.energy_layer.weight', 'decoder.attention.key_layer.weight', 'decoder.attention.query_layer.weight', 'decoder.output_layer.weight', 'decoder.rnn.bias_hh_l0', 'decoder.rnn.bias_hh_l1', 'decoder.rnn.bias_ih_l0', 'decoder.rnn.bias_ih_l1', 'decoder.rnn.weight_hh_l0', 'decoder.rnn.weight_hh_l1', 'decoder.rnn.weight_ih_l0', 'decoder.rnn.weight_ih_l1', 'encoder.rnn.bias_hh_l0', 'encoder.rnn.bias_hh_l0_reverse', 'encoder.rnn.bias_hh_l1', 'encoder.rnn.bias_hh_l1_reverse', 'encoder.rnn.bias_hh_l2', 'encoder.rnn.bias_hh_l2_reverse', 'encoder.rnn.bias_ih_l0', 'encoder.rnn.bias_ih_l0_reverse', 'encoder.rnn.bias_ih_l1', 'encoder.rnn.bias_ih_l1_reverse', 'encoder.rnn.bias_ih_l2', 'encoder.rnn.bias_ih_l2_reverse', 'encoder.rnn.weight_hh_l0', 'encoder.rnn.weight_hh_l0_reverse', 'encoder.rnn.weight_hh_l1', 'encoder.rnn.weight_hh_l1_reverse', 'encoder.rnn.weight_hh_l2', 'encoder.rnn.weight_hh_l2_reverse', 'encoder.rnn.weight_ih_l0', 'encoder.rnn.weight_ih_l0_reverse', 'encoder.rnn.weight_ih_l1', 'encoder.rnn.weight_ih_l1_reverse', 'encoder.rnn.weight_ih_l2', 'encoder.rnn.weight_ih_l2_reverse', 'src_embed.lut.weight', 'trg_embed.lut.weight']
-2020-02-18 16:34:21,106 cfg.name                           : kv_toy
-2020-02-18 16:34:21,106 cfg.data.src                       : de
-2020-02-18 16:34:21,106 cfg.data.trg                       : en
-2020-02-18 16:34:21,106 cfg.data.train                     : test/data/toy/train
-2020-02-18 16:34:21,106 cfg.data.dev                       : test/data/toy/dev
-2020-02-18 16:34:21,106 cfg.data.test                      : test/data/toy/test
-2020-02-18 16:34:21,106 cfg.data.level                     : word
-2020-02-18 16:34:21,106 cfg.data.lowercase                 : True
-2020-02-18 16:34:21,106 cfg.data.max_sent_length           : 30
-2020-02-18 16:34:21,107 cfg.data.src_voc_min_freq          : 1
-2020-02-18 16:34:21,107 cfg.data.src_voc_limit             : 101
-2020-02-18 16:34:21,107 cfg.data.trg_voc_min_freq          : 1
-2020-02-18 16:34:21,107 cfg.data.trg_voc_limit             : 102
-2020-02-18 16:34:21,107 cfg.data.src_vocab                 : data/toy/voc_toy_de.txt
-2020-02-18 16:34:21,107 cfg.data.trg_vocab                 : data/toy/voc_toy_en.txt
-2020-02-18 16:34:21,107 cfg.testing.beam_size              : 5
-2020-02-18 16:34:21,107 cfg.testing.alpha                  : 1.0
-2020-02-18 16:34:21,107 cfg.training.random_seed           : 42
-2020-02-18 16:34:21,107 cfg.training.optimizer             : adam
-2020-02-18 16:34:21,107 cfg.training.adam_betas            : [0.9, 0.999]
-2020-02-18 16:34:21,107 cfg.training.learning_rate         : 0.005
-2020-02-18 16:34:21,107 cfg.training.learning_rate_min     : 0.0001
-2020-02-18 16:34:21,107 cfg.training.clip_grad_val         : 1.0
-2020-02-18 16:34:21,107 cfg.training.weight_decay          : 0.0
-2020-02-18 16:34:21,107 cfg.training.batch_size            : 10
-2020-02-18 16:34:21,108 cfg.training.batch_type            : sentence
-2020-02-18 16:34:21,108 cfg.training.eval_batch_size       : 10
-2020-02-18 16:34:21,108 cfg.training.eval_batch_type       : sentence
-2020-02-18 16:34:21,108 cfg.training.batch_multiplier      : 1
-2020-02-18 16:34:21,108 cfg.training.scheduling            : plateau
-2020-02-18 16:34:21,108 cfg.training.patience              : 5
-2020-02-18 16:34:21,108 cfg.training.decrease_factor       : 0.5
-2020-02-18 16:34:21,108 cfg.training.epochs                : 1
-2020-02-18 16:34:21,108 cfg.training.validation_freq       : 10
-2020-02-18 16:34:21,108 cfg.training.logging_freq          : 10
-2020-02-18 16:34:21,108 cfg.training.eval_metric           : bleu
-2020-02-18 16:34:21,108 cfg.training.early_stopping_metric : loss
-2020-02-18 16:34:21,108 cfg.training.model_dir             : models/kv_toy_model
-2020-02-18 16:34:21,108 cfg.training.overwrite             : True
-2020-02-18 16:34:21,108 cfg.training.shuffle               : True
-2020-02-18 16:34:21,108 cfg.training.use_cuda              : False
-2020-02-18 16:34:21,108 cfg.training.max_output_length     : 31
-2020-02-18 16:34:21,109 cfg.training.print_valid_sents     : [0, 1, 2]
-2020-02-18 16:34:21,109 cfg.training.keep_last_ckpts       : 3
-2020-02-18 16:34:21,109 cfg.training.label_smoothing       : 0.0
-2020-02-18 16:34:21,109 cfg.model.initializer              : xavier
-2020-02-18 16:34:21,109 cfg.model.init_weight              : 0.01
-2020-02-18 16:34:21,109 cfg.model.init_gain                : 1.0
-2020-02-18 16:34:21,109 cfg.model.bias_initializer         : zeros
-2020-02-18 16:34:21,109 cfg.model.embed_initializer        : normal
-2020-02-18 16:34:21,109 cfg.model.embed_init_weight        : 0.1
-2020-02-18 16:34:21,109 cfg.model.embed_init_gain          : 1.0
-2020-02-18 16:34:21,109 cfg.model.init_rnn_orthogonal      : False
-2020-02-18 16:34:21,109 cfg.model.lstm_forget_gate         : 1.0
-2020-02-18 16:34:21,109 cfg.model.tied_embeddings          : False
-2020-02-18 16:34:21,109 cfg.model.tied_softmax             : False
-2020-02-18 16:34:21,109 cfg.model.encoder.type             : recurrent
-2020-02-18 16:34:21,109 cfg.model.encoder.rnn_type         : lstm
-2020-02-18 16:34:21,110 cfg.model.encoder.embeddings.embedding_dim : 16
-2020-02-18 16:34:21,110 cfg.model.encoder.embeddings.scale : False
-2020-02-18 16:34:21,110 cfg.model.encoder.embeddings.freeze : False
-2020-02-18 16:34:21,110 cfg.model.encoder.hidden_size      : 30
-2020-02-18 16:34:21,110 cfg.model.encoder.bidirectional    : True
-2020-02-18 16:34:21,110 cfg.model.encoder.dropout          : 0.2
-2020-02-18 16:34:21,110 cfg.model.encoder.num_layers       : 3
-2020-02-18 16:34:21,110 cfg.model.encoder.freeze           : False
-2020-02-18 16:34:21,110 cfg.model.decoder.type             : recurrent
-2020-02-18 16:34:21,110 cfg.model.decoder.rnn_type         : lstm
-2020-02-18 16:34:21,110 cfg.model.decoder.embeddings.embedding_dim : 16
-2020-02-18 16:34:21,110 cfg.model.decoder.embeddings.scale : False
-2020-02-18 16:34:21,110 cfg.model.decoder.embeddings.freeze : False
-2020-02-18 16:34:21,110 cfg.model.decoder.hidden_size      : 30
-2020-02-18 16:34:21,110 cfg.model.decoder.dropout          : 0.2
-2020-02-18 16:34:21,110 cfg.model.decoder.hidden_dropout   : 0.2
-2020-02-18 16:34:21,110 cfg.model.decoder.num_layers       : 2
-2020-02-18 16:34:21,111 cfg.model.decoder.input_feeding    : True
-2020-02-18 16:34:21,111 cfg.model.decoder.init_hidden      : last
-2020-02-18 16:34:21,111 cfg.model.decoder.attention        : bahdanau
-2020-02-18 16:34:21,111 cfg.model.decoder.freeze           : False
-2020-02-18 16:34:21,111 Data set sizes: 
-	train 922,
-	valid 20,
-	test 20
-2020-02-18 16:34:21,111 First training example:
-	[SRC] david gallo: das ist bill lange. ich bin dave gallo.
-	[TRG] david gallo: this is bill lange. i'm dave gallo.
-2020-02-18 16:34:21,111 First 10 words (src): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) , (5) . (6) die (7) der (8) und (9) in
-2020-02-18 16:34:21,111 First 10 words (trg): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) the (5) , (6) of (7) . (8) and (9) to
-2020-02-18 16:34:21,111 Number of Src words (types): 33100
-2020-02-18 16:34:21,112 Number of Trg words (types): 33100
-2020-02-18 16:34:21,112 Model(
-	encoder=RecurrentEncoder(LSTM(16, 30, num_layers=3, batch_first=True, dropout=0.2, bidirectional=True)),
-	decoder=RecurrentDecoder(rnn=LSTM(46, 30, num_layers=2, batch_first=True, dropout=0.2), attention=BahdanauAttention),
-	src_embed=Embeddings(embedding_dim=16, vocab_size=33100),
-	trg_embed=Embeddings(embedding_dim=16, vocab_size=33100))
-2020-02-18 16:34:21,138 EPOCH 1
-2020-02-18 16:34:22,600 Epoch   1 Step:       10 Batch Loss:    55.682350 Tokens per Sec:      708, Lr: 0.005000
-2020-02-18 16:34:23,072 Hooray! New best validation result [loss]!
-2020-02-18 16:34:23,072 Saving new checkpoint.
-2020-02-18 16:34:23,093 Example #0
-2020-02-18 16:34:23,094 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:23,094 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:23,094 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:23,094 	Reference:  i’m happy to be here .
-2020-02-18 16:34:23,094 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:23,094 Example #1
-2020-02-18 16:34:23,094 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:23,094 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:23,094 	Source:     ja , guten tag .
-2020-02-18 16:34:23,094 	Reference:  yes , hello .
-2020-02-18 16:34:23,094 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:23,094 Example #2
-2020-02-18 16:34:23,094 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:23,095 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:23,095 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:23,095 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:23,095 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:23,095 Validation result at epoch   1, step       10: bleu:   0.00, loss: 3585.8228, ppl: 13177.9902, duration: 0.4941s
-2020-02-18 16:34:24,939 Epoch   1 Step:       20 Batch Loss:    55.275398 Tokens per Sec:     1395, Lr: 0.005000
-2020-02-18 16:34:25,413 Hooray! New best validation result [loss]!
-2020-02-18 16:34:25,413 Saving new checkpoint.
-2020-02-18 16:34:25,433 Example #0
-2020-02-18 16:34:25,434 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:25,434 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:25,434 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:25,434 	Reference:  i’m happy to be here .
-2020-02-18 16:34:25,434 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:25,434 Example #1
-2020-02-18 16:34:25,434 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:25,434 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:25,434 	Source:     ja , guten tag .
-2020-02-18 16:34:25,434 	Reference:  yes , hello .
-2020-02-18 16:34:25,434 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:25,434 Example #2
-2020-02-18 16:34:25,435 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:25,435 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:25,435 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:25,435 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:25,435 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:25,435 Validation result at epoch   1, step       20: bleu:   0.00, loss: 3081.9609, ppl: 3474.9507, duration: 0.4953s
-2020-02-18 16:34:27,327 Epoch   1 Step:       30 Batch Loss:    63.402946 Tokens per Sec:     2144, Lr: 0.005000
-2020-02-18 16:34:27,811 Hooray! New best validation result [loss]!
-2020-02-18 16:34:27,811 Saving new checkpoint.
-2020-02-18 16:34:27,832 Example #0
-2020-02-18 16:34:27,832 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:27,832 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:27,832 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:27,832 	Reference:  i’m happy to be here .
-2020-02-18 16:34:27,832 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:27,832 Example #1
-2020-02-18 16:34:27,832 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:27,832 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:27,832 	Source:     ja , guten tag .
-2020-02-18 16:34:27,832 	Reference:  yes , hello .
-2020-02-18 16:34:27,833 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:27,833 Example #2
-2020-02-18 16:34:27,833 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:27,833 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:27,833 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:27,833 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:27,833 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:27,833 Validation result at epoch   1, step       30: bleu:   0.00, loss: 2845.1348, ppl: 1857.1747, duration: 0.5053s
-2020-02-18 16:34:29,700 Epoch   1 Step:       40 Batch Loss:    74.440437 Tokens per Sec:     2970, Lr: 0.005000
-2020-02-18 16:34:30,177 Example #0
-2020-02-18 16:34:30,177 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:30,177 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:30,177 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:30,177 	Reference:  i’m happy to be here .
-2020-02-18 16:34:30,177 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:30,177 Example #1
-2020-02-18 16:34:30,177 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:30,177 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:30,178 	Source:     ja , guten tag .
-2020-02-18 16:34:30,178 	Reference:  yes , hello .
-2020-02-18 16:34:30,178 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:30,178 Example #2
-2020-02-18 16:34:30,178 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:30,178 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:30,178 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:30,178 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:30,178 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:30,178 Validation result at epoch   1, step       40: bleu:   0.00, loss: 2910.3984, ppl: 2207.1707, duration: 0.4773s
-2020-02-18 16:34:31,710 Epoch   1 Step:       50 Batch Loss:    11.278719 Tokens per Sec:     4347, Lr: 0.005000
-2020-02-18 16:34:32,179 Example #0
-2020-02-18 16:34:32,179 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:32,179 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:32,179 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:32,179 	Reference:  i’m happy to be here .
-2020-02-18 16:34:32,179 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:32,179 Example #1
-2020-02-18 16:34:32,179 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:32,179 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:32,179 	Source:     ja , guten tag .
-2020-02-18 16:34:32,179 	Reference:  yes , hello .
-2020-02-18 16:34:32,180 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:32,180 Example #2
-2020-02-18 16:34:32,180 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:32,180 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:32,180 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:32,180 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:32,180 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:32,180 Validation result at epoch   1, step       50: bleu:   0.00, loss: 3014.3115, ppl: 2905.5242, duration: 0.4700s
-2020-02-18 16:34:33,841 Epoch   1 Step:       60 Batch Loss:    59.552502 Tokens per Sec:     4791, Lr: 0.005000
-2020-02-18 16:34:34,309 Example #0
-2020-02-18 16:34:34,309 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:34,309 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:34,310 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:34,310 	Reference:  i’m happy to be here .
-2020-02-18 16:34:34,310 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:34,310 Example #1
-2020-02-18 16:34:34,310 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:34,310 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:34,310 	Source:     ja , guten tag .
-2020-02-18 16:34:34,310 	Reference:  yes , hello .
-2020-02-18 16:34:34,310 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:34,310 Example #2
-2020-02-18 16:34:34,310 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:34,310 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:34,310 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:34,310 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:34,311 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:34,311 Validation result at epoch   1, step       60: bleu:   0.00, loss: 3006.7773, ppl: 2848.1851, duration: 0.4688s
-2020-02-18 16:34:36,182 Epoch   1 Step:       70 Batch Loss:   109.562195 Tokens per Sec:     4987, Lr: 0.005000
-2020-02-18 16:34:36,654 Example #0
-2020-02-18 16:34:36,654 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:36,654 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:36,654 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:36,655 	Reference:  i’m happy to be here .
-2020-02-18 16:34:36,655 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:36,655 Example #1
-2020-02-18 16:34:36,655 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:36,655 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:36,655 	Source:     ja , guten tag .
-2020-02-18 16:34:36,655 	Reference:  yes , hello .
-2020-02-18 16:34:36,655 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:36,655 Example #2
-2020-02-18 16:34:36,655 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:36,655 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:36,656 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:36,656 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:36,656 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:36,656 Validation result at epoch   1, step       70: bleu:   0.00, loss: 2960.6675, ppl: 2521.1079, duration: 0.4731s
-2020-02-18 16:34:38,525 Epoch   1 Step:       80 Batch Loss:   107.063309 Tokens per Sec:     5735, Lr: 0.005000
-2020-02-18 16:34:39,005 Example #0
-2020-02-18 16:34:39,005 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:39,006 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:39,006 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:39,006 	Reference:  i’m happy to be here .
-2020-02-18 16:34:39,006 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:39,006 Example #1
-2020-02-18 16:34:39,006 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:39,006 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:39,006 	Source:     ja , guten tag .
-2020-02-18 16:34:39,006 	Reference:  yes , hello .
-2020-02-18 16:34:39,006 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:39,006 Example #2
-2020-02-18 16:34:39,006 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:39,006 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:39,006 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:39,007 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:39,007 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:39,007 Validation result at epoch   1, step       80: bleu:   0.00, loss: 2948.9192, ppl: 2443.9563, duration: 0.4813s
-2020-02-18 16:34:40,925 Epoch   1 Step:       90 Batch Loss:    85.050072 Tokens per Sec:     6344, Lr: 0.005000
-2020-02-18 16:34:41,453 Example #0
-2020-02-18 16:34:41,453 	Raw source:     ['ich', 'freue', 'mich', ',', 'dass', 'ich', 'da', 'bin', '.']
-2020-02-18 16:34:41,453 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:41,453 	Source:     ich freue mich , dass ich da bin .
-2020-02-18 16:34:41,453 	Reference:  i’m happy to be here .
-2020-02-18 16:34:41,454 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:41,454 Example #1
-2020-02-18 16:34:41,454 	Raw source:     ['ja', ',', 'guten', 'tag', '.']
-2020-02-18 16:34:41,454 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:41,454 	Source:     ja , guten tag .
-2020-02-18 16:34:41,454 	Reference:  yes , hello .
-2020-02-18 16:34:41,454 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:41,454 Example #2
-2020-02-18 16:34:41,454 	Raw source:     ['ja', ',', 'also', ',', 'was', 'soll', 'biohacking', 'sein', '?']
-2020-02-18 16:34:41,454 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-18 16:34:41,454 	Source:     ja , also , was soll biohacking sein ?
-2020-02-18 16:34:41,454 	Reference:  yes , so , what is biohacking ?
-2020-02-18 16:34:41,454 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-18 16:34:41,455 Validation result at epoch   1, step       90: bleu:   0.00, loss: 2959.6309, ppl: 2514.2039, duration: 0.5287s
-2020-02-18 16:34:42,094 Epoch   1: total training loss 8297.86
-2020-02-18 16:34:42,096 Training ended after   1 epochs.
-2020-02-18 16:34:42,096 Best validation result at step       30: 2845.13 loss.
-2020-02-18 16:34:57,194  dev bleu:   0.00 [Beam search decoding with beam size = 5 and alpha = 1.0]
-2020-02-18 16:34:57,194 Translations saved to: models/kv_toy_model/00000030.hyps.dev
-2020-02-18 16:34:58,840 No references given for test -> no evaluation.
-2020-02-18 16:34:58,840 Translations saved to: models/kv_toy_model/00000030.hyps.test
+2020-02-20 13:42:40,128 Hello! This is Joey-NMT.
+2020-02-20 13:42:42,131 Total params: 2558126
+2020-02-20 13:42:42,132 Trainable parameters: ['decoder.att_vector_layer.bias', 'decoder.att_vector_layer.weight', 'decoder.attention.energy_layer.weight', 'decoder.attention.key_layer.weight', 'decoder.attention.query_layer.weight', 'decoder.output_layer.weight', 'decoder.rnn.bias_hh_l0', 'decoder.rnn.bias_hh_l1', 'decoder.rnn.bias_ih_l0', 'decoder.rnn.bias_ih_l1', 'decoder.rnn.weight_hh_l0', 'decoder.rnn.weight_hh_l1', 'decoder.rnn.weight_ih_l0', 'decoder.rnn.weight_ih_l1', 'encoder.rnn.bias_hh_l0', 'encoder.rnn.bias_hh_l0_reverse', 'encoder.rnn.bias_hh_l1', 'encoder.rnn.bias_hh_l1_reverse', 'encoder.rnn.bias_hh_l2', 'encoder.rnn.bias_hh_l2_reverse', 'encoder.rnn.bias_ih_l0', 'encoder.rnn.bias_ih_l0_reverse', 'encoder.rnn.bias_ih_l1', 'encoder.rnn.bias_ih_l1_reverse', 'encoder.rnn.bias_ih_l2', 'encoder.rnn.bias_ih_l2_reverse', 'encoder.rnn.weight_hh_l0', 'encoder.rnn.weight_hh_l0_reverse', 'encoder.rnn.weight_hh_l1', 'encoder.rnn.weight_hh_l1_reverse', 'encoder.rnn.weight_hh_l2', 'encoder.rnn.weight_hh_l2_reverse', 'encoder.rnn.weight_ih_l0', 'encoder.rnn.weight_ih_l0_reverse', 'encoder.rnn.weight_ih_l1', 'encoder.rnn.weight_ih_l1_reverse', 'encoder.rnn.weight_ih_l2', 'encoder.rnn.weight_ih_l2_reverse', 'src_embed.lut.weight', 'trg_embed.lut.weight']
+2020-02-20 13:42:42,133 cfg.name                           : kv_toy
+2020-02-20 13:42:42,133 cfg.data.src                       : usr
+2020-02-20 13:42:42,133 cfg.data.trg                       : car
+2020-02-20 13:42:42,133 cfg.data.train                     : data/kv_ret_dataset/train
+2020-02-20 13:42:42,133 cfg.data.dev                       : data/kv_ret_dataset/dev
+2020-02-20 13:42:42,133 cfg.data.test                      : data/kv_ret_dataset/test
+2020-02-20 13:42:42,133 cfg.data.level                     : word
+2020-02-20 13:42:42,133 cfg.data.lowercase                 : True
+2020-02-20 13:42:42,133 cfg.data.max_sent_length           : 30
+2020-02-20 13:42:42,133 cfg.data.src_voc_min_freq          : 1
+2020-02-20 13:42:42,133 cfg.data.src_voc_limit             : 101
+2020-02-20 13:42:42,133 cfg.data.trg_voc_min_freq          : 1
+2020-02-20 13:42:42,134 cfg.data.trg_voc_limit             : 102
+2020-02-20 13:42:42,134 cfg.data.src_vocab                 : data/train.en.w2v.40k.map.voc
+2020-02-20 13:42:42,134 cfg.data.trg_vocab                 : data/train.en.w2v.40k.map.voc
+2020-02-20 13:42:42,134 cfg.testing.beam_size              : 5
+2020-02-20 13:42:42,134 cfg.testing.alpha                  : 1.0
+2020-02-20 13:42:42,134 cfg.training.random_seed           : 42
+2020-02-20 13:42:42,134 cfg.training.optimizer             : adam
+2020-02-20 13:42:42,134 cfg.training.adam_betas            : [0.9, 0.999]
+2020-02-20 13:42:42,134 cfg.training.learning_rate         : 0.001
+2020-02-20 13:42:42,134 cfg.training.learning_rate_min     : 0.0001
+2020-02-20 13:42:42,134 cfg.training.clip_grad_val         : 10.0
+2020-02-20 13:42:42,134 cfg.training.weight_decay          : 0.01
+2020-02-20 13:42:42,134 cfg.training.batch_size            : 10
+2020-02-20 13:42:42,134 cfg.training.batch_type            : sentence
+2020-02-20 13:42:42,134 cfg.training.eval_batch_size       : 10
+2020-02-20 13:42:42,135 cfg.training.eval_batch_type       : sentence
+2020-02-20 13:42:42,135 cfg.training.batch_multiplier      : 1
+2020-02-20 13:42:42,135 cfg.training.scheduling            : plateau
+2020-02-20 13:42:42,135 cfg.training.patience              : 5
+2020-02-20 13:42:42,135 cfg.training.decrease_factor       : 0.5
+2020-02-20 13:42:42,135 cfg.training.epochs                : 1
+2020-02-20 13:42:42,135 cfg.training.validation_freq       : 10
+2020-02-20 13:42:42,135 cfg.training.logging_freq          : 10
+2020-02-20 13:42:42,135 cfg.training.eval_metric           : bleu
+2020-02-20 13:42:42,135 cfg.training.early_stopping_metric : loss
+2020-02-20 13:42:42,135 cfg.training.model_dir             : models/kv_toy_model
+2020-02-20 13:42:42,135 cfg.training.overwrite             : True
+2020-02-20 13:42:42,135 cfg.training.shuffle               : True
+2020-02-20 13:42:42,135 cfg.training.use_cuda              : False
+2020-02-20 13:42:42,135 cfg.training.max_output_length     : 31
+2020-02-20 13:42:42,136 cfg.training.print_valid_sents     : [0, 1, 2]
+2020-02-20 13:42:42,136 cfg.training.keep_last_ckpts       : 3
+2020-02-20 13:42:42,136 cfg.training.label_smoothing       : 0.0
+2020-02-20 13:42:42,136 cfg.model.initializer              : xavier
+2020-02-20 13:42:42,136 cfg.model.init_weight              : 0.01
+2020-02-20 13:42:42,136 cfg.model.init_gain                : 1.0
+2020-02-20 13:42:42,136 cfg.model.bias_initializer         : zeros
+2020-02-20 13:42:42,136 cfg.model.embed_initializer        : normal
+2020-02-20 13:42:42,136 cfg.model.embed_init_weight        : 0.1
+2020-02-20 13:42:42,136 cfg.model.embed_init_gain          : 1.0
+2020-02-20 13:42:42,136 cfg.model.init_rnn_orthogonal      : False
+2020-02-20 13:42:42,136 cfg.model.lstm_forget_gate         : 1.0
+2020-02-20 13:42:42,136 cfg.model.tied_embeddings          : False
+2020-02-20 13:42:42,136 cfg.model.tied_softmax             : False
+2020-02-20 13:42:42,136 cfg.model.encoder.type             : recurrent
+2020-02-20 13:42:42,136 cfg.model.encoder.rnn_type         : lstm
+2020-02-20 13:42:42,137 cfg.model.encoder.embeddings.embedding_dim : 16
+2020-02-20 13:42:42,137 cfg.model.encoder.embeddings.scale : False
+2020-02-20 13:42:42,137 cfg.model.encoder.embeddings.freeze : False
+2020-02-20 13:42:42,137 cfg.model.encoder.hidden_size      : 30
+2020-02-20 13:42:42,137 cfg.model.encoder.bidirectional    : True
+2020-02-20 13:42:42,137 cfg.model.encoder.dropout          : 0.15
+2020-02-20 13:42:42,137 cfg.model.encoder.num_layers       : 3
+2020-02-20 13:42:42,137 cfg.model.encoder.freeze           : False
+2020-02-20 13:42:42,137 cfg.model.decoder.type             : recurrent
+2020-02-20 13:42:42,137 cfg.model.decoder.rnn_type         : lstm
+2020-02-20 13:42:42,137 cfg.model.decoder.embeddings.embedding_dim : 16
+2020-02-20 13:42:42,137 cfg.model.decoder.embeddings.scale : False
+2020-02-20 13:42:42,137 cfg.model.decoder.embeddings.freeze : False
+2020-02-20 13:42:42,137 cfg.model.decoder.hidden_size      : 30
+2020-02-20 13:42:42,137 cfg.model.decoder.dropout          : 0.15
+2020-02-20 13:42:42,138 cfg.model.decoder.hidden_dropout   : 0.2
+2020-02-20 13:42:42,138 cfg.model.decoder.num_layers       : 2
+2020-02-20 13:42:42,138 cfg.model.decoder.input_feeding    : True
+2020-02-20 13:42:42,138 cfg.model.decoder.init_hidden      : last
+2020-02-20 13:42:42,138 cfg.model.decoder.attention        : bahdanau
+2020-02-20 13:42:42,138 cfg.model.decoder.freeze           : False
+2020-02-20 13:42:42,138 Data set sizes: 
+	train 6226,
+	valid 777,
+	test 807
+2020-02-20 13:42:42,138 First training example:
+	[SRC] where's the nearest parking garage
+	[TRG] the nearest parking garage is dish parking at 550 alester ave. would you like directions there?
+2020-02-20 13:42:42,138 First 10 words (src): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) the (5) , (6) of (7) . (8) and (9) to
+2020-02-20 13:42:42,139 First 10 words (trg): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) the (5) , (6) of (7) . (8) and (9) to
+2020-02-20 13:42:42,139 Number of Src words (types): 40003
+2020-02-20 13:42:42,139 Number of Trg words (types): 40003
+2020-02-20 13:42:42,139 Model(
+	encoder=RecurrentEncoder(LSTM(16, 30, num_layers=3, batch_first=True, dropout=0.15, bidirectional=True)),
+	decoder=RecurrentDecoder(rnn=LSTM(46, 30, num_layers=2, batch_first=True, dropout=0.15), attention=BahdanauAttention),
+	src_embed=Embeddings(embedding_dim=16, vocab_size=40003),
+	trg_embed=Embeddings(embedding_dim=16, vocab_size=40003))
+2020-02-20 13:42:42,169 EPOCH 1
+2020-02-20 13:42:44,473 Epoch   1 Step:       10 Batch Loss:   158.959183 Tokens per Sec:      534, Lr: 0.001000
+2020-02-20 13:42:57,934 Hooray! New best validation result [loss]!
+2020-02-20 13:42:57,934 Saving new checkpoint.
+2020-02-20 13:42:57,960 Example #0
+2020-02-20 13:42:57,960 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-20 13:42:57,960 	Raw hypothesis: ['the', 'the', 'the', 'the', 'the', 'the']
+2020-02-20 13:42:57,960 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-20 13:42:57,960 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-20 13:42:57,961 	Hypothesis: the the the the the the
+2020-02-20 13:42:57,961 Example #1
+2020-02-20 13:42:57,961 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-20 13:42:57,961 	Raw hypothesis: ['the', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-20 13:42:57,961 	Source:     monday at 3pm.
+2020-02-20 13:42:57,961 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-20 13:42:57,961 	Hypothesis: the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-20 13:42:57,961 Example #2
+2020-02-20 13:42:57,961 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-20 13:42:57,961 	Raw hypothesis: ['the', 'the', 'the', 'the', 'the']
+2020-02-20 13:42:57,961 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-20 13:42:57,961 	Reference:  on friday it's gonna rain in brentwood
+2020-02-20 13:42:57,961 	Hypothesis: the the the the the
+2020-02-20 13:42:57,961 Validation result at epoch   1, step       10: bleu:   0.00, loss: 84748.8516, ppl: 37144.8047, duration: 13.4876s
