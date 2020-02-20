@@ -3,11 +3,11 @@ name: "kv_toy"
 # This configuration serves the purpose of documenting and explaining the settings, *NOT* as an example for good hyperparamter settings.
 
 data: # specify your data here
-    src: "de"                       # src language: expected suffix of train files, e.g. "train.de"
-    trg: "en"                       # trg language
-    train: "test/data/toy/train"    # training data
-    dev: "test/data/toy/dev"        # development data for validation
-    test: "test/data/toy/test"      # test data for testing final model; optional
+    src: "usr"                       # src language: expected suffix of train files, e.g. "train.de"
+    trg: "car"                       # trg language
+    train: "data/kv_ret_dataset/train"    # training data
+    dev: "data/kv_ret_dataset/dev"        # development data for validation
+    test: "data/kv_ret_dataset/test"      # test data for testing final model; optional
     level: "word"                   # segmentation level: either "word", "bpe" or "char"
     lowercase: True                 # lowercase the data, also for validation
     max_sent_length: 30             # filter out longer sentences from training (src+trg)
@@ -15,8 +15,8 @@ data: # specify your data here
     src_voc_limit: 101              # src vocabulary only includes this many most frequent tokens, default: unlimited
     trg_voc_min_freq: 1             # trg minimum frequency for a token to become part of the vocabulary
     trg_voc_limit: 102              # trg vocabulary only includes this many most frequent tokens, default: unlimited
-    src_vocab: "data/toy/voc_toy_en.txt"  # if specified, load a vocabulary from this file
-    trg_vocab: "data/toy/voc_toy_en.txt"  # one token per line, line number is index
+    src_vocab: "data/train.en.w2v.40k.map.voc"  # if specified, load a vocabulary from this file
+    trg_vocab: "data/train.en.w2v.40k.map.voc"  # one token per line, line number is index
 
 testing:                            # specify which inference algorithm to use for testing (for validation it's always greedy decoding)
     beam_size: 5                    # size of the beam for beam search
@@ -27,13 +27,13 @@ training:                           # specify training details here
     random_seed: 42                 # set this seed to make training deterministic
     optimizer: "adam"               # choices: "sgd", "adam", "adadelta", "adagrad", "rmsprop", default is SGD
     adam_betas: [0.9, 0.999]        # beta parameters for Adam. These are the defaults. Typically these are different for Transformer models.
-    learning_rate: 0.005            # initial learning rate, default: 3.0e-4
+    learning_rate: 0.001            # initial learning rate, default: 3.0e-4
     learning_rate_min: 0.0001       # stop learning when learning rate is reduced below this threshold, default: 1.0e-8
     #learning_rate_factor: 1        # factor for Noam scheduler (used with Transformer)
     #learning_rate_warmup: 4000     # warmup steps for Noam scheduler (used with Transformer)
-    clip_grad_val: 1.0              # clip the gradients to this value when they exceed it, optional
+    clip_grad_val: 10.0              # clip the gradients to this value when they exceed it, optional
     #clip_grad_norm: 1.0            # norm clipping instead of value clipping
-    weight_decay: 0.                # l2 regularization, default: 0
+    weight_decay: .01                # l2 regularization, default: 0
     batch_size: 10                  # mini-batch size as number of sentences (when batch_type is "sentence"; default) or total number of tokens (when batch_type is "token")
     batch_type: "sentence"          # create batches with sentences ("sentence", default) or tokens ("token")
     eval_batch_size: 10             # mini-batch size for evaluation (see batch_size above)
@@ -77,7 +77,7 @@ model:                              # specify your model architecture here
             freeze: False           # if True, embeddings are not updated during training
         hidden_size: 30             # size of RNN
         bidirectional: True         # use a bi-directional encoder, default: True
-        dropout: 0.2                # apply dropout to the inputs to the RNN, default: 0.0
+        dropout: 0.15                # apply dropout to the inputs to the RNN, default: 0.0
         num_layers: 3               # stack this many layers of equal size, default: 1
         freeze: False               # if True, encoder parameters are not updated during training (does not include embedding parameters)
     decoder:
@@ -88,7 +88,7 @@ model:                              # specify your model architecture here
             scale: False
             freeze: False           # if True, embeddings are not updated during training
         hidden_size: 30
-        dropout: 0.2
+        dropout: 0.15
         hidden_dropout: 0.2         # apply dropout to the attention vector, default: 0.0
         num_layers: 2
         input_feeding: True         # combine hidden state and attention vector before feeding to rnn, default: True

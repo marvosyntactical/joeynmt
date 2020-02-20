@@ -4,14 +4,75 @@ import sys
 
 
 
-
 def main(args):
+    #defaults:
     directory = "../kv_ret_dataset/"
-    filename = "kvret_entities.json" if args == 0 else args[0]
-    with open(directory+filename, "r") as f:
-        dicc = json.load(f)
-    
+    filename = "kvret_dev_public.json" if args == 0 else args[0]
+    splitpart = "dev" if args == 0 else args[1]
+    assert splitpart in ["dev", "train", "test"]
 
+
+    with open(directory+filename, "r") as f:
+        data= json.load(f)
+
+    
+    settings=[]
+    scenarios=[]
+    
+    for idx, setting in enumerate(data):
+        dialogue = setting["dialogue"]
+        scenario = setting["scenario"]
+        convo = []
+        scenarios.append(scenario)
+        lastspeaker = "assistant"
+        for turn in dialogue:
+            utterance = turn["data"]["utterance"]
+            convo.append(utterance)
+            speaker = turn["turn"]
+            #assert speaker != lastspeaker, utterance
+            lastspeaker = speaker
+        settings.append(convo)
+
+    unanswered = ""
+    scenario_lkp = ""
+    convo_usr, convo_car = "","" 
+    for idx, elem in enumerate(settings):
+        if len(elem)%2==1:
+            unanswered+=elem[-1]+"\n"
+            elem = elem[:-1] 
+        nturns = len(elem)
+        assert nturns%2==0
+        usr_part = "\n".join([e for i,e in enumerate(elem) if i%2==0])+"\n"
+        car_part =  "\n".join([e for i,e in enumerate(elem) if i%2==1])+"\n"
+        scenario_part = (str(idx)+"\n")*(nturns//2)
+        if usr_part.strip() =="" or car_part.strip()=="" or scenario_part.strip()=="": continue
+        lines = lambda s: len(s.split("\n"))
+        assert lines(usr_part) == lines(car_part) == lines(scenario_part), (usr_part, car_part, scenario_part)
+        convo_usr += usr_part
+        convo_car += car_part
+        scenario_lkp += scenario_part
+    
+    train_usr, train_car = splitpart+".usr", splitpart+".car"
+
+    with open(directory+train_usr, "w") as usr, open(directory+train_car, "w") as car:
+        usr.write(convo_usr)
+        car.write(convo_car)
+
+    scenariofile = "scenarios_"+splitpart+".json"
+
+    with open(directory+scenariofile, "w") as scenes:
+        json.dump(scenarios, scenes, indent=4)
+
+    scenario_lkp_file = "scenario_lkp_"+splitpart+".txt"
+
+    with open(directory+scenario_lkp_file, "w") as lkp:
+        lkp.write(scenario_lkp)
+    
+    unanswered_file = "unanswered_"+splitpart+".txt"
+
+    with open(directory+unanswered_file, "w") as unan:
+        unan.write(unanswered)
+    
 
     return 0
 

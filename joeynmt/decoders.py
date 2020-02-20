@@ -434,8 +434,8 @@ class RecurrentDecoder(Decoder):
         return "RecurrentDecoder(rnn=%r, attention=%r)" % (
             self.rnn, self.attention)
 
-class kvRecurrentDecoder(Decoder):
-    """A conditional RNN decoder with attention."""
+class KeyValRetRNNDecoder(Decoder):
+    """A conditional RNN decoder with attention AND bahdanau attention over a knowledgebase"""
 
     def __init__(self,
                  rnn_type: str = "gru",
@@ -516,10 +516,12 @@ class kvRecurrentDecoder(Decoder):
             raise ConfigurationError("Unknown attention mechanism: %s. "
                                      "Valid options: 'bahdanau', 'luong'."
                                      % attention)
+        """
         #kv attention after bahdanau:
-        self.kvr_attention = KeyValRetAtt()
+        self.kvr_attention = KeyValRetAtt(hidden_size=hidden-size,
+                                            key_size = )
 
-
+        """
 
         self.num_layers = num_layers
         self.hidden_size = hidden_size
