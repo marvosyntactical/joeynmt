@@ -260,9 +260,6 @@ class RecurrentDecoder(Decoder):
         # key projections are pre-computed
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
-        #TODO: here: use kvrattention to generate v_t and add to att_vector_input
-
-
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
@@ -351,7 +348,7 @@ class RecurrentDecoder(Decoder):
         # this is only done for efficiency
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
-
+        
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []
         att_probs = []
@@ -516,12 +513,11 @@ class KeyValRetRNNDecoder(Decoder):
             raise ConfigurationError("Unknown attention mechanism: %s. "
                                      "Valid options: 'bahdanau', 'luong'."
                                      % attention)
-        """
         #kv attention after bahdanau:
-        self.kvr_attention = KeyValRetAtt(hidden_size=hidden-size,
-                                            key_size = )
+        self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
+                                            key_size = emb_size, #TODO should be src_emb_size
+                                            query_size=hidden_size)
 
-        """
 
         self.num_layers = num_layers
         self.hidden_size = hidden_size
@@ -545,6 +541,7 @@ class KeyValRetRNNDecoder(Decoder):
     def _check_shapes_input_forward_step(self,
                                          prev_embed: Tensor,
                                          prev_att_vector: Tensor,
+                                         knowledgebase: Tensor,
                                          encoder_output: Tensor,
                                          src_mask: Tensor,
                                          hidden: Tensor) -> None:
@@ -554,6 +551,7 @@ class KeyValRetRNNDecoder(Decoder):
 
         :param prev_embed:
         :param prev_att_vector:
+        :param knowledgebase:
         :param encoder_output:
         :param src_mask:
         :param hidden:
@@ -566,6 +564,7 @@ class KeyValRetRNNDecoder(Decoder):
         assert len(encoder_output.shape) == 3
         assert src_mask.shape[0] == prev_embed.shape[0]
         assert src_mask.shape[1] == 1
+        assert knowledgebase.shape[0]#TODO
         assert src_mask.shape[2] == encoder_output.shape[1]
         if isinstance(hidden, tuple):  # for lstm
             hidden = hidden[0]
@@ -577,6 +576,7 @@ class KeyValRetRNNDecoder(Decoder):
                                     trg_embed: Tensor,
                                     encoder_output: Tensor,
                                     encoder_hidden: Tensor,
+                                    knowledgebase: Tensor,
                                     src_mask: Tensor,
                                     hidden: Tensor = None,
                                     prev_att_vector: Tensor = None) -> None:
@@ -587,10 +587,12 @@ class KeyValRetRNNDecoder(Decoder):
         :param trg_embed:
         :param encoder_output:
         :param encoder_hidden:
+        :param knowledgebase:
         :param src_mask:
         :param hidden:
         :param prev_att_vector:
         """
+        assert knowledgebase #TODO
         assert len(encoder_output.shape) == 3
         assert len(encoder_hidden.shape) == 2
         assert encoder_hidden.shape[-1] == encoder_output.shape[-1]
@@ -612,6 +614,7 @@ class KeyValRetRNNDecoder(Decoder):
     def _forward_step(self,
                       prev_embed: Tensor,
                       prev_att_vector: Tensor,  # context or att vector
+                      knowledgebase: Tensor,
                       encoder_output: Tensor,
                       src_mask: Tensor,
                       hidden: Tensor) -> (Tensor, Tensor, Tensor):
@@ -626,6 +629,7 @@ class KeyValRetRNNDecoder(Decoder):
             shape (batch_size, 1, embed_size)
         :param prev_att_vector: previous attention vector,
             shape (batch_size, 1, hidden_size)
+        :param knowledgebase: kb associated with batch,
         :param encoder_output: encoder hidden states for attention context,
             shape (batch_size, src_length, encoder.output_size)
         :param src_mask: src mask, 1s for area before <eos>, 0s elsewhere
@@ -668,6 +672,9 @@ class KeyValRetRNNDecoder(Decoder):
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
 
+        u_t = self.kvr_attention(query=query)
+        #v_t = torch.zeros(prev_embed.shape[0],  )  #TODO
+
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
         att_vector_input = torch.cat([query, context], dim=2)
@@ -683,6 +690,7 @@ class KeyValRetRNNDecoder(Decoder):
                 trg_embed: Tensor,
                 encoder_output: Tensor,
                 encoder_hidden: Tensor,
+                knowledgebase: Tensor,
                 src_mask: Tensor,
                 unroll_steps: int,
                 hidden: Tensor = None,
@@ -719,6 +727,8 @@ class KeyValRetRNNDecoder(Decoder):
             shape (batch_size, src_length, encoder.output_size)
         :param encoder_hidden: last state from the encoder,
             shape (batch_size x encoder.output_size)
+        :param knowledgebase: knowledgebase associated with batch
+            shape TODO
         :param src_mask: mask for src states: 0s for padded areas,
             1s for the rest, shape (batch_size, 1, src_length)
         :param unroll_steps: number of steps to unrol the decoder RNN
@@ -755,6 +765,8 @@ class KeyValRetRNNDecoder(Decoder):
         # this is only done for efficiency
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
+        if hasattr(self.kvr_attention, "compute_proj_keys"):
+            self.kvr_attention.compute_proj_keys(keys=encoder_output)
 
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []
@@ -773,6 +785,7 @@ class KeyValRetRNNDecoder(Decoder):
             prev_att_vector, hidden, att_prob = self._forward_step(
                 prev_embed=prev_embed,
                 prev_att_vector=prev_att_vector,
+                knowledgebase=knowledgebase,
                 encoder_output=encoder_output,
                 src_mask=src_mask,
                 hidden=hidden)
