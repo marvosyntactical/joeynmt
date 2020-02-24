@@ -12,8 +12,11 @@ This is a fork of https://github.com/joeynmt/joeynmt/
 	3. batch\_size = 1 => use lkp table to take relevant scenario 
 * In latter two approaches, batch multiplier can be increased; on average batch size in approach 2 would be ~3; due to how small the dataset is batch size should have an impact but not really matter in training time
 
+##### Talk on Fri Feb 21:
 
-
+* Primary goal: Reimplement the kvr model, use same dataset, achieve/compare/criticize results
+* Secondary: Adapt the model for transformer
+* Additional: Depending on if necessary, enrich dataset, pretrain model OOD etc; possibly look at chatbot 
 
 ### ```TODO```
 
