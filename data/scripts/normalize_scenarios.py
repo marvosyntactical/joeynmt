@@ -35,7 +35,7 @@ def normalize_weather(d):
         subject = location["location"]
         #do something with "today???"
         for weekday in location.keys():
-            if weekday == "today": continue #?
+            if weekday in ("today", "location"): continue #? TODO
             normed_kb.append((subject,weekday,location[weekday]))
     return normed_kb
 
@@ -48,15 +48,16 @@ def normalize_navigate(d):
     (subject , relation , value) #generic
     (poi, dist/traff/type/addr , info ) #weather specific
     ("Pizza Hut", "address", "704 El Camino Real") #example
-    
+
     """
     normed_kb = [] #to add (subj, rel, val) triples
     assert d["task"]["intent"]=="navigate"
     blimps = d["kb"]["items"]
     for blimp in blimps:
         subject = blimp["poi"]
-        for relation in subject.keys():
-            normed_kb.append((subject,relation,blimp[relation]))
+        for relation in blimp.keys():
+            if relation != "poi":
+                normed_kb.append((subject,relation,blimp[relation]))
     return normed_kb
 
 def normalize_schedule(d):
@@ -75,8 +76,9 @@ def normalize_schedule(d):
     appointments = d["kb"]["items"]
     for appointment in appointments:
         event = appointment["event"]
-        for relation in event.keys():
-            normed_kb.append((event,relation,event[relation]))
+        for relation in appointment.keys():
+            if not relation == "event":
+                normed_kb.append((event,relation,appointment[relation]))
     return normed_kb
 
 def main(args):
@@ -90,9 +92,24 @@ def main(args):
         splitpart = args[1] 
     with open(directory+filename, "r") as scenarios:
         settings = json.load(scenarios)
-    
+
     normed_kbs = [normalize_kb(kb) for kb in settings]
-    print(normed_kbs[0]) 
+    """
+    LATEST TODO:
+        look at torchtext dataset and make_train_iter_batch_size_1:
+        how is data loaded? how to write normed_kbs to file to load simultaneously with train data
+    """
+
+    filestamm = filename.split(".")[0]
+    ext = "kb"
+    save_as = filestamm+"."+ext
+    with open(directory+save_as, "w") as o:
+        o.writelines(normed_kbs)
+
+    print(normed_kbs[0][0])
+    print(normed_kbs[0])
+    #print("First 10 entries:")
+    #print(normed_kbs[:9])
     return 0
 
 if __name__ == "__main__":

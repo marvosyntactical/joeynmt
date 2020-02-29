@@ -515,7 +515,7 @@ class KeyValRetRNNDecoder(Decoder):
                                      % attention)
         #kv attention after bahdanau:
         self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
-                                            key_size = emb_size, #TODO should be src_emb_size
+                                            key_size = emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
                                             query_size=hidden_size)
 
 
