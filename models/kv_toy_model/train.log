@@ -1,121 +1,628 @@
-2020-02-20 13:42:40,128 Hello! This is Joey-NMT.
-2020-02-20 13:42:42,131 Total params: 2558126
-2020-02-20 13:42:42,132 Trainable parameters: ['decoder.att_vector_layer.bias', 'decoder.att_vector_layer.weight', 'decoder.attention.energy_layer.weight', 'decoder.attention.key_layer.weight', 'decoder.attention.query_layer.weight', 'decoder.output_layer.weight', 'decoder.rnn.bias_hh_l0', 'decoder.rnn.bias_hh_l1', 'decoder.rnn.bias_ih_l0', 'decoder.rnn.bias_ih_l1', 'decoder.rnn.weight_hh_l0', 'decoder.rnn.weight_hh_l1', 'decoder.rnn.weight_ih_l0', 'decoder.rnn.weight_ih_l1', 'encoder.rnn.bias_hh_l0', 'encoder.rnn.bias_hh_l0_reverse', 'encoder.rnn.bias_hh_l1', 'encoder.rnn.bias_hh_l1_reverse', 'encoder.rnn.bias_hh_l2', 'encoder.rnn.bias_hh_l2_reverse', 'encoder.rnn.bias_ih_l0', 'encoder.rnn.bias_ih_l0_reverse', 'encoder.rnn.bias_ih_l1', 'encoder.rnn.bias_ih_l1_reverse', 'encoder.rnn.bias_ih_l2', 'encoder.rnn.bias_ih_l2_reverse', 'encoder.rnn.weight_hh_l0', 'encoder.rnn.weight_hh_l0_reverse', 'encoder.rnn.weight_hh_l1', 'encoder.rnn.weight_hh_l1_reverse', 'encoder.rnn.weight_hh_l2', 'encoder.rnn.weight_hh_l2_reverse', 'encoder.rnn.weight_ih_l0', 'encoder.rnn.weight_ih_l0_reverse', 'encoder.rnn.weight_ih_l1', 'encoder.rnn.weight_ih_l1_reverse', 'encoder.rnn.weight_ih_l2', 'encoder.rnn.weight_ih_l2_reverse', 'src_embed.lut.weight', 'trg_embed.lut.weight']
-2020-02-20 13:42:42,133 cfg.name                           : kv_toy
-2020-02-20 13:42:42,133 cfg.data.src                       : usr
-2020-02-20 13:42:42,133 cfg.data.trg                       : car
-2020-02-20 13:42:42,133 cfg.data.train                     : data/kv_ret_dataset/train
-2020-02-20 13:42:42,133 cfg.data.dev                       : data/kv_ret_dataset/dev
-2020-02-20 13:42:42,133 cfg.data.test                      : data/kv_ret_dataset/test
-2020-02-20 13:42:42,133 cfg.data.level                     : word
-2020-02-20 13:42:42,133 cfg.data.lowercase                 : True
-2020-02-20 13:42:42,133 cfg.data.max_sent_length           : 30
-2020-02-20 13:42:42,133 cfg.data.src_voc_min_freq          : 1
-2020-02-20 13:42:42,133 cfg.data.src_voc_limit             : 101
-2020-02-20 13:42:42,133 cfg.data.trg_voc_min_freq          : 1
-2020-02-20 13:42:42,134 cfg.data.trg_voc_limit             : 102
-2020-02-20 13:42:42,134 cfg.data.src_vocab                 : data/train.en.w2v.40k.map.voc
-2020-02-20 13:42:42,134 cfg.data.trg_vocab                 : data/train.en.w2v.40k.map.voc
-2020-02-20 13:42:42,134 cfg.testing.beam_size              : 5
-2020-02-20 13:42:42,134 cfg.testing.alpha                  : 1.0
-2020-02-20 13:42:42,134 cfg.training.random_seed           : 42
-2020-02-20 13:42:42,134 cfg.training.optimizer             : adam
-2020-02-20 13:42:42,134 cfg.training.adam_betas            : [0.9, 0.999]
-2020-02-20 13:42:42,134 cfg.training.learning_rate         : 0.001
-2020-02-20 13:42:42,134 cfg.training.learning_rate_min     : 0.0001
-2020-02-20 13:42:42,134 cfg.training.clip_grad_val         : 10.0
-2020-02-20 13:42:42,134 cfg.training.weight_decay          : 0.01
-2020-02-20 13:42:42,134 cfg.training.batch_size            : 10
-2020-02-20 13:42:42,134 cfg.training.batch_type            : sentence
-2020-02-20 13:42:42,134 cfg.training.eval_batch_size       : 10
-2020-02-20 13:42:42,135 cfg.training.eval_batch_type       : sentence
-2020-02-20 13:42:42,135 cfg.training.batch_multiplier      : 1
-2020-02-20 13:42:42,135 cfg.training.scheduling            : plateau
-2020-02-20 13:42:42,135 cfg.training.patience              : 5
-2020-02-20 13:42:42,135 cfg.training.decrease_factor       : 0.5
-2020-02-20 13:42:42,135 cfg.training.epochs                : 1
-2020-02-20 13:42:42,135 cfg.training.validation_freq       : 10
-2020-02-20 13:42:42,135 cfg.training.logging_freq          : 10
-2020-02-20 13:42:42,135 cfg.training.eval_metric           : bleu
-2020-02-20 13:42:42,135 cfg.training.early_stopping_metric : loss
-2020-02-20 13:42:42,135 cfg.training.model_dir             : models/kv_toy_model
-2020-02-20 13:42:42,135 cfg.training.overwrite             : True
-2020-02-20 13:42:42,135 cfg.training.shuffle               : True
-2020-02-20 13:42:42,135 cfg.training.use_cuda              : False
-2020-02-20 13:42:42,135 cfg.training.max_output_length     : 31
-2020-02-20 13:42:42,136 cfg.training.print_valid_sents     : [0, 1, 2]
-2020-02-20 13:42:42,136 cfg.training.keep_last_ckpts       : 3
-2020-02-20 13:42:42,136 cfg.training.label_smoothing       : 0.0
-2020-02-20 13:42:42,136 cfg.model.initializer              : xavier
-2020-02-20 13:42:42,136 cfg.model.init_weight              : 0.01
-2020-02-20 13:42:42,136 cfg.model.init_gain                : 1.0
-2020-02-20 13:42:42,136 cfg.model.bias_initializer         : zeros
-2020-02-20 13:42:42,136 cfg.model.embed_initializer        : normal
-2020-02-20 13:42:42,136 cfg.model.embed_init_weight        : 0.1
-2020-02-20 13:42:42,136 cfg.model.embed_init_gain          : 1.0
-2020-02-20 13:42:42,136 cfg.model.init_rnn_orthogonal      : False
-2020-02-20 13:42:42,136 cfg.model.lstm_forget_gate         : 1.0
-2020-02-20 13:42:42,136 cfg.model.tied_embeddings          : False
-2020-02-20 13:42:42,136 cfg.model.tied_softmax             : False
-2020-02-20 13:42:42,136 cfg.model.encoder.type             : recurrent
-2020-02-20 13:42:42,136 cfg.model.encoder.rnn_type         : lstm
-2020-02-20 13:42:42,137 cfg.model.encoder.embeddings.embedding_dim : 16
-2020-02-20 13:42:42,137 cfg.model.encoder.embeddings.scale : False
-2020-02-20 13:42:42,137 cfg.model.encoder.embeddings.freeze : False
-2020-02-20 13:42:42,137 cfg.model.encoder.hidden_size      : 30
-2020-02-20 13:42:42,137 cfg.model.encoder.bidirectional    : True
-2020-02-20 13:42:42,137 cfg.model.encoder.dropout          : 0.15
-2020-02-20 13:42:42,137 cfg.model.encoder.num_layers       : 3
-2020-02-20 13:42:42,137 cfg.model.encoder.freeze           : False
-2020-02-20 13:42:42,137 cfg.model.decoder.type             : recurrent
-2020-02-20 13:42:42,137 cfg.model.decoder.rnn_type         : lstm
-2020-02-20 13:42:42,137 cfg.model.decoder.embeddings.embedding_dim : 16
-2020-02-20 13:42:42,137 cfg.model.decoder.embeddings.scale : False
-2020-02-20 13:42:42,137 cfg.model.decoder.embeddings.freeze : False
-2020-02-20 13:42:42,137 cfg.model.decoder.hidden_size      : 30
-2020-02-20 13:42:42,137 cfg.model.decoder.dropout          : 0.15
-2020-02-20 13:42:42,138 cfg.model.decoder.hidden_dropout   : 0.2
-2020-02-20 13:42:42,138 cfg.model.decoder.num_layers       : 2
-2020-02-20 13:42:42,138 cfg.model.decoder.input_feeding    : True
-2020-02-20 13:42:42,138 cfg.model.decoder.init_hidden      : last
-2020-02-20 13:42:42,138 cfg.model.decoder.attention        : bahdanau
-2020-02-20 13:42:42,138 cfg.model.decoder.freeze           : False
-2020-02-20 13:42:42,138 Data set sizes: 
+2020-02-29 21:16:02,422 Hello! This is Joey-NMT.
+2020-02-29 21:16:02,425 Total params: 2558126
+2020-02-29 21:16:02,425 Trainable parameters: ['decoder.att_vector_layer.bias', 'decoder.att_vector_layer.weight', 'decoder.attention.energy_layer.weight', 'decoder.attention.key_layer.weight', 'decoder.attention.query_layer.weight', 'decoder.output_layer.weight', 'decoder.rnn.bias_hh_l0', 'decoder.rnn.bias_hh_l1', 'decoder.rnn.bias_ih_l0', 'decoder.rnn.bias_ih_l1', 'decoder.rnn.weight_hh_l0', 'decoder.rnn.weight_hh_l1', 'decoder.rnn.weight_ih_l0', 'decoder.rnn.weight_ih_l1', 'encoder.rnn.bias_hh_l0', 'encoder.rnn.bias_hh_l0_reverse', 'encoder.rnn.bias_hh_l1', 'encoder.rnn.bias_hh_l1_reverse', 'encoder.rnn.bias_hh_l2', 'encoder.rnn.bias_hh_l2_reverse', 'encoder.rnn.bias_ih_l0', 'encoder.rnn.bias_ih_l0_reverse', 'encoder.rnn.bias_ih_l1', 'encoder.rnn.bias_ih_l1_reverse', 'encoder.rnn.bias_ih_l2', 'encoder.rnn.bias_ih_l2_reverse', 'encoder.rnn.weight_hh_l0', 'encoder.rnn.weight_hh_l0_reverse', 'encoder.rnn.weight_hh_l1', 'encoder.rnn.weight_hh_l1_reverse', 'encoder.rnn.weight_hh_l2', 'encoder.rnn.weight_hh_l2_reverse', 'encoder.rnn.weight_ih_l0', 'encoder.rnn.weight_ih_l0_reverse', 'encoder.rnn.weight_ih_l1', 'encoder.rnn.weight_ih_l1_reverse', 'encoder.rnn.weight_ih_l2', 'encoder.rnn.weight_ih_l2_reverse', 'src_embed.lut.weight', 'trg_embed.lut.weight']
+2020-02-29 21:16:02,426 cfg.name                           : kv_toy
+2020-02-29 21:16:02,427 cfg.data.src                       : usr
+2020-02-29 21:16:02,427 cfg.data.trg                       : car
+2020-02-29 21:16:02,427 cfg.data.train                     : data/kv_ret_dataset/train
+2020-02-29 21:16:02,427 cfg.data.dev                       : data/kv_ret_dataset/dev
+2020-02-29 21:16:02,427 cfg.data.test                      : data/kv_ret_dataset/test
+2020-02-29 21:16:02,428 cfg.data.level                     : word
+2020-02-29 21:16:02,428 cfg.data.lowercase                 : True
+2020-02-29 21:16:02,428 cfg.data.max_sent_length           : 30
+2020-02-29 21:16:02,428 cfg.data.src_voc_min_freq          : 1
+2020-02-29 21:16:02,428 cfg.data.src_voc_limit             : 101
+2020-02-29 21:16:02,428 cfg.data.trg_voc_min_freq          : 1
+2020-02-29 21:16:02,428 cfg.data.trg_voc_limit             : 102
+2020-02-29 21:16:02,428 cfg.data.src_vocab                 : data/train.en.w2v.40k.map.voc
+2020-02-29 21:16:02,428 cfg.data.trg_vocab                 : data/train.en.w2v.40k.map.voc
+2020-02-29 21:16:02,428 cfg.testing.beam_size              : 5
+2020-02-29 21:16:02,428 cfg.testing.alpha                  : 1.0
+2020-02-29 21:16:02,428 cfg.training.random_seed           : 42
+2020-02-29 21:16:02,428 cfg.training.optimizer             : adam
+2020-02-29 21:16:02,429 cfg.training.adam_betas            : [0.9, 0.999]
+2020-02-29 21:16:02,429 cfg.training.learning_rate         : 0.001
+2020-02-29 21:16:02,429 cfg.training.learning_rate_min     : 0.0001
+2020-02-29 21:16:02,429 cfg.training.clip_grad_val         : 10.0
+2020-02-29 21:16:02,429 cfg.training.weight_decay          : 0.01
+2020-02-29 21:16:02,429 cfg.training.batch_size            : 10
+2020-02-29 21:16:02,429 cfg.training.batch_type            : sentence
+2020-02-29 21:16:02,429 cfg.training.eval_batch_size       : 10
+2020-02-29 21:16:02,429 cfg.training.eval_batch_type       : sentence
+2020-02-29 21:16:02,429 cfg.training.batch_multiplier      : 1
+2020-02-29 21:16:02,429 cfg.training.scheduling            : plateau
+2020-02-29 21:16:02,429 cfg.training.patience              : 5
+2020-02-29 21:16:02,429 cfg.training.decrease_factor       : 0.5
+2020-02-29 21:16:02,430 cfg.training.epochs                : 1
+2020-02-29 21:16:02,430 cfg.training.validation_freq       : 10
+2020-02-29 21:16:02,430 cfg.training.logging_freq          : 10
+2020-02-29 21:16:02,430 cfg.training.eval_metric           : bleu
+2020-02-29 21:16:02,430 cfg.training.early_stopping_metric : loss
+2020-02-29 21:16:02,430 cfg.training.model_dir             : models/kv_toy_model
+2020-02-29 21:16:02,430 cfg.training.overwrite             : True
+2020-02-29 21:16:02,430 cfg.training.shuffle               : True
+2020-02-29 21:16:02,430 cfg.training.use_cuda              : False
+2020-02-29 21:16:02,430 cfg.training.max_output_length     : 31
+2020-02-29 21:16:02,430 cfg.training.print_valid_sents     : [0, 1, 2]
+2020-02-29 21:16:02,430 cfg.training.keep_last_ckpts       : 3
+2020-02-29 21:16:02,431 cfg.training.label_smoothing       : 0.0
+2020-02-29 21:16:02,431 cfg.model.initializer              : xavier
+2020-02-29 21:16:02,431 cfg.model.init_weight              : 0.01
+2020-02-29 21:16:02,431 cfg.model.init_gain                : 1.0
+2020-02-29 21:16:02,431 cfg.model.bias_initializer         : zeros
+2020-02-29 21:16:02,431 cfg.model.embed_initializer        : normal
+2020-02-29 21:16:02,431 cfg.model.embed_init_weight        : 0.1
+2020-02-29 21:16:02,431 cfg.model.embed_init_gain          : 1.0
+2020-02-29 21:16:02,431 cfg.model.init_rnn_orthogonal      : False
+2020-02-29 21:16:02,431 cfg.model.lstm_forget_gate         : 1.0
+2020-02-29 21:16:02,431 cfg.model.tied_embeddings          : False
+2020-02-29 21:16:02,431 cfg.model.tied_softmax             : False
+2020-02-29 21:16:02,431 cfg.model.encoder.type             : recurrent
+2020-02-29 21:16:02,431 cfg.model.encoder.rnn_type         : lstm
+2020-02-29 21:16:02,432 cfg.model.encoder.embeddings.embedding_dim : 16
+2020-02-29 21:16:02,432 cfg.model.encoder.embeddings.scale : False
+2020-02-29 21:16:02,432 cfg.model.encoder.embeddings.freeze : False
+2020-02-29 21:16:02,432 cfg.model.encoder.hidden_size      : 30
+2020-02-29 21:16:02,432 cfg.model.encoder.bidirectional    : True
+2020-02-29 21:16:02,432 cfg.model.encoder.dropout          : 0.15
+2020-02-29 21:16:02,432 cfg.model.encoder.num_layers       : 3
+2020-02-29 21:16:02,432 cfg.model.encoder.freeze           : False
+2020-02-29 21:16:02,432 cfg.model.decoder.type             : recurrent
+2020-02-29 21:16:02,432 cfg.model.decoder.rnn_type         : lstm
+2020-02-29 21:16:02,432 cfg.model.decoder.embeddings.embedding_dim : 16
+2020-02-29 21:16:02,432 cfg.model.decoder.embeddings.scale : False
+2020-02-29 21:16:02,432 cfg.model.decoder.embeddings.freeze : False
+2020-02-29 21:16:02,432 cfg.model.decoder.hidden_size      : 30
+2020-02-29 21:16:02,432 cfg.model.decoder.dropout          : 0.15
+2020-02-29 21:16:02,433 cfg.model.decoder.hidden_dropout   : 0.2
+2020-02-29 21:16:02,433 cfg.model.decoder.num_layers       : 2
+2020-02-29 21:16:02,433 cfg.model.decoder.input_feeding    : True
+2020-02-29 21:16:02,433 cfg.model.decoder.init_hidden      : last
+2020-02-29 21:16:02,433 cfg.model.decoder.attention        : bahdanau
+2020-02-29 21:16:02,433 cfg.model.decoder.freeze           : False
+2020-02-29 21:16:02,433 Data set sizes: 
 	train 6226,
 	valid 777,
 	test 807
-2020-02-20 13:42:42,138 First training example:
+2020-02-29 21:16:02,433 First training example:
 	[SRC] where's the nearest parking garage
 	[TRG] the nearest parking garage is dish parking at 550 alester ave. would you like directions there?
-2020-02-20 13:42:42,138 First 10 words (src): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) the (5) , (6) of (7) . (8) and (9) to
-2020-02-20 13:42:42,139 First 10 words (trg): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) the (5) , (6) of (7) . (8) and (9) to
-2020-02-20 13:42:42,139 Number of Src words (types): 40003
-2020-02-20 13:42:42,139 Number of Trg words (types): 40003
-2020-02-20 13:42:42,139 Model(
+2020-02-29 21:16:02,433 First 10 words (src): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) the (5) , (6) of (7) . (8) and (9) to
+2020-02-29 21:16:02,434 First 10 words (trg): (0) <unk> (1) <pad> (2) <s> (3) </s> (4) the (5) , (6) of (7) . (8) and (9) to
+2020-02-29 21:16:02,434 Number of Src words (types): 40003
+2020-02-29 21:16:02,434 Number of Trg words (types): 40003
+2020-02-29 21:16:02,434 Model(
 	encoder=RecurrentEncoder(LSTM(16, 30, num_layers=3, batch_first=True, dropout=0.15, bidirectional=True)),
 	decoder=RecurrentDecoder(rnn=LSTM(46, 30, num_layers=2, batch_first=True, dropout=0.15), attention=BahdanauAttention),
 	src_embed=Embeddings(embedding_dim=16, vocab_size=40003),
 	trg_embed=Embeddings(embedding_dim=16, vocab_size=40003))
-2020-02-20 13:42:42,169 EPOCH 1
-2020-02-20 13:42:44,473 Epoch   1 Step:       10 Batch Loss:   158.959183 Tokens per Sec:      534, Lr: 0.001000
-2020-02-20 13:42:57,934 Hooray! New best validation result [loss]!
-2020-02-20 13:42:57,934 Saving new checkpoint.
-2020-02-20 13:42:57,960 Example #0
-2020-02-20 13:42:57,960 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
-2020-02-20 13:42:57,960 	Raw hypothesis: ['the', 'the', 'the', 'the', 'the', 'the']
-2020-02-20 13:42:57,960 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
-2020-02-20 13:42:57,960 	Reference:  what day and time should i set an appointment to reserve the conference room?
-2020-02-20 13:42:57,961 	Hypothesis: the the the the the the
-2020-02-20 13:42:57,961 Example #1
-2020-02-20 13:42:57,961 	Raw source:     ['monday', 'at', '3pm.']
-2020-02-20 13:42:57,961 	Raw hypothesis: ['the', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
-2020-02-20 13:42:57,961 	Source:     monday at 3pm.
-2020-02-20 13:42:57,961 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
-2020-02-20 13:42:57,961 	Hypothesis: the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
-2020-02-20 13:42:57,961 Example #2
-2020-02-20 13:42:57,961 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
-2020-02-20 13:42:57,961 	Raw hypothesis: ['the', 'the', 'the', 'the', 'the']
-2020-02-20 13:42:57,961 	Source:     is there supposed to be a blizzard in brentwood on friday?
-2020-02-20 13:42:57,961 	Reference:  on friday it's gonna rain in brentwood
-2020-02-20 13:42:57,961 	Hypothesis: the the the the the
-2020-02-20 13:42:57,961 Validation result at epoch   1, step       10: bleu:   0.00, loss: 84748.8516, ppl: 37144.8047, duration: 13.4876s
+2020-02-29 21:16:02,464 EPOCH 1
+2020-02-29 21:16:04,718 Epoch   1 Step:       10 Batch Loss:   158.959183 Tokens per Sec:      546, Lr: 0.001000
+2020-02-29 21:16:17,465 Hooray! New best validation result [loss]!
+2020-02-29 21:16:17,465 Saving new checkpoint.
+2020-02-29 21:16:17,491 Example #0
+2020-02-29 21:16:17,491 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:16:17,491 	Raw hypothesis: ['the', 'the', 'the', 'the', 'the', 'the']
+2020-02-29 21:16:17,491 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:16:17,491 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:16:17,491 	Hypothesis: the the the the the the
+2020-02-29 21:16:17,491 Example #1
+2020-02-29 21:16:17,491 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:16:17,492 	Raw hypothesis: ['the', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:16:17,492 	Source:     monday at 3pm.
+2020-02-29 21:16:17,492 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:16:17,492 	Hypothesis: the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:16:17,492 Example #2
+2020-02-29 21:16:17,492 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:16:17,492 	Raw hypothesis: ['the', 'the', 'the', 'the', 'the']
+2020-02-29 21:16:17,492 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:16:17,492 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:16:17,492 	Hypothesis: the the the the the
+2020-02-29 21:16:17,492 Validation result at epoch   1, step       10: bleu:   0.00, loss: 84748.8516, ppl: 37144.8047, duration: 12.7730s
+2020-02-29 21:16:20,844 Epoch   1 Step:       20 Batch Loss:   148.353424 Tokens per Sec:      691, Lr: 0.001000
+2020-02-29 21:16:33,572 Hooray! New best validation result [loss]!
+2020-02-29 21:16:33,572 Saving new checkpoint.
+2020-02-29 21:16:33,596 Example #0
+2020-02-29 21:16:33,596 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:16:33,596 	Raw hypothesis: ['you', 'you', 'you', 'you']
+2020-02-29 21:16:33,596 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:16:33,596 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:16:33,596 	Hypothesis: you you you you
+2020-02-29 21:16:33,596 Example #1
+2020-02-29 21:16:33,597 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:16:33,597 	Raw hypothesis: []
+2020-02-29 21:16:33,597 	Source:     monday at 3pm.
+2020-02-29 21:16:33,597 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:16:33,597 	Hypothesis: 
+2020-02-29 21:16:33,597 Example #2
+2020-02-29 21:16:33,597 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:16:33,597 	Raw hypothesis: ['you', 'you', 'you']
+2020-02-29 21:16:33,597 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:16:33,597 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:16:33,597 	Hypothesis: you you you
+2020-02-29 21:16:33,597 Validation result at epoch   1, step       20: bleu:   0.00, loss: 82698.1094, ppl: 28794.9375, duration: 12.7529s
+2020-02-29 21:16:36,496 Epoch   1 Step:       30 Batch Loss:    74.177620 Tokens per Sec:     1170, Lr: 0.001000
+2020-02-29 21:16:49,047 Hooray! New best validation result [loss]!
+2020-02-29 21:16:49,047 Saving new checkpoint.
+2020-02-29 21:16:49,070 Example #0
+2020-02-29 21:16:49,070 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:16:49,071 	Raw hypothesis: []
+2020-02-29 21:16:49,071 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:16:49,071 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:16:49,071 	Hypothesis: 
+2020-02-29 21:16:49,071 Example #1
+2020-02-29 21:16:49,071 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:16:49,071 	Raw hypothesis: []
+2020-02-29 21:16:49,071 	Source:     monday at 3pm.
+2020-02-29 21:16:49,071 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:16:49,071 	Hypothesis: 
+2020-02-29 21:16:49,071 Example #2
+2020-02-29 21:16:49,072 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:16:49,072 	Raw hypothesis: []
+2020-02-29 21:16:49,072 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:16:49,072 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:16:49,072 	Hypothesis: 
+2020-02-29 21:16:49,072 Validation result at epoch   1, step       30: bleu:   0.00, loss: 79123.0547, ppl: 18473.0645, duration: 12.5757s
+2020-02-29 21:16:51,344 Epoch   1 Step:       40 Batch Loss:    41.180267 Tokens per Sec:     1871, Lr: 0.001000
+2020-02-29 21:17:04,258 Hooray! New best validation result [loss]!
+2020-02-29 21:17:04,259 Saving new checkpoint.
+2020-02-29 21:17:04,286 Example #0
+2020-02-29 21:17:04,286 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:17:04,286 	Raw hypothesis: []
+2020-02-29 21:17:04,287 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:17:04,287 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:17:04,287 	Hypothesis: 
+2020-02-29 21:17:04,287 Example #1
+2020-02-29 21:17:04,287 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:17:04,287 	Raw hypothesis: []
+2020-02-29 21:17:04,287 	Source:     monday at 3pm.
+2020-02-29 21:17:04,287 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:17:04,287 	Hypothesis: 
+2020-02-29 21:17:04,287 Example #2
+2020-02-29 21:17:04,287 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:17:04,287 	Raw hypothesis: []
+2020-02-29 21:17:04,288 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:17:04,288 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:17:04,288 	Hypothesis: 
+2020-02-29 21:17:04,288 Validation result at epoch   1, step       40: bleu:   0.00, loss: 75440.8906, ppl: 11694.6318, duration: 12.9429s
+2020-02-29 21:17:06,340 Epoch   1 Step:       50 Batch Loss:    42.768806 Tokens per Sec:     2412, Lr: 0.001000
+2020-02-29 21:17:19,105 Hooray! New best validation result [loss]!
+2020-02-29 21:17:19,105 Saving new checkpoint.
+2020-02-29 21:17:19,131 Example #0
+2020-02-29 21:17:19,131 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:17:19,131 	Raw hypothesis: []
+2020-02-29 21:17:19,131 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:17:19,132 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:17:19,132 	Hypothesis: 
+2020-02-29 21:17:19,132 Example #1
+2020-02-29 21:17:19,132 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:17:19,132 	Raw hypothesis: []
+2020-02-29 21:17:19,132 	Source:     monday at 3pm.
+2020-02-29 21:17:19,132 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:17:19,132 	Hypothesis: 
+2020-02-29 21:17:19,132 Example #2
+2020-02-29 21:17:19,132 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:17:19,133 	Raw hypothesis: []
+2020-02-29 21:17:19,133 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:17:19,133 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:17:19,133 	Hypothesis: 
+2020-02-29 21:17:19,133 Validation result at epoch   1, step       50: bleu:   0.00, loss: 73612.1641, ppl: 9319.1504, duration: 12.7921s
+2020-02-29 21:17:21,325 Epoch   1 Step:       60 Batch Loss:   104.893814 Tokens per Sec:     2692, Lr: 0.001000
+2020-02-29 21:17:34,078 Hooray! New best validation result [loss]!
+2020-02-29 21:17:34,078 Saving new checkpoint.
+2020-02-29 21:17:34,104 Example #0
+2020-02-29 21:17:34,104 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:17:34,104 	Raw hypothesis: []
+2020-02-29 21:17:34,104 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:17:34,104 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:17:34,104 	Hypothesis: 
+2020-02-29 21:17:34,104 Example #1
+2020-02-29 21:17:34,104 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:17:34,105 	Raw hypothesis: []
+2020-02-29 21:17:34,105 	Source:     monday at 3pm.
+2020-02-29 21:17:34,105 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:17:34,105 	Hypothesis: 
+2020-02-29 21:17:34,105 Example #2
+2020-02-29 21:17:34,105 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:17:34,105 	Raw hypothesis: []
+2020-02-29 21:17:34,105 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:17:34,105 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:17:34,105 	Hypothesis: 
+2020-02-29 21:17:34,105 Validation result at epoch   1, step       60: bleu:   0.00, loss: 71775.1953, ppl: 7418.5957, duration: 12.7795s
+2020-02-29 21:17:36,590 Epoch   1 Step:       70 Batch Loss:    53.668831 Tokens per Sec:     2787, Lr: 0.001000
+2020-02-29 21:17:49,411 Hooray! New best validation result [loss]!
+2020-02-29 21:17:49,412 Saving new checkpoint.
+2020-02-29 21:17:49,438 Example #0
+2020-02-29 21:17:49,438 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:17:49,438 	Raw hypothesis: []
+2020-02-29 21:17:49,439 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:17:49,439 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:17:49,439 	Hypothesis: 
+2020-02-29 21:17:49,439 Example #1
+2020-02-29 21:17:49,439 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:17:49,439 	Raw hypothesis: []
+2020-02-29 21:17:49,439 	Source:     monday at 3pm.
+2020-02-29 21:17:49,439 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:17:49,439 	Hypothesis: 
+2020-02-29 21:17:49,439 Example #2
+2020-02-29 21:17:49,439 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:17:49,439 	Raw hypothesis: []
+2020-02-29 21:17:49,440 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:17:49,440 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:17:49,440 	Hypothesis: 
+2020-02-29 21:17:49,440 Validation result at epoch   1, step       70: bleu:   0.00, loss: 68843.6016, ppl: 5155.1597, duration: 12.8491s
+2020-02-29 21:17:51,930 Epoch   1 Step:       80 Batch Loss:    38.885754 Tokens per Sec:     3155, Lr: 0.001000
+2020-02-29 21:18:04,700 Hooray! New best validation result [loss]!
+2020-02-29 21:18:04,700 Saving new checkpoint.
+2020-02-29 21:18:04,727 Example #0
+2020-02-29 21:18:04,727 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:18:04,727 	Raw hypothesis: []
+2020-02-29 21:18:04,727 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:18:04,727 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:18:04,727 	Hypothesis: 
+2020-02-29 21:18:04,727 Example #1
+2020-02-29 21:18:04,727 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:18:04,728 	Raw hypothesis: []
+2020-02-29 21:18:04,728 	Source:     monday at 3pm.
+2020-02-29 21:18:04,728 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:18:04,728 	Hypothesis: 
+2020-02-29 21:18:04,728 Example #2
+2020-02-29 21:18:04,728 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:18:04,728 	Raw hypothesis: []
+2020-02-29 21:18:04,728 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:18:04,728 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:18:04,728 	Hypothesis: 
+2020-02-29 21:18:04,728 Validation result at epoch   1, step       80: bleu:   0.00, loss: 66829.2578, ppl: 4014.4211, duration: 12.7973s
+2020-02-29 21:18:07,093 Epoch   1 Step:       90 Batch Loss:   107.240929 Tokens per Sec:     3785, Lr: 0.001000
+2020-02-29 21:18:20,133 Hooray! New best validation result [loss]!
+2020-02-29 21:18:20,134 Saving new checkpoint.
+2020-02-29 21:18:20,160 Example #0
+2020-02-29 21:18:20,160 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:18:20,160 	Raw hypothesis: []
+2020-02-29 21:18:20,161 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:18:20,161 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:18:20,161 	Hypothesis: 
+2020-02-29 21:18:20,161 Example #1
+2020-02-29 21:18:20,161 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:18:20,161 	Raw hypothesis: []
+2020-02-29 21:18:20,161 	Source:     monday at 3pm.
+2020-02-29 21:18:20,161 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:18:20,161 	Hypothesis: 
+2020-02-29 21:18:20,162 Example #2
+2020-02-29 21:18:20,162 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:18:20,162 	Raw hypothesis: []
+2020-02-29 21:18:20,162 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:18:20,162 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:18:20,162 	Hypothesis: 
+2020-02-29 21:18:20,162 Validation result at epoch   1, step       90: bleu:   0.00, loss: 64860.5039, ppl: 3143.8503, duration: 13.0689s
+2020-02-29 21:18:23,144 Epoch   1 Step:      100 Batch Loss:   111.482056 Tokens per Sec:     3382, Lr: 0.001000
+2020-02-29 21:18:35,998 Hooray! New best validation result [loss]!
+2020-02-29 21:18:35,998 Saving new checkpoint.
+2020-02-29 21:18:36,025 Example #0
+2020-02-29 21:18:36,025 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:18:36,025 	Raw hypothesis: []
+2020-02-29 21:18:36,025 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:18:36,025 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:18:36,026 	Hypothesis: 
+2020-02-29 21:18:36,026 Example #1
+2020-02-29 21:18:36,026 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:18:36,026 	Raw hypothesis: []
+2020-02-29 21:18:36,026 	Source:     monday at 3pm.
+2020-02-29 21:18:36,026 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:18:36,026 	Hypothesis: 
+2020-02-29 21:18:36,026 Example #2
+2020-02-29 21:18:36,026 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:18:36,026 	Raw hypothesis: []
+2020-02-29 21:18:36,027 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:18:36,027 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:18:36,027 	Hypothesis: 
+2020-02-29 21:18:36,027 Validation result at epoch   1, step      100: bleu:   0.00, loss: 62539.8711, ppl: 2356.8223, duration: 12.8820s
+2020-02-29 21:18:38,880 Epoch   1 Step:      110 Batch Loss:    87.227791 Tokens per Sec:     3922, Lr: 0.001000
+2020-02-29 21:18:52,045 Hooray! New best validation result [loss]!
+2020-02-29 21:18:52,045 Saving new checkpoint.
+2020-02-29 21:18:52,072 Example #0
+2020-02-29 21:18:52,072 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:18:52,072 	Raw hypothesis: []
+2020-02-29 21:18:52,072 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:18:52,072 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:18:52,072 	Hypothesis: 
+2020-02-29 21:18:52,073 Example #1
+2020-02-29 21:18:52,073 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:18:52,073 	Raw hypothesis: []
+2020-02-29 21:18:52,073 	Source:     monday at 3pm.
+2020-02-29 21:18:52,073 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:18:52,073 	Hypothesis: 
+2020-02-29 21:18:52,073 Example #2
+2020-02-29 21:18:52,073 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:18:52,073 	Raw hypothesis: []
+2020-02-29 21:18:52,073 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:18:52,073 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:18:52,074 	Hypothesis: 
+2020-02-29 21:18:52,074 Validation result at epoch   1, step      110: bleu:   0.00, loss: 60614.0039, ppl: 1855.5760, duration: 13.1926s
+2020-02-29 21:18:54,699 Epoch   1 Step:      120 Batch Loss:    79.171112 Tokens per Sec:     4671, Lr: 0.001000
+2020-02-29 21:19:07,431 Hooray! New best validation result [loss]!
+2020-02-29 21:19:07,432 Saving new checkpoint.
+2020-02-29 21:19:07,460 Example #0
+2020-02-29 21:19:07,460 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:19:07,460 	Raw hypothesis: []
+2020-02-29 21:19:07,460 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:19:07,460 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:19:07,460 	Hypothesis: 
+2020-02-29 21:19:07,460 Example #1
+2020-02-29 21:19:07,461 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:19:07,461 	Raw hypothesis: []
+2020-02-29 21:19:07,461 	Source:     monday at 3pm.
+2020-02-29 21:19:07,461 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:19:07,461 	Hypothesis: 
+2020-02-29 21:19:07,461 Example #2
+2020-02-29 21:19:07,461 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:19:07,461 	Raw hypothesis: []
+2020-02-29 21:19:07,461 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:19:07,461 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:19:07,461 	Hypothesis: 
+2020-02-29 21:19:07,462 Validation result at epoch   1, step      120: bleu:   0.00, loss: 58995.3281, ppl: 1517.7324, duration: 12.7619s
+2020-02-29 21:19:10,028 Epoch   1 Step:      130 Batch Loss:   110.502197 Tokens per Sec:     5259, Lr: 0.001000
+2020-02-29 21:19:22,883 Hooray! New best validation result [loss]!
+2020-02-29 21:19:22,883 Saving new checkpoint.
+2020-02-29 21:19:22,910 Example #0
+2020-02-29 21:19:22,910 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:19:22,910 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:19:22,910 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:19:22,911 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:19:22,911 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:19:22,911 Example #1
+2020-02-29 21:19:22,911 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:19:22,911 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:19:22,911 	Source:     monday at 3pm.
+2020-02-29 21:19:22,911 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:19:22,911 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:19:22,911 Example #2
+2020-02-29 21:19:22,911 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:19:22,912 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:19:22,912 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:19:22,912 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:19:22,912 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:19:22,912 Validation result at epoch   1, step      130: bleu:   0.00, loss: 57077.0508, ppl: 1196.0686, duration: 12.8839s
+2020-02-29 21:19:26,804 Epoch   1 Step:      140 Batch Loss:    55.190815 Tokens per Sec:     3720, Lr: 0.001000
+2020-02-29 21:19:39,669 Hooray! New best validation result [loss]!
+2020-02-29 21:19:39,669 Saving new checkpoint.
+2020-02-29 21:19:39,696 Example #0
+2020-02-29 21:19:39,697 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:19:39,697 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:19:39,697 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:19:39,697 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:19:39,697 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:19:39,697 Example #1
+2020-02-29 21:19:39,697 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:19:39,697 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:19:39,697 	Source:     monday at 3pm.
+2020-02-29 21:19:39,697 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:19:39,698 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:19:39,698 Example #2
+2020-02-29 21:19:39,698 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:19:39,698 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:19:39,698 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:19:39,698 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:19:39,698 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:19:39,698 Validation result at epoch   1, step      140: bleu:   0.00, loss: 55770.5625, ppl: 1016.9667, duration: 12.8931s
+2020-02-29 21:19:43,028 Epoch   1 Step:      150 Batch Loss:    57.510185 Tokens per Sec:     4641, Lr: 0.001000
+2020-02-29 21:19:55,973 Hooray! New best validation result [loss]!
+2020-02-29 21:19:55,974 Saving new checkpoint.
+2020-02-29 21:19:56,000 Example #0
+2020-02-29 21:19:56,000 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:19:56,000 	Raw hypothesis: []
+2020-02-29 21:19:56,001 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:19:56,001 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:19:56,001 	Hypothesis: 
+2020-02-29 21:19:56,001 Example #1
+2020-02-29 21:19:56,001 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:19:56,001 	Raw hypothesis: []
+2020-02-29 21:19:56,001 	Source:     monday at 3pm.
+2020-02-29 21:19:56,001 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:19:56,001 	Hypothesis: 
+2020-02-29 21:19:56,001 Example #2
+2020-02-29 21:19:56,001 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:19:56,002 	Raw hypothesis: []
+2020-02-29 21:19:56,002 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:19:56,002 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:19:56,002 	Hypothesis: 
+2020-02-29 21:19:56,002 Validation result at epoch   1, step      150: bleu:   0.00, loss: 55016.3672, ppl: 926.0580, duration: 12.9727s
+2020-02-29 21:19:58,857 Epoch   1 Step:      160 Batch Loss:    89.719299 Tokens per Sec:     5793, Lr: 0.001000
+2020-02-29 21:20:11,772 Hooray! New best validation result [loss]!
+2020-02-29 21:20:11,772 Saving new checkpoint.
+2020-02-29 21:20:11,799 Example #0
+2020-02-29 21:20:11,799 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:20:11,799 	Raw hypothesis: []
+2020-02-29 21:20:11,799 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:20:11,800 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:20:11,800 	Hypothesis: 
+2020-02-29 21:20:11,800 Example #1
+2020-02-29 21:20:11,800 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:20:11,800 	Raw hypothesis: []
+2020-02-29 21:20:11,800 	Source:     monday at 3pm.
+2020-02-29 21:20:11,800 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:20:11,800 	Hypothesis: 
+2020-02-29 21:20:11,800 Example #2
+2020-02-29 21:20:11,800 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:20:11,800 	Raw hypothesis: []
+2020-02-29 21:20:11,800 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:20:11,801 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:20:11,801 	Hypothesis: 
+2020-02-29 21:20:11,801 Validation result at epoch   1, step      160: bleu:   0.00, loss: 53701.3945, ppl: 786.5587, duration: 12.9427s
+2020-02-29 21:20:14,202 Epoch   1 Step:      170 Batch Loss:    52.799786 Tokens per Sec:     7277, Lr: 0.001000
+2020-02-29 21:20:27,283 Hooray! New best validation result [loss]!
+2020-02-29 21:20:27,283 Saving new checkpoint.
+2020-02-29 21:20:27,310 Example #0
+2020-02-29 21:20:27,310 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:20:27,310 	Raw hypothesis: []
+2020-02-29 21:20:27,310 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:20:27,310 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:20:27,310 	Hypothesis: 
+2020-02-29 21:20:27,310 Example #1
+2020-02-29 21:20:27,310 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:20:27,311 	Raw hypothesis: []
+2020-02-29 21:20:27,311 	Source:     monday at 3pm.
+2020-02-29 21:20:27,311 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:20:27,311 	Hypothesis: 
+2020-02-29 21:20:27,311 Example #2
+2020-02-29 21:20:27,311 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:20:27,311 	Raw hypothesis: []
+2020-02-29 21:20:27,311 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:20:27,311 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:20:27,311 	Hypothesis: 
+2020-02-29 21:20:27,312 Validation result at epoch   1, step      170: bleu:   0.00, loss: 52081.5156, ppl: 643.2545, duration: 13.1088s
+2020-02-29 21:20:29,995 Epoch   1 Step:      180 Batch Loss:    76.071358 Tokens per Sec:     6874, Lr: 0.001000
+2020-02-29 21:20:45,396 Hooray! New best validation result [loss]!
+2020-02-29 21:20:45,396 Saving new checkpoint.
+2020-02-29 21:20:45,425 Example #0
+2020-02-29 21:20:45,425 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:20:45,425 	Raw hypothesis: []
+2020-02-29 21:20:45,425 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:20:45,426 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:20:45,426 	Hypothesis: 
+2020-02-29 21:20:45,426 Example #1
+2020-02-29 21:20:45,426 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:20:45,426 	Raw hypothesis: []
+2020-02-29 21:20:45,426 	Source:     monday at 3pm.
+2020-02-29 21:20:45,426 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:20:45,426 	Hypothesis: 
+2020-02-29 21:20:45,426 Example #2
+2020-02-29 21:20:45,427 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:20:45,427 	Raw hypothesis: []
+2020-02-29 21:20:45,427 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:20:45,427 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:20:45,427 	Hypothesis: 
+2020-02-29 21:20:45,427 Validation result at epoch   1, step      180: bleu:   0.00, loss: 51253.2852, ppl: 580.3931, duration: 15.4314s
+2020-02-29 21:20:48,246 Epoch   1 Step:      190 Batch Loss:    28.429529 Tokens per Sec:     6868, Lr: 0.001000
+2020-02-29 21:21:01,238 Hooray! New best validation result [loss]!
+2020-02-29 21:21:01,238 Saving new checkpoint.
+2020-02-29 21:21:01,266 Example #0
+2020-02-29 21:21:01,266 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:21:01,266 	Raw hypothesis: []
+2020-02-29 21:21:01,266 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:21:01,267 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:21:01,267 	Hypothesis: 
+2020-02-29 21:21:01,267 Example #1
+2020-02-29 21:21:01,267 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:21:01,267 	Raw hypothesis: []
+2020-02-29 21:21:01,267 	Source:     monday at 3pm.
+2020-02-29 21:21:01,267 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:21:01,267 	Hypothesis: 
+2020-02-29 21:21:01,267 Example #2
+2020-02-29 21:21:01,267 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:21:01,268 	Raw hypothesis: []
+2020-02-29 21:21:01,268 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:21:01,268 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:21:01,268 	Hypothesis: 
+2020-02-29 21:21:01,268 Validation result at epoch   1, step      190: bleu:   0.00, loss: 50309.7578, ppl: 516.2315, duration: 13.0208s
+2020-02-29 21:21:04,379 Epoch   1 Step:      200 Batch Loss:    47.314232 Tokens per Sec:     6568, Lr: 0.001000
+2020-02-29 21:21:19,112 Hooray! New best validation result [loss]!
+2020-02-29 21:21:19,112 Saving new checkpoint.
+2020-02-29 21:21:19,140 Example #0
+2020-02-29 21:21:19,140 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:21:19,140 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:19,140 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:21:19,140 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:21:19,140 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:19,141 Example #1
+2020-02-29 21:21:19,141 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:21:19,141 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:19,141 	Source:     monday at 3pm.
+2020-02-29 21:21:19,141 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:21:19,141 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:19,141 Example #2
+2020-02-29 21:21:19,141 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:21:19,141 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:19,141 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:21:19,141 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:21:19,141 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:19,142 Validation result at epoch   1, step      200: bleu:   0.00, loss: 48935.5625, ppl: 435.2554, duration: 14.7620s
+2020-02-29 21:21:22,800 Epoch   1 Step:      210 Batch Loss:    23.088741 Tokens per Sec:     5857, Lr: 0.001000
+2020-02-29 21:21:36,206 Hooray! New best validation result [loss]!
+2020-02-29 21:21:36,207 Saving new checkpoint.
+2020-02-29 21:21:36,233 Example #0
+2020-02-29 21:21:36,233 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:21:36,233 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:36,233 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:21:36,233 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:21:36,233 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:36,233 Example #1
+2020-02-29 21:21:36,233 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:21:36,233 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:36,233 	Source:     monday at 3pm.
+2020-02-29 21:21:36,233 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:21:36,233 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:36,234 Example #2
+2020-02-29 21:21:36,234 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:21:36,234 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:36,234 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:21:36,234 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:21:36,234 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:36,234 Validation result at epoch   1, step      210: bleu:   0.00, loss: 47938.1719, ppl: 384.5582, duration: 13.4336s
+2020-02-29 21:21:40,022 Epoch   1 Step:      220 Batch Loss:    86.790848 Tokens per Sec:     5915, Lr: 0.001000
+2020-02-29 21:21:53,219 Hooray! New best validation result [loss]!
+2020-02-29 21:21:53,220 Saving new checkpoint.
+2020-02-29 21:21:53,245 Example #0
+2020-02-29 21:21:53,246 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:21:53,246 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:53,246 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:21:53,246 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:21:53,246 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:53,246 Example #1
+2020-02-29 21:21:53,246 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:21:53,246 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:53,246 	Source:     monday at 3pm.
+2020-02-29 21:21:53,246 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:21:53,246 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:53,246 Example #2
+2020-02-29 21:21:53,246 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:21:53,247 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:21:53,247 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:21:53,247 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:21:53,247 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:21:53,247 Validation result at epoch   1, step      220: bleu:   0.00, loss: 47279.1602, ppl: 354.3449, duration: 13.2239s
+2020-02-29 21:21:57,234 Epoch   1 Step:      230 Batch Loss:    38.696056 Tokens per Sec:     5887, Lr: 0.001000
+2020-02-29 21:22:10,924 Hooray! New best validation result [loss]!
+2020-02-29 21:22:10,924 Saving new checkpoint.
+2020-02-29 21:22:10,951 Example #0
+2020-02-29 21:22:10,951 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:22:10,951 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:22:10,951 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:22:10,951 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:22:10,952 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:22:10,952 Example #1
+2020-02-29 21:22:10,952 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:22:10,952 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:22:10,952 	Source:     monday at 3pm.
+2020-02-29 21:22:10,952 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:22:10,952 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:22:10,952 Example #2
+2020-02-29 21:22:10,952 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:22:10,952 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:22:10,952 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:22:10,952 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:22:10,952 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:22:10,952 Validation result at epoch   1, step      230: bleu:   0.00, loss: 46302.5547, ppl: 313.8808, duration: 13.7178s
+2020-02-29 21:22:14,476 Epoch   1 Step:      240 Batch Loss:    29.121471 Tokens per Sec:     6937, Lr: 0.001000
+2020-02-29 21:22:27,865 Hooray! New best validation result [loss]!
+2020-02-29 21:22:27,866 Saving new checkpoint.
+2020-02-29 21:22:27,893 Example #0
+2020-02-29 21:22:27,893 	Raw source:     ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+2020-02-29 21:22:27,893 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:22:27,893 	Source:     make an appointment to reserve conference room 100 later this week for a meeting
+2020-02-29 21:22:27,893 	Reference:  what day and time should i set an appointment to reserve the conference room?
+2020-02-29 21:22:27,893 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:22:27,893 Example #1
+2020-02-29 21:22:27,894 	Raw source:     ['monday', 'at', '3pm.']
+2020-02-29 21:22:27,894 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:22:27,894 	Source:     monday at 3pm.
+2020-02-29 21:22:27,894 	Reference:  i have made an appointment for monday at 3 pm for the meeting.
+2020-02-29 21:22:27,894 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:22:27,894 Example #2
+2020-02-29 21:22:27,894 	Raw source:     ['is', 'there', 'supposed', 'to', 'be', 'a', 'blizzard', 'in', 'brentwood', 'on', 'friday?']
+2020-02-29 21:22:27,894 	Raw hypothesis: ['<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>', '<unk>']
+2020-02-29 21:22:27,894 	Source:     is there supposed to be a blizzard in brentwood on friday?
+2020-02-29 21:22:27,894 	Reference:  on friday it's gonna rain in brentwood
+2020-02-29 21:22:27,894 	Hypothesis: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+2020-02-29 21:22:27,894 Validation result at epoch   1, step      240: bleu:   0.00, loss: 45685.1797, ppl: 290.7195, duration: 13.4176s
+2020-02-29 21:22:31,547 Epoch   1 Step:      250 Batch Loss:    92.066391 Tokens per Sec:     6983, Lr: 0.001000
