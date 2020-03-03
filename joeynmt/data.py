@@ -3,6 +3,7 @@
 Data module
 """
 import sys
+import random
 import os
 import os.path
 from typing import Optional
@@ -15,6 +16,8 @@ from joeynmt.constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN
 from joeynmt.vocabulary import build_vocab, Vocabulary
 
 
+
+
 def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                   Vocabulary, Vocabulary):
     """
@@ -25,6 +28,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     The training data is filtered to include sentences up to `max_sent_length`
     on source and target side.
+
+    If you set ``random_train_subset``, a random selection of this size is used
+    from the training set instead of the full training set.
 
     :param data_cfg: configuration dictionary for data
         ("data" part of configuation file)
@@ -82,6 +88,16 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     trg_vocab = build_vocab(field="trg", min_freq=trg_min_freq,
                             max_size=trg_max_size,
                             dataset=train_data, vocab_file=trg_vocab_file)
+
+    random_train_subset = data_cfg.get("random_train_subset", -1)
+    if random_train_subset > -1:
+        # select this many training examples randomly and discard the rest
+        keep_ratio = random_train_subset / len(train_data)
+        keep, _ = train_data.split(
+            split_ratio=[keep_ratio, 1 - keep_ratio],
+            random_state=random.getstate())
+        train_data = keep
+
     dev_data = TranslationDataset(path=dev_path,
                                   exts=("." + src_lang, "." + trg_lang),
                                   fields=(src_field, trg_field))
@@ -158,6 +174,57 @@ def make_data_iter(dataset: Dataset,
 
     return data_iter
 
+def make_data_iter_kb_batch_size_1(dataset: Dataset,
+                   batch_type: str = "sentence",
+                   train: bool = False,
+                   shuffle: bool = False) -> Iterator:
+    """
+    Returns a torchtext Iterator (not BucketIterator) for a torchtext dataset.
+    Uses batch_size = 1
+
+    :param dataset: torchtext dataset containing src and optionally trg
+    :param batch_type: measure batch size by sentence count or by token count
+    :param train: whether it's training time, when turned off,
+        bucketing, sorting within batches and shuffling is disabled
+    :param shuffle: whether to shuffle the data before each epoch
+        (no effect if set to True for testing)
+    :return: torchtext iterator
+    """
+
+    batch_size_fn = token_batch_size_fn if batch_type == "token" else None
+
+    #TODO: use KB_Iterator instead of data iterator
+    if train:
+        # optionally shuffle and sort during training
+        data_iter = data.Iterator(
+            repeat=False, sort=False, dataset=dataset,
+            batch_size=1, batch_size_fn=batch_size_fn,
+            train=True, shuffle=shuffle)
+    else:
+        # don't sort/shuffle for validation/inference
+        data_iter = data.Iterator(
+            repeat=False, dataset=dataset,
+            batch_size=1, batch_size_fn=batch_size_fn,
+            train=False, sort=False)
+
+    return data_iter
+
+"""        data_iter = data.Iterator(
+            repeat=False, sort=False, dataset=dataset,
+            batch_size=1, batch_size_fn=batch_size_fn,
+            train=True, shuffle=shuffle)
+
+"""
+class KB_Iterator(Iterator):
+    """Iterates over a kb in parallel to the dataset
+    individual batches should have an attribute .kb
+    which is equal to the corresponding kb Tensor (m x 3)"""
+    def __init__(dataset, kb_dataset, batch_size, sort_key=None, device=None,\
+    batch_size_fn=None, train=True, repeat=False, shuffle=None, sort=None, sort_within_batch=None):
+        super().__init__(dataset, batch_size, sort_key=None, device=None,\
+    batch_size_fn=None, train=True, repeat=False, shuffle=None, sort=None, sort_within_batch=None)
+        #TODO create KB_dataset
+        raise NotImplementedError
 
 class MonoDataset(Dataset):
     """Defines a dataset for machine translation without targets."""

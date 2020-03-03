@@ -94,10 +94,18 @@ def main(args):
         settings = json.load(scenarios)
 
     normed_kbs = [normalize_kb(kb) for kb in settings]
+
+
     """
     LATEST TODO:
         look at torchtext dataset and make_train_iter_batch_size_1:
         how is data loaded? how to write normed_kbs to file to load simultaneously with train data
+        idea: write iterator that makes data iter in parallel that takes a batch size function that is read from lines
+        in separate file kb_lengths.txt and has type list [230, 102, 56,...,95]
+        for this, here we need to output two things:
+            scenarios_part.kb: kb items line by line, all knowledgebases one after another
+            kb_lengths.txt: kb lengths line by line
+        -> look at torchtext.data.Iterator kwarg batch_size_fn to see if possible
     """
 
     filestamm = filename.split(".")[0]
