@@ -85,7 +85,7 @@ def main(args):
 
     directory = "../kv_ret_dataset/"
     if args==0: #use defaults
-        filename = "scenarios_dev.json"
+        filename = "dev.json"
         splitpart = "dev"
     else:
         filename = args[0]
@@ -94,6 +94,12 @@ def main(args):
         settings = json.load(scenarios)
 
     normed_kbs = [normalize_kb(kb) for kb in settings]
+    lens = [str(len(kb))+"\n" for kb in normed_kbs]
+    lens[-1] = lens[-1][:-1] #delete last newline
+    
+    normed_kbs_inner = [triple for scenario in normed_kbs for triple in scenario]
+    kb_list = ["::".join(t)+"\n" for t in normed_kbs_inner]
+    kb_list[-1] = kb_list[-1][:-1] #delete last newline
 
 
     """
@@ -103,21 +109,29 @@ def main(args):
         idea: write iterator that makes data iter in parallel that takes a batch size function that is read from lines
         in separate file kb_lengths.txt and has type list [230, 102, 56,...,95]
         for this, here we need to output two things:
-            scenarios_part.kb: kb items line by line, all knowledgebases one after another
-            kb_lengths.txt: kb lengths line by line
+            dev.kb: kb items line by line, all knowledgebases one after another
+            dev.len: kb lengths line by line
         -> look at torchtext.data.Iterator kwarg batch_size_fn to see if possible
     """
-
+    #line formatted normalized kb
     filestamm = filename.split(".")[0]
     ext = "kb"
     save_as = filestamm+"."+ext
     with open(directory+save_as, "w") as o:
-        o.writelines(normed_kbs)
+        o.writelines(kb_list)
 
-    print(normed_kbs[0][0])
-    print(normed_kbs[0])
-    #print("First 10 entries:")
-    #print(normed_kbs[:9])
+    # line formatted kb length lookup file
+    # * dev.len
+    # saves number of lines to put in kb batch in 
+    # * dev.kb
+    # from start of current line from last example
+    # according to 
+    # * dev.lkp 
+
+    lengths = "len"
+    save_lengths = filestamm + "." + lengths
+    with open(directory+save_lengths, "w") as l:
+        l.writelines(lens)
     return 0
 
 if __name__ == "__main__":
