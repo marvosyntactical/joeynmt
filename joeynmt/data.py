@@ -50,8 +50,17 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     level = data_cfg["level"]
     lowercase = data_cfg["lowercase"]
     max_sent_length = data_cfg["max_sent_length"]
+    #kb stuff
+    kb_task = data.cfg.get("kb_task", None)
+    kb_ext = data_cfg.get("kb_ext", "kb")
+    kb_lkp = data_cfg.get("kb_lkp", "lkp")
+    kb_len = data_cfg.get("kb_len", "len")
 
+    assert not (kb_task and (level=="char")) 
     tok_fun = lambda s: list(s) if level == "char" else s.split()
+
+    kb_tok_fun = lambda kb_line: kb_line.split("::") 
+    
 
     src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
                            pad_token=PAD_TOKEN, tokenize=tok_fun,

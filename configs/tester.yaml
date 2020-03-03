@@ -5,6 +5,11 @@ name: "kv_toy"
 data: # specify your data here
     src: "usr"                       # src language: expected suffix of train files, e.g. "train.de"
     trg: "car"                       # trg language
+    kb_task: "YES"                   # KVR: assigned and boolean val of True if KVR task performed 
+    kb_ext: "kb"                         # KVR: kb extension
+    kb_lkp: "lkp"                       # KVR: kb association lkp file ext
+    kb_len: "len"                       # KVR: kb lengths file ext
+    
     train: "data/kv_ret_dataset/train"    # training data
     dev: "data/kv_ret_dataset/dev"        # development data for validation
     test: "data/kv_ret_dataset/test"      # test data for testing final model; optional
