@@ -126,7 +126,7 @@ class Batch_with_KB:
         assert hasattr(batch_with_kb,"kb")
         self.kb = batch_with_kb.kb
 
-        if hasattr(torch_batch, "trg"):
+        if hasattr(batch_with_kb, "trg"):
             trg, trg_lengths = batch_with_kb.trg
             # trg_input is used for teacher forcing, last one is cut off
             self.trg_input = trg[:, :-1]

@@ -231,6 +231,7 @@ class TrainManager:
         :param train_data: training data
         :param valid_data: validation data
         """
+        print(kb_task, ": kb_task")
         if kb_task:
             train_iter = make_data_iter_kb_batch_size_1(train_data,
                                     train_kb, train_kb_lkp, train_kb_lens,
@@ -261,8 +262,6 @@ class TrainManager:
                 # create a Batch object from torchtext batch
                 batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
                     Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)
-                self.logger.info("example kb: ", batch.kb) #TODO removeme
-                #TODO find out why batch doesnt have kb attribute
 
 
                 # only update every batch_multiplier batches

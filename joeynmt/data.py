@@ -10,7 +10,7 @@ from typing import Optional
 
 from torchtext.datasets import TranslationDataset
 from torchtext import data
-from torchtext.data import Dataset, Iterator, Field
+from torchtext.data import Dataset, Iterator, Field, Batch
 
 from joeynmt.constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN
 from joeynmt.vocabulary import build_vocab, Vocabulary
@@ -334,14 +334,27 @@ def make_data_iter(dataset: Dataset,
     return data_iter
 
 
+class TorchBatchWithKB(Batch):
+    def __init__(self, data=None, dataset=None, device=None):
+        super(TorchBatchWithKB, self).__init__(data=data, dataset=dataset,\
+            device=device)
+        if data is not None:
+            assert hasattr(data, "kb")
+            self.kb = data.kb
+
+
 class KB_minibatch(list):
+    """
+    adds kb field to minibatch list in KB_Iterator
+    """
     def __init__(self, *args, **kwargs):
         super(KB_minibatch, self).__init__(*args, **kwargs)
         self.kb = None
 
 
 def batch_with_kb(data, batch_size, kb_data, kb_lkp, kb_lens):
-    #TODO change function signature
+    # for KB_Iterator. uses kb lkup and kb_lens to determine 
+    # minibatch.kb length, adds it to this attribute and yields
     """Yield elements from data in chunks of batch_size."""
 
     assert batch_size == 1
@@ -352,8 +365,9 @@ def batch_with_kb(data, batch_size, kb_data, kb_lkp, kb_lens):
 
         corresponding_kb = kb_lkp[i]
         kb_len = kb_lens[corresponding_kb]
-        minibatch.kb = kb_data[current:kb_len] #do this however you want
+        minibatch.kb = kb_data[current:current+kb_len]
         minibatch.append(ex)
+        current += kb_len
 
         yield minibatch
         minibatch = KB_minibatch()
@@ -398,7 +412,27 @@ class KB_Iterator(Iterator):
     def create_batches(self):
         self.batches = batch_with_kb(self.dataset,self.batch_size, self.kb_data, self.kb_lkp, self.kb_lens)
     
-        
+    def __iter__(self):
+        while True:
+            self.init_epoch()
+            for idx, minibatch in enumerate(self.batches):
+                # fast-forward if loaded from state
+                if self._iterations_this_epoch > idx:
+                    continue
+                self.iterations += 1
+                self._iterations_this_epoch += 1
+                if self.sort_within_batch:
+                    # NOTE: `rnn.pack_padded_sequence` requires that a minibatch
+                    # be sorted by decreasing order, which requires reversing
+                    # relative to typical sort keys
+                    if self.sort:
+                        minibatch.reverse()
+                    else:
+                        minibatch.sort(key=self.sort_key, reverse=True)
+                yield TorchBatchWithKB(minibatch, self.dataset, self.device)
+            if not self.repeat:
+                return
+
 
 
 
