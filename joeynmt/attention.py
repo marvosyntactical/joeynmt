@@ -145,7 +145,7 @@ class KeyValRetAtt(AttentionMechanism):
         :param query_size: size of the query
         """
 
-        super(KeyValueAttention, self).__init__()
+        super(KeyValRetAtt, self).__init__()
 
         self.key_layer = nn.Linear(key_size, hidden_size, bias=False)
         self.query_layer = nn.Linear(query_size, hidden_size, bias=False)

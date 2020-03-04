@@ -12,7 +12,7 @@ import torch.nn.functional as F
 from joeynmt.initialization import initialize_model
 from joeynmt.embeddings import Embeddings
 from joeynmt.encoders import Encoder, RecurrentEncoder, TransformerEncoder
-from joeynmt.decoders import Decoder, RecurrentDecoder, TransformerDecoder
+from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, TransformerDecoder
 from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN
 from joeynmt.search import beam_search, greedy
 from joeynmt.vocabulary import Vocabulary
@@ -56,7 +56,7 @@ class Model(nn.Module):
 
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
-                src_lengths: Tensor, trg_mask: Tensor = None) -> (
+                src_lengths: Tensor, trg_mask: Tensor = None, knowledgebase=None) -> (
         Tensor, Tensor, Tensor, Tensor):
         """
         First encodes the source sentence.
@@ -73,11 +73,13 @@ class Model(nn.Module):
                                                      src_length=src_lengths,
                                                      src_mask=src_mask)
         unroll_steps = trg_input.size(1)
+        
         return self.decode(encoder_output=encoder_output,
                            encoder_hidden=encoder_hidden,
                            src_mask=src_mask, trg_input=trg_input,
                            unroll_steps=unroll_steps,
-                           trg_mask=trg_mask)
+                           trg_mask=trg_mask,
+                           knowledgebase=knowledgebase)
 
     def encode(self, src: Tensor, src_length: Tensor, src_mask: Tensor) \
         -> (Tensor, Tensor):
@@ -94,7 +96,7 @@ class Model(nn.Module):
     def decode(self, encoder_output: Tensor, encoder_hidden: Tensor,
                src_mask: Tensor, trg_input: Tensor,
                unroll_steps: int, decoder_hidden: Tensor = None,
-               trg_mask: Tensor = None) \
+               trg_mask: Tensor = None, knowledgebase=None) \
         -> (Tensor, Tensor, Tensor, Tensor):
         """
         Decode, given an encoded source sentence.
@@ -108,13 +110,24 @@ class Model(nn.Module):
         :param trg_mask: mask for target steps
         :return: decoder outputs (outputs, hidden, att_probs, att_vectors)
         """
-        return self.decoder(trg_embed=self.trg_embed(trg_input),
+        if not knowledgebase:
+            return self.decoder(trg_embed=self.trg_embed(trg_input),
                             encoder_output=encoder_output,
                             encoder_hidden=encoder_hidden,
                             src_mask=src_mask,
                             unroll_steps=unroll_steps,
                             hidden=decoder_hidden,
                             trg_mask=trg_mask)
+        else:
+            return self.decoder(trg_embed=self.trg_embed(trg_input),
+                            encoder_output=encoder_output,
+                            encoder_hidden=encoder_hidden,
+                            src_mask=src_mask,
+                            unroll_steps=unroll_steps,
+                            hidden=decoder_hidden,
+                            trg_mask=trg_mask,
+                            knowledgebase=knowledgebase)
+
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module) \
             -> Tensor:
@@ -127,10 +140,19 @@ class Model(nn.Module):
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
         # pylint: disable=unused-variable
-        out, hidden, att_probs, _ = self.forward(
-            src=batch.src, trg_input=batch.trg_input,
-            src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-            trg_mask=batch.trg_mask)
+        if not hasattr(batch, "kb"):
+            out, hidden, att_probs, _ = self.forward(
+                src=batch.src, trg_input=batch.trg_input,
+                src_mask=batch.src_mask, src_lengths=batch.src_lengths,
+                trg_mask=batch.trg_mask)
+        else:
+            print("batch.src:", type(batch.src),batch.src)
+            print(batch.kb)
+            out, hidden, att_probs, _ = self.forward(
+                src=batch.src, trg_input=batch.trg_input,
+                src_mask=batch.src_mask, src_lengths=batch.src_lengths,
+                trg_mask=batch.trg_mask, knowledgebase=batch.kb.src)
+
 
         # compute log probs
         log_probs = F.log_softmax(out, dim=-1)
@@ -244,18 +266,30 @@ def build_model(cfg: dict = None,
         encoder = RecurrentEncoder(**cfg["encoder"],
                                    emb_size=src_embed.embedding_dim,
                                    emb_dropout=enc_emb_dropout)
+       
 
+    
     # build decoder
+    kb = bool(cfg.get("kb", False))
+    assert cfg["decoder"]["hidden_size"]
     dec_dropout = cfg["decoder"].get("dropout", 0.)
     dec_emb_dropout = cfg["decoder"]["embeddings"].get("dropout", dec_dropout)
     if cfg["decoder"].get("type", "recurrent") == "transformer":
+        assert not kb, "Transformer with kb not implemented yet"
         decoder = TransformerDecoder(
             **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
             emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
     else:
-        decoder = RecurrentDecoder(
-            **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
+        if not kb:
+            decoder = RecurrentDecoder(
+                **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
+        else:
+            decoder = KeyValRetRNNDecoder(
+                **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
+
+
 
     model = Model(encoder=encoder, decoder=decoder,
                   src_embed=src_embed, trg_embed=trg_embed,

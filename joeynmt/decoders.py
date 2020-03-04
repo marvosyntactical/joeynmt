@@ -431,7 +431,7 @@ class RecurrentDecoder(Decoder):
         return "RecurrentDecoder(rnn=%r, attention=%r)" % (
             self.rnn, self.attention)
 
-class KeyValRetRNNDecoder(Decoder):
+class KeyValRetRNNDecoder(RecurrentDecoder):
     """A conditional RNN decoder with attention AND bahdanau attention over a knowledgebase"""
 
     def __init__(self,
@@ -472,12 +472,20 @@ class KeyValRetRNNDecoder(Decoder):
         :param kwargs:
         """
 
-        super(RecurrentDecoder, self).__init__()
+        super(KeyValRetRNNDecoder, self).__init__(rnn_type=rnn_type,\
+            emb_size=emb_size, hidden_size=hidden_size,encoder=encoder,\
+                attention=attention, num_layers=num_layers, vocab_size=vocab_size,
+                hidden_dropout=hidden_dropout, dropout=dropout, emb_dropout=emb_dropout,\
+                    init_hidden=init_hidden, input_feeding=input_feeding, freeze=freeze,\
+                        kwargs=kwargs)
 
+        
         self.emb_dropout = torch.nn.Dropout(p=emb_dropout, inplace=False)
         self.type = rnn_type
         self.hidden_dropout = torch.nn.Dropout(p=hidden_dropout, inplace=False)
         self.hidden_size = hidden_size
+        assert self.hidden_size, self.hiddensize
+        print(self.hidden_size)
         self.emb_size = emb_size
 
         rnn = nn.GRU if rnn_type == "gru" else nn.LSTM
@@ -690,11 +698,11 @@ class KeyValRetRNNDecoder(Decoder):
                 trg_embed: Tensor,
                 encoder_output: Tensor,
                 encoder_hidden: Tensor,
-                knowledgebase: Tensor,
                 src_mask: Tensor,
                 unroll_steps: int,
                 hidden: Tensor = None,
                 prev_att_vector: Tensor = None,
+                knowledgebase: Tensor = None,
                 **kwargs) \
             -> (Tensor, Tensor, Tensor, Tensor):
         """
@@ -728,7 +736,7 @@ class KeyValRetRNNDecoder(Decoder):
         :param encoder_hidden: last state from the encoder,
             shape (batch_size x encoder.output_size)
         :param knowledgebase: knowledgebase associated with batch
-            shape TODO
+            shape m x 3 TODO
         :param src_mask: mask for src states: 0s for padded areas,
             1s for the rest, shape (batch_size, 1, src_length)
         :param unroll_steps: number of steps to unrol the decoder RNN
@@ -746,6 +754,7 @@ class KeyValRetRNNDecoder(Decoder):
             - att_vectors: attentional vectors
                 with shape (batch_size, unroll_steps, hidden_size)
         """
+        print("Kb :D ", knowledgebase.shape)
 
         # shape checks
         self._check_shapes_input_forward(

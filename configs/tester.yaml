@@ -39,7 +39,7 @@ training:                           # specify training details here
     clip_grad_val: 10.0              # clip the gradients to this value when they exceed it, optional
     #clip_grad_norm: 1.0            # norm clipping instead of value clipping
     weight_decay: .01                # l2 regularization, default: 0
-    batch_size: 10                  # mini-batch size as number of sentences (when batch_type is "sentence"; default) or total number of tokens (when batch_type is "token")
+    batch_size: 1                  # mini-batch size as number of sentences (when batch_type is "sentence"; default) or total number of tokens (when batch_type is "token")
     batch_type: "sentence"          # create batches with sentences ("sentence", default) or tokens ("token")
     eval_batch_size: 10             # mini-batch size for evaluation (see batch_size above)
     eval_batch_type: "sentence"     # evaluation batch type ("sentence", default) or tokens ("token")
@@ -57,11 +57,12 @@ training:                           # specify training details here
     shuffle: True                   # shuffle the training data, default: True
     use_cuda: False                 # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
     max_output_length: 31           # maximum output length for decoding, default: None. If set to None, allow sentences of max 1.5*src length
-    print_valid_sents: [0, 1, 2]    # print this many validation sentences during each validation run, default: [0, 1, 2]
+    print_valid_sents: [5,7, 13]    # print this many validation sentences during each validation run, default: [0, 1, 2]
     keep_last_ckpts: 3              # keep this many of the latest checkpoints, if -1: all of them, default: 5
     label_smoothing: 0.0            # label smoothing: reference tokens will have 1-label_smoothing probability instead of 1, rest of probability mass is uniformly distributed over the rest of the vocabulary, default: 0.0 (off)
 
 model:                              # specify your model architecture here
+    kb: True                    # kb decoder used or not?
     initializer: "xavier"           # initializer for all trainable weights (xavier, zeros, normal, uniform)
     init_weight: 0.01               # weight to initialize; for uniform, will use [-weight, weight]
     init_gain: 1.0                  # gain for Xavier initializer (default: 1.0)

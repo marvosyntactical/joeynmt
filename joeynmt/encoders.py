@@ -113,7 +113,7 @@ class RecurrentEncoder(Encoder):
         # apply dropout to the rnn input
         embed_src = self.emb_dropout(embed_src)
 
-        packed = pack_padded_sequence(embed_src, src_length, batch_first=True)
+        packed = pack_padded_sequence(embed_src, src_length, batch_first=True, enforce_sorted=False) #TODO make enf srt depend on kb task or not
         output, hidden = self.rnn(packed)
 
         #pylint: disable=unused-variable
