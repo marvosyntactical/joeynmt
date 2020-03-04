@@ -20,14 +20,14 @@ from torch.utils.tensorboard import SummaryWriter
 from torchtext.data import Dataset
 
 from joeynmt.model import build_model
-from joeynmt.batch import Batch
+from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.helpers import log_data_info, load_config, log_cfg, \
     store_attention_plots, load_checkpoint, make_model_dir, \
     make_logger, set_seed, symlink_update, ConfigurationError
 from joeynmt.model import Model
 from joeynmt.prediction import validate_on_data
 from joeynmt.loss import XentLoss
-from joeynmt.data import load_data, make_data_iter
+from joeynmt.data import load_data,load_data_and_kb, make_data_iter, make_data_iter_kb_batch_size_1, MonoDataset
 from joeynmt.builders import build_optimizer, build_scheduler, \
     build_gradient_clipper
 from joeynmt.prediction import test
@@ -222,7 +222,8 @@ class TrainManager:
         if self.use_cuda:
             self.model.cuda()
 
-    def train_and_validate(self, train_data: Dataset, valid_data: Dataset) \
+    def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: MonoDataset =None,\
+        train_kb_lkp: list = [], train_kb_lens: list = []) \
             -> None:
         """
         Train the model and validate it from time to time on the validation set.
@@ -230,7 +231,13 @@ class TrainManager:
         :param train_data: training data
         :param valid_data: validation data
         """
-        train_iter = make_data_iter(train_data,
+        if kb_task:
+            train_iter = make_data_iter_kb_batch_size_1(train_data,
+                                    train_kb, train_kb_lkp, train_kb_lens,
+                                    batch_type=self.batch_type,
+                                    train=True, shuffle=self.shuffle)
+        else:
+            train_iter = make_data_iter(train_data,
                                     batch_size=self.batch_size,
                                     batch_type=self.batch_type,
                                     train=True, shuffle=self.shuffle)
@@ -252,7 +259,11 @@ class TrainManager:
                 # reactivate training
                 self.model.train()
                 # create a Batch object from torchtext batch
-                batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda)
+                batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
+                    Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)
+                self.logger.info("example kb: ", batch.kb) #TODO removeme
+                #TODO find out why batch doesnt have kb attribute
+
 
                 # only update every batch_multiplier batches
                 # see https://medium.com/@davidlmorton/
@@ -526,9 +537,19 @@ def train(cfg_file: str) -> None:
     # set the random seed
     set_seed(seed=cfg["training"].get("random_seed", 42))
 
+    kb_task = bool(cfg["data"]["kb_task"])
     # load the data
-    train_data, dev_data, test_data, src_vocab, trg_vocab = load_data(
+    if not kb_task: 
+        train_data, dev_data, test_data, src_vocab, trg_vocab = load_data(
         data_cfg=cfg["data"])
+    else: #also load KB info
+        train_data, dev_data, test_data,\
+            src_vocab, trg_vocab,\
+            train_kb, dev_kb, test_kb,\
+            train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
+            train_kb_lengths, dev_kb_lengths, dev_kb_lengths\
+                = load_data_and_kb(data_cfg=cfg["data"])
+
 
     # build an encoder-decoder model
     model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab)
@@ -555,7 +576,8 @@ def train(cfg_file: str) -> None:
     trg_vocab.to_file(trg_vocab_file)
 
     # train the model
-    trainer.train_and_validate(train_data=train_data, valid_data=dev_data)
+    trainer.train_and_validate(train_data=train_data, valid_data=dev_data, kb_task=kb_task,\
+        train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths)
 
     # predict with the best model on validation and test
     # (if test data is available)
