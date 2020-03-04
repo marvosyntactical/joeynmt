@@ -110,7 +110,7 @@ class Model(nn.Module):
         :param trg_mask: mask for target steps
         :return: decoder outputs (outputs, hidden, att_probs, att_vectors)
         """
-        if not knowledgebase:
+        if knowledgebase == None:
             return self.decoder(trg_embed=self.trg_embed(trg_input),
                             encoder_output=encoder_output,
                             encoder_hidden=encoder_hidden,
@@ -146,12 +146,12 @@ class Model(nn.Module):
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
         else:
-            print("batch.src:", type(batch.src),batch.src)
-            print(batch.kb)
+            #print("batch.src:", type(batch.src),batch.src)
+            #print(batch.kb)
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                trg_mask=batch.trg_mask, knowledgebase=batch.kb.src)
+                trg_mask=batch.trg_mask, knowledgebase=batch.kb)
 
 
         # compute log probs

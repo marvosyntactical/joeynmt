@@ -600,7 +600,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param hidden:
         :param prev_att_vector:
         """
-        assert knowledgebase #TODO
+        assert knowledgebase != None #TODO
         assert len(encoder_output.shape) == 3
         assert len(encoder_hidden.shape) == 2
         assert encoder_hidden.shape[-1] == encoder_output.shape[-1]
@@ -653,6 +653,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # shape checks
         self._check_shapes_input_forward_step(prev_embed=prev_embed,
                                               prev_att_vector=prev_att_vector,
+                                              knowledgebase=knowledgebase,
                                               encoder_output=encoder_output,
                                               src_mask=src_mask,
                                               hidden=hidden)
@@ -680,7 +681,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
 
-        u_t = self.kvr_attention(query=query)
+        #u_t = self.kvr_attention(query=query) #Latest TODO: size mismatch
         #v_t = torch.zeros(prev_embed.shape[0],  )  #TODO
 
         # return attention vector (Luong)
@@ -754,13 +755,15 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             - att_vectors: attentional vectors
                 with shape (batch_size, unroll_steps, hidden_size)
         """
-        print("Kb :D ", knowledgebase.shape)
+        #print("Kb :D ", knowledgebase.shape)
+        #print(knowledgebase)
 
         # shape checks
         self._check_shapes_input_forward(
             trg_embed=trg_embed,
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
+            knowledgebase = knowledgebase,
             src_mask=src_mask,
             hidden=hidden,
             prev_att_vector=prev_att_vector)
@@ -774,8 +777,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # this is only done for efficiency
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
-        if hasattr(self.kvr_attention, "compute_proj_keys"):
-            self.kvr_attention.compute_proj_keys(keys=encoder_output)
+        #Latest TODO
+        #if hasattr(self.kvr_attention, "compute_proj_keys"):
+        #    self.kvr_attention.compute_proj_keys(keys=encoder_output)
 
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []

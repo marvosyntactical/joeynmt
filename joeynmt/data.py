@@ -8,6 +8,7 @@ import io
 import os
 import os.path
 from typing import Optional
+from copy import deepcopy
 
 from torchtext.datasets import TranslationDataset
 from torchtext import data
@@ -141,9 +142,9 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         - test_data: testdata set if given, otherwise None
         - src_vocab: source vocabulary extracted from training data
         - trg_vocab: target vocabulary extracted from training data
-        - train_kb: MonoDataset from train KB
-        - dev_kb: MonoDataset from dev KB
-        - test_kb: MonoDataset from test KB
+        - train_kb: MonoKBDataset from train KB
+        - dev_kb: MonoKBDataset from dev KB
+        - test_kb: MonoKBDataset from test KB
         - train_kb_lookup: List of KB association lookup indices from data to KBs
         - dev_kb_lookup: List of KB association lookup indices from data to KBs
         - test_kb_lookup: List of KB association lookup indices from data to KBs
@@ -191,7 +192,7 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                            pad_token=PAD_TOKEN, tokenize=kb_tok_fun,
                            unk_token=UNK_TOKEN,
                            batch_first=True, lower=lowercase,
-                           include_lengths=True)
+                           include_lengths=False)
 
     train_data = TranslationDataset(path=train_path,
                                     exts=("." + src_lang, "." + trg_lang),
@@ -201,7 +202,7 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                     <= max_sent_length
                                     and len(vars(x)['trg'])
                                     <= max_sent_length)
-    train_kb = MonoDataset(path=train_path, ext="." + kb_ext, field=kb_field)
+    train_kb = MonoKBDataset(path=train_path, ext="." + kb_ext, field=kb_field)
     """
     TODO: once KBDataset is implemented, train_data should be initialized like so:
     train_data = KBDataset(path=train_path,
@@ -234,6 +235,15 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                             max_size=trg_max_size,
                             dataset=train_data, vocab_file=trg_vocab_file)
 
+    #kb vocab
+    kb_max_size = data_cfg.get("kb_voc_limit", sys.maxsize)
+    kb_min_freq = data_cfg.get("kb_voc_min_freq", 1)
+    
+    kb_vocab_file = data_cfg.get("kb_vocab", None)
+
+    kb_vocab = build_vocab(field="kb", min_freq=kb_min_freq, max_size=src_max_size,\
+        dataset=train_kb, vocab_file=kb_vocab_file)
+
     random_train_subset = data_cfg.get("random_train_subset", -1)
     if random_train_subset > -1:
         # select this many training examples randomly and discard the rest
@@ -246,7 +256,7 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     dev_data = TranslationDataset(path=dev_path,
                                   exts=("." + src_lang, "." + trg_lang),
                                   fields=(src_field, trg_field))
-    dev_kb = MonoDataset(path=dev_path, ext="." + kb_ext, field=kb_field)
+    dev_kb = MonoKBDataset(path=dev_path, ext="." + kb_ext, field=kb_field)
     
     with open(dev_path+"."+kb_lkp, "r") as lkp:
         lookup = lkp.readlines()
@@ -266,7 +276,7 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             # no target is given -> create dataset from src only
             test_data = MonoDataset(path=test_path, ext="." + src_lang,
                                     field=src_field)
-    test_kb = MonoDataset(path=test_path, ext="." + kb_ext, field=kb_field)
+    test_kb = MonoKBDataset(path=test_path, ext="." + kb_ext, field=kb_field)
     with open(test_path+"."+kb_lkp, "r") as lkp:
         lookup = lkp.readlines()
     test_kb_lookup = [int(elem[:-1]) for elem in lookup]
@@ -276,6 +286,7 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     src_field.vocab = src_vocab
     trg_field.vocab = trg_vocab
+    kb_field.vocab = kb_vocab
     #todo add kb vocab
     return train_data, dev_data, test_data,\
         src_vocab, trg_vocab,\
@@ -344,12 +355,49 @@ def make_data_iter(dataset: Dataset,
 
 
 class TorchBatchWithKB(Batch):
-    def __init__(self, data=None, dataset=None, device=None):
-        super(TorchBatchWithKB, self).__init__(data=data, dataset=dataset,\
-            device=device)
+    def __init__(self, data=None, dataset=None, kb_data=None, device=None):
+        """Create a TorchBatchWithKB from a list of examples.
+        Cant be put in .batch because of variable name clash
+        between torchtext batch and joeynmt batch :(
+        """
+
         if data is not None:
-            assert hasattr(data, "kb")
-            self.kb = data.kb
+            self.batch_size = len(data)
+            self.dataset = dataset
+            self.kb_data = kb_data
+            joint_field_dict = deepcopy(dataset.fields)
+            joint_field_dict.update(kb_data.fields)
+            self.fields = joint_field_dict.keys()  # copy field names
+
+            self.input_fields = [k for k, v in dataset.fields.items() if
+                                    v is not None and not v.is_target]
+            self.target_fields = [k for k, v in dataset.fields.items() if
+                                    v is not None and v.is_target]
+            self.knowledgebase_fields = [k for k,v in kb_data.fields.items() if v is not None]
+
+            for (name, field) in dataset.fields.items():
+                if field is not None:
+                    batch = [getattr(x, name) for x in data]
+                    setattr(self, name, field.process(batch, device=device))
+            for (name, field) in kb_data.fields.items():
+                #print(name, field)
+                if field is not None:
+                    batch = [getattr(x,name) for x in kb_data]
+                    setattr(self, name, field.process(batch, device=device))
+                    #print("torchbatchwithkb attr: ", eval("self.{}".format(name)))
+    @classmethod
+    def fromvars(cls, dataset, kb_data, batch_size, train=None, **kwargs):
+        """Create a Batch directly from a number of Variables."""
+        batch = cls()
+        batch.batch_size = batch_size
+        batch.dataset = dataset
+        batch.kb_data = kb_data
+        batch.fields = dataset.fields.keys()
+        for k, v in kwargs.items():
+            setattr(batch, k, v)
+        return batch
+
+
 
 
 class KB_minibatch(list):
@@ -381,7 +429,7 @@ def batch_with_kb(data, batch_size, kb_data, kb_lkp, kb_lens):
             minibatch = KB_minibatch()
             current += kb_len
 
-        minibatch.kb = kb_data[current:current+kb_len] #TODO atm kb is just a list
+        minibatch.kb = kb_data[current:current+kb_len] #TODO atm kb is just a list of Examples
         minibatch.append(ex)
 
 
@@ -395,12 +443,10 @@ class KB_Iterator(Iterator):
     individual batches should have an attribute .kb
     which is equal to the corresponding kb Tensor (m x 3)
 
-    Latest TODO: this is where everything should happen
-    Q: Should this inherit from Iterator?
-    A: Probably yes
-
     for the moment,
     sorting and shuffling is ignored and not done
+
+    TODO additional params:
 
     """
 
@@ -424,7 +470,10 @@ class KB_Iterator(Iterator):
         self.kb_lens= kb_lens
         
     def create_batches(self):
-        self.batches = batch_with_kb(self.dataset,self.batch_size, self.kb_data, self.kb_lkp, self.kb_lens)
+        self.batches = batch_with_kb(self.data(),self.batch_size, self.kb_data, self.kb_lkp, self.kb_lens)
+
+    def data(self):
+        return self.dataset
     
     def __iter__(self):
         while True:
@@ -443,7 +492,7 @@ class KB_Iterator(Iterator):
                         minibatch.reverse()
                     else:
                         minibatch.sort(key=self.sort_key, reverse=True)
-                yield TorchBatchWithKB(minibatch, self.dataset, self.device)
+                yield TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.device)
             if not self.repeat:
                 return
 
@@ -451,6 +500,43 @@ class KB_Iterator(Iterator):
 
 
         
+
+class MonoKBDataset(Dataset):
+    """Defines a dataset for machine translation without targets with field name "kb"."""
+
+    @staticmethod
+    def sort_key(ex):
+        return len(ex.src)
+
+    def __init__(self, path: str, ext: str, field: Field, **kwargs) -> None:
+        """
+        Create a monolingual dataset (=only sources) given path and field.
+
+        :param path: Prefix of path to the data file
+        :param ext: Containing the extension to path for this language.
+        :param field: Containing the fields that will be used for data.
+        :param kwargs: Passed to the constructor of data.Dataset.
+        """
+
+        fields = [('kb', field)]
+
+        if hasattr(path, "readline"):  # special usage: stdin
+            src_file = path
+        else:
+            src_path = os.path.expanduser(path + ext)
+            src_file = open(src_path)
+
+        examples = []
+        for src_line in src_file:
+            src_line = src_line.strip()
+            if src_line != '':
+                examples.append(data.Example.fromlist(
+                    [src_line], fields))
+
+        src_file.close()
+
+        super(MonoKBDataset, self).__init__(examples, fields, **kwargs)
+
 
 class MonoDataset(Dataset):
     """Defines a dataset for machine translation without targets."""
@@ -532,7 +618,7 @@ class KBDataset(TranslationDataset):
 
 
 def make_data_iter_kb(dataset: Dataset,
-                    kb_data: MonoDataset,
+                    kb_data: MonoKBDataset,
                     kb_lkp: list,
                     kb_lens: list,
                     batch_size: int,
