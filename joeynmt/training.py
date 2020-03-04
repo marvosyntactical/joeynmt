@@ -27,7 +27,7 @@ from joeynmt.helpers import log_data_info, load_config, log_cfg, \
 from joeynmt.model import Model
 from joeynmt.prediction import validate_on_data
 from joeynmt.loss import XentLoss
-from joeynmt.data import load_data,load_data_and_kb, make_data_iter, make_data_iter_kb_batch_size_1, MonoDataset
+from joeynmt.data import load_data,load_data_and_kb, make_data_iter, make_data_iter_kb, MonoDataset
 from joeynmt.builders import build_optimizer, build_scheduler, \
     build_gradient_clipper
 from joeynmt.prediction import test
@@ -231,10 +231,10 @@ class TrainManager:
         :param train_data: training data
         :param valid_data: validation data
         """
-        print(kb_task, ": kb_task")
         if kb_task:
-            train_iter = make_data_iter_kb_batch_size_1(train_data,
+            train_iter = make_data_iter_kb(train_data,
                                     train_kb, train_kb_lkp, train_kb_lens,
+                                    batch_size=self.batch_size,
                                     batch_type=self.batch_type,
                                     train=True, shuffle=self.shuffle)
         else:
@@ -298,7 +298,7 @@ class TrainManager:
                     valid_start_time = time.time()
 
                     valid_score, valid_loss, valid_ppl, valid_sources, \
-                        valid_sources_raw, valid_references, valid_hypotheses, \
+                    valid_sources_raw, valid_references, valid_hypotheses, \
                         valid_hypotheses_raw, valid_attention_scores = \
                         validate_on_data(
                             batch_size=self.eval_batch_size,

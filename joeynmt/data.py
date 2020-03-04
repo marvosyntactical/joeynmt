@@ -4,6 +4,7 @@ Data module
 """
 import sys
 import random
+import io
 import os
 import os.path
 from typing import Optional
@@ -201,6 +202,14 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                     and len(vars(x)['trg'])
                                     <= max_sent_length)
     train_kb = MonoDataset(path=train_path, ext="." + kb_ext, field=kb_field)
+    """
+    TODO: once KBDataset is implemented, train_data should be initialized like so:
+    train_data = KBDataset(path=train_path,
+                            exts=("."+src_lang, "."+trg_lang, "."+kb_ext),
+                            fields=(src_field, trg_field, kb_field),
+                            filter_pred=...)
+    TODO: this function should then not return train/dev/test_kb anymore!
+    """
 
     with open(train_path+"."+kb_lkp, "r") as lkp:
         lookup = lkp.readlines()
@@ -355,22 +364,27 @@ class KB_minibatch(list):
 def batch_with_kb(data, batch_size, kb_data, kb_lkp, kb_lens):
     # for KB_Iterator. uses kb lkup and kb_lens to determine 
     # minibatch.kb length, adds it to this attribute and yields
-    """Yield elements from data in chunks of batch_size."""
+    # elements from data in chunks of conversations
+    # TODO: try holding the entire prior conversation as source
 
-    assert batch_size == 1
     
     minibatch = KB_minibatch()
     current = 0
+    corresponding_kb = 0
     for i, ex in enumerate(data):
-
+        last_kb = corresponding_kb
         corresponding_kb = kb_lkp[i]
         kb_len = kb_lens[corresponding_kb]
-        minibatch.kb = kb_data[current:current+kb_len]
-        minibatch.append(ex)
-        current += kb_len
 
-        yield minibatch
-        minibatch = KB_minibatch()
+        if kb_lkp[i] != last_kb:
+            yield minibatch
+            minibatch = KB_minibatch()
+            current += kb_len
+
+        minibatch.kb = kb_data[current:current+kb_len] #TODO atm kb is just a list
+        minibatch.append(ex)
+
+
     if minibatch:
         yield minibatch
 
@@ -474,10 +488,54 @@ class MonoDataset(Dataset):
 
         super(MonoDataset, self).__init__(examples, fields, **kwargs)
 
-def make_data_iter_kb_batch_size_1(dataset: Dataset,
+"""
+TODO: if getting kb attribute tensor sensibly from batch_with_kb routine doesnt work out,
+create branch with examples loaded via this dataset with associated KBs 
+
+
+class KBDataset(TranslationDataset):
+    \"""Defines a dataset for machine translation with KB field.\"""
+
+    @staticmethod
+    def sort_key(ex):
+        return data.interleave_keys(len(ex.src), len(ex.trg))
+
+    def __init__(self, path: str, exts: str, fields: tuple, **kwargs) -> None:
+        \"""Create a KBDataset with a KB given paths and fields.
+
+        Arguments:
+            path: Common prefix of paths to the data files for both languages and the kb.
+            exts: A tuple containing the extension to path for each language and lastly the kb.
+            fields: A tuple containing the fields that will be used for data
+                in each language.
+            Remaining keyword arguments: Passed to the constructor of
+                data.Dataset.
+        \"""
+        if not isinstance(fields[0], (tuple, list)):
+            fields = [('src', fields[0]), ('trg', fields[1]), ('kb', fields[2])]
+
+        src_path, trg_path, kb_path = tuple(os.path.expanduser(path + x) for x in exts)
+
+        examples = []
+        with io.open(src_path, mode='r', encoding='utf-8') as src_file, \
+                io.open(trg_path, mode='r', encoding='utf-8') as trg_file, \
+                    io.open(kb_path, mode="r", encoding="utf-8") as kb_file:
+            for src_line, trg_line in zip(src_file, trg_file):
+                src_line, trg_line = src_line.strip(), trg_line.strip()
+                if src_line != '' and trg_line != '':
+                    examples.append(data.Example.fromlist(
+                        [src_line, trg_line], fields))
+
+        super(KBDataset, self).__init__(examples, fields, **kwargs)
+"""
+
+
+
+def make_data_iter_kb(dataset: Dataset,
                     kb_data: MonoDataset,
                     kb_lkp: list,
                     kb_lens: list,
+                    batch_size: int,
                     batch_type: str = "sentence",
                     train: bool = False,
                     shuffle: bool = False) -> Iterator:
@@ -500,11 +558,11 @@ def make_data_iter_kb_batch_size_1(dataset: Dataset,
         # optionally shuffle and sort during training
         data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens,\
             repeat=False, sort=False, 
-            batch_size=1, train=True, shuffle=shuffle)
+            batch_size=batch_size, train=True, shuffle=shuffle)
     else:
         # don't sort/shuffle for validation/inference
         data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens,\
-            repeat=False, batch_size=1,
-            train=False, sort=False)
+            repeat=False, batch_size=batch_size,
+            train=False, sort=False, sort_within_batch=True)
 
     return data_iter
