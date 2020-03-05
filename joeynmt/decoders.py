@@ -485,7 +485,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         self.hidden_dropout = torch.nn.Dropout(p=hidden_dropout, inplace=False)
         self.hidden_size = hidden_size
         assert self.hidden_size, self.hiddensize
-        print(self.hidden_size)
         self.emb_size = emb_size
 
         rnn = nn.GRU if rnn_type == "gru" else nn.LSTM
@@ -572,7 +571,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         assert len(encoder_output.shape) == 3
         assert src_mask.shape[0] == prev_embed.shape[0]
         assert src_mask.shape[1] == 1
-        assert knowledgebase.shape[0]#TODO
+        #assert knowledgebase.shape[0] != 0 #TODO, currently knowledgebase can be None when theres nothing to attend to(see jnmt.data.TorchBatchWithKB)
         assert src_mask.shape[2] == encoder_output.shape[1]
         if isinstance(hidden, tuple):  # for lstm
             hidden = hidden[0]
@@ -600,7 +599,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param hidden:
         :param prev_att_vector:
         """
-        assert knowledgebase != None #TODO
+        #assert knowledgebase != None #TODO, currently knowledgebase can be None when theres nothing to attend to(see jnmt.data.TorchBatchWithKB)
         assert len(encoder_output.shape) == 3
         assert len(encoder_hidden.shape) == 2
         assert encoder_hidden.shape[-1] == encoder_output.shape[-1]
@@ -755,8 +754,12 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             - att_vectors: attentional vectors
                 with shape (batch_size, unroll_steps, hidden_size)
         """
-        #print("Kb :D ", knowledgebase.shape)
-        #print(knowledgebase)
+        if knowledgebase != None:
+            #atm only training batches hold knowledgebases
+            print("Kb :D ", knowledgebase.shape)
+            print(knowledgebase)
+            print("does batch size vary?")
+            print(trg_embed.shape[0])
 
         # shape checks
         self._check_shapes_input_forward(
