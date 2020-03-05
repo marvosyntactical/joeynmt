@@ -194,8 +194,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lengths, dev_kb_lengths, dev_kb_lengths = [],[],[]
 
 
-        
-
     return train_data, dev_data, test_data,\
         src_vocab, trg_vocab,\
         train_kb, dev_kb, test_kb,\
@@ -506,47 +504,6 @@ class MonoDataset(Dataset):
         src_file.close()
 
         super(MonoDataset, self).__init__(examples, fields, **kwargs)
-
-"""
-TODO: if getting kb attribute tensor sensibly from batch_with_kb routine doesnt work out,
-create branch with examples loaded via this dataset with associated KBs 
-
-
-class KBDataset(TranslationDataset):
-    \"""Defines a dataset for machine translation with KB field.\"""
-
-    @staticmethod
-    def sort_key(ex):
-        return data.interleave_keys(len(ex.src), len(ex.trg))
-
-    def __init__(self, path: str, exts: str, fields: tuple, **kwargs) -> None:
-        \"""Create a KBDataset with a KB given paths and fields.
-
-        Arguments:
-            path: Common prefix of paths to the data files for both languages and the kb.
-            exts: A tuple containing the extension to path for each language and lastly the kb.
-            fields: A tuple containing the fields that will be used for data
-                in each language.
-            Remaining keyword arguments: Passed to the constructor of
-                data.Dataset.
-        \"""
-        if not isinstance(fields[0], (tuple, list)):
-            fields = [('src', fields[0]), ('trg', fields[1]), ('kb', fields[2])]
-
-        src_path, trg_path, kb_path = tuple(os.path.expanduser(path + x) for x in exts)
-
-        examples = []
-        with io.open(src_path, mode='r', encoding='utf-8') as src_file, \
-                io.open(trg_path, mode='r', encoding='utf-8') as trg_file, \
-                    io.open(kb_path, mode="r", encoding="utf-8") as kb_file:
-            for src_line, trg_line in zip(src_file, trg_file):
-                src_line, trg_line = src_line.strip(), trg_line.strip()
-                if src_line != '' and trg_line != '':
-                    examples.append(data.Example.fromlist(
-                        [src_line, trg_line], fields))
-
-        super(KBDataset, self).__init__(examples, fields, **kwargs)
-"""
 
 
 
