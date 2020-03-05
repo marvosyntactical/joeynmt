@@ -355,6 +355,7 @@ def make_data_iter(dataset: Dataset,
 
 
 class TorchBatchWithKB(Batch):
+    #inherits from torch batch, not joey batch!
     def __init__(self, data=None, dataset=None, kb_data=None, device=None):
         """Create a TorchBatchWithKB from a list of examples.
         Cant be put in .batch because of variable name clash
@@ -362,6 +363,7 @@ class TorchBatchWithKB(Batch):
         """
 
         if data is not None:
+            assert hasattr(data, "kb")
             self.batch_size = len(data)
             self.dataset = dataset
             self.kb_data = kb_data
@@ -380,11 +382,32 @@ class TorchBatchWithKB(Batch):
                     batch = [getattr(x, name) for x in data]
                     setattr(self, name, field.process(batch, device=device))
             for (name, field) in kb_data.fields.items():
-                #print(name, field)
                 if field is not None:
-                    batch = [getattr(x,name) for x in kb_data]
-                    setattr(self, name, field.process(batch, device=device))
-                    #print("torchbatchwithkb attr: ", eval("self.{}".format(name)))
+                    kb = [getattr(x,name) for x in data.kb]
+                    if len(kb) > 0:
+                        setattr(self, name, field.process(kb, device=device))
+                    else:
+                        # TODO: 
+                        # This happens exactly if the knowledgebase has no items
+                        # which happens iff 
+                        # the task is of calendar scheduling type
+                        # AND
+                        # the driver is only tasked with making an appointment, not requesting one
+                        #
+                        #  several possible avenues:
+                        # 1. ignore this type of task completely (filter out in normalize_kb if 
+                        # kb_title == calendar and inten == schedule)
+                        # 
+                        # 2. set the batch.kb attribute to something else and handle it in the
+                        # decoder (current option, 'None' below can be changed to e.g.
+                        # - an empty tensor
+                        # - a calendar tensor with a special calendar token that triggers a different routine during decoding
+                        # - a kb tensor with the correct appointment triples there, but also others (not present in data, would need to add to data, e.g. from other scenarios); reward given when decoder attends to correct appointment, analogous to normal task
+                        # - ?
+                        # )
+                        # 3. ?
+                        setattr(self, name, None)
+
     @classmethod
     def fromvars(cls, dataset, kb_data, batch_size, train=None, **kwargs):
         """Create a Batch directly from a number of Variables."""
@@ -409,8 +432,8 @@ class KB_minibatch(list):
         self.kb = None
 
 
-def batch_with_kb(data, batch_size, kb_data, kb_lkp, kb_lens):
-    # for KB_Iterator. uses kb lkup and kb_lens to determine 
+def batch_with_kb(data, kb_data, kb_lkp, kb_lens):
+    # for KB_Iterator. uses kb_lkp and kb_lens to determine 
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
     # TODO: try holding the entire prior conversation as source
@@ -429,7 +452,7 @@ def batch_with_kb(data, batch_size, kb_data, kb_lkp, kb_lens):
             minibatch = KB_minibatch()
             current += kb_len
 
-        minibatch.kb = kb_data[current:current+kb_len] #TODO atm kb is just a list of Examples
+        minibatch.kb = kb_data[current:current+kb_len]
         minibatch.append(ex)
 
 
@@ -450,7 +473,7 @@ class KB_Iterator(Iterator):
 
     """
 
-    def __init__(self, dataset, kb_dataset, kb_lkp, kb_lens, batch_size, sort_key=None, device=None,\
+    def __init__(self, dataset, kb_dataset, kb_lkp, kb_lens, sort_key=None, device=None,\
     batch_size_fn=None, train=True, repeat=False, shuffle=None, sort=None, sort_within_batch=None):
         """
         takes additional args:
@@ -463,6 +486,8 @@ class KB_Iterator(Iterator):
         :return data_iter: data iterator object where each batch
         has an associated knowledgebase with it 
         """
+        batch_size=1 #TODO remove batch_size specification /look at Iterator implementation of init to see if this does anything
+        
         super(KB_Iterator, self).__init__(dataset, batch_size, sort_key=None, device=None,\
     batch_size_fn=None, train=True, repeat=False, shuffle=None, sort=None, sort_within_batch=None)
         self.kb_data = kb_dataset
@@ -470,7 +495,7 @@ class KB_Iterator(Iterator):
         self.kb_lens= kb_lens
         
     def create_batches(self):
-        self.batches = batch_with_kb(self.data(),self.batch_size, self.kb_data, self.kb_lkp, self.kb_lens)
+        self.batches = batch_with_kb(self.data(),self.kb_data, self.kb_lkp, self.kb_lens)
 
     def data(self):
         return self.dataset
@@ -644,11 +669,10 @@ def make_data_iter_kb(dataset: Dataset,
         # optionally shuffle and sort during training
         data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens,\
             repeat=False, sort=False, 
-            batch_size=batch_size, train=True, shuffle=shuffle)
+            train=True, shuffle=shuffle)
     else:
         # don't sort/shuffle for validation/inference
         data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens,\
-            repeat=False, batch_size=batch_size,
-            train=False, sort=False, sort_within_batch=True)
+            repeat=False, train=False, sort=False, sort_within_batch=True)
 
     return data_iter
