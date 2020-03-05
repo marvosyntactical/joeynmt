@@ -16,7 +16,7 @@ from joeynmt.helpers import bpe_postprocess, load_config, \
 from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy
 from joeynmt.model import build_model, Model
 from joeynmt.batch import Batch
-from joeynmt.data import load_data, make_data_iter, MonoDataset
+from joeynmt.data import load_data, make_data_iter, make_data_iter_kb, MonoDataset
 from joeynmt.constants import UNK_TOKEN, PAD_TOKEN, EOS_TOKEN
 from joeynmt.vocabulary import Vocabulary
 
@@ -28,7 +28,10 @@ def validate_on_data(model: Model, data: Dataset,
                      level: str, eval_metric: Optional[str],
                      loss_function: torch.nn.Module = None,
                      beam_size: int = 0, beam_alpha: int = -1,
-                     batch_type: str = "sentence"
+                     batch_type: str = "sentence",
+                     kb_task = None,
+                     valid_kb: MonoDataset= None,
+                     valid_kb_lkp: list =[], valid_kb_lens:list=[]
                      ) \
         -> (float, float, float, List[str], List[List[str]], List[str],
             List[str], List[List[str]], List[np.array]):
@@ -51,6 +54,11 @@ def validate_on_data(model: Model, data: Dataset,
     :param beam_alpha: beam search alpha for length penalty,
         disabled if set to -1 (default).
     :param batch_type: validation batch type (sentence or token)
+    :param kb_task: is not None if kb_task should be executed
+    :param valid_kb: MonoDataset holding the loaded valid kb data
+    :param valid_kb_lkp: List with valid example index to corresponding kb indices
+    :param valid_kb_len: List with amount of triples per kb 
+
 
     :return:
         - current_valid_score: current validation score [eval_metric],
@@ -63,9 +71,16 @@ def validate_on_data(model: Model, data: Dataset,
         - decoded_valid: raw validation hypotheses (before post-processing),
         - valid_attention_scores: attention scores for validation hypotheses
     """
-    valid_iter = make_data_iter(
-        dataset=data, batch_size=batch_size, batch_type=batch_type,
-        shuffle=False, train=False)
+    if not kb_task:
+        valid_iter = make_data_iter(
+            dataset=data, batch_size=batch_size, batch_type=batch_type,
+            shuffle=False, train=False)
+    else:
+        valid_iter = make_data_iter_kb(
+            dataset=data, batch_size=batch_size, batch_type=batch_type,
+            shuffle=False, train=False,
+            kb_data=valid_kb, kb_lkp=valid_kb_lkp, kb_lens=valid_kb_lens)
+
     valid_sources_raw = data.src
     pad_index = model.src_vocab.stoi[PAD_TOKEN]
     # disable dropout

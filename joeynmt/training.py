@@ -27,7 +27,7 @@ from joeynmt.helpers import log_data_info, load_config, log_cfg, \
 from joeynmt.model import Model
 from joeynmt.prediction import validate_on_data
 from joeynmt.loss import XentLoss
-from joeynmt.data import load_data,load_data_and_kb, make_data_iter, make_data_iter_kb, MonoDataset
+from joeynmt.data import load_data,make_data_iter, make_data_iter_kb, MonoDataset
 from joeynmt.builders import build_optimizer, build_scheduler, \
     build_gradient_clipper
 from joeynmt.prediction import test
@@ -223,13 +223,21 @@ class TrainManager:
             self.model.cuda()
 
     def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: MonoDataset =None,\
-        train_kb_lkp: list = [], train_kb_lens: list = []) \
+        train_kb_lkp: list = [], train_kb_lens: list = [], valid_kb: MonoDataset=None, valid_kb_lkp: list=[],
+        valid_kb_lens: list = []) \
             -> None:
         """
         Train the model and validate it from time to time on the validation set.
 
         :param train_data: training data
         :param valid_data: validation data
+        :param kb_task: is not None if kb_task should be executed
+        :param train_kb: MonoDataset holding the loaded train kb data
+        :param train_kb_lkp: List with train example index to corresponding kb indices
+        :param train_kb_len: List with num of triples per kb 
+        :param valid_kb: MonoDataset holding the loaded valid kb data
+        :param valid_kb_lkp: List with valid example index to corresponding kb indices
+        :param valid_kb_len: List with num of triples per kb 
         """
         if kb_task:
             train_iter = make_data_iter_kb(train_data,
@@ -296,7 +304,7 @@ class TrainManager:
                 # validate on the entire dev set
                 if self.steps % self.validation_freq == 0 and update:
                     valid_start_time = time.time()
-
+                    
                     valid_score, valid_loss, valid_ppl, valid_sources, \
                     valid_sources_raw, valid_references, valid_hypotheses, \
                         valid_hypotheses_raw, valid_attention_scores = \
@@ -309,7 +317,11 @@ class TrainManager:
                             max_output_length=self.max_output_length,
                             loss_function=self.loss,
                             beam_size=0,  # greedy validations
-                            batch_type=self.eval_batch_type
+                            batch_type=self.eval_batch_type,
+                            kb_task=kb_task,
+                            valid_kb=valid_kb,
+                            valid_kb_lkp=valid_kb_lkp,
+                            valid_kb_lens=valid_kb_lens
                         )
 
                     self.tb_writer.add_scalar("valid/valid_loss",
@@ -536,18 +548,15 @@ def train(cfg_file: str) -> None:
     # set the random seed
     set_seed(seed=cfg["training"].get("random_seed", 42))
 
-    kb_task = bool(cfg["data"]["kb_task"])
+    kb_task = bool(cfg["data"].get("kb_task", False))
     # load the data
-    if not kb_task: 
-        train_data, dev_data, test_data, src_vocab, trg_vocab = load_data(
-        data_cfg=cfg["data"])
-    else: #also load KB info
-        train_data, dev_data, test_data,\
-            src_vocab, trg_vocab,\
-            train_kb, dev_kb, test_kb,\
-            train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
-            train_kb_lengths, dev_kb_lengths, dev_kb_lengths\
-                = load_data_and_kb(data_cfg=cfg["data"])
+
+    train_data, dev_data, test_data,\
+        src_vocab, trg_vocab,\
+        train_kb, dev_kb, test_kb,\
+        train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
+        train_kb_lengths, dev_kb_lengths, dev_kb_lengths\
+            = load_data(data_cfg=cfg["data"])
 
 
     # build an encoder-decoder model
@@ -576,7 +585,8 @@ def train(cfg_file: str) -> None:
 
     # train the model
     trainer.train_and_validate(train_data=train_data, valid_data=dev_data, kb_task=kb_task,\
-        train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths)
+        train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths,
+        valid_kb=dev_kb, valid_kb_lkp=dev_kb_lookup, valid_kb_lens=dev_kb_lengths)
 
     # predict with the best model on validation and test
     # (if test data is available)
