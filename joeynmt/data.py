@@ -21,106 +21,6 @@ from joeynmt.vocabulary import build_vocab, Vocabulary
 def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                   Vocabulary, Vocabulary):
     """
-    Load train, dev and optionally test data as specified in configuration.
-    Vocabularies are created from the training set with a limit of `voc_limit`
-    tokens and a minimum token frequency of `voc_min_freq`
-    (specified in the configuration dictionary).
-
-    The training data is filtered to include sentences up to `max_sent_length`
-    on source and target side.
-
-    If you set ``random_train_subset``, a random selection of this size is used
-    from the training set instead of the full training set.
-
-    :param data_cfg: configuration dictionary for data
-        ("data" part of configuation file)
-    :return:
-        - train_data: training dataset
-        - dev_data: development dataset
-        - test_data: testdata set if given, otherwise None
-        - src_vocab: source vocabulary extracted from training data
-        - trg_vocab: target vocabulary extracted from training data
-    """
-    # load data from files
-    src_lang = data_cfg["src"]
-    trg_lang = data_cfg["trg"]
-    train_path = data_cfg["train"]
-    dev_path = data_cfg["dev"]
-    test_path = data_cfg.get("test", None)
-    level = data_cfg["level"]
-    lowercase = data_cfg["lowercase"]
-    max_sent_length = data_cfg["max_sent_length"]
-
-    tok_fun = lambda s: list(s) if level == "char" else s.split()
-
-    src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
-                           pad_token=PAD_TOKEN, tokenize=tok_fun,
-                           batch_first=True, lower=lowercase,
-                           unk_token=UNK_TOKEN,
-                           include_lengths=True)
-
-    trg_field = data.Field(init_token=BOS_TOKEN, eos_token=EOS_TOKEN,
-                           pad_token=PAD_TOKEN, tokenize=tok_fun,
-                           unk_token=UNK_TOKEN,
-                           batch_first=True, lower=lowercase,
-                           include_lengths=True)
-
-    train_data = TranslationDataset(path=train_path,
-                                    exts=("." + src_lang, "." + trg_lang),
-                                    fields=(src_field, trg_field),
-                                    filter_pred=
-                                    lambda x: len(vars(x)['src'])
-                                    <= max_sent_length
-                                    and len(vars(x)['trg'])
-                                    <= max_sent_length)
-
-    src_max_size = data_cfg.get("src_voc_limit", sys.maxsize)
-    src_min_freq = data_cfg.get("src_voc_min_freq", 1)
-    trg_max_size = data_cfg.get("trg_voc_limit", sys.maxsize)
-    trg_min_freq = data_cfg.get("trg_voc_min_freq", 1)
-
-    src_vocab_file = data_cfg.get("src_vocab", None)
-    trg_vocab_file = data_cfg.get("trg_vocab", None)
-
-    src_vocab = build_vocab(field="src", min_freq=src_min_freq,
-                            max_size=src_max_size,
-                            dataset=train_data, vocab_file=src_vocab_file)
-    trg_vocab = build_vocab(field="trg", min_freq=trg_min_freq,
-                            max_size=trg_max_size,
-                            dataset=train_data, vocab_file=trg_vocab_file)
-
-    random_train_subset = data_cfg.get("random_train_subset", -1)
-    if random_train_subset > -1:
-        # select this many training examples randomly and discard the rest
-        keep_ratio = random_train_subset / len(train_data)
-        keep, _ = train_data.split(
-            split_ratio=[keep_ratio, 1 - keep_ratio],
-            random_state=random.getstate())
-        train_data = keep
-
-    dev_data = TranslationDataset(path=dev_path,
-                                  exts=("." + src_lang, "." + trg_lang),
-                                  fields=(src_field, trg_field))
-    test_data = None
-    if test_path is not None:
-        # check if target exists
-        if os.path.isfile(test_path + "." + trg_lang):
-            test_data = TranslationDataset(
-                path=test_path, exts=("." + src_lang, "." + trg_lang),
-                fields=(src_field, trg_field))
-        else:
-            # no target is given -> create dataset from src only
-            test_data = MonoDataset(path=test_path, ext="." + src_lang,
-                                    field=src_field)
-    src_field.vocab = src_vocab
-    trg_field.vocab = trg_vocab
-    return train_data, dev_data, test_data, src_vocab, trg_vocab
-
-
-
-def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
-                                  Vocabulary, Vocabulary):
-    """
     use this function instead of load_data when data_cfg["kb_task"] == True
 
     Load train, dev and optionally test data as specified in configuration.
@@ -164,17 +64,18 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     lowercase = data_cfg["lowercase"]
     max_sent_length = data_cfg["max_sent_length"]
     #kb stuff
-    kb_task = data_cfg.get("kb_task", None)
-    kb_ext = data_cfg.get("kb_ext", "kb")
-    kb_lkp = data_cfg.get("kb_lkp", "lkp")
-    kb_len = data_cfg.get("kb_len", "len")
+    kb_task = bool(data_cfg.get("kb_task", False))
+    if kb_task:
+        kb_ext = data_cfg.get("kb_ext", "kb")
+        kb_lkp = data_cfg.get("kb_lkp", "lkp")
+        kb_len = data_cfg.get("kb_len", "len")
 
     tok_fun = lambda s: list(s) if level == "char" else s.split()
 
     #kb stuff
-    assert kb_task
-    assert not (level=="char") #TODO take out/add char compatibility completely
-    kb_tok_fun = lambda s: s.split("::")
+    if kb_task:
+        assert not (level=="char") #TODO take out/add char compatibility completely
+        kb_tok_fun = lambda s: s.split("::")
 
 
     src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
@@ -188,7 +89,8 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                            unk_token=UNK_TOKEN,
                            batch_first=True, lower=lowercase,
                            include_lengths=True)
-    kb_field = data.Field(init_token=BOS_TOKEN, eos_token=EOS_TOKEN,
+    if kb_task:
+        kb_field = data.Field(init_token=BOS_TOKEN, eos_token=EOS_TOKEN,
                            pad_token=PAD_TOKEN, tokenize=kb_tok_fun,
                            unk_token=UNK_TOKEN,
                            batch_first=True, lower=lowercase,
@@ -202,22 +104,16 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                     <= max_sent_length
                                     and len(vars(x)['trg'])
                                     <= max_sent_length)
-    train_kb = MonoKBDataset(path=train_path, ext="." + kb_ext, field=kb_field)
-    """
-    TODO: once KBDataset is implemented, train_data should be initialized like so:
-    train_data = KBDataset(path=train_path,
-                            exts=("."+src_lang, "."+trg_lang, "."+kb_ext),
-                            fields=(src_field, trg_field, kb_field),
-                            filter_pred=...)
-    TODO: this function should then not return train/dev/test_kb anymore!
-    """
+    
+    if kb_task: #load train_kb and metadata
+        train_kb = MonoKBDataset(path=train_path, ext="." + kb_ext, field=kb_field)
 
-    with open(train_path+"."+kb_lkp, "r") as lkp:
-        lookup = lkp.readlines()
-    train_kb_lookup = [int(elem[:-1]) for elem in lookup]
-    with open(train_path+"."+kb_len, "r") as lens:
-        lengths = lens.readlines()
-    train_kb_lengths = [int(elem[:-1]) for elem in lengths]
+        with open(train_path+"."+kb_lkp, "r") as lkp:
+            lookup = lkp.readlines()
+        train_kb_lookup = [int(elem[:-1]) for elem in lookup]
+        with open(train_path+"."+kb_len, "r") as lens:
+            lengths = lens.readlines()
+        train_kb_lengths = [int(elem[:-1]) for elem in lengths]
 
 
     src_max_size = data_cfg.get("src_voc_limit", sys.maxsize)
@@ -236,13 +132,14 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                             dataset=train_data, vocab_file=trg_vocab_file)
 
     #kb vocab
-    kb_max_size = data_cfg.get("kb_voc_limit", sys.maxsize)
-    kb_min_freq = data_cfg.get("kb_voc_min_freq", 1)
-    
-    kb_vocab_file = data_cfg.get("kb_vocab", None)
+    if kb_task:
+        kb_max_size = data_cfg.get("kb_voc_limit", sys.maxsize)
+        kb_min_freq = data_cfg.get("kb_voc_min_freq", 1)
+        
+        kb_vocab_file = data_cfg.get("kb_vocab", None)
 
-    kb_vocab = build_vocab(field="kb", min_freq=kb_min_freq, max_size=src_max_size,\
-        dataset=train_kb, vocab_file=kb_vocab_file)
+        kb_vocab = build_vocab(field="kb", min_freq=kb_min_freq, max_size=src_max_size,\
+            dataset=train_kb, vocab_file=kb_vocab_file)
 
     random_train_subset = data_cfg.get("random_train_subset", -1)
     if random_train_subset > -1:
@@ -253,17 +150,19 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             random_state=random.getstate())
         train_data = keep
 
+    
     dev_data = TranslationDataset(path=dev_path,
                                   exts=("." + src_lang, "." + trg_lang),
                                   fields=(src_field, trg_field))
-    dev_kb = MonoKBDataset(path=dev_path, ext="." + kb_ext, field=kb_field)
-    
-    with open(dev_path+"."+kb_lkp, "r") as lkp:
-        lookup = lkp.readlines()
-    dev_kb_lookup = [int(elem[:-1]) for elem in lookup]
-    with open(dev_path+"."+kb_len, "r") as lens:
-        lengths = lens.readlines()
-    dev_kb_lengths = [int(elem[:-1]) for elem in lengths]
+    if kb_task: #load dev kb and metadata
+        dev_kb = MonoKBDataset(path=dev_path, ext="." + kb_ext, field=kb_field)
+        
+        with open(dev_path+"."+kb_lkp, "r") as lkp:
+            lookup = lkp.readlines()
+        dev_kb_lookup = [int(elem[:-1]) for elem in lookup]
+        with open(dev_path+"."+kb_len, "r") as lens:
+            lengths = lens.readlines()
+        dev_kb_lengths = [int(elem[:-1]) for elem in lengths]
 
     test_data = None
     if test_path is not None:
@@ -276,18 +175,27 @@ def load_data_and_kb(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             # no target is given -> create dataset from src only
             test_data = MonoDataset(path=test_path, ext="." + src_lang,
                                     field=src_field)
-    test_kb = MonoKBDataset(path=test_path, ext="." + kb_ext, field=kb_field)
-    with open(test_path+"."+kb_lkp, "r") as lkp:
-        lookup = lkp.readlines()
-    test_kb_lookup = [int(elem[:-1]) for elem in lookup]
-    with open(dev_path+"."+kb_len, "r") as lens:
-        lengths = lens.readlines()
-    test_kb_lengths = [int(elem[:-1]) for elem in lengths]
+    if kb_task: #load test kb and metadata
+        test_kb = MonoKBDataset(path=test_path, ext="." + kb_ext, field=kb_field)
+        with open(test_path+"."+kb_lkp, "r") as lkp:
+            lookup = lkp.readlines()
+        test_kb_lookup = [int(elem[:-1]) for elem in lookup]
+        with open(dev_path+"."+kb_len, "r") as lens:
+            lengths = lens.readlines()
+        test_kb_lengths = [int(elem[:-1]) for elem in lengths]
 
     src_field.vocab = src_vocab
     trg_field.vocab = trg_vocab
-    kb_field.vocab = kb_vocab
-    #todo add kb vocab
+    if kb_task: kb_field.vocab = kb_vocab
+
+    if not kb_task: #default values for normal pipeline
+        train_kb, dev_kb, test_kb = None, None, None
+        train_kb_lookup, dev_kb_lookup, test_kb_lookup = [],[],[]
+        train_kb_lengths, dev_kb_lengths, dev_kb_lengths = [],[],[]
+
+
+        
+
     return train_data, dev_data, test_data,\
         src_vocab, trg_vocab,\
         train_kb, dev_kb, test_kb,\

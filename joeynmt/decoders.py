@@ -756,8 +756,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         """
         if knowledgebase != None:
             #atm only training batches hold knowledgebases
-            print("Kb :D ", knowledgebase.shape)
-            print(knowledgebase)
+            print("Kb :-) ", knowledgebase.shape, knowledgebase[0])
             print("does batch size vary?")
             print(trg_embed.shape[0])
 
