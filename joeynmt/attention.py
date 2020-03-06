@@ -138,7 +138,8 @@ class KeyValRetAtt(AttentionMechanism):
 
     def __init__(self, hidden_size=1, key_size=1, query_size=1):
         """
-        Creates attention mechanism.
+        Creates key value retrieval attention mechanism.
+        hidden refers to attention layer hidden, not decoder or encoder hidden
 
         :param hidden_size: size of the projection for query and key
         :param key_size: size of the attention input keys
@@ -146,6 +147,7 @@ class KeyValRetAtt(AttentionMechanism):
         """
 
         super(KeyValRetAtt, self).__init__()
+
 
         self.key_layer = nn.Linear(key_size, hidden_size, bias=False)
         self.query_layer = nn.Linear(query_size, hidden_size, bias=False)
@@ -156,9 +158,10 @@ class KeyValRetAtt(AttentionMechanism):
         self.proj_query = None  # projected query
 
     #pylint: disable=arguments-differ
-    def forward(self, query: Tensor = None):
+    def forward(self, query: Tensor = None, values: Tensor=None):
         """
         Bahdanau MLP attention forward pass.
+        TODO: Values are needed to create v_t (See section 2.3)
 
         :param query: the item (decoder state) to compare with the keys/memory,
             shape (batch_size, 1, decoder.hidden_size)
@@ -179,6 +182,9 @@ class KeyValRetAtt(AttentionMechanism):
         # proj_query: batch x 1 x hidden_size
         u_t = self.energy_layer(torch.tanh(self.proj_query + self.proj_keys))
         # u_t: batch x src_len x 1
+
+        ## mask out invalid positions by filling the masked out parts with -inf
+        #scores = torch.where(mask, scores, scores.new_full([1], float('-inf')))
 
 
         return u_t
