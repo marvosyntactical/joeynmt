@@ -6,7 +6,7 @@ Module to represents whole models
 import numpy as np
 
 import torch.nn as nn
-from torch import Tensor
+from torch import Tensor, cat
 import torch.nn.functional as F
 
 from joeynmt.initialization import initialize_model
@@ -31,7 +31,8 @@ class Model(nn.Module):
                  src_embed: Embeddings,
                  trg_embed: Embeddings,
                  src_vocab: Vocabulary,
-                 trg_vocab: Vocabulary) -> None:
+                 trg_vocab: Vocabulary,
+                 kb_vocab: Vocabulary = None) -> None:
         """
         Create a new encoder-decoder model
 
@@ -53,6 +54,10 @@ class Model(nn.Module):
         self.bos_index = self.trg_vocab.stoi[BOS_TOKEN]
         self.pad_index = self.trg_vocab.stoi[PAD_TOKEN]
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
+        #kb stuff:
+        self.kb_embed = trg_embed 
+        self.kb_vocab = kb_vocab if kb_vocab != None else trg_vocab
+            
 
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
@@ -126,7 +131,7 @@ class Model(nn.Module):
                             unroll_steps=unroll_steps,
                             hidden=decoder_hidden,
                             trg_mask=trg_mask,
-                            knowledgebase=knowledgebase)
+                            knowledgebase=self.kb_embed(knowledgebase))
 
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module) \
@@ -146,8 +151,6 @@ class Model(nn.Module):
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
         else:
-            #print("batch.src:", type(batch.src),batch.src)
-            #print(batch.kb)
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,

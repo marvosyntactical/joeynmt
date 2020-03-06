@@ -7,7 +7,7 @@ from typing import Optional
 
 import torch
 import torch.nn as nn
-from torch import Tensor
+from torch import Tensor, cat
 from joeynmt.attention import BahdanauAttention, LuongAttention, KeyValRetAtt
 from joeynmt.encoders import Encoder
 from joeynmt.helpers import freeze_params, ConfigurationError, subsequent_mask
@@ -442,6 +442,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  attention: str = "bahdanau",
                  num_layers: int = 1,
                  vocab_size: int = 0,
+                 kb_vocab_size: int = 0,
                  dropout: float = 0.,
                  emb_dropout: float = 0.,
                  hidden_dropout: float = 0.,
@@ -450,7 +451,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  freeze: bool = False,
                  **kwargs) -> None:
         """
-        Create a recurrent decoder with attention.
+        Create a recurrent decoder with attention and key value attention over a knowledgebase.
 
         :param rnn_type: rnn type, valid options: "lstm", "gru"
         :param emb_size: target embedding size
@@ -459,6 +460,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param attention: type of attention, valid options: "bahdanau", "luong"
         :param num_layers: number of recurrent layers
         :param vocab_size: target vocabulary size
+        :param kb_vocab_size: m number of knowledgebase target entries / values
         :param hidden_dropout: Is applied to the input to the attentional layer.
         :param dropout: Is applied between RNN layers.
         :param emb_dropout: Is applied to the RNN input (word embeddings).
@@ -524,7 +526,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
                                             key_size = emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
                                             query_size=hidden_size)
-
+        print("encoder.output_size: ", encoder.output_size)
 
         self.num_layers = num_layers
         self.hidden_size = hidden_size
@@ -548,7 +550,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
     def _check_shapes_input_forward_step(self,
                                          prev_embed: Tensor,
                                          prev_att_vector: Tensor,
-                                         knowledgebase: Tensor,
+                                         kb_keys: Tensor,
+                                         kb_values: Tensor,
                                          encoder_output: Tensor,
                                          src_mask: Tensor,
                                          hidden: Tensor) -> None:
@@ -558,7 +561,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         :param prev_embed:
         :param prev_att_vector:
-        :param knowledgebase:
+        :param kb_keys:
+        :param kb_values:
         :param encoder_output:
         :param src_mask:
         :param hidden:
@@ -571,7 +575,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         assert len(encoder_output.shape) == 3
         assert src_mask.shape[0] == prev_embed.shape[0]
         assert src_mask.shape[1] == 1
-        #assert knowledgebase.shape[0] != 0 #TODO, currently knowledgebase can be None when theres nothing to attend to(see jnmt.data.TorchBatchWithKB)
+        if not (isinstance(kb_keys, type(None)) or isinstance(kb_values, type(None))):
+            assert kb_keys.shape == kb_values.shape
+            assert kb_keys.shape[0] == kb_values.shape[0] == 1
         assert src_mask.shape[2] == encoder_output.shape[1]
         if isinstance(hidden, tuple):  # for lstm
             hidden = hidden[0]
@@ -621,7 +627,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
     def _forward_step(self,
                       prev_embed: Tensor,
                       prev_att_vector: Tensor,  # context or att vector
-                      knowledgebase: Tensor,
+                      kb_keys: Tensor,
+                      kb_values: Tensor, 
                       encoder_output: Tensor,
                       src_mask: Tensor,
                       hidden: Tensor) -> (Tensor, Tensor, Tensor):
@@ -652,7 +659,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # shape checks
         self._check_shapes_input_forward_step(prev_embed=prev_embed,
                                               prev_att_vector=prev_att_vector,
-                                              knowledgebase=knowledgebase,
+                                              kb_keys=kb_keys,
+                                              kb_values=kb_values,
                                               encoder_output=encoder_output,
                                               src_mask=src_mask,
                                               hidden=hidden)
@@ -679,9 +687,10 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # key projections are pre-computed
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
-
-        #u_t = self.kvr_attention(query=query) #Latest TODO: size mismatch
-        #v_t = torch.zeros(prev_embed.shape[0],  )  #TODO
+        if kb_values != None:
+            v_t = self.kvr_attention(query=query, values=kb_values) #Latest TODO: size mismatch
+            print("v_t; currently holds u_t because not done implementing...")
+            print(v_t)
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
@@ -755,10 +764,15 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 with shape (batch_size, unroll_steps, hidden_size)
         """
         if knowledgebase != None:
-            #atm only training batches hold knowledgebases
-            print("Kb :-) ", knowledgebase.shape, knowledgebase[0])
-            print("does batch size vary?")
-            print(trg_embed.shape[0])
+
+            #print("Kb :-) ", knowledgebase.shape, knowledgebase[0])
+            knowledgebase.unsqueeze_(0) 
+            kb_keys = knowledgebase[:,:,1] + knowledgebase[:,:,2]
+            kb_values = knowledgebase[:,:,3]
+        else:
+            kb_keys, kb_values = None, None
+            
+            
 
         # shape checks
         self._check_shapes_input_forward(
@@ -779,10 +793,10 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # this is only done for efficiency
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
-        #Latest TODO
-        #if hasattr(self.kvr_attention, "compute_proj_keys"):
-        #    self.kvr_attention.compute_proj_keys(keys=encoder_output)
-
+        print("encoder_output.shape :", encoder_output.shape) 
+        #TODO. knowledgebase has to be unsqueezed to batch size here
+        if hasattr(self.kvr_attention, "compute_proj_keys") and knowledgebase != None:
+            self.kvr_attention.compute_proj_keys(keys=kb_keys)
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []
         att_probs = []
@@ -800,7 +814,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             prev_att_vector, hidden, att_prob = self._forward_step(
                 prev_embed=prev_embed,
                 prev_att_vector=prev_att_vector,
-                knowledgebase=knowledgebase,
+                kb_keys=kb_keys,
+                kb_values=kb_values,
                 encoder_output=encoder_output,
                 src_mask=src_mask,
                 hidden=hidden)
