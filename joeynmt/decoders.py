@@ -687,17 +687,20 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # key projections are pre-computed
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
+
         if kb_values != None:
             v_t = self.kvr_attention(query=query, values=kb_values) #Latest TODO: size mismatch
             print("v_t; currently holds u_t because not done implementing...")
-            print(v_t)
+            print(v_t.shape) # batch_size x kb_size x 1
+            #TODO resulting v_t should be batch_size x (trg_emb + kb)
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
         att_vector_input = torch.cat([query, context], dim=2)
+        
         # batch x 1 x 2*enc_size+hidden_size
         att_vector_input = self.hidden_dropout(att_vector_input)
-
+        # TODO add v_t here
         att_vector = torch.tanh(self.att_vector_layer(att_vector_input))
 
         # output: batch x 1 x hidden_size
@@ -766,9 +769,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if knowledgebase != None:
 
             #print("Kb :-) ", knowledgebase.shape, knowledgebase[0])
+
             knowledgebase.unsqueeze_(0) 
             kb_keys = knowledgebase[:,:,1] + knowledgebase[:,:,2]
             kb_values = knowledgebase[:,:,3]
+            print("kb_keys/values: ", kb_keys.shape)
         else:
             kb_keys, kb_values = None, None
             
@@ -793,7 +798,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # this is only done for efficiency
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
-        print("encoder_output.shape :", encoder_output.shape) 
         #TODO. knowledgebase has to be unsqueezed to batch size here
         if hasattr(self.kvr_attention, "compute_proj_keys") and knowledgebase != None:
             self.kvr_attention.compute_proj_keys(keys=kb_keys)

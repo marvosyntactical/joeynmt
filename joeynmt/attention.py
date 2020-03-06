@@ -174,18 +174,21 @@ class KeyValRetAtt(AttentionMechanism):
             "projection keys have to get pre-computed"
 
         # We first project the query (the decoder state).
-        # The projected keys (the encoder states) were already pre-computated.
+        # The projected keys (the knowledgebase entry sums) were already pre-computated.
         self.compute_proj_query(query)
 
         # Calculate u_t.
+
         # proj_keys: batch x src_len x hidden_size
         # proj_query: batch x 1 x hidden_size
         u_t = self.energy_layer(torch.tanh(self.proj_query + self.proj_keys))
         # u_t: batch x src_len x 1
 
-        ## mask out invalid positions by filling the masked out parts with -inf
-        #scores = torch.where(mask, scores, scores.new_full([1], float('-inf')))
+        u_t = u_t.squeeze(2).unsqueeze(1)
+        # u_t: batch x 1 x tim
 
+        ## mask out invalid positions by filling the masked out parts with -inf
+        #u_t = torch.where(mask, u_t, u_t.new_full([1], float('-inf')))
 
         return u_t
 
@@ -202,6 +205,8 @@ class KeyValRetAtt(AttentionMechanism):
     def compute_proj_query(self, query: Tensor):
         """
         Compute the projection of the query.
+
+        query: 1 x kb_size x trg_emb_size
 
         :param query:
         :return:
