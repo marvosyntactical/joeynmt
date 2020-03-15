@@ -136,7 +136,7 @@ class KeyValRetAtt(AttentionMechanism):
     from eric et al.
     """
 
-    def __init__(self, hidden_size=1, key_size=1, query_size=1):
+    def __init__(self, hidden_size=1, key_size=1, query_size=1, n=1):
         """
         Creates key value retrieval attention mechanism.
         hidden refers to attention layer hidden, not decoder or encoder hidden
@@ -144,6 +144,7 @@ class KeyValRetAtt(AttentionMechanism):
         :param hidden_size: size of the projection for query and key
         :param key_size: size of the attention input keys
         :param query_size: size of the query
+        :param n: number of separate canonical key representation output tokens
         """
 
         super(KeyValRetAtt, self).__init__()
@@ -179,10 +180,10 @@ class KeyValRetAtt(AttentionMechanism):
 
         # Calculate u_t.
 
-        # proj_keys: batch x src_len x hidden_size
+        # proj_keys: batch x kb_size x hidden_size
         # proj_query: batch x 1 x hidden_size
         u_t = self.energy_layer(torch.tanh(self.proj_query + self.proj_keys))
-        # u_t: batch x src_len x 1
+        # u_t: batch x kb_size x 1
 
         u_t = u_t.squeeze(2).unsqueeze(1)
         # u_t: batch x 1 x kb_size 
@@ -190,8 +191,7 @@ class KeyValRetAtt(AttentionMechanism):
         ## mask out invalid positions by filling the masked out parts with -inf
         #u_t = torch.where(mask, u_t, u_t.new_full([1], float('-inf')))
 
-        # Latest TODO:
-        # - add dummy element
+        # TODO:
         # - calculate and return (!) v_t here out of u_t
         # - for this: look at vocabulary implementation, info needed, info provided by decoder
 

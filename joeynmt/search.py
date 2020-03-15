@@ -14,7 +14,8 @@ __all__ = ["greedy", "transformer_greedy", "beam_search"]
 
 def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
            max_output_length: int, decoder: Decoder,
-           encoder_output: Tensor, encoder_hidden: Tensor)\
+           encoder_output: Tensor, encoder_hidden: Tensor,
+           knowledgebase: Tensor = None)\
         -> (np.array, np.array):
     """
     Greedy decoding. Select the token word highest probability at each time
@@ -34,19 +35,29 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
     if isinstance(decoder, TransformerDecoder):
         # Transformer greedy decoding
         greedy_fun = transformer_greedy
+        return greedy_fun(
+            src_mask, embed, bos_index, max_output_length,
+            decoder, encoder_output, encoder_hidden)
     else:
         # Recurrent greedy decoding
         greedy_fun = recurrent_greedy
+        if knowledgebase is not None:
+            return greedy_fun(
+                src_mask, embed, bos_index, max_output_length,
+                decoder, encoder_output, encoder_hidden, knowledgebase)
+        else:
+            return greedy_fun(
+                src_mask, embed, bos_index, max_output_length,
+                decoder, encoder_output, encoder_hidden)
 
-    return greedy_fun(
-        src_mask, embed, bos_index, max_output_length,
-        decoder, encoder_output, encoder_hidden)
+
 
 
 def recurrent_greedy(
         src_mask: Tensor, embed: Embeddings, bos_index: int,
         max_output_length: int, decoder: Decoder,
-        encoder_output: Tensor, encoder_hidden: Tensor) -> (np.array, np.array):
+        encoder_output: Tensor, encoder_hidden: Tensor,
+        knowledgebase: Tensor = None) -> (np.array, np.array):
     """
     Greedy decoding: in each step, choose the word that gets highest score.
     Version for recurrent decoder.
@@ -73,14 +84,25 @@ def recurrent_greedy(
     # pylint: disable=unused-variable
     for t in range(max_output_length):
         # decode one single step
-        logits, hidden, att_probs, prev_att_vector = decoder(
-            encoder_output=encoder_output,
-            encoder_hidden=encoder_hidden,
-            src_mask=src_mask,
-            trg_embed=embed(prev_y),
-            hidden=hidden,
-            prev_att_vector=prev_att_vector,
-            unroll_steps=1)
+        if knowledgebase != None:
+            logits, hidden, att_probs, prev_att_vector = decoder(
+                encoder_output=encoder_output,
+                encoder_hidden=encoder_hidden,
+                src_mask=src_mask,
+                trg_embed=embed(prev_y),
+                hidden=hidden,
+                prev_att_vector=prev_att_vector,
+                unroll_steps=1,
+                knowledgebase=knowledgebase)
+        else:
+            logits, hidden, att_probs, prev_att_vector = decoder(
+                encoder_output=encoder_output,
+                encoder_hidden=encoder_hidden,
+                src_mask=src_mask,
+                trg_embed=embed(prev_y),
+                hidden=hidden,
+                prev_att_vector=prev_att_vector,
+                unroll_steps=1)
         # logits: batch x time=1 x vocab (logits)
 
         # greedy decoding: choose arg max over vocabulary in each step
@@ -155,7 +177,8 @@ def beam_search(
         bos_index: int, eos_index: int, pad_index: int,
         encoder_output: Tensor, encoder_hidden: Tensor,
         src_mask: Tensor, max_output_length: int, alpha: float,
-        embed: Embeddings, n_best: int = 1) -> (np.array, np.array):
+        embed: Embeddings, n_best: int = 1,
+        knowledgebase: Tensor = None) -> (np.array, np.array):
     """
     Beam search with size k.
     Inspired by OpenNMT-py, adapted for Transformer.
@@ -256,16 +279,29 @@ def beam_search(
         # logits: logits for final softmax
         # pylint: disable=unused-variable
         trg_embed = embed(decoder_input)
-        logits, hidden, att_scores, att_vectors = decoder(
-            encoder_output=encoder_output,
-            encoder_hidden=encoder_hidden,
-            src_mask=src_mask,
-            trg_embed=trg_embed,
-            hidden=hidden,
-            prev_att_vector=att_vectors,
-            unroll_steps=1,
-            trg_mask=trg_mask  # subsequent mask for Transformer only
-        )
+        if (knowledgebase != None) and (not transformer):
+            logits, hidden, att_scores, att_vectors = decoder(
+                encoder_output=encoder_output,
+                encoder_hidden=encoder_hidden,
+                src_mask=src_mask,
+                trg_embed=trg_embed,
+                hidden=hidden,
+                prev_att_vector=att_vectors,
+                unroll_steps=1,
+                knowledegebase = knowledgebase,
+                trg_mask=trg_mask  # subsequent mask for Transformer only
+            )
+        else:
+            logits, hidden, att_scores, att_vectors = decoder(
+                encoder_output=encoder_output,
+                encoder_hidden=encoder_hidden,
+                src_mask=src_mask,
+                trg_embed=trg_embed,
+                hidden=hidden,
+                prev_att_vector=att_vectors,
+                unroll_steps=1,
+                trg_mask=trg_mask  # subsequent mask for Transformer only
+            )
 
         # For the Transformer we made predictions for all time steps up to
         # this point, so we only want to know about the last time step.

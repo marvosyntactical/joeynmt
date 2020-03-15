@@ -55,7 +55,7 @@ class Model(nn.Module):
         self.pad_index = self.trg_vocab.stoi[PAD_TOKEN]
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
         #kb stuff:
-        self.kb_embed = trg_embed 
+        self.kb_embed = self.trg_embed 
         self.kb_vocab = kb_vocab if kb_vocab != None else trg_vocab
             
 
@@ -116,6 +116,7 @@ class Model(nn.Module):
         :return: decoder outputs (outputs, hidden, att_probs, att_vectors)
         """
         if knowledgebase == None:
+            assert False
             return self.decoder(trg_embed=self.trg_embed(trg_input),
                             encoder_output=encoder_output,
                             encoder_hidden=encoder_hidden,
@@ -146,11 +147,13 @@ class Model(nn.Module):
         """
         # pylint: disable=unused-variable
         if not hasattr(batch, "kb"):
+            raise ValueError(dir(batch)) #
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
         else:
+            assert batch.kb!=None
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
@@ -166,7 +169,7 @@ class Model(nn.Module):
         return batch_loss
 
     def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
-                  beam_alpha: float) -> (np.array, np.array):
+                  beam_alpha: float, knowledgebase:Tensor=None) -> (np.array, np.array):
         """
         Get outputs and attentions scores for a given batch
 
@@ -192,7 +195,8 @@ class Model(nn.Module):
                     encoder_output=encoder_output,
                     src_mask=batch.src_mask, embed=self.trg_embed,
                     bos_index=self.bos_index, decoder=self.decoder,
-                    max_output_length=max_output_length)
+                    max_output_length=max_output_length,
+                    knowledgebase = knowledgebase)
             # batch, time, max_src_length
         else:  # beam size
             stacked_output, stacked_attention_scores = \
@@ -204,7 +208,8 @@ class Model(nn.Module):
                         alpha=beam_alpha, eos_index=self.eos_index,
                         pad_index=self.pad_index,
                         bos_index=self.bos_index,
-                        decoder=self.decoder)
+                        decoder=self.decoder,
+                        knowledgebase = knowledgebase)
 
         return stacked_output, stacked_attention_scores
 
