@@ -289,30 +289,30 @@ class TorchBatchWithKB(Batch):
                     setattr(self, name, field.process(batch, device=device))
             for (name, field) in kb_data.fields.items():
                 if field is not None:
-                    kb = [getattr(x,name) for x in data.kb]
-                    if len(kb) > 0:
-                        setattr(self, name, field.process(kb, device=device))
-                    else:
-                        # TODO: 
-                        # This happens exactly if the knowledgebase has no items
-                        # which happens iff 
-                        # the task is of calendar scheduling type
-                        # AND
-                        # the driver is only tasked with making an appointment, not requesting one
-                        #
-                        #  several possible avenues:
-                        # 1. ignore this type of task completely (filter out in normalize_kb if 
-                        # kb_title == calendar and inten == schedule)
-                        # 
-                        # 2. set the batch.kb attribute to something else and handle it in the
-                        # decoder (current option, 'None' below can be changed to e.g.
-                        # - an empty tensor
-                        # - a calendar tensor with a special calendar token that triggers a different routine during decoding
-                        # - a kb tensor with the correct appointment triples there, but also others (not present in data, would need to add to data, e.g. from other scenarios); reward given when decoder attends to correct appointment, analogous to normal task
-                        # - ?
-                        # )
-                        # 3. ?
-                        setattr(self, name, None)
+                    kb = [["</s>","</s>","</s>"]] 
+                    #dummy kb entry for scheduling task, added to all kbs as first entry
+                    # TODO what should dummy tokens be? 3rd should be in trg vocabulary, 1st and 2nd src 
+                    kb += [getattr(x,name) for x in data.kb]
+                    setattr(self, name, field.process(kb, device=device))
+                    # TODO: 
+                    # the kb has only the dummy elem iff theres null items in the scenario
+                    # which happens iff 
+                    # the task is of calendar scheduling type
+                    # AND
+                    # the driver is only tasked with making an appointment, not requesting one
+                    #
+                    #  several possible avenues:
+                    # 1. ignore this type of task completely (filter out in normalize_kb if 
+                    # kb_title == calendar and inten == schedule)
+                    # 
+                    # 2. set the batch.kb attribute to something else and handle it in the
+                    # decoder (current option, 'None' below can be changed to e.g.
+                    # - an empty tensor
+                    # - a calendar tensor with a special calendar token that triggers a different routine during decoding
+                    # - a kb tensor with the correct appointment triples there, but also others (not present in data, would need to add to data, e.g. from other scenarios); reward given when decoder attends to correct appointment, analogous to normal task
+                    # - ?
+                    # )
+                    # 3. (NOTE current implementation) add dummy element in zeroth place every single time
 
     @classmethod
     def fromvars(cls, dataset, kb_data, batch_size, train=None, **kwargs):

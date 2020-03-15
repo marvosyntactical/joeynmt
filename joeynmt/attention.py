@@ -185,10 +185,15 @@ class KeyValRetAtt(AttentionMechanism):
         # u_t: batch x src_len x 1
 
         u_t = u_t.squeeze(2).unsqueeze(1)
-        # u_t: batch x 1 x tim
+        # u_t: batch x 1 x kb_size 
 
         ## mask out invalid positions by filling the masked out parts with -inf
         #u_t = torch.where(mask, u_t, u_t.new_full([1], float('-inf')))
+
+        # Latest TODO:
+        # - add dummy element
+        # - calculate and return (!) v_t here out of u_t
+        # - for this: look at vocabulary implementation, info needed, info provided by decoder
 
         return u_t
 
