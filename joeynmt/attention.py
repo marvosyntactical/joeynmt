@@ -188,6 +188,8 @@ class KeyValRetAtt(AttentionMechanism):
         u_t = u_t.squeeze(2).unsqueeze(1)
         # u_t: batch x 1 x kb_size 
 
+        
+
         ## mask out invalid positions by filling the masked out parts with -inf
         #u_t = torch.where(mask, u_t, u_t.new_full([1], float('-inf')))
 

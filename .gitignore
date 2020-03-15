@@ -6,4 +6,4 @@ dist/*
 docs/build/*
 *__pycache__*
 models/*
-
+data/ner/*
