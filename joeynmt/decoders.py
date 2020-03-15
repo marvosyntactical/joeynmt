@@ -542,7 +542,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                     raise ConfigurationError(
                         "For initializing the decoder state with the "
                         "last encoder state, their sizes have to match "
-                        "(encoder: {} vs. decoder:  {})".format(
+                        "(encoder: {} vs. decoder: {})".format(
                             encoder.output_size, self.hidden_size))
         if freeze:
             freeze_params(self)
@@ -689,22 +689,29 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             query=query, values=encoder_output, mask=src_mask)
 
         if kb_values != None:
-            v_t = self.kvr_attention(query=query, values=kb_values) #Latest TODO: size mismatch
+            v_t = self.kvr_attention(query=query, values=kb_values) #TODO: implement v_t 
             print("v_t; currently holds u_t because not done implementing...")
             print(v_t.shape) # batch_size x kb_size x 1
             #TODO resulting v_t should be batch_size x (trg_emb + kb)
+        else:
+            raise ValueError(kb_values) 
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
+        print("self.hidden_size: ", self.hidden_size)
+        print("[query,context]")
+        print("query: ",query.shape)
+        print("context: ",context.shape)
+        print("encoder_output; last dim should be encoder hidden (config) * 1/2 (if bidir)", encoder_output.shape)
         att_vector_input = torch.cat([query, context], dim=2)
         
         # batch x 1 x 2*enc_size+hidden_size
         att_vector_input = self.hidden_dropout(att_vector_input)
-        # TODO add v_t here
+
         att_vector = torch.tanh(self.att_vector_layer(att_vector_input))
 
         # output: batch x 1 x hidden_size
-        return att_vector, hidden, att_probs
+        return att_vector, hidden, att_probs, v_t
 
     def forward(self,
                 trg_embed: Tensor,
@@ -768,13 +775,14 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         """
         if knowledgebase != None:
 
-            #print("Kb :-) ", knowledgebase.shape, knowledgebase[0])
+            print("Kb :-) ", knowledgebase.shape)
 
-            knowledgebase.unsqueeze_(0) 
+            knowledgebase = knowledgebase.unsqueeze(0) 
             kb_keys = knowledgebase[:,:,1] + knowledgebase[:,:,2]
             kb_values = knowledgebase[:,:,3]
-            print("kb_keys/values: ", kb_keys.shape)
+            print("\n\t\tkb_keys/values: ", kb_keys.shape)
         else:
+            assert False
             kb_keys, kb_values = None, None
             
             
@@ -804,6 +812,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []
         att_probs = []
+        kb_log_probs = []
 
         batch_size = encoder_output.size(0)
 
@@ -815,7 +824,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # unroll the decoder RNN for `unroll_steps` steps
         for i in range(unroll_steps):
             prev_embed = trg_embed[:, i].unsqueeze(1)  # batch, 1, emb
-            prev_att_vector, hidden, att_prob = self._forward_step(
+            prev_att_vector, hidden, att_prob, v_t = self._forward_step(
                 prev_embed=prev_embed,
                 prev_att_vector=prev_att_vector,
                 kb_keys=kb_keys,
@@ -825,12 +834,25 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 hidden=hidden)
             att_vectors.append(prev_att_vector)
             att_probs.append(att_prob)
+            kb_log_probs.append(v_t)
 
         att_vectors = torch.cat(att_vectors, dim=1)
         # att_vectors: batch, unroll_steps, hidden_size
         att_probs = torch.cat(att_probs, dim=1)
         # att_probs: batch, unroll_steps, src_length
         outputs = self.output_layer(att_vectors)
+        # Latest TODO: 
+        # this is the whole o after application of output_layer
+        # I want access to individual o_t for t=1,..,unroll_steps
+        # so I want a new self.output_layer_t like so:
+        # self.output_layer_t = nn.Linear(hidden_size, vocab_size, bias=False)
+        # the smarter way would be:
+        # let _forward_step return v_t, concatenate all here to v, then add to outputs
+        # also TODO: compute v and add to outputs/extend them by it:
+        # v: batch, unroll_steps, n
+        kb_log_probs = torch.cat(kb_log_probs, dim=1)
+
+        print("batch, unroll_steps, vocab_size ",outputs.shape)
         # outputs: batch, unroll_steps, vocab_size
         return outputs, hidden, att_probs, att_vectors
 

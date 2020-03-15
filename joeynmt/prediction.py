@@ -15,7 +15,7 @@ from joeynmt.helpers import bpe_postprocess, load_config, \
     get_latest_checkpoint, load_checkpoint, store_attention_plots
 from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy
 from joeynmt.model import build_model, Model
-from joeynmt.batch import Batch
+from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.data import load_data, make_data_iter, make_data_iter_kb, MonoDataset
 from joeynmt.constants import UNK_TOKEN, PAD_TOKEN, EOS_TOKEN
 from joeynmt.vocabulary import Vocabulary
@@ -31,7 +31,8 @@ def validate_on_data(model: Model, data: Dataset,
                      batch_type: str = "sentence",
                      kb_task = None,
                      valid_kb: MonoDataset= None,
-                     valid_kb_lkp: list =[], valid_kb_lens:list=[]
+                     valid_kb_lkp: list =[], valid_kb_lens:list=[],
+                     kb_embed = lambda x: x,
                      ) \
         -> (float, float, float, List[str], List[List[str]], List[str],
             List[str], List[List[str]], List[np.array]):
@@ -95,7 +96,11 @@ def validate_on_data(model: Model, data: Dataset,
         for valid_batch in iter(valid_iter):
             # run as during training to get validation loss (e.g. xent)
 
-            batch = Batch(valid_batch, pad_index, use_cuda=use_cuda)
+            batch = Batch(valid_batch, pad_index, use_cuda=use_cuda) if not kb_task else \
+                Batch_with_KB(valid_batch, pad_index, use_cuda=use_cuda)
+
+            assert hasattr(batch, "kb") == bool(kb_task)
+
             # sort batch now by src length and keep track of order
             sort_reverse_index = batch.sort_by_src_lengths()
 
@@ -110,7 +115,8 @@ def validate_on_data(model: Model, data: Dataset,
             # run as during inference to produce translations
             output, attention_scores = model.run_batch(
                 batch=batch, beam_size=beam_size, beam_alpha=beam_alpha,
-                max_output_length=max_output_length)
+                max_output_length=max_output_length,
+                knowledgebase=model.kb_embed(batch.kb))
 
             # sort outputs back to original order
             all_outputs.extend(output[sort_reverse_index])

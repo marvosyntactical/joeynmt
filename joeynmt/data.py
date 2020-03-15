@@ -289,10 +289,17 @@ class TorchBatchWithKB(Batch):
                     setattr(self, name, field.process(batch, device=device))
             for (name, field) in kb_data.fields.items():
                 if field is not None:
-                    kb = [["</s>","</s>","</s>"]] 
+                    kb = KB_minibatch()
+                    kb.append(["</s>","</s>","</s>"])
                     #dummy kb entry for scheduling task, added to all kbs as first entry
                     # TODO what should dummy tokens be? 3rd should be in trg vocabulary, 1st and 2nd src 
                     kb += [getattr(x,name) for x in data.kb]
+                    if len(kb) > 1:
+                        print(len(kb), type(kb), [type(x) for x in kb])
+                        print(len(data.kb), type(data.kb)) #data.kb list of examples
+                        print(data.kb[0])
+                        print(type(data.kb[0]))
+                        print(getattr(data.kb[0],name))
                     setattr(self, name, field.process(kb, device=device))
                     # TODO: 
                     # the kb has only the dummy elem iff theres null items in the scenario
@@ -313,6 +320,8 @@ class TorchBatchWithKB(Batch):
                     # - ?
                     # )
                     # 3. (NOTE current implementation) add dummy element in zeroth place every single time
+                else:
+                    raise ValueError(kb_data.field)
 
     @classmethod
     def fromvars(cls, dataset, kb_data, batch_size, train=None, **kwargs):
@@ -423,7 +432,9 @@ class KB_Iterator(Iterator):
                         minibatch.reverse()
                     else:
                         minibatch.sort(key=self.sort_key, reverse=True)
-                yield TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.device)
+                batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.device)
+                assert hasattr(batch, "kb"), dir(batch)
+                yield batch
             if not self.repeat:
                 return
 
