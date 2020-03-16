@@ -132,7 +132,7 @@ class Model(nn.Module):
                             unroll_steps=unroll_steps,
                             hidden=decoder_hidden,
                             trg_mask=trg_mask,
-                            knowledgebase=self.kb_embed(knowledgebase))
+                            knowledgebase=knowledgebase)
 
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module) \
@@ -154,10 +154,20 @@ class Model(nn.Module):
                 trg_mask=batch.trg_mask)
         else:
             assert batch.kb!=None
+            #kb embedding /preproc
+
+            knowledgebase = batch.kb
+            knowledgebase = self.kb_embed(knowledgebase)
+            # Latest TODO: 
+            # either leave knowledgebase as is at this point
+            # and use the train.can onicalized one at the beginning
+            #
+            # or 
+            #
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                trg_mask=batch.trg_mask, knowledgebase=batch.kb)
+                trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
 
 
         # compute log probs
@@ -242,6 +252,7 @@ def build_model(cfg: dict = None,
     trg_padding_idx = trg_vocab.stoi[PAD_TOKEN]
     
     if "embedding_files" in cfg.keys(): #init from pretrained
+        assert not cfg.get("tied_embeddings", False), "TODO implement tied embeddings along with pretrained initialization"
         weight_tensors = []
         for weight_file in cfg["embedding_files"]:
             with open(weight_file, "r") as f:
