@@ -6,11 +6,7 @@ Module to represents whole models
 import numpy as np
 
 import torch.nn as nn
-<<<<<<< HEAD
 from torch import Tensor, cat, FloatTensor
-=======
-from torch import Tensor, cat
->>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf
 import torch.nn.functional as F
 
 from joeynmt.initialization import initialize_model
