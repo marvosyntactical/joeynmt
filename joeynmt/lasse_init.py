@@ -10,7 +10,6 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 from torch.nn.init import _calculate_fan_in_and_fan_out
-from joeynmt.embeddings import Embeddings
 
 
 def orthogonal_rnn_init_(cell: nn.RNNBase, gain: float = 1.):
@@ -98,23 +97,23 @@ def initialize_model(model: nn.Module, cfg: dict, src_padding_idx: int,
     """
 
     # defaults: xavier, embeddings: normal 0.01, biases: zeros, no orthogonal
-    gain = float(cfg.get("init_gain", 1.0))  # for xavier
+    gain = 1.
     init = cfg.get("initializer", "xavier")
     init_weight = float(cfg.get("init_weight", 0.01))
-
     embed_init = cfg.get("embed_initializer", "normal")
     embed_init_weight = float(cfg.get("embed_init_weight", 0.01))
-    embed_gain = float(cfg.get("embed_init_gain", 1.0))  # for xavier
-
     bias_init = cfg.get("bias_initializer", "zeros")
     bias_init_weight = float(cfg.get("bias_init_weight", 0.01))
 
+    scale_src_emb = cfg["encoder"]["embeddings"].get("scale", False)
+    scale_trg_emb = cfg["decoder"]["embeddings"].get("scale", False)
+
     # pylint: disable=unnecessary-lambda, no-else-return
-    def _parse_init(s, scale, _gain):
+    def _parse_init(s, scale):
         scale = float(scale)
         assert scale > 0., "incorrect init_weight"
         if s.lower() == "xavier":
-            return lambda p: nn.init.xavier_uniform_(p, gain=_gain)
+            return lambda p: nn.init.xavier_uniform_(p, gain=gain)
         elif s.lower() == "uniform":
             return lambda p: nn.init.uniform_(p, a=-scale, b=scale)
         elif s.lower() == "normal":
@@ -124,15 +123,22 @@ def initialize_model(model: nn.Module, cfg: dict, src_padding_idx: int,
         else:
             raise ValueError("unknown initializer")
 
-    init_fn_ = _parse_init(init, init_weight, gain)
-    embed_init_fn_ = _parse_init(embed_init, embed_init_weight, embed_gain)
-    bias_init_fn_ = _parse_init(bias_init, bias_init_weight, gain)
+    init_fn_ = _parse_init(init, init_weight)
+    embed_init_fn_ = _parse_init(embed_init, embed_init_weight)
+    bias_init_fn_ = _parse_init(bias_init, bias_init_weight)
 
     with torch.no_grad():
         for name, p in model.named_parameters():
 
             if "embed" in name:
                 embed_init_fn_(p)
+
+                # scale embeddings if xavier (more variance)
+                if embed_init == "xavier":
+                    if ("src" in name and scale_src_emb) or \
+                            ("trg" in name and scale_trg_emb):
+                        dim = p.size(1)
+                        p.data *= math.sqrt(dim)
 
             elif "bias" in name:
                 bias_init_fn_(p)
@@ -143,16 +149,25 @@ def initialize_model(model: nn.Module, cfg: dict, src_padding_idx: int,
                 # xavier initialization
                 if init == "xavier" and "rnn" in name:
                     n = 1
-                    if "encoder" in name:
-                        n = 4 if isinstance(model.encoder.rnn, nn.LSTM) else 3
-                    elif "decoder" in name:
-                        n = 4 if isinstance(model.decoder.rnn, nn.LSTM) else 3
+                    if "encoder_1" in name:
+                        n = 4 if isinstance(
+                            model.encoder_1.rnn, nn.LSTM) else 3
+                    elif "decoder_1" in name:
+                        n = 4 if isinstance(
+                            model.decoder_1.rnn, nn.LSTM) else 3
+                    elif "encoder_2" in name:
+                        n = 4 if isinstance(
+                            model.encoder_2.rnn, nn.LSTM) else 3
+                    elif "decoder_2" in name:
+                        n = 4 if isinstance(
+                            model.decoder_2.rnn, nn.LSTM) else 3
                     xavier_uniform_n_(p.data, gain=gain, n=n)
                 else:
                     init_fn_(p)
 
-        #TODO atm model.{src|trg}_embed already get inited in .model.build_model
-        # remove it there via if else
+            else:
+                raise RuntimeError("unexpected init situation")
+
         if "embedding_files" in cfg.keys():
             weight_tensors = []
             for weight_file in cfg["embedding_files"]:
@@ -167,41 +182,51 @@ def initialize_model(model: nn.Module, cfg: dict, src_padding_idx: int,
                 weight_tensors.append(weight)
 
             # Set source Embeddings to Pretrained Embeddings
-            model.src_embed = Embeddings(int(weight_tensors[0][0].shape[0]),
-                                        False, #TODO transformer: change to True
-                                        len(weight_tensors[0]),
-                                        )
-            model.src_embed.lut.weight.data = weight_tensors[0]
-
-            # Set target Embeddings to Pretrained Embeddings
-            model.trg_embed = Embeddings(int(weight_tensors[1][0].shape[0]),
-                                        False, #TODO transformer: change to True
-                                        len(weight_tensors[1]),
-                                        )
-            model.trg_embed.lut.weight.data = weight_tensors[1]
-
+            model.src_embed_1.lut.weight.data = weight_tensors[0]
+            model.src_embed_2.lut.weight.data = weight_tensors[1]
 
         # zero out paddings
-        model.src_embed.lut.weight.data[src_padding_idx].zero_()
-        model.trg_embed.lut.weight.data[trg_padding_idx].zero_()
+        model.src_embed_1.lut.weight.data[src_padding_idx].zero_()
+        model.trg_embed_1.lut.weight.data[trg_padding_idx].zero_()
+
+        model.src_embed_2.lut.weight.data[src_padding_idx].zero_()
+        model.trg_embed_2.lut.weight.data[trg_padding_idx].zero_()
 
         orthogonal = cfg.get("init_rnn_orthogonal", False)
         lstm_forget_gate = cfg.get("lstm_forget_gate", 1.)
 
         # encoder rnn orthogonal initialization & LSTM forget gate
-        if hasattr(model.encoder, "rnn"):
+        if hasattr(model.encoder_1, "rnn"):
 
             if orthogonal:
-                orthogonal_rnn_init_(model.encoder.rnn)
+                orthogonal_rnn_init_(model.encoder_1.rnn)
 
-            if isinstance(model.encoder.rnn, nn.LSTM):
-                lstm_forget_gate_init_(model.encoder.rnn, lstm_forget_gate)
+            if isinstance(model.encoder_1.rnn, nn.LSTM):
+                lstm_forget_gate_init_(model.encoder_1.rnn, lstm_forget_gate)
+
+         # encoder rnn orthogonal initialization & LSTM forget gate
+        if hasattr(model.encoder_2, "rnn"):
+
+            if orthogonal:
+                orthogonal_rnn_init_(model.encoder_2.rnn)
+
+            if isinstance(model.encoder_2.rnn, nn.LSTM):
+                lstm_forget_gate_init_(model.encoder_2.rnn, lstm_forget_gate)
 
         # decoder rnn orthogonal initialization & LSTM forget gate
-        if hasattr(model.decoder, "rnn"):
+        if hasattr(model.decoder_1, "rnn"):
 
             if orthogonal:
-                orthogonal_rnn_init_(model.decoder.rnn)
+                orthogonal_rnn_init_(model.decoder_1.rnn)
 
-            if isinstance(model.decoder.rnn, nn.LSTM):
-                lstm_forget_gate_init_(model.decoder.rnn, lstm_forget_gate)
+            if isinstance(model.decoder_1.rnn, nn.LSTM):
+                lstm_forget_gate_init_(model.decoder_1.rnn, lstm_forget_gate)
+
+         # decoder rnn orthogonal initialization & LSTM forget gate
+        if hasattr(model.decoder_2, "rnn"):
+
+            if orthogonal:
+                orthogonal_rnn_init_(model.decoder_2.rnn)
+
+            if isinstance(model.decoder_2.rnn, nn.LSTM):
+                lstm_forget_gate_init_(model.decoder_2.rnn, lstm_forget_gate)

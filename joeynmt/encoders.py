@@ -81,7 +81,8 @@ class RecurrentEncoder(Encoder):
         :param src_length: source length
         :param mask: source mask
         """
-        assert embed_src.shape[0] == src_length.shape[0]
+        assert embed_src.shape[0] == src_length.shape[0], \
+            "{embed_src.shape} should be same as  {src_length.shape}"
         assert embed_src.shape[2] == self.emb_size
        # assert mask.shape == embed_src.shape
         assert len(src_length.shape) == 1

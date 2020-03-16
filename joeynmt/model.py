@@ -6,7 +6,7 @@ Module to represents whole models
 import numpy as np
 
 import torch.nn as nn
-from torch import Tensor, cat
+from torch import Tensor, cat, FloatTensor
 import torch.nn.functional as F
 
 from joeynmt.initialization import initialize_model
@@ -240,24 +240,50 @@ def build_model(cfg: dict = None,
     """
     src_padding_idx = src_vocab.stoi[PAD_TOKEN]
     trg_padding_idx = trg_vocab.stoi[PAD_TOKEN]
+    
+    if "embedding_files" in cfg.keys(): #init from pretrained
+        weight_tensors = []
+        for weight_file in cfg["embedding_files"]:
+            with open(weight_file, "r") as f:
+                weight = []
+                for line in f.readlines():
+                    line = line.split()
+                    line = [float(x) for x in line]
+                    weight.append(line)
 
-    src_embed = Embeddings(
-        **cfg["encoder"]["embeddings"], vocab_size=len(src_vocab),
-        padding_idx=src_padding_idx)
+            weight = FloatTensor(weight)
+            weight_tensors.append(weight)
+        # Set source Embeddings to Pretrained Embeddings
+        src_embed = Embeddings(int(weight_tensors[0][0].shape[0]),
+                                    False, #TODO transformer: change to True
+                                    len(weight_tensors[0]),
+                                    )
+        src_embed.lut.weight.data = weight_tensors[0]
 
-    # this ties source and target embeddings
-    # for softmax layer tying, see further below
-    if cfg.get("tied_embeddings", False):
-        if src_vocab.itos == trg_vocab.itos:
-            # share embeddings for src and trg
-            trg_embed = src_embed
-        else:
-            raise ConfigurationError(
-                "Embedding cannot be tied since vocabularies differ.")
+        # Set target Embeddings to Pretrained Embeddings
+        trg_embed = Embeddings(int(weight_tensors[1][0].shape[0]),
+                                    False, #TODO transformer: change to True
+                                    len(weight_tensors[1]),
+                                    )
+        trg_embed.lut.weight.data = weight_tensors[1]
     else:
-        trg_embed = Embeddings(
-            **cfg["decoder"]["embeddings"], vocab_size=len(trg_vocab),
-            padding_idx=trg_padding_idx)
+        src_embed = Embeddings(
+            **cfg["encoder"]["embeddings"], vocab_size=len(src_vocab),
+            padding_idx=src_padding_idx)
+
+        # this ties source and target embeddings
+        # for softmax layer tying, see further below
+        if cfg.get("tied_embeddings", False):
+            if src_vocab.itos == trg_vocab.itos:
+                # share embeddings for src and trg
+                trg_embed = src_embed
+            else:
+                raise ConfigurationError(
+                    "Embedding cannot be tied since vocabularies differ.")
+        else:
+            trg_embed = Embeddings(
+                **cfg["decoder"]["embeddings"], vocab_size=len(trg_vocab),
+                padding_idx=trg_padding_idx)
 
     # build encoder
     enc_dropout = cfg["encoder"].get("dropout", 0.)
