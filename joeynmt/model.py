@@ -6,7 +6,11 @@ Module to represents whole models
 import numpy as np
 
 import torch.nn as nn
+<<<<<<< HEAD
 from torch import Tensor, cat, FloatTensor
+=======
+from torch import Tensor, cat
+>>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf
 import torch.nn.functional as F
 
 from joeynmt.initialization import initialize_model
@@ -169,7 +173,6 @@ class Model(nn.Module):
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
 
-
         # compute log probs
         log_probs = F.log_softmax(out, dim=-1)
 
@@ -295,7 +298,6 @@ def build_model(cfg: dict = None,
             trg_embed = Embeddings(
                 **cfg["decoder"]["embeddings"], vocab_size=len(trg_vocab),
                 padding_idx=trg_padding_idx)
-
     # build encoder
     enc_dropout = cfg["encoder"].get("dropout", 0.)
     enc_emb_dropout = cfg["encoder"]["embeddings"].get("dropout", enc_dropout)

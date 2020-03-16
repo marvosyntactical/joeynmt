@@ -151,36 +151,6 @@ def initialize_model(model: nn.Module, cfg: dict, src_padding_idx: int,
                 else:
                     init_fn_(p)
 
-        #TODO atm model.{src|trg}_embed already get inited in .model.build_model
-        # remove it there via if else
-        if "embedding_files" in cfg.keys():
-            weight_tensors = []
-            for weight_file in cfg["embedding_files"]:
-                with open(weight_file, "r") as f:
-                    weight = []
-                    for line in f.readlines():
-                        line = line.split()
-                        line = [float(x) for x in line]
-                        weight.append(line)
-
-                weight = torch.FloatTensor(weight)
-                weight_tensors.append(weight)
-
-            # Set source Embeddings to Pretrained Embeddings
-            model.src_embed = Embeddings(int(weight_tensors[0][0].shape[0]),
-                                        False, #TODO transformer: change to True
-                                        len(weight_tensors[0]),
-                                        )
-            model.src_embed.lut.weight.data = weight_tensors[0]
-
-            # Set target Embeddings to Pretrained Embeddings
-            model.trg_embed = Embeddings(int(weight_tensors[1][0].shape[0]),
-                                        False, #TODO transformer: change to True
-                                        len(weight_tensors[1]),
-                                        )
-            model.trg_embed.lut.weight.data = weight_tensors[1]
-
-
         # zero out paddings
         model.src_embed.lut.weight.data[src_padding_idx].zero_()
         model.trg_embed.lut.weight.data[trg_padding_idx].zero_()
