@@ -1,11 +1,28 @@
 import os
 import sys
+import shutil
+
+"""
+for use without pretrained embeddings:
+    Args:
+        specify kb file, e.g. 'dev.kb'
+    The values (3rd items in dev.kb) are then mapped to their
+    corresponding canonical representation (eric et al sec 2.3) 
+    i.e. (subj, rel, val) => (subj, rel, subj-rel)
+    e.g. (soccer, party, 1FCK) => (soccer, party, soccer-party)
+    
+    and produce copy of kb file with values like so
+
+Wonderings:
+
+
+"""
 
 def canonify(kvr_triple):
     triple = kvr_triple.replace(" ", "-")
     subj, rel, val = triple.split("::")
     canon_val = subj+"_"+rel
-    return subj, rel, canon_val
+    return "::".join((subj, rel, canon_val))
 
 
 
@@ -15,7 +32,7 @@ def main(args):
     voc_dir = "../voc/"
     if args==0: #use defaults
         filename = "dev.kb"
-        voc_file = "train.en.w2v.40k.map.voc"#Latest TODO
+        trg_voc_file = "train.en.w2v.40k.map.voc"#Latest TODO
     else:
         filename = args[0]
         if len(args) > 1:
@@ -26,16 +43,25 @@ def main(args):
     canons = [] 
 
     for triple in knowledgebase:
-        _, _, canon_val = canonify(triple)
-        canons.append(canon_val)
+        canon_val = canonify(triple)
+        canons.append(canon_val+"\n")
 
-    voc_loc = voc_dir+voc_file  
+    """
+    trg_voc_loc = voc_dir+trg_voc_file  
 
-    with open(voc_loc, "r") as V:
-        vocab = V.readlines()
+    with open(trg_voc_loc, "r") as V:
+        trg_vocab = V.readlines()
     
-    print(vocab)
-
+    
+    #print(trg_vocab[:100])
+    """
+    ext = "can"
+    old = ".".join(filename.split(".")[:-1])
+    new = old+"."+ext
+    
+    with open(directory+new, "w") as out:
+        out.writelines(canons)
+    
     return 0
 
 
