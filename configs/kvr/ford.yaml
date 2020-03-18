@@ -22,7 +22,7 @@ data: # specify your data here
     trg_voc_limit: 102              # trg vocabulary only includes this many most frequent tokens, default: unlimited
     src_vocab: "data/voc/train.en.w2v.40k.map.voc"  # if specified, load a vocabulary from this file
     trg_vocab: "data/voc/train.en.w2v.40k.map.voc"  # one token per line, line number is index
-
+    trg_kb_vocab: "data/voc/train.en.w2v.40k.map.kbvoc"  # if specified, overrides trg_vocab; this should include kb target tokens 
 testing:                            # specify which inference algorithm to use for testing (for validation it's always greedy decoding)
     beam_size: 5                    # size of the beam for beam search
     alpha: 1.0                      # length penalty for beam search

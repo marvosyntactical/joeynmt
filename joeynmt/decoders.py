@@ -776,7 +776,13 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if knowledgebase != None:
 
             print("Kb :-) ", knowledgebase.shape)
+            # Latest TODO: kb refactor:
+            # maybe tensor dim gets higher by 
+            # number of tokens within kb entry
+            # so e.g. 'marios' 'pizza' 'joint' instead of
+            # 'marios-pizza-joint'
 
+            # test: try to read out knowledgebase with array to sentence here
             knowledgebase = knowledgebase.unsqueeze(0) 
             kb_keys = knowledgebase[:,:,1] + knowledgebase[:,:,2]
             kb_values = knowledgebase[:,:,3]
@@ -846,13 +852,20 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # I want access to individual o_t for t=1,..,unroll_steps
         # so I want a new self.output_layer_t like so:
         # self.output_layer_t = nn.Linear(hidden_size, vocab_size, bias=False)
+        #
         # the smarter way would be:
         # let _forward_step return v_t, concatenate all here to v, then add to outputs
         # also TODO: compute v and add to outputs/extend them by it:
         # v: batch, unroll_steps, n
         kb_log_probs = torch.cat(kb_log_probs, dim=1)
 
+        """ deleteme 
         print("batch, unroll_steps, vocab_size ",outputs.shape)
+        my_idx_test = torch.argmax(outputs, dim=-1)
+        my_idx_test.squeeze_(1)
+        print(my_idx_test)
+        exit()
+        """
         # outputs: batch, unroll_steps, vocab_size
         return outputs, hidden, att_probs, att_vectors
 

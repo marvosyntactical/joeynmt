@@ -123,23 +123,21 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     src_vocab_file = data_cfg.get("src_vocab", None)
     trg_vocab_file = data_cfg.get("trg_vocab", None)
+    trg_kb_vocab_file = data_cfg.get("trg_kb_vocab", None)
+    trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file
 
     src_vocab = build_vocab(field="src", min_freq=src_min_freq,
                             max_size=src_max_size,
                             dataset=train_data, vocab_file=src_vocab_file)
+
+
     trg_vocab = build_vocab(field="trg", min_freq=trg_min_freq,
                             max_size=trg_max_size,
                             dataset=train_data, vocab_file=trg_vocab_file)
+    
 
-    #kb vocab
-    if kb_task:
-        kb_max_size = data_cfg.get("kb_voc_limit", sys.maxsize)
-        kb_min_freq = data_cfg.get("kb_voc_min_freq", 1)
-        
-        kb_vocab_file = data_cfg.get("kb_vocab", None)
+    
 
-        kb_vocab = build_vocab(field="kb", min_freq=kb_min_freq, max_size=src_max_size,\
-            dataset=train_kb, vocab_file=kb_vocab_file)
 
     random_train_subset = data_cfg.get("random_train_subset", -1)
     if random_train_subset > -1:
@@ -308,10 +306,6 @@ class TorchBatchWithKB(Batch):
                     # AND
                     # the driver is only tasked with making an appointment, not requesting one
                     #
-                    #  several possible avenues:
-                    # 1. ignore this type of task completely (filter out in normalize_kb if 
-                    # kb_title == calendar and inten == schedule)
-                    # 
                     # 2. set the batch.kb attribute to something else and handle it in the
                     # decoder (current option, 'None' below can be changed to e.g.
                     # - an empty tensor

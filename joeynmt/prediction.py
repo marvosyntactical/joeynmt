@@ -135,6 +135,10 @@ def validate_on_data(model: Model, data: Dataset,
             valid_loss = -1
             valid_ppl = -1
 
+        print(len(all_outputs))
+        print(len(all_outputs[0]))
+        # Latest TODO: use model.trg_vocab.arrays_to_sentences
+        # within model.py after converting embedded tensor back to indices
         # decode back to symbols
         decoded_valid = model.trg_vocab.arrays_to_sentences(arrays=all_outputs,
                                                             cut_at_eos=True)

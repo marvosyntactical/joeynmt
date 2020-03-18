@@ -57,6 +57,7 @@ class Model(nn.Module):
         #kb stuff:
         self.kb_embed = self.trg_embed 
         self.kb_vocab = kb_vocab if kb_vocab != None else trg_vocab
+        #TODO should probably always be the same
             
 
     # pylint: disable=arguments-differ
@@ -78,6 +79,8 @@ class Model(nn.Module):
                                                      src_length=src_lengths,
                                                      src_mask=src_mask)
         unroll_steps = trg_input.size(1)
+        print("decoder.forward() unroll_steps in model.forward")
+        print(f"is {unroll_steps}, which is 1st dim of {trg_input}")
         
         return self.decode(encoder_output=encoder_output,
                            encoder_hidden=encoder_hidden,
@@ -157,11 +160,17 @@ class Model(nn.Module):
             #kb embedding /preproc
 
             knowledgebase = batch.kb
+            print(knowledgebase.shape)
             knowledgebase = self.kb_embed(knowledgebase)
-            # Latest TODO: 
-            # either leave knowledgebase as is at this point
-            # and use the train.can onicalized one at the beginning
-            #
+            print(knowledgebase.shape)
+            # TODO: Find out how to reconstruct words here for debugging
+            # involves trg_vocab 
+            
+            #self.trg_vocab.itos
+
+            exit()
+
+            
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,

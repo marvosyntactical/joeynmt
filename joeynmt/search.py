@@ -107,7 +107,10 @@ def recurrent_greedy(
 
         # greedy decoding: choose arg max over vocabulary in each step
         next_word = torch.argmax(logits, dim=-1)  # batch x time=1
+        print("logits shape: ", logits.shape)
         output.append(next_word.squeeze(1).cpu().numpy())
+        print(output)
+        exit()
         prev_y = next_word
         attention_scores.append(att_probs.squeeze(1).cpu().numpy())
         # batch, max_src_lengths

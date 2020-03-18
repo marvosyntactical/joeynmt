@@ -10,58 +10,71 @@ for use without pretrained embeddings:
     corresponding canonical representation (eric et al sec 2.3) 
     i.e. (subj, rel, val) => (subj, rel, subj-rel)
     e.g. (soccer, party, 1FCK) => (soccer, party, soccer-party)
-    
+
     and produce copy of kb file with values like so
 
-Wonderings:
+    Wonderings:
 
 
 """
 
 def canonify(kvr_triple):
+    # Latest TODO different tokenization necessary
     triple = kvr_triple.replace(" ", "-")
     subj, rel, val = triple.split("::")
     canon_val = subj+"_"+rel
-    return "::".join((subj, rel, canon_val))
+    return "::".join((subj, rel, canon_val)), val
 
 
 
 def main(args):
 
-    directory = "../kv_ret_dataset/"
+    directory = "../kvr/"
     voc_dir = "../voc/"
     if args==0: #use defaults
         filename = "dev.kb"
-        trg_voc_file = "train.en.w2v.40k.map.voc"#Latest TODO
+        trg_voc_file = "train.en.w2v.40k.map.voc"
     else:
         filename = args[0]
         if len(args) > 1:
             voc_file = args[1]
+        else:
+            trg_voc_file = "train.en.w2v.40k.map.voc"
+
     with open(directory+filename, "r") as kb:
         knowledgebase = kb.readlines()
-    
-    canons = [] 
+
+    canons,vals = [], []
 
     for triple in knowledgebase:
-        canon_val = canonify(triple)
-        canons.append(canon_val+"\n")
+        canonified,val = canonify(triple)
+        canons.append(canonified+"\n")
+        vals.append(val)
 
-    """
-    trg_voc_loc = voc_dir+trg_voc_file  
+    trg_voc_loc = voc_dir+trg_voc_file
+    kb_voc_ext = "kbvoc"
+    new_kb_voc_loc = ".".join(trg_voc_loc.split(".")[:-1]+[kb_voc_ext])
 
     with open(trg_voc_loc, "r") as V:
         trg_vocab = V.readlines()
-    
-    
-    #print(trg_vocab[:100])
-    """
+
+    new_vocab = trg_vocab+vals
+
+    with open(new_kb_voc_loc, "w") as newV:
+        newV.writelines(new_vocab)
+
+
+
+
+
+
     ext = "can"
     old = ".".join(filename.split(".")[:-1])
     new = old+"."+ext
-    
+
     with open(directory+new, "w") as out:
         out.writelines(canons)
-    
+
     return 0
 
 
