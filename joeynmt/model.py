@@ -162,8 +162,6 @@ class Model(nn.Module):
             # either leave knowledgebase as is at this point
             # and use the train.can onicalized one at the beginning
             #
-            # or 
-            #
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
@@ -291,6 +289,7 @@ def build_model(cfg: dict = None,
                 raise ConfigurationError(
                     "Embedding cannot be tied since vocabularies differ.")
         else:
+            # Latest TODO: init embeddings with vocab_size = len(trg_vocab joined with kb_vocab)
             trg_embed = Embeddings(
                 **cfg["decoder"]["embeddings"], vocab_size=len(trg_vocab),
                 padding_idx=trg_padding_idx)

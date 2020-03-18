@@ -486,7 +486,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         self.type = rnn_type
         self.hidden_dropout = torch.nn.Dropout(p=hidden_dropout, inplace=False)
         self.hidden_size = hidden_size
-        assert self.hidden_size, self.hiddensize
+        assert self.hidden_size, self.hidden_size
         self.emb_size = emb_size
 
         rnn = nn.GRU if rnn_type == "gru" else nn.LSTM
