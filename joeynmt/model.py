@@ -163,12 +163,12 @@ class Model(nn.Module):
             print(knowledgebase.shape)
             knowledgebase = self.kb_embed(knowledgebase)
             print(knowledgebase.shape)
+
             # TODO: Find out how to reconstruct words here for debugging
             # involves trg_vocab 
             
             #self.trg_vocab.itos
 
-            exit()
 
             
             out, hidden, att_probs, _ = self.forward(

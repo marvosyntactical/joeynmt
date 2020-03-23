@@ -124,19 +124,17 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     src_vocab_file = data_cfg.get("src_vocab", None)
     trg_vocab_file = data_cfg.get("trg_vocab", None)
     trg_kb_vocab_file = data_cfg.get("trg_kb_vocab", None)
+
+
     trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file
 
     src_vocab = build_vocab(field="src", min_freq=src_min_freq,
                             max_size=src_max_size,
                             dataset=train_data, vocab_file=src_vocab_file)
 
-
     trg_vocab = build_vocab(field="trg", min_freq=trg_min_freq,
                             max_size=trg_max_size,
                             dataset=train_data, vocab_file=trg_vocab_file)
-    
-
-    
 
 
     random_train_subset = data_cfg.get("random_train_subset", -1)
@@ -184,7 +182,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     src_field.vocab = src_vocab
     trg_field.vocab = trg_vocab
-    if kb_task: kb_field.vocab = kb_vocab
+    if kb_task: 
+        assert trg_kb_vocab_file, "TODO REMOVE THIS LINE"
+        kb_field.vocab = trg_vocab
 
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None

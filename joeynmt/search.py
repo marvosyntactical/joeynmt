@@ -107,10 +107,16 @@ def recurrent_greedy(
 
         # greedy decoding: choose arg max over vocabulary in each step
         next_word = torch.argmax(logits, dim=-1)  # batch x time=1
+        # NOTE:            ^ find idx over ordered vocab embeddings, logits are output of decoder.forward
+        # created by 2nd dimension of decoder.output_layer.weight ...
+        # Q:
+        # how is the association with the vocabulary done there???
+        # the output_layer has no information about which of its output neurons
+        # should be associated with which index of the trg_vocab
+        # A: ??? 
         print("logits shape: ", logits.shape)
         output.append(next_word.squeeze(1).cpu().numpy())
         print(output)
-        exit()
         prev_y = next_word
         attention_scores.append(att_probs.squeeze(1).cpu().numpy())
         # batch, max_src_lengths
