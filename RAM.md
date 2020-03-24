@@ -45,7 +45,7 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * figure out how to reconstruct tokens for debugging within training/model/decoder
   * something like: *self.trg\_embed*.lut[array] 
   * also look at *array\_ to\_ sentence*
-
+* fix github push problem
 
 ## _```Current issue```_:
 ### 23.03.20 Refactor KB:
