@@ -6,7 +6,11 @@ import sys
 
 def main(args):
     #defaults:
+<<<<<<< HEAD
     directory = "../kvr/"
+=======
+    directory = "../kv_ret_dataset/"
+>>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf
     filename = "kvret_dev_public.json" if args == 0 else args[0]
     splitpart = "dev" if args == 0 else args[1]
     assert splitpart in ["dev", "train", "test"]
