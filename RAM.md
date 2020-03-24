@@ -45,7 +45,6 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * figure out how to reconstruct tokens for debugging within training/model/decoder
   * something like: *self.trg\_embed*.lut[array] 
   * also look at *array\_ to\_ sentence*
-* fix github push problem
 
 ## _```Current issue```_:
 ### 23.03.20 Refactor KB:
@@ -59,9 +58,8 @@ Update kb tensor to use multiple word embeddings instead of one per _subject_ an
 * add canon val to tensor (in kb preproc) (entries go from triple to quadruple)
   * or make the triple (_subj_, _rel_, _kb-canon-val_) and also pass list or dict of actual _values_
 * change vocab used by _kb_ (currently: _trg\_vocab_)
-  * two different vocabs!! *src* for _subj_ and _rel_; *trg* for _val_ and _canonval_. _data.torchbatchwithkb_ can use *TranslationDataset* instead of MonoDataset!
-
-
+  * two different vocabs!! *src* for subj_ and _rel_; *trg* for _val_ and _canonval_. _data.torchbatchwithkb_ can use *TranslationDataset* instead of MonoDataset!
+* -> use translation dataset tensor with trg equal to just canonical name
 
 
 
