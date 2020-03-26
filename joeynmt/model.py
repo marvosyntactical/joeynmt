@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Module to represents whole models
+Module to represent whole models
 """
 
 import numpy as np
@@ -16,8 +16,9 @@ from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, Tra
 from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN
 from joeynmt.search import beam_search, greedy
 from joeynmt.vocabulary import Vocabulary
-from joeynmt.batch import Batch
+from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.helpers import ConfigurationError
+from joeynmt.constants import EOS_TOKEN, PAD_TOKEN
 
 
 class Model(nn.Module):
@@ -51,14 +52,17 @@ class Model(nn.Module):
         self.decoder = decoder
         self.src_vocab = src_vocab
         self.trg_vocab = trg_vocab
-        self.bos_index = self.trg_vocab.stoi[BOS_TOKEN]
+        self.bos_index = self.trg_vocab.stoi[BOS_TOKEN] #TODO find out when these are used
         self.pad_index = self.trg_vocab.stoi[PAD_TOKEN]
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
         #kb stuff:
         self.kb_embed = self.trg_embed 
-        self.kb_vocab = kb_vocab if kb_vocab != None else trg_vocab
-        #TODO should probably always be the same
-            
+        self.kb_vocab = self.trg_vocab #TODO should probably be deleted altogether
+
+        self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
+        self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
+
+
 
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
@@ -87,7 +91,7 @@ class Model(nn.Module):
                            src_mask=src_mask, trg_input=trg_input,
                            unroll_steps=unroll_steps,
                            trg_mask=trg_mask,
-                           knowledgebase=knowledgebase)
+                           knowledgebase=knowledgebase) #tuple of kbsrc, kbtrg
 
     def encode(self, src: Tensor, src_length: Tensor, src_mask: Tensor) \
         -> (Tensor, Tensor):
@@ -149,28 +153,34 @@ class Model(nn.Module):
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
         # pylint: disable=unused-variable
-        if not hasattr(batch, "kb"):
-            raise ValueError(dir(batch)) #
+        if not hasattr(batch, "kbsrc"):
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
         else:
-            assert batch.kb!=None
+            assert batch.kbsrc != None
             #kb embedding /preproc
-
-            knowledgebase = batch.kb
-            print(knowledgebase.shape)
-            knowledgebase = self.kb_embed(knowledgebase)
-            print(knowledgebase.shape)
 
             # TODO: Find out how to reconstruct words here for debugging
             # involves trg_vocab 
-            
-            #self.trg_vocab.itos
+            # self.trg_vocab.itos
 
+            # TODO: kbvals (list) should be passed through joeynmt funs but doesnt need to be passed on here: 
+            # actual values not needed for training
 
-            
+            # TODO: find out why both old attr batch.src/trg and new
+            # attr batch.kbsrc/kbtrg are tuples in data.TorchBatchWithKB
+            # but only new attributes remain tuples here???
+
+            # TODO: move this shape changing to different model function
+            # or write new model.reshape_kb_batch function
+            # with options for lookup list and without lookup list
+            # (respectively inference and training)
+
+            kb_keys, kb_values = self.process_batch_kb(batch)
+            knowledgebase = (kb_keys, kb_values)
+
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
@@ -183,6 +193,28 @@ class Model(nn.Module):
         batch_loss = loss_function(log_probs, batch.trg)
         # return batch loss = sum over all elements in batch that are not pad
         return batch_loss
+    
+    def process_batch_kb(self,batch: Batch_with_KB)-> (Tensor, Tensor):
+
+        kb_keys = batch.kbsrc[0]
+        kb_values = batch.kbtrg[0]
+
+
+        
+        kb_key = self.src_embed(kb_keys)
+        kb_values = self.trg_embed(kb_values)
+
+        kb_keys[kb_keys==self.eos_idx_src] = self.pad_idx_src
+        kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel
+
+        kb_keys.unsqueeze_(0) 
+        kb_values.unsqueeze_(0) 
+
+        print(kb_keys.shape)
+        print(kb_values.shape)
+
+        return kb_keys, kb_values
+
 
     def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
                   beam_alpha: float, knowledgebase:Tensor=None) -> (np.array, np.array):

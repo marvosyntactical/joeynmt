@@ -7,6 +7,7 @@ import random
 import io
 import os
 import os.path
+import pickle
 from typing import Optional
 from copy import deepcopy
 
@@ -42,9 +43,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         - test_data: testdata set if given, otherwise None
         - src_vocab: source vocabulary extracted from training data
         - trg_vocab: target vocabulary extracted from training data
-        - train_kb: MonoKBDataset from train KB
-        - dev_kb: MonoKBDataset from dev KB
-        - test_kb: MonoKBDataset from test KB
+        - train_kb: TranslationDataset from train KB
+        - dev_kb: TranslationDataset from dev KB
+        - test_kb: TranslationDataset from test KB
         - train_kb_lookup: List of KB association lookup indices from data to KBs
         - dev_kb_lookup: List of KB association lookup indices from data to KBs
         - test_kb_lookup: List of KB association lookup indices from data to KBs
@@ -63,10 +64,12 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     level = data_cfg["level"]
     lowercase = data_cfg["lowercase"]
     max_sent_length = data_cfg["max_sent_length"]
+
     #kb stuff
     kb_task = bool(data_cfg.get("kb_task", False))
     if kb_task:
-        kb_ext = data_cfg.get("kb_ext", "kb")
+        kb_src = data_cfg.get("kb_src", "kbk")
+        kb_trg = data_cfg.get("kb_trg", "kbv")
         kb_lkp = data_cfg.get("kb_lkp", "lkp")
         kb_len = data_cfg.get("kb_len", "len")
 
@@ -89,12 +92,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                            unk_token=UNK_TOKEN,
                            batch_first=True, lower=lowercase,
                            include_lengths=True)
-    if kb_task:
-        kb_field = data.Field(init_token=BOS_TOKEN, eos_token=EOS_TOKEN,
-                           pad_token=PAD_TOKEN, tokenize=kb_tok_fun,
-                           unk_token=UNK_TOKEN,
-                           batch_first=True, lower=lowercase,
-                           include_lengths=False)
 
     train_data = TranslationDataset(path=train_path,
                                     exts=("." + src_lang, "." + trg_lang),
@@ -106,8 +103,12 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                     <= max_sent_length)
     
     if kb_task: #load train_kb and metadata
-        train_kb = MonoKBDataset(path=train_path, ext="." + kb_ext, field=kb_field)
-
+        train_kb = TranslationDataset(path=train_path,
+                                    exts=("." + kb_src, "." + kb_trg),
+                                    fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
+                                    filter_pred=
+                                    lambda x: True)
+                                   
         with open(train_path+"."+kb_lkp, "r") as lkp:
             lookup = lkp.readlines()
         train_kb_lookup = [int(elem[:-1]) for elem in lookup]
@@ -122,15 +123,51 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     trg_min_freq = data_cfg.get("trg_voc_min_freq", 1)
 
     src_vocab_file = data_cfg.get("src_vocab", None)
+
     trg_vocab_file = data_cfg.get("trg_vocab", None)
     trg_kb_vocab_file = data_cfg.get("trg_kb_vocab", None)
-
-
     trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file
 
-    src_vocab = build_vocab(field="src", min_freq=src_min_freq,
-                            max_size=src_max_size,
-                            dataset=train_data, vocab_file=src_vocab_file)
+
+    pkld_src_voc = data_cfg.get("src_voc_pkl", "data/voc/src.p")
+    pkld_trg_voc = data_cfg.get("trg_voc_pkl", "data/voc/trg.p")
+    
+    prevent_pkl_load_voc = data_cfg.get("prevent_pkl_load_voc", None)
+
+    if not prevent_pkl_load_voc and os.path.isfile(pkld_src_voc):
+        with open(pkld_src_voc, "rb") as filehandler:
+            src_vocab = pickle.load(filehandler)
+    else:
+        src_vocab = build_vocab(field="src", min_freq=src_min_freq,
+                                max_size=src_max_size,
+                                dataset=train_data, vocab_file=src_vocab_file)
+        if not os.path.isfile(pkld_src_voc):
+            with open(pkld_src_voc, "wb") as filehandler:
+                try:
+                    pickle.dump(src_vocab, filehandler)
+                except Exception as e:
+                    os.remove(pkld_src_voc)
+                    print(e)
+                    print(e.with_traceback)
+
+    if not prevent_pkl_load_voc and os.path.isfile(pkld_trg_voc):
+        with open(pkld_trg_voc, "rb") as filehandler:
+            trg_vocab = pickle.load(filehandler)
+    else:
+        trg_vocab = build_vocab(field="src", min_freq=src_min_freq,
+                                max_size=src_max_size,
+                                dataset=train_data, vocab_file=trg_vocab_file)
+
+        if not os.path.isfile(pkld_trg_voc):
+            with open(pkld_trg_voc, "wb") as filehandler:
+                try:
+                    pickle.dump(trg_vocab, filehandler)
+                except Exception as e:
+                    os.remove(pkld_trg_voc)
+                    print(e)
+                    print(e.with_traceback)
+
+
     trg_vocab = build_vocab(field="trg", min_freq=trg_min_freq,
                             max_size=trg_max_size,
                             dataset=train_data, vocab_file=trg_vocab_file)
@@ -149,9 +186,14 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     dev_data = TranslationDataset(path=dev_path,
                                   exts=("." + src_lang, "." + trg_lang),
                                   fields=(src_field, trg_field))
+
     if kb_task: #load dev kb and metadata
-        dev_kb = MonoKBDataset(path=dev_path, ext="." + kb_ext, field=kb_field)
-        
+        dev_kb = TranslationDataset(path=train_path,
+                                exts=("." + kb_src, "." + kb_trg),
+                                fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
+                                filter_pred=
+                                lambda x: True)
+    
         with open(dev_path+"."+kb_lkp, "r") as lkp:
             lookup = lkp.readlines()
         dev_kb_lookup = [int(elem[:-1]) for elem in lookup]
@@ -171,7 +213,12 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             test_data = MonoDataset(path=test_path, ext="." + src_lang,
                                     field=src_field)
     if kb_task: #load test kb and metadata
-        test_kb = MonoKBDataset(path=test_path, ext="." + kb_ext, field=kb_field)
+        test_kb = TranslationDataset(path=train_path,
+                                exts=("." + kb_src, "." + kb_trg),
+                                fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
+                                filter_pred=
+                                lambda x: True)
+
         with open(test_path+"."+kb_lkp, "r") as lkp:
             lookup = lkp.readlines()
         test_kb_lookup = [int(elem[:-1]) for elem in lookup]
@@ -181,9 +228,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     src_field.vocab = src_vocab
     trg_field.vocab = trg_vocab
-    if kb_task: 
-        assert trg_kb_vocab_file, "TODO REMOVE THIS LINE"
-        kb_field.vocab = trg_vocab
 
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None
@@ -266,7 +310,7 @@ class TorchBatchWithKB(Batch):
         """
 
         if data is not None:
-            assert hasattr(data, "kb")
+            assert hasattr(data, "kb") 
             self.batch_size = len(data)
             self.dataset = dataset
             self.kb_data = kb_data
@@ -280,16 +324,27 @@ class TorchBatchWithKB(Batch):
                                     v is not None and v.is_target]
             self.knowledgebase_fields = [k for k,v in kb_data.fields.items() if v is not None]
 
-            for (name, field) in dataset.fields.items():
+            for (name, field) in self.dataset.fields.items():
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
                     setattr(self, name, field.process(batch, device=device))
-            for (name, field) in kb_data.fields.items():
+            for (name, field) in self.kb_data.fields.items():
                 if field is not None:
-                    kb = KB_minibatch()
-                    kb.append(["</s>","</s>","</s>"])
-                    #dummy kb entry for scheduling task, added to all kbs as first entry
-                    # TODO what should dummy tokens be? 3rd should be in trg vocabulary, 1st and 2nd src 
+                    kb = [] # used to be KB_minibatch
+                    if name == "kbsrc":
+                        kb.append(["<s>"]) #dummy elem key
+                    elif name == "kbtrg":
+                        kb.append(["<s>"]) #dummy elem val
+                    
+                    # dummy kb entry for scheduling task, added to all kbs as first entry
+                    # TODO what should dummy tokens be? shouldnt affect default decoder behavior..
+                    # the kb has only the dummy elem iff theres null items in the scenario
+                    # which happens iff 
+                    # the task is of calendar scheduling type
+                    # AND
+                    # the driver is only tasked with making an appointment, not requesting one
+                    # (NOTE current implementation) add dummy element in zeroth place every single time
+
                     kb += [getattr(x,name) for x in data.kb]
                     if len(kb) > 1:
                         print(len(kb), type(kb), [type(x) for x in kb])
@@ -297,22 +352,15 @@ class TorchBatchWithKB(Batch):
                         print(data.kb[0])
                         print(type(data.kb[0]))
                         print(getattr(data.kb[0],name))
+
                     setattr(self, name, field.process(kb, device=device))
-                    # TODO: 
-                    # the kb has only the dummy elem iff theres null items in the scenario
-                    # which happens iff 
-                    # the task is of calendar scheduling type
-                    # AND
-                    # the driver is only tasked with making an appointment, not requesting one
-                    #
-                    # 2. set the batch.kb attribute to something else and handle it in the
-                    # decoder (current option, 'None' below can be changed to e.g.
-                    # - an empty tensor
-                    # - a calendar tensor with a special calendar token that triggers a different routine during decoding
-                    # - a kb tensor with the correct appointment triples there, but also others (not present in data, would need to add to data, e.g. from other scenarios); reward given when decoder attends to correct appointment, analogous to normal task
-                    # - ?
-                    # )
-                    # 3. (NOTE current implementation) add dummy element in zeroth place every single time
+
+                    print(f"batch.{name}: ", eval(f"self.{name}"),type(eval(f"self.{name}")))
+
+                    # TODO: find out what the second batch.kbsrc/kbtrg tensor is!
+                    # we discard it anyways in model.get_loss_for_batch
+
+
                 else:
                     raise ValueError(kb_data.field)
 
@@ -327,8 +375,6 @@ class TorchBatchWithKB(Batch):
         for k, v in kwargs.items():
             setattr(batch, k, v)
         return batch
-
-
 
 
 class KB_minibatch(list):
@@ -426,53 +472,13 @@ class KB_Iterator(Iterator):
                     else:
                         minibatch.sort(key=self.sort_key, reverse=True)
                 batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.device)
-                assert hasattr(batch, "kb"), dir(batch)
+                assert hasattr(batch, "kbsrc"), dir(batch)
+                assert hasattr(batch, "kbtrg"), dir(batch)
                 yield batch
             if not self.repeat:
                 return
 
-
-
-
-        
-
-class MonoKBDataset(Dataset):
-    """Defines a dataset for machine translation without targets with field name "kb"."""
-
-    @staticmethod
-    def sort_key(ex):
-        return len(ex.src)
-
-    def __init__(self, path: str, ext: str, field: Field, **kwargs) -> None:
-        """
-        Create a monolingual dataset (=only sources) given path and field.
-
-        :param path: Prefix of path to the data file
-        :param ext: Containing the extension to path for this language.
-        :param field: Containing the fields that will be used for data.
-        :param kwargs: Passed to the constructor of data.Dataset.
-        """
-
-        fields = [('kb', field)]
-
-        if hasattr(path, "readline"):  # special usage: stdin
-            src_file = path
-        else:
-            src_path = os.path.expanduser(path + ext)
-            src_file = open(src_path)
-
-        examples = []
-        for src_line in src_file:
-            src_line = src_line.strip()
-            if src_line != '':
-                examples.append(data.Example.fromlist(
-                    [src_line], fields))
-
-        src_file.close()
-
-        super(MonoKBDataset, self).__init__(examples, fields, **kwargs)
-
-
+       
 class MonoDataset(Dataset):
     """Defines a dataset for machine translation without targets."""
 
@@ -512,7 +518,7 @@ class MonoDataset(Dataset):
 
 
 def make_data_iter_kb(dataset: Dataset,
-                    kb_data: MonoKBDataset,
+                    kb_data: TranslationDataset,
                     kb_lkp: list,
                     kb_lens: list,
                     batch_size: int,

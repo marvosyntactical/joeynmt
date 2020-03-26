@@ -3,7 +3,7 @@
 """
 Various decoders
 """
-from typing import Optional
+from typing import Optional, Tuple
 
 import torch
 import torch.nn as nn
@@ -721,7 +721,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 unroll_steps: int,
                 hidden: Tensor = None,
                 prev_att_vector: Tensor = None,
-                knowledgebase: Tensor = None,
+                knowledgebase: Tuple = None,
                 **kwargs) \
             -> (Tensor, Tensor, Tensor, Tensor):
         """
@@ -755,7 +755,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param encoder_hidden: last state from the encoder,
             shape (batch_size x encoder.output_size)
         :param knowledgebase: knowledgebase associated with batch
-            shape m x 3 TODO
+            knowledgebase[0]: batch.kbsrc: m x max_key_len
+            knowledgebase[1]: batch.kbtrg: m x 1
         :param src_mask: mask for src states: 0s for padded areas,
             1s for the rest, shape (batch_size, 1, src_length)
         :param unroll_steps: number of steps to unrol the decoder RNN
@@ -774,19 +775,17 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 with shape (batch_size, unroll_steps, hidden_size)
         """
         if knowledgebase != None:
+            kb_keys, kb_values = knowledgebase
 
-            print("Kb :-) ", knowledgebase.shape)
-            # Latest TODO: kb refactor:
-            # maybe tensor dim gets higher by 
-            # number of tokens within kb entry
-            # so e.g. 'marios' 'pizza' 'joint' instead of
-            # 'marios-pizza-joint'
+            print(kb_keys)
+            print(kb_keys[0].shape)
+            print(kb_values)
+            print(kb_values[0].shape)
 
-            # test: try to read out knowledgebase with array to sentence here
-            knowledgebase = knowledgebase.unsqueeze(0) 
-            kb_keys = knowledgebase[:,:,1] + knowledgebase[:,:,2]
-            kb_values = knowledgebase[:,:,3]
-            print("\n\t\tkb_keys/values: ", kb_keys.shape)
+            print("Kb src:-) ", kb_keys.shape) #TODO for some reason kb_keys is tuple
+            print("Kb trg:-) ", kb_values.shape)
+            
+
         else:
             assert False
             kb_keys, kb_values = None, None

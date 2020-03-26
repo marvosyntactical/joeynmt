@@ -123,8 +123,10 @@ class Batch_with_KB:
         self.ntokens = None
         self.use_cuda = use_cuda
         #knowledgebase:
-        assert hasattr(batch_with_kb,"kb")
-        self.kb = batch_with_kb.kb
+        assert hasattr(batch_with_kb,"kbsrc")
+        assert hasattr(batch_with_kb,"kbtrg")
+        self.kbsrc = batch_with_kb.kbsrc
+        self.kbtrg = batch_with_kb.kbtrg
 
         if hasattr(batch_with_kb, "trg"):
             trg, trg_lengths = batch_with_kb.trg

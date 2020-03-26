@@ -272,7 +272,8 @@ class TrainManager:
                 # create a Batch object from torchtext batch
                 batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
                     Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)
-                assert hasattr(batch, "kb"), dir(batch)
+                assert hasattr(batch, "kbsrc"), dir(batch)
+                assert hasattr(batch, "kbtrg"), dir(batch)
 
 
                 # only update every batch_multiplier batches

@@ -10,6 +10,7 @@ _Work rhythm_:
 
 * Is the entire model trained on just these datasets? e.g. kvr has 2.4k pairs 
 * Very heterogenous dataset: Even within domain, e.g. 'scheduling', different task types, e.g. time request (like weather, info retrieval) but also making an appointment => filter out everything that is not KB retrieval?; other than that, the info retrieval is essentially the same for all 3 domains => good!
+* Trg vocab goes from 40k to 112k by adding knowledgebase..unusual but should be doable with how small the dataset is..
 
 # Issues ```TODO```:
 
@@ -59,7 +60,9 @@ Update kb tensor to use multiple word embeddings instead of one per _subject_ an
   * or make the triple (_subj_, _rel_, _kb-canon-val_) and also pass list or dict of actual _values_
 * change vocab used by _kb_ (currently: _trg\_vocab_)
   * two different vocabs!! *src* for subj_ and _rel_; *trg* for _val_ and _canonval_. _data.torchbatchwithkb_ can use *TranslationDataset* instead of MonoDataset!
-* -> use translation dataset tensor with trg equal to just canonical name
+
+-> use translation dataset tensor with trg equal to just canonical name; pass list of actual values through repo
+
 
 
 

@@ -2,6 +2,16 @@ import os
 import sys
 import shutil
 
+try:
+    from joeynmt.constants import PAD_TOKEN
+except ImportError:
+    PAD_TOKEN = "<pad>"
+    print(f"Importing of joeynmt failed in preproc directory \
+        {'/'.join(__file__.split('/')[:-1])}, falling back to \
+        PAD_TOKEN=={PAD_TOKEN}")
+
+CANON_JOIN_CHAR = "_"
+
 """
 for use without pretrained embeddings:
     Args:
@@ -13,19 +23,22 @@ for use without pretrained embeddings:
 
     and produce copy of kb file with values like so
 
-    Wonderings:
-
-
 """
 
 def canonify(kvr_triple):
-    # Latest TODO different tokenization necessary
-    triple = kvr_triple.replace(" ", "-")
-    subj, rel, val = triple.split("::")
-    canon_val = subj+"_"+rel
-    return "::".join((subj, rel, canon_val)), val
+    """
+    turn kb triples subj rel val into
 
+    "pizza joint mario <pad> traffic info",
+    "pizza_joint_mario_traffic_info",
+    "heavy traffic"
+    """
 
+    subj, rel, val = kvr_triple.split("::")
+    key_rep = f" {PAD_TOKEN} ".join((subj, rel)).replace("_"," ")
+    canon_val = key_rep.replace(f"{PAD_TOKEN} ", "").replace(" ", CANON_JOIN_CHAR)
+
+    return key_rep,canon_val, val
 
 def main(args):
 
@@ -44,13 +57,17 @@ def main(args):
     with open(directory+filename, "r") as kb:
         knowledgebase = kb.readlines()
 
-    canons,vals = [], []
+    keys, canons, vals = [], [], []
 
     for triple in knowledgebase:
-        canonified,val = canonify(triple)
-        canons.append(canonified+"\n")
+
+        key_rep, canon_val,val = canonify(triple)
+
+        keys.append(key_rep+"\n")
+        canons.append(canon_val+"\n")
         vals.append(val)
 
+    # --- add canonical values to vocab
     trg_voc_loc = voc_dir+trg_voc_file
     kb_voc_ext = "kbvoc"
     new_kb_voc_loc = ".".join(trg_voc_loc.split(".")[:-1]+[kb_voc_ext])
@@ -58,22 +75,21 @@ def main(args):
     with open(trg_voc_loc, "r") as V:
         trg_vocab = V.readlines()
 
-    new_vocab = trg_vocab+vals
+    new_vocab = trg_vocab+canons
 
     with open(new_kb_voc_loc, "w") as newV:
         newV.writelines(new_vocab)
 
-
-
-
-
-
-    ext = "can"
+    kb_src_ext, kb_trg_ext,kb_proper_val_ext = "kbk","kbv", "kbvals"
     old = ".".join(filename.split(".")[:-1])
-    new = old+"."+ext
+    kb_src, kb_trg, kb_proper_val = old+"."+kb_src_ext, old+"."+kb_trg_ext, old+"."+kb_proper_val_ext
 
-    with open(directory+new, "w") as out:
+    with open(directory+kb_src, "w") as out:
+        out.writelines(keys)
+    with open(directory+kb_trg, "w") as out:
         out.writelines(canons)
+    with open(directory+kb_proper_val, "w") as out:
+        out.writelines(vals)
 
     return 0
 
