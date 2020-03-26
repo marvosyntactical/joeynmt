@@ -10,7 +10,7 @@ _Work rhythm_:
 
 * Is the entire model trained on just these datasets? e.g. kvr has 2.4k pairs 
 * Very heterogenous dataset: Even within domain, e.g. 'scheduling', different task types, e.g. time request (like weather, info retrieval) but also making an appointment => filter out everything that is not KB retrieval?; other than that, the info retrieval is essentially the same for all 3 domains => good!
-* Trg vocab goes from 40k to 112k by adding knowledgebase..unusual but should be doable with how small the dataset is..
+* Trg vocab goes from 40k to 112k by adding knowledgebase..unusual but should be doable with how small the dataset is
 
 # Issues ```TODO```:
 
@@ -46,6 +46,7 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * figure out how to reconstruct tokens for debugging within training/model/decoder
   * something like: *self.trg\_embed*.lut[array] 
   * also look at *array\_ to\_ sentence*
+* look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during trai/val/test???
 
 ## _```Current issue```_:
 ### 23.03.20 Refactor KB:
@@ -62,6 +63,8 @@ Update kb tensor to use multiple word embeddings instead of one per _subject_ an
   * two different vocabs!! *src* for subj_ and _rel_; *trg* for _val_ and _canonval_. _data.torchbatchwithkb_ can use *TranslationDataset* instead of MonoDataset!
 
 -> use translation dataset tensor with trg equal to just canonical name; pass list of actual values through repo
+-> use mono dataset tensor for true kb values and add kb\_truval attrib to batch
+-> batch now has attributes: *src*, *trg* and _kb-src_, _kb-trg_ and _kb-truval_
 
 
 

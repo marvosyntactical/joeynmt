@@ -8,7 +8,8 @@ import io
 import os
 import os.path
 import pickle
-from typing import Optional
+import dill
+from typing import Optional, List
 from copy import deepcopy
 
 from torchtext.datasets import TranslationDataset
@@ -67,19 +68,15 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     #kb stuff
     kb_task = bool(data_cfg.get("kb_task", False))
+
     if kb_task:
         kb_src = data_cfg.get("kb_src", "kbk")
         kb_trg = data_cfg.get("kb_trg", "kbv")
         kb_lkp = data_cfg.get("kb_lkp", "lkp")
         kb_len = data_cfg.get("kb_len", "len")
+        kb_trv = data_cfg.get("kb_truvals", "trv")
 
     tok_fun = lambda s: list(s) if level == "char" else s.split()
-
-    #kb stuff
-    if kb_task:
-        assert not (level=="char") #TODO take out/add char compatibility completely
-        kb_tok_fun = lambda s: s.split("::")
-
 
     src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
                            pad_token=PAD_TOKEN, tokenize=tok_fun,
@@ -93,16 +90,30 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                            batch_first=True, lower=lowercase,
                            include_lengths=True)
 
+    if kb_task:
+        trv_field = data.Field(init_token=BOS_TOKEN, eos_token=EOS_TOKEN,
+                            pad_token=PAD_TOKEN, tokenize=tok_fun,
+                            unk_token=UNK_TOKEN,
+                            batch_first=True, lower=lowercase,
+                            include_lengths=False)
+
     train_data = TranslationDataset(path=train_path,
                                     exts=("." + src_lang, "." + trg_lang),
                                     fields=(src_field, trg_field),
-                                    filter_pred=
+                                    filter_pred =
                                     lambda x: len(vars(x)['src'])
                                     <= max_sent_length
                                     and len(vars(x)['trg'])
                                     <= max_sent_length)
-    
+       
     if kb_task: #load train_kb and metadata
+
+        train_kb_truvals = MonoDataset(path=train_path,
+                                    ext=("."+kb_trv),
+                                    field=("kbtrv", trv_field),
+                                    filter_pred= lambda x:True
+                                    )
+
         train_kb = TranslationDataset(path=train_path,
                                     exts=("." + kb_src, "." + kb_trg),
                                     fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
@@ -111,10 +122,11 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                    
         with open(train_path+"."+kb_lkp, "r") as lkp:
             lookup = lkp.readlines()
-        train_kb_lookup = [int(elem[:-1]) for elem in lookup]
+        train_kb_lookup = [int(elem[:-1]) for elem in lookup if elem[:-1]]
         with open(train_path+"."+kb_len, "r") as lens:
             lengths = lens.readlines()
-        train_kb_lengths = [int(elem[:-1]) for elem in lengths]
+        train_kb_lengths = [int(elem[:-1]) for elem in lengths if elem[:-1]]
+            
 
 
     src_max_size = data_cfg.get("src_voc_limit", sys.maxsize)
@@ -133,6 +145,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     pkld_trg_voc = data_cfg.get("trg_voc_pkl", "data/voc/trg.p")
     
     prevent_pkl_load_voc = data_cfg.get("prevent_pkl_load_voc", None)
+
+    # TODO fix pkl vocab loading
 
     if not prevent_pkl_load_voc and os.path.isfile(pkld_src_voc):
         with open(pkld_src_voc, "rb") as filehandler:
@@ -167,12 +181,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                     print(e)
                     print(e.with_traceback)
 
-
-    trg_vocab = build_vocab(field="trg", min_freq=trg_min_freq,
-                            max_size=trg_max_size,
-                            dataset=train_data, vocab_file=trg_vocab_file)
-
-
     random_train_subset = data_cfg.get("random_train_subset", -1)
     if random_train_subset > -1:
         # select this many training examples randomly and discard the rest
@@ -193,14 +201,19 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                 fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
                                 filter_pred=
                                 lambda x: True)
-    
+        dev_kb_truvals = MonoDataset(path=dev_path,
+                                ext=("."+kb_trv),
+                                field=("kbtrv", trv_field),
+                                filter_pred= lambda x:True
+                                )
+   
         with open(dev_path+"."+kb_lkp, "r") as lkp:
             lookup = lkp.readlines()
-        dev_kb_lookup = [int(elem[:-1]) for elem in lookup]
+        dev_kb_lookup = [int(elem[:-1]) for elem in lookup if elem[:-1]]
         with open(dev_path+"."+kb_len, "r") as lens:
             lengths = lens.readlines()
-        dev_kb_lengths = [int(elem[:-1]) for elem in lengths]
-
+        dev_kb_lengths = [int(elem[:-1]) for elem in lengths if elem[:-1]]
+            
     test_data = None
     if test_path is not None:
         # check if target exists
@@ -213,34 +226,40 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             test_data = MonoDataset(path=test_path, ext="." + src_lang,
                                     field=src_field)
     if kb_task: #load test kb and metadata
-        test_kb = TranslationDataset(path=train_path,
+        test_kb = TranslationDataset(path=test_path,
                                 exts=("." + kb_src, "." + kb_trg),
                                 fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
                                 filter_pred=
                                 lambda x: True)
-
+        test_kb_truvals = MonoDataset(path=test_path,
+                                ext=("."+kb_trv),
+                                field=("kbtrv", trv_field),
+                                filter_pred= lambda x:True
+                                )
+  
         with open(test_path+"."+kb_lkp, "r") as lkp:
             lookup = lkp.readlines()
-        test_kb_lookup = [int(elem[:-1]) for elem in lookup]
-        with open(dev_path+"."+kb_len, "r") as lens:
+        test_kb_lookup = [int(elem[:-1]) for elem in lookup if elem[:-1]]
+        with open(test_path+"."+kb_len, "r") as lens:
             lengths = lens.readlines()
-        test_kb_lengths = [int(elem[:-1]) for elem in lengths]
-
+        test_kb_lengths = [int(elem[:-1]) for elem in lengths if elem[:-1]]
+            
     src_field.vocab = src_vocab
     trg_field.vocab = trg_vocab
 
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None
         train_kb_lookup, dev_kb_lookup, test_kb_lookup = [],[],[]
-        train_kb_lengths, dev_kb_lengths, dev_kb_lengths = [],[],[]
+        train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
+        train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
 
 
     return train_data, dev_data, test_data,\
         src_vocab, trg_vocab,\
         train_kb, dev_kb, test_kb,\
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
-        train_kb_lengths, dev_kb_lengths, dev_kb_lengths
-
+        train_kb_lengths, dev_kb_lengths, dev_kb_lengths,\
+        train_kb_truvals, dev_kb_truvals, test_kb_truvals
 
 
 # pylint: disable=global-at-module-level
@@ -302,9 +321,11 @@ def make_data_iter(dataset: Dataset,
 
 
 class TorchBatchWithKB(Batch):
-    #inherits from torch batch, not joey batch!
-    def __init__(self, data=None, dataset=None, kb_data=None, device=None):
-        """Create a TorchBatchWithKB from a list of examples.
+    #inherits from torch batch, not joey batch!....
+    def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None,device=None):
+        
+        """
+        Create a TorchBatchWithKB from a list of examples.
         Cant be put in .batch because of variable name clash
         between torchtext batch and joeynmt batch :(
         """
@@ -314,8 +335,11 @@ class TorchBatchWithKB(Batch):
             self.batch_size = len(data)
             self.dataset = dataset
             self.kb_data = kb_data
+            self.kb_truval_data = kb_truval_data
+
             joint_field_dict = deepcopy(dataset.fields)
             joint_field_dict.update(kb_data.fields)
+
             self.fields = joint_field_dict.keys()  # copy field names
 
             self.input_fields = [k for k, v in dataset.fields.items() if
@@ -328,6 +352,10 @@ class TorchBatchWithKB(Batch):
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
                     setattr(self, name, field.process(batch, device=device))
+            for (name, field) in self.kb_truval_data.fields.items():
+                if field is not None:
+                    truvals = [getattr(x, name) for x in data.kbtrv]
+                    setattr(self, name, field.process(truvals, device=device))
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
                     kb = [] # used to be KB_minibatch
@@ -346,20 +374,12 @@ class TorchBatchWithKB(Batch):
                     # (NOTE current implementation) add dummy element in zeroth place every single time
 
                     kb += [getattr(x,name) for x in data.kb]
-                    if len(kb) > 1:
-                        print(len(kb), type(kb), [type(x) for x in kb])
-                        print(len(data.kb), type(data.kb)) #data.kb list of examples
-                        print(data.kb[0])
-                        print(type(data.kb[0]))
-                        print(getattr(data.kb[0],name))
-
                     setattr(self, name, field.process(kb, device=device))
 
                     print(f"batch.{name}: ", eval(f"self.{name}"),type(eval(f"self.{name}")))
 
                     # TODO: find out what the second batch.kbsrc/kbtrg tensor is!
                     # we discard it anyways in model.get_loss_for_batch
-
 
                 else:
                     raise ValueError(kb_data.field)
@@ -384,10 +404,11 @@ class KB_minibatch(list):
     def __init__(self, *args, **kwargs):
         super(KB_minibatch, self).__init__(*args, **kwargs)
         self.kb = None
+        self.kbtrv = None
 
 
-def batch_with_kb(data, kb_data, kb_lkp, kb_lens):
-    # for KB_Iterator. uses kb_lkp and kb_lens to determine 
+def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
+    
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
     # TODO: try holding the entire prior conversation as source
@@ -407,8 +428,8 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens):
             current += kb_len
 
         minibatch.kb = kb_data[current:current+kb_len]
+        minibatch.kbtrv = kb_truvals[current:current+kb_len]
         minibatch.append(ex)
-
 
     if minibatch:
         yield minibatch
@@ -427,7 +448,7 @@ class KB_Iterator(Iterator):
 
     """
 
-    def __init__(self, dataset, kb_dataset, kb_lkp, kb_lens, sort_key=None, device=None,\
+    def __init__(self, dataset, kb_dataset, kb_lkp, kb_lens, kb_truvals, sort_key=None, device=None,\
     batch_size_fn=None, train=True, repeat=False, shuffle=None, sort=None, sort_within_batch=None):
         """
         takes additional args:
@@ -447,9 +468,10 @@ class KB_Iterator(Iterator):
         self.kb_data = kb_dataset
         self.kb_lkp = kb_lkp
         self.kb_lens= kb_lens
+        self.kb_truvals = kb_truvals
         
     def create_batches(self):
-        self.batches = batch_with_kb(self.data(),self.kb_data, self.kb_lkp, self.kb_lens)
+        self.batches = batch_with_kb(self.data(),self.kb_data, self.kb_lkp, self.kb_lens,self.kb_truvals)
 
     def data(self):
         return self.dataset
@@ -471,7 +493,7 @@ class KB_Iterator(Iterator):
                         minibatch.reverse()
                     else:
                         minibatch.sort(key=self.sort_key, reverse=True)
-                batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.device)
+                batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.kb_truvals, self.device)
                 assert hasattr(batch, "kbsrc"), dir(batch)
                 assert hasattr(batch, "kbtrg"), dir(batch)
                 yield batch
@@ -483,8 +505,8 @@ class MonoDataset(Dataset):
     """Defines a dataset for machine translation without targets."""
 
     @staticmethod
-    def sort_key(ex):
-        return len(ex.src)
+    def sort_key(ex, field_name="src"): #no idea how to access this or when it is used TODO find that out!
+        return len(eval(f"ex.{field_name}"))
 
     def __init__(self, path: str, ext: str, field: Field, **kwargs) -> None:
         """
@@ -492,11 +514,10 @@ class MonoDataset(Dataset):
 
         :param path: Prefix of path to the data file
         :param ext: Containing the extension to path for this language.
-        :param field: Containing the fields that will be used for data.
+        :param field: Containing the field that will be used for data. Can also be tuple of (name, field)
         :param kwargs: Passed to the constructor of data.Dataset.
         """
-
-        fields = [('src', field)]
+        fields = [('src', field)] if not type(field) == type((0,0)) else [field]
 
         if hasattr(path, "readline"):  # special usage: stdin
             src_file = path
@@ -521,6 +542,7 @@ def make_data_iter_kb(dataset: Dataset,
                     kb_data: TranslationDataset,
                     kb_lkp: list,
                     kb_lens: list,
+                    kb_truvals: List[str],
                     batch_size: int,
                     batch_type: str = "sentence",
                     train: bool = False,
@@ -540,14 +562,14 @@ def make_data_iter_kb(dataset: Dataset,
     """
 
 
-    if train:
+    if train: # TODO remove this option entirely?
         # optionally shuffle and sort during training
-        data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens,\
+        data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens, kb_truvals,\
             repeat=False, sort=False, 
             train=True, shuffle=shuffle)
     else:
         # don't sort/shuffle for validation/inference
-        data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens,\
+        data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens, kb_truvals,\
             repeat=False, train=False, sort=False, sort_within_batch=True)
 
     return data_iter

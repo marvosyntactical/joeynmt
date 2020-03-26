@@ -5,7 +5,7 @@ This modules holds methods for generating predictions from a model.
 import os
 import sys
 import logging
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import numpy as np
 
 import torch
@@ -30,8 +30,9 @@ def validate_on_data(model: Model, data: Dataset,
                      beam_size: int = 0, beam_alpha: int = -1,
                      batch_type: str = "sentence",
                      kb_task = None,
-                     valid_kb: MonoDataset= None,
+                     valid_kb: Tuple= None,
                      valid_kb_lkp: list =[], valid_kb_lens:list=[],
+                     valid_kb_truvals: list=[],
                      kb_embed = lambda x: x,
                      ) \
         -> (float, float, float, List[str], List[List[str]], List[str],
@@ -137,8 +138,6 @@ def validate_on_data(model: Model, data: Dataset,
 
         print(len(all_outputs))
         print(len(all_outputs[0]))
-        # Latest TODO: use model.trg_vocab.arrays_to_sentences
-        # within model.py after converting embedded tensor back to indices
         # decode back to symbols
         decoded_valid = model.trg_vocab.arrays_to_sentences(arrays=all_outputs,
                                                             cut_at_eos=True)

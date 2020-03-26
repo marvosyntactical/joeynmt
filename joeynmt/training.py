@@ -7,7 +7,7 @@ Training module
 import argparse
 import time
 import shutil
-from typing import List
+from typing import List, Tuple
 import os
 import queue
 
@@ -223,8 +223,8 @@ class TrainManager:
             self.model.cuda()
 
     def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: MonoDataset =None,\
-        train_kb_lkp: list = [], train_kb_lens: list = [], valid_kb: MonoDataset=None, valid_kb_lkp: list=[],
-        valid_kb_lens: list = []) \
+        train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals:list=[], valid_kb: Tuple=None, valid_kb_lkp: list=[],
+        valid_kb_lens: list = [], valid_kb_truvals:list=[]) \
             -> None:
         """
         Train the model and validate it from time to time on the validation set.
@@ -242,6 +242,7 @@ class TrainManager:
         if kb_task:
             train_iter = make_data_iter_kb(train_data,
                                     train_kb, train_kb_lkp, train_kb_lens,
+                                    train_kb_truvals,
                                     batch_size=self.batch_size,
                                     batch_type=self.batch_type,
                                     train=True, shuffle=self.shuffle)
@@ -325,7 +326,8 @@ class TrainManager:
                             kb_task=kb_task,
                             valid_kb=valid_kb,
                             valid_kb_lkp=valid_kb_lkp,
-                            valid_kb_lens=valid_kb_lens
+                            valid_kb_lens=valid_kb_lens,
+                            valid_kb_truvals=valid_kb_truvals
                         )
 
                     self.tb_writer.add_scalar("valid/valid_loss",
@@ -559,7 +561,8 @@ def train(cfg_file: str) -> None:
         src_vocab, trg_vocab,\
         train_kb, dev_kb, test_kb,\
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
-        train_kb_lengths, dev_kb_lengths, dev_kb_lengths\
+        train_kb_lengths, dev_kb_lengths, dev_kb_lengths,\
+        train_kb_truvals, dev_kb_truvals, test_kb_truvals\
             = load_data(data_cfg=cfg["data"])
 
 
@@ -589,8 +592,8 @@ def train(cfg_file: str) -> None:
 
     # train the model
     trainer.train_and_validate(train_data=train_data, valid_data=dev_data, kb_task=kb_task,\
-        train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths,
-        valid_kb=dev_kb, valid_kb_lkp=dev_kb_lookup, valid_kb_lens=dev_kb_lengths)
+        train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths, train_kb_truvals=train_kb_truvals,\
+        valid_kb=dev_kb, valid_kb_lkp=dev_kb_lookup, valid_kb_lens=dev_kb_lengths, valid_kb_truvals=dev_kb_truvals)
 
     # predict with the best model on validation and test
     # (if test data is available)

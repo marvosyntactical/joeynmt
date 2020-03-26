@@ -10,6 +10,7 @@ data: # specify your data here
     kb_trg: "kbv"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_lkp: "lkp"                       # KVR: kb association lkp file ext
     kb_len: "len"                       # KVR: kb lengths file ext
+    kb_truvals: "trv"
     
     train: "data/kvr/train"    # training data
     dev: "data/kvr/dev"        # development data for validation

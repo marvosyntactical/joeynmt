@@ -77,23 +77,16 @@ def normalize_schedule(d):
     for appointment in appointments:
         event = appointment["event"]
         for relation in appointment.keys():
-<<<<<<< HEAD
             # Latest TODO:
             # possible also check appointment[relation] != "-"
             # to filter out unassigned rooms/agendas/..
-=======
->>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf
             if not relation == "event":
                 normed_kb.append((event,relation,appointment[relation]))
     return normed_kb
 
 def main(args):
 
-<<<<<<< HEAD
     directory = "../kvr/"
-=======
-    directory = "../kv_ret_dataset/"
->>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf
     if args==0: #use defaults
         filename = "dev.json"
         splitpart = "dev"
@@ -105,23 +98,10 @@ def main(args):
 
     normed_kbs = [normalize_kb(kb) for kb in settings]
     lens = [str(len(kb))+"\n" for kb in normed_kbs]
-    lens[-1] = lens[-1][:-1] #delete last newline
-<<<<<<< HEAD
-
-    normed_kbs_inner = [triple for scenario in normed_kbs for triple in scenario]
-    kb_list = ["::".join(t)+"\n" for t in normed_kbs_inner]
-
-
-    kb_list[-1] = kb_list[-1][:-1] #delete last newline
-
-    exit()
-=======
     
     normed_kbs_inner = [triple for scenario in normed_kbs for triple in scenario]
     kb_list = ["::".join(t)+"\n" for t in normed_kbs_inner]
-    kb_list[-1] = kb_list[-1][:-1] #delete last newline
 
->>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf
 
     """
     LATEST TODO:
