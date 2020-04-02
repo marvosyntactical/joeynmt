@@ -64,7 +64,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     test_path = data_cfg.get("test", None)
     level = data_cfg["level"]
     lowercase = data_cfg["lowercase"]
-    max_sent_length = data_cfg["max_sent_length"]
+    max_sent_length = data_cfg.get("max_sent_length", sys.maxsize*.1)
 
     #kb stuff
     kb_task = bool(data_cfg.get("kb_task", False))
@@ -422,15 +422,15 @@ class KB_minibatch(list):
 
 
 def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
-    
+
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
     # TODO: try holding the entire prior conversation as source
 
-    
     minibatch = KB_minibatch()
     current = 0
     corresponding_kb = 0
+
     for i, ex in enumerate(data):
         last_kb = corresponding_kb
         corresponding_kb = kb_lkp[i]
@@ -440,10 +440,13 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
             yield minibatch
             minibatch = KB_minibatch()
             current += kb_len
+            
+            
 
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
         minibatch.append(ex)
+        
 
     if minibatch:
         yield minibatch

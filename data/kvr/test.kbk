@@ -1,30 +1,30 @@
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 danville <pad> monday
 danville <pad> tuesday
@@ -76,32 +76,32 @@ brentwood <pad> thursday
 brentwood <pad> sunday
 brentwood <pad> saturday
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 durham <pad> monday
 durham <pad> tuesday
@@ -153,124 +153,124 @@ fresno <pad> thursday
 fresno <pad> sunday
 fresno <pad> saturday
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Willows Market <pad> distance
-Willows Market <pad> traffic info
-Willows Market <pad> poi type
+Willows Market <pad> traffic_info
+Willows Market <pad> poi_type
 Willows Market <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 76 <pad> distance
-76 <pad> traffic info
-76 <pad> poi type
+76 <pad> traffic_info
+76 <pad> poi_type
 76 <pad> address
 Peets Coffee <pad> distance
-Peets Coffee <pad> traffic info
-Peets Coffee <pad> poi type
+Peets Coffee <pad> traffic_info
+Peets Coffee <pad> poi_type
 Peets Coffee <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 alameda <pad> monday
 alameda <pad> tuesday
@@ -352,92 +352,92 @@ dentist <pad> time
 dentist <pad> date
 dentist <pad> party
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Civic Center Garage <pad> distance
-Civic Center Garage <pad> traffic info
-Civic Center Garage <pad> poi type
+Civic Center Garage <pad> traffic_info
+Civic Center Garage <pad> poi_type
 Civic Center Garage <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 brentwood <pad> monday
 brentwood <pad> tuesday
@@ -538,92 +538,92 @@ carson <pad> thursday
 carson <pad> sunday
 carson <pad> saturday
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 fresno <pad> monday
 fresno <pad> tuesday
@@ -675,32 +675,32 @@ seattle <pad> thursday
 seattle <pad> sunday
 seattle <pad> saturday
 Civic Center Garage <pad> distance
-Civic Center Garage <pad> traffic info
-Civic Center Garage <pad> poi type
+Civic Center Garage <pad> traffic_info
+Civic Center Garage <pad> poi_type
 Civic Center Garage <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 meeting <pad> room
 meeting <pad> agenda
@@ -792,64 +792,64 @@ redwood city <pad> thursday
 redwood city <pad> sunday
 redwood city <pad> saturday
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Hacienda Market <pad> distance
-Hacienda Market <pad> traffic info
-Hacienda Market <pad> poi type
+Hacienda Market <pad> traffic_info
+Hacienda Market <pad> poi_type
 Hacienda Market <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Willows Market <pad> distance
-Willows Market <pad> traffic info
-Willows Market <pad> poi type
+Willows Market <pad> traffic_info
+Willows Market <pad> poi_type
 Willows Market <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 san mateo <pad> monday
 san mateo <pad> tuesday
@@ -1078,36 +1078,36 @@ brentwood <pad> thursday
 brentwood <pad> sunday
 brentwood <pad> saturday
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Topanga Mall <pad> distance
-Topanga Mall <pad> traffic info
-Topanga Mall <pad> poi type
+Topanga Mall <pad> traffic_info
+Topanga Mall <pad> poi_type
 Topanga Mall <pad> address
 carson <pad> monday
 carson <pad> tuesday
@@ -1159,32 +1159,32 @@ manhattan <pad> thursday
 manhattan <pad> sunday
 manhattan <pad> saturday
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Civic Center Garage <pad> distance
-Civic Center Garage <pad> traffic info
-Civic Center Garage <pad> poi type
+Civic Center Garage <pad> traffic_info
+Civic Center Garage <pad> poi_type
 Civic Center Garage <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 compton <pad> monday
 compton <pad> tuesday
@@ -1325,32 +1325,32 @@ doctor appointment <pad> time
 doctor appointment <pad> date
 doctor appointment <pad> party
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 brentwood <pad> monday
 brentwood <pad> tuesday
@@ -1598,64 +1598,64 @@ boston <pad> thursday
 boston <pad> sunday
 boston <pad> saturday
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 durham <pad> monday
 durham <pad> tuesday
@@ -1964,36 +1964,36 @@ grand rapids <pad> thursday
 grand rapids <pad> sunday
 grand rapids <pad> saturday
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 exeter <pad> monday
 exeter <pad> tuesday
@@ -2301,120 +2301,120 @@ swimming activity <pad> time
 swimming activity <pad> date
 swimming activity <pad> party
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 76 <pad> distance
-76 <pad> traffic info
-76 <pad> poi type
+76 <pad> traffic_info
+76 <pad> poi_type
 76 <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 san mateo <pad> monday
 san mateo <pad> tuesday
@@ -2466,36 +2466,36 @@ san jose <pad> thursday
 san jose <pad> sunday
 san jose <pad> saturday
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 danville <pad> monday
 danville <pad> tuesday
@@ -2822,64 +2822,64 @@ san mateo <pad> thursday
 san mateo <pad> sunday
 san mateo <pad> saturday
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 brentwood <pad> monday
 brentwood <pad> tuesday
@@ -2931,32 +2931,32 @@ fresno <pad> thursday
 fresno <pad> sunday
 fresno <pad> saturday
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 conference <pad> room
 conference <pad> agenda
@@ -3029,36 +3029,36 @@ meeting <pad> time
 meeting <pad> date
 meeting <pad> party
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 optometrist appointment <pad> room
 optometrist appointment <pad> agenda
@@ -3131,32 +3131,32 @@ medicine <pad> time
 medicine <pad> date
 medicine <pad> party
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 swimming activity <pad> room
 swimming activity <pad> agenda
@@ -3238,64 +3238,64 @@ mountain view <pad> thursday
 mountain view <pad> sunday
 mountain view <pad> saturday
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 Topanga Mall <pad> distance
-Topanga Mall <pad> traffic info
-Topanga Mall <pad> poi type
+Topanga Mall <pad> traffic_info
+Topanga Mall <pad> poi_type
 Topanga Mall <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 dinner <pad> room
 dinner <pad> agenda
@@ -3564,36 +3564,36 @@ grand rapids <pad> thursday
 grand rapids <pad> sunday
 grand rapids <pad> saturday
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 optometrist appointment <pad> room
 optometrist appointment <pad> agenda
@@ -3911,36 +3911,36 @@ alhambra <pad> thursday
 alhambra <pad> sunday
 alhambra <pad> saturday
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Willows Market <pad> distance
-Willows Market <pad> traffic info
-Willows Market <pad> poi type
+Willows Market <pad> traffic_info
+Willows Market <pad> poi_type
 Willows Market <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 lab appointment <pad> room
 lab appointment <pad> agenda
@@ -3973,32 +3973,32 @@ tennis activity <pad> time
 tennis activity <pad> date
 tennis activity <pad> party
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 seattle <pad> monday
 seattle <pad> tuesday
@@ -4227,92 +4227,92 @@ dentist appointment <pad> time
 dentist appointment <pad> date
 dentist appointment <pad> party
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 Travelers Lodge <pad> distance
-Travelers Lodge <pad> traffic info
-Travelers Lodge <pad> poi type
+Travelers Lodge <pad> traffic_info
+Travelers Lodge <pad> poi_type
 Travelers Lodge <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 optometrist appointment <pad> room
 optometrist appointment <pad> agenda
@@ -4394,36 +4394,36 @@ downtown chicago <pad> thursday
 downtown chicago <pad> sunday
 downtown chicago <pad> saturday
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 dinner <pad> room
 dinner <pad> agenda
@@ -4613,36 +4613,36 @@ alhambra <pad> thursday
 alhambra <pad> sunday
 alhambra <pad> saturday
 Papa Johns <pad> distance
-Papa Johns <pad> traffic info
-Papa Johns <pad> poi type
+Papa Johns <pad> traffic_info
+Papa Johns <pad> poi_type
 Papa Johns <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Hacienda Market <pad> distance
-Hacienda Market <pad> traffic info
-Hacienda Market <pad> poi type
+Hacienda Market <pad> traffic_info
+Hacienda Market <pad> poi_type
 Hacienda Market <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 manhattan <pad> monday
 manhattan <pad> tuesday
@@ -4792,68 +4792,68 @@ cleveland <pad> thursday
 cleveland <pad> sunday
 cleveland <pad> saturday
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Peets Coffee <pad> distance
-Peets Coffee <pad> traffic info
-Peets Coffee <pad> poi type
+Peets Coffee <pad> traffic_info
+Peets Coffee <pad> poi_type
 Peets Coffee <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Topanga Mall <pad> distance
-Topanga Mall <pad> traffic info
-Topanga Mall <pad> poi type
+Topanga Mall <pad> traffic_info
+Topanga Mall <pad> poi_type
 Topanga Mall <pad> address
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 conference <pad> room
 conference <pad> agenda
@@ -5173,92 +5173,92 @@ dinner <pad> time
 dinner <pad> date
 dinner <pad> party
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 downtown chicago <pad> monday
 downtown chicago <pad> tuesday
@@ -5310,32 +5310,32 @@ redwood city <pad> thursday
 redwood city <pad> sunday
 redwood city <pad> saturday
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 tennis activity <pad> room
 tennis activity <pad> agenda
@@ -5398,32 +5398,32 @@ swimming activity <pad> time
 swimming activity <pad> date
 swimming activity <pad> party
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 cleveland <pad> monday
 cleveland <pad> tuesday
@@ -5524,32 +5524,32 @@ san francisco <pad> thursday
 san francisco <pad> sunday
 san francisco <pad> saturday
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 grand rapids <pad> monday
 grand rapids <pad> tuesday
@@ -5601,36 +5601,36 @@ brentwood <pad> thursday
 brentwood <pad> sunday
 brentwood <pad> saturday
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 taking medicine <pad> room
 taking medicine <pad> agenda
@@ -5673,36 +5673,36 @@ conference <pad> time
 conference <pad> date
 conference <pad> party
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Hacienda Market <pad> distance
-Hacienda Market <pad> traffic info
-Hacienda Market <pad> poi type
+Hacienda Market <pad> traffic_info
+Hacienda Market <pad> poi_type
 Hacienda Market <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 new york <pad> monday
 new york <pad> tuesday
@@ -5754,96 +5754,96 @@ exeter <pad> thursday
 exeter <pad> sunday
 exeter <pad> saturday
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 76 <pad> distance
-76 <pad> traffic info
-76 <pad> poi type
+76 <pad> traffic_info
+76 <pad> poi_type
 76 <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 san francisco <pad> monday
 san francisco <pad> tuesday
@@ -5895,36 +5895,36 @@ manhattan <pad> thursday
 manhattan <pad> sunday
 manhattan <pad> saturday
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Papa Johns <pad> distance
-Papa Johns <pad> traffic info
-Papa Johns <pad> poi type
+Papa Johns <pad> traffic_info
+Papa Johns <pad> poi_type
 Papa Johns <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 atherton <pad> monday
 atherton <pad> tuesday
@@ -5976,32 +5976,32 @@ fresno <pad> thursday
 fresno <pad> sunday
 fresno <pad> saturday
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 dentist appointment <pad> room
 dentist appointment <pad> agenda
@@ -6034,36 +6034,36 @@ dentist <pad> time
 dentist <pad> date
 dentist <pad> party
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 swimming activity <pad> room
 swimming activity <pad> agenda
@@ -6096,36 +6096,36 @@ taking medicine <pad> time
 taking medicine <pad> date
 taking medicine <pad> party
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 compton <pad> monday
 compton <pad> tuesday
@@ -6177,36 +6177,36 @@ redwood city <pad> thursday
 redwood city <pad> sunday
 redwood city <pad> saturday
 Peets Coffee <pad> distance
-Peets Coffee <pad> traffic info
-Peets Coffee <pad> poi type
+Peets Coffee <pad> traffic_info
+Peets Coffee <pad> poi_type
 Peets Coffee <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 corona <pad> monday
 corona <pad> tuesday
@@ -6258,32 +6258,32 @@ manhattan <pad> thursday
 manhattan <pad> sunday
 manhattan <pad> saturday
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 doctor appointment <pad> room
 doctor appointment <pad> agenda
@@ -6475,36 +6475,36 @@ doctor appointment <pad> time
 doctor appointment <pad> date
 doctor appointment <pad> party
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 Travelers Lodge <pad> distance
-Travelers Lodge <pad> traffic info
-Travelers Lodge <pad> poi type
+Travelers Lodge <pad> traffic_info
+Travelers Lodge <pad> poi_type
 Travelers Lodge <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 meeting <pad> room
 meeting <pad> agenda
@@ -6666,60 +6666,60 @@ oakland <pad> thursday
 oakland <pad> sunday
 oakland <pad> saturday
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 san jose <pad> monday
 san jose <pad> tuesday
@@ -6771,64 +6771,64 @@ alhambra <pad> thursday
 alhambra <pad> sunday
 alhambra <pad> saturday
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Papa Johns <pad> distance
-Papa Johns <pad> traffic info
-Papa Johns <pad> poi type
+Papa Johns <pad> traffic_info
+Papa Johns <pad> poi_type
 Papa Johns <pad> address
 Travelers Lodge <pad> distance
-Travelers Lodge <pad> traffic info
-Travelers Lodge <pad> poi type
+Travelers Lodge <pad> traffic_info
+Travelers Lodge <pad> poi_type
 Travelers Lodge <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 menlo park <pad> monday
 menlo park <pad> tuesday
@@ -6880,120 +6880,120 @@ compton <pad> thursday
 compton <pad> sunday
 compton <pad> saturday
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Civic Center Garage <pad> distance
-Civic Center Garage <pad> traffic info
-Civic Center Garage <pad> poi type
+Civic Center Garage <pad> traffic_info
+Civic Center Garage <pad> poi_type
 Civic Center Garage <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 Papa Johns <pad> distance
-Papa Johns <pad> traffic info
-Papa Johns <pad> poi type
+Papa Johns <pad> traffic_info
+Papa Johns <pad> poi_type
 Papa Johns <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 optometrist appointment <pad> room
 optometrist appointment <pad> agenda
@@ -7420,64 +7420,64 @@ boston <pad> thursday
 boston <pad> sunday
 boston <pad> saturday
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Travelers Lodge <pad> distance
-Travelers Lodge <pad> traffic info
-Travelers Lodge <pad> poi type
+Travelers Lodge <pad> traffic_info
+Travelers Lodge <pad> poi_type
 Travelers Lodge <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Willows Market <pad> distance
-Willows Market <pad> traffic info
-Willows Market <pad> poi type
+Willows Market <pad> traffic_info
+Willows Market <pad> poi_type
 Willows Market <pad> address
 76 <pad> distance
-76 <pad> traffic info
-76 <pad> poi type
+76 <pad> traffic_info
+76 <pad> poi_type
 76 <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 doctor appointment <pad> room
 doctor appointment <pad> agenda
@@ -7520,64 +7520,64 @@ optometrist appointment <pad> time
 optometrist appointment <pad> date
 optometrist appointment <pad> party
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Topanga Mall <pad> distance
-Topanga Mall <pad> traffic info
-Topanga Mall <pad> poi type
+Topanga Mall <pad> traffic_info
+Topanga Mall <pad> poi_type
 Topanga Mall <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 menlo park <pad> monday
 menlo park <pad> tuesday
@@ -7629,124 +7629,124 @@ redwood city <pad> thursday
 redwood city <pad> sunday
 redwood city <pad> saturday
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Chevron <pad> distance
-Chevron <pad> traffic info
-Chevron <pad> poi type
+Chevron <pad> traffic_info
+Chevron <pad> poi_type
 Chevron <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Topanga Mall <pad> distance
-Topanga Mall <pad> traffic info
-Topanga Mall <pad> poi type
+Topanga Mall <pad> traffic_info
+Topanga Mall <pad> poi_type
 Topanga Mall <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 dinner <pad> room
 dinner <pad> agenda
@@ -7877,32 +7877,32 @@ los angeles <pad> thursday
 los angeles <pad> sunday
 los angeles <pad> saturday
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 redwood city <pad> monday
 redwood city <pad> tuesday
@@ -8003,92 +8003,92 @@ cleveland <pad> thursday
 cleveland <pad> sunday
 cleveland <pad> saturday
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5677 springer street <pad> distance
-5677 springer street <pad> traffic info
-5677 springer street <pad> poi type
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
 5677 springer street <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Palo Alto Medical Foundation <pad> distance
-Palo Alto Medical Foundation <pad> traffic info
-Palo Alto Medical Foundation <pad> poi type
+Palo Alto Medical Foundation <pad> traffic_info
+Palo Alto Medical Foundation <pad> poi_type
 Palo Alto Medical Foundation <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 conference <pad> room
 conference <pad> agenda
@@ -8170,220 +8170,220 @@ danville <pad> thursday
 danville <pad> sunday
 danville <pad> saturday
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 The Westin <pad> distance
-The Westin <pad> traffic info
-The Westin <pad> poi type
+The Westin <pad> traffic_info
+The Westin <pad> poi_type
 The Westin <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Pizza My Heart <pad> distance
-Pizza My Heart <pad> traffic info
-Pizza My Heart <pad> poi type
+Pizza My Heart <pad> traffic_info
+Pizza My Heart <pad> poi_type
 Pizza My Heart <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Midtown Shopping Center <pad> distance
-Midtown Shopping Center <pad> traffic info
-Midtown Shopping Center <pad> poi type
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
 Midtown Shopping Center <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 5672 barringer street <pad> distance
-5672 barringer street <pad> traffic info
-5672 barringer street <pad> poi type
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
 5672 barringer street <pad> address
 Civic Center Garage <pad> distance
-Civic Center Garage <pad> traffic info
-Civic Center Garage <pad> poi type
+Civic Center Garage <pad> traffic_info
+Civic Center Garage <pad> poi_type
 Civic Center Garage <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Topanga Mall <pad> distance
-Topanga Mall <pad> traffic info
-Topanga Mall <pad> poi type
+Topanga Mall <pad> traffic_info
+Topanga Mall <pad> poi_type
 Topanga Mall <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 Whole Foods <pad> distance
-Whole Foods <pad> traffic info
-Whole Foods <pad> poi type
+Whole Foods <pad> traffic_info
+Whole Foods <pad> poi_type
 Whole Foods <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Hacienda Market <pad> distance
-Hacienda Market <pad> traffic info
-Hacienda Market <pad> poi type
+Hacienda Market <pad> traffic_info
+Hacienda Market <pad> poi_type
 Hacienda Market <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Four Seasons <pad> distance
-Four Seasons <pad> traffic info
-Four Seasons <pad> poi type
+Four Seasons <pad> traffic_info
+Four Seasons <pad> poi_type
 Four Seasons <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 manhattan <pad> monday
 manhattan <pad> tuesday
@@ -8533,36 +8533,36 @@ seattle <pad> thursday
 seattle <pad> sunday
 seattle <pad> saturday
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Dominos <pad> distance
-Dominos <pad> traffic info
-Dominos <pad> poi type
+Dominos <pad> traffic_info
+Dominos <pad> poi_type
 Dominos <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 alhambra <pad> monday
 alhambra <pad> tuesday
@@ -8842,64 +8842,64 @@ football activity <pad> time
 football activity <pad> date
 football activity <pad> party
 toms house <pad> distance
-toms house <pad> traffic info
-toms house <pad> poi type
+toms house <pad> traffic_info
+toms house <pad> poi_type
 toms house <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic info
-Stanford Oval Parking <pad> poi type
+Stanford Oval Parking <pad> traffic_info
+Stanford Oval Parking <pad> poi_type
 Stanford Oval Parking <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Civic Center Garage <pad> distance
-Civic Center Garage <pad> traffic info
-Civic Center Garage <pad> poi type
+Civic Center Garage <pad> traffic_info
+Civic Center Garage <pad> poi_type
 Civic Center Garage <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 cleveland <pad> monday
 cleveland <pad> tuesday
@@ -8951,32 +8951,32 @@ san mateo <pad> thursday
 san mateo <pad> sunday
 san mateo <pad> saturday
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Coupa <pad> distance
-Coupa <pad> traffic info
-Coupa <pad> poi type
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
 Coupa <pad> address
 Civic Center Garage <pad> distance
-Civic Center Garage <pad> traffic info
-Civic Center Garage <pad> poi type
+Civic Center Garage <pad> traffic_info
+Civic Center Garage <pad> poi_type
 Civic Center Garage <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address
 Philz <pad> distance
-Philz <pad> traffic info
-Philz <pad> poi type
+Philz <pad> traffic_info
+Philz <pad> poi_type
 Philz <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 san francisco <pad> monday
 san francisco <pad> tuesday
@@ -9098,32 +9098,32 @@ swimming activity <pad> time
 swimming activity <pad> date
 swimming activity <pad> party
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 optometrist appointment <pad> room
 optometrist appointment <pad> agenda
@@ -9451,36 +9451,36 @@ durham <pad> thursday
 durham <pad> sunday
 durham <pad> saturday
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 Hacienda Market <pad> distance
-Hacienda Market <pad> traffic info
-Hacienda Market <pad> poi type
+Hacienda Market <pad> traffic_info
+Hacienda Market <pad> poi_type
 Hacienda Market <pad> address
 Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic info
-Sigona Farmers Market <pad> poi type
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
 Sigona Farmers Market <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 grand rapids <pad> monday
 grand rapids <pad> tuesday
@@ -9532,36 +9532,36 @@ atherton <pad> thursday
 atherton <pad> sunday
 atherton <pad> saturday
 Starbucks <pad> distance
-Starbucks <pad> traffic info
-Starbucks <pad> poi type
+Starbucks <pad> traffic_info
+Starbucks <pad> poi_type
 Starbucks <pad> address
 Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic info
-Stanford Shopping Center <pad> poi type
+Stanford Shopping Center <pad> traffic_info
+Stanford Shopping Center <pad> poi_type
 Stanford Shopping Center <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Travelers Lodge <pad> distance
-Travelers Lodge <pad> traffic info
-Travelers Lodge <pad> poi type
+Travelers Lodge <pad> traffic_info
+Travelers Lodge <pad> poi_type
 Travelers Lodge <pad> address
 Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic info
-Stanford Express Care <pad> poi type
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
 Stanford Express Care <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Ravenswood Shopping Center <pad> distance
-Ravenswood Shopping Center <pad> traffic info
-Ravenswood Shopping Center <pad> poi type
+Ravenswood Shopping Center <pad> traffic_info
+Ravenswood Shopping Center <pad> poi_type
 Ravenswood Shopping Center <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 football activity <pad> room
 football activity <pad> agenda
@@ -9604,124 +9604,124 @@ lab appointment <pad> time
 lab appointment <pad> date
 lab appointment <pad> party
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Papa Johns <pad> distance
-Papa Johns <pad> traffic info
-Papa Johns <pad> poi type
+Papa Johns <pad> traffic_info
+Papa Johns <pad> poi_type
 Papa Johns <pad> address
 Teavana <pad> distance
-Teavana <pad> traffic info
-Teavana <pad> poi type
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
 Teavana <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic info
-The Clement Hotel <pad> poi type
+The Clement Hotel <pad> traffic_info
+The Clement Hotel <pad> poi_type
 The Clement Hotel <pad> address
 Dish Parking <pad> distance
-Dish Parking <pad> traffic info
-Dish Parking <pad> poi type
+Dish Parking <pad> traffic_info
+Dish Parking <pad> poi_type
 Dish Parking <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 Pizza Hut <pad> distance
-Pizza Hut <pad> traffic info
-Pizza Hut <pad> poi type
+Pizza Hut <pad> traffic_info
+Pizza Hut <pad> poi_type
 Pizza Hut <pad> address
 Hotel Keen <pad> distance
-Hotel Keen <pad> traffic info
-Hotel Keen <pad> poi type
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
 Hotel Keen <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Comfort Inn <pad> distance
-Comfort Inn <pad> traffic info
-Comfort Inn <pad> poi type
+Comfort Inn <pad> traffic_info
+Comfort Inn <pad> poi_type
 Comfort Inn <pad> address
 Cafe Venetia <pad> distance
-Cafe Venetia <pad> traffic info
-Cafe Venetia <pad> poi type
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
 Cafe Venetia <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Trader Joes <pad> distance
-Trader Joes <pad> traffic info
-Trader Joes <pad> poi type
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
 Trader Joes <pad> address
 Shell <pad> distance
-Shell <pad> traffic info
-Shell <pad> poi type
+Shell <pad> traffic_info
+Shell <pad> poi_type
 Shell <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 P.F. Changs <pad> distance
-P.F. Changs <pad> traffic info
-P.F. Changs <pad> poi type
+P.F. Changs <pad> traffic_info
+P.F. Changs <pad> poi_type
 P.F. Changs <pad> address
 Willows Market <pad> distance
-Willows Market <pad> traffic info
-Willows Market <pad> poi type
+Willows Market <pad> traffic_info
+Willows Market <pad> poi_type
 Willows Market <pad> address
 Panda Express <pad> distance
-Panda Express <pad> traffic info
-Panda Express <pad> poi type
+Panda Express <pad> traffic_info
+Panda Express <pad> poi_type
 Panda Express <pad> address
 jacks house <pad> distance
-jacks house <pad> traffic info
-jacks house <pad> poi type
+jacks house <pad> traffic_info
+jacks house <pad> poi_type
 jacks house <pad> address
 5677 southwest 4th street <pad> distance
-5677 southwest 4th street <pad> traffic info
-5677 southwest 4th street <pad> poi type
+5677 southwest 4th street <pad> traffic_info
+5677 southwest 4th street <pad> poi_type
 5677 southwest 4th street <pad> address
 Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic info
-Pizza Chicago <pad> poi type
+Pizza Chicago <pad> traffic_info
+Pizza Chicago <pad> poi_type
 Pizza Chicago <pad> address
 Webster Garage <pad> distance
-Webster Garage <pad> traffic info
-Webster Garage <pad> poi type
+Webster Garage <pad> traffic_info
+Webster Garage <pad> poi_type
 Webster Garage <pad> address
 tai pan <pad> distance
-tai pan <pad> traffic info
-tai pan <pad> poi type
+tai pan <pad> traffic_info
+tai pan <pad> poi_type
 tai pan <pad> address
 Chef Chu's <pad> distance
-Chef Chu's <pad> traffic info
-Chef Chu's <pad> poi type
+Chef Chu's <pad> traffic_info
+Chef Chu's <pad> poi_type
 Chef Chu's <pad> address
 Jing Jing <pad> distance
-Jing Jing <pad> traffic info
-Jing Jing <pad> poi type
+Jing Jing <pad> traffic_info
+Jing Jing <pad> poi_type
 Jing Jing <pad> address
 Palo Alto Garage R <pad> distance
-Palo Alto Garage R <pad> traffic info
-Palo Alto Garage R <pad> poi type
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
 Palo Alto Garage R <pad> address
 Mandarin Roots <pad> distance
-Mandarin Roots <pad> traffic info
-Mandarin Roots <pad> poi type
+Mandarin Roots <pad> traffic_info
+Mandarin Roots <pad> poi_type
 Mandarin Roots <pad> address
 Palo Alto Cafe <pad> distance
-Palo Alto Cafe <pad> traffic info
-Palo Alto Cafe <pad> poi type
+Palo Alto Cafe <pad> traffic_info
+Palo Alto Cafe <pad> poi_type
 Palo Alto Cafe <pad> address
 inglewood <pad> monday
 inglewood <pad> tuesday
@@ -9773,30 +9773,30 @@ redwood city <pad> thursday
 redwood city <pad> sunday
 redwood city <pad> saturday
 Town and Country <pad> distance
-Town and Country <pad> traffic info
-Town and Country <pad> poi type
+Town and Country <pad> traffic_info
+Town and Country <pad> poi_type
 Town and Country <pad> address
 Safeway <pad> distance
-Safeway <pad> traffic info
-Safeway <pad> poi type
+Safeway <pad> traffic_info
+Safeway <pad> poi_type
 Safeway <pad> address
 Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic info
-Stanford Childrens Health <pad> poi type
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
 Stanford Childrens Health <pad> address
 home <pad> distance
-home <pad> traffic info
-home <pad> poi type
+home <pad> traffic_info
+home <pad> poi_type
 home <pad> address
 Round Table <pad> distance
-Round Table <pad> traffic info
-Round Table <pad> poi type
+Round Table <pad> traffic_info
+Round Table <pad> poi_type
 Round Table <pad> address
 jills house <pad> distance
-jills house <pad> traffic info
-jills house <pad> poi type
+jills house <pad> traffic_info
+jills house <pad> poi_type
 jills house <pad> address
 Valero <pad> distance
-Valero <pad> traffic info
-Valero <pad> poi type
+Valero <pad> traffic_info
+Valero <pad> poi_type
 Valero <pad> address

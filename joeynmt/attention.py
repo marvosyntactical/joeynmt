@@ -159,7 +159,7 @@ class KeyValRetAtt(AttentionMechanism):
         self.proj_query = None  # projected query
 
     #pylint: disable=arguments-differ
-    def forward(self, query: Tensor = None, values: Tensor=None):
+    def forward(self, query: Tensor = None):
         """
         Bahdanau MLP attention forward pass.
         TODO: Values are needed to create v_t (See section 2.3)
@@ -179,21 +179,13 @@ class KeyValRetAtt(AttentionMechanism):
         self.compute_proj_query(query)
 
         # Calculate u_t.
-
         # proj_keys: batch x kb_size x hidden_size
         # proj_query: batch x 1 x hidden_size
         u_t = self.energy_layer(torch.tanh(self.proj_query + self.proj_keys))
-        # u_t: batch x kb_size x 1
+        # u_t: 3 x kb_size x 1
 
         u_t = u_t.squeeze(2).unsqueeze(1)
-        # u_t: batch x 1 x kb_size 
-
-        ## mask out invalid positions by filling the masked out parts with -inf
-        #u_t = torch.where(mask, u_t, u_t.new_full([1], float('-inf')))
-
-        # TODO:
-        # - calculate and return (!) v_t here out of u_t
-        # - for this: look at vocabulary implementation, info needed, info provided by decoder
+        # u_t: 3 x 1 x kb_size
 
         return u_t
 

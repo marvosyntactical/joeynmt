@@ -195,24 +195,33 @@ class Model(nn.Module):
         batch_loss = loss_function(log_probs, batch.trg)
         # return batch loss = sum over all elements in batch that are not pad
         return batch_loss
-    
-    def process_batch_kb(self,batch: Batch_with_KB)-> (Tensor, Tensor):
+
+    def process_batch_kb(self, batch: Batch_with_KB)-> (Tensor, Tensor):
+
 
         kb_keys = batch.kbsrc[0]
         kb_values = batch.kbtrg[0]
-        
-        kb_keys = self.src_embed(kb_keys)
-        kb_values = self.trg_embed(kb_values)
 
-        kb_keys[kb_keys==self.eos_idx_src] = self.pad_idx_src #TODO to save a little time, figure out how to avoid putting eos here during init
+
+        kb_keys = self.src_embed(kb_keys)
+        # NOTE: values dont even need to be embedded!!
+        kb_values = kb_values[:, 1] # remove bos, eos tokens
+
+        kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src 
+        # TODO to save a little time, figure out how to avoid putting eos here
+        # during init
         kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel
 
-        kb_keys.unsqueeze_(0) 
-        kb_values.unsqueeze_(0) 
+        kb_keys.unsqueeze_(0)
+        kb_values.unsqueeze_(0)
 
         print(f"kb_keys.shape:{kb_keys.shape}")
         print(f"kb_values.shape:{kb_values.shape}")
-        print(f"debug: dir(batch):{dir(batch)}")
+        print(f"debug: dir(batch):{[s for s in dir(batch) if s.startswith(('kb', 'src', 'trg'))]}")
+        print(f"debug: batch.src.shape:{batch.src.shape}")
+        print(f"debug: batch.trg.shape:{batch.trg.shape}")
+        print(batch.src)
+        assert batch.src.shape[0] == 3,batch.src.shape[0] # Latest TODO find where this happens???
         print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
         print(f"debug: batch.kbtrv:{batch.kbtrv}")
 
@@ -238,8 +247,6 @@ class Model(nn.Module):
         # if maximum output length is not globally specified, adapt to src len
         if max_output_length is None:
             max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
-
-        
 
         kb_keys, kb_values = self.process_batch_kb(batch)
         knowledgebase = (kb_keys, kb_values)

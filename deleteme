@@ -1,0 +1,13 @@
+
+### 02.04.20 Dialogue history to source:
+
+add the entire dialogue history to source
+problems:
+* makes batches unwieldy one batch is one convo, with the batch size being equal to the last utterance (with src==entire history) and examples mostly pad
+
+-> added dialogue history to src; 
+-> utterances separated by \<dot\> token
+
+Finished on 02.04.
+
+

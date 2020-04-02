@@ -38,7 +38,6 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 4. load kb during testing
   * like how its done in validate
 
-
 ---
 
 # Active Workspace
@@ -55,37 +54,13 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data
 
 ## _```Current issue```_:
-### 02.04.20 Dialogue history to source:
+### 02.04.20 implement v\_t
 
-add the entire dialogue history to source
-problems:
-* makes batches unwieldy one batch is one convo, with the batch size being equal to the last utterance (with src==entire history) and examples mostly pad
+in decoder.forward(), at the end:
 
-ideas:
-* since were looking at preprocessing pipeline, look at if kb unvalued entries can be removed for during regeneration of vocab files 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. Create a zero tensor of shape batch x 1 x vocab\_size:
+ v\_t = torch.zeros((batch,1,vocab/size))
+2. v\_t[values[1,:,:] 
 
 
 
@@ -93,6 +68,18 @@ ideas:
 ---
 
 # Issues Archive
+
+### 02.04.20 Dialogue history to source:
+
+add the entire dialogue history to source
+problems:
+* makes batches unwieldy one batch is one convo, with the batch size being equal to the last utterance (with src==entire history) and examples mostly pad
+
+-> added dialogue history to src; 
+-> utterances separated by \<dot\> token
+
+Finished on 02.04.
+
 
 ## _Old Issue_:
 ### 23.03.20 Refactor KB:

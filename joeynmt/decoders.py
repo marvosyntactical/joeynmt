@@ -690,10 +690,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             query=query, values=encoder_output, mask=src_mask)
 
         if kb_values != None:
-            v_t = self.kvr_attention(query=query, values=kb_values) #TODO: implement v_t 
-            print("v_t; currently holds u_t because not done implementing...")
-            print(v_t.shape) # batch_size x kb_size x 1
-            #TODO resulting v_t should be batch_size x (trg_emb + kb)
+            u_t = self.kvr_attention(query=query) #TODO: implement v_t 
+            print("u_t")
+            print(u_t.shape) # batch_size x 1 x kb_size
+
+            #TODO resulting v_t should be batch_size x 1 x (trg_emb + kb)
         else:
             raise ValueError(kb_values) 
 
@@ -712,7 +713,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         att_vector = torch.tanh(self.att_vector_layer(att_vector_input))
 
         # output: batch x 1 x hidden_size
-        return att_vector, hidden, att_probs, v_t
+        return att_vector, hidden, att_probs, u_t
 
     def forward(self,
                 trg_embed: Tensor,
@@ -789,7 +790,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             trg_embed=trg_embed,
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
-            knowledgebase = knowledgebase,
+            knowledgebase=knowledgebase,
             src_mask=src_mask,
             hidden=hidden,
             prev_att_vector=prev_att_vector)
@@ -809,7 +810,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []
         att_probs = []
-        kb_log_probs = []
+        kb_probs = []
 
         batch_size = encoder_output.size(0)
 
@@ -831,7 +832,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 hidden=hidden)
             att_vectors.append(prev_att_vector)
             att_probs.append(att_prob)
-            kb_log_probs.append(v_t)
+            kb_probs.append(v_t)
 
         att_vectors = torch.cat(att_vectors, dim=1)
         # att_vectors: batch, unroll_steps, hidden_size
@@ -848,7 +849,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # let _forward_step return v_t, concatenate all here to v, then add to outputs
         # also TODO: compute v and add to outputs/extend them by it:
         # v: batch, unroll_steps, n
-        kb_log_probs = torch.cat(kb_log_probs, dim=1)
+        kb_probs = torch.cat(kb_probs, dim=1)
 
         """ deleteme 
         print("batch, unroll_steps, vocab_size ",outputs.shape)
