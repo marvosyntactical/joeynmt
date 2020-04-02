@@ -35,7 +35,7 @@ def canonify(kvr_triple):
     """
 
     subj, rel, val = kvr_triple.split("::")
-    key_rep = f" {PAD_TOKEN} ".join((subj, rel)).replace("_"," ")
+    key_rep = f" {PAD_TOKEN} ".join((subj, rel))
     canon_val = key_rep.replace(f"{PAD_TOKEN} ", "").replace(" ", CANON_JOIN_CHAR)
 
     return key_rep,canon_val, val
