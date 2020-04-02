@@ -49,28 +49,20 @@ This is a general list of minor technical TODOs that can be done without thinkin
 
 * figure out how to reconstruct tokens for debugging within training/model/decoder
   * something like: *self.trg\_embed*.lut[array] 
-  * also look at *array\_ to\_ sentence*
-* look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during trai/val/test???
-* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional savig in joeynmt.data.load\_data
+  * also look at *array\_ to\_ sentence* to do it before embedding (before model.process\_batch\_kb
+* sanity check that kb actually matches dialogue in the system: requires token reconstruction from above
+* look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during train/val/test???
+* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data
 
 ## _```Current issue```_:
-### 23.03.20 Refactor KB:
+### 02.04.20 Dialogue history to source:
 
-Dimension, Dataset (from 1 to 2), vocab file, kb preproc
+add the entire dialogue history to source
+problems:
+* makes batches unwieldy one batch is one convo, with the batch size being equal to the last utterance (with src==entire history) and examples mostly pad
 
-Update kb tensor to use multiple word embeddings instead of one per _subject_ and _relation_.
-
-* that means list of tokens with padding
-* find out dimensions
-* add canon val to tensor (in kb preproc) (entries go from triple to quadruple)
-  * or make the triple (_subj_, _rel_, _kb-canon-val_) and also pass list or dict of actual _values_
-* change vocab used by _kb_ (currently: _trg\_vocab_)
-  * two different vocabs!! *src* for subj_ and _rel_; *trg* for _val_ and _canonval_. _data.torchbatchwithkb_ can use *TranslationDataset* instead of MonoDataset!
-
--> use translation dataset tensor with trg equal to just canonical name; pass list of actual values through repo
--> use mono dataset tensor for true kb values and add kb\_truval attrib to batch
--> batch now has attributes: *src*, *trg* and _kb-src_, _kb-trg_ and _kb-truval_
-
+ideas:
+* since were looking at preprocessing pipeline, look at if kb unvalued entries can be removed for during regeneration of vocab files 
 
 
 
@@ -103,6 +95,28 @@ Update kb tensor to use multiple word embeddings instead of one per _subject_ an
 # Issues Archive
 
 ## _Old Issue_:
+### 23.03.20 Refactor KB:
+
+Dimension, Dataset (from 1 to 2), vocab file, kb preproc
+
+Update kb tensor to use multiple word embeddings instead of one per _subject_ and _relation_.
+
+* that means list of tokens with padding
+* find out dimensions
+* add canon val to tensor (in kb preproc) (entries go from triple to quadruple)
+  * or make the triple (_subj_, _rel_, _kb-canon-val_) and also pass list or dict of actual _values_
+* change vocab used by _kb_ (currently: _trg\_vocab_)
+  * two different vocabs!! *src* for subj_ and _rel_; *trg* for _val_ and _canonval_. _data.torchbatchwithkb_ can use *TranslationDataset* instead of MonoDataset!
+
+-> use translation dataset tensor with trg equal to just canonical name; pass list of actual values through repo
+-> build vocabulary for e.g. source from both train\_data.src AND train\_kb.kbsrc
+-> use mono dataset tensor for true kb values and add kb\_truval attrib to batch
+-> batch now has attributes: *src*, *trg* and _kb-src_, _kb-trg_ and _kb-truval_
+
+Finished on April 2
+
+
+## _Old Issue_:
 ### 21.02. Brainy Juice:
 
 * during decoder.forward, kb with triple items has to be attended to => several options:
@@ -110,6 +124,8 @@ Update kb tensor to use multiple word embeddings instead of one per _subject_ an
 	2. batch has one scenario, variable batch size (dialogue length) => iterate over scenarios in parallel to train\_iter and pass one KB per batch/forward pass to attention ```CURRENT SOLUTION```
 	3. batch\_size = 1 => use lkp table to take relevant scenario 
 In the current solution, batch multiplier could be increased; on average the batch size is currently ~3; due to how small the dataset is batch size should have an impact but not really matter in training time
+
+Finished early March (when?)
 
 
 

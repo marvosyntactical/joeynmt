@@ -778,21 +778,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if knowledgebase != None:
             kb_keys, kb_values = knowledgebase
 
-            print(type(knowledgebase))
-            print(type(kb_keys))
-            print(type(kb_values))
-            print([type(i) for i in kb_keys])
-            print([type(i) for i in kb_values])
-            print(kb_keys)
-            print(kb_values)
-
-
-            print("Kb src:-) ", kb_keys.shape) 
-            print(kb_keys[0].shape)
-            print("Kb trg:-) ", kb_values.shape)
-            print(kb_values[0].shape)
-            
-
         else:
             assert False 
             kb_keys, kb_values = None, None

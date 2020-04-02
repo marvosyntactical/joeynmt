@@ -3,8 +3,8 @@ name: "kv_toy"
 # This configuration serves the purpose of documenting and explaining the settings, *NOT* as an example for good hyperparamter settings.
 
 data: # specify your data here
-    src: "usr"                       # src language: expected suffix of train files, e.g. "train.de"
-    trg: "car"                       # trg language
+src: "husr"                       # src language: expected suffix of train files, e.g. "train.de" (kb task: either usr or husr)
+    trg: "hcar"                       # trg language
     kb_task: "YES"                   # KVR: assigned and boolean val of True if KVR task performed 
     kb_ext: "kb"                         # KVR: kb extension
     kb_lkp: "lkp"                       # KVR: kb association lkp file ext

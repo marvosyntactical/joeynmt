@@ -3,14 +3,22 @@ import os
 import sys
 
 
+#usr_part = "\n".join([e for i,e in enumerate(elem) if i%2==0])+"\n"
+
+
+def historify_src(utterances, even=True):
+    #helper function to add the entire dialogue history as src
+    parity = 0 if even else 1
+
+    usr_part = ""
+    for i, e in enumerate(utterances):
+        if i%2==parity:
+            usr_part += " <dot> ".join(utterances[:i+1])+"\n"
+    return usr_part
 
 def main(args):
     #defaults:
-<<<<<<< HEAD
     directory = "../kvr/"
-=======
-    directory = "../kv_ret_dataset/"
->>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf
     filename = "kvret_dev_public.json" if args == 0 else args[0]
     splitpart = "dev" if args == 0 else args[1]
     assert splitpart in ["dev", "train", "test"]
@@ -46,8 +54,8 @@ def main(args):
             elem = elem[:-1] 
         nturns = len(elem)
         assert nturns%2==0
-        usr_part = "\n".join([e for i,e in enumerate(elem) if i%2==0])+"\n"
-        car_part =  "\n".join([e for i,e in enumerate(elem) if i%2==1])+"\n"
+        usr_part = historify_src(elem) 
+        car_part = "\n".join([e for i,e in enumerate(elem) if i%2==1])+"\n"
         scenario_part = (str(idx)+"\n")*(nturns//2)
         if usr_part.strip() =="" or car_part.strip()=="" or scenario_part.strip()=="": continue
         lines = lambda s: len(s.split("\n"))
@@ -56,7 +64,7 @@ def main(args):
         convo_car += car_part
         scenario_lkp += scenario_part
     
-    train_usr, train_car = splitpart+".usr", splitpart+".car"
+    train_usr, train_car = splitpart+".husr", splitpart+".hcar"
 
     with open(directory+train_usr, "w") as usr, open(directory+train_car, "w") as car:
         usr.write(convo_usr)
@@ -75,7 +83,7 @@ def main(args):
     unanswered_file = "unanswered_"+splitpart+".txt"
 
     with open(directory+unanswered_file, "w") as unan:
-        unan.write(unanswered)
+        unan.write(unanswered) #user thanks etc that were never answered
     
 
     return 0
