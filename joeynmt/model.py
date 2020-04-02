@@ -198,10 +198,8 @@ class Model(nn.Module):
 
         kb_keys = batch.kbsrc[0]
         kb_values = batch.kbtrg[0]
-
-
         
-        kb_key = self.src_embed(kb_keys)
+        kb_keys = self.src_embed(kb_keys)
         kb_values = self.trg_embed(kb_values)
 
         kb_keys[kb_keys==self.eos_idx_src] = self.pad_idx_src
@@ -210,8 +208,8 @@ class Model(nn.Module):
         kb_keys.unsqueeze_(0) 
         kb_values.unsqueeze_(0) 
 
-        print(kb_keys.shape)
-        print(kb_values.shape)
+        print(f"kb_keys.shape:{kb_keys.shape}")
+        print(f"kb_values.shape:{kb_values.shape}")
 
         return kb_keys, kb_values
 

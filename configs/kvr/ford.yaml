@@ -10,7 +10,8 @@ data: # specify your data here
     kb_trg: "kbv"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_lkp: "lkp"                       # KVR: kb association lkp file ext
     kb_len: "len"                       # KVR: kb lengths file ext
-    kb_truvals: "trv"
+    kb_truvals: "trv"                   # KVR: file extension for truvals
+    global_trv: "global.trv"            # KVR: concatenation of train/dev/test trv files for lookup vocab building
     
     train: "data/kvr/train"    # training data
     dev: "data/kvr/dev"        # development data for validation
@@ -22,8 +23,8 @@ data: # specify your data here
     src_voc_limit: 101              # src vocabulary only includes this many most frequent tokens, default: unlimited
     trg_voc_min_freq: 1             # trg minimum frequency for a token to become part of the vocabulary
     trg_voc_limit: 102              # trg vocabulary only includes this many most frequent tokens, default: unlimited
-    src_vocab: "data/voc/train.en.w2v.40k.map.voc"  # if specified, load a vocabulary from this file
-    trg_vocab: "data/voc/train.en.w2v.40k.map.voc"  # one token per line, line number is index
+    # src_vocab: "data/voc/train.en.w2v.40k.map.voc"  # if specified, load a vocabulary from this file
+    # trg_vocab: "data/voc/train.en.w2v.40k.map.voc"  # one token per line, line number is index
     prevent_pkl_load_voc: "" #make bool == True to prevent pkle loading and force voc building (takes time)
     pkld_src_voc: "data/voc/src.p" # only use same location as long as fields in load_data unchanged.. if new just change this and run training twice; first run will create new pickle
     pkld_trg_voc: "data/voc/trg.p" # only use same location as long as fields in load_data unchanged.. if new just change this and run training twice; first run will create new pickle

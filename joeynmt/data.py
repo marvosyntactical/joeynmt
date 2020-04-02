@@ -75,6 +75,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_lkp = data_cfg.get("kb_lkp", "lkp")
         kb_len = data_cfg.get("kb_len", "len")
         kb_trv = data_cfg.get("kb_truvals", "trv")
+        global_trv = data_cfg.get("global_trv", "global.trv")
 
     tok_fun = lambda s: list(s) if level == "char" else s.split()
 
@@ -127,7 +128,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             lengths = lens.readlines()
         train_kb_lengths = [int(elem[:-1]) for elem in lengths if elem[:-1]]
             
-
 
     src_max_size = data_cfg.get("src_voc_limit", sys.maxsize)
     src_min_freq = data_cfg.get("src_voc_min_freq", 1)
@@ -243,9 +243,22 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         with open(test_path+"."+kb_len, "r") as lens:
             lengths = lens.readlines()
         test_kb_lengths = [int(elem[:-1]) for elem in lengths if elem[:-1]]
-            
+
+    # finally actually set the .vocab field attributes        
     src_field.vocab = src_vocab
     trg_field.vocab = trg_vocab
+
+    if kb_task:
+        # NOTE this vocab is hardcodedly built from the concatenation of train+dev+test trv files!
+        # TODO its hardcoded atm; add this to cfg
+        trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
+        trv_vocab = build_vocab(field="kbtrv", min_freq=1,
+                                        max_size=sys.maxsize,
+                                        dataset=train_kb_truvals, vocab_file=trv_path)
+
+
+    trv_field.vocab = trv_vocab
+
 
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None
@@ -352,9 +365,11 @@ class TorchBatchWithKB(Batch):
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
                     setattr(self, name, field.process(batch, device=device))
+            
             for (name, field) in self.kb_truval_data.fields.items():
                 if field is not None:
-                    truvals = [getattr(x, name) for x in data.kbtrv]
+                    truvals = ["<s>"]
+                    truvals += [getattr(x, name) for x in data.kbtrv]
                     setattr(self, name, field.process(truvals, device=device))
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:

@@ -576,7 +576,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         assert src_mask.shape[0] == prev_embed.shape[0]
         assert src_mask.shape[1] == 1
         if not (isinstance(kb_keys, type(None)) or isinstance(kb_values, type(None))):
-            assert kb_keys.shape == kb_values.shape
+            assert kb_keys.shape[:1] == kb_values.shape[:1], f"size mismatch between\
+                kb_keys={kb_keys.shape} and kb_values = {kb_values.shape}"
             assert kb_keys.shape[0] == kb_values.shape[0] == 1
         assert src_mask.shape[2] == encoder_output.shape[1]
         if isinstance(hidden, tuple):  # for lstm

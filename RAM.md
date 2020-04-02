@@ -48,6 +48,7 @@ This is a general list of minor technical TODOs that can be done without thinkin
   * something like: *self.trg\_embed*.lut[array] 
   * also look at *array\_ to\_ sentence*
 * look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during trai/val/test???
+* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional savig in joeynmt.data.load\_data
 
 ## _```Current issue```_:
 ### 23.03.20 Refactor KB:
