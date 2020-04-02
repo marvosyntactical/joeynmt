@@ -4,7 +4,7 @@
 Vocabulary module
 """
 from collections import defaultdict, Counter
-from typing import List
+from typing import List, Union, Tuple
 import numpy as np
 
 from torchtext.data import Dataset
@@ -135,13 +135,13 @@ class Vocabulary:
         return sentences
 
 
-def build_vocab(field: str, max_size: int, min_freq: int, dataset: Dataset,
+def build_vocab(fields: Union[str, Tuple], max_size: int, min_freq: int, dataset: Union[Dataset, Tuple],
                 vocab_file: str = None) -> Vocabulary:
     """
     Builds vocabulary for a torchtext `field` from given`dataset` or
-    `vocab_file`.
+    `vocab_file` or tuple of 'dataset'.
 
-    :param field: attribute e.g. "src"
+    :param fields: attribute e.g. "src", or Tuple of attributes (kb task), e.g. ("src", "kbsrc")
     :param max_size: maximum size of vocabulary
     :param min_freq: minimum frequency for an item to be included
     :param dataset: dataset to load data for field from
@@ -171,12 +171,29 @@ def build_vocab(field: str, max_size: int, min_freq: int, dataset: Dataset,
             vocab_tokens = [i[0] for i in tokens_and_frequencies[:limit]]
             return vocab_tokens
 
+        if isinstance(dataset, tuple):
+            assert len(dataset)== 2, "build_vocab currently only supports looking at either just 1 dataset or a tuple of 2 datasets"
+            dataset, kb_dataset = dataset
+        else: kb_dataset= None
+        if isinstance(fields, tuple):
+            assert len(fields)==2, "build_vocab currently only supports looking at either one field (default joeynmt) or two fields (kb_task)"
+            field, kb_field = fields
+        else: kb_field = None
+
         tokens = []
         for i in dataset.examples:
             if field == "src":
                 tokens.extend(i.src)
             elif field == "trg":
                 tokens.extend(i.trg)
+        #extend by additional tokens if looking at kb dataset
+
+        if kb_dataset is not None:        
+            for j in kb_dataset.examples:
+                if kb_field == "kbsrc": 
+                    tokens.extend(j.kbsrc)
+                elif kb_field == "kbtrg":
+                    tokens.extend(j.kbtrg)
 
         counter = Counter(tokens)
         if min_freq > -1:

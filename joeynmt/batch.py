@@ -125,8 +125,10 @@ class Batch_with_KB:
         #knowledgebase:
         assert hasattr(batch_with_kb,"kbsrc")
         assert hasattr(batch_with_kb,"kbtrg")
+        assert hasattr(batch_with_kb,"kbtrv")
         self.kbsrc = batch_with_kb.kbsrc
         self.kbtrg = batch_with_kb.kbtrg
+        self.kbtrv = batch_with_kb.kbtrv
 
         if hasattr(batch_with_kb, "trg"):
             trg, trg_lengths = batch_with_kb.trg

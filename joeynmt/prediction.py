@@ -32,8 +32,7 @@ def validate_on_data(model: Model, data: Dataset,
                      kb_task = None,
                      valid_kb: Tuple= None,
                      valid_kb_lkp: list =[], valid_kb_lens:list=[],
-                     valid_kb_truvals: list=[],
-                     kb_embed = lambda x: x,
+                     valid_kb_truvals: Dataset=None,
                      ) \
         -> (float, float, float, List[str], List[List[str]], List[str],
             List[str], List[List[str]], List[np.array]):
@@ -81,7 +80,8 @@ def validate_on_data(model: Model, data: Dataset,
         valid_iter = make_data_iter_kb(
             dataset=data, batch_size=batch_size, batch_type=batch_type,
             shuffle=False, train=False,
-            kb_data=valid_kb, kb_lkp=valid_kb_lkp, kb_lens=valid_kb_lens)
+            kb_data=valid_kb, kb_lkp=valid_kb_lkp, kb_lens=valid_kb_lens,
+            kb_truvals=valid_kb_truvals)
 
     valid_sources_raw = data.src
     pad_index = model.src_vocab.stoi[PAD_TOKEN]
@@ -100,7 +100,7 @@ def validate_on_data(model: Model, data: Dataset,
             batch = Batch(valid_batch, pad_index, use_cuda=use_cuda) if not kb_task else \
                 Batch_with_KB(valid_batch, pad_index, use_cuda=use_cuda)
 
-            assert hasattr(batch, "kb") == bool(kb_task)
+            assert hasattr(batch, "kbsrc") == bool(kb_task)
 
             # sort batch now by src length and keep track of order
             sort_reverse_index = batch.sort_by_src_lengths()
@@ -116,8 +116,7 @@ def validate_on_data(model: Model, data: Dataset,
             # run as during inference to produce translations
             output, attention_scores = model.run_batch(
                 batch=batch, beam_size=beam_size, beam_alpha=beam_alpha,
-                max_output_length=max_output_length,
-                knowledgebase=model.kb_embed(batch.kb))
+                max_output_length=max_output_length)
 
             # sort outputs back to original order
             all_outputs.extend(output[sort_reverse_index])

@@ -3,6 +3,8 @@
 Module to represent whole models
 """
 
+from typing import Tuple
+
 import numpy as np
 
 import torch.nn as nn
@@ -84,7 +86,7 @@ class Model(nn.Module):
                                                      src_mask=src_mask)
         unroll_steps = trg_input.size(1)
         print("decoder.forward() unroll_steps in model.forward")
-        print(f"is {unroll_steps}, which is 1st dim of {trg_input}")
+        print(f"is {unroll_steps}, which is 1st dim of trg_input={trg_input.shape}")
         
         return self.decode(encoder_output=encoder_output,
                            encoder_hidden=encoder_hidden,
@@ -202,7 +204,7 @@ class Model(nn.Module):
         kb_keys = self.src_embed(kb_keys)
         kb_values = self.trg_embed(kb_values)
 
-        kb_keys[kb_keys==self.eos_idx_src] = self.pad_idx_src
+        kb_keys[kb_keys==self.eos_idx_src] = self.pad_idx_src #TODO to save a little time, figure out how to avoid putting eos here during init
         kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel
 
         kb_keys.unsqueeze_(0) 
@@ -210,12 +212,15 @@ class Model(nn.Module):
 
         print(f"kb_keys.shape:{kb_keys.shape}")
         print(f"kb_values.shape:{kb_values.shape}")
+        print(f"debug: dir(batch):{dir(batch)}")
+        print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
+        print(f"debug: batch.kbtrv:{batch.kbtrv}")
 
         return kb_keys, kb_values
 
 
     def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
-                  beam_alpha: float, knowledgebase:Tensor=None) -> (np.array, np.array):
+                  beam_alpha: float) -> (np.array, np.array):
         """
         Get outputs and attentions scores for a given batch
 
@@ -233,6 +238,11 @@ class Model(nn.Module):
         # if maximum output length is not globally specified, adapt to src len
         if max_output_length is None:
             max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
+
+        
+
+        kb_keys, kb_values = self.process_batch_kb(batch)
+        knowledgebase = (kb_keys, kb_values)
 
         # greedy decoding
         if beam_size == 0:

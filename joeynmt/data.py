@@ -138,39 +138,41 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     trg_vocab_file = data_cfg.get("trg_vocab", None)
     trg_kb_vocab_file = data_cfg.get("trg_kb_vocab", None)
-    trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file
+    trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file #prefer to use joint trg_kb_vocab_file is specified
 
+    vocab_building_datasets = train_data if not kb_task else (train_data, train_kb) 
+    vocab_building_src_fields = "src" if not kb_task else ("src", "kbsrc")
+    vocab_building_trg_fields = "trg" if not kb_task else ("trg", "kbtrg")
 
     pkld_src_voc = data_cfg.get("src_voc_pkl", "data/voc/src.p")
     pkld_trg_voc = data_cfg.get("trg_voc_pkl", "data/voc/trg.p")
     
     prevent_pkl_load_voc = data_cfg.get("prevent_pkl_load_voc", None)
 
-    # TODO fix pkl vocab loading
+    # TODO figure out how to serialize/pickle Vocabulary objects
 
     if not prevent_pkl_load_voc and os.path.isfile(pkld_src_voc):
         with open(pkld_src_voc, "rb") as filehandler:
             src_vocab = pickle.load(filehandler)
     else:
-        src_vocab = build_vocab(field="src", min_freq=src_min_freq,
+        src_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=src_min_freq,
                                 max_size=src_max_size,
-                                dataset=train_data, vocab_file=src_vocab_file)
+                                dataset=vocab_building_datasets, vocab_file=src_vocab_file)
         if not os.path.isfile(pkld_src_voc):
             with open(pkld_src_voc, "wb") as filehandler:
                 try:
                     pickle.dump(src_vocab, filehandler)
                 except Exception as e:
                     os.remove(pkld_src_voc)
-                    print(e)
                     print(e.with_traceback)
 
     if not prevent_pkl_load_voc and os.path.isfile(pkld_trg_voc):
         with open(pkld_trg_voc, "rb") as filehandler:
             trg_vocab = pickle.load(filehandler)
     else:
-        trg_vocab = build_vocab(field="src", min_freq=src_min_freq,
-                                max_size=src_max_size,
-                                dataset=train_data, vocab_file=trg_vocab_file)
+        trg_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=trg_min_freq,
+                                max_size=trg_max_size,
+                                dataset=vocab_building_datasets, vocab_file=trg_vocab_file)
 
         if not os.path.isfile(pkld_trg_voc):
             with open(pkld_trg_voc, "wb") as filehandler:
@@ -178,7 +180,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                     pickle.dump(trg_vocab, filehandler)
                 except Exception as e:
                     os.remove(pkld_trg_voc)
-                    print(e)
                     print(e.with_traceback)
 
     random_train_subset = data_cfg.get("random_train_subset", -1)
@@ -252,12 +253,10 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         # NOTE this vocab is hardcodedly built from the concatenation of train+dev+test trv files!
         # TODO its hardcoded atm; add this to cfg
         trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
-        trv_vocab = build_vocab(field="kbtrv", min_freq=1,
+        trv_vocab = build_vocab(fields="kbtrv", min_freq=1,
                                         max_size=sys.maxsize,
                                         dataset=train_kb_truvals, vocab_file=trv_path)
-
-
-    trv_field.vocab = trv_vocab
+        trv_field.vocab = trv_vocab
 
 
     if not kb_task: #default values for normal pipeline
@@ -368,16 +367,16 @@ class TorchBatchWithKB(Batch):
             
             for (name, field) in self.kb_truval_data.fields.items():
                 if field is not None:
-                    truvals = ["<s>"]
+                    truvals = ["@emptytrv"]
                     truvals += [getattr(x, name) for x in data.kbtrv]
                     setattr(self, name, field.process(truvals, device=device))
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
                     kb = [] # used to be KB_minibatch
                     if name == "kbsrc":
-                        kb.append(["<s>"]) #dummy elem key
+                        kb.append(["@emptykbsrc"]) #dummy elem key
                     elif name == "kbtrg":
-                        kb.append(["<s>"]) #dummy elem val
+                        kb.append(["@emptykbtrg"]) #dummy elem val
                     
                     # dummy kb entry for scheduling task, added to all kbs as first entry
                     # TODO what should dummy tokens be? shouldnt affect default decoder behavior..
