@@ -162,7 +162,6 @@ class KeyValRetAtt(AttentionMechanism):
     def forward(self, query: Tensor = None):
         """
         Bahdanau MLP attention forward pass.
-        TODO: Values are needed to create v_t (See section 2.3)
 
         :param query: the item (decoder state) to compare with the keys/memory,
             shape (batch_size, 1, decoder.hidden_size)
@@ -182,10 +181,17 @@ class KeyValRetAtt(AttentionMechanism):
         # proj_keys: batch x kb_size x hidden_size
         # proj_query: batch x 1 x hidden_size
         u_t = self.energy_layer(torch.tanh(self.proj_query + self.proj_keys))
-        # u_t: 3 x kb_size x 1
+        # u_t: batch x kb_size x 1
 
+        # this is done to make the singleton dimension the unroll steps dim
+        # to concatenate 1..t...T together and get the same shape
+        # as outputs
         u_t = u_t.squeeze(2).unsqueeze(1)
-        # u_t: 3 x 1 x kb_size
+        # u_t: batch x 1 x kb_size
+        print(f"att debug: u_t.shape={u_t.shape}")
+        if u_t.shape[0] == 3:
+            print(f"u_t contents={u_t}")
+        #assert u_t.shape[0] == 3, u_t.shape
 
         return u_t
 

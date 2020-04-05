@@ -442,7 +442,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  attention: str = "bahdanau",
                  num_layers: int = 1,
                  vocab_size: int = 0,
-                 kb_vocab_size: int = 0,
                  dropout: float = 0.,
                  emb_dropout: float = 0.,
                  hidden_dropout: float = 0.,
@@ -460,7 +459,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param attention: type of attention, valid options: "bahdanau", "luong"
         :param num_layers: number of recurrent layers
         :param vocab_size: target vocabulary size
-        :param kb_vocab_size: m number of knowledgebase target entries / values
         :param hidden_dropout: Is applied to the input to the attentional layer.
         :param dropout: Is applied between RNN layers.
         :param emb_dropout: Is applied to the RNN input (word embeddings).
@@ -524,7 +522,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                      % attention)
         #kv attention after bahdanau:
         self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
-                                            key_size = emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
+                                            key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
                                             query_size=hidden_size)
         print("encoder.output_size: ", encoder.output_size)
 
@@ -578,7 +576,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if not (isinstance(kb_keys, type(None)) or isinstance(kb_values, type(None))):
             assert kb_keys.shape[:1] == kb_values.shape[:1], f"size mismatch between\
                 kb_keys={kb_keys.shape} and kb_values = {kb_values.shape}"
-            assert kb_keys.shape[0] == kb_values.shape[0] == 1
+            assert kb_keys.shape[0] == kb_values.shape[0] == src_mask.shape[0]
         assert src_mask.shape[2] == encoder_output.shape[1]
         if isinstance(hidden, tuple):  # for lstm
             hidden = hidden[0]
@@ -689,14 +687,14 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
 
-        if kb_values != None:
+        if kb_keys != None:
             u_t = self.kvr_attention(query=query) #TODO: implement v_t 
             print("u_t")
             print(u_t.shape) # batch_size x 1 x kb_size
 
             #TODO resulting v_t should be batch_size x 1 x (trg_emb + kb)
         else:
-            raise ValueError(kb_values) 
+            raise ValueError(kb_keys) 
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
@@ -849,6 +847,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # let _forward_step return v_t, concatenate all here to v, then add to outputs
         # also TODO: compute v and add to outputs/extend them by it:
         # v: batch, unroll_steps, n
+        v = torch.zeros_like(outputs)
+        #
         kb_probs = torch.cat(kb_probs, dim=1)
 
         """ deleteme 

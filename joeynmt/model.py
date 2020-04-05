@@ -180,13 +180,15 @@ class Model(nn.Module):
             # with options for lookup list and without lookup list
             # (respectively inference and training)
 
-            kb_keys, kb_values = self.process_batch_kb(batch)
+            kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
             knowledgebase = (kb_keys, kb_values)
 
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
+        
+        # add u_t to log_probs indexed by kb_values here!
 
         # compute log probs
         log_probs = F.log_softmax(out, dim=-1)
@@ -212,20 +214,32 @@ class Model(nn.Module):
         # during init
         kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel
 
+        assert batch.src.shape[0] == batch.trg.shape[0]
         kb_keys.unsqueeze_(0)
+        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1))
         kb_values.unsqueeze_(0)
+        kb_values = kb_values.repeat((batch.trg.shape[0], 1))
+        kb_true_vals = batch.kbtrv.T.unsqueeze(1)
 
-        print(f"kb_keys.shape:{kb_keys.shape}")
-        print(f"kb_values.shape:{kb_values.shape}")
+        print(f"kb_keys.shape:{kb_keys.shape}")#batch x kb_size x emb_dim
+        print(f"kb_values.shape:{kb_values.shape}")#batch x kb_size
         print(f"debug: dir(batch):{[s for s in dir(batch) if s.startswith(('kb', 'src', 'trg'))]}")
         print(f"debug: batch.src.shape:{batch.src.shape}")
         print(f"debug: batch.trg.shape:{batch.trg.shape}")
         print(batch.src)
-        assert batch.src.shape[0] == 3,batch.src.shape[0] # Latest TODO find where this happens???
+        #assert batch.src.shape[0] == 3,batch.src.shape[0] # Latest TODO find where this happens???
         print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
         print(f"debug: batch.kbtrv:{batch.kbtrv}")
+        print(f"debug: kb_true_vals :{kb_true_vals.shape}")
+        #TODO kbtrv.shape should be same as u_t for
+        # replacement!
+        # u_t: batch x 1 x kb_size
+        # kbtrv: batch x 1 x kb_size
+        # NOTE DONE!
+        print(f"debug: model.trg_embed attributes={dir(self.trg_embed)}")
 
-        return kb_keys, kb_values
+
+        return kb_keys, kb_values, kb_true_vals
 
 
     def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
@@ -248,7 +262,7 @@ class Model(nn.Module):
         if max_output_length is None:
             max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
 
-        kb_keys, kb_values = self.process_batch_kb(batch)
+        kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
         knowledgebase = (kb_keys, kb_values)
 
         # greedy decoding
