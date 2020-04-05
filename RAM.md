@@ -55,7 +55,7 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * fix kbtrv:
   * fix batch size being 11 (9+1+1) (probably data.batch\_with\_kb
   * fix kbtrv vocab not loading (everything UNK)
-* fix kb\_keys, kb\_values batch size being 0
+* fix kb\_keys, kb\_values batch size being 1: DONE: repeated batch times along batch dim
 
 ## _```Current issue```_:
 ### 02.04.20 implement v\_t
