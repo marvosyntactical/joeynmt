@@ -6,9 +6,7 @@ dist/*
 docs/build/*
 *__pycache__*
 models/*
-<<<<<<< HEAD
 data/ner/*
 data/voc/*
-=======
+runs/*
 
->>>>>>> fcf82c1deebc8eecf1775121a3bf4d4048bdddbf

@@ -140,7 +140,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     trg_kb_vocab_file = data_cfg.get("trg_kb_vocab", None)
     trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file #prefer to use joint trg_kb_vocab_file is specified
 
-    vocab_building_datasets = train_data if not kb_task else (train_data, train_kb) 
+    vocab_building_datasets = train_data if not kb_task else (train_data, train_kb)
     vocab_building_src_fields = "src" if not kb_task else ("src", "kbsrc")
     vocab_building_trg_fields = "trg" if not kb_task else ("trg", "kbtrg")
 

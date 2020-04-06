@@ -9,6 +9,7 @@ import numpy as np
 
 import torch.nn as nn
 from torch import Tensor, cat, FloatTensor
+from torch import argmax
 import torch.nn.functional as F
 
 from joeynmt.initialization import initialize_model
@@ -87,6 +88,7 @@ class Model(nn.Module):
         unroll_steps = trg_input.size(1)
         print("decoder.forward() unroll_steps in model.forward")
         print(f"is {unroll_steps}, which is 1st dim of trg_input={trg_input.shape}")
+        print(f"batch.trg_input: {self.trg_vocab.arrays_to_sentences(trg_input)[-1]}")
         
         return self.decode(encoder_output=encoder_output,
                            encoder_hidden=encoder_hidden,
@@ -180,30 +182,51 @@ class Model(nn.Module):
             # with options for lookup list and without lookup list
             # (respectively inference and training)
 
+            print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
+
             kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
             knowledgebase = (kb_keys, kb_values)
+
 
             out, hidden, att_probs, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
+            
+            
         
         # add u_t to log_probs indexed by kb_values here!
 
         # compute log probs
         log_probs = F.log_softmax(out, dim=-1)
 
+        # ----- debug
+        # Latest TODO: decode to sentences for debugging:
+        mle_tokens = argmax(log_probs, dim=-1)
+        mle_tokens = mle_tokens.cpu().numpy()
+        print(mle_tokens.shape)
+        print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
+        # ----- debug
+
+
         # compute batch loss
         batch_loss = loss_function(log_probs, batch.trg)
         # return batch loss = sum over all elements in batch that are not pad
+        print(f"\n{'-'*10}TRN FWD PASS: END current batch{'-'*10}\n")
+
         return batch_loss
 
     def process_batch_kb(self, batch: Batch_with_KB)-> (Tensor, Tensor):
 
-
         kb_keys = batch.kbsrc[0]
         kb_values = batch.kbtrg[0]
 
+        idx = batch.src.shape[0]-1 #plot last example
+        
+        print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
+        print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
+        print(f"proc_batch: kbkeys: {self.trg_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
+        print(f"proc_batch: kbvals: {self.trg_vocab.arrays_to_sentences(kb_values.cpu().numpy())}")
 
         kb_keys = self.src_embed(kb_keys)
         # NOTE: values dont even need to be embedded!!
@@ -219,25 +242,30 @@ class Model(nn.Module):
         kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1))
         kb_values.unsqueeze_(0)
         kb_values = kb_values.repeat((batch.trg.shape[0], 1))
+        # assert len(kb_values) == 2 # TODO super important sanity check unit test:
+        # kb_values are most of the time here like so:
+        # batch x kb_size # 3 x 33
+        # but sometimes have one extra dim???:
+        # 2 x 1 x 1
+        # where does this sometimes come from?
         kb_true_vals = batch.kbtrv.T.unsqueeze(1)
 
+        # NOTE shape debug; TODO add to decoder check shapes fwd
+        """
         print(f"kb_keys.shape:{kb_keys.shape}")#batch x kb_size x emb_dim
         print(f"kb_values.shape:{kb_values.shape}")#batch x kb_size
         print(f"debug: dir(batch):{[s for s in dir(batch) if s.startswith(('kb', 'src', 'trg'))]}")
         print(f"debug: batch.src.shape:{batch.src.shape}")
         print(f"debug: batch.trg.shape:{batch.trg.shape}")
-        print(batch.src)
         #assert batch.src.shape[0] == 3,batch.src.shape[0] # Latest TODO find where this happens???
         print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
         print(f"debug: batch.kbtrv:{batch.kbtrv}")
         print(f"debug: kb_true_vals :{kb_true_vals.shape}")
-        #TODO kbtrv.shape should be same as u_t for
+        # NOTE kbtrv.shape should be same as u_t for
         # replacement!
-        # u_t: batch x 1 x kb_size
-        # kbtrv: batch x 1 x kb_size
-        # NOTE DONE!
+        # u_t == kbtrv: batch x 1 x kb_size
         print(f"debug: model.trg_embed attributes={dir(self.trg_embed)}")
-
+        """
 
         return kb_keys, kb_values, kb_true_vals
 

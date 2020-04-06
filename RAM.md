@@ -46,9 +46,6 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 
 This is a general list of minor technical TODOs that can be done without thinking. Thoughts are nevertheless jotted down unorderedly:
 
-* figure out how to reconstruct tokens for debugging within training/model/decoder
-  * something like: *self.trg\_embed*.lut[array] 
-  * also look at *array\_ to\_ sentence* to do it before embedding (before model.process\_batch\_kb
 * sanity check that kb actually matches dialogue in the system: requires token reconstruction from above
 * look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during train/val/test???
 * figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data

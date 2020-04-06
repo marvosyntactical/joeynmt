@@ -4,6 +4,8 @@
 Various decoders
 """
 from typing import Optional, Tuple
+import time
+from copy import deepcopy
 
 import torch
 import torch.nn as nn
@@ -549,7 +551,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                          prev_embed: Tensor,
                                          prev_att_vector: Tensor,
                                          kb_keys: Tensor,
-                                         kb_values: Tensor,
                                          encoder_output: Tensor,
                                          src_mask: Tensor,
                                          hidden: Tensor) -> None:
@@ -573,10 +574,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         assert len(encoder_output.shape) == 3
         assert src_mask.shape[0] == prev_embed.shape[0]
         assert src_mask.shape[1] == 1
-        if not (isinstance(kb_keys, type(None)) or isinstance(kb_values, type(None))):
-            assert kb_keys.shape[:1] == kb_values.shape[:1], f"size mismatch between\
-                kb_keys={kb_keys.shape} and kb_values = {kb_values.shape}"
-            assert kb_keys.shape[0] == kb_values.shape[0] == src_mask.shape[0]
         assert src_mask.shape[2] == encoder_output.shape[1]
         if isinstance(hidden, tuple):  # for lstm
             hidden = hidden[0]
@@ -588,7 +585,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                     trg_embed: Tensor,
                                     encoder_output: Tensor,
                                     encoder_hidden: Tensor,
-                                    knowledgebase: Tensor,
+                                    kb_keys: Tensor,
+                                    kb_values: Tensor,
                                     src_mask: Tensor,
                                     hidden: Tensor = None,
                                     prev_att_vector: Tensor = None) -> None:
@@ -604,7 +602,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param hidden:
         :param prev_att_vector:
         """
-        #assert knowledgebase != None #TODO, currently knowledgebase can be None when theres nothing to attend to(see jnmt.data.TorchBatchWithKB)
+        if not (isinstance(kb_keys, type(None)) or isinstance(kb_values, type(None))):
+            assert kb_keys.shape[:1] == kb_values.shape[:1], f"size mismatch between\
+                kb_keys={kb_keys.shape} and kb_values = {kb_values.shape}"
+            assert kb_keys.shape[0] == kb_values.shape[0] == src_mask.shape[0]
+
         assert len(encoder_output.shape) == 3
         assert len(encoder_hidden.shape) == 2
         assert encoder_hidden.shape[-1] == encoder_output.shape[-1]
@@ -627,7 +629,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                       prev_embed: Tensor,
                       prev_att_vector: Tensor,  # context or att vector
                       kb_keys: Tensor,
-                      kb_values: Tensor, 
                       encoder_output: Tensor,
                       src_mask: Tensor,
                       hidden: Tensor) -> (Tensor, Tensor, Tensor):
@@ -659,7 +660,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         self._check_shapes_input_forward_step(prev_embed=prev_embed,
                                               prev_att_vector=prev_att_vector,
                                               kb_keys=kb_keys,
-                                              kb_values=kb_values,
                                               encoder_output=encoder_output,
                                               src_mask=src_mask,
                                               hidden=hidden)
@@ -694,18 +694,18 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
             #TODO resulting v_t should be batch_size x 1 x (trg_emb + kb)
         else:
-            raise ValueError(kb_keys) 
+            raise ValueError(kb_keys)
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
         print("self.hidden_size: ", self.hidden_size)
         print("[query,context]")
-        print("query: ",query.shape)
-        print("context: ",context.shape)
+        print("query: ", query.shape)
+        print("context: ", context.shape)
         print("encoder_output; last dim should be encoder hidden (config) * 1/2 (if bidir)", encoder_output.shape)
         att_vector_input = torch.cat([query, context], dim=2)
+        # batch x 1 x (2*)enc_size+hidden_size
         
-        # batch x 1 x 2*enc_size+hidden_size
         att_vector_input = self.hidden_dropout(att_vector_input)
 
         att_vector = torch.tanh(self.att_vector_layer(att_vector_input))
@@ -788,7 +788,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             trg_embed=trg_embed,
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
-            knowledgebase=knowledgebase,
+            kb_keys=kb_keys,
+            kb_values=kb_values,
             src_mask=src_mask,
             hidden=hidden,
             prev_att_vector=prev_att_vector)
@@ -819,24 +820,26 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # unroll the decoder RNN for `unroll_steps` steps
         for i in range(unroll_steps):
+            # TODO: is this teacher forcing?
             prev_embed = trg_embed[:, i].unsqueeze(1)  # batch, 1, emb
-            prev_att_vector, hidden, att_prob, v_t = self._forward_step(
+            prev_att_vector, hidden, att_prob, u_t = self._forward_step(
                 prev_embed=prev_embed,
                 prev_att_vector=prev_att_vector,
                 kb_keys=kb_keys,
-                kb_values=kb_values,
                 encoder_output=encoder_output,
                 src_mask=src_mask,
                 hidden=hidden)
             att_vectors.append(prev_att_vector)
             att_probs.append(att_prob)
-            kb_probs.append(v_t)
+            kb_probs.append(u_t)
 
         att_vectors = torch.cat(att_vectors, dim=1)
         # att_vectors: batch, unroll_steps, hidden_size
         att_probs = torch.cat(att_probs, dim=1)
         # att_probs: batch, unroll_steps, src_length
         outputs = self.output_layer(att_vectors)
+        # outputs: batch, unroll_steps, vocab_size
+
         # Latest TODO: 
         # this is the whole o after application of output_layer
         # I want access to individual o_t for t=1,..,unroll_steps
@@ -845,20 +848,42 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         #
         # the smarter way would be:
         # let _forward_step return v_t, concatenate all here to v, then add to outputs
-        # also TODO: compute v and add to outputs/extend them by it:
-        # v: batch, unroll_steps, n
-        v = torch.zeros_like(outputs)
-        #
-        kb_probs = torch.cat(kb_probs, dim=1)
+        # v: batch, unroll_steps, V+n
 
-        """ deleteme 
-        print("batch, unroll_steps, vocab_size ",outputs.shape)
-        my_idx_test = torch.argmax(outputs, dim=-1)
-        my_idx_test.squeeze_(1)
-        print(my_idx_test)
-        exit()
-        """
-        # outputs: batch, unroll_steps, vocab_size
+        kb_probs = torch.cat(kb_probs, dim=1)
+        v = torch.zeros_like(outputs)
+
+        print(f"kb_values.shape:{kb_values.shape}")
+        if len(kb_values.shape) < 3: #TODO find out why this happens sometimes??
+            kb_values.unsqueeze_(1)
+        else:
+            print(f"debug: kb_values={kb_values.shape} no of dims was >=3:")
+            assert kb_values.shape[1] == 1
+
+        _batch, _unroll, _kb = kb_probs.shape
+        kb_values = kb_values.repeat((1, _unroll, 1))
+
+        print(f"debug: kb_values: {kb_values.shape}")
+        print(f"debug: kb_probs: {kb_probs.shape}")
+
+        # Super important Latest TODO:
+        # this implementation is wrong: instead calculate v_t from individual u_t's
+        # (v_t has to be passed to successive forward steps)
+
+        # TODO find out how to do multi dim indexing without for
+        then = time.time()
+
+        for x in range(_batch):
+            for y in range(_unroll):
+                for z in range(_kb):
+                    v[x, y, kb_values[x, y, z]] = kb_probs[x, y, z]
+        outputs += v
+
+        now = time.time()
+
+        print(f"filled v={v.shape} in {now-then} seconds")
+        print(f"v:{v}")
+
         return outputs, hidden, att_probs, att_vectors
 
     def _init_hidden(self, encoder_final: Tensor = None) \

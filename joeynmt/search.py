@@ -293,7 +293,7 @@ def beam_search(
                 hidden=hidden,
                 prev_att_vector=att_vectors,
                 unroll_steps=1,
-                knowledegebase = knowledgebase,
+                knowledgebase=knowledgebase,
                 trg_mask=trg_mask  # subsequent mask for Transformer only
             )
         else:
