@@ -135,7 +135,7 @@ class Vocabulary:
         return sentences
 
 
-def build_vocab(fields: Union[str, Tuple], max_size: int, min_freq: int, dataset: Union[Dataset, Tuple],
+def build_vocab(fields: Union[str, Tuple[str]], max_size: int, min_freq: int, dataset: Union[Dataset, Tuple[Dataset]],
                 vocab_file: str = None) -> Vocabulary:
     """
     Builds vocabulary for a torchtext `field` from given`dataset` or
@@ -172,11 +172,11 @@ def build_vocab(fields: Union[str, Tuple], max_size: int, min_freq: int, dataset
             return vocab_tokens
 
         if isinstance(dataset, tuple):
-            assert len(dataset)== 2, "build_vocab currently only supports looking at either just 1 dataset or a tuple of 2 datasets"
+            assert len(dataset) == 2, "build_vocab currently only supports looking at either just 1 dataset or a tuple of 2 datasets"
             dataset, kb_dataset = dataset
-        else: kb_dataset= None
+        else: kb_dataset = None
         if isinstance(fields, tuple):
-            assert len(fields)==2, "build_vocab currently only supports looking at either one field (default joeynmt) or two fields (kb_task)"
+            assert len(fields) == 2, "build_vocab currently only supports looking at either one field (default joeynmt) or two fields (kb_task)"
             field, kb_field = fields
         else: kb_field = None
 
@@ -191,14 +191,24 @@ def build_vocab(fields: Union[str, Tuple], max_size: int, min_freq: int, dataset
         if kb_dataset is not None:        
             for j in kb_dataset.examples:
                 if kb_field == "kbsrc": 
+                    print(f"extended {kb_field} vocab by these tokens:")
+                    print(j.kbsrc)
                     tokens.extend(j.kbsrc)
                 elif kb_field == "kbtrg":
+                    print(f"extended {kb_field} vocab by this token:")
+                    print(j.kbtrg)
                     tokens.extend(j.kbtrg)
+                else:
+                    raise ValueError(f"""requested invalid field {kb_field} for example with attributes {[s for s in dir(j) if s.startswith(("kb","src", "trg"))]}""") 
+        else:
+            raise ValueError(kb_dataset) # TODO remove this
 
         counter = Counter(tokens)
         if min_freq > -1:
             counter = filter_min(counter, min_freq)
         vocab_tokens = sort_and_cut(counter, max_size)
+        print(f"built token list for vocab construction called with fields=\
+            {fields} and token count {len(vocab_tokens)}")
         assert len(vocab_tokens) <= max_size
 
         vocab = Vocabulary(tokens=vocab_tokens)

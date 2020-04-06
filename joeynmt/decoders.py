@@ -840,7 +840,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         outputs = self.output_layer(att_vectors)
         # outputs: batch, unroll_steps, vocab_size
 
-        # Latest TODO: 
+        # Latest TODO: (Artem question 06.04.)
         # this is the whole o after application of output_layer
         # I want access to individual o_t for t=1,..,unroll_steps
         # so I want a new self.output_layer_t like so:
@@ -852,7 +852,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         kb_probs = torch.cat(kb_probs, dim=1)
         v = torch.zeros_like(outputs)
-
+        print(f"v.shape:batch x time x vocab: {v.shape}")
         print(f"kb_values.shape:{kb_values.shape}")
         if len(kb_values.shape) < 3: #TODO find out why this happens sometimes??
             kb_values.unsqueeze_(1)
@@ -877,7 +877,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             for y in range(_unroll):
                 for z in range(_kb):
                     v[x, y, kb_values[x, y, z]] = kb_probs[x, y, z]
-        outputs += v
+        #outputs += v
 
         now = time.time()
 

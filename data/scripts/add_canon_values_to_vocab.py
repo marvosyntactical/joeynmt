@@ -60,8 +60,7 @@ def main(args):
     keys, canons, vals = [], [], []
 
     for triple in knowledgebase:
-
-        key_rep, canon_val,val = canonify(triple)
+        key_rep, canon_val, val = canonify(triple)
 
         keys.append(key_rep+"\n")
         canons.append(canon_val+"\n")

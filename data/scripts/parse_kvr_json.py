@@ -5,6 +5,9 @@ import sys
 
 #usr_part = "\n".join([e for i,e in enumerate(elem) if i%2==0])+"\n"
 
+global DOT_CHAR
+DOT_CHAR = "@DOT"
+
 
 def historify_src(utterances, even=True):
     #helper function to add the entire dialogue history as src
@@ -13,7 +16,7 @@ def historify_src(utterances, even=True):
     usr_part = ""
     for i, e in enumerate(utterances):
         if i%2==parity:
-            usr_part += " <dot> ".join(utterances[:i+1])+"\n"
+            usr_part += f" {DOT_CHAR} ".join(utterances[:i+1])+"\n"
     return usr_part
 
 def main(args):
@@ -64,7 +67,7 @@ def main(args):
         convo_car += car_part
         scenario_lkp += scenario_part
     
-    train_usr, train_car = splitpart+".husr", splitpart+".hcar"
+    train_usr, train_car = splitpart+".usr", splitpart+".car"
 
     with open(directory+train_usr, "w") as usr, open(directory+train_car, "w") as car:
         usr.write(convo_usr)

@@ -46,13 +46,12 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 
 This is a general list of minor technical TODOs that can be done without thinking. Thoughts are nevertheless jotted down unorderedly:
 
-* sanity check that kb actually matches dialogue in the system: requires token reconstruction from above
 * look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during train/val/test???
-* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data
+* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data (not important since vocab is small now)
 * fix kbtrv:
   * fix batch size being 11 (9+1+1) (probably data.batch\_with\_kb
   * fix kbtrv vocab not loading (everything UNK)
-* fix kb\_keys, kb\_values batch size being 1: DONE: repeated batch times along batch dim
+* fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
 
 ## _```Current issue```_:
 ### 02.04.20 implement v\_t

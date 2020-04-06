@@ -117,7 +117,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         train_kb = TranslationDataset(path=train_path,
                                     exts=("." + kb_src, "." + kb_trg),
-                                    fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
+                                    fields=(("kbsrc", src_field), ("kbtrg", trg_field)),
                                     filter_pred=
                                     lambda x: True)
                                    
@@ -155,6 +155,13 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         with open(pkld_src_voc, "rb") as filehandler:
             src_vocab = pickle.load(filehandler)
     else:
+        # Latest TODO: two options make two different problems:
+        # fields=vocab_building_src_fields <- should be correct
+        # leads to completely jumbled up kb_keys entries: wrong token lookup itos
+        # fields=vocab_building_trg_fields
+        # leads to lots of unk in kb_keys
+        # Intended: fields=vocab_building_src_fields(==("src", "kbsrc"))
+        # should make kb_keys tensor filled with correct !=unk tokens
         src_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=src_min_freq,
                                 max_size=src_max_size,
                                 dataset=vocab_building_datasets, vocab_file=src_vocab_file)
@@ -229,7 +236,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     if kb_task: #load test kb and metadata
         test_kb = TranslationDataset(path=test_path,
                                 exts=("." + kb_src, "." + kb_trg),
-                                fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
+                                fields=(("kbsrc", src_field), ("kbtrg", trg_field)),
                                 filter_pred=
                                 lambda x: True)
         test_kb_truvals = MonoDataset(path=test_path,
@@ -270,7 +277,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         src_vocab, trg_vocab,\
         train_kb, dev_kb, test_kb,\
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
-        train_kb_lengths, dev_kb_lengths, dev_kb_lengths,\
+        train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals
 
 
