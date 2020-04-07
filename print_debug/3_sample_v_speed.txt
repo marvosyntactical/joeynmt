@@ -1,0 +1,2000 @@
+extended kbtrg vocab by this token:
+['dish_parking_distance']
+extended kbtrg vocab by this token:
+['dish_parking_traffic_info']
+extended kbtrg vocab by this token:
+['dish_parking_poi_type']
+extended kbtrg vocab by this token:
+['dish_parking_address']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_distance']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_traffic_info']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_poi_type']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_address']
+extended kbtrg vocab by this token:
+['willows_market_distance']
+extended kbtrg vocab by this token:
+['willows_market_traffic_info']
+extended kbtrg vocab by this token:
+['willows_market_poi_type']
+extended kbtrg vocab by this token:
+['willows_market_address']
+extended kbtrg vocab by this token:
+['the_westin_distance']
+extended kbtrg vocab by this token:
+['the_westin_traffic_info']
+extended kbtrg vocab by this token:
+['the_westin_poi_type']
+extended kbtrg vocab by this token:
+['the_westin_address']
+extended kbtrg vocab by this token:
+['toms_house_distance']
+extended kbtrg vocab by this token:
+['toms_house_traffic_info']
+extended kbtrg vocab by this token:
+['toms_house_poi_type']
+extended kbtrg vocab by this token:
+['toms_house_address']
+extended kbtrg vocab by this token:
+['pizza_chicago_distance']
+extended kbtrg vocab by this token:
+['pizza_chicago_traffic_info']
+extended kbtrg vocab by this token:
+['pizza_chicago_poi_type']
+extended kbtrg vocab by this token:
+['pizza_chicago_address']
+extended kbtrg vocab by this token:
+['valero_distance']
+extended kbtrg vocab by this token:
+['valero_traffic_info']
+extended kbtrg vocab by this token:
+['valero_poi_type']
+extended kbtrg vocab by this token:
+['valero_address']
+extended kbtrg vocab by this token:
+['mandarin_roots_distance']
+extended kbtrg vocab by this token:
+['mandarin_roots_traffic_info']
+extended kbtrg vocab by this token:
+['mandarin_roots_poi_type']
+extended kbtrg vocab by this token:
+['mandarin_roots_address']
+extended kbtrg vocab by this token:
+['town_and_country_distance']
+extended kbtrg vocab by this token:
+['town_and_country_traffic_info']
+extended kbtrg vocab by this token:
+['town_and_country_poi_type']
+extended kbtrg vocab by this token:
+['town_and_country_address']
+extended kbtrg vocab by this token:
+['76_distance']
+extended kbtrg vocab by this token:
+['76_traffic_info']
+extended kbtrg vocab by this token:
+['76_poi_type']
+extended kbtrg vocab by this token:
+['76_address']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_distance']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_traffic_info']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_poi_type']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_address']
+extended kbtrg vocab by this token:
+['teavana_distance']
+extended kbtrg vocab by this token:
+['teavana_traffic_info']
+extended kbtrg vocab by this token:
+['teavana_poi_type']
+extended kbtrg vocab by this token:
+['teavana_address']
+extended kbtrg vocab by this token:
+['dominos_distance']
+extended kbtrg vocab by this token:
+['dominos_traffic_info']
+extended kbtrg vocab by this token:
+['dominos_poi_type']
+extended kbtrg vocab by this token:
+['dominos_address']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_distance']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_address']
+extended kbtrg vocab by this token:
+['stanford_express_care_distance']
+extended kbtrg vocab by this token:
+['stanford_express_care_traffic_info']
+extended kbtrg vocab by this token:
+['stanford_express_care_poi_type']
+extended kbtrg vocab by this token:
+['stanford_express_care_address']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_distance']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_address']
+extended kbtrg vocab by this token:
+['p.f._changs_distance']
+extended kbtrg vocab by this token:
+['p.f._changs_traffic_info']
+extended kbtrg vocab by this token:
+['p.f._changs_poi_type']
+extended kbtrg vocab by this token:
+['p.f._changs_address']
+extended kbtrg vocab by this token:
+['ravenswood_shopping_center_distance']
+extended kbtrg vocab by this token:
+['ravenswood_shopping_center_traffic_info']
+extended kbtrg vocab by this token:
+['ravenswood_shopping_center_poi_type']
+extended kbtrg vocab by this token:
+['ravenswood_shopping_center_address']
+extended kbtrg vocab by this token:
+["chef_chu's_distance"]
+extended kbtrg vocab by this token:
+["chef_chu's_traffic_info"]
+extended kbtrg vocab by this token:
+["chef_chu's_poi_type"]
+extended kbtrg vocab by this token:
+["chef_chu's_address"]
+extended kbtrg vocab by this token:
+['the_westin_distance']
+extended kbtrg vocab by this token:
+['the_westin_traffic_info']
+extended kbtrg vocab by this token:
+['the_westin_poi_type']
+extended kbtrg vocab by this token:
+['the_westin_address']
+extended kbtrg vocab by this token:
+['dish_parking_distance']
+extended kbtrg vocab by this token:
+['dish_parking_traffic_info']
+extended kbtrg vocab by this token:
+['dish_parking_poi_type']
+extended kbtrg vocab by this token:
+['dish_parking_address']
+extended kbtrg vocab by this token:
+['home_distance']
+extended kbtrg vocab by this token:
+['home_traffic_info']
+extended kbtrg vocab by this token:
+['home_poi_type']
+extended kbtrg vocab by this token:
+['home_address']
+extended kbtrg vocab by this token:
+['philz_distance']
+extended kbtrg vocab by this token:
+['philz_traffic_info']
+extended kbtrg vocab by this token:
+['philz_poi_type']
+extended kbtrg vocab by this token:
+['philz_address']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_distance']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_address']
+extended kbtrg vocab by this token:
+['dentist_appointment_room']
+extended kbtrg vocab by this token:
+['dentist_appointment_agenda']
+extended kbtrg vocab by this token:
+['dentist_appointment_time']
+extended kbtrg vocab by this token:
+['dentist_appointment_date']
+extended kbtrg vocab by this token:
+['dentist_appointment_party']
+extended kbtrg vocab by this token:
+['taking_medicine_room']
+extended kbtrg vocab by this token:
+['taking_medicine_agenda']
+extended kbtrg vocab by this token:
+['taking_medicine_time']
+extended kbtrg vocab by this token:
+['taking_medicine_date']
+extended kbtrg vocab by this token:
+['taking_medicine_party']
+extended kbtrg vocab by this token:
+['football_activity_room']
+extended kbtrg vocab by this token:
+['football_activity_agenda']
+extended kbtrg vocab by this token:
+['football_activity_time']
+extended kbtrg vocab by this token:
+['football_activity_date']
+extended kbtrg vocab by this token:
+['football_activity_party']
+extended kbtrg vocab by this token:
+['yoga_activity_room']
+extended kbtrg vocab by this token:
+['yoga_activity_agenda']
+extended kbtrg vocab by this token:
+['yoga_activity_time']
+extended kbtrg vocab by this token:
+['yoga_activity_date']
+extended kbtrg vocab by this token:
+['yoga_activity_party']
+extended kbtrg vocab by this token:
+['lab_appointment_room']
+extended kbtrg vocab by this token:
+['lab_appointment_agenda']
+extended kbtrg vocab by this token:
+['lab_appointment_time']
+extended kbtrg vocab by this token:
+['lab_appointment_date']
+extended kbtrg vocab by this token:
+['lab_appointment_party']
+extended kbtrg vocab by this token:
+['dinner_room']
+extended kbtrg vocab by this token:
+['dinner_agenda']
+extended kbtrg vocab by this token:
+['dinner_time']
+extended kbtrg vocab by this token:
+['dinner_date']
+extended kbtrg vocab by this token:
+['dinner_party']
+extended kbtrg vocab by this token:
+['manhattan_monday']
+extended kbtrg vocab by this token:
+['manhattan_tuesday']
+extended kbtrg vocab by this token:
+['manhattan_friday']
+extended kbtrg vocab by this token:
+['manhattan_wednesday']
+extended kbtrg vocab by this token:
+['manhattan_thursday']
+extended kbtrg vocab by this token:
+['manhattan_sunday']
+extended kbtrg vocab by this token:
+['manhattan_saturday']
+extended kbtrg vocab by this token:
+['camarillo_monday']
+extended kbtrg vocab by this token:
+['camarillo_tuesday']
+extended kbtrg vocab by this token:
+['camarillo_friday']
+extended kbtrg vocab by this token:
+['camarillo_wednesday']
+extended kbtrg vocab by this token:
+['camarillo_thursday']
+extended kbtrg vocab by this token:
+['camarillo_sunday']
+extended kbtrg vocab by this token:
+['camarillo_saturday']
+extended kbtrg vocab by this token:
+['menlo_park_monday']
+extended kbtrg vocab by this token:
+['menlo_park_tuesday']
+extended kbtrg vocab by this token:
+['menlo_park_friday']
+extended kbtrg vocab by this token:
+['menlo_park_wednesday']
+extended kbtrg vocab by this token:
+['menlo_park_thursday']
+extended kbtrg vocab by this token:
+['menlo_park_sunday']
+extended kbtrg vocab by this token:
+['menlo_park_saturday']
+extended kbtrg vocab by this token:
+['new_york_monday']
+extended kbtrg vocab by this token:
+['new_york_tuesday']
+extended kbtrg vocab by this token:
+['new_york_friday']
+extended kbtrg vocab by this token:
+['new_york_wednesday']
+extended kbtrg vocab by this token:
+['new_york_thursday']
+extended kbtrg vocab by this token:
+['new_york_sunday']
+extended kbtrg vocab by this token:
+['new_york_saturday']
+extended kbtrg vocab by this token:
+['corona_monday']
+extended kbtrg vocab by this token:
+['corona_tuesday']
+extended kbtrg vocab by this token:
+['corona_friday']
+extended kbtrg vocab by this token:
+['corona_wednesday']
+extended kbtrg vocab by this token:
+['corona_thursday']
+extended kbtrg vocab by this token:
+['corona_sunday']
+extended kbtrg vocab by this token:
+['corona_saturday']
+extended kbtrg vocab by this token:
+['seattle_monday']
+extended kbtrg vocab by this token:
+['seattle_tuesday']
+extended kbtrg vocab by this token:
+['seattle_friday']
+extended kbtrg vocab by this token:
+['seattle_wednesday']
+extended kbtrg vocab by this token:
+['seattle_thursday']
+extended kbtrg vocab by this token:
+['seattle_sunday']
+extended kbtrg vocab by this token:
+['seattle_saturday']
+extended kbtrg vocab by this token:
+['grand_rapids_monday']
+extended kbtrg vocab by this token:
+['grand_rapids_tuesday']
+extended kbtrg vocab by this token:
+['grand_rapids_friday']
+extended kbtrg vocab by this token:
+['grand_rapids_wednesday']
+extended kbtrg vocab by this token:
+['grand_rapids_thursday']
+extended kbtrg vocab by this token:
+['grand_rapids_sunday']
+extended kbtrg vocab by this token:
+['grand_rapids_saturday']
+extended kbtrg vocab by this token:
+['danville_monday']
+extended kbtrg vocab by this token:
+['danville_tuesday']
+extended kbtrg vocab by this token:
+['danville_friday']
+extended kbtrg vocab by this token:
+['danville_wednesday']
+extended kbtrg vocab by this token:
+['danville_thursday']
+extended kbtrg vocab by this token:
+['danville_sunday']
+extended kbtrg vocab by this token:
+['danville_saturday']
+extended kbtrg vocab by this token:
+['camarillo_monday']
+extended kbtrg vocab by this token:
+['camarillo_tuesday']
+extended kbtrg vocab by this token:
+['camarillo_friday']
+extended kbtrg vocab by this token:
+['camarillo_wednesday']
+extended kbtrg vocab by this token:
+['camarillo_thursday']
+extended kbtrg vocab by this token:
+['camarillo_sunday']
+extended kbtrg vocab by this token:
+['camarillo_saturday']
+extended kbtrg vocab by this token:
+['san_jose_monday']
+extended kbtrg vocab by this token:
+['san_jose_tuesday']
+extended kbtrg vocab by this token:
+['san_jose_friday']
+extended kbtrg vocab by this token:
+['san_jose_wednesday']
+extended kbtrg vocab by this token:
+['san_jose_thursday']
+extended kbtrg vocab by this token:
+['san_jose_sunday']
+extended kbtrg vocab by this token:
+['san_jose_saturday']
+extended kbtrg vocab by this token:
+['los_angeles_monday']
+extended kbtrg vocab by this token:
+['los_angeles_tuesday']
+extended kbtrg vocab by this token:
+['los_angeles_friday']
+extended kbtrg vocab by this token:
+['los_angeles_wednesday']
+extended kbtrg vocab by this token:
+['los_angeles_thursday']
+extended kbtrg vocab by this token:
+['los_angeles_sunday']
+extended kbtrg vocab by this token:
+['los_angeles_saturday']
+extended kbtrg vocab by this token:
+['durham_monday']
+extended kbtrg vocab by this token:
+['durham_tuesday']
+extended kbtrg vocab by this token:
+['durham_friday']
+extended kbtrg vocab by this token:
+['durham_wednesday']
+extended kbtrg vocab by this token:
+['durham_thursday']
+extended kbtrg vocab by this token:
+['durham_sunday']
+extended kbtrg vocab by this token:
+['durham_saturday']
+extended kbtrg vocab by this token:
+['san_francisco_monday']
+extended kbtrg vocab by this token:
+['san_francisco_tuesday']
+extended kbtrg vocab by this token:
+['san_francisco_friday']
+extended kbtrg vocab by this token:
+['san_francisco_wednesday']
+extended kbtrg vocab by this token:
+['san_francisco_thursday']
+extended kbtrg vocab by this token:
+['san_francisco_sunday']
+extended kbtrg vocab by this token:
+['san_francisco_saturday']
+extended kbtrg vocab by this token:
+['boston_monday']
+extended kbtrg vocab by this token:
+['boston_tuesday']
+extended kbtrg vocab by this token:
+['boston_friday']
+extended kbtrg vocab by this token:
+['boston_wednesday']
+extended kbtrg vocab by this token:
+['boston_thursday']
+extended kbtrg vocab by this token:
+['boston_sunday']
+extended kbtrg vocab by this token:
+['boston_saturday']
+extended kbtrg vocab by this token:
+['cleveland_monday']
+extended kbtrg vocab by this token:
+['cleveland_tuesday']
+extended kbtrg vocab by this token:
+['cleveland_friday']
+extended kbtrg vocab by this token:
+['cleveland_wednesday']
+extended kbtrg vocab by this token:
+['cleveland_thursday']
+extended kbtrg vocab by this token:
+['cleveland_sunday']
+extended kbtrg vocab by this token:
+['cleveland_saturday']
+extended kbtrg vocab by this token:
+['new_york_monday']
+extended kbtrg vocab by this token:
+['new_york_tuesday']
+extended kbtrg vocab by this token:
+['new_york_friday']
+extended kbtrg vocab by this token:
+['new_york_wednesday']
+extended kbtrg vocab by this token:
+['new_york_thursday']
+extended kbtrg vocab by this token:
+['new_york_sunday']
+extended kbtrg vocab by this token:
+['new_york_saturday']
+extended kbtrg vocab by this token:
+['brentwood_monday']
+extended kbtrg vocab by this token:
+['brentwood_tuesday']
+extended kbtrg vocab by this token:
+['brentwood_friday']
+extended kbtrg vocab by this token:
+['brentwood_wednesday']
+extended kbtrg vocab by this token:
+['brentwood_thursday']
+extended kbtrg vocab by this token:
+['brentwood_sunday']
+extended kbtrg vocab by this token:
+['brentwood_saturday']
+extended kbtrg vocab by this token:
+['inglewood_monday']
+extended kbtrg vocab by this token:
+['inglewood_tuesday']
+extended kbtrg vocab by this token:
+['inglewood_friday']
+extended kbtrg vocab by this token:
+['inglewood_wednesday']
+extended kbtrg vocab by this token:
+['inglewood_thursday']
+extended kbtrg vocab by this token:
+['inglewood_sunday']
+extended kbtrg vocab by this token:
+['inglewood_saturday']
+extended kbtrg vocab by this token:
+['mountain_view_monday']
+extended kbtrg vocab by this token:
+['mountain_view_tuesday']
+extended kbtrg vocab by this token:
+['mountain_view_friday']
+extended kbtrg vocab by this token:
+['mountain_view_wednesday']
+extended kbtrg vocab by this token:
+['mountain_view_thursday']
+extended kbtrg vocab by this token:
+['mountain_view_sunday']
+extended kbtrg vocab by this token:
+['mountain_view_saturday']
+extended kbtrg vocab by this token:
+['menlo_park_monday']
+extended kbtrg vocab by this token:
+['menlo_park_tuesday']
+extended kbtrg vocab by this token:
+['menlo_park_friday']
+extended kbtrg vocab by this token:
+['menlo_park_wednesday']
+extended kbtrg vocab by this token:
+['menlo_park_thursday']
+extended kbtrg vocab by this token:
+['menlo_park_sunday']
+extended kbtrg vocab by this token:
+['menlo_park_saturday']
+extended kbtrg vocab by this token:
+['compton_monday']
+extended kbtrg vocab by this token:
+['compton_tuesday']
+extended kbtrg vocab by this token:
+['compton_friday']
+extended kbtrg vocab by this token:
+['compton_wednesday']
+extended kbtrg vocab by this token:
+['compton_thursday']
+extended kbtrg vocab by this token:
+['compton_sunday']
+extended kbtrg vocab by this token:
+['compton_saturday']
+extended kbtrg vocab by this token:
+['brentwood_monday']
+extended kbtrg vocab by this token:
+['brentwood_tuesday']
+extended kbtrg vocab by this token:
+['brentwood_friday']
+extended kbtrg vocab by this token:
+['brentwood_wednesday']
+extended kbtrg vocab by this token:
+['brentwood_thursday']
+extended kbtrg vocab by this token:
+['brentwood_sunday']
+extended kbtrg vocab by this token:
+['brentwood_saturday']
+extended kbtrg vocab by this token:
+['corona_monday']
+extended kbtrg vocab by this token:
+['corona_tuesday']
+extended kbtrg vocab by this token:
+['corona_friday']
+extended kbtrg vocab by this token:
+['corona_wednesday']
+extended kbtrg vocab by this token:
+['corona_thursday']
+extended kbtrg vocab by this token:
+['corona_sunday']
+extended kbtrg vocab by this token:
+['corona_saturday']
+extended kbtrg vocab by this token:
+['danville_monday']
+extended kbtrg vocab by this token:
+['danville_tuesday']
+extended kbtrg vocab by this token:
+['danville_friday']
+extended kbtrg vocab by this token:
+['danville_wednesday']
+extended kbtrg vocab by this token:
+['danville_thursday']
+extended kbtrg vocab by this token:
+['danville_sunday']
+extended kbtrg vocab by this token:
+['danville_saturday']
+extended kbtrg vocab by this token:
+['seattle_monday']
+extended kbtrg vocab by this token:
+['seattle_tuesday']
+extended kbtrg vocab by this token:
+['seattle_friday']
+extended kbtrg vocab by this token:
+['seattle_wednesday']
+extended kbtrg vocab by this token:
+['seattle_thursday']
+extended kbtrg vocab by this token:
+['seattle_sunday']
+extended kbtrg vocab by this token:
+['seattle_saturday']
+extended kbtrg vocab by this token:
+['inglewood_monday']
+extended kbtrg vocab by this token:
+['inglewood_tuesday']
+extended kbtrg vocab by this token:
+['inglewood_friday']
+extended kbtrg vocab by this token:
+['inglewood_wednesday']
+extended kbtrg vocab by this token:
+['inglewood_thursday']
+extended kbtrg vocab by this token:
+['inglewood_sunday']
+extended kbtrg vocab by this token:
+['inglewood_saturday']
+extended kbtrg vocab by this token:
+['oakland_monday']
+extended kbtrg vocab by this token:
+['oakland_tuesday']
+extended kbtrg vocab by this token:
+['oakland_friday']
+extended kbtrg vocab by this token:
+['oakland_wednesday']
+extended kbtrg vocab by this token:
+['oakland_thursday']
+extended kbtrg vocab by this token:
+['oakland_sunday']
+extended kbtrg vocab by this token:
+['oakland_saturday']
+extended kbtrg vocab by this token:
+['mountain_view_monday']
+extended kbtrg vocab by this token:
+['mountain_view_tuesday']
+extended kbtrg vocab by this token:
+['mountain_view_friday']
+extended kbtrg vocab by this token:
+['mountain_view_wednesday']
+extended kbtrg vocab by this token:
+['mountain_view_thursday']
+extended kbtrg vocab by this token:
+['mountain_view_sunday']
+extended kbtrg vocab by this token:
+['mountain_view_saturday']
+extended kbtrg vocab by this token:
+['inglewood_monday']
+extended kbtrg vocab by this token:
+['inglewood_tuesday']
+extended kbtrg vocab by this token:
+['inglewood_friday']
+extended kbtrg vocab by this token:
+['inglewood_wednesday']
+extended kbtrg vocab by this token:
+['inglewood_thursday']
+extended kbtrg vocab by this token:
+['inglewood_sunday']
+extended kbtrg vocab by this token:
+['inglewood_saturday']
+extended kbtrg vocab by this token:
+['san_mateo_monday']
+extended kbtrg vocab by this token:
+['san_mateo_tuesday']
+extended kbtrg vocab by this token:
+['san_mateo_friday']
+extended kbtrg vocab by this token:
+['san_mateo_wednesday']
+extended kbtrg vocab by this token:
+['san_mateo_thursday']
+extended kbtrg vocab by this token:
+['san_mateo_sunday']
+extended kbtrg vocab by this token:
+['san_mateo_saturday']
+extended kbtrg vocab by this token:
+['mountain_view_monday']
+extended kbtrg vocab by this token:
+['mountain_view_tuesday']
+extended kbtrg vocab by this token:
+['mountain_view_friday']
+extended kbtrg vocab by this token:
+['mountain_view_wednesday']
+extended kbtrg vocab by this token:
+['mountain_view_thursday']
+extended kbtrg vocab by this token:
+['mountain_view_sunday']
+extended kbtrg vocab by this token:
+['mountain_view_saturday']
+extended kbtrg vocab by this token:
+['danville_monday']
+extended kbtrg vocab by this token:
+['danville_tuesday']
+extended kbtrg vocab by this token:
+['danville_friday']
+extended kbtrg vocab by this token:
+['danville_wednesday']
+extended kbtrg vocab by this token:
+['danville_thursday']
+extended kbtrg vocab by this token:
+['danville_sunday']
+extended kbtrg vocab by this token:
+['danville_saturday']
+extended kbtrg vocab by this token:
+['alhambra_monday']
+extended kbtrg vocab by this token:
+['alhambra_tuesday']
+extended kbtrg vocab by this token:
+['alhambra_friday']
+extended kbtrg vocab by this token:
+['alhambra_wednesday']
+extended kbtrg vocab by this token:
+['alhambra_thursday']
+extended kbtrg vocab by this token:
+['alhambra_sunday']
+extended kbtrg vocab by this token:
+['alhambra_saturday']
+extended kbtrg vocab by this token:
+['atherton_monday']
+extended kbtrg vocab by this token:
+['atherton_tuesday']
+extended kbtrg vocab by this token:
+['atherton_friday']
+extended kbtrg vocab by this token:
+['atherton_wednesday']
+extended kbtrg vocab by this token:
+['atherton_thursday']
+extended kbtrg vocab by this token:
+['atherton_sunday']
+extended kbtrg vocab by this token:
+['atherton_saturday']
+extended kbtrg vocab by this token:
+['menlo_park_monday']
+extended kbtrg vocab by this token:
+['menlo_park_tuesday']
+extended kbtrg vocab by this token:
+['menlo_park_friday']
+extended kbtrg vocab by this token:
+['menlo_park_wednesday']
+extended kbtrg vocab by this token:
+['menlo_park_thursday']
+extended kbtrg vocab by this token:
+['menlo_park_sunday']
+extended kbtrg vocab by this token:
+['menlo_park_saturday']
+extended kbtrg vocab by this token:
+['redwood_city_monday']
+extended kbtrg vocab by this token:
+['redwood_city_tuesday']
+extended kbtrg vocab by this token:
+['redwood_city_friday']
+extended kbtrg vocab by this token:
+['redwood_city_wednesday']
+extended kbtrg vocab by this token:
+['redwood_city_thursday']
+extended kbtrg vocab by this token:
+['redwood_city_sunday']
+extended kbtrg vocab by this token:
+['redwood_city_saturday']
+extended kbtrg vocab by this token:
+['seattle_monday']
+extended kbtrg vocab by this token:
+['seattle_tuesday']
+extended kbtrg vocab by this token:
+['seattle_friday']
+extended kbtrg vocab by this token:
+['seattle_wednesday']
+extended kbtrg vocab by this token:
+['seattle_thursday']
+extended kbtrg vocab by this token:
+['seattle_sunday']
+extended kbtrg vocab by this token:
+['seattle_saturday']
+extended kbtrg vocab by this token:
+['grand_rapids_monday']
+extended kbtrg vocab by this token:
+['grand_rapids_tuesday']
+extended kbtrg vocab by this token:
+['grand_rapids_friday']
+extended kbtrg vocab by this token:
+['grand_rapids_wednesday']
+extended kbtrg vocab by this token:
+['grand_rapids_thursday']
+extended kbtrg vocab by this token:
+['grand_rapids_sunday']
+extended kbtrg vocab by this token:
+['grand_rapids_saturday']
+extended kbtrg vocab by this token:
+['boston_monday']
+extended kbtrg vocab by this token:
+['boston_tuesday']
+extended kbtrg vocab by this token:
+['boston_friday']
+extended kbtrg vocab by this token:
+['boston_wednesday']
+extended kbtrg vocab by this token:
+['boston_thursday']
+extended kbtrg vocab by this token:
+['boston_sunday']
+extended kbtrg vocab by this token:
+['boston_saturday']
+extended kbtrg vocab by this token:
+['mountain_view_monday']
+extended kbtrg vocab by this token:
+['mountain_view_tuesday']
+extended kbtrg vocab by this token:
+['mountain_view_friday']
+extended kbtrg vocab by this token:
+['mountain_view_wednesday']
+extended kbtrg vocab by this token:
+['mountain_view_thursday']
+extended kbtrg vocab by this token:
+['mountain_view_sunday']
+extended kbtrg vocab by this token:
+['mountain_view_saturday']
+extended kbtrg vocab by this token:
+['durham_monday']
+extended kbtrg vocab by this token:
+['durham_tuesday']
+extended kbtrg vocab by this token:
+['durham_friday']
+extended kbtrg vocab by this token:
+['durham_wednesday']
+extended kbtrg vocab by this token:
+['durham_thursday']
+extended kbtrg vocab by this token:
+['durham_sunday']
+extended kbtrg vocab by this token:
+['durham_saturday']
+extended kbtrg vocab by this token:
+['exeter_monday']
+extended kbtrg vocab by this token:
+['exeter_tuesday']
+extended kbtrg vocab by this token:
+['exeter_friday']
+extended kbtrg vocab by this token:
+['exeter_wednesday']
+extended kbtrg vocab by this token:
+['exeter_thursday']
+extended kbtrg vocab by this token:
+['exeter_sunday']
+extended kbtrg vocab by this token:
+['exeter_saturday']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_distance']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_traffic_info']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_poi_type']
+extended kbtrg vocab by this token:
+['stanford_oval_parking_address']
+extended kbtrg vocab by this token:
+['starbucks_distance']
+extended kbtrg vocab by this token:
+['starbucks_traffic_info']
+extended kbtrg vocab by this token:
+['starbucks_poi_type']
+extended kbtrg vocab by this token:
+['starbucks_address']
+extended kbtrg vocab by this token:
+['valero_distance']
+extended kbtrg vocab by this token:
+['valero_traffic_info']
+extended kbtrg vocab by this token:
+['valero_poi_type']
+extended kbtrg vocab by this token:
+['valero_address']
+extended kbtrg vocab by this token:
+['5677_springer_street_distance']
+extended kbtrg vocab by this token:
+['5677_springer_street_traffic_info']
+extended kbtrg vocab by this token:
+['5677_springer_street_poi_type']
+extended kbtrg vocab by this token:
+['5677_springer_street_address']
+extended kbtrg vocab by this token:
+['safeway_distance']
+extended kbtrg vocab by this token:
+['safeway_traffic_info']
+extended kbtrg vocab by this token:
+['safeway_poi_type']
+extended kbtrg vocab by this token:
+['safeway_address']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_distance']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_traffic_info']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_poi_type']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_address']
+extended kbtrg vocab by this token:
+['hotel_keen_distance']
+extended kbtrg vocab by this token:
+['hotel_keen_traffic_info']
+extended kbtrg vocab by this token:
+['hotel_keen_poi_type']
+extended kbtrg vocab by this token:
+['hotel_keen_address']
+extended kbtrg vocab by this token:
+['stanford_express_care_distance']
+extended kbtrg vocab by this token:
+['stanford_express_care_traffic_info']
+extended kbtrg vocab by this token:
+['stanford_express_care_poi_type']
+extended kbtrg vocab by this token:
+['stanford_express_care_address']
+extended kbtrg vocab by this token:
+['papa_johns_distance']
+extended kbtrg vocab by this token:
+['papa_johns_traffic_info']
+extended kbtrg vocab by this token:
+['papa_johns_poi_type']
+extended kbtrg vocab by this token:
+['papa_johns_address']
+extended kbtrg vocab by this token:
+['jing_jing_distance']
+extended kbtrg vocab by this token:
+['jing_jing_traffic_info']
+extended kbtrg vocab by this token:
+['jing_jing_poi_type']
+extended kbtrg vocab by this token:
+['jing_jing_address']
+extended kbtrg vocab by this token:
+['whole_foods_distance']
+extended kbtrg vocab by this token:
+['whole_foods_traffic_info']
+extended kbtrg vocab by this token:
+['whole_foods_poi_type']
+extended kbtrg vocab by this token:
+['whole_foods_address']
+extended kbtrg vocab by this token:
+['peets_coffee_distance']
+extended kbtrg vocab by this token:
+['peets_coffee_traffic_info']
+extended kbtrg vocab by this token:
+['peets_coffee_poi_type']
+extended kbtrg vocab by this token:
+['peets_coffee_address']
+extended kbtrg vocab by this token:
+['5677_springer_street_distance']
+extended kbtrg vocab by this token:
+['5677_springer_street_traffic_info']
+extended kbtrg vocab by this token:
+['5677_springer_street_poi_type']
+extended kbtrg vocab by this token:
+['5677_springer_street_address']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_distance']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_garage_r_address']
+extended kbtrg vocab by this token:
+['teavana_distance']
+extended kbtrg vocab by this token:
+['teavana_traffic_info']
+extended kbtrg vocab by this token:
+['teavana_poi_type']
+extended kbtrg vocab by this token:
+['teavana_address']
+extended kbtrg vocab by this token:
+['dinner_room']
+extended kbtrg vocab by this token:
+['dinner_agenda']
+extended kbtrg vocab by this token:
+['dinner_time']
+extended kbtrg vocab by this token:
+['dinner_date']
+extended kbtrg vocab by this token:
+['dinner_party']
+extended kbtrg vocab by this token:
+['meeting_room']
+extended kbtrg vocab by this token:
+['meeting_agenda']
+extended kbtrg vocab by this token:
+['meeting_time']
+extended kbtrg vocab by this token:
+['meeting_date']
+extended kbtrg vocab by this token:
+['meeting_party']
+extended kbtrg vocab by this token:
+['football_activity_room']
+extended kbtrg vocab by this token:
+['football_activity_agenda']
+extended kbtrg vocab by this token:
+['football_activity_time']
+extended kbtrg vocab by this token:
+['football_activity_date']
+extended kbtrg vocab by this token:
+['football_activity_party']
+extended kbtrg vocab by this token:
+['doctor_appointment_room']
+extended kbtrg vocab by this token:
+['doctor_appointment_agenda']
+extended kbtrg vocab by this token:
+['doctor_appointment_time']
+extended kbtrg vocab by this token:
+['doctor_appointment_date']
+extended kbtrg vocab by this token:
+['doctor_appointment_party']
+extended kbtrg vocab by this token:
+['lab_appointment_room']
+extended kbtrg vocab by this token:
+['lab_appointment_agenda']
+extended kbtrg vocab by this token:
+['lab_appointment_time']
+extended kbtrg vocab by this token:
+['lab_appointment_date']
+extended kbtrg vocab by this token:
+['lab_appointment_party']
+extended kbtrg vocab by this token:
+['football_activity_room']
+extended kbtrg vocab by this token:
+['football_activity_agenda']
+extended kbtrg vocab by this token:
+['football_activity_time']
+extended kbtrg vocab by this token:
+['football_activity_date']
+extended kbtrg vocab by this token:
+['football_activity_party']
+extended kbtrg vocab by this token:
+['football_activity_room']
+extended kbtrg vocab by this token:
+['football_activity_agenda']
+extended kbtrg vocab by this token:
+['football_activity_time']
+extended kbtrg vocab by this token:
+['football_activity_date']
+extended kbtrg vocab by this token:
+['football_activity_party']
+extended kbtrg vocab by this token:
+['football_activity_room']
+extended kbtrg vocab by this token:
+['football_activity_agenda']
+extended kbtrg vocab by this token:
+['football_activity_time']
+extended kbtrg vocab by this token:
+['football_activity_date']
+extended kbtrg vocab by this token:
+['football_activity_party']
+extended kbtrg vocab by this token:
+['durham_monday']
+extended kbtrg vocab by this token:
+['durham_tuesday']
+extended kbtrg vocab by this token:
+['durham_friday']
+extended kbtrg vocab by this token:
+['durham_wednesday']
+extended kbtrg vocab by this token:
+['durham_thursday']
+extended kbtrg vocab by this token:
+['durham_sunday']
+extended kbtrg vocab by this token:
+['durham_saturday']
+extended kbtrg vocab by this token:
+['redwood_city_monday']
+extended kbtrg vocab by this token:
+['redwood_city_tuesday']
+extended kbtrg vocab by this token:
+['redwood_city_friday']
+extended kbtrg vocab by this token:
+['redwood_city_wednesday']
+extended kbtrg vocab by this token:
+['redwood_city_thursday']
+extended kbtrg vocab by this token:
+['redwood_city_sunday']
+extended kbtrg vocab by this token:
+['redwood_city_saturday']
+extended kbtrg vocab by this token:
+['danville_monday']
+extended kbtrg vocab by this token:
+['danville_tuesday']
+extended kbtrg vocab by this token:
+['danville_friday']
+extended kbtrg vocab by this token:
+['danville_wednesday']
+extended kbtrg vocab by this token:
+['danville_thursday']
+extended kbtrg vocab by this token:
+['danville_sunday']
+extended kbtrg vocab by this token:
+['danville_saturday']
+extended kbtrg vocab by this token:
+['camarillo_monday']
+extended kbtrg vocab by this token:
+['camarillo_tuesday']
+extended kbtrg vocab by this token:
+['camarillo_friday']
+extended kbtrg vocab by this token:
+['camarillo_wednesday']
+extended kbtrg vocab by this token:
+['camarillo_thursday']
+extended kbtrg vocab by this token:
+['camarillo_sunday']
+extended kbtrg vocab by this token:
+['camarillo_saturday']
+extended kbtrg vocab by this token:
+['fresno_monday']
+extended kbtrg vocab by this token:
+['fresno_tuesday']
+extended kbtrg vocab by this token:
+['fresno_friday']
+extended kbtrg vocab by this token:
+['fresno_wednesday']
+extended kbtrg vocab by this token:
+['fresno_thursday']
+extended kbtrg vocab by this token:
+['fresno_sunday']
+extended kbtrg vocab by this token:
+['fresno_saturday']
+extended kbtrg vocab by this token:
+['alameda_monday']
+extended kbtrg vocab by this token:
+['alameda_tuesday']
+extended kbtrg vocab by this token:
+['alameda_friday']
+extended kbtrg vocab by this token:
+['alameda_wednesday']
+extended kbtrg vocab by this token:
+['alameda_thursday']
+extended kbtrg vocab by this token:
+['alameda_sunday']
+extended kbtrg vocab by this token:
+['alameda_saturday']
+extended kbtrg vocab by this token:
+['new_york_monday']
+extended kbtrg vocab by this token:
+['new_york_tuesday']
+extended kbtrg vocab by this token:
+['new_york_friday']
+extended kbtrg vocab by this token:
+['new_york_wednesday']
+extended kbtrg vocab by this token:
+['new_york_thursday']
+extended kbtrg vocab by this token:
+['new_york_sunday']
+extended kbtrg vocab by this token:
+['new_york_saturday']
+extended kbtrg vocab by this token:
+['manhattan_monday']
+extended kbtrg vocab by this token:
+['manhattan_tuesday']
+extended kbtrg vocab by this token:
+['manhattan_friday']
+extended kbtrg vocab by this token:
+['manhattan_wednesday']
+extended kbtrg vocab by this token:
+['manhattan_thursday']
+extended kbtrg vocab by this token:
+['manhattan_sunday']
+extended kbtrg vocab by this token:
+['manhattan_saturday']
+extended kbtrg vocab by this token:
+['mountain_view_monday']
+extended kbtrg vocab by this token:
+['mountain_view_tuesday']
+extended kbtrg vocab by this token:
+['mountain_view_friday']
+extended kbtrg vocab by this token:
+['mountain_view_wednesday']
+extended kbtrg vocab by this token:
+['mountain_view_thursday']
+extended kbtrg vocab by this token:
+['mountain_view_sunday']
+extended kbtrg vocab by this token:
+['mountain_view_saturday']
+extended kbtrg vocab by this token:
+['los_angeles_monday']
+extended kbtrg vocab by this token:
+['los_angeles_tuesday']
+extended kbtrg vocab by this token:
+['los_angeles_friday']
+extended kbtrg vocab by this token:
+['los_angeles_wednesday']
+extended kbtrg vocab by this token:
+['los_angeles_thursday']
+extended kbtrg vocab by this token:
+['los_angeles_sunday']
+extended kbtrg vocab by this token:
+['los_angeles_saturday']
+extended kbtrg vocab by this token:
+['corona_monday']
+extended kbtrg vocab by this token:
+['corona_tuesday']
+extended kbtrg vocab by this token:
+['corona_friday']
+extended kbtrg vocab by this token:
+['corona_wednesday']
+extended kbtrg vocab by this token:
+['corona_thursday']
+extended kbtrg vocab by this token:
+['corona_sunday']
+extended kbtrg vocab by this token:
+['corona_saturday']
+extended kbtrg vocab by this token:
+['camarillo_monday']
+extended kbtrg vocab by this token:
+['camarillo_tuesday']
+extended kbtrg vocab by this token:
+['camarillo_friday']
+extended kbtrg vocab by this token:
+['camarillo_wednesday']
+extended kbtrg vocab by this token:
+['camarillo_thursday']
+extended kbtrg vocab by this token:
+['camarillo_sunday']
+extended kbtrg vocab by this token:
+['camarillo_saturday']
+extended kbtrg vocab by this token:
+['san_mateo_monday']
+extended kbtrg vocab by this token:
+['san_mateo_tuesday']
+extended kbtrg vocab by this token:
+['san_mateo_friday']
+extended kbtrg vocab by this token:
+['san_mateo_wednesday']
+extended kbtrg vocab by this token:
+['san_mateo_thursday']
+extended kbtrg vocab by this token:
+['san_mateo_sunday']
+extended kbtrg vocab by this token:
+['san_mateo_saturday']
+extended kbtrg vocab by this token:
+['inglewood_monday']
+extended kbtrg vocab by this token:
+['inglewood_tuesday']
+extended kbtrg vocab by this token:
+['inglewood_friday']
+extended kbtrg vocab by this token:
+['inglewood_wednesday']
+extended kbtrg vocab by this token:
+['inglewood_thursday']
+extended kbtrg vocab by this token:
+['inglewood_sunday']
+extended kbtrg vocab by this token:
+['inglewood_saturday']
+extended kbtrg vocab by this token:
+['yoga_activity_room']
+extended kbtrg vocab by this token:
+['yoga_activity_agenda']
+extended kbtrg vocab by this token:
+['yoga_activity_time']
+extended kbtrg vocab by this token:
+['yoga_activity_date']
+extended kbtrg vocab by this token:
+['yoga_activity_party']
+extended kbtrg vocab by this token:
+['dentist_appointment_room']
+extended kbtrg vocab by this token:
+['dentist_appointment_agenda']
+extended kbtrg vocab by this token:
+['dentist_appointment_time']
+extended kbtrg vocab by this token:
+['dentist_appointment_date']
+extended kbtrg vocab by this token:
+['dentist_appointment_party']
+extended kbtrg vocab by this token:
+['football_activity_room']
+extended kbtrg vocab by this token:
+['football_activity_agenda']
+extended kbtrg vocab by this token:
+['football_activity_time']
+extended kbtrg vocab by this token:
+['football_activity_date']
+extended kbtrg vocab by this token:
+['football_activity_party']
+extended kbtrg vocab by this token:
+['taking_medicine_room']
+extended kbtrg vocab by this token:
+['taking_medicine_agenda']
+extended kbtrg vocab by this token:
+['taking_medicine_time']
+extended kbtrg vocab by this token:
+['taking_medicine_date']
+extended kbtrg vocab by this token:
+['taking_medicine_party']
+extended kbtrg vocab by this token:
+['lab_appointment_room']
+extended kbtrg vocab by this token:
+['lab_appointment_agenda']
+extended kbtrg vocab by this token:
+['lab_appointment_time']
+extended kbtrg vocab by this token:
+['lab_appointment_date']
+extended kbtrg vocab by this token:
+['lab_appointment_party']
+extended kbtrg vocab by this token:
+['dinner_room']
+extended kbtrg vocab by this token:
+['dinner_agenda']
+extended kbtrg vocab by this token:
+['dinner_time']
+extended kbtrg vocab by this token:
+['dinner_date']
+extended kbtrg vocab by this token:
+['dinner_party']
+extended kbtrg vocab by this token:
+['yoga_activity_room']
+extended kbtrg vocab by this token:
+['yoga_activity_agenda']
+extended kbtrg vocab by this token:
+['yoga_activity_time']
+extended kbtrg vocab by this token:
+['yoga_activity_date']
+extended kbtrg vocab by this token:
+['yoga_activity_party']
+extended kbtrg vocab by this token:
+['yoga_activity_room']
+extended kbtrg vocab by this token:
+['yoga_activity_agenda']
+extended kbtrg vocab by this token:
+['yoga_activity_time']
+extended kbtrg vocab by this token:
+['yoga_activity_date']
+extended kbtrg vocab by this token:
+['yoga_activity_party']
+extended kbtrg vocab by this token:
+['manhattan_monday']
+extended kbtrg vocab by this token:
+['manhattan_tuesday']
+extended kbtrg vocab by this token:
+['manhattan_friday']
+extended kbtrg vocab by this token:
+['manhattan_wednesday']
+extended kbtrg vocab by this token:
+['manhattan_thursday']
+extended kbtrg vocab by this token:
+['manhattan_sunday']
+extended kbtrg vocab by this token:
+['manhattan_saturday']
+extended kbtrg vocab by this token:
+['corona_monday']
+extended kbtrg vocab by this token:
+['corona_tuesday']
+extended kbtrg vocab by this token:
+['corona_friday']
+extended kbtrg vocab by this token:
+['corona_wednesday']
+extended kbtrg vocab by this token:
+['corona_thursday']
+extended kbtrg vocab by this token:
+['corona_sunday']
+extended kbtrg vocab by this token:
+['corona_saturday']
+extended kbtrg vocab by this token:
+['inglewood_monday']
+extended kbtrg vocab by this token:
+['inglewood_tuesday']
+extended kbtrg vocab by this token:
+['inglewood_friday']
+extended kbtrg vocab by this token:
+['inglewood_wednesday']
+extended kbtrg vocab by this token:
+['inglewood_thursday']
+extended kbtrg vocab by this token:
+['inglewood_sunday']
+extended kbtrg vocab by this token:
+['inglewood_saturday']
+extended kbtrg vocab by this token:
+['carson_monday']
+extended kbtrg vocab by this token:
+['carson_tuesday']
+extended kbtrg vocab by this token:
+['carson_friday']
+extended kbtrg vocab by this token:
+['carson_wednesday']
+extended kbtrg vocab by this token:
+['carson_thursday']
+extended kbtrg vocab by this token:
+['carson_sunday']
+extended kbtrg vocab by this token:
+['carson_saturday']
+extended kbtrg vocab by this token:
+['alameda_monday']
+extended kbtrg vocab by this token:
+['alameda_tuesday']
+extended kbtrg vocab by this token:
+['alameda_friday']
+extended kbtrg vocab by this token:
+['alameda_wednesday']
+extended kbtrg vocab by this token:
+['alameda_thursday']
+extended kbtrg vocab by this token:
+['alameda_sunday']
+extended kbtrg vocab by this token:
+['alameda_saturday']
+extended kbtrg vocab by this token:
+['durham_monday']
+extended kbtrg vocab by this token:
+['durham_tuesday']
+extended kbtrg vocab by this token:
+['durham_friday']
+extended kbtrg vocab by this token:
+['durham_wednesday']
+extended kbtrg vocab by this token:
+['durham_thursday']
+extended kbtrg vocab by this token:
+['durham_sunday']
+extended kbtrg vocab by this token:
+['durham_saturday']
+extended kbtrg vocab by this token:
+['alhambra_monday']
+extended kbtrg vocab by this token:
+['alhambra_tuesday']
+extended kbtrg vocab by this token:
+['alhambra_friday']
+extended kbtrg vocab by this token:
+['alhambra_wednesday']
+extended kbtrg vocab by this token:
+['alhambra_thursday']
+extended kbtrg vocab by this token:
+['alhambra_sunday']
+extended kbtrg vocab by this token:
+['alhambra_saturday']
+extended kbtrg vocab by this token:
+['manhattan_monday']
+extended kbtrg vocab by this token:
+['manhattan_tuesday']
+extended kbtrg vocab by this token:
+['manhattan_friday']
+extended kbtrg vocab by this token:
+['manhattan_wednesday']
+extended kbtrg vocab by this token:
+['manhattan_thursday']
+extended kbtrg vocab by this token:
+['manhattan_sunday']
+extended kbtrg vocab by this token:
+['manhattan_saturday']
+extended kbtrg vocab by this token:
+['menlo_park_monday']
+extended kbtrg vocab by this token:
+['menlo_park_tuesday']
+extended kbtrg vocab by this token:
+['menlo_park_friday']
+extended kbtrg vocab by this token:
+['menlo_park_wednesday']
+extended kbtrg vocab by this token:
+['menlo_park_thursday']
+extended kbtrg vocab by this token:
+['menlo_park_sunday']
+extended kbtrg vocab by this token:
+['menlo_park_saturday']
+extended kbtrg vocab by this token:
+['los_angeles_monday']
+extended kbtrg vocab by this token:
+['los_angeles_tuesday']
+extended kbtrg vocab by this token:
+['los_angeles_friday']
+extended kbtrg vocab by this token:
+['los_angeles_wednesday']
+extended kbtrg vocab by this token:
+['los_angeles_thursday']
+extended kbtrg vocab by this token:
+['los_angeles_sunday']
+extended kbtrg vocab by this token:
+['los_angeles_saturday']
+extended kbtrg vocab by this token:
+['downtown_chicago_monday']
+extended kbtrg vocab by this token:
+['downtown_chicago_tuesday']
+extended kbtrg vocab by this token:
+['downtown_chicago_friday']
+extended kbtrg vocab by this token:
+['downtown_chicago_wednesday']
+extended kbtrg vocab by this token:
+['downtown_chicago_thursday']
+extended kbtrg vocab by this token:
+['downtown_chicago_sunday']
+extended kbtrg vocab by this token:
+['downtown_chicago_saturday']
+extended kbtrg vocab by this token:
+['grand_rapids_monday']
+extended kbtrg vocab by this token:
+['grand_rapids_tuesday']
+extended kbtrg vocab by this token:
+['grand_rapids_friday']
+extended kbtrg vocab by this token:
+['grand_rapids_wednesday']
+extended kbtrg vocab by this token:
+['grand_rapids_thursday']
+extended kbtrg vocab by this token:
+['grand_rapids_sunday']
+extended kbtrg vocab by this token:
+['grand_rapids_saturday']
+extended kbtrg vocab by this token:
+['san_jose_monday']
+extended kbtrg vocab by this token:
+['san_jose_tuesday']
+extended kbtrg vocab by this token:
+['san_jose_friday']
+extended kbtrg vocab by this token:
+['san_jose_wednesday']
+extended kbtrg vocab by this token:
+['san_jose_thursday']
+extended kbtrg vocab by this token:
+['san_jose_sunday']
+extended kbtrg vocab by this token:
+['san_jose_saturday']
+extended kbtrg vocab by this token:
+['alhambra_monday']
+extended kbtrg vocab by this token:
+['alhambra_tuesday']
+extended kbtrg vocab by this token:
+['alhambra_friday']
+extended kbtrg vocab by this token:
+['alhambra_wednesday']
+extended kbtrg vocab by this token:
+['alhambra_thursday']
+extended kbtrg vocab by this token:
+['alhambra_sunday']
+extended kbtrg vocab by this token:
+['alhambra_saturday']
+extended kbtrg vocab by this token:
+['peets_coffee_distance']
+extended kbtrg vocab by this token:
+['peets_coffee_traffic_info']
+extended kbtrg vocab by this token:
+['peets_coffee_poi_type']
+extended kbtrg vocab by this token:
+['peets_coffee_address']
+extended kbtrg vocab by this token:
+['5677_springer_street_distance']
+extended kbtrg vocab by this token:
+['5677_springer_street_traffic_info']
+extended kbtrg vocab by this token:
+['5677_springer_street_poi_type']
+extended kbtrg vocab by this token:
+['5677_springer_street_address']
+extended kbtrg vocab by this token:
+['the_westin_distance']
+extended kbtrg vocab by this token:
+['the_westin_traffic_info']
+extended kbtrg vocab by this token:
+['the_westin_poi_type']
+extended kbtrg vocab by this token:
+['the_westin_address']
+extended kbtrg vocab by this token:
+['dish_parking_distance']
+extended kbtrg vocab by this token:
+['dish_parking_traffic_info']
+extended kbtrg vocab by this token:
+['dish_parking_poi_type']
+extended kbtrg vocab by this token:
+['dish_parking_address']
+extended kbtrg vocab by this token:
+['papa_johns_distance']
+extended kbtrg vocab by this token:
+['papa_johns_traffic_info']
+extended kbtrg vocab by this token:
+['papa_johns_poi_type']
+extended kbtrg vocab by this token:
+['papa_johns_address']
+extended kbtrg vocab by this token:
+['mandarin_roots_distance']
+extended kbtrg vocab by this token:
+['mandarin_roots_traffic_info']
+extended kbtrg vocab by this token:
+['mandarin_roots_poi_type']
+extended kbtrg vocab by this token:
+['mandarin_roots_address']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_distance']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_address']
+extended kbtrg vocab by this token:
+['pizza_chicago_distance']
+extended kbtrg vocab by this token:
+['pizza_chicago_traffic_info']
+extended kbtrg vocab by this token:
+['pizza_chicago_poi_type']
+extended kbtrg vocab by this token:
+['pizza_chicago_address']
+extended kbtrg vocab by this token:
+['pizza_hut_distance']
+extended kbtrg vocab by this token:
+['pizza_hut_traffic_info']
+extended kbtrg vocab by this token:
+['pizza_hut_poi_type']
+extended kbtrg vocab by this token:
+['pizza_hut_address']
+extended kbtrg vocab by this token:
+['four_seasons_distance']
+extended kbtrg vocab by this token:
+['four_seasons_traffic_info']
+extended kbtrg vocab by this token:
+['four_seasons_poi_type']
+extended kbtrg vocab by this token:
+['four_seasons_address']
+extended kbtrg vocab by this token:
+['p.f._changs_distance']
+extended kbtrg vocab by this token:
+['p.f._changs_traffic_info']
+extended kbtrg vocab by this token:
+['p.f._changs_poi_type']
+extended kbtrg vocab by this token:
+['p.f._changs_address']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_distance']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_address']
+extended kbtrg vocab by this token:
+['trader_joes_distance']
+extended kbtrg vocab by this token:
+['trader_joes_traffic_info']
+extended kbtrg vocab by this token:
+['trader_joes_poi_type']
+extended kbtrg vocab by this token:
+['trader_joes_address']
+extended kbtrg vocab by this token:
+['tai_pan_distance']
+extended kbtrg vocab by this token:
+['tai_pan_traffic_info']
+extended kbtrg vocab by this token:
+['tai_pan_poi_type']
+extended kbtrg vocab by this token:
+['tai_pan_address']
+extended kbtrg vocab by this token:
+['sigona_farmers_market_distance']
+extended kbtrg vocab by this token:
+['sigona_farmers_market_traffic_info']
+extended kbtrg vocab by this token:
+['sigona_farmers_market_poi_type']
+extended kbtrg vocab by this token:
+['sigona_farmers_market_address']
+extended kbtrg vocab by this token:
+['dentist_appointment_room']
+extended kbtrg vocab by this token:
+['dentist_appointment_agenda']
+extended kbtrg vocab by this token:
+['dentist_appointment_time']
+extended kbtrg vocab by this token:
+['dentist_appointment_date']
+extended kbtrg vocab by this token:
+['dentist_appointment_party']
+extended kbtrg vocab by this token:
+['dentist_appointment_room']
+extended kbtrg vocab by this token:
+['dentist_appointment_agenda']
+extended kbtrg vocab by this token:
+['dentist_appointment_time']
+extended kbtrg vocab by this token:
+['dentist_appointment_date']
+extended kbtrg vocab by this token:
+['dentist_appointment_party']
+extended kbtrg vocab by this token:
+['dinner_room']
+extended kbtrg vocab by this token:
+['dinner_agenda']
+extended kbtrg vocab by this token:
+['dinner_time']
+extended kbtrg vocab by this token:
+['dinner_date']
+extended kbtrg vocab by this token:
+['dinner_party']
+extended kbtrg vocab by this token:
+['football_activity_room']
+extended kbtrg vocab by this token:
+['football_activity_agenda']
+extended kbtrg vocab by this token:
+['football_activity_time']
+extended kbtrg vocab by this token:
+['football_activity_date']
+extended kbtrg vocab by this token:
+['football_activity_party']
+extended kbtrg vocab by this token:
+['lab_appointment_room']
+extended kbtrg vocab by this token:
+['lab_appointment_agenda']
+extended kbtrg vocab by this token:
+['lab_appointment_time']
+extended kbtrg vocab by this token:
+['lab_appointment_date']
+extended kbtrg vocab by this token:
+['lab_appointment_party']
+extended kbtrg vocab by this token:
+['lab_appointment_room']
+extended kbtrg vocab by this token:
+['lab_appointment_agenda']
+extended kbtrg vocab by this token:
+['lab_appointment_time']
+extended kbtrg vocab by this token:
+['lab_appointment_date']
+extended kbtrg vocab by this token:
+['lab_appointment_party']
+extended kbtrg vocab by this token:
+['lab_appointment_room']
+extended kbtrg vocab by this token:
+['lab_appointment_agenda']
+extended kbtrg vocab by this token:
+['lab_appointment_time']
+extended kbtrg vocab by this token:
+['lab_appointment_date']
+extended kbtrg vocab by this token:
+['lab_appointment_party']
+extended kbtrg vocab by this token:
+['taking_medicine_room']
+extended kbtrg vocab by this token:
+['taking_medicine_agenda']
+extended kbtrg vocab by this token:
+['taking_medicine_time']
+extended kbtrg vocab by this token:
+['taking_medicine_date']
+extended kbtrg vocab by this token:
+['taking_medicine_party']
+extended kbtrg vocab by this token:
+['inglewood_monday']
+extended kbtrg vocab by this token:
+['inglewood_tuesday']
+extended kbtrg vocab by this token:
+['inglewood_friday']
+extended kbtrg vocab by this token:
+['inglewood_wednesday']
+extended kbtrg vocab by this token:
+['inglewood_thursday']
+extended kbtrg vocab by this token:
+['inglewood_sunday']
+extended kbtrg vocab by this token:
+['inglewood_saturday']
+extended kbtrg vocab by this token:
+['alameda_monday']
+extended kbtrg vocab by this token:
+['alameda_tuesday']
+extended kbtrg vocab by this token:
+['alameda_friday']
+extended kbtrg vocab by this token:
+['alameda_wednesday']
+extended kbtrg vocab by this token:
+['alameda_thursday']
+extended kbtrg vocab by this token:
+['alameda_sunday']
+extended kbtrg vocab by this token:
+['alameda_saturday']
+extended kbtrg vocab by this token:
+['alhambra_monday']
+extended kbtrg vocab by this token:
+['alhambra_tuesday']
+extended kbtrg vocab by this token:
+['alhambra_friday']
+extended kbtrg vocab by this token:
+['alhambra_wednesday']
+extended kbtrg vocab by this token:
+['alhambra_thursday']
+extended kbtrg vocab by this token:
+['alhambra_sunday']
+extended kbtrg vocab by this token:
+['alhambra_saturday']
+extended kbtrg vocab by this token:
+['durham_monday']
+extended kbtrg vocab by this token:
+['durham_tuesday']
+extended kbtrg vocab by this token:
+['durham_friday']
+extended kbtrg vocab by this token:
+['durham_wednesday']
+extended kbtrg vocab by this token:
+['durham_thursday']
+extended kbtrg vocab by this token:
+['durham_sunday']
+extended kbtrg vocab by this token:
+['durham_saturday']
+extended kbtrg vocab by this token:
+['redwood_city_monday']
+extended kbtrg vocab by this token:
+['redwood_city_tuesday']
+extended kbtrg vocab by this token:
+['redwood_city_friday']
+extended kbtrg vocab by this token:
+['redwood_city_wednesday']
+extended kbtrg vocab by this token:
+['redwood_city_thursday']
+extended kbtrg vocab by this token:
+['redwood_city_sunday']
+extended kbtrg vocab by this token:
+['redwood_city_saturday']
+extended kbtrg vocab by this token:
+['camarillo_monday']
+extended kbtrg vocab by this token:
+['camarillo_tuesday']
+extended kbtrg vocab by this token:
+['camarillo_friday']
+extended kbtrg vocab by this token:
+['camarillo_wednesday']
+extended kbtrg vocab by this token:
+['camarillo_thursday']
+extended kbtrg vocab by this token:
+['camarillo_sunday']
+extended kbtrg vocab by this token:
+['camarillo_saturday']
+extended kbtrg vocab by this token:
+['atherton_monday']
+extended kbtrg vocab by this token:
+['atherton_tuesday']
+extended kbtrg vocab by this token:
+['atherton_friday']
+extended kbtrg vocab by this token:
+['atherton_wednesday']
+extended kbtrg vocab by this token:
+['atherton_thursday']
+extended kbtrg vocab by this token:
+['atherton_sunday']
+extended kbtrg vocab by this token:
+['atherton_saturday']
+extended kbtrg vocab by this token:
+['the_westin_distance']
+extended kbtrg vocab by this token:
+['the_westin_traffic_info']
+extended kbtrg vocab by this token:
+['the_westin_poi_type']
+extended kbtrg vocab by this token:
+['the_westin_address']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_distance']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_medical_foundation_address']
+extended kbtrg vocab by this token:
+['hotel_keen_distance']
+extended kbtrg vocab by this token:
+['hotel_keen_traffic_info']
+extended kbtrg vocab by this token:
+['hotel_keen_poi_type']
+extended kbtrg vocab by this token:
+['hotel_keen_address']
+extended kbtrg vocab by this token:
+['whole_foods_distance']
+extended kbtrg vocab by this token:
+['whole_foods_traffic_info']
+extended kbtrg vocab by this token:
+['whole_foods_poi_type']
+extended kbtrg vocab by this token:
+['whole_foods_address']
+extended kbtrg vocab by this token:
+['p.f._changs_distance']
+extended kbtrg vocab by this token:
+['p.f._changs_traffic_info']
+extended kbtrg vocab by this token:
+['p.f._changs_poi_type']
+extended kbtrg vocab by this token:
+['p.f._changs_address']
+extended kbtrg vocab by this token:
+['midtown_shopping_center_distance']
+extended kbtrg vocab by this token:
+['midtown_shopping_center_traffic_info']
+extended kbtrg vocab by this token:
+['midtown_shopping_center_poi_type']
+extended kbtrg vocab by this token:
+['midtown_shopping_center_address']
+extended kbtrg vocab by this token:
+['5677_springer_street_distance']
+extended kbtrg vocab by this token:
+['5677_springer_street_traffic_info']
+extended kbtrg vocab by this token:
+['5677_springer_street_poi_type']
+extended kbtrg vocab by this token:
+['5677_springer_street_address']
+extended kbtrg vocab by this token:
+['jills_house_distance']
+extended kbtrg vocab by this token:
+['jills_house_traffic_info']
+extended kbtrg vocab by this token:
+['jills_house_poi_type']
+extended kbtrg vocab by this token:
+['jills_house_address']
+extended kbtrg vocab by this token:
+['palo_alto_cafe_distance']
+extended kbtrg vocab by this token:
+['palo_alto_cafe_traffic_info']
+extended kbtrg vocab by this token:
+['palo_alto_cafe_poi_type']
+extended kbtrg vocab by this token:
+['palo_alto_cafe_address']
+extended kbtrg vocab by this token:
+['topanga_mall_distance']
+extended kbtrg vocab by this token:
+['topanga_mall_traffic_info']
+extended kbtrg vocab by this token:
+['topanga_mall_poi_type']
+extended kbtrg vocab by this token:
+['topanga_mall_address']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_distance']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_traffic_info']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_poi_type']
+extended kbtrg vocab by this token:
+['stanford_shopping_center_address']
+extended kbtrg vocab by this token:
+['panda_express_distance']
+extended kbtrg vocab by this token:
+['panda_express_traffic_info']
+extended kbtrg vocab by this token:
+['panda_express_poi_type']
+extended kbtrg vocab by this token:
+['panda_express_address']
+extended kbtrg vocab by this token:
+['pizza_chicago_distance']
+extended kbtrg vocab by this token:
+['pizza_chicago_traffic_info']
+extended kbtrg vocab by this token:
+['pizza_chicago_poi_type']
+extended kbtrg vocab by this token:
+['pizza_chicago_address']
+extended kbtrg vocab by this token:
+['chevron_distance']
+extended kbtrg vocab by this token:
+['chevron_traffic_info']
+extended kbtrg vocab by this token:
+['chevron_poi_type']
+extended kbtrg vocab by this token:
+['chevron_address']
+extended kbtrg vocab by this token:
+['jacks_house_distance']
+extended kbtrg vocab by this token:
+['jacks_house_traffic_info']
+extended kbtrg vocab by this token:
+['jacks_house_poi_type']
+extended kbtrg vocab by this token:
+['jacks_house_address']
+extended kbtrg vocab by this token:
+['san_jose_monday']
+extended kbtrg vocab by this token:
+['san_jose_tuesday']
+extended kbtrg vocab by this token:
+['san_jose_friday']
+extended kbtrg vocab by this token:
+['san_jose_wednesday']
+extended kbtrg vocab by this token:
+['san_jose_thursday']
+extended kbtrg vocab by this token:
+['san_jose_sunday']
+extended kbtrg vocab by this token:
+['san_jose_saturday']
+extended kbtrg vocab by this token:
+['new_york_monday']
+extended kbtrg vocab by this token:
+['new_york_tuesday']
+extended kbtrg vocab by this token:
+['new_york_friday']
+extended kbtrg vocab by this token:
+['new_york_wednesday']
+extended kbtrg vocab by this token:
+['new_york_thursday']
+extended kbtrg vocab by this token:
+['new_york_sunday']
+extended kbtrg vocab by this token:
+['new_york_saturday']
+extended kbtrg vocab by this token:
+['seattle_monday']
+extended kbtrg vocab by this token:
+['seattle_tuesday']
+extended kbtrg vocab by this token:
+['seattle_friday']
+extended kbtrg vocab by this token:
+['seattle_wednesday']
+extended kbtrg vocab by this token:
+['seattle_thursday']
+extended kbtrg vocab by this token:
+['seattle_sunday']
+extended kbtrg vocab by this token:
+['seattle_saturday']
+extended kbtrg vocab by this token:
+['compton_monday']
+extended kbtrg vocab by this token:
+['compton_tuesday']
+extended kbtrg vocab by this token:
+['compton_friday']
+extended kbtrg vocab by this token:
+['compton_wednesday']
+extended kbtrg vocab by this token:
+['compton_thursday']
+extended kbtrg vocab by this token:
+['compton_sunday']
+extended kbtrg vocab by this token:
+['compton_saturday']
+extended kbtrg vocab by this token:
+['mountain_view_monday']
+extended kbtrg vocab by this token:
+['mountain_view_tuesday']
+extended kbtrg vocab by this token:
+['mountain_view_friday']
+extended kbtrg vocab by this token:
+['mountain_view_wednesday']
+extended kbtrg vocab by this token:
+['mountain_view_thursday']
+extended kbtrg vocab by this token:
+['mountain_view_sunday']
+extended kbtrg vocab by this token:
+['mountain_view_saturday']

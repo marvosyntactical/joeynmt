@@ -7,6 +7,8 @@ from typing import Optional, Tuple
 import time
 from copy import deepcopy
 
+import numpy as np # TODO remove!
+
 import torch
 import torch.nn as nn
 from torch import Tensor, cat
@@ -781,7 +783,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             assert False 
             kb_keys, kb_values = None, None
             
-            
 
         # shape checks
         self._check_shapes_input_forward(
@@ -860,29 +861,56 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             print(f"debug: kb_values={kb_values.shape} no of dims was >=3:")
             assert kb_values.shape[1] == 1
 
+
+
         _batch, _unroll, _kb = kb_probs.shape
+
+        B = torch.arange(_batch).unsqueeze(1).unsqueeze(1)
+        U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
+
         kb_values = kb_values.repeat((1, _unroll, 1))
+        outputs[B, U, kb_values] += kb_probs
 
-        print(f"debug: kb_values: {kb_values.shape}")
-        print(f"debug: kb_probs: {kb_probs.shape}")
+        # debugging halves (!) training speed (140 tok/sec -> 70 tok/sec)
+        debug_v = kwargs.get("debug_v", False)
+        debug_v = True # TODO remove
+        if debug_v:
 
-        # Super important Latest TODO:
-        # this implementation is wrong: instead calculate v_t from individual u_t's
-        # (v_t has to be passed to successive forward steps)
 
-        # TODO find out how to do multi dim indexing without for
-        then = time.time()
+            v_fast = torch.zeros_like(outputs) #only for debugging purposes
 
-        for x in range(_batch):
-            for y in range(_unroll):
-                for z in range(_kb):
-                    v[x, y, kb_values[x, y, z]] = kb_probs[x, y, z]
-        #outputs += v
+            # gotta go fast
+            fast_then = time.time()
+            v_fast[B, U, kb_values] = kb_probs
+            fast_now = time.time()
 
-        now = time.time()
+            I, J, _ = np.ogrid[:_batch, :_unroll, :_kb]
 
-        print(f"filled v={v.shape} in {now-then} seconds")
-        print(f"v:{v}")
+            I = torch.from_numpy(I)
+            J = torch.from_numpy(J)
+
+            assert torch.allclose(I,B)
+            assert torch.allclose(J,U)
+
+            v_slow = torch.zeros_like(outputs)
+
+            # slow and steady wins the race
+            then_slow = time.time()
+            for x in range(_batch):
+                for y in range(_unroll):
+                    for z in range(_kb):
+                        v_slow[x, y, kb_values[x, y, z]] = kb_probs[x, y, z]
+
+            now_slow = time.time()
+            assert torch.allclose(v_slow, v_fast), [torch.where(tnsr) for tnsr in (v_fast, v_slow)]
+
+            print(f"debug: using fast torch implementation for calculating v in {fast_now-fast_then} seconds!")
+            print(f"filled v_slow={v.shape} in {now_slow-then_slow} seconds")
+            print(f"v_slow:{v}")
+       
+        print(f"kb_values: {kb_values.shape}")
+        print(f"kb_probs: {kb_probs.shape}")
+
 
         return outputs, hidden, att_probs, att_vectors
 
