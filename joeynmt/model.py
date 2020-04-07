@@ -204,6 +204,7 @@ class Model(nn.Module):
 
         kb_keys = batch.kbsrc[0]
         kb_values = batch.kbtrg[0]
+        kb_true_vals = batch.kbtrv.T.unsqueeze(1)
 
         # TODO to save a little time, figure out how to avoid putting eos here
         # during init
@@ -211,11 +212,17 @@ class Model(nn.Module):
 
         idx = batch.src.shape[0]-1 #print last example
         
+        
         with self.Timer("converting arrays to sentences for current batch"):
             print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
             print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
             print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
             print(f"proc_batch: kbvals: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
+
+            print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
+            print(f"debug: batch.kbtrv:{batch.kbtrv}")
+            print(f"debug: kb_true_vals :{kb_true_vals.shape}")
+
 
         kb_values = kb_values[:, 1] # remove bos, eos tokens
 
@@ -236,8 +243,7 @@ class Model(nn.Module):
         # but sometimes have one extra dim???:
         # 2 x 1 x 1
         # where does this sometimes come from?
-        kb_true_vals = batch.kbtrv.T.unsqueeze(1)
-
+        
         # NOTE shape debug; TODO add to decoder check shapes fwd
         """
         print(f"kb_keys.shape:{kb_keys.shape}")#batch x kb_size x emb_dim
@@ -246,9 +252,7 @@ class Model(nn.Module):
         print(f"debug: batch.src.shape:{batch.src.shape}")
         print(f"debug: batch.trg.shape:{batch.trg.shape}")
         #assert batch.src.shape[0] == 3,batch.src.shape[0] # Latest TODO find where this happens???
-        print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
-        print(f"debug: batch.kbtrv:{batch.kbtrv}")
-        print(f"debug: kb_true_vals :{kb_true_vals.shape}")
+        
         # NOTE kbtrv.shape should be same as u_t for
         # replacement!
         # u_t == kbtrv: batch x 1 x kb_size

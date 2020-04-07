@@ -76,8 +76,31 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_len = data_cfg.get("kb_len", "len")
         kb_trv = data_cfg.get("kb_truvals", "trv")
         global_trv = data_cfg.get("global_trv", "global.trv")
+    
+    def pkt_tokenize(s)-> List:
+        s = s+" "
+        pkt = ".,?!-;:()" # NOTE candidates: '
+        space = ["\t", "\n", " "]
 
-    tok_fun = lambda s: list(s) if level == "char" else s.split()
+        r = []
+        split = list(s)
+        curr = []
+        for c in split:
+            if c in space:
+                token = "".join(curr)
+                r += [token]
+                curr = []
+            else:
+                if c in pkt:
+                    token = "".join(curr)  
+                    r += [token]
+                    curr = []
+                print(r)
+                curr += [c] # add pkt to tokens, but not whitespace
+        return r
+
+    #tok_fun = lambda s: list(s) if level == "char" else lambda s: pkt_tokenize(s)
+    tok_fun = list if level == "char" else pkt_tokenize
 
     src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
                            pad_token=PAD_TOKEN, tokenize=tok_fun,
@@ -251,8 +274,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     if kb_task:
         # NOTE this vocab is hardcodedly built from the concatenation of train+dev+test trv files!
-        # TODO its hardcoded atm; add this to cfg
         trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
+        assert os.path.isfile(trv_path)
         trv_vocab = build_vocab(fields="kbtrv", min_freq=1,
                                         max_size=sys.maxsize,
                                         dataset=train_kb_truvals, vocab_file=trv_path)
