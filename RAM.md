@@ -53,21 +53,19 @@ This is a general list of minor technical TODOs that can be done without thinkin
   * fix kbtrv vocab not loading (everything UNK)
 * fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
 
-## _```Current issue```_:
-### 02.04.20 implement v\_t
-
-in decoder.forward(), at the end:
-
-1. Create a zero tensor of shape batch x 1 x vocab\_size:
- v\_t = torch.zeros((batch,1,vocab/size))
-2. v\_t[values[1,:,:] 
-
-
-
 
 ---
 
 # Issues Archive
+
+## _```Current issue```_:
+### 06.04.20 implement v
+
+Implementing V instead of V\_t
+
+-> done, for documentation look at kvrretdecoder.forward()
+
+
 
 ### 02.04.20 Dialogue history to source:
 

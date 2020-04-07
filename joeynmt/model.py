@@ -20,7 +20,7 @@ from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN
 from joeynmt.search import beam_search, greedy
 from joeynmt.vocabulary import Vocabulary
 from joeynmt.batch import Batch, Batch_with_KB
-from joeynmt.helpers import ConfigurationError
+from joeynmt.helpers import ConfigurationError, Timer
 from joeynmt.constants import EOS_TOKEN, PAD_TOKEN
 
 
@@ -64,6 +64,8 @@ class Model(nn.Module):
 
         self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
+
+        self.Timer = Timer()
 
 
 
@@ -164,38 +166,21 @@ class Model(nn.Module):
                 trg_mask=batch.trg_mask)
         else:
             assert batch.kbsrc != None
-            #kb embedding /preproc
-
-            # TODO: Find out how to reconstruct words here for debugging
-            # involves trg_vocab 
-            # self.trg_vocab.itos
-
-            # TODO: kbvals (list) should be passed through joeynmt funs but doesnt need to be passed on here: 
-            # actual values not needed for training
 
             # TODO: find out why both old attr batch.src/trg and new
             # attr batch.kbsrc/kbtrg are tuples in data.TorchBatchWithKB
             # but only new attributes remain tuples here???
-
-            # TODO: move this shape changing to different model function
-            # or write new model.reshape_kb_batch function
-            # with options for lookup list and without lookup list
-            # (respectively inference and training)
 
             print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
 
             kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
             knowledgebase = (kb_keys, kb_values)
 
-
-            out, hidden, att_probs, _ = self.forward(
-                src=batch.src, trg_input=batch.trg_input,
-                src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
-            
-            
-        
-        # add u_t to log_probs indexed by kb_values here!
+            with self.Timer("model fwd pass"):
+                out, hidden, att_probs, _ = self.forward(
+                    src=batch.src, trg_input=batch.trg_input,
+                    src_mask=batch.src_mask, src_lengths=batch.src_lengths,
+                    trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
 
         # compute log probs
         log_probs = F.log_softmax(out, dim=-1)
@@ -207,7 +192,6 @@ class Model(nn.Module):
         print(mle_tokens.shape)
         print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
         # ----- debug
-
 
         # compute batch loss
         batch_loss = loss_function(log_probs, batch.trg)
@@ -221,23 +205,27 @@ class Model(nn.Module):
         kb_keys = batch.kbsrc[0]
         kb_values = batch.kbtrg[0]
 
-        idx = batch.src.shape[0]-1 #plot last example
+        # TODO to save a little time, figure out how to avoid putting eos here
+        # during init
+        kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src #replace eos with pad # TODO why was this after embed and working before?
+
+        idx = batch.src.shape[0]-1 #print last example
         
-        print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
-        print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
-        print(f"proc_batch: kbkeys: {self.trg_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
-        print(f"proc_batch: kbvals: {self.trg_vocab.arrays_to_sentences(kb_values.cpu().numpy())}")
+        with self.Timer("converting arrays to sentences for current batch"):
+            print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
+            print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
+            print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
+            print(f"proc_batch: kbvals: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
+
+        kb_values = kb_values[:, 1] # remove bos, eos tokens
 
         kb_keys = self.src_embed(kb_keys)
         # NOTE: values dont even need to be embedded!!
-        kb_values = kb_values[:, 1] # remove bos, eos tokens
 
-        kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src 
-        # TODO to save a little time, figure out how to avoid putting eos here
-        # during init
-        kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel
+        kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
 
         assert batch.src.shape[0] == batch.trg.shape[0]
+
         kb_keys.unsqueeze_(0)
         kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1))
         kb_values.unsqueeze_(0)
@@ -266,7 +254,6 @@ class Model(nn.Module):
         # u_t == kbtrv: batch x 1 x kb_size
         print(f"debug: model.trg_embed attributes={dir(self.trg_embed)}")
         """
-
         return kb_keys, kb_values, kb_true_vals
 
 

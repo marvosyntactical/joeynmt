@@ -12,6 +12,8 @@ import random
 import logging
 from logging import Logger
 from typing import Callable, Optional, List
+from contextlib import contextmanager
+import time
 import numpy as np
 
 import torch
@@ -296,3 +298,16 @@ def symlink_update(target, link_name):
             os.symlink(target, link_name)
         else:
             raise e
+
+
+class Timer(object):
+    def __init__(self, *args, **kwargs):
+        super(object, self).__init__(*args, **kwargs)
+
+    @contextmanager
+    def __call__(self, activity, x=True):
+        t = time.time()
+        if x: yield
+        else: yield None
+        dt = time.time()-t
+        print(f"Time spent on {str(activity)}: {str(dt)}")

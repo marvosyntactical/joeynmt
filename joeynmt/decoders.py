@@ -841,27 +841,13 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         outputs = self.output_layer(att_vectors)
         # outputs: batch, unroll_steps, vocab_size
 
-        # Latest TODO: (Artem question 06.04.)
-        # this is the whole o after application of output_layer
-        # I want access to individual o_t for t=1,..,unroll_steps
-        # so I want a new self.output_layer_t like so:
-        # self.output_layer_t = nn.Linear(hidden_size, vocab_size, bias=False)
-        #
-        # the smarter way would be:
-        # let _forward_step return v_t, concatenate all here to v, then add to outputs
-        # v: batch, unroll_steps, V+n
-
         kb_probs = torch.cat(kb_probs, dim=1)
-        v = torch.zeros_like(outputs)
-        print(f"v.shape:batch x time x vocab: {v.shape}")
         print(f"kb_values.shape:{kb_values.shape}")
         if len(kb_values.shape) < 3: #TODO find out why this happens sometimes??
             kb_values.unsqueeze_(1)
         else:
             print(f"debug: kb_values={kb_values.shape} no of dims was >=3:")
             assert kb_values.shape[1] == 1
-
-
 
         _batch, _unroll, _kb = kb_probs.shape
 
@@ -873,9 +859,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # debugging halves (!) training speed (140 tok/sec -> 70 tok/sec)
         debug_v = kwargs.get("debug_v", False)
-        debug_v = True # TODO remove
         if debug_v:
-
 
             v_fast = torch.zeros_like(outputs) #only for debugging purposes
 
@@ -900,17 +884,16 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 for y in range(_unroll):
                     for z in range(_kb):
                         v_slow[x, y, kb_values[x, y, z]] = kb_probs[x, y, z]
-
             now_slow = time.time()
+
             assert torch.allclose(v_slow, v_fast), [torch.where(tnsr) for tnsr in (v_fast, v_slow)]
 
-            print(f"debug: using fast torch implementation for calculating v in {fast_now-fast_then} seconds!")
-            print(f"filled v_slow={v.shape} in {now_slow-then_slow} seconds")
-            print(f"v_slow:{v}")
+            print(f"debug: using fast torch implementation for calculating v_slow in only\n{fast_now-fast_then} seconds!")
+            print(f"filled v_slow={v_slow.shape} in\n{now_slow-then_slow} seconds")
+            print(f"v_slow.shape:batch x time x vocab: {v_slow.shape}")
        
         print(f"kb_values: {kb_values.shape}")
         print(f"kb_probs: {kb_probs.shape}")
-
 
         return outputs, hidden, att_probs, att_vectors
 
