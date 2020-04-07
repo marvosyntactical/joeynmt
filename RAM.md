@@ -44,7 +44,7 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 
 ### Technical TODO:
 
-This is a general list of minor technical TODOs that can be done without thinking. Thoughts are nevertheless jotted down unorderedly:
+This is a general list of minor technical TODOs that can be done without thinking. 
 
 * look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during train/val/test???
 * figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data (not important since vocab is small now)
@@ -52,13 +52,21 @@ This is a general list of minor technical TODOs that can be done without thinkin
   * fix batch size being 11 (9+1+1) (probably data.batch\_with\_kb
   * fix kbtrv vocab not loading (everything UNK)
 * fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
+* understand empty hypotheses: is \<eos\> really MLE token?
+* understand decoder unroll: why always the same unroll steps (trg\_inpu)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos?
+
+## _```Current issue```_:
+### 07.04.20 training on GPU
+
+* truevalues can be done later; it doesnt matter for training that this doesnt work
+
 
 
 ---
 
 # Issues Archive
 
-## _```Current issue```_:
+## Old Issue
 ### 06.04.20 implement v
 
 Implementing V instead of V\_t
