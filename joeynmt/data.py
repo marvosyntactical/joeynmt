@@ -7,8 +7,6 @@ import random
 import io
 import os
 import os.path
-import pickle
-import dill
 from typing import Optional, List
 from copy import deepcopy
 
@@ -183,40 +181,12 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     pkld_src_voc = data_cfg.get("src_voc_pkl", "data/voc/src.p")
     pkld_trg_voc = data_cfg.get("trg_voc_pkl", "data/voc/trg.p")
     
-    prevent_pkl_load_voc = data_cfg.get("prevent_pkl_load_voc", None)
 
     # TODO figure out how to serialize/pickle Vocabulary objects
 
-    if not prevent_pkl_load_voc and os.path.isfile(pkld_src_voc):
-        with open(pkld_src_voc, "rb") as filehandler:
-            src_vocab = pickle.load(filehandler)
-    else:
-        src_vocab = build_vocab(fields=vocab_building_src_fields, min_freq=src_min_freq,
-                                max_size=src_max_size,
-                                dataset=vocab_building_datasets, vocab_file=src_vocab_file)
-        if not os.path.isfile(pkld_src_voc):
-            with open(pkld_src_voc, "wb") as filehandler:
-                try:
-                    pickle.dump(src_vocab, filehandler)
-                except Exception as e:
-                    os.remove(pkld_src_voc)
-                    print(e.with_traceback)
+    src_vocab = build_vocab(fields=vocab_building_src_fields, min_freq=src_min_freq, max_size=src_max_size, dataset=vocab_building_datasets, vocab_file=src_vocab_file)
 
-    if not prevent_pkl_load_voc and os.path.isfile(pkld_trg_voc):
-        with open(pkld_trg_voc, "rb") as filehandler:
-            trg_vocab = pickle.load(filehandler)
-    else:
-        trg_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=trg_min_freq,
-                                max_size=trg_max_size,
-                                dataset=vocab_building_datasets, vocab_file=trg_vocab_file)
-
-        if not os.path.isfile(pkld_trg_voc):
-            with open(pkld_trg_voc, "wb") as filehandler:
-                try:
-                    pickle.dump(trg_vocab, filehandler)
-                except Exception as e:
-                    os.remove(pkld_trg_voc)
-                    print(e.with_traceback)
+    trg_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=trg_min_freq,max_size=trg_max_size, dataset=vocab_building_datasets, vocab_file=trg_vocab_file)
 
     random_train_subset = data_cfg.get("random_train_subset", -1)
     if random_train_subset > -1:

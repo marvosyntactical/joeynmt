@@ -15,7 +15,8 @@ import numpy as np
 
 import torch
 from torch import Tensor
-from torch.utils.tensorboard import SummaryWriter
+#FIXME
+#from torch.utils.tensorboard import SummaryWriter
 
 from torchtext.data import Dataset
 
@@ -54,7 +55,12 @@ class TrainManager:
         self.logger = make_logger(model_dir=self.model_dir)
         self.logging_freq = train_config.get("logging_freq", 100)
         self.valid_report_file = "{}/validations.txt".format(self.model_dir)
-        self.tb_writer = SummaryWriter(log_dir=self.model_dir+"/tensorboard/")
+        #FIXME
+        no_tensorboard = True
+        if not no_tensorboard:
+            self.tb_writer = SummaryWriter(log_dir=self.model_dir+"/tensorboard/")
+        else:
+            self.tb_writer = None
 
         # model
         self.model = model
@@ -286,7 +292,8 @@ class TrainManager:
                 update = count == 0
                 # print(count, update, self.steps)
                 batch_loss = self._train_batch(batch, update=update)
-                self.tb_writer.add_scalar("train/train_batch_loss", batch_loss, self.steps)
+                if self.tb_writer:
+                    self.tb_writer.add_scalar("train/train_batch_loss", batch_loss, self.steps)
                 count = self.batch_multiplier if update else count
                 count -= 1
                 epoch_loss += batch_loss.detach().cpu().numpy()
@@ -332,12 +339,13 @@ class TrainManager:
                             valid_kb_truvals=valid_kb_truvals
                         )
 
-                    self.tb_writer.add_scalar("valid/valid_loss",
-                                              valid_loss, self.steps)
-                    self.tb_writer.add_scalar("valid/valid_score",
-                                              valid_score, self.steps)
-                    self.tb_writer.add_scalar("valid/valid_ppl",
-                                              valid_ppl, self.steps)
+                    if self.tb_writer:
+                        self.tb_writer.add_scalar("valid/valid_loss",
+                                                  valid_loss, self.steps)
+                        self.tb_writer.add_scalar("valid/valid_score",
+                                                  valid_score, self.steps)
+                        self.tb_writer.add_scalar("valid/valid_ppl",
+                                                  valid_ppl, self.steps)
 
                     if self.early_stopping_metric == "loss":
                         ckpt_score = valid_loss

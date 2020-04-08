@@ -64,8 +64,6 @@ class Model(nn.Module):
         self.kb_embed = self.trg_embed 
         if trv_vocab != None:
             self.kbtrv_vocab = trv_vocab #TODO should probably be deleted altogether
-        else: #debug
-            print(f"initializing model without trv_vocab because it is {trv_vocab}")
 
         self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
