@@ -229,11 +229,14 @@ def test(cfg_file,
     max_output_length = cfg["training"].get("max_output_length", None)
 
     # load the data
-    _ , dev_data, test_data,\
+    _, dev_data, test_data,\
     src_vocab, trg_vocab,\
     _, dev_kb, test_kb,\
     _, dev_kb_lookup, test_kb_lookup,\
-    _, dev_kb_lengths, dev_kb_lengths = load_data(
+    _, dev_kb_lengths, test_kb_lengths,\
+    _, dev_kb_truvals, test_kb_truvals, \
+    trv_vocab\
+        = load_data(
         data_cfg=cfg["data"]
     )
 
@@ -243,7 +246,7 @@ def test(cfg_file,
     model_checkpoint = load_checkpoint(ckpt, use_cuda=use_cuda)
 
     # build model and load parameters into it
-    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab)
+    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, trv_vocab=trv_vocab)
     model.load_state_dict(model_checkpoint["model_state"])
 
     if use_cuda:

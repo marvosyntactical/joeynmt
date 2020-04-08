@@ -157,6 +157,14 @@ class Batch_with_KB:
             self.trg_input = self.trg_input.cuda()
             self.trg = self.trg.cuda()
             self.trg_mask = self.trg_mask.cuda()
+        
+        # move kb to cuda, too!
+        self.kbsrc = self.kbsrc.cuda()
+        # not sure if this is only sensible for batches that
+        # get embedded at some point later on but here goes:
+        self.kbtrg = self.kbtrg.cuda()
+        self.kbtrv = self.kbtrv.cuda()
+
 
     def sort_by_src_lengths(self):
         """

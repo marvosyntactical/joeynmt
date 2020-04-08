@@ -27,7 +27,7 @@ from joeynmt.helpers import log_data_info, load_config, log_cfg, \
 from joeynmt.model import Model
 from joeynmt.prediction import validate_on_data
 from joeynmt.loss import XentLoss
-from joeynmt.data import load_data,make_data_iter, make_data_iter_kb, MonoDataset
+from joeynmt.data import load_data, make_data_iter, make_data_iter_kb, MonoDataset
 from joeynmt.builders import build_optimizer, build_scheduler, \
     build_gradient_clipper
 from joeynmt.prediction import test
@@ -223,7 +223,7 @@ class TrainManager:
             self.model.cuda()
 
     def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: MonoDataset =None,\
-        train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals:list=[], valid_kb: Tuple=None, valid_kb_lkp: list=[],
+        train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals: MonoDataset=None, valid_kb: Tuple=None, valid_kb_lkp: list=[],
         valid_kb_lens: list = [], valid_kb_truvals:list=[]) \
             -> None:
         """
@@ -273,8 +273,10 @@ class TrainManager:
                 # create a Batch object from torchtext batch
                 batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
                     Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)
-                assert hasattr(batch, "kbsrc"), dir(batch)
-                assert hasattr(batch, "kbtrg"), dir(batch)
+                if kb_task:
+                    assert hasattr(batch, "kbsrc"), dir(batch)
+                    assert hasattr(batch, "kbtrg"), dir(batch)
+                    assert hasattr(batch, "kbtrv"), dir(batch)
 
 
                 # only update every batch_multiplier batches
@@ -562,12 +564,13 @@ def train(cfg_file: str) -> None:
         train_kb, dev_kb, test_kb,\
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, dev_kb_lengths,\
-        train_kb_truvals, dev_kb_truvals, test_kb_truvals\
+        train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
+        trv_vocab\
             = load_data(data_cfg=cfg["data"])
 
 
     # build an encoder-decoder model
-    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab)
+    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, trv_vocab=trv_vocab)
 
     # for training management, e.g. early stopping and model selection
     trainer = TrainManager(model=model, config=cfg)

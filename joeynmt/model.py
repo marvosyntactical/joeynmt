@@ -36,7 +36,8 @@ class Model(nn.Module):
                  trg_embed: Embeddings,
                  src_vocab: Vocabulary,
                  trg_vocab: Vocabulary,
-                 kb_vocab: Vocabulary = None) -> None:
+                 trv_vocab: Vocabulary=None,
+                 ) -> None:
         """
         Create a new encoder-decoder model
 
@@ -46,6 +47,7 @@ class Model(nn.Module):
         :param trg_embed: target embedding
         :param src_vocab: source vocabulary
         :param trg_vocab: target vocabulary
+        :param trv_vocab: kb true value lookup vocabulary
         """
         super(Model, self).__init__()
 
@@ -60,7 +62,10 @@ class Model(nn.Module):
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
         #kb stuff:
         self.kb_embed = self.trg_embed 
-        self.kb_vocab = self.trg_vocab #TODO should probably be deleted altogether
+        if trv_vocab != None:
+            self.kbtrv_vocab = trv_vocab #TODO should probably be deleted altogether
+        else: #debug
+            print(f"initializing model without trv_vocab because it is {trv_vocab}")
 
         self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
@@ -220,7 +225,7 @@ class Model(nn.Module):
             print(f"proc_batch: kbvals: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
 
             print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
-            print(f"debug: batch.kbtrv:{batch.kbtrv}")
+            print(f"debug: batch.kbtrv:{self.kbtrv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())}")
             print(f"debug: kb_true_vals :{kb_true_vals.shape}")
 
 
@@ -325,13 +330,15 @@ class Model(nn.Module):
 
 def build_model(cfg: dict = None,
                 src_vocab: Vocabulary = None,
-                trg_vocab: Vocabulary = None) -> Model:
+                trg_vocab: Vocabulary = None,
+                trv_vocab: Vocabulary = None) -> Model:
     """
     Build and initialize the model according to the configuration.
 
     :param cfg: dictionary configuration containing model specifications
     :param src_vocab: source vocabulary
     :param trg_vocab: target vocabulary
+    :param trv_vocab: kb true value lookup vocabulary
     :return: built and initialized model
     """
     src_padding_idx = src_vocab.stoi[PAD_TOKEN]
@@ -424,7 +431,8 @@ def build_model(cfg: dict = None,
 
     model = Model(encoder=encoder, decoder=decoder,
                   src_embed=src_embed, trg_embed=trg_embed,
-                  src_vocab=src_vocab, trg_vocab=trg_vocab)
+                  src_vocab=src_vocab, trg_vocab=trg_vocab,\
+                  trv_vocab=trv_vocab)
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):

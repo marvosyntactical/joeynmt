@@ -178,7 +178,12 @@ def build_vocab(fields: Union[str, Tuple[str]], max_size: int, min_freq: int, da
         if isinstance(fields, tuple):
             assert len(fields) == 2, "build_vocab currently only supports looking at either one field (default joeynmt) or two fields (kb_task)"
             field, kb_field = fields
-        else: kb_field = None
+        else:
+            field = fields
+            print(f"data for field={field}")
+            kb_field = None
+
+        print(f"processing data for field={field}")
 
         tokens = []
         for i in dataset.examples:
@@ -186,18 +191,23 @@ def build_vocab(fields: Union[str, Tuple[str]], max_size: int, min_freq: int, da
                 tokens.extend(i.src)
             elif field == "trg":
                 tokens.extend(i.trg)
-        #extend by additional tokens if looking at kb dataset
+            # extend by additional tokens if looking at kb dataset
 
         if kb_dataset is not None:        
             for j in kb_dataset.examples:
                 if kb_field == "kbsrc": 
-                    print(f"extended {kb_field} vocab by these tokens:")
-                    print(j.kbsrc)
+                    #print(f"extended {kb_field} vocab by these tokens:")
+                    #print(j.kbsrc)
                     tokens.extend(j.kbsrc)
                 elif kb_field == "kbtrg":
-                    print(f"extended {kb_field} vocab by this token:")
-                    print(j.kbtrg)
+                    #print(f"extended {kb_field} vocab by this token:")
+                    #print(j.kbtrg)
                     tokens.extend(j.kbtrg)
+                # kb_task: construct monodataset vocabulary for true values of knowledgebase entries
+                elif field == "kbtrv":
+                    print("added to kbtrv vocab: ", i.kbtrv)
+                    tokens.extend(i.kbtrv)
+
                 else:
                     raise ValueError(f"""requested invalid field {kb_field} for example with attributes {[s for s in dir(j) if s.startswith(("kb","src", "trg"))]}""") 
         else:
@@ -207,8 +217,6 @@ def build_vocab(fields: Union[str, Tuple[str]], max_size: int, min_freq: int, da
         if min_freq > -1:
             counter = filter_min(counter, min_freq)
         vocab_tokens = sort_and_cut(counter, max_size)
-        print(f"built token list for vocab construction called with fields=\
-            {fields} and token count {len(vocab_tokens)}")
         assert len(vocab_tokens) <= max_size
 
         vocab = Vocabulary(tokens=vocab_tokens)

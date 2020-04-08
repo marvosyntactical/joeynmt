@@ -35,7 +35,7 @@ testing:                            # specify which inference algorithm to use f
 
 training:                           # specify training details here
     #load_model: "my_model/50.ckpt" # if given, load a pre-trained model from this checkpoint
-    random_seed: 42                 # set this seed to make training deterministic
+    #random_seed: 42                 # set this seed to make training deterministic
     optimizer: "adam"               # choices: "sgd", "adam", "adadelta", "adagrad", "rmsprop", default is SGD
     adam_betas: [0.9, 0.999]        # beta parameters for Adam. These are the defaults. Typically these are different for Transformer models.
     learning_rate: 0.001            # initial learning rate, default: 3.0e-4
@@ -58,12 +58,12 @@ training:                           # specify training details here
     logging_freq: 10                # log the training progress after this many updates, default: 100
     eval_metric: "bleu"             # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "loss"   # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/kv_toy_model" # directory where models and validation results are stored, required
-    overwrite: True                 # overwrite existing model directory, default: False. Do not set to True unless for debugging!
+    model_dir: "models/kv_toy_model_1" # directory where models and validation results are stored, required
+    overwrite: False # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                   # shuffle the training data, default: True
     use_cuda: False                 # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
-    max_output_length: 31           # maximum output length for decoding, default: None. If set to None, allow sentences of max 1.5*src length
-    print_valid_sents: [5,7, 13]    # print this many validation sentences during each validation run, default: [0, 1, 2]
+    #max_output_length: 31           # maximum output length for decoding, default: None. If set to None, allow sentences of max 1.5*src length
+    print_valid_sents: [0,1, 2]    # print this many validation sentences during each validation run, default: [0, 1, 2]
     keep_last_ckpts: 3              # keep this many of the latest checkpoints, if -1: all of them, default: 5
     label_smoothing: 0.0            # label smoothing: reference tokens will have 1-label_smoothing probability instead of 1, rest of probability mass is uniformly distributed over the rest of the vocabulary, default: 0.0 (off)
 
@@ -102,7 +102,7 @@ model:                              # specify your model architecture here
         hidden_size: 30
         dropout: 0.15
         hidden_dropout: 0.2         # apply dropout to the attention vector, default: 0.0
-        num_layers: 2
+        num_layers: 3
         input_feeding: True         # combine hidden state and attention vector before feeding to rnn, default: True
         init_hidden: "last"         # initialized the decoder hidden state: use linear projection of last encoder state ("bridge") or simply the last state ("last") or zeros ("zero"), default: "bridge"
         attention: "bahdanau"       # attention mechanism, choices: "bahdanau" (MLP attention), "luong" (bilinear attention), default: "bahdanau"

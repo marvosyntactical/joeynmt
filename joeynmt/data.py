@@ -76,6 +76,10 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_len = data_cfg.get("kb_len", "len")
         kb_trv = data_cfg.get("kb_truvals", "trv")
         global_trv = data_cfg.get("global_trv", "global.trv")
+
+        # TODO: following is hardcoded; add to configs please
+        pnctprepro = True
+    else: pnctprepro = False
     
     def pkt_tokenize(s)-> List:
         s = s+" "
@@ -95,12 +99,14 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                     token = "".join(curr)  
                     r += [token]
                     curr = []
-                print(r)
                 curr += [c] # add pkt to tokens, but not whitespace
         return r
 
-    #tok_fun = lambda s: list(s) if level == "char" else lambda s: pkt_tokenize(s)
-    tok_fun = list if level == "char" else pkt_tokenize
+    # default joeyNMT behaviour for sentences
+    def tokenize(s):
+        return s.split()
+
+    tok_fun = list if level == "char" else (pkt_tokenize if pnctprepro else tokenize)
 
     src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
                            pad_token=PAD_TOKEN, tokenize=tok_fun,
@@ -115,10 +121,17 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                            include_lengths=True)
 
     if kb_task:
+        # NOTE lowercase MUST be False for datasets with tokens that may include whitespace!
+        # the torchtext lowercase pipeline seems to operate not just on the first char of a token (dataset field level)
+        # but lowercases individual words separated by whitespace WITHIN a specified token
+        # which leads to the vocab not recognizing tokens even though added to the field.vocab
+        # via joeynmt.vocabulary.build_vocab
+        # other way to circumvent may be to lowercase in the same manner before calling
+        # field.process
         trv_field = data.Field(init_token=BOS_TOKEN, eos_token=EOS_TOKEN,
-                            pad_token=PAD_TOKEN, tokenize=tok_fun,
+                            pad_token=PAD_TOKEN, tokenize=lambda entire_line: [entire_line],
                             unk_token=UNK_TOKEN,
-                            batch_first=True, lower=lowercase,
+                            batch_first=True, lower=False,
                             include_lengths=False)
 
     train_data = TranslationDataset(path=train_path,
@@ -279,11 +292,13 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         trv_vocab = build_vocab(fields="kbtrv", min_freq=1,
                                         max_size=sys.maxsize,
                                         dataset=train_kb_truvals, vocab_file=trv_path)
+        print(f"Added true value lines as tokens to trv_vocab of length={len(trv_vocab)}")
         trv_field.vocab = trv_vocab
 
 
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None
+        trv_vocab = None
         train_kb_lookup, dev_kb_lookup, test_kb_lookup = [],[],[]
         train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
@@ -294,7 +309,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb, dev_kb, test_kb,\
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
-        train_kb_truvals, dev_kb_truvals, test_kb_truvals
+        train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
+        trv_vocab
 
 
 # pylint: disable=global-at-module-level
@@ -357,7 +373,7 @@ def make_data_iter(dataset: Dataset,
 
 class TorchBatchWithKB(Batch):
     #inherits from torch batch, not joey batch!....
-    def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None,device=None):
+    def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None, device=None):
         
         """
         Create a TorchBatchWithKB from a list of examples.
@@ -384,22 +400,37 @@ class TorchBatchWithKB(Batch):
             self.knowledgebase_fields = [k for k,v in kb_data.fields.items() if v is not None]
 
             for (name, field) in self.dataset.fields.items():
+                print(f"processing field: {(name, field)}")
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
+                    print(f"batch.{name} unprocessed={batch}")
                     setattr(self, name, field.process(batch, device=device))
+                    #print(f"self.{name}={getattr(self, name)}")
+            #print(f"data fields: {self.dataset.fields.items()}")
             
             for (name, field) in self.kb_truval_data.fields.items():
                 if field is not None:
-                    truvals = ["@emptytrv"]
+                    truvals = [["<s>"]]
                     truvals += [getattr(x, name) for x in data.kbtrv]
+                    print(f"batch.trv unprocessed={truvals}")
                     setattr(self, name, field.process(truvals, device=device))
+                    print(f"self.{name}={getattr(self, name)}")
+            """ TODO: remove this 
+            print(f"kbtrv fields: {self.kb_truval_data.fields.items()}")
+            print(f"kbtrv field vocab: {self.kb_truval_data.fields['kbtrv'].vocab.stoi}")
+            print(f"kbtrv vocab.itos[7]: {self.kb_truval_data.fields['kbtrv'].vocab.itos[7]}")
+            print(f"kbtrv vocab.stoi['550 Alester Ave']: {self.kb_truval_data.fields['kbtrv'].vocab.stoi['550 Alester Ave']}")
+            print(f"kbtrv vocab.stoi['parking garage']: {self.kb_truval_data.fields['kbtrv'].vocab.stoi['parking garage']}")
+            print(f"kbtrv field batch sentences: {self.kb_truval_data.fields['kbtrv'].vocab.arrays_to_sentences(self.kbtrv)}")
+            """
+
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
                     kb = [] # used to be KB_minibatch
                     if name == "kbsrc":
-                        kb.append(["@emptykbsrc"]) #dummy elem key
+                        kb.append(["<s>"]) #dummy elem key
                     elif name == "kbtrg":
-                        kb.append(["@emptykbtrg"]) #dummy elem val
+                        kb.append(["<s>"]) #dummy elem val
                     
                     # dummy kb entry for scheduling task, added to all kbs as first entry
                     # TODO what should dummy tokens be? shouldnt affect default decoder behavior..
@@ -436,7 +467,7 @@ class TorchBatchWithKB(Batch):
 
 class KB_minibatch(list):
     """
-    adds kb field to minibatch list in KB_Iterator
+    adds kb fields to minibatch list in KB_Iterator
     """
     def __init__(self, *args, **kwargs):
         super(KB_minibatch, self).__init__(*args, **kwargs)
@@ -448,7 +479,6 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
 
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
-    # TODO: try holding the entire prior conversation as source
 
     minibatch = KB_minibatch()
     current = 0
@@ -460,6 +490,8 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
         kb_len = kb_lens[corresponding_kb]
 
         if kb_lkp[i] != last_kb:
+            #assert False, ([i.kbsrc for i in minibatch.kb],\
+            #    [i.kbtrv for i in  minibatch.kbtrv])
             yield minibatch
             minibatch = KB_minibatch()
             current += kb_len
@@ -484,7 +516,6 @@ class KB_Iterator(Iterator):
     for the moment,
     sorting and shuffling is ignored and not done
 
-    TODO additional params:
 
     """
 
@@ -511,7 +542,7 @@ class KB_Iterator(Iterator):
         self.kb_truvals = kb_truvals
         
     def create_batches(self):
-        self.batches = batch_with_kb(self.data(),self.kb_data, self.kb_lkp, self.kb_lens,self.kb_truvals)
+        self.batches = batch_with_kb(self.data(), self.kb_data, self.kb_lkp, self.kb_lens,self.kb_truvals)
 
     def data(self):
         return self.dataset
@@ -582,7 +613,7 @@ def make_data_iter_kb(dataset: Dataset,
                     kb_data: TranslationDataset,
                     kb_lkp: list,
                     kb_lens: list,
-                    kb_truvals: List[str],
+                    kb_truvals: MonoDataset,
                     batch_size: int,
                     batch_type: str = "sentence",
                     train: bool = False,

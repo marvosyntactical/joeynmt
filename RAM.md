@@ -53,7 +53,8 @@ This is a general list of minor technical TODOs that can be done without thinkin
   * fix kbtrv vocab not loading (everything UNK)
 * fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
 * understand empty hypotheses: is \<eos\> really MLE token?
-* understand decoder unroll: why always the same unroll steps (trg\_inpu)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos?
+* understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos?
+* find out what shuffle in training data means: intra or supra batch?
 
 ## _```Current issue```_:
 ### 07.04.20 training on GPU
