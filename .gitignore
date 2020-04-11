@@ -10,4 +10,6 @@ data/ner/*
 data/voc/*
 runs/*
 sacrebleu/*
+sbatch/*
+srunz/*
 
