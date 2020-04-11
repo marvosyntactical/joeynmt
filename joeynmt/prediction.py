@@ -239,6 +239,7 @@ def test(cfg_file,
         = load_data(
         data_cfg=cfg["data"]
     )
+    kb_task = (test_kb!=None)
 
     data_to_predict = {"dev": dev_data, "test": test_data}
 
@@ -261,7 +262,10 @@ def test(cfg_file,
         beam_alpha = -1
 
     for data_set_name, data_set in data_to_predict.items():
-
+        
+        # FIXME this depends on variable naming
+        kb_info = [eval(f"{data_set_name}_{sfx}") for sfx in ["kb", "kb_lkp", "kb_lens", "kb_truvals"]]
+        
         #pylint: disable=unused-variable
         score, loss, ppl, sources, sources_raw, references, hypotheses, \
         hypotheses_raw, attention_scores = validate_on_data(
@@ -269,7 +273,12 @@ def test(cfg_file,
             batch_type=batch_type, level=level,
             max_output_length=max_output_length, eval_metric=eval_metric,
             use_cuda=use_cuda, loss_function=None, beam_size=beam_size,
-            beam_alpha=beam_alpha)
+            beam_alpha=beam_alpha,
+            kb_task = kb_task,
+            valid_kb=kb_info[0],
+            valid_kb_lkp=kb_info[1], valid_kb_lens=kb_info[2],
+            valid_kb_truvals=kb_info[3],
+            )
         #pylint: enable=unused-variable
 
         if "trg" in data_set.fields:
