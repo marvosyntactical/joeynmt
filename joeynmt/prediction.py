@@ -264,7 +264,12 @@ def test(cfg_file,
     for data_set_name, data_set in data_to_predict.items():
         
         # FIXME this depends on variable naming
-        kb_info = [eval(f"{data_set_name}_{sfx}") for sfx in ["kb", "kb_lkp", "kb_lens", "kb_truvals"]]
+        if data_set_name == "dev":
+            kb_info = [dev_kb, dev_kb_lkp, dev_kb_lens, dev_kb_truvals]
+        elif data_set_name == "test":
+            kb_info = [test_kb, test_kb_lkp, test_kb_lens, test_kb_truvals]
+        else:
+            raise ValueError((data_set_name,data_set))
         
         #pylint: disable=unused-variable
         score, loss, ppl, sources, sources_raw, references, hypotheses, \
