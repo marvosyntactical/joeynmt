@@ -123,11 +123,8 @@ class Batch_with_KB:
         self.ntokens = None
         self.use_cuda = use_cuda
         #knowledgebase:
-        assert hasattr(batch_with_kb,"kbsrc")
-        assert hasattr(batch_with_kb,"kbtrg")
-        assert hasattr(batch_with_kb,"kbtrv")
-        self.kbsrc = batch_with_kb.kbsrc
-        self.kbtrg = batch_with_kb.kbtrg
+        self.kbsrc = batch_with_kb.kbsrc[0]
+        self.kbtrg = batch_with_kb.kbtrg[0]
         self.kbtrv = batch_with_kb.kbtrv
 
         if hasattr(batch_with_kb, "trg"):
@@ -141,7 +138,7 @@ class Batch_with_KB:
             self.trg_mask = (self.trg_input != pad_index).unsqueeze(1)
             self.ntokens = (self.trg != pad_index).data.sum().item()
 
-        if use_cuda:
+        if self.use_cuda:
             self._make_cuda()
 
     def _make_cuda(self):

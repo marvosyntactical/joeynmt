@@ -205,8 +205,8 @@ class Model(nn.Module):
 
     def process_batch_kb(self, batch: Batch_with_KB)-> (Tensor, Tensor):
 
-        kb_keys = batch.kbsrc[0]
-        kb_values = batch.kbtrg[0]
+        kb_keys = batch.kbsrc
+        kb_values = batch.kbtrg
         kb_true_vals = batch.kbtrv.T.unsqueeze(1)
 
         # TODO to save a little time, figure out how to avoid putting eos here

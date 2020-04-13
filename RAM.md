@@ -55,15 +55,16 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * understand empty hypotheses: is \<eos\> really MLE token?
 * understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos?
 * find out what shuffle in training data means: intra or supra batch?
-* use tensorboard writer again
-* fix beam search
+* import and use tensorboard writer again
+* fix beam search for decoding
+* plot kb attentions (u\_t)
 
 
 
 ## _```Current issue```_:
 ### 07.04.20 training on GPU
 
-* truevalues can be done later; it doesnt matter for training that this doesnt work
+* testing doesnt work yet (beam search), test again with saved checkpt
 
 
 

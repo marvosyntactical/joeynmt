@@ -139,6 +139,7 @@ class TrainManager:
 
         # CPU / GPU
         self.use_cuda = train_config["use_cuda"]
+        self.logger.info("Training with or without cuda=%s", str(self.use_cuda))
         if self.use_cuda:
             self.model.cuda()
             self.loss.cuda()
@@ -306,9 +307,9 @@ class TrainManager:
                 if self.steps % self.logging_freq == 0 and update:
                     elapsed = time.time() - start - total_valid_duration
                     elapsed_tokens = self.total_tokens - processed_tokens
-                    cuda_info = [(field.shape, field.is_cuda) if hasattr(field, 'is_cuda') else (field[0].shape, field[0].is_cuda) if (hasattr(field,"__getitem__") and len(field)>0 and hasattr(field[0], "is_cuda")) else None for field in [getattr(batch, attr) for attr in dir(batch)]]
+                    cuda_info = [(field.shape, field.is_cuda) for field in [getattr(batch, attr) for attr in dir(batch)] if hasattr(field, 'is_cuda')]
                     #if len(cuda_info) == 0: assert False, [(attr, type(getattr(batch,attr))) for attr in dir(batch)]
-                    self.logger.info(f"Training with cuda={self.use_cuda}, current batch with use_cuda={batch.use_cuda} and attributes on cuda: {cuda_info}")
+                    self.logger.info("Training with cuda=%s, current batch with use_cuda=%s and attributes on cuda: %s", str(self.use_cuda), str(batch.use_cuda), str(cuda_info))
                     self.logger.info(
                         "Epoch %3d Step: %8d Batch Loss: %12.6f "
                         "Tokens per Sec: %8.0f, Lr: %.6f",
