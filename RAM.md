@@ -56,6 +56,8 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos?
 * find out what shuffle in training data means: intra or supra batch?
 * use tensorboard writer again
+* fix beam search
+
 
 
 ## _```Current issue```_:

@@ -3,6 +3,7 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor
 import numpy as np
+from typing import Tuple
 
 from joeynmt.decoders import Decoder, TransformerDecoder
 from joeynmt.embeddings import Embeddings
@@ -15,7 +16,7 @@ __all__ = ["greedy", "transformer_greedy", "beam_search"]
 def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
            max_output_length: int, decoder: Decoder,
            encoder_output: Tensor, encoder_hidden: Tensor,
-           knowledgebase: Tensor = None)\
+           knowledgebase: Tuple[Tensor] = None)\
         -> (np.array, np.array):
     """
     Greedy decoding. Select the token word highest probability at each time
@@ -29,15 +30,22 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
     :param decoder: decoder to use for greedy decoding
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder last state for decoder initialization
+    :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
     :return:
     """
 
     if isinstance(decoder, TransformerDecoder):
         # Transformer greedy decoding
         greedy_fun = transformer_greedy
-        return greedy_fun(
+        if knowledgebase is not None:
+            return greedy_fun(
+            src_mask, embed, bos_index, max_output_length,
+            decoder, encoder_output, encoder_hidden, knowledgebase)
+        else:
+            return greedy_fun(
             src_mask, embed, bos_index, max_output_length,
             decoder, encoder_output, encoder_hidden)
+
     else:
         # Recurrent greedy decoding
         greedy_fun = recurrent_greedy
@@ -54,7 +62,7 @@ def recurrent_greedy(
         src_mask: Tensor, embed: Embeddings, bos_index: int,
         max_output_length: int, decoder: Decoder,
         encoder_output: Tensor, encoder_hidden: Tensor,
-        knowledgebase: Tensor = None) -> (np.array, np.array):
+        knowledgebase: Tuple = None) -> (np.array, np.array):
     """
     Greedy decoding: in each step, choose the word that gets highest score.
     Version for recurrent decoder.
@@ -66,6 +74,8 @@ def recurrent_greedy(
     :param decoder: decoder to use for greedy decoding
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder last state for decoder initialization
+    :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
+    :return:
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
@@ -77,6 +87,9 @@ def recurrent_greedy(
     attention_scores = []
     hidden = None
     prev_att_vector = None
+
+    kb = knowledgebase
+    trv = kb[-1]
 
     # pylint: disable=unused-variable
     for t in range(max_output_length):
@@ -90,7 +103,7 @@ def recurrent_greedy(
                 hidden=hidden,
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1,
-                knowledgebase=knowledgebase)
+                knowledgebase=(kb[0],kb[1]))
         else:
             logits, hidden, att_probs, prev_att_vector = decoder(
                 encoder_output=encoder_output,
@@ -125,7 +138,7 @@ def recurrent_greedy(
 def transformer_greedy(
         src_mask: Tensor, embed: Embeddings,
         bos_index: int, max_output_length: int, decoder: Decoder,
-        encoder_output: Tensor, encoder_hidden: Tensor) -> (np.array, np.array):
+        encoder_output: Tensor, encoder_hidden: Tensor, knowledgebase:Tuple=None) -> (np.array, np.array):
     """
     Special greedy function for transformer, since it works differently.
     The transformer remembers all previous states and attends to them.
@@ -183,7 +196,7 @@ def beam_search(
         encoder_output: Tensor, encoder_hidden: Tensor,
         src_mask: Tensor, max_output_length: int, alpha: float,
         embed: Embeddings, n_best: int = 1,
-        knowledgebase: Tensor = None) -> (np.array, np.array):
+        knowledgebase: Tuple = None) -> (np.array, np.array):
     """
     Beam search with size k.
     Inspired by OpenNMT-py, adapted for Transformer.
@@ -202,6 +215,7 @@ def beam_search(
     :param alpha: `alpha` factor for length penalty
     :param embed:
     :param n_best: return this many hypotheses, <= beam
+    :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
@@ -268,6 +282,9 @@ def beam_search(
     results["scores"] = [[] for _ in range(batch_size)]
     results["gold_score"] = [0] * batch_size
 
+    kb = knowledgebase
+    trv = kb[-1]
+
     for step in range(max_output_length):
 
         # This decides which part of the predicted sentence we feed to the
@@ -284,7 +301,9 @@ def beam_search(
         # logits: logits for final softmax
         # pylint: disable=unused-variable
         trg_embed = embed(decoder_input)
-        if (knowledgebase != None) and (not transformer):
+        if (knowledgebase != None):
+            if transformer:
+                raise NotImplementedError("beam decoding for transformer not yet implemented")
             logits, hidden, att_scores, att_vectors = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
@@ -293,8 +312,8 @@ def beam_search(
                 hidden=hidden,
                 prev_att_vector=att_vectors,
                 unroll_steps=1,
-                knowledgebase=knowledgebase,
-                trg_mask=trg_mask  # subsequent mask for Transformer only
+                trg_mask=trg_mask,  # subsequent mask for Transformer only
+                knowledgebase=(kb[0], kb[1])
             )
         else:
             logits, hidden, att_scores, att_vectors = decoder(

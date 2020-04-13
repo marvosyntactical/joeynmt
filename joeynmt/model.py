@@ -284,8 +284,13 @@ class Model(nn.Module):
         if max_output_length is None:
             max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
 
-        kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
-        knowledgebase = (kb_keys, kb_values)
+        if hasattr(batch, "kbsrc"):
+            kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
+            knowledgebase = (kb_keys, kb_values, kb_trv)
+        else:
+            knowledgebase = None
+
+        
 
         # greedy decoding
         if beam_size == 0:
