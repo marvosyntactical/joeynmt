@@ -283,7 +283,9 @@ def beam_search(
     results["gold_score"] = [0] * batch_size
 
     kb = knowledgebase
-    trv = kb[-1]
+    kb_keys = tile(kb[0],size, dim=0)
+    kb_values = tile(kb[1],size, dim=0)
+    trv = tile(kb[-1], size, dim=0)
 
     for step in range(max_output_length):
 
@@ -313,7 +315,7 @@ def beam_search(
                 prev_att_vector=att_vectors,
                 unroll_steps=1,
                 trg_mask=trg_mask,  # subsequent mask for Transformer only
-                knowledgebase=(kb[0], kb[1])
+                knowledgebase=(kb_keys, kb_values)
             )
         else:
             logits, hidden, att_scores, att_vectors = decoder(

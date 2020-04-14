@@ -307,9 +307,6 @@ class TrainManager:
                 if self.steps % self.logging_freq == 0 and update:
                     elapsed = time.time() - start - total_valid_duration
                     elapsed_tokens = self.total_tokens - processed_tokens
-                    cuda_info = [(field.shape, field.is_cuda) for field in [getattr(batch, attr) for attr in dir(batch)] if hasattr(field, 'is_cuda')]
-                    #if len(cuda_info) == 0: assert False, [(attr, type(getattr(batch,attr))) for attr in dir(batch)]
-                    self.logger.info("Training with cuda=%s, current batch with use_cuda=%s and attributes on cuda: %s", str(self.use_cuda), str(batch.use_cuda), str(cuda_info))
                     self.logger.info(
                         "Epoch %3d Step: %8d Batch Loss: %12.6f "
                         "Tokens per Sec: %8.0f, Lr: %.6f",

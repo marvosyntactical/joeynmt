@@ -207,7 +207,7 @@ class Model(nn.Module):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
-        kb_true_vals = batch.kbtrv.T.unsqueeze(1)
+        kb_true_vals = batch.kbtrv.T.unsqueeze(1).contiguous()
 
         # TODO to save a little time, figure out how to avoid putting eos here
         # during init
@@ -237,9 +237,9 @@ class Model(nn.Module):
         assert batch.src.shape[0] == batch.trg.shape[0]
 
         kb_keys.unsqueeze_(0)
-        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1))
+        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous()
         kb_values.unsqueeze_(0)
-        kb_values = kb_values.repeat((batch.trg.shape[0], 1))
+        kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous()
         # assert len(kb_values) == 2 # TODO super important sanity check unit test:
         # kb_values are most of the time here like so:
         # batch x kb_size # 3 x 33
