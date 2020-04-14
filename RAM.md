@@ -13,6 +13,8 @@ _Work rhythm_:
 * Trg vocab goes from 40k to 112k by adding knowledgebase..unusual but should be doable with how small the dataset is
 * how does kv attention actually work for normalized (-> triples) entries? how does attention understand on the request "Wheres the nearest cafe?" to look up the poi\_type value for starbucks among others, see cafè; and then learn to look up the distance and address for the same subject? the keys the attention sees are NOT THE SAME, they conflate both subj and relation?!? does the magic lie in the successive kb attention queries from one decoder unrol step to successive ones? is the key rep expected by the rnn cell to be incorporated into the cell state? doesnt this mean we need to track conversation long (and not just seq2seq query - response isolated examples) history either by concatenating all previous utterances or by somehow using the last previous hidden states?
 * understand: where does loss come from? => dont we need to call our loss function on the postprocessed (de-canonicalized) generated trg sequence to learn? or is this not necessary? would be interesting to bleu, but does it even matter there? does it matter to Xent?
+* does it make sense to use entity F1 as supplementary validation metric?
+* lstm forget = bias +1 => paper ambiguity
 
 
 
