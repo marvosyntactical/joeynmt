@@ -35,7 +35,7 @@ training:                           # specify training details here
     #random_seed: 42                 # set this seed to make training deterministic
     optimizer: "adam"               # choices: "sgd", "adam", "adadelta", "adagrad", "rmsprop", default is SGD
     adam_betas: [0.9, 0.999]        # beta parameters for Adam. These are the defaults. Typically these are different for Transformer models.
-    learning_rate: 3.0e-4            # initial learning rate, default: 3.0e-4
+    learning_rate: 3.0e-3            # initial learning rate, default: 3.0e-4
     learning_rate_min: 1.0e-8       # stop learning when learning rate is reduced below this threshold, default: 1.0e-8
     #learning_rate_factor: 1        # factor for Noam scheduler (used with Transformer)
     #learning_rate_warmup: 4000     # warmup steps for Noam scheduler (used with Transformer)
@@ -56,7 +56,7 @@ training:                           # specify training details here
     eval_metric: "bleu"             # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "loss"   # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
     model_dir: "models/KVR_bigtest" # directory where models and validation results are stored, required
-    overwrite: False # overwrite existing model directory, default: False. Do not set to True unless for debugging!
+    overwrite: True # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                   # shuffle the training data, default: True
     use_cuda: True # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
     #max_output_length: 31           # maximum output length for decoding, default: None. If set to None, allow sentences of max 1.5*src length
@@ -74,7 +74,7 @@ model:                              # specify your model architecture here
     embed_init_weight: 0.1          # weight to initialize; for uniform, will use [-weight, weight]
     embed_init_gain: 1.0            # gain for Xavier initializer for embeddings (default: 1.0)
     init_rnn_orthogonal: False      # use orthogonal initialization for recurrent weights (default: False)
-    lstm_forget_gate: 1.            # initialize LSTM forget gate with this value (default: 1.)
+    lstm_forget_gate: 0.            # initialize LSTM forget gate with this value (default: 1.)
     tied_embeddings: False          # tie src and trg embeddings, only applicable if vocabularies are the same, default: False
     tied_softmax: False             # tie trg embeddings and softmax (for Transformer; can be used together with tied_embeddings), default: False
     encoder:
