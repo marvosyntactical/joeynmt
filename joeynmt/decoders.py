@@ -382,7 +382,7 @@ class RecurrentDecoder(Decoder):
         # att_probs: batch, unroll_steps, src_length
         outputs = self.output_layer(att_vectors)
         # outputs: batch, unroll_steps, vocab_size
-        return outputs, hidden, att_probs, att_vectors
+        return outputs, hidden, att_probs, att_vectors, None
 
     def _init_hidden(self, encoder_final: Tensor = None) \
             -> (Tensor, Optional[Tensor]):
@@ -776,6 +776,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 with shape (batch_size, unroll_steps, src_length),
             - att_vectors: attentional vectors
                 with shape (batch_size, unroll_steps, hidden_size)
+            - kb_probs: kb att probabilities
+                with shape (batch_size, unroll_steps, kb_size)
         """
         if knowledgebase != None:
             kb_keys, kb_values = knowledgebase
@@ -898,7 +900,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         print(f"kb_values: {kb_values.shape}")
         print(f"kb_probs: {kb_probs.shape}")
 
-        return outputs, hidden, att_probs, att_vectors
+        return outputs, hidden, att_probs, att_vectors, kb_probs
 
     def _init_hidden(self, encoder_final: Tensor = None) \
             -> (Tensor, Optional[Tensor]):

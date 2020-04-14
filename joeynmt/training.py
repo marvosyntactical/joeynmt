@@ -230,8 +230,8 @@ class TrainManager:
             self.model.cuda()
 
     def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: MonoDataset =None,\
-        train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals: MonoDataset=None, valid_kb: Tuple=None, valid_kb_lkp: list=[],
-        valid_kb_lens: list = [], valid_kb_truvals:list=[]) \
+        train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals: MonoDataset=None, valid_kb: Tuple=None, \
+        valid_kb_lkp: list=[], valid_kb_lens: list = [], valid_kb_truvals:list=[]) \
             -> None:
         """
         Train the model and validate it from time to time on the validation set.
@@ -322,7 +322,7 @@ class TrainManager:
                     
                     valid_score, valid_loss, valid_ppl, valid_sources, \
                     valid_sources_raw, valid_references, valid_hypotheses, \
-                        valid_hypotheses_raw, valid_attention_scores = \
+                        valid_hypotheses_raw, valid_attention_scores, valid_kb_att_scores = \
                         validate_on_data(
                             batch_size=self.eval_batch_size,
                             data=valid_data,
@@ -399,7 +399,7 @@ class TrainManager:
 
                     # store attention plots for selected valid sentences
                     if valid_attention_scores:
-                        store_attention_plots(
+                        plot_ratio = store_attention_plots(
                             attentions=valid_attention_scores,
                             targets=valid_hypotheses_raw,
                             sources=list(valid_data.src),#TODO
@@ -407,6 +407,21 @@ class TrainManager:
                             output_prefix="{}/att.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps)
+                        self.logger.info(f"stored {plot_ratio} valid att scores!")
+                    if valid_kb_att_scores:
+                        plot_ratio = store_attention_plots(
+                            attentions=valid_kb_att_scores,
+                            targets=valid_hypotheses_raw,
+                            sources=list(valid_kb.kbsrc),#TODO
+                            indices=self.log_valid_sents,
+                            output_prefix="{}/kbatt.{}".format(
+                                self.model_dir, self.steps),
+                            tb_writer=self.tb_writer, steps=self.steps,
+                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrg)))
+                        self.logger.info(f"stored {plot_ratio} valid kb att scores!")
+                    else:
+                        self.logger.info("theres no valid kb att scores...")
+ 
                 if self.stop:
                     break
             if self.stop:

@@ -11,7 +11,7 @@ import shutil
 import random
 import logging
 from logging import Logger
-from typing import Callable, Optional, List
+from typing import Callable, Optional, List, Tuple
 from contextlib import contextmanager
 import time
 import numpy as np
@@ -183,7 +183,8 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                           #FIXME
                           #tb_writer: Optional[SummaryWriter] = None,
                           tb_writer: Optional = None,
-                          steps: int = 0) -> None:
+                          steps: int = 0,
+                          kb_info: Tuple[List[int]] = None) -> str:
     """
     Saves attention plots.
 
@@ -195,14 +196,34 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
     :param tb_writer: Tensorboard summary writer (optional)
     :param steps: current training steps, needed for tb_writer
     :param dpi: resolution for images
+    :param kbinfo: tuple containing kb_lkp, kb_lens
     """
+    success, failure = 0,0
     for i in indices:
+        if i < 0:
+            i = len(indices)+i
         if i >= len(sources):
             continue
         plot_file = "{}.{}.pdf".format(output_prefix, i)
-        src = sources[i]
-        trg = targets[i]
+
         attention_scores = attentions[i].T
+        trg = targets[i]
+        if kb_info is None:
+            src = sources[i]
+        else:
+            kbkey, kb_lkp, kb_lens, kbval = sources, kb_info[0], kb_info[1], kb_info[2]
+            kb_num = kb_lkp[i]
+            lower = sum(kb_lens[:kb_num])
+            upper = lower+kb_lens[kb_num]+1
+            assertion_str = f"plotting idx={i} with kb_num={kb_num} and kb_len={kb_lens[kb_num]+1}, att_scores.shape={attention_scores.shape};\n\
+                kb_before: {kb_lens[kb_num-1]+1}, kb_after: {kb_lens[kb_num+1]+1};\
+                    upper-lower={upper-lower}, kb_num={kb_num}"
+            assert upper-lower == attention_scores.shape[0]==kb_lens[kb_num]+1, assertion_str
+            keys = kbkey[lower:upper]
+            vals = kbval[lower:upper]
+            DEFAULT = "default(<s>)=default(<s>)"
+            src = [DEFAULT]+["+".join(key)+"="+val[0] for key, val in zip(keys, vals)]
+
         try:
             fig = plot_heatmap(scores=attention_scores, column_labels=trg,
                                row_labels=src, output_path=plot_file,
@@ -213,12 +234,20 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                                    row_labels=src, output_path=None, dpi=50)
                 tb_writer.add_figure("attention/{}.".format(i), fig,
                                      global_step=steps)
+            print("plotted example {}: src len {}, trg len {}, "
+            "attention scores shape {}".format(i, len(src), len(trg), attention_scores.shape))
         # pylint: disable=bare-except
+            success += 1
         except:
             print("Couldn't plot example {}: src len {}, trg len {}, "
                   "attention scores shape {}".format(i, len(src), len(trg),
                                                      attention_scores.shape))
+            failure += 1
             continue
+
+    assert success+failure == len(indices), f"plotting success:{success}, failure:{failure}, indices:{len(indices)}"
+    return f"{success}/{len(indices)}"
+
 
 
 def get_latest_checkpoint(ckpt_dir: str) -> Optional[str]:

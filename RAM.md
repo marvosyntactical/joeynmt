@@ -14,7 +14,7 @@ _Work rhythm_:
 * how does kv attention actually work for normalized (-> triples) entries? how does attention understand on the request "Wheres the nearest cafe?" to look up the poi\_type value for starbucks among others, see cafè; and then learn to look up the distance and address for the same subject? the keys the attention sees are NOT THE SAME, they conflate both subj and relation?!? does the magic lie in the successive kb attention queries from one decoder unrol step to successive ones? is the key rep expected by the rnn cell to be incorporated into the cell state? doesnt this mean we need to track conversation long (and not just seq2seq query - response isolated examples) history either by concatenating all previous utterances or by somehow using the last previous hidden states?
 * understand: where does loss come from? => dont we need to call our loss function on the postprocessed (de-canonicalized) generated trg sequence to learn? or is this not necessary? would be interesting to bleu, but does it even matter there? does it matter to Xent?
 * does it make sense to use entity F1 as supplementary validation metric?
-* lstm forget = bias +1 => paper ambiguity
+* meaning and impact of LSTM forget gate bias (=> Pham et al.)
 
 
 
@@ -37,8 +37,6 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 3. merge updated joeynmt back
   * rather sooner than later....
 
-4. load kb during testing
-  * like how its done in validate
 
 ---
 
@@ -51,15 +49,13 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during train/val/test???
 * figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data (not important since vocab is small now)
 * fix kbtrv:
-  * fix batch size being 11 (9+1+1) (probably data.batch\_with\_kb
-  * fix kbtrv vocab not loading (everything UNK)
 * fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
 * understand empty hypotheses: is \<eos\> really MLE token?
 * understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos?
 * find out what shuffle in training data means: intra or supra batch?
 * import and use tensorboard writer again
 * fix beam search for decoding
-* plot kb attentions (u\_t)
+* batch convos with same kb together; ! filter unvalued entries!
 
 
 
@@ -68,11 +64,20 @@ This is a general list of minor technical TODOs that can be done without thinkin
 
 * testing doesnt work yet (beam search), test again with saved checkpt
 
-
-
 ---
 
 # Issues Archive
+
+## Old Issue
+### 10.04.20 fix kb trv tensor/vocab
+
+fixed batch size being 11 (9+1+1) (probably data.batch\_with\_kb
+fixed kbtrv vocab not loading (everything UNK)
+
+## Old Issue
+### 14.04.20 plot kb attentions
+
+added plotting of kb attention
 
 ## Old Issue
 ### 06.04.20 implement v
@@ -80,7 +85,6 @@ This is a general list of minor technical TODOs that can be done without thinkin
 Implementing V instead of V\_t
 
 -> done, for documentation look at kvrretdecoder.forward()
-
 
 
 ### 02.04.20 Dialogue history to source:

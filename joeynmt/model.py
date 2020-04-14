@@ -75,7 +75,7 @@ class Model(nn.Module):
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
                 src_lengths: Tensor, trg_mask: Tensor = None, knowledgebase=None) -> (
-        Tensor, Tensor, Tensor, Tensor):
+        Tensor, Tensor, Tensor, Tensor, Tensor):
         """
         First encodes the source sentence.
         Then produces the target one word at a time.
@@ -180,7 +180,7 @@ class Model(nn.Module):
             knowledgebase = (kb_keys, kb_values)
 
             with self.Timer("model fwd pass"):
-                out, hidden, att_probs, _ = self.forward(
+                out, hidden, att_probs, _, _ = self.forward(
                     src=batch.src, trg_input=batch.trg_input,
                     src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                     trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
@@ -294,7 +294,7 @@ class Model(nn.Module):
 
         # greedy decoding
         if beam_size == 0:
-            stacked_output, stacked_attention_scores = greedy(
+            stacked_output, stacked_attention_scores, stacked_kb_att_scores = greedy(
                     encoder_hidden=encoder_hidden,
                     encoder_output=encoder_output,
                     src_mask=batch.src_mask, embed=self.trg_embed,
@@ -303,7 +303,7 @@ class Model(nn.Module):
                     knowledgebase = knowledgebase)
             # batch, time, max_src_length
         else:  # beam size
-            stacked_output, stacked_attention_scores = \
+            stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
                     beam_search(
                         size=beam_size, encoder_output=encoder_output,
                         encoder_hidden=encoder_hidden,
@@ -315,7 +315,7 @@ class Model(nn.Module):
                         decoder=self.decoder,
                         knowledgebase = knowledgebase)
 
-        return stacked_output, stacked_attention_scores
+        return stacked_output, stacked_attention_scores, stacked_kb_att_scores
 
     def __repr__(self) -> str:
         """

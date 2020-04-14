@@ -91,6 +91,7 @@ def validate_on_data(model: Model, data: Dataset,
     with torch.no_grad():
         all_outputs = []
         valid_attention_scores = []
+        valid_kb_att_scores = []
         total_loss = 0
         total_ntokens = 0
         total_nseqs = 0
@@ -103,7 +104,10 @@ def validate_on_data(model: Model, data: Dataset,
             assert hasattr(batch, "kbsrc") == bool(kb_task)
 
             # sort batch now by src length and keep track of order
-            sort_reverse_index = batch.sort_by_src_lengths()
+            if not kb_task:
+                sort_reverse_index = batch.sort_by_src_lengths()
+            else:
+                sort_reverse_index = list(range(batch.src.shape[0]))
 
             # run as during training with teacher forcing
             if loss_function is not None and batch.trg is not None:
@@ -114,7 +118,7 @@ def validate_on_data(model: Model, data: Dataset,
                 total_nseqs += batch.nseqs
 
             # run as during inference to produce translations
-            output, attention_scores = model.run_batch(
+            output, attention_scores, kb_att_scores = model.run_batch(
                 batch=batch, beam_size=beam_size, beam_alpha=beam_alpha,
                 max_output_length=max_output_length)
 
@@ -123,6 +127,9 @@ def validate_on_data(model: Model, data: Dataset,
             valid_attention_scores.extend(
                 attention_scores[sort_reverse_index]
                 if attention_scores is not None else [])
+            valid_kb_att_scores.extend(
+                kb_att_scores[sort_reverse_index]
+                if kb_att_scores is not None else [])
 
         assert len(all_outputs) == len(data)
 
@@ -176,7 +183,7 @@ def validate_on_data(model: Model, data: Dataset,
 
     return current_valid_score, valid_loss, valid_ppl, valid_sources, \
         valid_sources_raw, valid_references, valid_hypotheses, \
-        decoded_valid, valid_attention_scores
+        decoded_valid, valid_attention_scores, valid_kb_att_scores
 
 
 # pylint: disable-msg=logging-too-many-args
@@ -273,7 +280,7 @@ def test(cfg_file,
         
         #pylint: disable=unused-variable
         score, loss, ppl, sources, sources_raw, references, hypotheses, \
-        hypotheses_raw, attention_scores = validate_on_data(
+        hypotheses_raw, attention_scores, kb_att_scores = validate_on_data(
             model, data=data_set, batch_size=batch_size,
             batch_type=batch_type, level=level,
             max_output_length=max_output_length, eval_metric=eval_metric,
@@ -300,6 +307,7 @@ def test(cfg_file,
             if attention_scores:
                 attention_name = "{}.{}.att".format(data_set_name, step)
                 attention_path = os.path.join(model_dir, attention_name)
+
                 logger.info("Saving attention plots. This might take a while..")
                 store_attention_plots(attentions=attention_scores,
                                       targets=hypotheses_raw,
@@ -307,6 +315,18 @@ def test(cfg_file,
                                       indices=range(len(hypotheses)),
                                       output_prefix=attention_path)
                 logger.info("Attention plots saved to: %s", attention_path)
+            if kb_att_scores:
+                kb_att_name = "{}.{}.kbatt".format(data_set_name, step)
+                kb_att_path = os.path.join(model_dir, kb_att_name)
+                store_attention_plots(
+                    attentions=kb_att_scores,
+                    targets=hypotheses_raw,
+                    sources=list(data_set.kbsrc),#TODO
+                    indices=range(len(hypotheses)),
+                    output_prefix=kb_att_path,
+                    kb_info = (dev_kb_lookup, dev_kb_lengths, list(data_set.kbtrg)))
+                logger.info("KB Attention plots saved to: %s", attention_path)
+    
             else:
                 logger.warning("Attention scores could not be saved. "
                                "Note that attention scores are not available "

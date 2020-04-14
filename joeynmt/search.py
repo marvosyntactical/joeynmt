@@ -17,7 +17,7 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
            max_output_length: int, decoder: Decoder,
            encoder_output: Tensor, encoder_hidden: Tensor,
            knowledgebase: Tuple[Tensor] = None)\
-        -> (np.array, np.array):
+        -> (np.array, np.array, np.array):
     """
     Greedy decoding. Select the token word highest probability at each time
     step. This function is a wrapper that calls recurrent_greedy for
@@ -62,11 +62,11 @@ def recurrent_greedy(
         src_mask: Tensor, embed: Embeddings, bos_index: int,
         max_output_length: int, decoder: Decoder,
         encoder_output: Tensor, encoder_hidden: Tensor,
-        knowledgebase: Tuple = None) -> (np.array, np.array):
+        knowledgebase: Tuple = None) -> (np.array, np.array, np.array):
     """
     Greedy decoding: in each step, choose the word that gets highest score.
-    Version for recurrent decoder.
-
+    Version for recurrent decoder. 
+ 
     :param src_mask: mask for source inputs, 0 for positions after </s>
     :param embed: target embedding
     :param bos_index: index of <s> in the vocabulary
@@ -85,6 +85,7 @@ def recurrent_greedy(
                                dtype=torch.long)
     output = []
     attention_scores = []
+    kb_att_scores = []
     hidden = None
     prev_att_vector = None
 
@@ -95,7 +96,7 @@ def recurrent_greedy(
     for t in range(max_output_length):
         # decode one single step
         if knowledgebase != None:
-            logits, hidden, att_probs, prev_att_vector = decoder(
+            logits, hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -105,7 +106,7 @@ def recurrent_greedy(
                 unroll_steps=1,
                 knowledgebase=(kb[0],kb[1]))
         else:
-            logits, hidden, att_probs, prev_att_vector = decoder(
+            logits, hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -128,10 +129,14 @@ def recurrent_greedy(
         print(output)
         prev_y = next_word
         attention_scores.append(att_probs.squeeze(1).cpu().numpy())
+        if kb_att_probs is not None:
+            kb_att_scores.append(kb_att_probs.squeeze(1).cpu().numpy())
         # batch, max_src_lengths
     stacked_output = np.stack(output, axis=1)  # batch, time
     stacked_attention_scores = np.stack(attention_scores, axis=1)
-    return stacked_output, stacked_attention_scores
+    if kb_att_scores:
+        stacked_kb_att_scores = np.stack(kb_att_scores, axis=1)
+    return stacked_output, stacked_attention_scores, stacked_kb_att_scores
 
 
 # pylint: disable=unused-argument
@@ -196,7 +201,7 @@ def beam_search(
         encoder_output: Tensor, encoder_hidden: Tensor,
         src_mask: Tensor, max_output_length: int, alpha: float,
         embed: Embeddings, n_best: int = 1,
-        knowledgebase: Tuple = None) -> (np.array, np.array):
+        knowledgebase: Tuple = None) -> (np.array, np.array, np.array):
     """
     Beam search with size k.
     Inspired by OpenNMT-py, adapted for Transformer.
@@ -219,6 +224,7 @@ def beam_search(
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
+        - stacked_kb_att_scores: kb attention scores (3d array)
     """
 
     # init
@@ -306,7 +312,7 @@ def beam_search(
         if (knowledgebase != None):
             if transformer:
                 raise NotImplementedError("beam decoding for transformer not yet implemented")
-            logits, hidden, att_scores, att_vectors = decoder(
+            logits, hidden, att_scores, att_vectors, _ = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -318,7 +324,7 @@ def beam_search(
                 knowledgebase=(kb_keys, kb_values)
             )
         else:
-            logits, hidden, att_scores, att_vectors = decoder(
+            logits, hidden, att_scores, att_vectors, _ = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -447,4 +453,4 @@ def beam_search(
                                         results["predictions"]],
                                        pad_value=pad_index)
 
-    return final_outputs, None
+    return final_outputs, None, None
