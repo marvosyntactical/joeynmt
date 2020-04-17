@@ -37,6 +37,10 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 3. merge updated joeynmt back
   * rather sooner than later....
 
+4. link named entities in references to knowledgebase output (ATM, model just overfits to tokens in reference without attending to KB, because references are still individual tokens (e.g. 4 pm instead of meeting\_time). so we should replace entities in references like so:
+  * do kvret\_entities.json inverse lookup: replace "4 pm" with "time" (NOT meeting\_time)
+
+
 
 ---
 
@@ -56,6 +60,7 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * import and use tensorboard writer again
 * fix beam search for decoding
 * batch convos with same kb together; ! filter unvalued entries!
+* fix wrong knowledgebase plotting! (one off error)
 
 
 
