@@ -56,10 +56,19 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * import and use tensorboard writer again
 * fix beam search for decoding
 * batch convos with same kb together; ! filter unvalued entries!
+* traffic info: default category in this domain: poi\_type, not poi!
 
 
 
-## _```Current issue```_:
+## _```Current issues```_:
+
+### 19.04.20 canonize target to same resolution as kb values 
+
+* for kvr\_attention to learn, its output like meeting\_time must be contained in the same form in target sequences; in the training data they occur as e.g. "4", "pm" though!
+* step 1 (mostly done, TODO debug canonize for some quirks (look at dev/train/test.carnon)): use kvret\_entities.json to canonize target (very low granularity, e.g. "4", "pm" -> "@time" (instead of "meeting\_time")
+* step 2 (TODO): map knowledgebase values (medium granularity (e.g. "meeting\_time") to low granularity ("meeting\_time" -> "@time")
+* step 3 (TODO): in step 2, keep info about replacement somewhere and do an inverse lookup later (recover "meeting\_time" from "@time" and from thereon "4" "pm" (kbtrv))
+
 ### 07.04.20 training on GPU
 
 * 63 epochs after 520 minutes => 8.2 minutes per epoch

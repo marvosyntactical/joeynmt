@@ -17,6 +17,31 @@ from torchtext.data import Dataset, Iterator, Field, Batch
 from joeynmt.constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN
 from joeynmt.vocabulary import build_vocab, Vocabulary
 
+    
+def pkt_tokenize(s)-> List:
+    s = s+" "
+    pkt = ".,?!-;:()" # NOTE candidates: '
+    num = "0123456789"
+    space = ["\t", "\n", " "]
+
+    r = []
+    split = list(s)
+    curr = []
+    for c in split:
+        if c in space:
+            token = "".join(curr)
+            r += [token]
+            curr = []
+        else:
+            if c in pkt:
+                token = "".join(curr)  
+                r += [token]
+                curr = []
+            curr += [c] # add pkt to tokens, but not whitespace
+    return r
+
+def tokenize(s):
+    return s.split()
 
 def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                   Vocabulary, Vocabulary):
@@ -78,31 +103,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         # TODO: following is hardcoded; add to configs please
         pnctprepro = True
     else: pnctprepro = False
-    
-    def pkt_tokenize(s)-> List:
-        s = s+" "
-        pkt = ".,?!-;:()" # NOTE candidates: '
-        space = ["\t", "\n", " "]
-
-        r = []
-        split = list(s)
-        curr = []
-        for c in split:
-            if c in space:
-                token = "".join(curr)
-                r += [token]
-                curr = []
-            else:
-                if c in pkt:
-                    token = "".join(curr)  
-                    r += [token]
-                    curr = []
-                curr += [c] # add pkt to tokens, but not whitespace
-        return r
-
     # default joeyNMT behaviour for sentences
-    def tokenize(s):
-        return s.split()
 
     tok_fun = list if level == "char" else (pkt_tokenize if pnctprepro else tokenize)
 
