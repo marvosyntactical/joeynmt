@@ -12,17 +12,17 @@ set ! have a good time
 you're welcome
 when is your @event
 i have put on your calendar a @event on @date at @time . 
-the weather this @weekly_time will be @weather_attribute and @weather_attribute on @date and @date , with the @weather_attribute being @temperature f and the @weather_attribute @temperature f , @date will be the only @weather_attribute day . 
+the weather this @weekly_time will be @weather_attribute and @weather_attribute on @date and @date , with the @weather_attribute being @temperaturef and the @weather_attribute @temperaturef , @date will be the only @weather_attribute day . 
 on @date it will be @weather_attribute on @location
 you're welcome !
 @traffic_info , it's not gonna be @weather_attribute in @location over the @weekly_time @distance days
 you are very welcome
 what location do you want to know the @weather_attribute ?
-on @date in @location it will be a high of @temperature f .
+on @date in @location it will be a high of @temperaturef .
 you are very welcome .
 there will be @weather_attribute @weekly_time in @location .
 anytime .
-the @weather_attribute on @date is @temperature f in @location
+the @weather_attribute on @date is @temperaturef in @location
 you are welcome .
 what city would you like the @distance day forecast for ?
 there is @traffic_info @weather_attribute in @location @weekly_time .
@@ -38,7 +38,7 @@ have a great day .
 @traffic_info , @date it will be @weather_attribute in @location
 anytime .
 what city should i check for you ?
-@weekly_time is gonna be @weather_attribute in @location , with expected low temperature of @temperature f , and high of @temperature f
+@weekly_time is gonna be @weather_attribute in @location , with expected low temperature of @temperaturef , and high of @temperaturef
 you're welcome . glad i could be of assistance . 
 your @event is on @date at @time .
 you are welcome .
@@ -105,7 +105,7 @@ what details shall i add to your @event reminder ?
 reminder set for your @event at @time on @date with @party to @agenda your company picnic .  is there anything else ?
 you're welcome
 what would you like to know about the weather in @location ?
-on @date the temperature in @location will be low of @temperature f , and high of @temperature f
+on @date the temperature in @location will be low of @temperaturef , and high of @temperaturef
 you're welcome !
 the @poi_name is located @distance miles away in @traffic_info , and @poi_name is @distance miles away in @traffic_info . which of these would you prefer ?
 setting the gps for @poi_name john's anything else ?
@@ -143,7 +143,7 @@ you are welcome .
 it is not predicted to be @weather_attribute @weekly_time in @location
 you are very welcome
 what information can i give you about @location york's weather ?
-it will be @temperature f on @date in @location .
+it will be @temperaturef on @date in @location .
 i hope so too !
 when should i set this reminder and what for ?
 your reminder has been set to see the @event at @time on aug 12 th .
@@ -159,13 +159,13 @@ it is expected to @weather_attribute on @date in @location .
 @traffic_info problem !
 what city are you wanting to know the weather for ?
 in @location , it will be @temperature -40 f @date , @temperature -100 f @date , @temperature -100 f @date , @temperature -100 f @date , @temperature -80 f @date , @temperature -100 f @date , and @temperature -80 f @date .
-the only day of the @weekly_time it will be @weather_attribute is on @date with a high of high of @temperature f .
+the only day of the @weekly_time it will be @weather_attribute is on @date with a high of high of @temperaturef .
 you're welcome .
 i have scheduled @event at @time @weekly_time @date with @party
 you are welcome
 you have @weekly_time @event appointments scheduled . one on @date at @time and the other on @date at @time .
 you're welcome . 
-it will be @weather_attribute in @location , tuesday's forecast predicts the high temperature will reach @temperature f
+it will be @weather_attribute in @location , tuesday's forecast predicts the high temperature will reach @temperaturef
 you are welcome .
 for which one ? i have one in @room at @time on @date , and one in @room at @time on @date .
 you're welcome !
@@ -210,7 +210,7 @@ gps is set for @poi_name , at @poi_address , @distance mile away with @traffic_i
 happy to help , you're welcome . 
 your @event is this @date at @time .
 you're welcome
-the weather forecast in @location is @weather_attribute , the low is @temperature f and the high is @temperature f .
+the weather forecast in @location is @weather_attribute , the low is @temperaturef and the high is @temperaturef .
 @weather_attribute is predicted in @location on @date .
 anytime
 @poi_name is a mile away with @traffic_info at @poi_address . 
@@ -314,7 +314,7 @@ providing directions to @poi_address now .
 sure , just follow the directions on your screen , there shouldn't be any traffic !
 error
 can you tell me what location you need data for ?
-in @location @weekly_time the temperature is a low of @temperature f with a high of @temperature f
+in @location @weekly_time the temperature is a low of @temperaturef with a high of @temperaturef
 you're welcome
 the closest @poi_type to you is located at @poi_address , about @distance miles away .
 i am sending the directions now . there is @traffic_info en route to @poi_name .
@@ -403,12 +403,12 @@ we're @distance miles away from jack's house but there is a @traffic_info : are 
 @poi_name is at @poi_address . 
 you're welcome !
 you want the weekly temperature for what city ?
-the temperature in @location this @weekly_time is showing lows of @temperature f and highs in the @temperature fs
+the temperature in @location this @weekly_time is showing lows of @temperaturef and highs in the @temperature fs
 you are welcome .
 i have a place called @poi_name that serves tea . would you like more info ?
 the address to @poi_name is @poi_address . i am now setting gps for fastest route with @traffic_info . 
 ok !
-the forecast for @weekly_time is @weather_attribute with a low of @temperature f and a high of @temperature f .
+the forecast for @weekly_time is @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 thursday's forecast calls for @weather_attribute in @location
 you are welcome .
 you can get @poi_type at @weekly_time places ; @poi_name which is one mile away or @poi_name @distance miles away . which do you prefer ?
@@ -417,7 +417,7 @@ you're welcome , have a good day .
 corona's forecast does not predict wind on @date
 anytime .
 in which city do you want to know the high temperatures for ?
-the high temperature in @location is @temperature f .
+the high temperature in @location is @temperaturef .
 @traffic_info problem
 you have @weekly_time @event appointments scheduled ; one on @date at @time and one on @date at @time . 
 happy to help . 
@@ -434,7 +434,7 @@ you're welcome !
 the nearest @poi_type shop is @poi_name located at @poi_address .
 yes the @poi_name is only @distance miles away . setting the gps . 
 you're welcome . 
-the weather predicted for @location is @weather_attribute , the temperature is a low of @temperature f with a high of @temperature f .
+the weather predicted for @location is @weather_attribute , the temperature is a low of @temperaturef with a high of @temperaturef .
 it should not be @weather_attribute @weekly_time in @location .
 you are welcome .
 the @poi_name is @distance miles away , and there is currently @traffic_info . would you like directions there ?
@@ -460,7 +460,7 @@ here is the shortest route to @poi_address .
 @traffic_info problem !
 what day are they expected to be in ?
 what city can i tell you tomorrows forecast for ?
-@weekly_time it will be @weather_attribute in @location , with low of @temperature f , and high of @temperature f
+@weekly_time it will be @weather_attribute in @location , with low of @temperaturef , and high of @temperaturef
 you're welcome !
 there are @weekly_time nearby @poi_type garages . @poi_name and @poi_name . 
 @poi_name is located @distance miles away , though there is a @traffic_info . would you like directions there ?
@@ -486,7 +486,7 @@ you are welcome .
 @party will be attending your @event on @date .
 you're welcome
 what city shall i find the weather forecast for ?
-this @weekly_time in @location the temperature lows will be in the @temperature s and @temperature s with highs reaching @temperature f
+this @weekly_time in @location the temperature lows will be in the @temperature s and @temperature s with highs reaching @temperaturef
 you're very welcome !
 the nearest one is the @poi_name , it's @distance miles away . but if you prefer there is also the @poi_name that's @distance miles away
 the @poi_name is at @poi_address , @distance miles away with @traffic_info . setting navigation now . 
@@ -507,7 +507,7 @@ anytime !
 anytime .
 there is @traffic_info @weather_attribute forecast for @location this @weekly_time .
 @traffic_info problem !
-it is predicted to be @weather_attribute on @date and the high on @date should reach @temperature f
+it is predicted to be @weather_attribute on @date and the high on @date should reach @temperaturef
 you're welcome !
 there is a @poi_type @distance mile away . it is called @poi_name
 unfortunately there is @traffic_info for the @distance mile drive to @poi_name at @poi_address
@@ -534,16 +534,16 @@ done . there is only @traffic_info on the route @poi_type .
 you're welcome . 
 the doctor's appointment is @date at @time .
 i set a reminder for your doctors appointment on the 29 th of this month sir . 
-@date will have the @weather_attribute of @temperature f in @location
+@date will have the @weather_attribute of @temperaturef in @location
 happy to help
 i sure will . it's all set ! anything else ?
 okay , i will schedule your @event with @party for @weekly_time at @time .
 you are welcome
 for what city would you like the current weather for ?
-the temperature in @location is showing a low of @temperature f with a high of @temperature f .
+the temperature in @location is showing a low of @temperaturef with a high of @temperaturef .
 you are very welcome
 what city can i tell you the weather for ?
-@weather_attribute , with a low of @temperature f and high of @temperature f is predicted in @location @weekly_time .
+@weather_attribute , with a low of @temperaturef and high of @temperaturef is predicted in @location @weekly_time .
 you are welcome
 @poi_name is @distance miles away .
 does it have the least amount of traffic ?
@@ -591,7 +591,7 @@ the only @poi_type is @poi_name .
 navigation set , we should arrive shortly . 
 you're welcome , have a great day . 
 where are you located ?
-right now the temperature in @location is a low of @temperature f and a high of @temperature f .
+right now the temperature in @location is a low of @temperaturef and a high of @temperaturef .
 you're welcome !
 what city should i check the weekly weather report for ?
 there will not be a @weather_attribute in @location this @weekly_time .
@@ -609,11 +609,11 @@ jill lives at @poi_address which is @distance miles away .
 in this moment there is @traffic_info on our way but the house is only @distance miles far , you should be able to reach it fast enough
 you're welcome ; drive safely . 
 what city shall i retrieve the @distance day forecast of ?
-the forecast for @location for the @weekly_time @distance days is @date , @weather_attribute , low of @temperature f and high of @temperature f , @date @weather_attribute of @temperature f and high of @temperature f , @date @weather_attribute with low of @temperature f and high of @temperature f , @date @weather_attribute with low of @temperature f and high of @temperature f , @date @weather_attribute , low of @temperature f and high of @temperature f , @date @weather_attribute low of @temperature f and high of @temperature f and @date @weather_attribute low of @temperature f and high of @temperature f
+the forecast for @location for the @weekly_time @distance days is @date , @weather_attribute , low of @temperaturef and high of @temperaturef , @date @weather_attribute of @temperaturef and high of @temperaturef , @date @weather_attribute with low of @temperaturef and high of @temperaturef , @date @weather_attribute with low of @temperaturef and high of @temperaturef , @date @weather_attribute , low of @temperaturef and high of @temperaturef , @date @weather_attribute low of @temperaturef and high of @temperaturef and @date @weather_attribute low of @temperaturef and high of @temperaturef
 you are welcome !
 where do you want to know the temperature for ?
 what days are you interested in ?
-in @location this @weekly_time , the temperatures will be : low of @temperature f and high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date
+in @location this @weekly_time , the temperatures will be : low of @temperaturef and high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date
 you're welcome !
 @date
 okay , i will be sure to remind you about that . is there anything else ?
@@ -644,9 +644,9 @@ your doctor's appointment is on @date at @time
 setting a reminder on august @distance th for your doctor's appointment at @time .
 you are welcome . 
 tell me what city i should find the temperature for .
-today's temperature in @location is showing a high of @temperature f with a low of @temperature f
+today's temperature in @location is showing a high of @temperaturef with a low of @temperaturef
 you are welcome .
-there will be a high of @temperature f and a low of @temperature f in @location on @date . 
+there will be a high of @temperaturef and a low of @temperaturef in @location on @date . 
 you're welcome .
 reminder for @event with @party on @date at @time is set . 
 @traffic_info problem
@@ -673,7 +673,7 @@ you are welcome
 @location will be @weather_attribute on @date .
 you're welcome anytime . 
 what location do you want the temperature for ?
-@date ;s temperature will be a low of @temperature f , high of @temperature f .
+@date ;s temperature will be a low of @temperaturef , high of @temperaturef .
 anytime !
 @poi_name serves @poi_type nearby .
 setting fastest route to @poi_name which has @traffic_info .
@@ -719,7 +719,7 @@ you are very welcome
 i'm sorry , there aren't any days where @weather_attribute are predicted in @location @weekly_time .
 you are welcome .
 what city do you want the weather for ?
-@weekly_time , fresno's temperatures will vary between lows in the @temperature s to a high of @temperature f
+@weekly_time , fresno's temperatures will vary between lows in the @temperature s to a high of @temperaturef
 glad to help
 what city would you like to know today's forecast for ?
 it is not predicted to be @weather_attribute in @location @weekly_time .
@@ -729,7 +729,7 @@ when and where is the @event ?
 @time is the time scheduled to take your medicine and your @party will be there .
 you are welcome
 in what city ?
-the low temperature will be @temperature f and the high will be @temperature f on @date in @location
+the low temperature will be @temperaturef and the high will be @temperaturef on @date in @location
 you're welcome !
 @weekly_time it's gonna fall @weather_attribute in @location
 you're welcome !
@@ -795,7 +795,7 @@ the @poi_name is @distance miles away in @traffic_info . would you like directio
 there is @traffic_info at all , i sent its position and the route to follow on your screen
 you're very welcome !
 where would you like the weather forecast for ?
-the weather in @location is gonna be @weather_attribute , with low temperature of @temperature f , and high of @temperature f
+the weather in @location is gonna be @weather_attribute , with low temperature of @temperaturef , and high of @temperaturef
 you're welcome !
 @traffic_info , i'm sorry but on @date it should @weather_attribute in @location
 glad i could help out
@@ -869,7 +869,7 @@ i will make a note of the @event for december @time th at @time with the @party 
 happy to help
 this @weekly_time it's not gonna be @weather_attribute in @location
 @traffic_info problem .
-it will be @temperature f in @location @weekly_time .
+it will be @temperaturef in @location @weekly_time .
 you're welcome . 
 they are one @poi_type @distance miles away called @poi_name . 
 @poi_name has @traffic_info .
@@ -922,7 +922,7 @@ what time should i set the appointment ?
 what city please .
 it will not be @weather_attribute in @location this @weekly_time .
 you're very welcome !
-the forecast for @location predicts @weather_attribute skies with a low of @temperature f with a high of @temperature f .
+the forecast for @location predicts @weather_attribute skies with a low of @temperaturef with a high of @temperaturef .
 @poi_name is the closest @poi_type .
 @poi_name is located at @poi_address . 
 i am sorry @poi_name only has @traffic_info noted on the route . do you still want to @agenda there ?
@@ -1009,7 +1009,7 @@ what location do you want the weather for ?
 on @date is gonna @weather_attribute in @location
 you're welcome !
 in what location would you like the weather ?
-@traffic_info , it will not be @weather_attribute in @location @weekly_time . it is raining with a low of @temperature f , and a high of @temperature f .
+@traffic_info , it will not be @weather_attribute in @location @weekly_time . it is raining with a low of @temperaturef , and a high of @temperaturef .
 you're welcome
 the nearest @poi_type is @distance miles away .
 @poi_name is at @poi_address .
@@ -1039,7 +1039,7 @@ we are @distance miles away from @poi_name : does it sound good to you ?
 @poi_address , it's @distance miles away with @traffic_info on the route
 setting gps to @poi_name now .
 you're welcome !
-this @date in @location the temperature will be a low of @temperature f and a high of @temperature f
+this @date in @location the temperature will be a low of @temperaturef and a high of @temperaturef
 you're welcome .
 @weather_attribute is predicted in @location this @date , the high temperature should reach the @temperature fs
 anytime
@@ -1053,7 +1053,7 @@ showing you the quickest route to @poi_name !
 a @event is scheduled on @date at @time with @party in @room to @agenda . 
 you are welcome .
 is there a particular city you would like to know the temperature for ?
-the temperature in @location is predicted to have a low of @temperature f with a high of @temperature f on @date .
+the temperature in @location is predicted to have a low of @temperaturef with a high of @temperaturef on @date .
 you're welcome
 for what date would you like to set the reminder for ?
 setting a @date reminder of your @event at @time
@@ -1095,7 +1095,7 @@ here is the quickest route to @poi_name .
 @poi_name is located at @poi_address .
 you're welcome . 
 what city do you want the forecast for ?
-@weekly_time the @weather_attribute in @location will be @temperature f
+@weekly_time the @weather_attribute in @location will be @temperaturef
 you're welcome !
 the closest @poi_type to you would be @poi_name at @poi_address .
 i have one route with @traffic_info .
@@ -1197,7 +1197,7 @@ anytime !
 @poi_name is located at @poi_address . it is @distance miles away . 
 unfortunately there is a @traffic_info but i already sent on your screen another route to reach the garage fast enough
 drive carefully !
-the @weather_attribute in @location over the @weekly_time seven days will be @temperature f on @date
+the @weather_attribute in @location over the @weekly_time seven days will be @temperaturef on @date
 you are very welcome
 in what city are you inquiring about ?
 there will be @traffic_info @weather_attribute this @weekly_time in @location , only @weather_attribute on @date and @date . 
@@ -1209,7 +1209,7 @@ i'm sorry i do not have a listing for @poi_name . i have alternate @poi_type sho
 the closest @poi_type shop is @poi_name , would you like directions ?
 @poi_address . @traffic_info problem .
 what city do you need @weekly_time weeks weather forecast for ?
-i have @date with a low of @temperature f , high of @temperature f and @weather_attribute . the only @weather_attribute day in fact . 
+i have @date with a low of @temperaturef , high of @temperaturef and @weather_attribute . the only @weather_attribute day in fact . 
 @traffic_info problem .
 your @weekly_time @event is on @date at @time .
 there is @traffic_info scheduled @event on your calendar , would you like me to schedule on for you ?
@@ -1218,7 +1218,7 @@ yes @poi_name is the closest one noted .
 @poi_name is @distance miles away at @poi_address . 
 setting navigation to @poi_name , we will arrive shortly . 
 for what city can i give you today's weather information ?
-@weekly_time in @location the low is @temperature f and high is @temperature f
+@weekly_time in @location the low is @temperaturef and high is @temperaturef
 not a problem .
 okay , setting a reminder for your son's @event practice at @time @weekly_time
 okay i will also set a reminder for @event for @weekly_time at @time .
@@ -1229,14 +1229,14 @@ where are you wanting to know the weather for ?
 it will not be @weather_attribute in @location this @weekly_time .
 you are welcome .
 what city are you in ?
-@weekly_time in @location is gonna be @weather_attribute with low of @temperature f , @weekly_time it will be @weather_attribute
+@weekly_time in @location is gonna be @weather_attribute with low of @temperaturef , @weekly_time it will be @weather_attribute
 you're welcome !
 yes it is @distance miles away .
 @poi_name is located at @poi_address . anything else ?
 ok , navigating to the @poi_name on @poi_address now . 
 have a great day , happy to help . 
 for what city ?
-in @location the temperature is predicting lows in the @temperature f and highs in the @temperature f .
+in @location the temperature is predicting lows in the @temperaturef and highs in the @temperaturef .
 not a problem .
 what day and time is your @event ?
 scheduling a reminder of your @event on @date at @time , with @party
@@ -1268,7 +1268,7 @@ you're welcome !
 should i set it for a specific time ? 
 which one ? i have @weekly_time , one at @time with @party , and one at @time with @party .
 what city can i give you @weekly_time and tomorrow's forecast for ?
-@location will be @weather_attribute @weekly_time between @temperature -70 f and @weather_attribute @weekly_time with a low of @temperature f and high of @temperature f .
+@location will be @weather_attribute @weekly_time between @temperature -70 f and @weather_attribute @weekly_time with a low of @temperaturef and high of @temperaturef .
 @traffic_info problem .
 okay , i am scheduling a @event with your @party for @date @date at @time .
 you're welcome .
@@ -1278,7 +1278,7 @@ your @event is on @date at @time .
 i'm afraid that's the only @poi_type in the area . setting navigation now . 
 you're welcome !
 where are you located ?
-@weekly_time in @location is gonna be @weather_attribute , with low temperature of @temperature f , and high of @temperature f
+@weekly_time in @location is gonna be @weather_attribute , with low temperature of @temperaturef , and high of @temperaturef
 glad i could help out
 you have @weekly_time @event activities scheduled . one on @date with @party and another on @date with your @party . would you like to know the dates as well ?
 you're welcome . 
@@ -1317,12 +1317,12 @@ and what time should i schedule it for ?
 @traffic_info problem
 there won't be @weather_attribute in @location during the @weekly_time
 you're welcome .
-there will be a high temperature of @temperature f @weekly_time in @location .
+there will be a high temperature of @temperaturef @weekly_time in @location .
 you are very welcome
 @poi_name is at @poi_address .
 going to @poi_name .
 you're welcome . glad i could help .
-@weekly_time the @weather_attribute will be @temperature f in @location
+@weekly_time the @weather_attribute will be @temperaturef in @location
 happy to help
 we are @distance miles away from @poi_name : would you like me to send its address on your map ?
 @poi_name is located at @poi_address arastraero @traffic_info . 
@@ -1411,7 +1411,7 @@ what time would you like a @event visit scheduled ?
 okay great , i have that all scheduled for you . can i help with anything else ?
 you are welcome
 for what city are you interested in the weather ?
-the temperature in @location will be between @temperature f to @temperature f from @date to @date , and between @temperature f to @temperature f from @date to @date
+the temperature in @location will be between @temperaturef to @temperaturef from @date to @date , and between @temperaturef to @temperaturef from @date to @date
 @traffic_info problem .
 @poi_name is @distance miles away with @traffic_info on its direction
 setting directions to @poi_address now . there is @traffic_info on the way , so drive carefully . 
@@ -1457,7 +1457,7 @@ the nearest @poi_type is @distance miles away . need more info ?
 @poi_name is located at @poi_address , i sent its position to your screen
 alright , heading to @poi_name
 what city would you like the forecast for ?
-today's forecast says @location is @weather_attribute , the low temp is @temperature f and the high is @temperature f
+today's forecast says @location is @weather_attribute , the low temp is @temperaturef and the high is @temperaturef
 you're welcome , glad i could help . 
 the nearest @poi_type is @poi_name , @distance miles away with @traffic_info . setting directions now . 
 setting navigation to @poi_address . there is currently @traffic_info on the route . 
@@ -1587,7 +1587,7 @@ ok
 your @weekly_time @event is in @room on @date at @time
 you are welcome
 what would you like to know about @location york's weather ?
-the current weather in @location is drizzling . there is a low of @temperature f and a high of @temperature f @weekly_time .
+the current weather in @location is drizzling . there is a low of @temperaturef and a high of @temperaturef @weekly_time .
 you're welcome .
 it is drizzling @weekly_time in @location .
 anytime .
@@ -1601,7 +1601,7 @@ for what date and time would you like the reminder ?
 i am placing @event on your calendar for august 12 at @time . 
 happy to be of service . 
 where would you like to hear the forecast from ?
-in @location , today's high temp is @temperature f , tomorrow's will be @temperature f
+in @location , today's high temp is @temperaturef , tomorrow's will be @temperaturef
 happy to help
 the closest @poi_type is @distance miles away .
 @poi_name jing's address is @poi_address .
@@ -1655,10 +1655,10 @@ what city shall i check the forecast for cloudiness ?
 the forecast states it will be @weather_attribute on @date in @location .
 anytime !
 what city would you like weather information for ?
-this @weekly_time in @location the temperatures do not show that it will be @weather_attribute . the warmest day of the @weekly_time will be @date with highs in the @temperature f
+this @weekly_time in @location the temperatures do not show that it will be @weather_attribute . the warmest day of the @weekly_time will be @date with highs in the @temperaturef
 you are welcome .
 what city do you want the forecast for ?
-in @location @weekly_time is going to be @weather_attribute , low of @temperature f , high of @temperature f and @weekly_time is going to be @weather_attribute , low of @temperature f , high of @temperature f .  
+in @location @weekly_time is going to be @weather_attribute , low of @temperaturef , high of @temperaturef and @weekly_time is going to be @weather_attribute , low of @temperaturef , high of @temperaturef .  
 you are very welcome .
 ok , making an appointment with your @event .
 @poi_name is @distance miles away .
@@ -1716,7 +1716,7 @@ ok , @event with @party on august @distance th for @time is set
 you are welcome .
 okay , there is a @poi_name @distance mile away . you can find it at @poi_address , this route does not have any traffic
 okay , the current route is the quickest
-in @location the day with the @weather_attribute of the @weekly_time will be @date with @temperature f
+in @location the day with the @weather_attribute of the @weekly_time will be @date with @temperaturef
 anytime .
 where would you like to know the temperature ?
 the current temperature for @location is supposed to be the high of @temperature and low of @temperature . 
@@ -1802,7 +1802,7 @@ setting reminder for @event on august @distance rd at @time with @party .
 you are welcome .
 what city do you want the forecast for ?
 for what day would you like to know the temperature ? 
-@weekly_time @date , will be a low of @temperature f , high of @temperature f and @weekly_time also a low of @temperature f , high of @temperature f .
+@weekly_time @date , will be a low of @temperaturef , high of @temperaturef and @weekly_time also a low of @temperaturef , high of @temperaturef .
 you're welcome !
 what city would you like to know if it is going to @weather_attribute in ?
 in which city do you want to know if it's going to @weather_attribute ?
@@ -1912,7 +1912,7 @@ the address is @poi_address , i highlighted it on your map together with the qui
 you're welcome , have a great day . 
 okay , setting reminder for doctor's appointment on @date at @time .
 what location do you want the temperature for ?
-this @weekly_time in @location , @date and @date have lows in the @temperature f with highs in the @temperature f . the @poi_type of the @weekly_time has high temperatures reaching the @temperature s
+this @weekly_time in @location , @date and @date have lows in the @temperaturef with highs in the @temperaturef . the @poi_type of the @weekly_time has high temperatures reaching the @temperature s
 anytime
 it will be raining but not hailing in @location @weekly_time .
 you're very welcome !
@@ -1925,7 +1925,7 @@ you're welcome !
 @poi_name is located at @poi_address , @distance miles away in @traffic_info . setting navigation now . 
 setting navigation now . there is @traffic_info , so drive carefully . 
 you're welcome , i'm here for you !
-the @weekly_time 48 hours in @location are predicted to be @weather_attribute along with cleat skies , the temperature should range between @temperature f and @temperature f
+the @weekly_time 48 hours in @location are predicted to be @weather_attribute along with cleat skies , the temperature should range between @temperaturef and @temperaturef
 @traffic_info problem .
 @event is set on @date at @time with your @party . 
 glad to help
@@ -1987,7 +1987,7 @@ you're welcome have a great day .
 there is @traffic_info @weather_attribute in the forecast in @location this @weekly_time . 
 you're welcome .
 what location do you want the temperature for ?
-the temperature in @location on @weekly_time will be low of @temperature f and high of @temperature f on @date , low of @temperature f and high of @temperature f on @date , low of @temperature f and high of @temperature f on @date , low of @temperature f and high of @temperature f on @date , low of @temperature f and high of @temperature f on @date , low of @temperature f and high of @temperature f on @date , low of @temperature f and , high of @temperature f on @date
+the temperature in @location on @weekly_time will be low of @temperaturef and high of @temperaturef on @date , low of @temperaturef and high of @temperaturef on @date , low of @temperaturef and high of @temperaturef on @date , low of @temperaturef and high of @temperaturef on @date , low of @temperaturef and high of @temperaturef on @date , low of @temperaturef and high of @temperaturef on @date , low of @temperaturef and , high of @temperaturef on @date
 you're welcome !
 your @event at @time on @date of this month with your @party has been scheduled .
 @weather_attribute is predicted to fall in @location on @date .
@@ -1999,7 +1999,7 @@ we are @distance miles away from @poi_name : set the gps to @agenda there ?
 i sent the info on your screen , drive carefully !
 there will be @weather_attribute in @location on @date 
 you're very welcome !
-@temperature f is the @weather_attribute in @location on @date
+@temperaturef is the @weather_attribute in @location on @date
 @traffic_info problem .
 of which city do you want to know the chance of @weather_attribute ?
 it is not forecasted to @weather_attribute in @location @weekly_time .
@@ -2012,7 +2012,7 @@ what city are you inquiring about ?
 it will @weather_attribute on @date and @date in @location .
 you're welcome !
 what city do you want to know the temperature for ?
-current temperature is low of @temperature f and high of @temperature f .
+current temperature is low of @temperaturef and high of @temperaturef .
 anytime !
 @poi_name .changs at @poi_address is @distance mile away trough @traffic_info
 setting navigation to pf changs now . 
@@ -2041,7 +2041,7 @@ the nearest @poi_type place is @poi_name located @distance miles away . do you w
 @poi_address , there is @traffic_info and you should be able to reach there quickly
 you're welcome !
 what city are you interested in ?
-it is scheduled to @weather_attribute in @location on @date , the forecast for that day is raining , low of @temperature f , high of @temperature f .
+it is scheduled to @weather_attribute in @location on @date , the forecast for that day is raining , low of @temperaturef , high of @temperaturef .
 what city do you want today's forecast for ? 
 it will not be @weather_attribute in @location @weekly_time .
 glad i could help out
@@ -2050,7 +2050,7 @@ yes , the current route has @traffic_info .
 sounds good , thanks . 
 you are welcome .
 what city should i get the weather information for ?
-@traffic_info , it will not @weather_attribute in @location @weekly_time . it is going to be @weather_attribute with a low of @temperature f and a high of @temperature f .
+@traffic_info , it will not @weather_attribute in @location @weekly_time . it is going to be @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 you're welcome !
 i'm sorry but the nearest one is @distance miles away : @agenda there anyway ?
 this route to @poi_name has @traffic_info . would you like the address ?
@@ -2114,7 +2114,7 @@ there will not be @weather_attribute in @location this @weekly_time .
 it will be raining in @location on @date .
 you're welcome !
 what city are you inquiring about .
-sunday's temperature in @location is predicted to have a high of @temperature f and a low of @temperature f
+sunday's temperature in @location is predicted to have a high of @temperaturef and a low of @temperaturef
 you're welcome !
 i have @weekly_time driver , one on @date with @party , and one on @date with @party , which one ? 
 @traffic_info problem
@@ -2147,7 +2147,7 @@ jill lives at @poi_address .
 there is @traffic_info but we're just @distance miles away , i sent the best route on your screen
 you're welcome !
 your @event is in @room at @time on @date
-in @location on @date the day will be @weather_attribute with a high of @temperature f .
+in @location on @date the day will be @weather_attribute with a high of @temperaturef .
 you're welcome
 a reminder has been set for @event work on @date . 
 for your @event work on @date of this month i've set the appointment time at @time .
@@ -2205,7 +2205,7 @@ what city are you in ?
 it doesnt appear as though it will be @weather_attribute in @location . @weather_attribute is predicted for @weekly_time and it should be @weather_attribute @weekly_time .
 you're welcome !
 for what city would you like to know the temperature ? 
-the forecast for @location shows today's low is @temperature f and the high is @temperature f .
+the forecast for @location shows today's low is @temperaturef and the high is @temperaturef .
 @traffic_info problem !
 the nearest tea shop is @poi_name at @poi_address .
 there is currently @traffic_info en route . would you like directions ?
@@ -2239,7 +2239,7 @@ glad i could help .
 @poi_name is the only @poi_type .
 @poi_address , i sent its position on your screen
 you are welcome . 
-the high temperature in @location should reach @temperature f on @date
+the high temperature in @location should reach @temperaturef on @date
 you are welcome .
 i don't have any cafe's but i have @poi_type and tea places listed , would you like the closest one available ?
 the closest shop is @distance miles away with @traffic_info . it's called @poi_name and is located at @poi_address drive . would you like me to set the gps ?
@@ -2256,7 +2256,7 @@ you're welcome . glad i could help .
 we're @distance miles away from @poi_name : set the navigation there ?
 the address for @poi_name is @poi_address
 you're welcome , happy to help . 
-@weekly_time and @weekly_time in @location will be @weather_attribute the lows will be @temperature f and @temperature f , the highs will be in the @temperature s
+@weekly_time and @weekly_time in @location will be @weather_attribute the lows will be @temperaturef and @temperaturef , the highs will be in the @temperature s
 anytime .
 you do not have any parties on your schedule at this time .
 you have @weekly_time @event activities on your schedule , one on @date with your @party , and one on @date with your @party .
@@ -2267,7 +2267,7 @@ you're welcome
 we're @distance miles away from @poi_name : is it be okay to @agenda there ?
 you're welcome , the info are on the screen , drive carefully !
 what time period are you interested in ?
-@date will be @weather_attribute , with a low of @temperature f and high of @temperature f , somewhat @weather_attribute . 
+@date will be @weather_attribute , with a low of @temperaturef and high of @temperaturef , somewhat @weather_attribute . 
 you're welcome !
 setting reminder for @event at @time on @weekly_time @date with the @party . 
 have a great day , goodbye .
@@ -2275,7 +2275,7 @@ have a great day , goodbye .
 setting navigation to @poi_address , @distance miles away , now . 
 you're welcome !
 which location did you want temperature information for ?
-the high for this @weekly_time is @temperature f in @location
+the high for this @weekly_time is @temperaturef in @location
 anytime !
 there are currently @distance that are @distance miles from your location , @poi_name and @poi_name .
 both are @distance miles away in @traffic_info , unfortunately . to which would you like directions ?
@@ -2342,7 +2342,7 @@ there will be @traffic_info @weather_attribute on @date in @location .
 you are welcome !
 your @weekly_time @event will take place on @date at @time in @room .
 @traffic_info problem
-there will be a high of @temperature f and a low of @temperature f in @location on @date .
+there will be a high of @temperaturef and a low of @temperaturef in @location on @date .
 you're welcome !
 where should i check for @weather_attribute ?
 @date it will @weather_attribute on @location
@@ -2364,7 +2364,7 @@ it will be @weather_attribute in @location on @date .
 yes , it will only be @weather_attribute on @date in @location .
 you're welcome !
 in what city would you like the weather information for ?
-the temperature in @location will reach a high of @temperature f on @date .
+the temperature in @location will reach a high of @temperaturef on @date .
 you're welcome !
 i have @weekly_time driver , one for @time with @party , and one for @time with @party . 
 @traffic_info problem .
@@ -2405,7 +2405,7 @@ you are most welcome .
 glad to help
 a reminder has been set for a @event this month on @date at @time with @party .
 anytime !
-@date in @location is the weather should be rainy with a low of @temperature f and high of @temperature f
+@date in @location is the weather should be rainy with a low of @temperaturef and high of @temperaturef
 you're welcome
 what can i tell you about @location weather ?
 @weather_attribute is predicted in @location , followed by @weather_attribute 
@@ -2494,7 +2494,7 @@ i have scheduled a reminder at @time on @date .
 setting reminder to take medicine on @date august @distance th at @time with @party . 
 you are welcome !
 what city shall i give you @weekly_time and tomorrow's forecast for ?
-it will be @weather_attribute with a high of @temperature f in @location @weekly_time .
+it will be @weather_attribute with a high of @temperaturef in @location @weekly_time .
 you are welcome .
 are you talking about your @poi_type ?
 i sent you the route on screen , drive carefully !
@@ -2504,7 +2504,7 @@ you're welcome ; drive safely .
 which city would you like @weekly_time and tomorrow's forecast for ?
 it's not gonna be @weather_attribute in @location @weekly_time or @weekly_time
 you're welcome !
-the weather forecast in @location predicts @weather_attribute , with a temperature high reaching @temperature f on @date
+the weather forecast in @location predicts @weather_attribute , with a temperature high reaching @temperaturef on @date
 anytime .
 it should not be @weather_attribute on @date in @location
 you are welcome .
@@ -2544,7 +2544,7 @@ setting the route with best traffic for you , drive carefully !
 your @event with your @party for @date at @time has been promptly scheduled ! 
 you are welcome .
 @traffic_info , the weather in @location will be @weather_attribute on @date
-the weather forecast does not specifically say it will be @weather_attribute in @location , but it does state it will be @weather_attribute , the low will be @temperature f and the high will be @temperature f
+the weather forecast does not specifically say it will be @weather_attribute in @location , but it does state it will be @weather_attribute , the low will be @temperaturef and the high will be @temperaturef
 you're welcome !
 happy to help
 what is the location of your doctor's appointment ?
@@ -2650,7 +2650,7 @@ you're welcome !
 i set your schedule for a @event at @time , @date of this month with @party . 
 you're welcome
 it will be @weather_attribute most of the @weekly_time . at first , it will be @weather_attribute , then @weather_attribute , then @weather_attribute , then wet , then @weather_attribute , and then @weather_attribute . is that helpful ?
-it will be @temperature f on @date in @location .
+it will be @temperaturef on @date in @location .
 you're welcome , have a great day . 
 okay setting reminder that you have a laboratory appointment at @distance :45 .
 what city do you want to know if it will be @weather_attribute in ?
@@ -2671,7 +2671,7 @@ setting a reminder for @event with @party on @date of this month at @time .
 you are welcome . anything else ?
 thank you .
 in what city would you like the weather forecast for ?
-it will be @weather_attribute on @date in @location this @weekly_time , with a high of @temperature f that day .
+it will be @weather_attribute on @date in @location this @weekly_time , with a high of @temperaturef that day .
 you are welcome !
 the nearest @poi_type is called @poi_name and is @distance miles away .
 yes
@@ -2697,10 +2697,10 @@ it will @weather_attribute on both @date and @date in @location .
 @traffic_info , @weekly_time is gonna be @weather_attribute in @location
 you're welcome
 what city are you wanting to know the weather for ?
-in @location , it will @weather_attribute @date with a low of @temperature f and high of @temperature f .  it will also @weather_attribute @date , with a low of @temperature f and a high of @temperature f .
+in @location , it will @weather_attribute @date with a low of @temperaturef and high of @temperaturef .  it will also @weather_attribute @date , with a low of @temperaturef and a high of @temperaturef .
 you are welcome .
 in what city would you like to know the weather ?
-the @weather_attribute @weekly_time in @location will be @temperature f
+the @weather_attribute @weekly_time in @location will be @temperaturef
 you are welcome !
 we're @distance miles away from @poi_name but there is a @traffic_info
 it is located at @poi_address and i will provide turn by turn directions now . 
@@ -2818,7 +2818,7 @@ what city are you wanting to know the forecast for ?
 the weather forecast predicts that @date it will be @weather_attribute in @location .
 anytime .
 for what city would you like to know that ? 
-the high temperature in @location is @temperature f @weekly_time .
+the high temperature in @location is @temperaturef @weekly_time .
 you're welcome !
 which appointment are you referring to ?
 it is at @time on @date
@@ -2883,13 +2883,13 @@ bye
 there is @traffic_info current route without heavey traffic .
 alright
 what location do you need information about ?
-the @weather_attribute in @location will be high of @temperature f @weekly_time , @date . 
+the @weather_attribute in @location will be high of @temperaturef @weekly_time , @date . 
 you are welcome .
 what location do you want the temperature for ?
-in @location the temperature @weekly_time is low of @temperature f , high of @temperature f
+in @location the temperature @weekly_time is low of @temperaturef , high of @temperaturef
 anytime .
 @weekly_time there is going to be @weather_attribute in @location . would you like to know about some other day ?
-the high in @location will be @temperature f on @date .
+the high in @location will be @temperaturef on @date .
 you are welcome .
 the nearest @poi_type shop is @poi_name @poi_type .
 @poi_name is @distance miles away at @poi_address drive . 
@@ -2919,11 +2919,11 @@ both have @traffic_info at the moment .
 @poi_name is @distance miles away at @poi_address with @traffic_info noted . 
 you can find the route on your gps . you're welcome !
 for what city would you like to hear today's forecast ?
-@temperature f is the high temperature for @location @weekly_time
+@temperaturef is the high temperature for @location @weekly_time
 you're very welcome !
 what city do you want the weather for ?
 what days are you interested in ?
-there is @traffic_info @weather_attribute scheduled in @location for the @weekly_time @weekly_time days . the forecast for @date is @weather_attribute , low of @temperature f , high of @temperature f . the forecast for @date is @weather_attribute , low of @temperature f , high of @temperature f .
+there is @traffic_info @weather_attribute scheduled in @location for the @weekly_time @weekly_time days . the forecast for @date is @weather_attribute , low of @temperaturef , high of @temperaturef . the forecast for @date is @weather_attribute , low of @temperaturef , high of @temperaturef .
 always glad to help .
 the @poi_name is only @distance miles away . would you like directions ? 
 the @poi_name is located at @poi_address . setting navigation details now . 
@@ -2954,7 +2954,7 @@ you're welcome !
 your @weekly_time @event is at @time @date in the @temperature @event room . 
 you're welcome
 @weekly_time in @location it will be @weather_attribute . are you interested as well in other days' weather forecast ?
-the @distance day forecast predicts temperatures in the lows of @temperature f and highs of @temperature f
+the @distance day forecast predicts temperatures in the lows of @temperaturef and highs of @temperaturef
 @traffic_info problem
 the @poi_name is close .
 @poi_name is at @poi_address .
@@ -3115,7 +3115,7 @@ is there a specific date at the end of march that you would like me to set a rem
 for which one ? i have you listed for @weekly_time , one in @room at @time on @date with @party , and one in @room at @time on @date with @party .
 today's weather forecast in @location calls for @weather_attribute weather . 
 you are welcome
-the low temperature right now in @location is @temperature f
+the low temperature right now in @location is @temperaturef
 you are very welcome
 it will be @weather_attribute in @location on @date .
 you're welcome .
@@ -3241,7 +3241,7 @@ you're very welcome !
 setting directions now to @poi_type , @distance miles away . 
 you're welcome . 
 what city would you like to hear the temperature about ?
-the temperature in @location it's gonna be between @temperature f and @temperature f on @date and between @temperature f and @temperature f from @date to @date . the @weekly_time will be @weather_attribute again
+the temperature in @location it's gonna be between @temperaturef and @temperaturef on @date and between @temperaturef and @temperaturef from @date to @date . the @weekly_time will be @weather_attribute again
 you're welcome !
 navigating you to @poi_name .
 there is @traffic_info on our way and you should be able to reach in just few minutes
@@ -3276,7 +3276,7 @@ there is a @traffic_info but we're just @distance miles away , it shouldn't take
 you're welcome !
 your @poi_type is at @poi_address .
 set gps to @poi_type at @poi_address caldwell street . have a great day . 
-the @weather_attribute this @weekly_time in @location will be on @date with a low of @temperature f
+the @weather_attribute this @weekly_time in @location will be on @date with a low of @temperaturef
 anytime .
 we're @distance miles away from @poi_name and @distance miles away from @poi_name : where do you prefer to @agenda ?
 @poi_name is quicker since there is @traffic_info on route . would you like the address ?
@@ -3284,7 +3284,7 @@ we're @distance miles away from @poi_name and @distance miles away from @poi_nam
 you're welcome , i'm here to assist you !
 your doctors appointment is at @time on @date .
 what city do you want the weather for ?
-the temperature in @location shows a low of @temperature f and a high of @temperature f .
+the temperature in @location shows a low of @temperaturef and a high of @temperaturef .
 @traffic_info problem !
 nearest @poi_type is located at @poi_address . called @poi_name . 
 we're @distance miles away and there is @traffic_info on our way , i sent the route on your map
@@ -3312,7 +3312,7 @@ the @event class is @date at @time
 there is @traffic_info on our way but we're just @distance miles away from @poi_type , i sent the route on your screen
 you're welcome ; drive carefully . 
 what city do you want the weather for ?
-@weekly_time is @weather_attribute in @location , with low temperature of @temperature f , and high of @temperature f
+@weekly_time is @weather_attribute in @location , with low temperature of @temperaturef , and high of @temperaturef
 you're welcome . 
 you're @distance miles away from @poi_type whose address is @poi_address . since there is @traffic_info on our way i already picked the shortest route and i sent it on your screen
 @traffic_info problem
@@ -3364,12 +3364,12 @@ i have @weekly_time @poi_type restaurants listed ; @poi_name is @distance miles 
 all the directions are on your screen , drive carefully !
 you're welcome
 in what city do you need to hear the weather forecast for ?
-the weekly forecast for @location shows low temperatures in the @temperature f and @temperature f with high temperatures in the @temperature f .
+the weekly forecast for @location shows low temperatures in the @temperaturef and @temperaturef with high temperatures in the @temperaturef .
 you are welcome .
 okay , scheduling a @event with @party on @date at @time .
 @traffic_info problem .
 for what city would you like that information ?
-the temperature in @location on @date will be low of @temperature f , high of @temperature f
+the temperature in @location on @date will be low of @temperaturef , high of @temperaturef
 you're welcome !
 we're @distance miles away from coupe and @distance miles away from @poi_name : do you have any preference ?
 that is @poi_name .
@@ -3377,7 +3377,7 @@ that is @poi_name .
 okay , i will set the gps . 
 you're welcome
 what would you like to know about boston's weather ?
-@date is predicted to have the week's @weather_attribute in @location , at @temperature f
+@date is predicted to have the week's @weather_attribute in @location , at @temperaturef
 you're welcome . 
 what city would you like to know about being @weather_attribute ?
 it will not be @weather_attribute in @location this @weekly_time .
@@ -3388,7 +3388,7 @@ setting gps for @poi_name @poi_name at @poi_address avenue @distance miles away 
 you're welcome .
 what time would you like the appointment set for ? 
 @weekly_time it is only raining in @location and @location .
-@weekly_time is gonna be @weather_attribute in @location , with low temperature of @temperature f , and high of @temperature f
+@weekly_time is gonna be @weather_attribute in @location , with low temperature of @temperaturef , and high of @temperaturef
 @traffic_info problem . 
 the nearest @poi_type is @poi_name at @poi_address . camino real .
 setting navigation to quickest route to @poi_address . 
@@ -3474,14 +3474,14 @@ happy to help
 anytime !
 @poi_name is at @poi_address , @distance miles away . setting navigation now . 
 you're welcome !
-it will be @temperature f in @location on @date .
+it will be @temperaturef in @location on @date .
 you're welcome , anything else ?
 great and hope you have a great day . 
 the quickest route @poi_type is @distance miles away at @poi_address . 
 there is @traffic_info noted on the route .
 all set , have a safe trip . 
  what location do you want the weather for ?
-@weekly_time is gonna be @weather_attribute in @location , with low temperature of @temperature f , and high of @temperature f
+@weekly_time is gonna be @weather_attribute in @location , with low temperature of @temperaturef , and high of @temperaturef
 you're welcome !
 there is @poi_name @distance miles away and the @traffic_info should be free from cars : is it good for you ?
 @poi_name is located at @poi_address . with @traffic_info reported . 
@@ -3507,7 +3507,7 @@ thank you , i've set my gps , you should arrive in just few minutes
 the closest @poi_type is @poi_name at @poi_address . there is a @traffic_info but it is @distance miles away .
 navigation set and happy to help . 
 what location do you want the weather for ?
-@weekly_time in @location it will be raining , with a low of @temperature f and a high of @temperature f .
+@weekly_time in @location it will be raining , with a low of @temperaturef and a high of @temperaturef .
 you are welcome
 the @weather_attribute in @location will be on @date , @date , or @date .
 you are welcome .
@@ -3548,7 +3548,7 @@ what city do you want the weather for ?
 @traffic_info there is @traffic_info @weather_attribute in the forecast for @location this @weekly_time . 
 you are welcome .
 what time period are you interested in ?
-in @location it is @weather_attribute with a high of @temperature f and low of @temperature f
+in @location it is @weather_attribute with a high of @temperaturef and low of @temperaturef
 you're welcome !
 for which city would you like that info for ?
 what days are you interested in ?
@@ -3561,7 +3561,7 @@ there is a @poi_name and a @poi_name near .
 @poi_name is @distance miles away and has @traffic_info . so seems like our best option . 
 you're welcome ; drive safely . 
 not a problem !
-storms and a high of @temperature f are predicted @weekly_time in @location , followed by @weather_attribute weather with a high of @temperature f
+storms and a high of @temperaturef are predicted @weekly_time in @location , followed by @weather_attribute weather with a high of @temperaturef
 you're welcome . have a good day . 
 @traffic_info , it's not gonna @weather_attribute in @location during the @weekly_time
 you are welcome !
@@ -3637,14 +3637,14 @@ there is @poi_name within @distance miles but there is a roadblock nearby .
 yes sorry it appears to be the only option . 
 @poi_name is set in the gps to the fastest available route . 
 sure , i sent the info on your screen , drive carefully !
-the high @weekly_time in @location will be @temperature f .
+the high @weekly_time in @location will be @temperaturef .
 happy to help
 the nearest @poi_type is @distance mile away at @poi_name . it's located at @poi_address .
 @traffic_info is on the route to @poi_name but is still the best option . 
 setting navigation now to the @poi_name . 
 you're welcome . 
 what city do you want the weather for ?
-it is currently @weather_attribute with a low of @temperature f and high of @temperature f in @location .
+it is currently @weather_attribute with a low of @temperaturef and high of @temperaturef in @location .
 you are welcome .
 what city would you like me to find out if it is raining in ?
 there will not be any @weather_attribute for @location @weekly_time . 
@@ -3672,7 +3672,7 @@ you're welcome !
 unfortunately there is a @traffic_info but i sent on your screen another route that should allow you to reach the mall in about the same time
 you're welcome !
 where are you gonna drive @weekly_time ?
-in @location the temperature is low of @temperature f , and high of @temperature f
+in @location the temperature is low of @temperaturef , and high of @temperaturef
 you're welcome !
 setting reminder for doctor's appointment on @date at @time .
 happy to help
@@ -3689,7 +3689,7 @@ you're welcome .
 setting a reminder for your @event @weekly_time @date at @time with @party .
 you're welcome
 where are you located ?
-@weekly_time in @location the temperature is at it's @weather_attribute , with a low of @temperature f and a high of @temperature f .
+@weekly_time in @location the temperature is at it's @weather_attribute , with a low of @temperaturef and a high of @temperaturef .
 you are welcome
 okay , i am scheduling a @event with your @party on the 29 th at @time .
 you are welcome .
@@ -3790,7 +3790,7 @@ unfortunately there is @traffic_info on our way but since it's just @distance mi
 the current given route is the quickest one
 @traffic_info problem
 which days are you interested in ?
-in @location is @weather_attribute now , with a low temperature of @temperature f , and a high of @temperature f
+in @location is @weather_attribute now , with a low temperature of @temperaturef , and a high of @temperaturef
 you are very welcome .
 okay , i will set you up a doctor's appointment for @date .
 the closest @poi_type is @poi_name , would you like directions ?
@@ -3836,7 +3836,7 @@ you're welcome ; drive safely , and enjoy .
 you can see the route on your screen ! drive carefully !
 what day is @weekly_time ?
 what city would you like the forecast for ?
-in @location , it will @weather_attribute @weekly_time with a low of @temperature f and a high of @temperature f .  @weekly_time will be rainy between @temperature -90 f .
+in @location , it will @weather_attribute @weekly_time with a low of @temperaturef and a high of @temperaturef .  @weekly_time will be rainy between @temperature -90 f .
 you're welcome .
 the weather will be @weather_attribute on @date , with @weather_attribute on @date and @date , and @weather_attribute on @date .
 there isn't any @weather_attribute predicted in @location this @weekly_time .
@@ -3863,15 +3863,15 @@ where would you like me to check for @weather_attribute ?
 it will be raining on @date and drizzling @date and @date in @location .
 you're very welcome !
 what city , specifically , did you want weather data about ?
-the temperature in @location will have a low of @temperature f and a high of @temperature f on @date
+the temperature in @location will have a low of @temperaturef and a high of @temperaturef on @date
 you are welcome .
 okay , i will set a reminder and schedule a @event on @date at @time for you .
 you're welcome .
 have a good day , goodbye .
  which city do you want the weather for ?
-@weekly_time in @location is gonna be @weather_attribute , with low temperature of @temperature f , and high of @temperature f
+@weekly_time in @location is gonna be @weather_attribute , with low temperature of @temperaturef , and high of @temperaturef
 you are welcome . 
-the temperature in @location on the @weekly_time will be between @temperature f and @temperature f on @date , @date and @date . it will be sensibly lower in other days and @date will be the coldest day with @temperature f low and @temperature f high .
+the temperature in @location on the @weekly_time will be between @temperaturef and @temperaturef on @date , @date and @date . it will be sensibly lower in other days and @date will be the coldest day with @temperaturef low and @temperaturef high .
 you're welcome . 
 @poi_name is located @distance miles away at @poi_address , and @poi_name @distance miles away at @poi_address avenue . 
 westin has @traffic_info and @poi_name has @traffic_info . 
@@ -3885,12 +3885,12 @@ there is a @poi_name near .
 @poi_name @poi_type is @distance miles away with @traffic_info . it is located at @poi_address 
 you're welcome , happy to help .
 what city do you want the weather for ?
-the weather @weekly_time in @location for @date is @weather_attribute , low of @temperature f , high of @temperature f , for @date is raining , low of @temperature f , high of @temperature f , @date is @weather_attribute , low of @temperature f , high of @temperature f , @date is @weather_attribute , low of @temperature f , high of @temperature f and @date is @weather_attribute , low of @temperature f , high of @temperature f , @date is @weather_attribute , low of @temperature f , high of @temperature f and finally @date is @weather_attribute , low of @temperature f , high of @temperature f .
+the weather @weekly_time in @location for @date is @weather_attribute , low of @temperaturef , high of @temperaturef , for @date is raining , low of @temperaturef , high of @temperaturef , @date is @weather_attribute , low of @temperaturef , high of @temperaturef , @date is @weather_attribute , low of @temperaturef , high of @temperaturef and @date is @weather_attribute , low of @temperaturef , high of @temperaturef , @date is @weather_attribute , low of @temperaturef , high of @temperaturef and finally @date is @weather_attribute , low of @temperaturef , high of @temperaturef .
 you are welcome .
 a reminder has been set a @event at @time @weekly_time with @party .
 for what city should i check the weather forecast for ?
 what would you like to know about the weather in @location ?
-the @weekly_time @weekly_time days will be @weather_attribute , one will be @weather_attribute with a low of @temperature f and a high of @temperature f and the other will be @weather_attribute , low of @temperature f with a high of @temperature f
+the @weekly_time @weekly_time days will be @weather_attribute , one will be @weather_attribute with a low of @temperaturef and a high of @temperaturef and the other will be @weather_attribute , low of @temperaturef with a high of @temperaturef
 not a problem .
 what city are you asking about ?
 there will be @traffic_info chance of @weather_attribute for @location this @weekly_time .
@@ -3913,7 +3913,7 @@ the nearest is @poi_name , @distance mile away , at @poi_address . would you lik
 unfortunately there is a @traffic_info , we will have to take another route , i updated your map
 gps set , have a great day . 
 what city are you interested in ?
-the @weather_attribute this @weekly_time in @location will be on @date and @date with @temperature f
+the @weather_attribute this @weekly_time in @location will be on @date and @date with @temperaturef
 you're welcome !
 what time is your @event
 the nearest @poi_type is @poi_name , would you like directions ?
@@ -3922,7 +3922,7 @@ navigating you to @poi_name children's health .
 @time , @date
 you have @weekly_time @event appointments scheduled . one on @date with @party and the other in @date with @party . would you like to know the times as well ?
 @traffic_info problem
-the weather in @location is predicted to be @weather_attribute , the temperature should be a  low of @temperature f , and a high of @temperature f
+the weather in @location is predicted to be @weather_attribute , the temperature should be a  low of @temperaturef , and a high of @temperaturef
 you are very welcome !
 we are @distance miles away from @poi_name : is it good for you ?
 the quickest route has @traffic_info but is only @distance miles away at @poi_address . we should be there soon . 
@@ -4018,7 +4018,7 @@ there is @traffic_info @poi_type centers close without traffic but i have one th
 setting navigation to the @poi_name at @poi_address @traffic_info now . 
 your welcome .
 what city are you asking about ?
-the temperature in @location will be between @temperature f and @temperature f on @date and then on @date . during the @weekly_time it will be more @weather_attribute and the temperature will be between @temperature f and @temperature f
+the temperature in @location will be between @temperaturef and @temperaturef on @date and then on @date . during the @weekly_time it will be more @weather_attribute and the temperature will be between @temperaturef and @temperaturef
 you are welcome .
 when is your @event ?
 @poi_name is located @distance miles away at @poi_address . 
@@ -4079,7 +4079,7 @@ you're welcome !
 the forecast calls for @weather_attribute weather in @location on @date
 you're welcome . 
 what city would you like to know the temperature of ?
-it will reach @temperature f on both @date and @date in @location .
+it will reach @temperaturef on both @date and @date in @location .
 i'm here for you !
 what city are you in ?
 the weather forecast does not show that it will be @weather_attribute in @location this @date
@@ -4099,13 +4099,13 @@ you're welcome !
 your @event is scheduled for @date at @time .
 it will not be @weather_attribute in @location on @date .
 you are welcome
-the weather in @location is @weather_attribute the low is @temperature f with a high of @temperature f .
+the weather in @location is @weather_attribute the low is @temperaturef with a high of @temperaturef .
 you're welcome .
 okay setting reminder for @event with @party on @date at @time .
 glad to help
 okay scheduling @event with the @party at @time @weekly_time to @agenda .
 you are welcome .
-yes , the weather for @location city this @weekly_time will be mostly raining , with the @weather_attribute at @temperature f on @date and the @weather_attribute being @temperature f on @date . @date and @date will be @weather_attribute . 
+yes , the weather for @location city this @weekly_time will be mostly raining , with the @weather_attribute at @temperaturef on @date and the @weather_attribute being @temperaturef on @date . @date and @date will be @weather_attribute . 
 you're welcome !
 reminder for @event on @date at @time with your @party is set
 you're welcome !
@@ -4155,7 +4155,7 @@ you're welcome !
 @poi_type is @poi_address .
 setting gps for @poi_type now .
 you're welcome . happy to help . 
-the current high in @location is @temperature f .
+the current high in @location is @temperaturef .
 you're welcome . 
 i will schedule a @event with @party for @date of this month at @time . 
 glad i could be of assistance .
@@ -4182,7 +4182,7 @@ you are @distance miles away from @poi_type .
 there is a @traffic_info but i already sent another route on your map
 yor welcome .
 what city are you inquiring about ?
-this @weekly_time in @location the temperatures will be low of @temperature f and a high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , low of @temperature f , high of @temperature f on @date , and a low of @temperature f , high of @temperature f on @date .
+this @weekly_time in @location the temperatures will be low of @temperaturef and a high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , and a low of @temperaturef , high of @temperaturef on @date .
 you are welcome !
 there is @traffic_info @poi_name nearby , but a @poi_name is located @distance miles away . would you like directions there ?
 setting directions to @poi_address , @distance miles away . there's a @traffic_info , so drive carefully . 
@@ -4354,11 +4354,11 @@ what city are you in ?
 it will @weather_attribute @date in @location . 
 i set a reminder for @event class for @time @weekly_time morning .
 what city shall i look the @distance day forecast in ?
-the high temperature for @location @weekly_time is supposed to be about @temperature f .
+the high temperature for @location @weekly_time is supposed to be about @temperaturef .
 anytime .
 yes i'm confirmed your @event for @time @date of this month
 your @event is scheduled at @time .
-it will be @temperature f in @location on @date .
+it will be @temperaturef in @location on @date .
 @traffic_info problem , you're welcome . 
 okay , setting a reminder for a @event with @party for august 22 nd at @time .
 you're welcome . 
@@ -4367,13 +4367,13 @@ okay , setting a reminder for a @event with your @party on @date at @time .
 i sent the directions on your screen , you're welcome !
 okay , reminder scheduled for @event class at @time on @date with @party .
 i'm here to serve . 
-@location is forecasted to be @weather_attribute with a low of @temperature f and a high of @temperature f .
+@location is forecasted to be @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 it will not be @weather_attribute in @location @weekly_time .
 you are welcome !
 your @party will be attending your @event on @date .
 @traffic_info problem
 what city are you wanting to know the weather for ?
-@weekly_time in chicago the weather is forecast predicts @weather_attribute , with a low of @temperature f and a high of @temperature f .
+@weekly_time in chicago the weather is forecast predicts @weather_attribute , with a low of @temperaturef and a high of @temperaturef .
 you are welcome .
 there is a @poi_name nearby .
 @poi_name is at @poi_address .
@@ -4381,7 +4381,7 @@ i'm here to serve !
 what city are you inquiring about ?
 it might @weather_attribute in @location on @date
 glad i could help out
-on @date beginning this @weekly_time in @location the weather is @weather_attribute with a low temperature of @temperature f and a high of @temperature f .
+on @date beginning this @weekly_time in @location the weather is @weather_attribute with a low temperature of @temperaturef and a high of @temperaturef .
 you are welcome .
 in @location it will be @weather_attribute on @date , and @weather_attribute on @date
 you are welcome .
@@ -4478,7 +4478,7 @@ setting navigation to @poi_name now ; there is @traffic_info .
 jill's house is @distance miles away at @poi_address : would you like me to set the navigation to @agenda there ?
 there i @traffic_info , but it is only @distance miles away . we should arrive quickly . 
 you're welcome , have a good day . 
-the @weather_attribute in @location will be @temperature f on @date and @date .
+the @weather_attribute in @location will be @temperaturef on @date and @date .
 anytime .
 you have @weekly_time @event appointments scheduled . on @date @party will be attending it with you and on @date your @party will be attending .
 the @event on @date is at @time and the one on @date is at @time .
@@ -4495,7 +4495,7 @@ you're welcome !
 what city do you want the weather for ?
 it will be raining @date , @date , and @date in @location .
 anytime .
-the weather in @location is @weather_attribute , low of @temperature f , high of @temperature f . 
+the weather in @location is @weather_attribute , low of @temperaturef , high of @temperaturef . 
 you are welcome .
 @poi_name is a @poi_type @distance miles away at @poi_address . 
 setting navigation now . there is @traffic_info on the @traffic_info , so drive carefully . 
@@ -4515,7 +4515,7 @@ you have @distance dinners scheduled , one on @date , 13 th , and @date .
 @event on @date is at @time with your @party .
 you're welcome
 what city would you like the weather for ?
-@weekly_time in @location the temperature is low . @weekly_time will be @weather_attribute with a high of @temperature f
+@weekly_time in @location the temperature is low . @weekly_time will be @weather_attribute with a high of @temperaturef
 @traffic_info problem .
 there is a @poi_name @distance miles away .
 @poi_name is at @poi_address .
@@ -4534,7 +4534,7 @@ i have @weekly_time friend listed . which address would you like ?
 @poi_name is the quickest to get to since it is @distance mile away and has only @traffic_info on route . setting gps now .
 @poi_address is the address of jill's house .
 setting navigation , have a great day . 
-it will be @temperature f on @date in @location .
+it will be @temperaturef on @date in @location .
 anytime .
 your @weekly_time @event is this @date a @time . 
 i'm sorry but i don't have this address in my memory : can you give me further details ?
@@ -4566,7 +4566,7 @@ what info should i add to your @event reminder ?
 reminder set for @event at @time on @date with your @party .  is there anything else ?
 you're welcome
 what city do you want the weather for ?
-it is currently @weather_attribute with a low of @temperature f and a high of @temperature f .
+it is currently @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 @traffic_info problem !
 you have @weekly_time @event appointments scheduled . one is at @time with @party and the other is at @time with @party . would you like to know the dates as well ?
 have a nice day .
@@ -4582,13 +4582,13 @@ yes , @poi_name is the nearest one . set the navigation at its address @poi_addr
 navigation set to @poi_address . anything else ?
 you're welcome !
 what city are you in ?
-in @location there is a low temperature of @temperature f , and a high of @temperature f
+in @location there is a low temperature of @temperaturef , and a high of @temperaturef
 anytime
 what city do you want the forecast for ?
 it is not snowing in chicago @weekly_time .
 you're very welcome . glad i could help . 
 what city are you inquiring about ?
-@weekly_time in @location the low temperature in @temperature f and the high is @temperature f , it's not just @weather_attribute , it's @weather_attribute .
+@weekly_time in @location the low temperature in @temperaturef and the high is @temperaturef , it's not just @weather_attribute , it's @weather_attribute .
 you are welcome .
 it should @weather_attribute in @location on @date , it will not be @weather_attribute
 happy to help
@@ -4627,7 +4627,7 @@ your @event is with @party at @time .
 my pleasure !
 i see that you have a @event on @date at @time with @party in @room to @agenda the budget .
 which city would you like @weekly_time and tomorrow's temperature for ?
-in ahlambra the temperature will be low @temperature f and high of @temperature f @weekly_time , and low of @temperature f and high of @temperature f @weekly_time
+in ahlambra the temperature will be low @temperaturef and high of @temperaturef @weekly_time , and low of @temperaturef and high of @temperaturef @weekly_time
 you're welcome !
 the closest @poi_type is @poi_name that is @distance miles away in @traffic_info
 the address is @poi_address , would you like me to set the gps to @agenda there ?
@@ -4646,7 +4646,7 @@ you're welcome and gps set .
 @traffic_info , there isn't any @weather_attribute predicted in @location @weekly_time or @weekly_time .
 you're welcome !
 for which city would you like to know this ?
-its a @weather_attribute one @weekly_time , the temperature in @location is predicted to be @weather_attribute with a high of @temperature f
+its a @weather_attribute one @weekly_time , the temperature in @location is predicted to be @weather_attribute with a high of @temperaturef
 happy to help
 what is the name of the city you want the forecast from ?
 in @location it will be @weather_attribute on @date , raining on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , and @weather_attribute on @date
@@ -4720,8 +4720,8 @@ for which city would you like to know that ?
 what city would you like the @weather_attribute weather information for ?
 this @weekly_time in @location it will be @weather_attribute on @date and @date .
 @traffic_info problem !
-@location york's weekly forecast is scattered being @weather_attribute , @weather_attribute , and @weather_attribute . the lows are in the @temperature s while the highs are up to @temperature f .
-it is supposed to be @temperature f on @date in @location .
+@location york's weekly forecast is scattered being @weather_attribute , @weather_attribute , and @weather_attribute . the lows are in the @temperature s while the highs are up to @temperaturef .
+it is supposed to be @temperaturef on @date in @location .
 the nearest @poi_type is @poi_name at @poi_address . 
 @poi_name is at @poi_address .
 you're welcome !
@@ -4777,7 +4777,7 @@ anytime
 what city would you like to know if there will be @weather_attribute in ?
 @weekly_time is gonna be @weather_attribute in @location
 you are welcome !
-in @location the forcast is a high of @temperature f on @date , a high of @temperature f on @date , a high of @temperature f on @date , a high of @temperature f on @date , a high of @temperature f on @date , a high of @temperature f on @date and a high of @temperature f on @date .
+in @location the forcast is a high of @temperaturef on @date , a high of @temperaturef on @date , a high of @temperaturef on @date , a high of @temperaturef on @date , a high of @temperaturef on @date , a high of @temperaturef on @date and a high of @temperaturef on @date .
 you are welcome .
 bye
 i don't have it saved on my memory : can you give me the address please ?
@@ -4879,7 +4879,7 @@ not a problem .
 the @poi_name @poi_type is @distance miles away , there currently isn't any traffic on this route . the address of the @poi_type is @poi_address
 you are welcome . heading to @poi_name .
 for what city do you want the current temperature for ?
-@weekly_time in chicago there is a low of @temperature f and a high of @temperature f .
+@weekly_time in chicago there is a low of @temperaturef and a high of @temperaturef .
 you're welcome !
 you have three @event appointments scheduled ; one on @date with @party , one on @date and @temperature th with @party .
 you are welcome .
@@ -4893,7 +4893,7 @@ i have an address for jill's house . is that the destination you are looking for
 jill's house is located at @poi_address avenue . 
 okay , heading to jill's house
 what city are you inquiring about ?
-the temperature in @location this @weekly_time will be : low of @temperature and a high of @temperature f on @date , low of @temperature and a high of @temperature f on @date , low of @temperature and a high of @temperature f on @date , low of @temperature f and a high of @temperature f on @date , low of @temperature f and a high of @temperature f on @date , low of @temperature and a high of @temperature f on @date , and a low of @temperature and a high of @temperature f on @date .
+the temperature in @location this @weekly_time will be : low of @temperature and a high of @temperaturef on @date , low of @temperature and a high of @temperaturef on @date , low of @temperature and a high of @temperaturef on @date , low of @temperaturef and a high of @temperaturef on @date , low of @temperaturef and a high of @temperaturef on @date , low of @temperature and a high of @temperaturef on @date , and a low of @temperature and a high of @temperaturef on @date .
 my pleasure . 
 your @event is at @time .
 your @poi_type is at @poi_address .
@@ -5058,23 +5058,23 @@ you're welcome
 okay , setting a reminder for your doctor's appointment on august the 22 nd at @time with your @party .
 you are welcome .
 what city are you interested in ?
-@weekly_time in @location there will be @weather_attribute , and a low of @temperature f with a high of @temperature f .
+@weekly_time in @location there will be @weather_attribute , and a low of @temperaturef with a high of @temperaturef .
 you're welcome !
 it will not be @weather_attribute in @location this @weekly_time . 
 anytime .
 you have a @event this @date at @time . i don't know when labs wil be available , though .
 for what city ?
-on @date the temperature in @location will be low of @temperature f , and high of @temperature f
+on @date the temperature in @location will be low of @temperaturef , and high of @temperaturef
 @traffic_info problem !
 the nearest @poi_type is @poi_name @distance miles away , would you like directions ?
 i will start navigating now . 
 what city would you like to know about ?
 the weather forecast in @location @weekly_time shows a @weather_attribute , while @weekly_time there will be @weather_attribute .
 have a good day .
-the low temperature in @location @weekly_time is @temperature f
+the low temperature in @location @weekly_time is @temperaturef
 you're welcome . 
 what location do you want the weather for ?
-there is a forecast of @weather_attribute on @date with a low of @temperature f and a high of @temperature f .
+there is a forecast of @weather_attribute on @date with a low of @temperaturef and a high of @temperaturef .
 anytime .
 what time is your appointment ?
 okay . i have set a reminder for the doctor's appointment on @date of this month at @time . 
@@ -5119,7 +5119,7 @@ the nearest @poi_type is @poi_name at @poi_address , @distance mile away . would
 although there is a @traffic_info , it is the fastest route to @poi_name @distance mile away
 you are welcome . 
 for what city would you like to know the weather for ?
-@date in @location should not be @weather_attribute , @weather_attribute is predicted with a high of @temperature f .
+@date in @location should not be @weather_attribute , @weather_attribute is predicted with a high of @temperaturef .
 anytime .
 i have info only about the @poi_name @poi_type , but it's @distance miles away
 the route to @poi_name is reporting @traffic_info to @poi_address . gps set . 
@@ -5189,7 +5189,7 @@ they are both @distance miles away with @traffic_info to each location .
 @poi_name is located at @poi_address . 
 gps set and have a safe trip . 
 what city are you inquiring about ?
-this @weekly_time the temperature in @location will be @date : @temperature f , high of @temperature f , @date : low of @temperature f , high of @temperature f , @date : low of @temperature f , high of @temperature f , @date : low of @temperature f , high of @temperature f , @date : low of @temperature f , high of @temperature f , @date : low of @temperature f , high of @temperature f , @date : low of @temperature f , high of @temperature f
+this @weekly_time the temperature in @location will be @date : @temperaturef , high of @temperaturef , @date : low of @temperaturef , high of @temperaturef , @date : low of @temperaturef , high of @temperaturef , @date : low of @temperaturef , high of @temperaturef , @date : low of @temperaturef , high of @temperaturef , @date : low of @temperaturef , high of @temperaturef , @date : low of @temperaturef , high of @temperaturef
 my pleasure . 
 ok , i have set a reminder for this @date at @time that you will be having @event with your @party . 
 okay , i am setting a reminder for a @event on august 14 th at @time with your @party .
@@ -5266,7 +5266,7 @@ it is forecast to @weather_attribute @date and @date in @location .
 you're welcome .
 your @event is at @time .
 happy to help
-fresno's @date forecast is @weather_attribute , with a low of @temperature f and a high of @temperature f
+fresno's @date forecast is @weather_attribute , with a low of @temperaturef and a high of @temperaturef
 anytime !
 there is a @poi_type @distance miles away and a couple @poi_type restaurants a little farther . what would you like to eat ?
 @poi_name is @distance miles away in @traffic_info , and @poi_name is @distance miles away but there is a @traffic_info . which of these do you prefer ?
@@ -5295,7 +5295,7 @@ you are welcome .
 you have @weekly_time doctor's appointment's scheduled @weekly_time , one on @date at @time with @party attending and one on @date with @party at @time .
 you are welcome .
 ok setting eye @event for @time @weekly_time
-the temperature in @location has a low of @temperature f and a high of @temperature f on @date
+the temperature in @location has a low of @temperaturef and a high of @temperaturef on @date
 you are welcome .
 your @event with @party at @time on @date has been scheduled . 
 you are welcome .
@@ -5416,10 +5416,10 @@ it will not be @weather_attribute in @location @weekly_time .
 glad to help
 your doctor's appointment is on @date at @time .
 what city are you in ?
-the forecast for @weekly_time in @location will be @weather_attribute , with a low of @temperature f and a high of @temperature f . tomorrow's forecast will be @weather_attribute , with a low of @temperature f and a high of @temperature f .
+the forecast for @weekly_time in @location will be @weather_attribute , with a low of @temperaturef and a high of @temperaturef . tomorrow's forecast will be @weather_attribute , with a low of @temperaturef and a high of @temperaturef .
 you are most welcome . 
 for what city would you like to know tomorrow's forecast ?
-tomorrow's weather forecast predicts @weather_attribute with a low of @temperature f and a high of @temperature f , it does not specifically say @weather_attribute .
+tomorrow's weather forecast predicts @weather_attribute with a low of @temperaturef and a high of @temperaturef , it does not specifically say @weather_attribute .
 you are welcome !
 we're @distance miles away from @poi_name and @distance miles away from @poi_name : do you prefer one of them ?
 @poi_name is only @distance miles away at @poi_address with @traffic_info . 
@@ -5451,7 +5451,7 @@ you are very welcome
 your @event is set for @time on @date .
 happy to help
 what city would you like the temperature for on @date ?
-on @date in @location it will be frosty . there is going to be a low of @temperature f and a high of @temperature f .
+on @date in @location it will be frosty . there is going to be a low of @temperaturef and a high of @temperaturef .
 you're welcome !
 @poi_name is @distance miles away .
 @poi_name is at @poi_address .
@@ -5491,7 +5491,7 @@ you're welcome .
 your @weekly_time @event is at @time with @party at @room . would you like to know the date as well ?
 it's at on @date . you're welcome .
 what city please ?
-@weekly_time in @location the low temperature should be in teh @temperature s with a high in the @temperature s . @weekly_time is predicted to be @weather_attribute with a low of @temperature f and a high of @temperature f .
+@weekly_time in @location the low temperature should be in teh @temperature s with a high in the @temperature s . @weekly_time is predicted to be @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 @traffic_info problem
 okay , scheduling @event with your @party for @date at @time .
 i am scheduling @event for @distance :50 pm on @date . 
@@ -5507,7 +5507,7 @@ okay . we have set up your doctor's appointment on @date , 12 pm .
 @weather_attribute is predicted to fall on @date in @location .
 anytime !
 what city are you in ?
-@weekly_time in @location it is @weather_attribute with a low of @temperature f and high of @temperature f . @weekly_time there will be @weather_attribute with the same temperatures .
+@weekly_time in @location it is @weather_attribute with a low of @temperaturef and high of @temperaturef . @weekly_time there will be @weather_attribute with the same temperatures .
 you're welcome !
 okay , scheduling a @event with @party for august 14 th at @time .
 you're welcome . 
@@ -5532,7 +5532,7 @@ the closest @poi_type with @traffic_info is @poi_name , located at @poi_address 
 okay , heading to @poi_name
 you're welcome ; drive safely . 
 what city would you like the current temperature for ?
-the current temperature in @location is a low of @temperature f and a high of @temperature f .
+the current temperature in @location is a low of @temperaturef and a high of @temperaturef .
 you're welcome !
 it will not be @weather_attribute on @date in @location
 @traffic_info problem
@@ -5568,7 +5568,7 @@ you are welcome .
 okay a reminder is set for the budget @event @weekly_time with your @party to @agenda the budget . what day of the @weekly_time would you like the event scheduled for ?
 you are welcome .
 which city would you like @weekly_time and tomorrow's weather for ?
-the low temperature in @location @weekly_time is @temperature f
+the low temperature in @location @weekly_time is @temperaturef
 you're very welcome !
 which would would you like the weekly forecast for ?
 in @location , @weather_attribute , @weather_attribute , @weather_attribute , fog , and a couple of storms are predicted for the @weekly_time
@@ -5577,7 +5577,7 @@ you are most welcome !
 @poi_name is the only choice and has @traffic_info .
 sending the address and route to @poi_name at @poi_address to your map .
 you're welcome !
-in @location on @date the forecast calls for @weather_attribute with a low of @temperature f and a high of @temperature f .
+in @location on @date the forecast calls for @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 you're welcome .
 you currently have @distance meetings scheduled . the first is on @date in @event room @time to dicu the company picnic . the second i on @date in @temperature @event room to @agenda the budget . the last is on @date in @room to @agenda dress code .
 you are welcome .
@@ -5692,7 +5692,7 @@ it will be @weather_attribute in @location @weekly_time .
 you're welcome !
 you have one on @date at @time with @party , @date at @time with @party , @date at @time with @party and @date at @time with your @party .
 what city would you like the weather forecast for ?
-@weekly_time in @location the forecast is @weather_attribute with a low of @temperature f and high of @temperature f .
+@weekly_time in @location the forecast is @weather_attribute with a low of @temperaturef and high of @temperaturef .
 @traffic_info problem .
 what city are you in ?
 there shouldn't be any @weather_attribute in @location @weekly_time or @weekly_time .
@@ -5716,7 +5716,7 @@ anytime .
 what city do you want to know if it will be @weather_attribute in ?
 it is not predicted to be @weather_attribute at all in @location .
 glad to help
-today's @weather_attribute in @location is predicted to be @temperature f
+today's @weather_attribute in @location is predicted to be @temperaturef
 @traffic_info problem .
 it will @weather_attribute in @location on @date .
 you're very welcome . 
@@ -5749,7 +5749,7 @@ the nearest @poi_type is at @poi_address street .
 the address of @poi_name is @poi_address .  would you like me to set the gps ?
 i sent the fastest route on your map , drive carefully ! you're welcome
 which city would you like the @weather_attribute forecast for ?
-@date will be the @weather_attribute in @location for this @weekly_time with a low of @temperature f , high of @temperature f .
+@date will be the @weather_attribute in @location for this @weekly_time with a low of @temperaturef , high of @temperaturef .
 you're welcome !
 @poi_name is @distance miles away , but be aware that there is a @traffic_info . you can find it at @poi_address
 i'm sorry but @poi_name is the only option nearby
@@ -5764,7 +5764,7 @@ it will be @weather_attribute on @date , @weather_attribute on @date , @weather_
 @traffic_info problem .
 it will not be @weather_attribute in @location @weekly_time .
 anytime .
-the temperature in @location will be low of @temperature f , and high of @temperature f both @weekly_time and @weekly_time
+the temperature in @location will be low of @temperaturef , and high of @temperaturef both @weekly_time and @weekly_time
 @traffic_info problem .
 the nearest @poi_type is @poi_name which is @weekly_time miles away at @poi_address . 
 sending the address and route to @poi_name at @poi_address to your map .
@@ -5786,7 +5786,7 @@ what city shall i check the weekly forecast for ?
 there shouldn't be any @weather_attribute in @location this @weekly_time
 have a great day and you're welcome . 
 which city are you interested in ?
-@weekly_time in @location it is @weather_attribute , low @temperature f and high is @temperature f . @weekly_time there is a @weather_attribute predicted .
+@weekly_time in @location it is @weather_attribute , low @temperaturef and high is @temperaturef . @weekly_time there is a @weather_attribute predicted .
 you are welcome . 
 reminder for event work @event set .
 @traffic_info problem .
@@ -5797,7 +5797,7 @@ anytime !
 on @date there will be the @weather_attribute in @location
 anytime .
 can i ask what location you are asking about ?
-the @weather_attribute this @weekly_time in @location will be @temperature f on @date and @date
+the @weather_attribute this @weekly_time in @location will be @temperaturef on @date and @date
 anytime
 the nearest one is @poi_name , it's @distance miles away
 @poi_address , you're welcome
@@ -5890,7 +5890,7 @@ for which city would you like to know the forecast ?
 @weather_attribute is not predicted on any day this @weekly_time in @location .
 you're welcome !
 what city do you want the weather for ?
-it is @weather_attribute with a low of @temperature f and a high of @temperature f in @location @weekly_time .
+it is @weather_attribute with a low of @temperaturef and a high of @temperaturef in @location @weekly_time .
 not a problem .
 i have one @distance miles away . would you like more info ?
 the closest @poi_type spot to you is @poi_name .
@@ -5984,7 +5984,7 @@ you are welcome .
 it will not @weather_attribute in @location this @weekly_time .
 anytime !
 for what location ?
-@weekly_time is gonna be @weather_attribute in @location , with low temperature of @temperature f , and high of @temperature f
+@weekly_time is gonna be @weather_attribute in @location , with low temperature of @temperaturef , and high of @temperaturef
 you're welcome !
 your @event is on @date at @time with the @party . you will be having it in @room and the agenda is to @agenda dress code . 
 you're welcome
@@ -6025,7 +6025,7 @@ you are welcome .
 okay , setting a reminder for @event with @party later this @weekly_time at @time .
 you are welcome .
 what days are you interested in ?
-in @location it will be @weather_attribute on @date , with low of @temperature f , and high of @temperature f
+in @location it will be @weather_attribute on @date , with low of @temperaturef , and high of @temperaturef
 @traffic_info problem
 there is a @poi_type shop @distance miles from you at @poi_address avenue . 
 setting navigation now to @poi_name . 
@@ -6036,7 +6036,7 @@ you are welcome .
 it will not be @weather_attribute in @location on @date . 
 you are welcome
 @date @time
-@weekly_time there is @weather_attribute in @location , with a high of @temperature f and a low of @temperature f . @weekly_time will be high @temperature f and low @temperature f .
+@weekly_time there is @weather_attribute in @location , with a high of @temperaturef and a low of @temperaturef . @weekly_time will be high @temperaturef and low @temperaturef .
 anytime
 i will schedule your @event with @party on @date at @time . 
 my pleasure .
@@ -6055,7 +6055,7 @@ there is only one @poi_type locally . it's called the @poi_name .
 its address is @poi_address , we're @distance miles away and there is also a @traffic_info
 anytime !
 what city are you in ?
-the temperature in @location will be between @temperature f and @temperature f from @date to @date and it will @agenda down to @temperature f to @temperature f on the @weekly_time
+the temperature in @location will be between @temperaturef and @temperaturef from @date to @date and it will @agenda down to @temperaturef to @temperaturef on the @weekly_time
 you're welcome !
 what time would you like a reminder ?
 what city are you interested in ?
@@ -6081,15 +6081,15 @@ you are welcome
 @poi_name has @traffic_info in the route .
 you're welcome , have a great day . 
 what city do you want the weather for ?
-@weekly_time in @location there will be @weather_attribute , with low of @temperature f , and high of @temperature f
+@weekly_time in @location there will be @weather_attribute , with low of @temperaturef , and high of @temperaturef
 you are welcome !
 what day and time should i schedule it for ? 
 @party will be accompanying you to your @weekly_time doctor's appointment .  
 your @event in which @party will be accompanying you is at @time .
 what city are you in ?
-it is rainy with a low of @temperature f and high of @temperature f in @location @weekly_time .
+it is rainy with a low of @temperaturef and high of @temperaturef in @location @weekly_time .
 you're welcome !
-there will be a low of @temperature f in @location on @date . 
+there will be a low of @temperaturef in @location on @date . 
 @traffic_info problem !
 you have a doctors appointment @date at @time . 
 the closest @poi_type is standford chrildrens health @poi_type .
@@ -6106,7 +6106,7 @@ there is a @poi_type @distance mile from your location , would you like me to pu
 @poi_name is located at @poi_address . do you need me to set the navigation ?
 you're welcome . 
 in what city would you like to hear the temperature for ?
-there is an @weather_attribute in @location @weekly_time with a low of20 f and a high of @temperature f .
+there is an @weather_attribute in @location @weekly_time with a low of20 f and a high of @temperaturef .
 anytime .
 jill lives at @poi_address .
 jill is only one mile away .
@@ -6183,7 +6183,7 @@ where can i give you the weather forecast for ?
 yes there will be a @weather_attribute in @location this @weekly_time on @date .
 glad to help
 what city are you interested in ?
-it is currently @weather_attribute with a low of @temperature f and a high of @temperature f .
+it is currently @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 you're welcome !
 that would be @poi_name , which is at @poi_address .
 you are welcome .
@@ -6265,7 +6265,7 @@ when would you like the reminder ?
 i have set a reminder for @weekly_time at @time
 happy to help . 
 what city should i check if it is raining in ?
-it will not be raining in @location @weekly_time . it is going to be @weather_attribute with a low of @temperature f and a high of @temperature f .
+it will not be raining in @location @weekly_time . it is going to be @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 you're welcome !
 what city are you in ?
 it will not be @weather_attribute in @location anytime soon .

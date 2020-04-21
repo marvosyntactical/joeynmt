@@ -5,9 +5,7 @@ from typing import List, Dict, Union
 import json
 from collections import defaultdict
 
-"""
 
-"""
     
 # tokenization function from joeynmt data:
 
@@ -92,15 +90,16 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
         key, continuation = tokenized_entity.pop(0), tokenized_entity
         
         # hardcode 'the' and 'a' duplication for select classes/labels:
-        """
-        if classification == "@poi_type":
-            articles = ["a", "an"] #a hospital should also match
-            if key not in articles: # break recursion
-                for article in articles:
-                    modified_entry = article+" "+entry
+        if classification == "@temperature":
+            suffixes = ["f"]#a hospital should also match
+            if key not in suffixes: # break recursion
+                for suffix in suffixes:
+                    modified_entry = entry+" "+suffix
+                    assert False, modified_entry
+
+                    
                     # recurse with added article:
                     add_entry_to_dict(dictionary, modified_entry, label, lowerize, tokenizer, suffix, default)
-        """
 
 
         # check if first token exists as key in return dict r:
