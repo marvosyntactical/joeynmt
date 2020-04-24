@@ -21,7 +21,6 @@ from joeynmt.vocabulary import build_vocab, Vocabulary
 def pkt_tokenize(s)-> List:
     s = s+" "
     pkt = ".,?!-;:()" # NOTE candidates: '
-    num = "0123456789"
     space = ["\t", "\n", " "]
 
     r = []
@@ -37,6 +36,7 @@ def pkt_tokenize(s)-> List:
                 token = "".join(curr)  
                 r += [token]
                 curr = []
+            
             curr += [c] # add pkt to tokens, but not whitespace
     return r
 
