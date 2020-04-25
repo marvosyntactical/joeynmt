@@ -860,10 +860,12 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
 
         kb_values = kb_values.repeat((1, _unroll, 1))
+        # add v to outputs (v_t in Eric et al.)
         outputs[B, U, kb_values] += kb_probs
 
         # debugging halves (!) training speed (140 tok/sec -> 70 tok/sec)
         debug_v = kwargs.get("debug_v", False)
+
         if debug_v:
 
             v_fast = torch.zeros_like(outputs) #only for debugging purposes
@@ -873,6 +875,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             v_fast[B, U, kb_values] = kb_probs
             fast_now = time.time()
 
+            # alternative index tensors 
             I, J, _ = np.ogrid[:_batch, :_unroll, :_kb]
 
             I = torch.from_numpy(I)
@@ -884,6 +887,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             v_slow = torch.zeros_like(outputs)
 
             # slow and steady wins the race
+            # this implementation definitely correct, and definitely slow as shoot
             then_slow = time.time()
             for x in range(_batch):
                 for y in range(_unroll):

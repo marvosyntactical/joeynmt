@@ -217,10 +217,11 @@ class Model(nn.Module):
         
         
         with self.Timer("converting arrays to sentences for current batch"):
+
             print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
             print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
             print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
-            print(f"proc_batch: kbvals: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
+            print(f"proc_batch: kbvalues: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
 
             print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
             print(f"debug: batch.kbtrv:{self.kbtrv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())}")
@@ -230,7 +231,7 @@ class Model(nn.Module):
         kb_values = kb_values[:, 1] # remove bos, eos tokens
 
         kb_keys = self.src_embed(kb_keys)
-        # NOTE: values dont even need to be embedded!!
+        # NOTE: values dont need to be embedded!
 
         kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
 
@@ -240,6 +241,10 @@ class Model(nn.Module):
         kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous()
         kb_values.unsqueeze_(0)
         kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous()
+
+        print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
+        print(f"proc_batch: kbvalues.shape: {kb_values.shape}")
+
         # assert len(kb_values) == 2 # TODO super important sanity check unit test:
         # kb_values are most of the time here like so:
         # batch x kb_size # 3 x 33
@@ -249,18 +254,14 @@ class Model(nn.Module):
         
         # NOTE shape debug; TODO add to decoder check shapes fwd
         """
-        print(f"kb_keys.shape:{kb_keys.shape}")#batch x kb_size x emb_dim
-        print(f"kb_values.shape:{kb_values.shape}")#batch x kb_size
         print(f"debug: dir(batch):{[s for s in dir(batch) if s.startswith(('kb', 'src', 'trg'))]}")
         print(f"debug: batch.src.shape:{batch.src.shape}")
         print(f"debug: batch.trg.shape:{batch.trg.shape}")
         #assert batch.src.shape[0] == 3,batch.src.shape[0] # Latest TODO find where this happens???
         
-        # NOTE kbtrv.shape should be same as u_t for
-        # replacement!
-        # u_t == kbtrv: batch x 1 x kb_size
         print(f"debug: model.trg_embed attributes={dir(self.trg_embed)}")
         """
+
         return kb_keys, kb_values, kb_true_vals
 
 

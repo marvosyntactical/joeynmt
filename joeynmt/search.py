@@ -116,6 +116,11 @@ def recurrent_greedy(
                 unroll_steps=1)
         # logits: batch x time=1 x vocab (logits)
 
+        assert kb_att_probs.shape == trv.shape, f"should be: batch x 1 x kb:\
+            \n trv: {trv.shape} vs kb_att_probs: {kb_att_probs.shape}; trv:\
+            \n{trv};\
+            \nkb_att_probs:\
+            \n{kb_att_probs}"
         # greedy decoding: choose arg max over vocabulary in each step
         next_word = torch.argmax(logits, dim=-1)  # batch x time=1
         # NOTE: ____________ ^ find idx over ordered vocab embeddings, logits are output of decoder.forward
