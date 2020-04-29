@@ -55,7 +55,7 @@ This is a general list of minor technical TODOs that can be done without thinkin
 * find out what shuffle in training data means: intra or supra batch?
 * import and use tensorboard writer again
 * fix beam search for decoding
-* batch convos with same kb together; ! filter unvalued entries!
+* batch convos with same kb together; ! filter unvalued entries !
 * traffic info: default category in this domain: poi\_type, not poi!
 
 
