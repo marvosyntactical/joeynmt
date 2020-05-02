@@ -204,7 +204,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                   fields=(src_field, trg_field))
 
     if kb_task: #load dev kb and metadata
-        dev_kb = TranslationDataset(path=train_path,
+        dev_kb = TranslationDataset(path=dev_path,
                                 exts=("." + kb_src, "." + kb_trg),
                                 fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
                                 filter_pred=
@@ -260,9 +260,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         # NOTE this vocab is hardcodedly built from the concatenation of train+dev+test trv files!
         trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
         assert os.path.isfile(trv_path)
-        trv_vocab = build_vocab(fields="kbtrv", min_freq=1,
-                                        max_size=sys.maxsize,
-                                        dataset=train_kb_truvals, vocab_file=trv_path)
+        trv_vocab = deepcopy(trg_vocab)
+        trv_vocab._from_file(trv_path)
+        
         print(f"Added true value lines as tokens to trv_vocab of length={len(trv_vocab)}")
         trv_field.vocab = trv_vocab
 
@@ -447,6 +447,7 @@ class KB_minibatch(list):
 
 
 def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
+    print(len(kb_data), len(kb_truvals))
 
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
@@ -470,7 +471,18 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
             
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
-        assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),[(ex.kbsrc, ex.kbtrg) for ex in minibatch.kb],len(minibatch.kbtrv),[ex.kbtrv for ex in minibatch.kbtrv]) 
+
+        print()
+        print(f"minibatch.kb: {len(minibatch.kb)}")
+        print(f"minibatch.kb: {[(ex.kbsrc, ex.kbtrg) for ex in minibatch.kb]}")
+        print(f"minibatch.kbtrv: {len(minibatch.kbtrv)}")
+        print(f"minibatch.kbtrv: {[ex.kbtrv for ex in minibatch.kbtrv]}")
+        print()
+        print(f"current: {current}")
+        print(f"len(kb_data): {len(kb_data)}")
+        print(f"len(kb_truvals): {len(kb_truvals)}")
+        assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),len(minibatch.kbtrv)) 
+
         minibatch.append(ex)
         
 
@@ -486,8 +498,6 @@ class KB_Iterator(Iterator):
 
     for the moment,
     sorting and shuffling is ignored and not done
-
-
     """
 
     def __init__(self, dataset, kb_dataset, kb_lkp, kb_lens, kb_truvals, sort_key=None, device=None,\

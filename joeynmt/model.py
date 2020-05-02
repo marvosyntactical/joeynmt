@@ -63,7 +63,7 @@ class Model(nn.Module):
         #kb stuff:
         self.kb_embed = self.trg_embed 
         if trv_vocab != None:
-            self.kbtrv_vocab = trv_vocab #TODO should probably be deleted altogether
+            self.trv_vocab = trv_vocab #TODO should probably be deleted altogether
 
         self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
@@ -222,7 +222,7 @@ class Model(nn.Module):
             print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
             print(f"proc_batch: kbvalues: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
 
-            print(f"debug: batch.kbtrv:{self.kbtrv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())}")
+            print(f"debug: batch.kbtrv:{self.trv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())}")
         
         # remove bos, eos tokens
         kb_values = kb_values[:, 1] 
@@ -243,12 +243,7 @@ class Model(nn.Module):
         kb_values.unsqueeze_(0)
         kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous()
         kb_true_vals.unsqueeze_(0)
-
-        try:
-            kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous()
-        except RuntimeError as e:
-            print(kb_true_vals.shape,kb_true_vals)
-            raise e
+        kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous()
 
         print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
         print(f"proc_batch: kbvalues.shape: {kb_values.shape}")
@@ -303,8 +298,6 @@ class Model(nn.Module):
         else:
             knowledgebase = None
 
-        
-
         # greedy decoding
         if beam_size == 0:
             stacked_output, stacked_attention_scores, stacked_kb_att_scores = greedy(
@@ -327,6 +320,52 @@ class Model(nn.Module):
                         bos_index=self.bos_index,
                         decoder=self.decoder,
                         knowledgebase = knowledgebase)
+
+        if knowledgebase != None:
+            with self.Timer("postprocessing hypotheses"):
+                # do kb postprocessing
+                kb = knowledgebase
+                trv = kb[-1]
+
+                # idx knowledgebase:
+                # stacked_output = stacked_output[stacked_output>=self.trg_vocab.canon_onwards]
+                post_proc_stacked_output = []
+                outputs = stacked_output.tolist()
+                for i,hyp in enumerate(outputs):
+                    post_proc_hyp = []
+                    for step,token in enumerate(hyp):
+                        if token >= self.trg_vocab.canon_onwards:
+                            kb_matches = np.where(kb_values[i,0,:] == token)
+                            try:
+                                best_match = np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])
+                            except ValueError as e:
+
+                                print(f"Warning:")
+                                print(f"attempted to replace token {token} during decoding with")
+                                print(f"kb_matches: {kb_matches} and")
+                                print(f"stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
+                                print(f"but np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])")
+                                print(f"found only an empty array...")
+                                print(f"this probably means a canonical token was suggested at random")
+                                # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+                                # TODO big trouble: we can handle this case (False Positives without matching kb token)
+                                # but what about the silent case (False Positives with matching kb token)
+                                # where a best match is selected without deserving it...should still learn anyways?
+                                # FIXME maybe do use intermediate clustering instead
+                                # atm: we rely on attention to disambiguate super low granular clustering
+                                # better: have intermediate clustering trg_vocab_3 with better recall
+                                # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+                                post_proc_hyp.append(token)
+                                continue
+
+                            #assert False, (token, kb_matches, kb_values[i])
+                            replacement = trv[0,best_match].item()
+                            post_proc_hyp.append(replacement)
+                        else:
+                            post_proc_hyp.append(token)
+                    post_proc_stacked_output.append(post_proc_hyp)
+                print(f"run_batch: hyps: {self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
+                stacked_output = np.array(post_proc_stacked_output)
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
 

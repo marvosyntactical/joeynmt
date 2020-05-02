@@ -148,7 +148,9 @@ def validate_on_data(model: Model, data: Dataset,
         print(len(all_outputs))
         print(len(all_outputs[0]))
         # decode back to symbols
-        decoded_valid = model.trg_vocab.arrays_to_sentences(arrays=all_outputs,
+        decoding_vocab = model.trg_vocab if not kb_task else model.trv_vocab
+        
+        decoded_valid = decoding_vocab.arrays_to_sentences(arrays=all_outputs,
                                                             cut_at_eos=True)
 
         # evaluate with metric on full dataset

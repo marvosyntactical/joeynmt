@@ -63,7 +63,7 @@ class Vocabulary:
         self.stoi = defaultdict(DEFAULT_UNK_ID,([(s, true_idx) for true_idx, (s,maybe_true_idx) in enumerate(string_int_tups)]))
 
         print(f"reappending the canonical tokens at end now ...")
-        self.canonical_onwards = len(self.itos)
+        self.canon_onwards = len(self.itos)
         self.add_tokens(tokens=canon_tokens_itos)
         print(f"done vocabulary setup, returning \n")
         #unit test

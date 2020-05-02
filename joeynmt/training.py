@@ -618,6 +618,10 @@ def train(cfg_file: str) -> None:
     trg_vocab_file = "{}/trg_vocab.txt".format(cfg["training"]["model_dir"])
     trg_vocab.to_file(trg_vocab_file)
 
+    if kb_task:
+        trv_vocab_file = "{}/trv_vocab.txt".format(cfg["training"]["model_dir"])
+        trv_vocab.to_file(trv_vocab_file)
+
     # train the model
     trainer.train_and_validate(train_data=train_data, valid_data=dev_data, kb_task=kb_task,\
         train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths, train_kb_truvals=train_kb_truvals,\

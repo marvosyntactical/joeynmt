@@ -91,8 +91,6 @@ def recurrent_greedy(
     if knowledgebase != None:
         kb_att_scores = []
         kb = knowledgebase
-        trv = kb[-1]
-        trv.unsqueeze_(1)
 
     # pylint: disable=unused-variable
     for t in range(max_output_length):
@@ -107,18 +105,6 @@ def recurrent_greedy(
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1,
                 knowledgebase=(kb[0],kb[1]))
-
-            err_msg = f"""\nshould be: batch x 1 x kb:
-                trv: {trv.shape} vs kb_att_probs: {kb_att_probs.shape};
-                trv:
-                {trv}
-                kb_att_probs:
-                {kb_att_probs}"""
-
-            # shape checks
-            assert kb_att_probs.shape[0] == trv.shape[0], err_msg
-            assert kb_att_probs.shape[1] == trv.shape[1], err_msg
-            assert kb_att_probs.shape[2] == trv.shape[2], err_msg
 
         else:
             logits, hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
@@ -306,7 +292,6 @@ def beam_search(
     kb = knowledgebase
     kb_keys = tile(kb[0],size, dim=0)
     kb_values = tile(kb[1],size, dim=0)
-    trv = tile(kb[-1], size, dim=0)
 
     for step in range(max_output_length):
 
