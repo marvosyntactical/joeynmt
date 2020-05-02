@@ -207,45 +207,52 @@ class Model(nn.Module):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
-        kb_true_vals = batch.kbtrv.T.unsqueeze(1).contiguous()
+        kb_true_vals = batch.kbtrv.T.contiguous()
 
         # TODO to save a little time, figure out how to avoid putting eos here
         # during init
         kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src #replace eos with pad # TODO why was this after embed and working before?
 
-        idx = batch.src.shape[0]-1 #print last example
-        
-        
         with self.Timer("converting arrays to sentences for current batch"):
+
+            idx = batch.src.shape[0]-1 #print last example
 
             print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
             print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
             print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
             print(f"proc_batch: kbvalues: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
 
-            print(f"debug: batch.kbtrv.shape:{batch.kbtrv.shape}")
             print(f"debug: batch.kbtrv:{self.kbtrv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())}")
+        
+        # remove bos, eos tokens
+        kb_values = kb_values[:, 1] 
+        kb_true_vals = kb_true_vals[1, :]
+
+        with self.Timer("kb_true_vals checks:"):
             print(f"debug: kb_true_vals :{kb_true_vals.shape}")
-
-
-        kb_values = kb_values[:, 1] # remove bos, eos tokens
+            print(f"debug: kb_true_vals content:{kb_true_vals}")
 
         kb_keys = self.src_embed(kb_keys)
         # NOTE: values dont need to be embedded!
 
         kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
 
-        assert batch.src.shape[0] == batch.trg.shape[0]
 
         kb_keys.unsqueeze_(0)
         kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous()
         kb_values.unsqueeze_(0)
         kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous()
+        kb_true_vals.unsqueeze_(0)
+
+        try:
+            kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous()
+        except RuntimeError as e:
+            print(kb_true_vals.shape,kb_true_vals)
+            raise e
 
         print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
         print(f"proc_batch: kbvalues.shape: {kb_values.shape}")
 
-        # assert len(kb_values) == 2 # TODO super important sanity check unit test:
         # kb_values are most of the time here like so:
         # batch x kb_size # 3 x 33
         # but sometimes have one extra dim???:
@@ -261,6 +268,11 @@ class Model(nn.Module):
         
         print(f"debug: model.trg_embed attributes={dir(self.trg_embed)}")
         """
+        assert_msg = (kb_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
+        #batch equal
+        assert kb_keys.shape[0] == kb_values.shape[0] == kb_true_vals.shape[0], assert_msg
+        #kb equal
+        assert kb_keys.shape[1] == kb_values.shape[1] == kb_true_vals.shape[1], assert_msg
 
         return kb_keys, kb_values, kb_true_vals
 

@@ -85,12 +85,14 @@ def recurrent_greedy(
                                dtype=torch.long)
     output = []
     attention_scores = []
-    kb_att_scores = []
     hidden = None
     prev_att_vector = None
 
-    kb = knowledgebase
-    trv = kb[-1]
+    if knowledgebase != None:
+        kb_att_scores = []
+        kb = knowledgebase
+        trv = kb[-1]
+        trv.unsqueeze_(1)
 
     # pylint: disable=unused-variable
     for t in range(max_output_length):
@@ -105,6 +107,19 @@ def recurrent_greedy(
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1,
                 knowledgebase=(kb[0],kb[1]))
+
+            err_msg = f"""\nshould be: batch x 1 x kb:
+                trv: {trv.shape} vs kb_att_probs: {kb_att_probs.shape};
+                trv:
+                {trv}
+                kb_att_probs:
+                {kb_att_probs}"""
+
+            # shape checks
+            assert kb_att_probs.shape[0] == trv.shape[0], err_msg
+            assert kb_att_probs.shape[1] == trv.shape[1], err_msg
+            assert kb_att_probs.shape[2] == trv.shape[2], err_msg
+
         else:
             logits, hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
                 encoder_output=encoder_output,
@@ -114,19 +129,8 @@ def recurrent_greedy(
                 hidden=hidden,
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1)
+
         # logits: batch x time=1 x vocab (logits)
-
-        # shape checks
-
-        err_msg = f"""\nshould be: batch x 1 x kb:
-            trv: {trv.shape} vs kb_att_probs: {kb_att_probs.shape};
-            trv:
-            {trv}
-            kb_att_probs:
-            {kb_att_probs}"""
-        assert kb_att_probs.shape[0] == trv.shape[0]-1, err_msg
-        assert kb_att_probs.shape[1] == trv.shape[1], err_msg
-        assert kb_att_probs.shape[2] == trv.shape[2], err_msg
         # greedy decoding: choose arg max over vocabulary in each step
         next_word = torch.argmax(logits, dim=-1)  # batch x time=1
         # NOTE: ____________ ^ find idx over ordered vocab embeddings, logits are output of decoder.forward

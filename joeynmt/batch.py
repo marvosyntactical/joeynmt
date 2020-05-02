@@ -126,6 +126,7 @@ class Batch_with_KB:
         self.kbsrc = batch_with_kb.kbsrc[0]
         self.kbtrg = batch_with_kb.kbtrg[0]
         self.kbtrv = batch_with_kb.kbtrv
+        assert self.kbsrc.shape[0] == self.kbtrg.shape[0] == self.kbtrv.shape[0]
 
         if hasattr(batch_with_kb, "trg"):
             trg, trg_lengths = batch_with_kb.trg

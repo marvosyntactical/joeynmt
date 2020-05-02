@@ -72,16 +72,19 @@ def validate_on_data(model: Model, data: Dataset,
         - decoded_valid: raw validation hypotheses (before post-processing),
         - valid_attention_scores: attention scores for validation hypotheses
     """
+
+    print(f"\n{'-'*10} ENTER VALIDATION {'-'*10}\n")
+
     if not kb_task:
         valid_iter = make_data_iter(
             dataset=data, batch_size=batch_size, batch_type=batch_type,
             shuffle=False, train=False)
     else:
         valid_iter = make_data_iter_kb(
-            dataset=data, batch_size=batch_size, batch_type=batch_type,
-            shuffle=False, train=False,
-            kb_data=valid_kb, kb_lkp=valid_kb_lkp, kb_lens=valid_kb_lens,
-            kb_truvals=valid_kb_truvals)
+            data, valid_kb, valid_kb_lkp, valid_kb_lens, valid_kb_truvals,
+            batch_size=batch_size,
+            batch_type=batch_type,
+            shuffle=False, train=False)
 
     valid_sources_raw = data.src
     pad_index = model.src_vocab.stoi[PAD_TOKEN]
@@ -181,6 +184,7 @@ def validate_on_data(model: Model, data: Dataset,
         else:
             current_valid_score = -1
 
+    print(f"\n{'-'*10} EXIT VALIDATION {'-'*10}\n")
     return current_valid_score, valid_loss, valid_ppl, valid_sources, \
         valid_sources_raw, valid_references, valid_hypotheses, \
         decoded_valid, valid_attention_scores, valid_kb_att_scores

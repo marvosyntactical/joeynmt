@@ -38,6 +38,41 @@ class Vocabulary:
             self._from_list(tokens)
         elif file is not None:
             self._from_file(file)
+        
+        print(f"\nrearranging vocabulary to put all strings starting with '@' after self.canonical_onwards in itos\
+             (at the end of vocab) ...")
+        self.canon_start_char = '@' # hardcode this depending on ../data/scripts/{kb|}canonize.py canon_start_char
+        canon_tokens_itos = []
+        i = 0
+        while i < len(self.itos):
+            token = self.itos[i]
+            if token.startswith(self.canon_start_char):
+                popped_token = self.itos.pop(i)
+                del self.stoi[popped_token]
+                canon_tokens_itos.append(popped_token)
+            else:
+                i += 1
+        if len(canon_tokens_itos) == 0:
+            print(f"found no tokens starting with @, returning vocab as is \n")
+            return
+
+        print(f"took some canonical @tokens from vocab, correcting self.stoi now")
+        intermediate_stoi = defaultdict(DEFAULT_UNK_ID)
+        string_int_tups = [(s,i) for s, i in self.stoi.items()]
+        string_int_tups.sort(key=lambda tup: tup[1])
+        self.stoi = defaultdict(DEFAULT_UNK_ID,([(s, true_idx) for true_idx, (s,maybe_true_idx) in enumerate(string_int_tups)]))
+
+        print(f"reappending the canonical tokens at end now ...")
+        self.canonical_onwards = len(self.itos)
+        self.add_tokens(tokens=canon_tokens_itos)
+        print(f"done vocabulary setup, returning \n")
+        #unit test
+        for i,token in enumerate(self.itos):
+            assert i == self.stoi[token]
+        
+        
+
+        
 
     def _from_list(self, tokens: List[str] = None) -> None:
         """

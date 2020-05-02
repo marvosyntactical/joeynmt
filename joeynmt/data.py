@@ -468,9 +468,9 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
             current += kb_len
             
             
-
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
+        assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),[(ex.kbsrc, ex.kbtrg) for ex in minibatch.kb],len(minibatch.kbtrv),[ex.kbtrv for ex in minibatch.kbtrv]) 
         minibatch.append(ex)
         
 

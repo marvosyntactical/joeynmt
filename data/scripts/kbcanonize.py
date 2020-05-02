@@ -61,7 +61,7 @@ def main(args):
 
     f_stump = ".".join(f.split(".")[:-1])+"."
     cluster_ext = "kbc"
-    fp = f_stump + cluster_ext 
+    fp = f_stump + cluster_ext
 
     with open(f, "r") as fine:
         ll = fine.readlines()
@@ -71,6 +71,7 @@ def main(args):
     #code
 
     processed = replace_lines(ll)
+    processed = [line+"\n" for line in processed]
     print(processed[:50])
     with open(fp, "w") as coarse:
         coarse.writelines(processed)
