@@ -46,17 +46,20 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 
 This is a general list of minor technical TODOs that can be done without thinking. 
 
-* look at torchtext.dataset.sort\_key within load\_data: are my batch attributes shuffled during train/val/test???
-* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data (not important since vocab is small now)
 * fix kbtrv:
 * fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
-* understand empty hypotheses: is \<eos\> really MLE token?
-* understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos?
+* understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos? 
+  * (decoder does stop on eos in latest joeynmt commit)
 * find out what shuffle in training data means: intra or supra batch?
+  * -> intra batch of course
 * import and use tensorboard writer again
-* fix beam search for decoding
 * batch convos with same kb together; ! filter unvalued entries !
 * traffic info: default category in this domain: poi\_type, not poi!
+
+####### Optimization
+* rewrite model.run\_batch post processing to use numpy funs instead of double for
+* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data 
+  * -> (not important since vocab is small now)
 
 
 

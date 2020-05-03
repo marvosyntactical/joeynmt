@@ -336,11 +336,12 @@ class Model(nn.Module):
                     post_proc_hyp = []
                     for step,token in enumerate(hyp):
                         if token >= self.trg_vocab.canon_onwards:
+                            # TODO get kb_matches without for loops
+                            # kb_matches_no_for = np.where(np_kb_values[:,0,:] == np.where(stacked_output >= self.trg_vocab.canon_onwards, stacked_output, -1))
                             kb_matches = np.where(np_kb_values[i,0,:] == token)
                             try:
                                 best_match = np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])
                             except ValueError as e:
-
                                 print(f"Warning:")
                                 print(f"attempted to replace token {token} during decoding with")
                                 print(f"kb_matches: {kb_matches} and")

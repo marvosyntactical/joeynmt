@@ -145,14 +145,16 @@ def validate_on_data(model: Model, data: Dataset,
             valid_loss = -1
             valid_ppl = -1
 
-        print(len(all_outputs))
-        print(len(all_outputs[0]))
         # decode back to symbols
+        #TODO 
+        """
         decoding_vocab = model.trg_vocab if not kb_task else model.trv_vocab
         
         decoded_valid = decoding_vocab.arrays_to_sentences(arrays=all_outputs,
                                                             cut_at_eos=True)
-
+        """
+        decoded_valid = model.trv_vocab.arrays_to_sentences(arrays=all_outputs,
+                                                            cut_at_eos=True)
         # evaluate with metric on full dataset
         join_char = " " if level in ["word", "bpe"] else ""
         valid_sources = [join_char.join(s) for s in data.src]
