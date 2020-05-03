@@ -110,7 +110,9 @@ fi
 # execute sbatch:
 sbatch $sbatch
 echo
-sqk
+squeue
+echo
+echo model can be found under $model_path$model_dir
 
 echo 
 echo "==========================================================================="

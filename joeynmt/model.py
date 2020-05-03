@@ -326,6 +326,7 @@ class Model(nn.Module):
                 # do kb postprocessing
                 kb = knowledgebase
                 trv = kb[-1]
+                np_kb_values = kb_values.cpu().numpy()
 
                 # idx knowledgebase:
                 # stacked_output = stacked_output[stacked_output>=self.trg_vocab.canon_onwards]
@@ -335,7 +336,7 @@ class Model(nn.Module):
                     post_proc_hyp = []
                     for step,token in enumerate(hyp):
                         if token >= self.trg_vocab.canon_onwards:
-                            kb_matches = np.where(kb_values[i,0,:] == token)
+                            kb_matches = np.where(np_kb_values[i,0,:] == token)
                             try:
                                 best_match = np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])
                             except ValueError as e:
