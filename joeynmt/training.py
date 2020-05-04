@@ -421,7 +421,6 @@ class TrainManager:
                         self.logger.info(f"stored {plot_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")
- 
                 if self.stop:
                     break
             if self.stop:
