@@ -39,7 +39,7 @@ then
 	echo "Found $config, resuming ..."
 
 else
-	echo "$name does not exist. Please create a config file in $cfg_path and name if $name$cfg_ext, then execute this script again :)"
+	echo "$name does not exist. Please create this config file: $cfg_path$name$cfg_ext, then execute this script again ;)"
 	exit 1
 fi
 
