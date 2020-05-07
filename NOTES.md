@@ -62,8 +62,6 @@ This is a general list of minor technical TODOs that can be done without thinkin
   * -> (not important since vocab is small now)
 
 
-
-
 ## _```Current Issues```_:
 
 ### 19.04.20 canonize target to same resolution as kb values 

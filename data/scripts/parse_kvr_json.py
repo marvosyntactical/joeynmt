@@ -67,27 +67,28 @@ def main(args):
         convo_car += car_part
         scenario_lkp += scenario_part
     
-    train_usr, train_car = splitpart+".usr", splitpart+".car"
+    train_usr, train_car = splitpart+".usrNEW", splitpart+".carNEW"
 
     with open(directory+train_usr, "w") as usr, open(directory+train_car, "w") as car:
         usr.write(convo_usr)
         car.write(convo_car)
 
+    # for normalize scenarios.py
     scenariofile = "scenarios_"+splitpart+".json"
 
     with open(directory+scenariofile, "w") as scenes:
         json.dump(scenarios, scenes, indent=4)
 
-    scenario_lkp_file = "scenario_lkp_"+splitpart+".txt"
+    # for data.py minibatch
+    scenario_lkp_file = splitpart+".lkpNEW"
 
     with open(directory+scenario_lkp_file, "w") as lkp:
         lkp.write(scenario_lkp)
-    
-    unanswered_file = "unanswered_"+splitpart+".txt"
+
+    unanswered_file = splitpart+".noansNEW"
 
     with open(directory+unanswered_file, "w") as unan:
         unan.write(unanswered) #user thanks etc that were never answered
-    
 
     return 0
 

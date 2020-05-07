@@ -15,7 +15,7 @@ def normalize_kb(d):
     if d["kb"]["items"] is None:
         return []
     
-    return eval("normalize_{}(d)".format(intent)) #practice not advised
+    return eval("normalize_{}(d)".format(intent))
 
 
 def normalize_weather(d):
@@ -114,6 +114,7 @@ def main(args):
             dev.len: kb lengths line by line
         -> look at torchtext.data.Iterator kwarg batch_size_fn to see if possible
     """
+
     #line formatted normalized kb
     filestamm = filename.split(".")[0]
     ext = "kb"
@@ -129,10 +130,14 @@ def main(args):
     # according to 
     # * dev.lkp 
 
-    lengths = "len"
+    lengths = "lenCorr"
     save_lengths = filestamm + "." + lengths
     with open(directory+save_lengths, "w") as l:
         l.writelines(lens)
+
+
+
+
     return 0
 
 if __name__ == "__main__":
