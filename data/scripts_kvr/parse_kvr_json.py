@@ -30,10 +30,9 @@ def main(args):
     with open(directory+filename, "r") as f:
         data= json.load(f)
 
-    
     settings=[]
     scenarios=[]
-    
+
     for idx, setting in enumerate(data):
         dialogue = setting["dialogue"]
         scenario = setting["scenario"]
@@ -50,14 +49,14 @@ def main(args):
 
     unanswered = ""
     scenario_lkp = ""
-    convo_usr, convo_car = "","" 
+    convo_usr, convo_car = "",""
     for idx, elem in enumerate(settings):
         if len(elem)%2==1:
             unanswered+=elem[-1]+"\n"
             elem = elem[:-1] 
         nturns = len(elem)
         assert nturns%2==0
-        usr_part = historify_src(elem) 
+        usr_part = historify_src(elem)
         car_part = "\n".join([e for i,e in enumerate(elem) if i%2==1])+"\n"
         scenario_part = (str(idx)+"\n")*(nturns//2)
         if usr_part.strip() =="" or car_part.strip()=="" or scenario_part.strip()=="": continue
@@ -66,7 +65,7 @@ def main(args):
         convo_usr += usr_part
         convo_car += car_part
         scenario_lkp += scenario_part
-    
+
     train_usr, train_car = splitpart+".usrNEW", splitpart+".carNEW"
 
     with open(directory+train_usr, "w") as usr, open(directory+train_car, "w") as car:
@@ -74,7 +73,7 @@ def main(args):
         car.write(convo_car)
 
     # for normalize scenarios.py
-    scenariofile = "scenarios_"+splitpart+".json"
+    scenariofile = "scenarios_"+splitpart+"_NEW.json"
 
     with open(directory+scenariofile, "w") as scenes:
         json.dump(scenarios, scenes, indent=4)

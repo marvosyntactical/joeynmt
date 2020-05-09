@@ -14,7 +14,7 @@ def normalize_kb(d):
     intent = d["task"]["intent"]
     if d["kb"]["items"] is None:
         return []
-    
+
     return eval("normalize_{}(d)".format(intent))
 
 
@@ -113,11 +113,12 @@ def main(args):
             dev.kb: kb items line by line, all knowledgebases one after another
             dev.len: kb lengths line by line
         -> look at torchtext.data.Iterator kwarg batch_size_fn to see if possible
+
     """
 
     #line formatted normalized kb
     filestamm = filename.split(".")[0]
-    ext = "kb"
+    ext = "kbNEW"
     save_as = filestamm+"."+ext
     with open(directory+save_as, "w") as o:
         o.writelines(kb_list)
@@ -130,7 +131,7 @@ def main(args):
     # according to 
     # * dev.lkp 
 
-    lengths = "lenCorr"
+    lengths = "lenNEW"
     save_lengths = filestamm + "." + lengths
     with open(directory+save_lengths, "w") as l:
         l.writelines(lens)

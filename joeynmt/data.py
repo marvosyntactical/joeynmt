@@ -9,6 +9,7 @@ import os
 import os.path
 from typing import Optional, List
 from copy import deepcopy
+from pprint import pprint
 
 from torchtext.datasets import TranslationDataset
 from torchtext import data
@@ -455,36 +456,62 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
     minibatch = KB_minibatch()
     current = 0
     corresponding_kb = 0
+    kb_len = 0
 
     for i, ex in enumerate(data):
-        last_kb = corresponding_kb
-        corresponding_kb = kb_lkp[i]
-        kb_len = kb_lens[corresponding_kb]
+        print(f"batch_with_kb: loop begin current index in train.kb(.*): {current}")
 
-        if kb_lkp[i] != last_kb:
-            #assert False, ([i.kbsrc for i in minibatch.kb],\
-            #    [i.kbtrv for i in  minibatch.kbtrv])
+        last_corresponding_kb = corresponding_kb
+        corresponding_kb = kb_lkp[i]
+
+        if corresponding_kb != last_corresponding_kb:
+
             yield minibatch
             minibatch = KB_minibatch()
+            print(f"batch_with_kb: adding {kb_len} to current {current}")
             current += kb_len
             
-            
+        kb_len = kb_lens[corresponding_kb]
+
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
 
-        print()
-        print(f"minibatch.kb: {len(minibatch.kb)}")
-        print(f"minibatch.kb: {[(ex.kbsrc, ex.kbtrg) for ex in minibatch.kb]}")
-        print(f"minibatch.kbtrv: {len(minibatch.kbtrv)}")
-        print(f"minibatch.kbtrv: {[ex.kbtrv for ex in minibatch.kbtrv]}")
-        print()
-        print(f"current: {current}")
-        print(f"len(kb_data): {len(kb_data)}")
-        print(f"len(kb_truvals): {len(kb_truvals)}")
         assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),len(minibatch.kbtrv)) 
 
         minibatch.append(ex)
-        
+
+        """
+        #debug:
+        previous_kb_len = kb_lens[last_corresponding_kb] 
+        previous_kb = kb_data[current-previous_kb_len:current]
+        previous_trv = kb_truvals[current-previous_kb_len:current]
+
+        print()
+        print(f"minibatch.kb length: {len(minibatch.kb)}")
+        print(f"minibatch.kb:")
+        pprint([(entry.kbsrc, entry.kbtrg, tru.kbtrv) for entry, tru in zip(minibatch.kb,minibatch.kbtrv)], width=110)
+        print()
+        print(f"minibatch.src/trg: {(ex.src, ex.trg)}")
+        print()
+        print("batch_with_kb: current, kb_len, current+kb_len: ",current, kb_len,current+kb_len)
+        print()
+        print(f"previous minibatch was this long: {len(previous_kb)}")
+        print(f"previous minibatch should have been:")
+        pprint([(entry.kbsrc, entry.kbtrg, tru.kbtrv) for entry, tru in zip(previous_kb,previous_trv)], width=110)
+        print()
+        """
+
+        # assert i+1 < 55, "<^ check out this line in data/kvr/{train|dev}.lkp, which says e.g. 24, then do 'head -n 24 train.len | awk '{s+=$1} END {print s}'"
+        """
+        FIXME: there seems to be an overlap between some knowledgebases, e.g. in train.lkp:
+        v CORRECT, PIZZA CHICAGO BELONGS HERE v
+        line 54 -> kb #22 -> train.kb[756:756+32=788] (32 is line #22+1 in train.len; 756 result of above awk command (sum lines 0-22))
+        v WRONG, PIZZA CHICAGO DOESNT BELONG HERE v
+        line 55 -> kb #23 -> train.kb[784:784+28=812] (28 is line #23+1 in train.len; 788 result of above awk command!!!!!!) <- FIXME NOTE TODO
+
+        NOTE:
+        Fixed problem: moved kb_len assignment after minibatch yield; now taking the length of the current knowledgebase, not the length of the next one...
+        """
 
     if minibatch:
         yield minibatch

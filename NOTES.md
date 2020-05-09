@@ -64,6 +64,15 @@ This is a general list of minor technical TODOs that can be done without thinkin
 
 ## _```Current Issues```_:
 
+
+### 08.05.20 debug kb batch matchup
+
+batches have random kbs??
+look in:
+* data.batch\_with\_kb
+* preproc: data/scripts\_kvr/ parse\_kvr\_json.py and normalize\_scenarios.py
+
+
 ### 19.04.20 canonize target to same resolution as kb values 
 
 * for kvr\_attention to learn, its output like meeting\_time must be contained in the same form in target sequences; in the training data they occur as e.g. "4", "pm" though!
