@@ -12,4 +12,5 @@ runs/*
 sacrebleu/*
 sbatch/*
 srunz/*
+print_debug/*
 
