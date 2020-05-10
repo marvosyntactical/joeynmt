@@ -6,7 +6,6 @@ import json
 from collections import defaultdict
 
 
-    
 # tokenization function from joeynmt data:
 
 def pkt_tokenize(s)-> List:
@@ -28,7 +27,7 @@ def pkt_tokenize(s)-> List:
         else:
             if c in pkt:#word finished infront of next pkt; also add pkt as token
                 num_flag = False
-                token = "".join(curr)  
+                token = "".join(curr)
                 r += [token]
                 curr = []
             elif c in num:
@@ -55,7 +54,7 @@ class DefaultFactory:
 def load_entity_dict(fp="../kvr/kvret_entities.json"):
     with open(fp, "r") as file:
         entities = json.load(file)
-    return entities 
+    return entities
 
 
 def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[str,str]]]]={}, lower=True, tok_fun=lambda s:s.split()) -> defaultdict:
@@ -63,7 +62,7 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
     input (ent_d) dictionary:
 
     processes entity dict read from entities.json into very weird dictionary:
-    
+
     keys are first tokens in input dictionary value string lists;
     values are dictionaries: keys are labels, values are 2D lists; inner lists contain continuations of
     they top level key as token lists, possibly empty
@@ -74,7 +73,7 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
     "the": {"@date": [["13th"], ["15th"]], "@poi_name": [["grand", "hotel"]]}
 
     if input dictionary value contains list of dictionaries (e.g. poi info with multiple dictionary entries: address, poi, type), output looks like this:
-    
+
     "593": {"poi", [["Arrowhead", "Way]]}
     "Chef": {"poi", [["Chu's"]]}
     "chinese": {"poi", [["restaurant"]]}
@@ -86,18 +85,15 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
         tokenized_entity = tokenizer(cased_entry) #list of strings
 
         classification = "@"+label+suffix # e.g. @poi_name or @distance
-        
         key, continuation = tokenized_entity.pop(0), tokenized_entity
-        
+
         # hardcode 'the' and 'a' duplication for select classes/labels:
         if classification == "@temperature":
             suffixes = ["f"]#a hospital should also match
             if key not in suffixes: # break recursion
                 for suffix in suffixes:
                     modified_entry = entry+" "+suffix
-                    assert False, modified_entry
 
-                    
                     # recurse with added article:
                     add_entry_to_dict(dictionary, modified_entry, label, lowerize, tokenizer, suffix, default)
 
@@ -131,7 +127,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     Efficiently canonize with values in dict
     (search further ahead if a token matches first word in canon string)
     """
-    stopwords = ["the"]
+    stopwords = ["the", "no"]
     r = []
     i = 0
     while i < len(seq):
@@ -175,14 +171,14 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                     r += [lbl]
                     i += upto-1
             else:
-                assert RuntimeError("This shouldnt happen") 
+                assert RuntimeError("This shouldnt happen")
             print(f"Made entity classification for seq up to here:\n\
-                {seq[:i+j+1]};\ncandidates are:\n\
-                {candidates};\npartial matches are:\n\
-                {partial_matches};\nchoice is:\n\
-                {(winning_candidate, lbl)};\nr is:\n{r}")
+                    {seq[:i+j+1]};\ncandidates are:\n\
+                    {candidates};\npartial matches are:\n\
+                    {partial_matches};\nchoice is:\n\
+                    {(winning_candidate, lbl)};\nr is:\n{r}")
         else:
-            r += [token]
+            r += [token] # dont replace the token, theres no match, just add the token to the result
         i += 1
     print("\n"+("="*40))
     print(f"\tFinished up Sequence\n{seq}\nand transformed it to\n{r}")
@@ -220,10 +216,9 @@ def main(args):
     canonized_seqs = canonize_sequences(gold_standard, efficient_entities)
     output = [" ".join(out)+"\n" for out in canonized_seqs]
 
-    output_ext = ".carnon"
+    output_ext = ".carno"
     with open(directory+filestub+output_ext, "w") as out:
         out.writelines(output)
-        
 
 
     return 0
