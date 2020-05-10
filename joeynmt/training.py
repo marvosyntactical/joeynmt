@@ -543,7 +543,12 @@ class TrainManager:
             if p >= len(sources):
                 continue
 
-            self.logger.info("Example #%d", p)
+            try:
+                self.logger.info("Example #%d", p)
+            except Exception as e:
+                self.logger.info("Example #%d", "Encountered an Error while logging this example: "+str(e))+"; going to next example"
+                print(f"encountered an Error ({e})while logging this example:  {p}")
+                continue
 
             if sources_raw is not None:
                 self.logger.debug("\tRaw source:     %s", sources_raw[p])
