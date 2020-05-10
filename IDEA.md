@@ -1,5 +1,5 @@
 # Ideas
-After reimplementing Eric et al (2017) and transferring the central idea to transformers (Vaswani et al. 2017) it's sensible to start thinking about possible contributions in this work. Those could be one or several of:
+After reimplementing Eric et al (2017) and transferring the central idea to transformers (Vaswani et al. 2017) it's time to start thinking about possible contributions in this work. Those could be one or several of:
 
 
 1. Dialogue joint knowledge task
@@ -30,13 +30,17 @@ After reimplementing Eric et al (2017) and transferring the central idea to tran
 Is there a way to enlargen the dataset for specific subtasks, e.g. to get more data for the calendar entry making task?
 
 
-4. Other database operations via soft attention
-The key value retrieval attention is an implementation of the database operation "search/retrieve". Could other database operations be implemented with soft attention?
+4. How scalable is the knowledgebase?
+The main reason the authors probably kept the knowledgebase small was to make the task doable for turkers.
+The task should still be doable (only take more time) if we inject knowledgebases with more (irrelevant?) examples (from the other knowledgebases in the dataset.) Explore how far we can go with this.
 
+
+5. Other database operations via soft attention
+The key value retrieval attention is an implementation of the database operation "search/retrieve". Could other database operations be implemented with soft attention?
 These would be:
 
 * Save: make new kb tensor entry: somehow find out which tokens in source should be summed to be the key, and which should be value. Since value is taken from source, target vocab must be subset of source vocab (best be the same for lookup table match...). Can attention learn which entries need to be made? The knowledgebase would need a training signal. Could e.g. make the model spit out newly saved key value pairs after EOS or some other special token; and add the correct key value pairs to the the target sequences 
-* Change: two step process: find corresponding entry and replace: 1.search 2. delete 3. save
+* Change: three step process: find corresponding key and as above, figure out what the new value is and replace that value: 1.search 2. delete 3. save
 * Delete: probably dont remove entry from kb tensor, instead replace with some sort of default token or add delete encoding to entry
 
 In order for an attention to learn to correctly update the database with the above operations we need training data that gives info about updated data: 
