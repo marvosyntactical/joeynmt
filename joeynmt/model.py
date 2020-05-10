@@ -343,7 +343,7 @@ class Model(nn.Module):
                 b,u,_ = stacked_kb_att_scores.shape
                 B = np.arange(b)[:,np.newaxis,np.newaxis]
                 U = np.arange(u)[np.newaxis,:,np.newaxis]
-                topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk+1:-1].copy()
+                topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1].copy()
 
                 # remember to tile kb_trv: batch x kb => batch x time x kb
                 kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
@@ -351,8 +351,8 @@ class Model(nn.Module):
                 topk_kb_vals = kb_trv[B,U,topk_kb_indexer]
 
                 # TODO probably infeasible because for all time steps 
-                print(f"run_batch: top {topk} attended tokens in knowledgebase: {[self.trv_vocab.arrays_to_sentences(example) for example in topk_kb_vals.tolist()]}")
-                print(f"run_batch: top {topk} attended logits in knowledgebase: {np.sort(stacked_kb_att_scores)[:,:,:kb_length-topk+1:-1]}")
+                print(f"\nrun_batch: top {topk} attended tokens in knowledgebase: {[self.trv_vocab.arrays_to_sentences(example) for example in topk_kb_vals.tolist()]}")
+                print(f"\nrun_batch: top {topk} attended logits in knowledgebase: {np.sort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1]}\n")
 
                 for i,hyp in enumerate(outputs):
                     post_proc_hyp = []
@@ -371,7 +371,7 @@ class Model(nn.Module):
                                 print(f"but np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])")
                                 print(f"found only an empty array...")
                                 print(f"! this probably means a canonical token was suggested at random !")
-                                print(f"sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
+                                print(f"failure sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
                                 # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
                                 # TODO big trouble: we can handle this case (False Positives without matching kb token)
                                 # but what about the silent case (False Positives with matching kb token)
@@ -387,7 +387,7 @@ class Model(nn.Module):
                             replacement = kb_trv[0,step,best_match].item()
                             post_proc_hyp.append(replacement)
                             print(f"run_batch: Success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
-                            print(f"sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
+                            print(f"success sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
                         else:
                             post_proc_hyp.append(token)
                     post_proc_stacked_output.append(post_proc_hyp)

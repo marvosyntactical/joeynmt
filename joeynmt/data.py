@@ -459,7 +459,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
     kb_len = 0
 
     for i, ex in enumerate(data):
-        print(f"batch_with_kb: loop begin current index in train.kb(.*): {current}")
+        #print(f"batch_with_kb: loop begin current index in train.kb(.*): {current}")
 
         last_corresponding_kb = corresponding_kb
         corresponding_kb = kb_lkp[i]
@@ -468,7 +468,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
 
             yield minibatch
             minibatch = KB_minibatch()
-            print(f"batch_with_kb: adding {kb_len} to current {current}")
+            #print(f"batch_with_kb: adding {kb_len} to current {current}")
             current += kb_len
             
         kb_len = kb_lens[corresponding_kb]
