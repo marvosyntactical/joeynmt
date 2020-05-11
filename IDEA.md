@@ -47,5 +47,11 @@ In order for an attention to learn to correctly update the database with the abo
 
 * half of the "scheduling" domain in the KVR dataset uses the slots tracking! should be about 500 examples, in one third of which updates should actually happen, so ~150 examples
 
+6. take a look once again at sequence to query transducers
+
+* [WikiSQL Task/Dataset](https://github.com/lukovnikov/WikiSQL)
+* [Seq2SQL (2017)](https://arxiv.org/abs/1709.00103)
+* [TypeSQL (2018)](https://arxiv.org/abs/1804.09769)
+
 
 
