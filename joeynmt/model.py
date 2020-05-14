@@ -16,7 +16,7 @@ import torch.nn.functional as F
 from joeynmt.initialization import initialize_model
 from joeynmt.embeddings import Embeddings
 from joeynmt.encoders import Encoder, RecurrentEncoder, TransformerEncoder
-from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, TransformerDecoder
+from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, TransformerDecoder, Generator
 from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN
 from joeynmt.search import beam_search, greedy
 from joeynmt.vocabulary import Vocabulary
@@ -33,6 +33,7 @@ class Model(nn.Module):
     def __init__(self,
                  encoder: Encoder,
                  decoder: Decoder,
+                 generator: nn.Module,
                  src_embed: Embeddings,
                  trg_embed: Embeddings,
                  src_vocab: Vocabulary,
@@ -56,6 +57,7 @@ class Model(nn.Module):
         self.trg_embed = trg_embed
         self.encoder = encoder
         self.decoder = decoder
+        self.generator = generator
         self.src_vocab = src_vocab
         self.trg_vocab = trg_vocab
         self.bos_index = self.trg_vocab.stoi[BOS_TOKEN] #TODO find out when these are used
@@ -72,10 +74,9 @@ class Model(nn.Module):
         self.Timer = Timer()
 
 
-
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
-                src_lengths: Tensor, trg_mask: Tensor = None, knowledgebase=None) -> (
+                src_lengths: Tensor, trg_mask: Tensor = None, kb_keys: Tensor = None) -> (
         Tensor, Tensor, Tensor, Tensor, Tensor):
         """
         First encodes the source sentence.
@@ -92,16 +93,13 @@ class Model(nn.Module):
                                                      src_length=src_lengths,
                                                      src_mask=src_mask)
         unroll_steps = trg_input.size(1)
-        print("decoder.forward() unroll_steps in model.forward")
-        print(f"is {unroll_steps}, which is 1st dim of trg_input={trg_input.shape}")
-        print(f"batch.trg_input: {self.trg_vocab.arrays_to_sentences(trg_input)[-1]}")
-        
+
         return self.decode(encoder_output=encoder_output,
                            encoder_hidden=encoder_hidden,
                            src_mask=src_mask, trg_input=trg_input,
                            unroll_steps=unroll_steps,
                            trg_mask=trg_mask,
-                           knowledgebase=knowledgebase) #tuple of kbsrc, kbtrg
+                           kb_keys=kb_keys)
 
     def encode(self, src: Tensor, src_length: Tensor, src_mask: Tensor) \
         -> (Tensor, Tensor):
@@ -118,7 +116,7 @@ class Model(nn.Module):
     def decode(self, encoder_output: Tensor, encoder_hidden: Tensor,
                src_mask: Tensor, trg_input: Tensor,
                unroll_steps: int, decoder_hidden: Tensor = None,
-               trg_mask: Tensor = None, knowledgebase=None) \
+               trg_mask: Tensor = None, kb_keys: Tensor = None) \
         -> (Tensor, Tensor, Tensor, Tensor):
         """
         Decode, given an encoded source sentence.
@@ -132,7 +130,7 @@ class Model(nn.Module):
         :param trg_mask: mask for target steps
         :return: decoder outputs (outputs, hidden, att_probs, att_vectors)
         """
-        if knowledgebase == None:
+        if kb_keys == None:
             assert False
             return self.decoder(trg_embed=self.trg_embed(trg_input),
                             encoder_output=encoder_output,
@@ -149,7 +147,7 @@ class Model(nn.Module):
                             unroll_steps=unroll_steps,
                             hidden=decoder_hidden,
                             trg_mask=trg_mask,
-                            knowledgebase=knowledgebase)
+                            kb_keys=kb_keys)
 
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module) \
@@ -164,10 +162,11 @@ class Model(nn.Module):
         """
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"):
-            out, hidden, att_probs, _ = self.forward(
+            hidden, att_probs, _, _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
+            kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None
         else:
             assert batch.kbsrc != None
 
@@ -178,13 +177,16 @@ class Model(nn.Module):
             print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
 
             kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
-            knowledgebase = (kb_keys, kb_values)
 
             with self.Timer("model fwd pass"):
-                out, hidden, att_probs, _, _ = self.forward(
+                hidden, att_probs, att_vectors, kb_probs = self.forward(
                     src=batch.src, trg_input=batch.trg_input,
                     src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                    trg_mask=batch.trg_mask, knowledgebase=knowledgebase)
+                    trg_mask=batch.trg_mask, kb_keys=kb_keys)
+        
+        # pass att_vectors through Generator
+
+        out = self.generator(att_vectors, kb_values=kb_values, kb_probs=kb_probs)
 
         # compute log probs
         log_probs = F.log_softmax(out, dim=-1)
@@ -193,7 +195,7 @@ class Model(nn.Module):
         # Latest TODO: decode to sentences for debugging:
         mle_tokens = argmax(log_probs, dim=-1)
         mle_tokens = mle_tokens.cpu().numpy()
-        print(mle_tokens.shape)
+
         print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
         # ----- debug
 
@@ -295,7 +297,7 @@ class Model(nn.Module):
 
         if hasattr(batch, "kbsrc"):
             kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
-            knowledgebase = (kb_keys, kb_values, kb_trv)
+            knowledgebase = (kb_keys, kb_values)
         else:
             knowledgebase = None
 
@@ -305,13 +307,15 @@ class Model(nn.Module):
                     encoder_hidden=encoder_hidden,
                     encoder_output=encoder_output,
                     src_mask=batch.src_mask, embed=self.trg_embed,
-                    bos_index=self.bos_index, decoder=self.decoder,
+                    bos_index=self.bos_index, decoder=self.decoder, generator=self.generator,
                     max_output_length=max_output_length,
                     knowledgebase = knowledgebase)
             # batch, time, max_src_length
         else:  # beam size
             stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
                     beam_search(
+                        decoder=self.decoder,
+                        generator=self.generator,
                         size=beam_size, encoder_output=encoder_output,
                         encoder_hidden=encoder_hidden,
                         src_mask=batch.src_mask, embed=self.trg_embed,
@@ -319,7 +323,6 @@ class Model(nn.Module):
                         alpha=beam_alpha, eos_index=self.eos_index,
                         pad_index=self.pad_index,
                         bos_index=self.bos_index,
-                        decoder=self.decoder,
                         knowledgebase = knowledgebase)
 
         if knowledgebase != None:
@@ -511,10 +514,16 @@ def build_model(cfg: dict = None,
             decoder = KeyValRetRNNDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
+    
+    # specify generator which is mostly output layer
+    generator = Generator(
+        cfg["decoder"]["hidden_size"],
+        len(trg_vocab)
+    )
 
 
 
-    model = Model(encoder=encoder, decoder=decoder,
+    model = Model(encoder=encoder, decoder=decoder, generator=generator,
                   src_embed=src_embed, trg_embed=trg_embed,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
                   trv_vocab=trv_vocab)

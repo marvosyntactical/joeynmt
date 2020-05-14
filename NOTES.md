@@ -64,6 +64,11 @@ This is a general list of minor technical TODOs that can be done without thinkin
 
 ## _```Current Issues```_:
 
+### 14.05.20 switch to generator
+
+in preparation if implementing the transformer version, adapt generator style of decoder:
+
+at the end of decoder forward pass, a generator class functions as the output layer
 
 ### 08.05.20 debug kb batch matchup
 

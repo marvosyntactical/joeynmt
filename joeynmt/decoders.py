@@ -11,6 +11,7 @@ import numpy as np # TODO remove!
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch import Tensor, cat
 from joeynmt.attention import BahdanauAttention, LuongAttention, KeyValRetAtt
 from joeynmt.encoders import Encoder
@@ -20,9 +21,26 @@ from joeynmt.transformer_layers import PositionalEncoding, \
 
 
 # pylint: disable=abstract-method
+class Gen(nn.Module):
+    """
+    Base generator class
+    (used to be base decoder class before adding unifying generator at end)
+    """
+
+    @property
+    def output_size(self):
+        """
+        Return the output size (size of the target vocabulary)
+
+        :return:
+        """
+        return self._output_size
+
+# pylint: disable=abstract-method
 class Decoder(nn.Module):
     """
-    Base decoder class
+    Base generator class
+    (used to be base decoder class before adding unifying generator at end)
     """
 
     @property
@@ -35,9 +53,10 @@ class Decoder(nn.Module):
         return self._output_size
 
 
+
 # pylint: disable=arguments-differ,too-many-arguments
 # pylint: disable=too-many-instance-attributes, unused-argument
-class RecurrentDecoder(Decoder):
+class RecurrentDecoder(nn.Module):
     """A conditional RNN decoder with attention."""
 
     def __init__(self,
@@ -105,7 +124,6 @@ class RecurrentDecoder(Decoder):
         self.att_vector_layer = nn.Linear(
             hidden_size + encoder.output_size, hidden_size, bias=True)
 
-        self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
         self._output_size = vocab_size
 
         if attention == "bahdanau":
@@ -380,9 +398,7 @@ class RecurrentDecoder(Decoder):
         # att_vectors: batch, unroll_steps, hidden_size
         att_probs = torch.cat(att_probs, dim=1)
         # att_probs: batch, unroll_steps, src_length
-        outputs = self.output_layer(att_vectors)
-        # outputs: batch, unroll_steps, vocab_size
-        return outputs, hidden, att_probs, att_vectors, None
+        return hidden, att_probs, att_vectors, None
 
     def _init_hidden(self, encoder_final: Tensor = None) \
             -> (Tensor, Optional[Tensor]):
@@ -563,7 +579,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param prev_embed:
         :param prev_att_vector:
         :param kb_keys:
-        :param kb_values:
         :param encoder_output:
         :param src_mask:
         :param hidden:
@@ -588,7 +603,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                     encoder_output: Tensor,
                                     encoder_hidden: Tensor,
                                     kb_keys: Tensor,
-                                    kb_values: Tensor,
                                     src_mask: Tensor,
                                     hidden: Tensor = None,
                                     prev_att_vector: Tensor = None) -> None:
@@ -599,16 +613,10 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param trg_embed:
         :param encoder_output:
         :param encoder_hidden:
-        :param knowledgebase:
         :param src_mask:
         :param hidden:
         :param prev_att_vector:
         """
-        if not (isinstance(kb_keys, type(None)) or isinstance(kb_values, type(None))):
-            assert kb_keys.shape[:1] == kb_values.shape[:1], f"size mismatch between\
-                kb_keys={kb_keys.shape} and kb_values = {kb_values.shape}"
-            #assert kb_keys.shape[0] == kb_values.shape[0] == src_mask.shape[0],\
-            #[obj.shape for obj in [kb_keys, kb_values, src_mask]]
 
         assert len(encoder_output.shape) == 3
         assert len(encoder_hidden.shape) == 2
@@ -646,7 +654,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             shape (batch_size, 1, embed_size)
         :param prev_att_vector: previous attention vector,
             shape (batch_size, 1, hidden_size)
-        :param knowledgebase: kb associated with batch,
+        :param kb_keys: knowledgebase keys associated with batch
         :param encoder_output: encoder hidden states for attention context,
             shape (batch_size, src_length, encoder.output_size)
         :param src_mask: src mask, 1s for area before <eos>, 0s elsewhere
@@ -724,7 +732,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 unroll_steps: int,
                 hidden: Tensor = None,
                 prev_att_vector: Tensor = None,
-                knowledgebase: Tuple = None,
+                kb_keys: Tensor = None,
                 **kwargs) \
             -> (Tensor, Tensor, Tensor, Tensor):
         """
@@ -757,9 +765,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             shape (batch_size, src_length, encoder.output_size)
         :param encoder_hidden: last state from the encoder,
             shape (batch_size x encoder.output_size)
-        :param knowledgebase: knowledgebase associated with batch
-            knowledgebase[0]: batch.kbsrc: m x max_key_len
-            knowledgebase[1]: batch.kbtrg: m x 1
+        :param kb_keys: knowledgebase keys associated with batch
+            knowledgebase[0]: batch.kbsrc: kb_size x 1
         :param src_mask: mask for src states: 0s for padded areas,
             1s for the rest, shape (batch_size, 1, src_length)
         :param unroll_steps: number of steps to unrol the decoder RNN
@@ -779,14 +786,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             - kb_probs: kb att probabilities
                 with shape (batch_size, unroll_steps, kb_size)
         """
-        if knowledgebase != None:
-            kb_keys, kb_values = knowledgebase
 
-        else:
-            assert False 
-            kb_keys, kb_values = None, None
-            
-        print(f"decoder.forward call with src_mask={src_mask.shape} and kb_keys={kb_keys.shape}")
+        if kb_keys is not None:
+            print(f"decoder.forward call with src_mask={src_mask.shape} and kb_keys={kb_keys.shape}")
 
         # shape checks
         self._check_shapes_input_forward(
@@ -794,7 +796,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
             kb_keys=kb_keys,
-            kb_values=kb_values,
             src_mask=src_mask,
             hidden=hidden,
             prev_att_vector=prev_att_vector)
@@ -809,8 +810,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # this is only done for efficiency
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
-        #TODO. knowledgebase has to be unsqueezed to batch size here
-        if hasattr(self.kvr_attention, "compute_proj_keys") and knowledgebase != None:
+
+        if hasattr(self.kvr_attention, "compute_proj_keys") and kb_keys != None:
             self.kvr_attention.compute_proj_keys(keys=kb_keys)
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []
@@ -843,68 +844,12 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # att_vectors: batch, unroll_steps, hidden_size
         att_probs = torch.cat(att_probs, dim=1)
         # att_probs: batch, unroll_steps, src_length
-        outputs = self.output_layer(att_vectors)
-        # outputs: batch, unroll_steps, vocab_size
 
         kb_probs = torch.cat(kb_probs, dim=1)
-        print(f"kb_values.shape:{kb_values.shape}")
-        if len(kb_values.shape) < 3: #TODO find out why this happens sometimes??
-            kb_values.unsqueeze_(1)
-        else:
-            print(f"debug: kb_values={kb_values.shape} no of dims was >=3:")
-            assert kb_values.shape[1] == 1
 
-        _batch, _unroll, _kb = kb_probs.shape
-
-        B = torch.arange(_batch).unsqueeze(1).unsqueeze(1)
-        U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
-
-        kb_values = kb_values.repeat((1, _unroll, 1))
-        # add v to outputs (v_t in Eric et al.)
-        outputs[B, U, kb_values] += kb_probs
-
-        # debugging halves (!) training speed (140 tok/sec -> 70 tok/sec)
-        debug_v = kwargs.get("debug_v", False)
-
-        if debug_v:
-
-            v_fast = torch.zeros_like(outputs) #only for debugging purposes
-
-            # gotta go fast
-            fast_then = time.time()
-            v_fast[B, U, kb_values] = kb_probs
-            fast_now = time.time()
-
-            # alternative index tensors 
-            I, J, _ = np.ogrid[:_batch, :_unroll, :_kb]
-
-            I = torch.from_numpy(I)
-            J = torch.from_numpy(J)
-
-            assert torch.allclose(I,B)
-            assert torch.allclose(J,U)
-
-            v_slow = torch.zeros_like(outputs)
-
-            # slow and steady wins the race
-            # this implementation definitely correct, and definitely slow as shoot
-            then_slow = time.time()
-            for x in range(_batch):
-                for y in range(_unroll):
-                    for z in range(_kb):
-                        v_slow[x, y, kb_values[x, y, z]] = kb_probs[x, y, z]
-            now_slow = time.time()
-
-            assert torch.allclose(v_slow, v_fast), [torch.where(tnsr) for tnsr in (v_fast, v_slow)]
-
-            print(f"debug: using fast torch implementation for calculating v_slow in only\n{fast_now-fast_then} seconds!")
-            print(f"filled v_slow={v_slow.shape} in\n{now_slow-then_slow} seconds")
-            print(f"v_slow.shape:batch x time x vocab: {v_slow.shape}")
-       
-        print(f"kb_values: {kb_values.shape}")
-        print(f"kb_probs: {kb_probs.shape}")
-
-        return outputs, hidden, att_probs, att_vectors, kb_probs
+        # move code below here to Generator.forward
+        # instead return as is here:
+        return hidden, att_probs, att_vectors, kb_probs
 
     def _init_hidden(self, encoder_final: Tensor = None) \
             -> (Tensor, Optional[Tensor]):
@@ -961,7 +906,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
 # pylint: disable=arguments-differ,too-many-arguments
 # pylint: disable=too-many-instance-attributes, unused-argument
-class TransformerDecoder(Decoder):
+class TransformerDecoder(nn.Module):
     """
     A transformer decoder with N masked layers.
     Decoder layers are masked so that an attention head cannot see the future.
@@ -1045,11 +990,59 @@ class TransformerDecoder(Decoder):
                       src_mask=src_mask, trg_mask=trg_mask)
 
         x = self.layer_norm(x)
-        output = self.output_layer(x)
 
-        return output, x, None, None
+        return x, None, None, None
+
 
     def __repr__(self):
         return "%s(num_layers=%r, num_heads=%r)" % (
             self.__class__.__name__, len(self.layers),
             self.layers[0].trg_trg_att.num_heads)
+
+
+class Generator(Gen):
+    """
+    For knowledgebase task, this is where kb probabilities get added to outputs.
+
+    Functions as output layer for both recurrent and transformer decoders.
+
+
+    TODO
+    remove inheritance of actual decoders from "Decoder" interface ... and maybe rename the interface
+    FIXME sort of done ^
+    """
+
+    def __init__(self, dec_hidden_size, vocab_size, **kwargs):
+        super(Generator, self).__init__()
+
+        self._hidden_size = dec_hidden_size
+        self._output_size = vocab_size
+
+        self.output_layer = nn.Linear(self._hidden_size, self._output_size, bias=False)
+
+    def forward(self, x, kb_values=None, kb_probs=None, **kwargs):
+        # x := 
+        # transformer: x
+        # recurrent: att_vectors
+
+        outputs = self.output_layer(x)
+
+        if kb_values is not None:
+
+            # this bug comes from somewhere in or before model.process_batch_kb
+            if len(kb_values.shape) < 3: #TODO find out why this happens sometimes??
+                kb_values.unsqueeze_(1)
+            else:
+                assert kb_values.shape[1] == 1
+
+            _batch, _unroll, _kb = kb_probs.shape
+
+            B = torch.arange(_batch).unsqueeze(1).unsqueeze(1)
+            U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
+
+            kb_values = kb_values.repeat((1, _unroll, 1))
+            # add v to outputs (v_t in Eric et al.)
+            outputs[B, U, kb_values] += kb_probs
+
+        return outputs
+

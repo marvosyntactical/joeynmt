@@ -5,7 +5,7 @@ from torch import Tensor
 import numpy as np
 from typing import Tuple
 
-from joeynmt.decoders import Decoder, TransformerDecoder
+from joeynmt.decoders import Decoder, TransformerDecoder, Gen
 from joeynmt.embeddings import Embeddings
 from joeynmt.helpers import tile
 
@@ -14,7 +14,7 @@ __all__ = ["greedy", "transformer_greedy", "beam_search"]
 
 
 def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
-           max_output_length: int, decoder: Decoder,
+           max_output_length: int, decoder: Decoder, generator: Gen,
            encoder_output: Tensor, encoder_hidden: Tensor,
            knowledgebase: Tuple[Tensor] = None)\
         -> (np.array, np.array, np.array):
@@ -28,6 +28,7 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
     :param bos_index: index of <s> in the vocabulary
     :param max_output_length: maximum length for the hypotheses
     :param decoder: decoder to use for greedy decoding
+    :param generator: generator to use as output layer 
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder last state for decoder initialization
     :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
@@ -40,11 +41,11 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
         if knowledgebase is not None:
             return greedy_fun(
             src_mask, embed, bos_index, max_output_length,
-            decoder, encoder_output, encoder_hidden, knowledgebase)
+            decoder, generator, encoder_output, encoder_hidden, knowledgebase)
         else:
             return greedy_fun(
             src_mask, embed, bos_index, max_output_length,
-            decoder, encoder_output, encoder_hidden)
+            decoder, generator, encoder_output, encoder_hidden)
 
     else:
         # Recurrent greedy decoding
@@ -60,7 +61,7 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
 
 def recurrent_greedy(
         src_mask: Tensor, embed: Embeddings, bos_index: int,
-        max_output_length: int, decoder: Decoder,
+        max_output_length: int, decoder: Decoder, generator: Gen,
         encoder_output: Tensor, encoder_hidden: Tensor,
         knowledgebase: Tuple = None) -> (np.array, np.array, np.array):
     """
@@ -72,6 +73,7 @@ def recurrent_greedy(
     :param bos_index: index of <s> in the vocabulary
     :param max_output_length: maximum length for the hypotheses
     :param decoder: decoder to use for greedy decoding
+    :param generator: generator to use as output layer 
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder last state for decoder initialization
     :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
@@ -89,14 +91,22 @@ def recurrent_greedy(
     prev_att_vector = None
 
     if knowledgebase != None:
+        # knowledgebase is (kb_keys, kb_values) (see model.run_batch)
+
+        # kept as Tuple since dynamic typing easily allows shoving more objects into this
+        # so I dont have to rewrite tons of function signatures 
+
         kb_att_scores = []
-        kb = knowledgebase
+        kb_keys = knowledgebase[0]
+        kb_values = knowledgebase[1]
+    else:
+        kb_values = None
 
     # pylint: disable=unused-variable
     for t in range(max_output_length):
         # decode one single step
         if knowledgebase != None:
-            logits, hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
+            hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -104,10 +114,10 @@ def recurrent_greedy(
                 hidden=hidden,
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1,
-                knowledgebase=(kb[0],kb[1]))
+                kb_keys=kb_keys)
 
         else:
-            logits, hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
+           hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -115,6 +125,8 @@ def recurrent_greedy(
                 hidden=hidden,
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1)
+
+        logits = generator(att_probs, kb_values=kb_values, kb_probs=kb_att_probs)
 
         # logits: batch x time=1 x vocab (logits)
         # greedy decoding: choose arg max over vocabulary in each step
@@ -154,6 +166,7 @@ def transformer_greedy(
     :param bos_index: index of <s> in the vocabulary
     :param max_output_length: maximum length for the hypotheses
     :param decoder: decoder to use for greedy decoding
+    :param generator: generator to use as output layer 
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder final state (unused in Transformer)
     :return:
@@ -175,7 +188,7 @@ def transformer_greedy(
 
         # pylint: disable=unused-variable
         with torch.no_grad():
-            logits, out, _, _ = decoder(
+            out, _, _ = decoder(
                 trg_embed=trg_embed,
                 encoder_output=encoder_output,
                 encoder_hidden=None,
@@ -184,6 +197,7 @@ def transformer_greedy(
                 hidden=None,
                 trg_mask=trg_mask
             )
+            logits = generator(out) #TODO write transformer search for knowledgebase task
 
             logits = logits[:, -1]
             _, next_word = torch.max(logits, dim=1)
@@ -197,6 +211,7 @@ def transformer_greedy(
 # pylint: disable=too-many-statements,too-many-branches
 def beam_search(
         decoder: Decoder,
+        generator: Gen,
         size: int,
         bos_index: int, eos_index: int, pad_index: int,
         encoder_output: Tensor, encoder_hidden: Tensor,
@@ -210,6 +225,7 @@ def beam_search(
     In each decoding step, find the k most likely partial hypotheses.
 
     :param decoder:
+    :param generator:
     :param size: size of the beam
     :param bos_index:
     :param eos_index:
@@ -312,7 +328,7 @@ def beam_search(
         if (knowledgebase != None):
             if transformer:
                 raise NotImplementedError("beam decoding for transformer not yet implemented")
-            logits, hidden, att_scores, att_vectors, _ = decoder(
+            hidden, att_scores, att_vectors, kb_probs = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -321,10 +337,10 @@ def beam_search(
                 prev_att_vector=att_vectors,
                 unroll_steps=1,
                 trg_mask=trg_mask,  # subsequent mask for Transformer only
-                knowledgebase=(kb_keys, kb_values)
+                kb_keys=kb_keys
             )
         else:
-            logits, hidden, att_scores, att_vectors, _ = decoder(
+            hidden, att_scores, att_vectors, kb_probs = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
@@ -334,6 +350,7 @@ def beam_search(
                 unroll_steps=1,
                 trg_mask=trg_mask  # subsequent mask for Transformer only
             )
+        logits = generator(att_scores, kb_values=kb_values, kb_probs=kb_probs)
 
         # For the Transformer we made predictions for all time steps up to
         # this point, so we only want to know about the last time step.
