@@ -7,6 +7,7 @@ name=$1
 #duration should have syntax 2-12:15:59
 duration=${2:-"3-00:00:00"}
 memory=${3:-"128000"}
+partition=${4:-"students"}
 
 clear
 
@@ -93,6 +94,7 @@ sed -i "s/JOBNAME/$name/g" $sbatch
 #more replacements
 sed -i "s/DURATION/$duration/g" $sbatch
 sed -i "s/MEMORY/$memory/g" $sbatch
+sed -i "s/PARTITION/$partition/g" $sbatch
 
 echo
 echo "---------------------------------------------------------------------------"
