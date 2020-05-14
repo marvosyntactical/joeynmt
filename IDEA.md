@@ -50,8 +50,14 @@ In order for an attention to learn to correctly update the database with the abo
 6. take a look once again at sequence to query transducers
 
 * [WikiSQL Task/Dataset](https://github.com/lukovnikov/WikiSQL)
+* [SQL-Net (2017)](https://arxiv.org/abs/1711.04436)
 * [Seq2SQL (2017)](https://arxiv.org/abs/1709.00103)
-* [TypeSQL (2018)](https://arxiv.org/abs/1804.09769)
+* [TypeSQL (outperforms SQLNet)(2018)](https://arxiv.org/abs/1804.09769)
 
+
+and more tasks (read these especially for presentation prep on 16.06.2020):
+
+* [bAbI toy task set (2015)](https://arxiv.org/abs/1502.05698)
+* [Memory Networks (2014)] (https://arxiv.org/abs/1410.3916)
 
 
