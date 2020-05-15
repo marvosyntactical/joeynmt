@@ -245,8 +245,6 @@ def build_vocab(fields: Union[str, Tuple[str]], max_size: int, min_freq: int, da
 
                 else:
                     raise ValueError(f"""requested invalid field {kb_field} for example with attributes {[s for s in dir(j) if s.startswith(("kb","src", "trg"))]}""") 
-        else:
-            raise ValueError(kb_dataset) # TODO remove this
 
         counter = Counter(tokens)
         if min_freq > -1:

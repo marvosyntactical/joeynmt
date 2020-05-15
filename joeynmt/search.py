@@ -38,26 +38,18 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
     if isinstance(decoder, TransformerDecoder):
         # Transformer greedy decoding
         greedy_fun = transformer_greedy
-        if knowledgebase is not None:
-            return greedy_fun(
-            src_mask, embed, bos_index, max_output_length,
-            decoder, generator, encoder_output, encoder_hidden, knowledgebase)
-        else:
-            return greedy_fun(
-            src_mask, embed, bos_index, max_output_length,
-            decoder, generator, encoder_output, encoder_hidden)
+
+        return greedy_fun(
+        src_mask, embed, bos_index, max_output_length,
+        decoder, generator, encoder_output, encoder_hidden, knowledgebase)
 
     else:
         # Recurrent greedy decoding
         greedy_fun = recurrent_greedy
-        if knowledgebase is not None:
-            return greedy_fun(
-                src_mask, embed, bos_index, max_output_length,
-                decoder, encoder_output, encoder_hidden, knowledgebase)
-        else:
-            return greedy_fun(
-                src_mask, embed, bos_index, max_output_length,
-                decoder, encoder_output, encoder_hidden)
+
+        return greedy_fun(
+            src_mask, embed, bos_index, max_output_length,
+            decoder, generator, encoder_output, encoder_hidden, knowledgebase)
 
 def recurrent_greedy(
         src_mask: Tensor, embed: Embeddings, bos_index: int,
@@ -126,7 +118,7 @@ def recurrent_greedy(
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1)
 
-        logits = generator(att_probs, kb_values=kb_values, kb_probs=kb_att_probs)
+        logits = generator(prev_att_vector, kb_values=kb_values, kb_probs=kb_att_probs)
 
         # logits: batch x time=1 x vocab (logits)
         # greedy decoding: choose arg max over vocabulary in each step
@@ -147,8 +139,10 @@ def recurrent_greedy(
         # batch, max_src_lengths
     stacked_output = np.stack(output, axis=1)  # batch, time
     stacked_attention_scores = np.stack(attention_scores, axis=1)
-    if kb_att_scores:
+    if kb_att_probs is not None:
         stacked_kb_att_scores = np.stack(kb_att_scores, axis=1)
+    else:
+        stacked_kb_att_scores = None
     return stacked_output, stacked_attention_scores, stacked_kb_att_scores
 
 
@@ -350,7 +344,7 @@ def beam_search(
                 unroll_steps=1,
                 trg_mask=trg_mask  # subsequent mask for Transformer only
             )
-        logits = generator(att_scores, kb_values=kb_values, kb_probs=kb_probs)
+        logits = generator(att_vectors, kb_values=kb_values, kb_probs=kb_probs)
 
         # For the Transformer we made predictions for all time steps up to
         # this point, so we only want to know about the last time step.

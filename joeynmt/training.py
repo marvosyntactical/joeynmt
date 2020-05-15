@@ -276,7 +276,6 @@ class TrainManager:
                 # reactivate training
                 self.model.train()
 
-                if not kb_task: raise ValueError
                 # create a Batch object from torchtext batch
                 batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
                     Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)

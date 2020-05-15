@@ -131,7 +131,6 @@ class Model(nn.Module):
         :return: decoder outputs (outputs, hidden, att_probs, att_vectors)
         """
         if kb_keys == None:
-            assert False
             return self.decoder(trg_embed=self.trg_embed(trg_input),
                             encoder_output=encoder_output,
                             encoder_hidden=encoder_hidden,
@@ -162,7 +161,7 @@ class Model(nn.Module):
         """
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"):
-            hidden, att_probs, _, _ = self.forward(
+            hidden, att_probs, att_vectors , _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
@@ -515,13 +514,11 @@ def build_model(cfg: dict = None,
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
     
-    # specify generator which is mostly output layer
+    # specify generator which is mostly just the output layer
     generator = Generator(
-        cfg["decoder"]["hidden_size"],
-        len(trg_vocab)
+        dec_hidden_size=cfg["decoder"]["hidden_size"],
+        vocab_size=len(trg_vocab)
     )
-
-
 
     model = Model(encoder=encoder, decoder=decoder, generator=generator,
                   src_embed=src_embed, trg_embed=trg_embed,
