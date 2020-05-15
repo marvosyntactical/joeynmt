@@ -64,11 +64,18 @@ This is a general list of minor technical TODOs that can be done without thinkin
 
 ## _```Current Issues```_:
 
-### 14.05.20 switch to generator
+### 15.05.20 implement kb for transformer
 
-in preparation if implementing the transformer version, adapt generator style of decoder:
+steps:
 
-at the end of decoder forward pass, a generator class functions as the output layer
+1. merge generator branch back
+2. test backwards compatibility for rnn without kb task
+3. test backwards compatibility for transformer without kb task
+
+4. implement kb for transformer:
+* interface wise just need to generate kb\_probs somewhere within transformerdecoder
+-> can kb\_probs calculation actually be moved to generator?
+-> RNN: can kb\_probs be calculated in forward after forward\_step() unroll loop?
 
 ### 08.05.20 debug kb batch matchup
 
@@ -95,6 +102,8 @@ This is not what the authors did and it is questionable whether this attention b
 
 * in kbv, (files with new\_york\_wednesday formatting, prepend @ for vocabulary check)
 
+-> it still seems like some knowledgebases are matched with the wrong batch....
+
 ### 07.04.20 training on GPU
 
 * 63 epochs after 520 minutes => 8.2 minutes per epoch
@@ -105,6 +114,14 @@ This is not what the authors did and it is questionable whether this attention b
 ---
 
 # Issues Archive
+
+## Old Issue
+### 14.05.20 switch to generator
+
+in preparation if implementing the transformer version, adapt generator style of decoder:
+
+at the end of decoder forward pass, a generator class functions as the output layer
+
 
 ## Old Issue
 ### 10.04.20 fix kb trv tensor/vocab
