@@ -189,7 +189,6 @@ def validate_on_data(model: Model, data: Dataset,
         valid_sources_raw, valid_references, valid_hypotheses, \
         decoded_valid, valid_attention_scores, valid_kb_att_scores
 
-
 # pylint: disable-msg=logging-too-many-args
 def test(cfg_file,
          ckpt: str,

@@ -43,6 +43,9 @@ class Decoder(nn.Module):
     (used to be base decoder class before adding unifying generator at end)
     """
 
+    # decoder output signature is:
+    # return hidden, att_probs, att_vectors, kb_probs
+
     @property
     def output_size(self):
         """
@@ -398,6 +401,9 @@ class RecurrentDecoder(nn.Module):
         # att_vectors: batch, unroll_steps, hidden_size
         att_probs = torch.cat(att_probs, dim=1)
         # att_probs: batch, unroll_steps, src_length
+
+        # decoder output signature is:
+        # return hidden, att_probs, att_vectors, kb_probs
         return hidden, att_probs, att_vectors, None
 
     def _init_hidden(self, encoder_final: Tensor = None) \
@@ -847,8 +853,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         kb_probs = torch.cat(kb_probs, dim=1)
 
-        # move code below here to Generator.forward
-        # instead return as is here:
         return hidden, att_probs, att_vectors, kb_probs
 
     def _init_hidden(self, encoder_final: Tensor = None) \
@@ -991,7 +995,9 @@ class TransformerDecoder(nn.Module):
 
         x = self.layer_norm(x)
 
-        return x, None, None, None
+        # decoder output signature is:
+        # return hidden, att_probs, att_vectors, kb_probs
+        return None, None, x, None
 
 
     def __repr__(self):

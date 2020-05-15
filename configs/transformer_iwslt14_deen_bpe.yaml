@@ -37,7 +37,7 @@ training:
     logging_freq: 100
     eval_metric: "bleu"
     model_dir: "models/iwslt14_deen_bpe_transformer"
-    overwrite: False
+    overwrite: True 
     shuffle: True
     use_cuda: True
     max_output_length: 100

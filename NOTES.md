@@ -69,7 +69,9 @@ This is a general list of minor technical TODOs that can be done without thinkin
 steps:
 
 1. merge generator branch back
+-> Done
 2. test backwards compatibility for rnn without kb task
+-> Also Done
 3. test backwards compatibility for transformer without kb task
 
 4. implement kb for transformer:
