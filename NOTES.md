@@ -73,6 +73,7 @@ steps:
 2. test backwards compatibility for rnn without kb task
 -> Also Done
 3. test backwards compatibility for transformer without kb task
+-> Done Too
 
 4. implement kb for transformer:
 * interface wise just need to generate kb\_probs somewhere within transformerdecoder

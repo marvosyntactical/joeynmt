@@ -13,4 +13,5 @@ sacrebleu/*
 sbatch/*
 srunz/*
 print_debug/*
+test/data/*
 
