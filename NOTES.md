@@ -77,8 +77,16 @@ steps:
 
 4. implement kb for transformer:
 * interface wise just need to generate kb\_probs somewhere within transformerdecoder
--> can kb\_probs calculation actually be moved to generator?
--> RNN: can kb\_probs be calculated in forward after forward\_step() unroll loop?
+* can kb\_probs calculation actually be moved to generator?
+-> during kvr\_attention fwd pass, i need a new query. the query should probably be one of the TransformerDecoderLayer hidden states.
+
+-> two options:
+1. do kvr\_attention fwd pass in TransformerDecoder, maybe take only last hidden state of last layer or something
+2. do kvr\_attention within TransformerDecoderLayer (ass in block comments)
+
+according to Artem I should definitely do 1, best move it all to generator (but for that, interface-wise, in kvrRNN I would need to do kvr attention outside of unroll, then im missing the point of attention mechanism though?)
+
+-> open two sub branches for this?
 
 ### 08.05.20 debug kb batch matchup
 

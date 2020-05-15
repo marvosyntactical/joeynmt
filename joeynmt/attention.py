@@ -188,9 +188,7 @@ class KeyValRetAtt(AttentionMechanism):
         # as outputs
         u_t = u_t.squeeze(2).unsqueeze(1)
         # u_t: batch x 1 x kb_size
-        print(f"att debug: u_t.shape={u_t.shape}")
-        if u_t.shape[0] == 3:
-            print(f"u_t contents={u_t}")
+
         #assert u_t.shape[0] == 3, u_t.shape
 
         return u_t

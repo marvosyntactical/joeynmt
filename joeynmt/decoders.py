@@ -923,7 +923,7 @@ class TransformerDecoder(Decoder):
                  emb_dropout: float = 0.1,
                  vocab_size: int = 1,
                  freeze: bool = False,
-                 kb_task: bool = False,
+                 emb_size: int = 0,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -936,7 +936,7 @@ class TransformerDecoder(Decoder):
         :param emb_dropout: dropout probability for embeddings
         :param vocab_size: size of the output vocabulary
         :param freeze: set to True keep all decoder parameters fixed
-        :param kb_task: performing knowledgebase task or not?
+        :param emb_size: if given, perform knowledgebase task (FIXME: this should be src emb size, but atm its trg_emb...)
         :param kwargs:
         """
         super(TransformerDecoder, self).__init__()
@@ -947,7 +947,7 @@ class TransformerDecoder(Decoder):
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout, kb_task=kb_task) for _ in range(num_layers)],)
+                dropout=dropout) for _ in range(num_layers)],)
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -955,6 +955,10 @@ class TransformerDecoder(Decoder):
         self.emb_dropout = nn.Dropout(p=emb_dropout)
         self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
 
+        if emb_size:
+            self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
+                                                key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
+                                                query_size=hidden_size)
         if freeze:
             freeze_params(self)
 
@@ -996,9 +1000,16 @@ class TransformerDecoder(Decoder):
 
         x = self.layer_norm(x)
 
+        if kb_keys is not None:
+            # compute kvr attention over full output at once
+            self.kvr_attention.compute_proj_keys(keys=kb_keys)
+            kb_probs = self.kvr_attention(query=x) #TODO FIXME: figure out what query should be
+        else:
+            kb_probs =  None
+
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
-        return None, None, x, None
+        return None, None, x, kb_probs
 
 
     def __repr__(self):
