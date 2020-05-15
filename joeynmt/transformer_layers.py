@@ -216,7 +216,8 @@ class TransformerDecoderLayer(nn.Module):
                  size: int = 0,
                  ff_size: int = 0,
                  num_heads: int = 0,
-                 dropout: float = 0.1):
+                 dropout: float = 0.1,
+                 kb_task: bool = False):
         """
         Represents a single Transformer decoder layer.
 
@@ -232,6 +233,9 @@ class TransformerDecoderLayer(nn.Module):
 
         self.trg_trg_att = MultiHeadedAttention(num_heads, size,
                                                 dropout=dropout)
+        if kb_task:
+            self.kb_trg_att = MultiHeadedAttention(num_heads, size,
+                                                    dropout=dropout)
         self.src_trg_att = MultiHeadedAttention(num_heads, size,
                                                 dropout=dropout)
 
@@ -239,6 +243,7 @@ class TransformerDecoderLayer(nn.Module):
 
         self.x_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.dec_layer_norm = nn.LayerNorm(size, eps=1e-6)
+        self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
 
         self.dropout = nn.Dropout(dropout)
 
@@ -246,6 +251,7 @@ class TransformerDecoderLayer(nn.Module):
     def forward(self,
                 x: Tensor = None,
                 memory: Tensor = None,
+                kb_keys: Tensor = None, # determine if just kb keys are enough
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None) -> Tensor:
         """
@@ -253,6 +259,7 @@ class TransformerDecoderLayer(nn.Module):
 
         :param x: inputs
         :param memory: source representations
+        :param kb: knowledgebase; TODO determine if just kb keys are enough
         :param src_mask: source mask
         :param trg_mask: target mask (so as to not condition on future steps)
         :return: output tensor
@@ -264,9 +271,17 @@ class TransformerDecoderLayer(nn.Module):
 
         # source-target attention
         h1_norm = self.dec_layer_norm(h1)
-        h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask)
+        h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) #TODO Q: why is src masked?
+        h2 = self.dropout(h2) + h1
+
+        if kb_keys is not None:
+            # kb-target attention
+            h2_norm = self.kb_layer_norm(h2) # add kb layer norm to init TODO
+            h3 = self.src_trg_att(kb_keys, kb_keys, h2_norm) # TODO find out if I have to apply src_mask here too
+        else:
+            h3, h2 = h2, h1
 
         # final position-wise feed-forward layer
-        o = self.feed_forward(self.dropout(h2) + h1)
+        o = self.feed_forward(self.dropout(h3) + h2)
 
         return o
