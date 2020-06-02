@@ -4,7 +4,7 @@ name: "DECODE"
 
 data: # specify your data here
     src: "usr"                       # src language: expected suffix of train files, e.g. "train.de"
-    trg: "carnon"                       # trg language
+    trg: "carno"                       # trg language
     kb_task: "YES"                   # KVR: assigned and boolean val of True if KVR task performed 
     kb_src: "kbk"                         # KVR: kb keys (subj pad rel) extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_trg: "kbc"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can

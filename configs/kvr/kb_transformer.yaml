@@ -2,7 +2,7 @@ name: "kb-transformer-quicktest"
 
 data:
     src: "usr"
-    trg: "carnon"
+    trg: "carno"
     kb_task: "YES"
     kb_src: "kbk"
     kb_trg: "kbc"

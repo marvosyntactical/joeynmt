@@ -55,7 +55,7 @@ In order for an attention to learn to correctly update the database with the abo
 * [TypeSQL (outperforms SQLNet)(2018)](https://arxiv.org/abs/1804.09769)
 
 
-and more tasks (read these especially for presentation prep on 16.06.2020):
+and more tasks (read these especially for presentation prep for 18.06.2020):
 
 * [bAbI toy task set (2015)](https://arxiv.org/abs/1502.05698)
 * [Memory Networks (2014)] (https://arxiv.org/abs/1410.3916)

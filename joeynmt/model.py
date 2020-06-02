@@ -171,7 +171,7 @@ class Model(nn.Module):
 
             print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
 
-            kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
+            kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
 
             with self.Timer("model fwd pass"):
                 hidden, att_probs, att_vectors, kb_probs = self.forward(
@@ -198,7 +198,7 @@ class Model(nn.Module):
 
         return batch_loss
 
-    def process_batch_kb(self, batch: Batch_with_KB)-> (Tensor, Tensor):
+    def preprocess_batch_kb(self, batch: Batch_with_KB)-> (Tensor, Tensor):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
@@ -288,7 +288,7 @@ class Model(nn.Module):
             max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
 
         if hasattr(batch, "kbsrc"):
-            kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
+            kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
             knowledgebase = (kb_keys, kb_values)
         else:
             knowledgebase = None
@@ -320,79 +320,103 @@ class Model(nn.Module):
         if knowledgebase != None:
             with self.Timer("postprocessing hypotheses"):
 
-                np_kb_values = kb_values.cpu().numpy()
-                kb_trv = kb_trv.cpu().numpy()
-                post_proc_stacked_output = []
-                outputs = stacked_output.tolist()
-
-                print("run_batch: hardcore plotting.")
-                print(f"run_batch: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
-                kb_length = stacked_kb_att_scores.shape[-1]
-
-                if kb_length > 1: # all knowledgebases are either <= 1 or >= 20
-                    topk = 5
-                else:
-                    topk = 1
-
-                # construct index arrays for top k attended knowledgebase entry indexing
-                b,u,_ = stacked_kb_att_scores.shape
-                B = np.arange(b)[:,np.newaxis,np.newaxis]
-                U = np.arange(u)[np.newaxis,:,np.newaxis]
-                topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1].copy()
-
-                # remember to tile kb_trv: batch x kb => batch x time x kb
-                kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
-                # find topk entries in kb_trv
-                topk_kb_vals = kb_trv[B,U,topk_kb_indexer]
-
-                # TODO probably infeasible because for all time steps 
-                print(f"\nrun_batch: top {topk} attended tokens in knowledgebase: {[self.trv_vocab.arrays_to_sentences(example) for example in topk_kb_vals.tolist()]}")
-                print(f"\nrun_batch: top {topk} attended logits in knowledgebase: {np.sort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1]}\n")
-
-                for i,hyp in enumerate(outputs):
-                    post_proc_hyp = []
-                    for step,token in enumerate(hyp):
-                        if token >= self.trg_vocab.canon_onwards:
-                            # TODO get kb_matches without for loops
-                            # kb_matches_no_for = np.where(np_kb_values[:,0,:] == np.where(stacked_output >= self.trg_vocab.canon_onwards, stacked_output, -1))
-                            kb_matches = np.where(np_kb_values[i,0,:] == token)
-                            try:
-                                best_match = np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])
-                            except ValueError as e:
-                                print(f"\nrun_batch: Warning:")
-                                print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")
-                                print(f"with kb_matches: {kb_matches}")
-                                print(f"and stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
-                                print(f"but np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])")
-                                print(f"found only an empty array...")
-                                print(f"! this probably means a canonical token was suggested at random !")
-                                print(f"failure sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
-                                # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
-                                # TODO big trouble: we can handle this case (False Positives without matching kb token)
-                                # but what about the silent case (False Positives with matching kb token)
-                                # where a best match is selected without deserving it...should still learn anyways?
-                                # FIXME maybe do use intermediate clustering instead
-                                # atm: we rely on attention to disambiguate super low granular clustering
-                                # better: have intermediate clustering trg_vocab_3 with better recall
-                                # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
-                                post_proc_hyp.append(token)
-                                continue
-
-                            #assert False, (token, kb_matches, kb_values[i])
-                            replacement = kb_trv[0,step,best_match].item()
-                            post_proc_hyp.append(replacement)
-                            print(f"run_batch: Success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
-                            print(f"success sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
-                        else:
-                            post_proc_hyp.append(token)
-                    post_proc_stacked_output.append(post_proc_hyp)
-                print()
-                print(f"run_batch: hyps:\n {self.trg_vocab.arrays_to_sentences(outputs)}")
-                print(f"run_batch: post processed hyps:\n {self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
-                print()
-                stacked_output = np.array(post_proc_stacked_output)
+                # replace kb value tokens with actual values in hypotheses, e.g. "@meeting_time" -> "7pm"
+                stacked_output = self.postprocess_batch_hypotheses(stacked_output, stacked_kb_att_scores, kb_values, kb_trv)
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
+    
+    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_trv) -> np.array:
+        """
+        postprocesses batch hypotheses
+        replaces kb value tokens such as @meeting_time with 7pm
+        """
+
+
+        np_kb_values = kb_values.cpu().numpy()
+        kb_trv = kb_trv.cpu().numpy()
+        post_proc_stacked_output = []
+        outputs = stacked_output.tolist()
+
+        print("postprocess: hardcore plotting.")
+        print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
+        kb_length = stacked_kb_att_scores.shape[-1]
+
+        if kb_length > 1: # all knowledgebases are either <= 1 or >= 20
+            topk = 5
+        else:
+            topk = 1
+
+        # construct index arrays for top k attended knowledgebase entry indexing
+        b,u,_ = stacked_kb_att_scores.shape
+        B = np.arange(b)[:,np.newaxis,np.newaxis]
+        U = np.arange(u)[np.newaxis,:,np.newaxis]
+        topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1].copy()
+
+        # remember to tile kb_trv: batch x kb => batch x time x kb
+        kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
+        # find topk entries in kb_trv
+        topk_kb_vals = kb_trv[B,U,topk_kb_indexer]
+
+        # TODO probably infeasible because for all time steps 
+        print(f"\npostprocess: top {topk} attended tokens in knowledgebase: {[self.trv_vocab.arrays_to_sentences(example) for example in topk_kb_vals.tolist()]}")
+        print(f"\npostprocess: top {topk} attended logits in knowledgebase: {np.sort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1]}\n")
+
+        # TODO get kb_matches without for loops; attempt started below:
+        # kb_matches_no_for = np.where(np_kb_values[:,0,:] == np.where(stacked_output >= self.trg_vocab.canon_onwards, stacked_output, -1))
+
+        for i,hyp in enumerate(outputs):
+            post_proc_hyp = []
+
+            for step,token in enumerate(hyp): #go through i_th hypothesis
+
+                if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
+
+                    kb_matches = np.where(np_kb_values[i,0,:] == token) # find all values in kb that are this token (0-#kb)
+
+                    if len(kb_matches): # success! found at least one match in kb !
+
+                        kb_matches_scores = stacked_kb_att_scores[i,step,:][kb_matches] # get attention for all found matches
+                        best_match_idx = np.argmax(kb_matches_scores) # get index of highest attended match
+
+                        replacement = kb_trv[0, step, best_match_idx].item() # get true value of this match from trv vocab
+
+                        post_proc_hyp.append(replacement) # append this true value instead of the token
+
+                        print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
+                        print(f"postprocess success: sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
+
+                    else: #no matches
+
+                        print(f"\npostprocess: Warning:")
+                        print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")
+                        print(f"with kb_matches: {kb_matches}")
+                        print(f"and stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
+                        print(f"but np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])")
+                        print(f"found only an empty array...")
+                        print(f"! this probably means a canonical token was suggested at random !")
+                        print(f"failure sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
+                        # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+                        # TODO big trouble: we can handle this case (False Positives without matching kb token)
+                        # but what about the silent case (False Positives with matching kb token)
+                        # where a best match is selected without deserving it...should still learn anyways?
+                        # FIXME maybe do use intermediate clustering instead
+                        # atm: we rely on attention to disambiguate super low granular clustering
+                        # better: have intermediate clustering trg_vocab_3 with better recall
+                        # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+
+                        post_proc_hyp.append(token) # didnt find a match for this, current policy: just append the canonical token ...
+
+                else:
+                    post_proc_hyp.append(token)
+            post_proc_stacked_output.append(post_proc_hyp)
+        print()
+        print(f"postprocess: hyps:\n {self.trg_vocab.arrays_to_sentences(outputs)}")
+        print(f"postprocess: post processed hyps:\n {self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
+        print()
+        post_proc_stacked_output = np.array(post_proc_stacked_output)
+
+        return post_proc_stacked_output
+
 
     def __repr__(self) -> str:
         """

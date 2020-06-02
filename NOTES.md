@@ -10,13 +10,9 @@ _Work rhythm_:
 
 * Is the entire model trained on just these datasets? e.g. kvr has 2.4k pairs 
 * Very heterogenous dataset: Even within domain, e.g. 'scheduling', different task types, e.g. time request (like weather, info retrieval) but also making an appointment => filter out everything that is not KB retrieval?; other than that, the info retrieval is essentially the same for all 3 domains => good!
-* Trg vocab goes from 40k to 112k by adding knowledgebase..unusual but should be doable with how small the dataset is
 * how does kv attention actually work for normalized (-> triples) entries? how does attention understand on the request "Wheres the nearest cafe?" to look up the poi\_type value for starbucks among others, see cafè; and then learn to look up the distance and address for the same subject? the keys the attention sees are NOT THE SAME, they conflate both subj and relation?!? does the magic lie in the successive kb attention queries from one decoder unrol step to successive ones? is the key rep expected by the rnn cell to be incorporated into the cell state? doesnt this mean we need to track conversation long (and not just seq2seq query - response isolated examples) history either by concatenating all previous utterances or by somehow using the last previous hidden states?
 * understand: where does loss come from? => dont we need to call our loss function on the postprocessed (de-canonicalized) generated trg sequence to learn? or is this not necessary? would be interesting to bleu, but does it even matter there? does it matter to Xent?
 * does it make sense to use entity F1 as supplementary validation metric?
-* meaning and impact of LSTM forget gate bias (=> Pham et al.)
-
-
 
 # Issues ```TODO```:
 
@@ -24,7 +20,6 @@ This table is for the project wide software engineering / research consideration
 These will have to get resolved someday. Unordered thoughts also jotted down:
 
 1. filter out unvalued kb entries (wait for Artem's response)
-
 
 2. NER/linking
   * linking is different from _kb-canonization_ and later lookup of kb values!
@@ -46,7 +41,6 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 
 This is a general list of minor technical TODOs that can be done without thinking. 
 
-* fix kbtrv:
 * fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
 * understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos? 
   * (decoder does stop on eos in latest joeynmt commit)
@@ -82,7 +76,7 @@ steps:
 
 -> two options:
 1. do kvr\_attention fwd pass in TransformerDecoder, maybe take only last hidden state of last layer or something
-2. do kvr\_attention within TransformerDecoderLayer (ass in block comments)
+2. do kvr\_attention within TransformerDecoderLayer (as in block comments)
 
 according to Artem I should definitely do 1, best move it all to generator (but for that, interface-wise, in kvrRNN I would need to do kvr attention outside of unroll, then im missing the point of attention mechanism though?)
 
@@ -108,12 +102,18 @@ look in:
 
 ### 19.04.20 canonize target to same resolution as kb values 
 
-* for kvr\_attention to learn, its output like meeting\_time must be contained in the same form in target sequences; in the training data they occur as e.g. "4", "pm" though!
-* step 1 (mostly done, TODO debug canonize for some quirks (look at dev/train/test.carnon)): use kvret\_entities.json to canonize target (very low granularity, e.g. "4", "pm" -> "@time" (instead of "meeting\_time")
-  * -> TODO TODO TODO FIXME FIXME FIXME
-* step 2 : map knowledgebase values (medium granularity (e.g. "meeting\_time") to low granularity ("meeting\_time" -> "@time")
+* for kvr\_attention to learn, its output like e.g. "@meeting\_time" must be contained in the same form in target sequences; in the training data they occur as e.g. "4", "pm" though!
+
+Steps:
+
+1. use kvret\_entities.json to canonize target (very low granularity, e.g. "4", "pm" -> "@time" (instead of "@meeting\_time")
+  * -> mostly done, TODO debug data/scrits/canonize.py for some quirks (look at dev/train/test.carnon) FIXME big time TODO 
+
+2. map knowledgebase values (medium granularity (e.g. "meeting\_time") to low granularity ("meeting\_time" -> "@time")
   * -> Done
-* step 3 : in step 2, keep info about replacement somewhere and do an inverse lookup later (recover "meeting\_time" from "@time" and from thereon "4" "pm" (kbtrv))
+
+3. in step 2, keep info about replacement somewhere and do an inverse lookup later (recover "meeting\_time" from "@time" and from thereon "4" "pm" (kbtrv))
+
   * in search.py, need to recover correct token if next\_word is a knowledgebase token / canonized
   * => rewrite vocabulary.Vocabulary to check for @ at beginning of words and put them to the end and have an attribute Vocabulary.canon\_start\_idx
   * => in search.py, after decoding for one step, do this check: ```if next\_word >= trg_vocab.canon\_start\_idx:\\ next_word = highest attended value in knowledgebase out of matching canon values```
