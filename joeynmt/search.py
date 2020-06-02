@@ -151,6 +151,7 @@ def transformer_greedy(
         src_mask: Tensor, embed: Embeddings,
         bos_index: int, max_output_length: int, decoder: Decoder,
         encoder_output: Tensor, encoder_hidden: Tensor, knowledgebase:Tuple=None) -> (np.array, np.array):
+
     """
     Special greedy function for transformer, since it works differently.
     The transformer remembers all previous states and attends to them.

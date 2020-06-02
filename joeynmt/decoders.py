@@ -986,6 +986,7 @@ class TransformerDecoder(Decoder):
         :param kwargs:
         :return:
         """
+
         assert trg_mask is not None, "trg_mask required for Transformer"
 
         x = self.pe(trg_embed)  # add position encoding to word embedding
@@ -1024,10 +1025,6 @@ class Generator(Gen):
 
     Functions as output layer for both recurrent and transformer decoders.
 
-
-    TODO
-    remove inheritance of actual decoders from "Decoder" interface ... and maybe rename the interface
-    FIXME sort of done ^
     """
 
     def __init__(self, dec_hidden_size, vocab_size, **kwargs):
@@ -1061,6 +1058,7 @@ class Generator(Gen):
             kb_values = kb_values.repeat((1, _unroll, 1))
             # add v to outputs (v_t in Eric et al.)
             outputs[B, U, kb_values] += kb_probs
+
 
         return outputs
 

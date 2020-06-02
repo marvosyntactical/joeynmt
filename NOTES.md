@@ -88,12 +88,22 @@ according to Artem I should definitely do 1, best move it all to generator (but 
 
 -> open two sub branches for this?
 
+### 02.06.20 implement generator in preparation for transformer
+
+-> mostly done, works for recurrent decoder
+
+for the generator, test if log\_softmax makes a difference for search if I put it in generator
+
+-> open branch for this
+
 ### 08.05.20 debug kb batch matchup
 
 batches have random kbs??
 look in:
 * data.batch\_with\_kb
 * preproc: data/scripts\_kvr/ parse\_kvr\_json.py and normalize\_scenarios.py
+
+-> for debugging, create bash alias for config with no\_traffic/best.ckpt as load\_model ... then check hypotheses postprocessing quick
 
 
 ### 19.04.20 canonize target to same resolution as kb values 

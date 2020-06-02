@@ -169,10 +169,6 @@ class Model(nn.Module):
         else:
             assert batch.kbsrc != None
 
-            # TODO: find out why both old attr batch.src/trg and new
-            # attr batch.kbsrc/kbtrg are tuples in data.TorchBatchWithKB
-            # but only new attributes remain tuples here???
-
             print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
 
             kb_keys, kb_values, kb_trv = self.process_batch_kb(batch)
@@ -190,13 +186,12 @@ class Model(nn.Module):
         # compute log probs
         log_probs = F.log_softmax(out, dim=-1)
 
-        # ----- debug
-        # Latest TODO: decode to sentences for debugging:
+        # ----- debug start
         mle_tokens = argmax(log_probs, dim=-1)
         mle_tokens = mle_tokens.cpu().numpy()
 
         print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
-        # ----- debug
+        # ----- debug end
 
         # compute batch loss
         batch_loss = loss_function(log_probs, batch.trg)

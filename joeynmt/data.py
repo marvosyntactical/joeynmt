@@ -30,12 +30,14 @@ def pkt_tokenize(s)-> List:
     for c in split:
         if c in space:
             token = "".join(curr)
-            r += [token]
+            if token: 
+                r += [token]
             curr = []
         else:
             if c in pkt:
                 token = "".join(curr)  
-                r += [token]
+                if token: 
+                    r += [token]
                 curr = []
             
             curr += [c] # add pkt to tokens, but not whitespace
