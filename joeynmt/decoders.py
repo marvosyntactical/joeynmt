@@ -1021,10 +1021,9 @@ class TransformerDecoder(Decoder):
 
 class Generator(Gen):
     """
-    For knowledgebase task, this is where kb probabilities get added to outputs.
-
     Functions as output layer for both recurrent and transformer decoders.
 
+    For knowledgebase task, this is also where kb probabilities get added to outputs.
     """
 
     def __init__(self, dec_hidden_size, vocab_size, **kwargs):
@@ -1059,6 +1058,8 @@ class Generator(Gen):
             # add v to outputs (v_t in Eric et al.)
             outputs[B, U, kb_values] += kb_probs
 
+            # compute log probs
+            log_probs = F.log_softmax(outputs, dim=-1)
 
-        return outputs
+        return log_probs 
 

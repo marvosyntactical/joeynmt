@@ -181,10 +181,8 @@ class Model(nn.Module):
         
         # pass att_vectors through Generator
 
-        out = self.generator(att_vectors, kb_values=kb_values, kb_probs=kb_probs)
+        log_probs = self.generator(att_vectors, kb_values=kb_values, kb_probs=kb_probs)
 
-        # compute log probs
-        log_probs = F.log_softmax(out, dim=-1)
 
         # ----- debug start
         mle_tokens = argmax(log_probs, dim=-1)
