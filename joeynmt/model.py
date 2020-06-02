@@ -327,8 +327,17 @@ class Model(nn.Module):
     
     def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_trv) -> np.array:
         """
+        called in self.run_batch() during knowledgebase task
+
         postprocesses batch hypotheses
         replaces kb value tokens such as @meeting_time with 7pm
+
+        Arguments:
+        :param stacked_output: Tensor
+        :param stacked_kb_att_scores: Tensor
+        :param kb_values: Tensor
+        :param kb_trv: Tensor
+        :return: post_proc_stacked_output
         """
 
 
@@ -336,6 +345,8 @@ class Model(nn.Module):
         kb_trv = kb_trv.cpu().numpy()
         post_proc_stacked_output = []
         outputs = stacked_output.tolist()
+
+        # debug start ----------------------------------- 
 
         print("postprocess: hardcore plotting.")
         print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
@@ -345,11 +356,12 @@ class Model(nn.Module):
             topk = 5
         else:
             topk = 1
-
+        
         # construct index arrays for top k attended knowledgebase entry indexing
         b,u,_ = stacked_kb_att_scores.shape
         B = np.arange(b)[:,np.newaxis,np.newaxis]
         U = np.arange(u)[np.newaxis,:,np.newaxis]
+
         topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1].copy()
 
         # remember to tile kb_trv: batch x kb => batch x time x kb
@@ -360,26 +372,31 @@ class Model(nn.Module):
         # TODO probably infeasible because for all time steps 
         print(f"\npostprocess: top {topk} attended tokens in knowledgebase: {[self.trv_vocab.arrays_to_sentences(example) for example in topk_kb_vals.tolist()]}")
         print(f"\npostprocess: top {topk} attended logits in knowledgebase: {np.sort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1]}\n")
+        # debug end -------------------------------------
 
-        # TODO get kb_matches without for loops; attempt started below:
+        # TODO get kb_matches without for loops; wrong/incomplete attempt started below:
         # kb_matches_no_for = np.where(np_kb_values[:,0,:] == np.where(stacked_output >= self.trg_vocab.canon_onwards, stacked_output, -1))
 
         for i,hyp in enumerate(outputs):
             post_proc_hyp = []
 
-            for step,token in enumerate(hyp): #go through i_th hypothesis
+            for step,token in enumerate(hyp): # go through i_th hypothesis
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
                     kb_matches = np.where(np_kb_values[i,0,:] == token) # find all values in kb that are this token (0-#kb)
 
-                    if len(kb_matches): # success! found at least one match in kb !
+                    kb_matches_scores = stacked_kb_att_scores[i,step,:][kb_matches] # get attention for all found matches
 
-                        kb_matches_scores = stacked_kb_att_scores[i,step,:][kb_matches] # get attention for all found matches
-                        best_match_idx = np.argmax(kb_matches_scores) # get index of highest attended match
+                    if len(kb_matches_scores): # success! found at least one match in kb !
 
-                        replacement = kb_trv[0, step, best_match_idx].item() # get true value of this match from trv vocab
+                        best_match_idx = np.argmax(kb_matches_scores,axis=-1) # get index of highest attended match
 
+                        # FIXME should use this call (from tensor which was compared with the canonical token)
+                        # replacement = kb_trv[0, step, best_match_idx].item() # get true value of this match from trv vocab
+
+                        # alternative best match index (WITHOUT checking if the canon token even matches!)
+                        replacement = topk_kb_vals[i,step,:].tolist()[0]
                         post_proc_hyp.append(replacement) # append this true value instead of the token
 
                         print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")

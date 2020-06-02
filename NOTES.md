@@ -39,16 +39,13 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 
 ### Technical TODO:
 
-This is a general list of minor technical TODOs that can be done without thinking. 
-
-* fix build\_vocab issues: train kb contains a lot of unk tokens (esp relations are unk)
-* understand decoder unroll: why always the same unroll steps (trg\_input)... unroll steps is exactly the number of to be generated tokens, or is it an upper bound? does the decoder stop on eos? 
-  * (decoder does stop on eos in latest joeynmt commit)
-* find out what shuffle in training data means: intra or supra batch?
-  * -> intra batch of course
-* import and use tensorboard writer again
-* batch convos with same kb together; ! filter unvalued entries !
+This is a general list of minor technical TODOs that should be useful in any case. 
+\\
+Preprocessing:
+* batch convos with same kb together
+* ! filter unvalued entries !
 * traffic info: default category in this domain: poi\_type, not poi!
+
 
 ####### Optimization
 * rewrite model.run\_batch post processing to use numpy funs instead of double for
@@ -131,6 +128,9 @@ This is not what the authors did and it is questionable whether this attention b
 * validate every 100 examples
 * TOK/SEC increases per epoch from 200 to 6600
 * testing should work (beam search), test again with saved checkpt
+
+TODO for actual gpu training:
+* import and use tensorboard writer again
 
 ---
 

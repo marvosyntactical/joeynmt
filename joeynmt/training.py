@@ -356,7 +356,6 @@ class TrainManager:
 
                     new_best = False
                     if self.is_best(ckpt_score):
-                        assert False
                         self.best_ckpt_score = ckpt_score
                         self.best_ckpt_iteration = self.steps
                         self.logger.info(
