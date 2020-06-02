@@ -996,18 +996,11 @@ class TransformerDecoder(Decoder):
             trg_embed.size(1)).type_as(trg_mask)
 
         for layer in self.layers:
-            x = layer(x=x, memory=encoder_output, kb_keys=kb_keys,
+            x, kb_probs = layer(x=x, memory=encoder_output, kb_keys=kb_keys,
                       src_mask=src_mask, trg_mask=trg_mask)
+        
 
         x = self.layer_norm(x)
-
-        if kb_keys is not None:
-            # compute kvr attention over full output at once
-            self.kvr_attention.compute_proj_keys(keys=kb_keys)
-            kb_probs = self.kvr_attention(query=x) #TODO FIXME: figure out what query should be
-        else:
-            kb_probs =  None
-
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
         return None, None, x, kb_probs

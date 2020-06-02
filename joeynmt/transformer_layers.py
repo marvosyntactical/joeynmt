@@ -123,9 +123,18 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
 
-        # FIXME
+        # apply the mask (if we have one)
+        # we add a dimension for the heads to it below: [B, 1, 1, M]
+        if mask is not None:
+            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
 
-        return scores
+        # apply attention dropout
+        attention = self.softmax(scores)
+        attention = self.dropout(attention)
+
+        # TODO FIXME find out attention shape
+
+        return attention
 
 
 
@@ -259,7 +268,7 @@ class TransformerDecoderLayer(nn.Module):
                  ff_size: int = 0,
                  num_heads: int = 0,
                  dropout: float = 0.1,
-                 # kb_task: bool = False
+                 kb_task: bool = False
     ):
         """
         Represents a single Transformer decoder layer.
@@ -276,16 +285,10 @@ class TransformerDecoderLayer(nn.Module):
 
         self.trg_trg_att = MultiHeadedAttention(num_heads, size,
                                                 dropout=dropout)
-        """
         if kb_task:
-            # TODO implement the above MultiHeadedKbAttention and assign it like below
             self.kb_trg_att = MultiHeadedKbAttention(num_heads, size,
                                                     dropout=dropout)
 
-            assert src_emb_size, "src_emb_size is needed for knowledgebase transformers"
-            self.kb_trg_att = KeyValRetAtt(hidden_size=size, key_size=src_emb_size, query_size=size)
-
-        """
         self.src_trg_att = MultiHeadedAttention(num_heads, size,
                                                 dropout=dropout)
 
@@ -325,13 +328,12 @@ class TransformerDecoderLayer(nn.Module):
 
         if kb_keys is not None:
             
-            """ # TODO implement this with the above MultiHeadedKbAttention Module
             # kb-target attention
             h2_norm = self.kb_layer_norm(h2) 
-            h3 = self.src_trg_att(kb_keys, kb_keys, h2_norm) # TODO find out if I have to apply src_mask here too
-            """
+            h3 = self.kb_trg_att(kb_keys, kb_keys, h2_norm) # TODO find out if I have to apply src_mask here too
+            h1,h2 = h2,h3
 
         # final position-wise feed-forward layer
         o = self.feed_forward(self.dropout(h2) + h1)
 
-        return o
+        return o, h2

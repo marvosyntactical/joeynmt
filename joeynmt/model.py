@@ -369,9 +369,11 @@ class Model(nn.Module):
         # find topk entries in kb_trv
         topk_kb_vals = kb_trv[B,U,topk_kb_indexer]
 
-        # TODO probably infeasible because for all time steps 
+        """
+        this debug print is not useful because it prints the topk attended tokens for all up to 100 unroll steps...  
         print(f"\npostprocess: top {topk} attended tokens in knowledgebase: {[self.trv_vocab.arrays_to_sentences(example) for example in topk_kb_vals.tolist()]}")
         print(f"\npostprocess: top {topk} attended logits in knowledgebase: {np.sort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1]}\n")
+        """
         # debug end -------------------------------------
 
         # TODO get kb_matches without for loops; wrong/incomplete attempt started below:
@@ -384,19 +386,23 @@ class Model(nn.Module):
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
-                    kb_matches = np.where(np_kb_values[i,0,:] == token) # find all values in kb that are this token (0-#kb)
+                    kb_matches = np.where(np_kb_values[i,0,:] == token)[0] # find all values in kb that are this token (0-#kb)
+                    # (np.where returns tuple, so need to index with 0)
 
-                    kb_matches_scores = stacked_kb_att_scores[i,step,:][kb_matches] # get attention for all found matches
+                    kb_matches_scores = stacked_kb_att_scores[i,step,kb_matches] # get attention for all found matches
 
                     if len(kb_matches_scores): # success! found at least one match in kb !
 
                         best_match_idx = np.argmax(kb_matches_scores,axis=-1) # get index of highest attended match
 
                         # FIXME should use this call (from tensor which was compared with the canonical token)
-                        # replacement = kb_trv[0, step, best_match_idx].item() # get true value of this match from trv vocab
+                        # replacement_attempt = kb_trv[0, step, best_match_idx].item() # get true value of this match from trv vocab
 
                         # alternative best match index (WITHOUT checking if the canon token even matches!)
-                        replacement = topk_kb_vals[i,step,:].tolist()[0]
+                        replacement = topk_kb_vals[i,step,:].tolist()[0] 
+
+                        # assert replacement_attempt == replacement, f"best_match_idx={best_match_idx};topk_kb_vals[i,step,:]={topk_kb_vals[i,step,:]}"
+
                         post_proc_hyp.append(replacement) # append this true value instead of the token
 
                         print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
