@@ -504,7 +504,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
         print()
         """
 
-        assert i+1 < 50, "<^ check out this line in data/kvr/{train|dev}.lkp, which says e.g. 24, then do 'head -n 24 {train|dev}.len | awk '{s+=$1} END {print s}'"
+        # assert i+1 < 50, "<^ check out this line in data/kvr/{train|dev}.lkp, which says e.g. 24, then do 'head -n 24 {train|dev}.len | awk '{s+=$1} END {print s}'"
         """
         FIXME: there seems to be an overlap between some knowledgebases, e.g. in train.lkp:
         v CORRECT, PIZZA CHICAGO BELONGS HERE v
