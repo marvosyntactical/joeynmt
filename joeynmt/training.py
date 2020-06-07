@@ -591,7 +591,7 @@ def train(cfg_file: str) -> None:
         src_vocab, trg_vocab,\
         train_kb, dev_kb, test_kb,\
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
-        train_kb_lengths, dev_kb_lengths, dev_kb_lengths,\
+        train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
         trv_vocab\
             = load_data(data_cfg=cfg["data"])

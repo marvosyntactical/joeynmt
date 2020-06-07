@@ -189,7 +189,7 @@ class KeyValRetAtt(AttentionMechanism):
         u_t = u_t.squeeze(2).unsqueeze(1)
         # u_t: batch x 1 x kb_size
 
-        #assert u_t.shape[0] == 3, u_t.shape
+        # assert u_t.shape[0] == 3, u_t.shape
 
         return u_t
 
