@@ -5,6 +5,8 @@ Module to represent whole models
 
 from typing import Tuple
 
+from copy import deepcopy
+
 import numpy as np
 
 import torch.nn as nn
@@ -352,10 +354,7 @@ class Model(nn.Module):
         print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
         kb_length = stacked_kb_att_scores.shape[-1]
 
-        if kb_length > 1: # all knowledgebases are either <= 1 or >= 20
-            topk = 5
-        else:
-            topk = 1
+        topk = min(kb_length,10) # top topk attention values are checked first atm (FIXME..), then we compare with considered token
         
         # construct index arrays for top k attended knowledgebase entry indexing
         b,u,_ = stacked_kb_att_scores.shape
@@ -366,15 +365,24 @@ class Model(nn.Module):
 
         # remember to tile kb_trv: batch x kb => batch x time x kb
         kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
+        kb_val = np.tile(np_kb_values,(1,stacked_kb_att_scores.shape[1],1))
         # find topk entries in kb_trv
-        topk_kb_vals = kb_trv[B,U,topk_kb_indexer]
+        topk_kb_trvs = kb_trv[B,U,topk_kb_indexer]
+        topk_kb_vals = kb_val[B,U,topk_kb_indexer]
 
-        """
-        this debug print is not useful because it prints the topk attended tokens for all up to 100 unroll steps...  
-        print(f"\npostprocess: top {topk} attended tokens in knowledgebase: {[self.trv_vocab.arrays_to_sentences(example) for example in topk_kb_vals.tolist()]}")
-        print(f"\npostprocess: top {topk} attended logits in knowledgebase: {np.sort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1]}\n")
-        """
         # debug end -------------------------------------
+
+        outputs_ = deepcopy(stacked_output)
+        # start attempt np only:
+        outputs_roll = np.tile(stacked_output[:,:np.newaxis],(1,1, topk)) # tiled along new third kb dimension: batch x time x kb
+        replacement_options_indexer = topk_kb_vals[B,U,:] != outputs_roll
+        replacement_options_ = np.where(replacement_options_indexer, topk_kb_trvs,"<no-match>")
+        r_ = np.where(replacement_options_!="<no-match>")
+
+        outputs_  = np.where() # TODO FIXME use np where to get first match ()from r_ along dimension -1 (last, 2) if such match exists else outputs_
+        
+
+        # end attempt np only/
 
         # TODO get kb_matches without for loops; wrong/incomplete attempt started below:
         # kb_matches_no_for = np.where(np_kb_values[:,0,:] == np.where(stacked_output >= self.trg_vocab.canon_onwards, stacked_output, -1))
@@ -386,36 +394,30 @@ class Model(nn.Module):
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
-                    kb_no_match_mask = np_kb_values[i,0,:] != token # find index for all values that are not the token 
-                    stacked_kb_att_scores[i, step, kb_no_match_mask] = float("-inf")  # mask out values that are not this token
+                    true_value_choices = topk_kb_trvs[i,step,:]
+                    replacement_options = true_value_choices[topk_kb_vals[i,step,:] == token]
 
-                    if not (kb_no_match_mask.all()): # success! found at least one match in kb !
+                    if replacement_options.shape[0]: # success! found at least one match in kb !
 
-                        best_match_idx = np.argmax(stacked_kb_att_scores[i,step,:]) # get index of highest attended match
+                        replacement = replacement_options.tolist()[0]
 
-                        # FIXME should use this call (from tensor which was compared with the canonical token)
-                        # replacement_attempt = kb_trv[0, step, best_match_idx].item() # get true value of this match from trv vocab
-
-                        # NOTE alternative best match index (WITHOUT checking if the canon token even matches!)
-                        replacement = topk_kb_vals[i,step,:].tolist()[0] 
-
-                        # assert replacement_attempt == replacement, f"best_match_idx={best_match_idx};topk_kb_vals[i,step,:]={topk_kb_vals[i,step,:]}"
+                        # assert replacement_attempt == replacement, f"best_match_idx={best_match_idx};topk_kb_trvs[i,step,:]={topk_kb_trvs[i,step,:]}"
 
                         post_proc_hyp.append(replacement) # append this true value instead of the token
 
                         print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
-                        print(f"postprocess success: sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
+                        print(f"postprocess success: sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_trvs[i,step,:].tolist())}")
 
                     else: #no matches
 
                         print(f"\npostprocess: Warning:")
                         print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")
-                        print(f"with kb_matches: {topk_kb_vals[i,step,:]}")
+                        print(f"with kb_matches: {topk_kb_trvs[i,step,:]}")
                         print(f"and stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
                         print(f"but np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])")
                         print(f"found only an empty array...")
                         print(f"! this probably means a canonical token was suggested at random !")
-                        print(f"failure sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_vals[i,step,:].tolist())}")
+                        print(f"failure sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_trvs[i,step,:].tolist())}")
                         # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
                         # TODO big trouble: we can handle this case (False Positives without matching kb token)
                         # but what about the silent case (False Positives with matching kb token)
