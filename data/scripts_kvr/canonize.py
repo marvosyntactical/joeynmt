@@ -127,7 +127,10 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     Efficiently canonize with values in dict
     (search further ahead if a token matches first word in canon string)
     """
-    stopwords = ["the", "no"]
+    stopwords = [\
+                 "the", "no",\
+                 "0","1","2","3","4","5","6","7","8","9"\
+                ]
     r = []
     i = 0
     while i < len(seq):
