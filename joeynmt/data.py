@@ -30,12 +30,14 @@ def pkt_tokenize(s)-> List:
     for c in split:
         if c in space:
             token = "".join(curr)
-            r += [token]
+            if token: 
+                r += [token]
             curr = []
         else:
             if c in pkt:
                 token = "".join(curr)  
-                r += [token]
+                if token: 
+                    r += [token]
                 curr = []
             
             curr += [c] # add pkt to tokens, but not whitespace
@@ -480,8 +482,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
 
         minibatch.append(ex)
 
-        """
-        #debug:
+        # debug start:
         previous_kb_len = kb_lens[last_corresponding_kb] 
         previous_kb = kb_data[current-previous_kb_len:current]
         previous_trv = kb_truvals[current-previous_kb_len:current]
@@ -495,13 +496,15 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
         print()
         print("batch_with_kb: current, kb_len, current+kb_len: ",current, kb_len,current+kb_len)
         print()
+        print(f"corresponding_kb: {corresponding_kb}")
+        """ # to see if previous kb is a match:
         print(f"previous minibatch was this long: {len(previous_kb)}")
         print(f"previous minibatch should have been:")
         pprint([(entry.kbsrc, entry.kbtrg, tru.kbtrv) for entry, tru in zip(previous_kb,previous_trv)], width=110)
         print()
         """
 
-        # assert i+1 < 55, "<^ check out this line in data/kvr/{train|dev}.lkp, which says e.g. 24, then do 'head -n 24 train.len | awk '{s+=$1} END {print s}'"
+        # assert i+1 < 50, "<^ check out this line in data/kvr/{train|dev}.lkp, which says e.g. 24, then do 'head -n 24 {train|dev}.len | awk '{s+=$1} END {print s}'"
         """
         FIXME: there seems to be an overlap between some knowledgebases, e.g. in train.lkp:
         v CORRECT, PIZZA CHICAGO BELONGS HERE v
@@ -511,7 +514,14 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals):
 
         NOTE:
         Fixed problem: moved kb_len assignment after minibatch yield; now taking the length of the current knowledgebase, not the length of the next one...
+
+        FIXME:
+        New problem: mismatch in dev data, e.g. i+1<400 => dev.lkp[400] is 159, awk cmd with 159
+        returns 4917, but variable 'current' is at 5339...
+        also: the kb batch from 5339 to 5339+kb_len does not even align with any kb ... its off by 1 at least
+        => run modele to do validation only 
         """
+        # debug end
 
     if minibatch:
         yield minibatch

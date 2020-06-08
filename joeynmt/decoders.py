@@ -59,7 +59,7 @@ class Decoder(nn.Module):
 
 # pylint: disable=arguments-differ,too-many-arguments
 # pylint: disable=too-many-instance-attributes, unused-argument
-class RecurrentDecoder(nn.Module):
+class RecurrentDecoder(Decoder):
     """A conditional RNN decoder with attention."""
 
     def __init__(self,
@@ -906,11 +906,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         return "RecurrentDecoder(rnn=%r, attention=%r)" % (
             self.rnn, self.attention)
 
-
-
 # pylint: disable=arguments-differ,too-many-arguments
 # pylint: disable=too-many-instance-attributes, unused-argument
-class TransformerDecoder(nn.Module):
+class TransformerDecoder(Decoder):
     """
     A transformer decoder with N masked layers.
     Decoder layers are masked so that an attention head cannot see the future.
@@ -925,6 +923,7 @@ class TransformerDecoder(nn.Module):
                  emb_dropout: float = 0.1,
                  vocab_size: int = 1,
                  freeze: bool = False,
+                 emb_size: int = 0,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -937,6 +936,7 @@ class TransformerDecoder(nn.Module):
         :param emb_dropout: dropout probability for embeddings
         :param vocab_size: size of the output vocabulary
         :param freeze: set to True keep all decoder parameters fixed
+        :param emb_size: if given, perform knowledgebase task (FIXME: this should be src emb size, but atm its trg_emb...)
         :param kwargs:
         """
         super(TransformerDecoder, self).__init__()
@@ -947,7 +947,7 @@ class TransformerDecoder(nn.Module):
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout) for _ in range(num_layers)])
+                dropout=dropout) for _ in range(num_layers)],)
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -955,6 +955,10 @@ class TransformerDecoder(nn.Module):
         self.emb_dropout = nn.Dropout(p=emb_dropout)
         self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
 
+        if emb_size:
+            self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
+                                                key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
+                                                query_size=hidden_size)
         if freeze:
             freeze_params(self)
 
@@ -966,6 +970,7 @@ class TransformerDecoder(nn.Module):
                 unroll_steps: int = None,
                 hidden: Tensor = None,
                 trg_mask: Tensor = None,
+                kb_keys: Tensor = None,
                 **kwargs):
         """
         Transformer decoder forward pass.
@@ -981,6 +986,7 @@ class TransformerDecoder(nn.Module):
         :param kwargs:
         :return:
         """
+
         assert trg_mask is not None, "trg_mask required for Transformer"
 
         x = self.pe(trg_embed)  # add position encoding to word embedding
@@ -990,14 +996,14 @@ class TransformerDecoder(nn.Module):
             trg_embed.size(1)).type_as(trg_mask)
 
         for layer in self.layers:
-            x = layer(x=x, memory=encoder_output,
+            x, kb_probs = layer(x=x, memory=encoder_output, kb_keys=kb_keys,
                       src_mask=src_mask, trg_mask=trg_mask)
+        
 
         x = self.layer_norm(x)
-
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
-        return None, None, x, None
+        return None, None, x, kb_probs
 
 
     def __repr__(self):
@@ -1008,14 +1014,9 @@ class TransformerDecoder(nn.Module):
 
 class Generator(Gen):
     """
-    For knowledgebase task, this is where kb probabilities get added to outputs.
-
     Functions as output layer for both recurrent and transformer decoders.
 
-
-    TODO
-    remove inheritance of actual decoders from "Decoder" interface ... and maybe rename the interface
-    FIXME sort of done ^
+    For knowledgebase task, this is also where kb probabilities get added to outputs.
     """
 
     def __init__(self, dec_hidden_size, vocab_size, **kwargs):
@@ -1050,5 +1051,8 @@ class Generator(Gen):
             # add v to outputs (v_t in Eric et al.)
             outputs[B, U, kb_values] += kb_probs
 
-        return outputs
+            # compute log probs
+            log_probs = F.log_softmax(outputs, dim=-1)
+
+        return log_probs 
 

@@ -4,6 +4,7 @@ import math
 import torch
 import torch.nn as nn
 from torch import Tensor
+from joeynmt.attention import KeyValRetAtt
 
 
 # pylint: disable=arguments-differ
@@ -85,6 +86,56 @@ class MultiHeadedAttention(nn.Module):
         output = self.output_layer(context)
 
         return output
+
+# pylint: disable=arguments-differ
+class MultiHeadedKbAttention(MultiHeadedAttention):
+    """
+    Multi-Head Kb Attention module similar to "Eric et al.'s" which used bahdanau attention
+
+    TODO write this class
+    for the moment I will try to use the existing joeynmt.attention.KeyValRetAtt
+    """
+
+    def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
+        """
+        Computes multi-headed attention.
+
+        :param k: keys   [B, M, D] with M being the sentence length.
+        :param v: values [B, M, D]
+        :param q: query  [B, M, D]
+        :param mask: optional mask [B, 1, M]
+        :return:
+        """
+        batch_size = k.size(0)
+        num_heads = self.num_heads
+
+        # project the queries (q), keys (k), and values (v)
+        k = self.k_layer(k)
+        q = self.q_layer(q)
+
+        # reshape q, k, v for our computation to [batch_size, num_heads, ..]
+        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+
+        # compute scores
+        q = q / math.sqrt(self.head_size)
+
+        # batch x num_heads x query_len x key_len
+        scores = torch.matmul(q, k.transpose(2, 3))
+
+        # apply the mask (if we have one)
+        # we add a dimension for the heads to it below: [B, 1, 1, M]
+        if mask is not None:
+            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
+
+        # apply attention dropout
+        attention = self.softmax(scores)
+        attention = self.dropout(attention)
+
+        # TODO FIXME find out attention shape
+
+        return attention
+
 
 
 # pylint: disable=arguments-differ
@@ -216,7 +267,9 @@ class TransformerDecoderLayer(nn.Module):
                  size: int = 0,
                  ff_size: int = 0,
                  num_heads: int = 0,
-                 dropout: float = 0.1):
+                 dropout: float = 0.1,
+                 kb_task: bool = False
+    ):
         """
         Represents a single Transformer decoder layer.
 
@@ -232,6 +285,10 @@ class TransformerDecoderLayer(nn.Module):
 
         self.trg_trg_att = MultiHeadedAttention(num_heads, size,
                                                 dropout=dropout)
+        if kb_task:
+            self.kb_trg_att = MultiHeadedKbAttention(num_heads, size,
+                                                    dropout=dropout)
+
         self.src_trg_att = MultiHeadedAttention(num_heads, size,
                                                 dropout=dropout)
 
@@ -239,6 +296,7 @@ class TransformerDecoderLayer(nn.Module):
 
         self.x_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.dec_layer_norm = nn.LayerNorm(size, eps=1e-6)
+        self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
 
         self.dropout = nn.Dropout(dropout)
 
@@ -246,6 +304,7 @@ class TransformerDecoderLayer(nn.Module):
     def forward(self,
                 x: Tensor = None,
                 memory: Tensor = None,
+                kb_keys: Tensor = None, # determine if just kb keys are enough
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None) -> Tensor:
         """
@@ -253,6 +312,7 @@ class TransformerDecoderLayer(nn.Module):
 
         :param x: inputs
         :param memory: source representations
+        :param kb_keys: knowledgebase keys
         :param src_mask: source mask
         :param trg_mask: target mask (so as to not condition on future steps)
         :return: output tensor
@@ -264,9 +324,16 @@ class TransformerDecoderLayer(nn.Module):
 
         # source-target attention
         h1_norm = self.dec_layer_norm(h1)
-        h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask)
+        h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) #TODO Q: why is src masked?
+
+        if kb_keys is not None:
+            
+            # kb-target attention
+            h2_norm = self.kb_layer_norm(h2) 
+            h3 = self.kb_trg_att(kb_keys, kb_keys, h2_norm) # TODO find out if I have to apply src_mask here too
+            h1,h2 = h2,h3
 
         # final position-wise feed-forward layer
         o = self.feed_forward(self.dropout(h2) + h1)
 
-        return o
+        return o, h2

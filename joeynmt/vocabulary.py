@@ -1,5 +1,4 @@
-# coding: utf-8
-
+# coding: utf-8 
 """
 Vocabulary module
 """
@@ -54,6 +53,7 @@ class Vocabulary:
                 i += 1
         if len(canon_tokens_itos) == 0:
             print(f"found no tokens starting with @, returning vocab as is \n")
+            self.canon_onwards = len(self.itos)
             return
 
         print(f"took some canonical @tokens from vocab, correcting self.stoi now")
@@ -66,9 +66,9 @@ class Vocabulary:
         self.canon_onwards = len(self.itos)
         self.add_tokens(tokens=canon_tokens_itos)
         print(f"done vocabulary setup, returning \n")
-        #unit test
+        # unit test if itos is inverse of stoi
         for i,token in enumerate(self.itos):
-            assert i == self.stoi[token]
+            assert self.stoi[token] == i
         
         
 
