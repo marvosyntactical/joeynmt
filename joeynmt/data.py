@@ -102,6 +102,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_len = data_cfg.get("kb_len", "len")
         kb_trv = data_cfg.get("kb_truvals", "trv")
         global_trv = data_cfg.get("global_trv", "global.trv")
+        trutrg = data_cfg.get("trutrg", "car") 
 
         # TODO: following is hardcoded; add to configs please
         pnctprepro = True
@@ -144,8 +145,14 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                     <= max_sent_length
                                     and len(vars(x)['trg'])
                                     <= max_sent_length)
+    
        
     if kb_task: #load train_kb and metadata
+
+        # NOTE change trg_lang to trutrg for dev/test 
+        # train_data has been loaded with normal extension (canonized files, e.g. train.carnon)
+        # dev/test_data will be loaded from non canonized files
+        trg_lang = trutrg
 
         train_kb_truvals = MonoDataset(path=train_path,
                                     ext=("."+kb_trv),
