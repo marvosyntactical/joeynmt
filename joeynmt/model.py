@@ -386,19 +386,17 @@ class Model(nn.Module):
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
-                    kb_matches = np.where(np_kb_values[i,0,:] == token)[0] # find all values in kb that are this token (0-#kb)
-                    # (np.where returns tuple, so need to index with 0)
+                    kb_no_match_mask = np_kb_values[i,0,:] != token # find index for all values that are not the token 
+                    stacked_kb_att_scores[i, step, kb_no_match_mask] = float("-inf")  # mask out values that are not this token
 
-                    kb_matches_scores = stacked_kb_att_scores[i,step,kb_matches] # get attention for all found matches
+                    if not (kb_no_match_mask.all()): # success! found at least one match in kb !
 
-                    if len(kb_matches_scores): # success! found at least one match in kb !
-
-                        best_match_idx = np.argmax(kb_matches_scores,axis=-1) # get index of highest attended match
+                        best_match_idx = np.argmax(stacked_kb_att_scores[i,step,:]) # get index of highest attended match
 
                         # FIXME should use this call (from tensor which was compared with the canonical token)
                         # replacement_attempt = kb_trv[0, step, best_match_idx].item() # get true value of this match from trv vocab
 
-                        # alternative best match index (WITHOUT checking if the canon token even matches!)
+                        # NOTE alternative best match index (WITHOUT checking if the canon token even matches!)
                         replacement = topk_kb_vals[i,step,:].tolist()[0] 
 
                         # assert replacement_attempt == replacement, f"best_match_idx={best_match_idx};topk_kb_vals[i,step,:]={topk_kb_vals[i,step,:]}"
@@ -412,7 +410,7 @@ class Model(nn.Module):
 
                         print(f"\npostprocess: Warning:")
                         print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")
-                        print(f"with kb_matches: {kb_matches}")
+                        print(f"with kb_matches: {topk_kb_vals[i,step,:]}")
                         print(f"and stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
                         print(f"but np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])")
                         print(f"found only an empty array...")
@@ -428,9 +426,8 @@ class Model(nn.Module):
                         # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
 
                         post_proc_hyp.append(token) # didnt find a match for this, current policy: just append the canonical token ...
-
-                else:
-                    post_proc_hyp.append(token)
+                else: 
+                    post_proc_hyp.append(token) # append normal boring peasant non canonical token as it was found in hypothesis
             post_proc_stacked_output.append(post_proc_hyp)
         print()
         print(f"postprocess: hyps:\n {self.trg_vocab.arrays_to_sentences(outputs)}")
