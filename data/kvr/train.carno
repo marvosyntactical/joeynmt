@@ -865,7 +865,7 @@ i have a listing for a @poi_type named @poi_name .
 the address is @poi_address . would you like directions there ?
 here are directions to @poi_address .
 you're welcome . have a great day . 
-i will make a note of the @event for december @time th at @time with the @party to @agenda .
+i will make a note of the @event for december 10 th at @time with the @party to @agenda .
 happy to help
 this @weekly_time it's not gonna be @weather_attribute in @location
 no problem .
@@ -1087,7 +1087,7 @@ yes and pick the fastes route please
 this route to @poi_name has @traffic_info and is the quickest route . do you care for the address ?
 @poi_name is located at @poi_address . and i set the gps . 
 you're welcome !
-you have a group @event on @date at @time :00 am in room 102 with the @party to @agenda .
+you have a group @event on @date at 10 :00 am in room 102 with the @party to @agenda .
 okay , i've set a reminder for @event .
 what date and time would you like me to set it for ?
 @poi_name is @distance miles away .
@@ -1615,7 +1615,7 @@ you're welcome .
 i am showing your @event is on @date at @time .
 i see that there is no information for the requested items , would you like to update them now ? 
 i'm ready to update that whenever you are . 
-your agenda , parties and event location for your @event on @date at @time pm has been updated .
+your agenda , parties and event location for your @event on @date at 10 pm has been updated .
 you have @weekly_time optometrist's appointments scheduled ; one for @date at @time with @party and one @date at @time with @party .
 my pleasure . 
 you have @weekly_time meetings scheduled . one on @date in @room at @time , and another on @date at @room at @time .
@@ -1647,7 +1647,7 @@ you are welcome
 what location do you want the weather for ?
 it will not be @weather_attribute in @location @weekly_time .
 happy to help
-@event with @party scheduled for tonight at @time pm
+@event with @party scheduled for tonight at 10 pm
 what city are you interested in learning the weather for ?
 it will be in the @temperature -50 s @date to @date and @temperature -100 f on @date in @location .  @date through the @weekly_time will be @temperature -40 f .
 no problem .
@@ -4977,7 +4977,7 @@ you are welcome .
 the @event is at @time .
 for what day and time would you like to set this ?
 reminder set for @event on @date at @time .  is there anything else ?
-setting a reminder for @event on @date at @time pm with @party .
+setting a reminder for @event on @date at 10 pm with @party .
 @poi_name is a @poi_type located @distance miles way . there is currently @traffic_info though .
 @poi_address , we're @distance miles away : would you like me to set the route on your screen ?
 okay headed to @poi_name @poi_type
@@ -5114,7 +5114,7 @@ you're welcome .
 there is @traffic_info on our way @poi_type but we're just @distance miles away , it won't take too long to reach
 setting route to @poi_address now .
 that's the quickest available route , gps set . have a great day . 
-your doctor's appointment on @date is at @time m . 
+your doctor's appointment on @date is at 10 m . 
 the nearest @poi_type is @poi_name at @poi_address , @distance mile away . would you like directions there ?
 although there is a @traffic_info , it is the fastest route to @poi_name @distance mile away
 you are welcome . 
@@ -5579,7 +5579,7 @@ sending the address and route to @poi_name at @poi_address to your map .
 you're welcome !
 in @location on @date the forecast calls for @weather_attribute with a low of @temperaturef and a high of @temperaturef .
 you're welcome .
-you currently have @distance meetings scheduled . the first is on @date in @event room @time to dicu the company picnic . the second i on @date in @temperature @event room to @agenda the budget . the last is on @date in @room to @agenda dress code .
+you currently have @distance meetings scheduled . the first is on @date in @event room 10 to dicu the company picnic . the second i on @date in @temperature @event room to @agenda the budget . the last is on @date in @room to @agenda dress code .
 you are welcome .
 what city can i give you the forecast for ?
 the forecast does not predict any @weather_attribute in @location on @date .
@@ -5597,7 +5597,7 @@ you're welcome . glad i could help .
 your @poi_type address is @poi_address .
 in this moment there is @traffic_info but i sent on your screen the fastest route
 you're welcome . 
-you have a @event on @date , @time th , and @distance th . for which one are you asking about ?
+you have a @event on @date , 10 th , and @distance th . for which one are you asking about ?
 the appointment on @date is at @time .
 happy to help
 the closest @poi_type is @distance miles away and the name of it is @poi_name .
@@ -6254,7 +6254,7 @@ reminder set for @time .
 you are welcome . 
 when is your @event ?
 okay , setting a reminder for @event ? on what date ?
-okay , your reminder is set for @time on december @time th .
+okay , your reminder is set for @time on december 10 th .
 you are welcome
 okay , i am scheduling a @event with @party on @date at @time for you .
 you are welcome driver . 
