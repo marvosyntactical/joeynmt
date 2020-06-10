@@ -6,6 +6,7 @@ Module to represent whole models
 from typing import Tuple
 
 from copy import deepcopy
+from collections import defaultdict
 
 import numpy as np
 
@@ -377,9 +378,23 @@ class Model(nn.Module):
         outputs_roll = np.tile(stacked_output[:,:np.newaxis],(1,1, topk)) # tiled along new third kb dimension: batch x time x kb
         replacement_options_indexer = topk_kb_vals[B,U,:] != outputs_roll
         replacement_options_ = np.where(replacement_options_indexer, topk_kb_trvs,"<no-match>")
-        r_ = np.where(replacement_options_!="<no-match>")
+        r_ = np.where(replacement_options_!="<no-match>") # tuple of array per dimension d where array entry i has the position along the dth dimension of the ith entry of the flattened replacement_options
 
-        outputs_  = np.where() # TODO FIXME use np where to get first match ()from r_ along dimension -1 (last, 2) if such match exists else outputs_
+        contenders_dict = defaultdict(list) # this list will contain first two dimensions of a match as key, third dimension as entry in the list
+
+        contenders = [r.tolist() for r in r_]
+        contenders = list(zip(*contenders))
+        for contender in contenders: # 3 tuple of coordinates along axes batch x time x topk attended
+            batch_x_time = contender[0]*1j+contender[1] # tuples arent hashable so just enter one number as key: complex number z with Im(z)=batch, Re(z)=time
+            topk = contender[2]
+            contenders_dict[batch_x_time] = topk 
+        
+        # TODO fill outputs array with either outputs or highest value in lists of contenders
+        # outputs_ = np.where(options_available == True, outputs_, contenders)
+
+
+        
+
         
 
         # end attempt np only/
