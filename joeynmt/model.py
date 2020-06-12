@@ -26,6 +26,7 @@ from joeynmt.vocabulary import Vocabulary
 from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.helpers import ConfigurationError, Timer
 from joeynmt.constants import EOS_TOKEN, PAD_TOKEN
+from joeynmt.data import pkt_tokenize, tokenize
 
 
 class Model(nn.Module):
@@ -328,7 +329,7 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
     
-    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_trv) -> np.array:
+    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_trv, tok_fun=pkt_tokenize) -> np.array:
         """
         called in self.run_batch() during knowledgebase task
 
@@ -410,8 +411,6 @@ class Model(nn.Module):
 
                         replacement = replacement_options.tolist()[0]
 
-                        # assert replacement_attempt == replacement, f"best_match_idx={best_match_idx};topk_kb_trvs[i,step,:]={topk_kb_trvs[i,step,:]}"
-
                         post_proc_hyp.append(replacement) # append this true value instead of the token
 
                         print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
@@ -445,6 +444,7 @@ class Model(nn.Module):
         print(f"postprocess: post processed hyps:\n {self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
         print()
         post_proc_stacked_output = np.array(post_proc_stacked_output)
+
 
         return post_proc_stacked_output
 

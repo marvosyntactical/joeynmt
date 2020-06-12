@@ -150,6 +150,8 @@ def validate_on_data(model: Model, data: Dataset,
         
         decoded_valid = decoding_vocab.arrays_to_sentences(arrays=all_outputs,
                                                             cut_at_eos=True)
+
+
         # evaluate with metric on full dataset
         join_char = " " if level in ["word", "bpe"] else ""
         valid_sources = [join_char.join(s) for s in data.src]
@@ -160,10 +162,8 @@ def validate_on_data(model: Model, data: Dataset,
         # post-process
         if level == "bpe":
             valid_sources = [bpe_postprocess(s) for s in valid_sources]
-            valid_references = [bpe_postprocess(v)
-                                for v in valid_references]
-            valid_hypotheses = [bpe_postprocess(v) for
-                                v in valid_hypotheses]
+            valid_references = [bpe_postprocess(v) for v in valid_references]
+            valid_hypotheses = [bpe_postprocess(v) for v in valid_hypotheses]
 
         # if references are given, evaluate against them
         if valid_references:

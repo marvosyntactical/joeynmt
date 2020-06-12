@@ -8,7 +8,6 @@ def load_entitties(ent_json="../kvr/kvret_entities.json"):
     ent_dict = json.load(ent_json)
     return ent_dict
 
-#TODO cluster target data more! weather strings need to be mapped to just weather_info_for_day_in_city
 
 #hardcoded lookup
 kbval_lkp = {
@@ -21,13 +20,12 @@ kbval_lkp = {
     "agenda": "agenda",
     "date": "date",
     "party":"party",
-    "monday":"weather_attribute", #FIXME cluster to this token in target data
-    "tuesday":"weather_attribute",
-    "wednesday":"weather_attribute",
-    "thursday":"weather_attribute",
-    "friday":"weather_attribute",
-    "saturday":"weather_attribute",
-    "sunday":"weather_attribute", #TODO add 'today'
+    "weather":"weather_attribute",
+    "temperature_low":"temperature",
+    "temperature_high":"temperature",
+    "location":"location",
+    "poi":"poi_name",
+    "event":"event"
 }
 
 kbval_lkp = defaultdict(None, kbval_lkp)
@@ -39,7 +37,7 @@ def replace_line(line:str, d:defaultdict = kbval_lkp):
     splitline = line.split("_")
     ending = splitline[-1]
     #hardcoded
-    if ending in ["info", "type"]:
+    if ending in ["info", "type","low","high"]:
         ending = splitline[-2]+"_"+ending
 
     replacement_raw = d[ending]
@@ -53,14 +51,14 @@ def replace_lines(lines: List[str], d:defaultdict=kbval_lkp):
 def main(args):
     if args[0] == 0:
         # default f:
-        f = "../kvr/dev.kbv"
+        f = "../kvr/dev.kbvNEW"
     elif type(args[0])==type(""):
-        f = f"../kvr/{args[0]}.kbv"
+        f = f"../kvr/{args[0]}.kbvNEW"
     else:
         raise ValueError(f"this shouldnt ever happen...: {args[0]}")
 
     f_stump = ".".join(f.split(".")[:-1])+"."
-    cluster_ext = "kbc"
+    cluster_ext = "kbcNEW"
     fp = f_stump + cluster_ext
 
     with open(f, "r") as fine:

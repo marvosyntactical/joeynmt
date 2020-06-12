@@ -33,10 +33,25 @@ def normalize_weather(d):
     locations = d["kb"]["items"]
     for location in locations:
         subject = location["location"]
-        #do something with "today???"
+        today = location["today"]
         for weekday in location.keys():
-            if weekday in ("today", "location"): continue #? TODO
-            normed_kb.append((subject,weekday,location[weekday]))
+            if weekday == "today": # add ("today", "date", "monday")
+                normed_kb.append((weekday, "date", location[weekday]))
+            elif weekday == "location": # add ("ohio", "location", "ohio")
+                normed_kb.append((subject, weekday, location[weekday]))
+            else: # add ("san francisco", "monday weather", "rain")
+                weather_info = location[weekday].split(",")
+                weather_attribute, temp_low, temp_high = weather_info
+                temp_low = temp_low.split()[-1] # just degree fahrenheit 
+                temp_high = temp_high.split()[-1] # just degree fahrenheit 
+
+                if weekday == today:
+                    weekday = "today"
+
+                normed_kb.append((subject,weekday+" weather",weather_attribute))
+                normed_kb.append((subject,weekday+" temperature low",temp_low))
+                normed_kb.append((subject,weekday+" temperature high",temp_high))
+
     return normed_kb
 
 def normalize_navigate(d):
@@ -56,8 +71,7 @@ def normalize_navigate(d):
     for blimp in blimps:
         subject = blimp["poi"]
         for relation in blimp.keys():
-            if relation != "poi":
-                normed_kb.append((subject,relation,blimp[relation]))
+            normed_kb.append((subject,relation,blimp[relation]))
     return normed_kb
 
 def normalize_schedule(d):
@@ -80,7 +94,7 @@ def normalize_schedule(d):
             # Latest TODO:
             # possible also check appointment[relation] != "-"
             # to filter out unassigned rooms/agendas/..
-            if not relation == "event":
+            if appointment[relation] != "-":
                 normed_kb.append((event,relation,appointment[relation]))
     return normed_kb
 
@@ -98,7 +112,7 @@ def main(args):
 
     normed_kbs = [normalize_kb(kb) for kb in settings]
     lens = [str(len(kb))+"\n" for kb in normed_kbs]
-    
+
     normed_kbs_inner = [triple for scenario in normed_kbs for triple in scenario]
     kb_list = ["::".join(t)+"\n" for t in normed_kbs_inner]
 
@@ -135,9 +149,6 @@ def main(args):
     save_lengths = filestamm + "." + lengths
     with open(directory+save_lengths, "w") as l:
         l.writelines(lens)
-
-
-
 
     return 0
 

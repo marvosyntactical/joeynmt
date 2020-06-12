@@ -65,7 +65,7 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
 
     keys are first tokens in input dictionary value string lists;
     values are dictionaries: keys are labels, values are 2D lists; inner lists contain continuations of
-    they top level key as token lists, possibly empty
+    their top level key as token lists, possibly empty
 
     TODO clashes between @labels should be avoided, e.g. no two labels with empty inner lists
     e.g.
@@ -74,9 +74,11 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
 
     if input dictionary value contains list of dictionaries (e.g. poi info with multiple dictionary entries: address, poi, type), output looks like this:
 
+    { ...
     "593": {"poi", [["Arrowhead", "Way]]}
     "Chef": {"poi", [["Chu's"]]}
     "chinese": {"poi", [["restaurant"]]}
+    ... }
 
     """
     def add_entry_to_dict(dictionary:defaultdict, entry: str = "", label: str="", lowerize: bool= True, tokenizer=lambda s:s.split(), suffix:str="", default:DefaultFactory=DefaultFactory()) -> None:
@@ -87,15 +89,17 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
         classification = "@"+label+suffix # e.g. @poi_name or @distance
         key, continuation = tokenized_entity.pop(0), tokenized_entity
 
+        """
         # hardcode 'the' and 'a' duplication for select classes/labels:
         if classification == "@temperature":
-            suffixes = ["f"]#a hospital should also match
+            suffixes = ["f"] #a hospital should also match
             if key not in suffixes: # break recursion
                 for suffix in suffixes:
                     modified_entry = entry+" "+suffix
 
                     # recurse with added article:
                     add_entry_to_dict(dictionary, modified_entry, label, lowerize, tokenizer, suffix, default)
+        """
 
 
         # check if first token exists as key in return dict r:
@@ -122,7 +126,7 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
                 raise TypeError(f"Can't handle type {type(entry)} of entry: {entry}")
     return r
 
-def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> List[str]: 
+def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> List[str]:
     """
     Efficiently canonize with values in dict
     (search further ahead if a token matches first word in canon string)
@@ -132,13 +136,21 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                  "the", "no",#meetings, pois etc\ 
                  "0","1","2","3","4","5","6","7","8","9","10",#distances
                  "20", "30","40","50","60","70","80","90","100",#temperatures
-                 "next",#weekly time
+                 "next", "two",#weekly time
                  "four",#poi name
                 ]
     r = []
     i = 0
     while i < len(seq):
         token = seq[i]
+
+        if token.startswith("-"): # special case for dashes and start of temperatures: 40 -50 f => 40 - 50 f
+            r.append("-")
+            try:
+                token = token[1:]
+            except IndexError:
+                continue
+
         next = entities[token]
         if next:
             j = 0
@@ -190,7 +202,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     print("\n"+("="*40))
     print(f"\tFinished up Sequence\n{seq}\nand transformed it to\n{r}")
     print(("="*40)+"\n")
-    return r 
+    return r
 
 def canonize_sequences(seqs: List[List[str]] = [], dictionary: defaultdict = defaultdict()):
     return [canonize_sequence(seq,dictionary) for seq in seqs]

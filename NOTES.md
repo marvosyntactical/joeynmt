@@ -71,6 +71,8 @@ Preprocessing:
 * while at it, also add poi\_name : poi\_name to traffic entries 
 * go through canonization pipeline to get proper new *.len* files
 
+=> Done
+
 ### 15.05.20 implement kb for transformer
 
 steps:

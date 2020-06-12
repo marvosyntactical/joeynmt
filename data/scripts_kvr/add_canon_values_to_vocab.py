@@ -79,7 +79,7 @@ def main(args):
     with open(new_kb_voc_loc, "w") as newV:
         newV.writelines(new_vocab)
 
-    kb_src_ext, kb_trg_ext,kb_proper_val_ext = "kbk","kbv", "trv"
+    kb_src_ext, kb_trg_ext,kb_proper_val_ext = "kbkNEW","kbvNEW", "trvNEW"
     old = ".".join(filename.split(".")[:-1])
     kb_src, kb_trg, kb_proper_val = old+"."+kb_src_ext, old+"."+kb_trg_ext, old+"."+kb_proper_val_ext
 
