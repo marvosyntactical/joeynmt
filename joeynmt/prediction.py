@@ -284,16 +284,40 @@ def test(cfg_file,
         #pylint: disable=unused-variable
         score, loss, ppl, sources, sources_raw, references, hypotheses, \
         hypotheses_raw, attention_scores, kb_att_scores = validate_on_data(
-            model, data=data_set, batch_size=batch_size,
-            batch_type=batch_type, level=level,
-            max_output_length=max_output_length, eval_metric=eval_metric,
-            use_cuda=use_cuda, loss_function=None, beam_size=beam_size,
+            model,
+            data=data_set,
+            batch_size=batch_size,
+            batch_type=batch_type,
+            level=level,
+            max_output_length=max_output_length,
+            eval_metric=eval_metric,
+            use_cuda=use_cuda,
+            loss_function=None,
+            beam_size=beam_size,
             beam_alpha=beam_alpha,
             kb_task = kb_task,
             valid_kb=kb_info[0],
-            valid_kb_lkp=kb_info[1], valid_kb_lens=kb_info[2],
+            valid_kb_lkp=kb_info[1], 
+            valid_kb_lens=kb_info[2],
             valid_kb_truvals=kb_info[3],
             )
+        """
+                batch_size=self.eval_batch_size,
+                data=valid_data,
+                eval_metric=self.eval_metric,
+                level=self.level, 
+                model=self.model,
+                use_cuda=self.use_cuda,
+                max_output_length=self.max_output_length,
+                loss_function=self.loss,
+                beam_size=0,  
+                batch_type=self.eval_batch_type,
+                kb_task=kb_task,
+                valid_kb=valid_kb,
+                valid_kb_lkp=valid_kb_lkp,
+                valid_kb_lens=valid_kb_lens,
+                valid_kb_truvals=valid_kb_truvals
+        """
         #pylint: enable=unused-variable
 
         if "trg" in data_set.fields:

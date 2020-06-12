@@ -51,7 +51,7 @@ class DefaultFactory:
     def __repr__(self):
         return "n.a."
 
-def load_entity_dict(fp="../kvr/kvret_entities.json"):
+def load_entity_dict(fp="../kvr/kvret_entities_altered.json"):
     with open(fp, "r") as file:
         entities = json.load(file)
     return entities
@@ -131,7 +131,9 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     stopwords = [\
                  "the", "no",#meetings, pois etc\ 
                  "0","1","2","3","4","5","6","7","8","9","10",#distances
-                 "20", "30","40","50","60","70","80","90","100"#temperatures
+                 "20", "30","40","50","60","70","80","90","100",#temperatures
+                 "next",#weekly time
+                 "four",#poi name
                 ]
     r = []
     i = 0
@@ -197,7 +199,7 @@ def main(args):
 
     directory = "../kvr/"
     if args==0: #use defaults
-        filestub = "dev"
+        filestub = "train"
     else:
         filestub = args[0]
 

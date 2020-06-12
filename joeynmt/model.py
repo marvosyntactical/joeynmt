@@ -373,9 +373,10 @@ class Model(nn.Module):
 
         # debug end -------------------------------------
 
-        outputs_ = deepcopy(stacked_output)
         # start attempt np only:
-        outputs_roll = np.tile(stacked_output[:,:np.newaxis],(1,1, topk)) # tiled along new third kb dimension: batch x time x kb
+
+        outputs_ = deepcopy(stacked_output)
+        outputs_roll = np.tile(stacked_output[:,:np.newaxis],(1,1, topk)) # tiled along new third kb dimension: batch x time x topk attended
         replacement_options_indexer = topk_kb_vals[B,U,:] != outputs_roll
         replacement_options_ = np.where(replacement_options_indexer, topk_kb_trvs,"<no-match>")
         r_ = np.where(replacement_options_!="<no-match>") # tuple of array per dimension d where array entry i has the position along the dth dimension of the ith entry of the flattened replacement_options
@@ -393,14 +394,7 @@ class Model(nn.Module):
         # outputs_ = np.where(options_available == True, outputs_, contenders)
 
 
-        
-
-        
-
         # end attempt np only/
-
-        # TODO get kb_matches without for loops; wrong/incomplete attempt started below:
-        # kb_matches_no_for = np.where(np_kb_values[:,0,:] == np.where(stacked_output >= self.trg_vocab.canon_onwards, stacked_output, -1))
 
         for i,hyp in enumerate(outputs):
             post_proc_hyp = []

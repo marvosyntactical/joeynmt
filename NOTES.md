@@ -55,6 +55,22 @@ Preprocessing:
 
 ## _```Current Issues```_:
 
+### 10.06.20 improve canonization 
+
+1. optimize canonize.py
+2. weather:
+* split into temperature and weather type (determine how we can meaningfully split by looking at train.car lines: what do people choose to say?)
+* give location info
+* give weekday info (especially on today)
+* meaningful weather split is probably: 
+* (@temperature, @precipitation, @day\_of\_week, @weather\_location)
+
+=> Create new *branch* before the dangerous following stuff:
+* update knowledgebase files: split weather kbs as above
+* while at it, also remove empty ("-") scheduling entries
+* while at it, also add poi\_name : poi\_name to traffic entries 
+* go through canonization pipeline to get proper new *.len* files
+
 ### 15.05.20 implement kb for transformer
 
 steps:
