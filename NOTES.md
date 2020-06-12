@@ -43,9 +43,6 @@ This is a general list of minor technical TODOs that should be useful in any cas
 \\
 Preprocessing:
 * batch convos with same kb together
-* ! filter unvalued entries !
-* traffic info: default category in this domain: poi\_type, not poi!
-
 
 ####### Optimization
 * rewrite model.run\_batch post processing to use numpy funs instead of double for
@@ -54,24 +51,6 @@ Preprocessing:
 
 
 ## _```Current Issues```_:
-
-### 10.06.20 improve canonization 
-
-1. optimize canonize.py
-2. weather:
-* split into temperature and weather type (determine how we can meaningfully split by looking at train.car lines: what do people choose to say?)
-* give location info
-* give weekday info (especially on today)
-* meaningful weather split is probably: 
-* (@temperature, @precipitation, @day\_of\_week, @weather\_location)
-
-=> Create new *branch* before the dangerous following stuff:
-* update knowledgebase files: split weather kbs as above
-* while at it, also remove empty ("-") scheduling entries
-* while at it, also add poi\_name : poi\_name to traffic entries 
-* go through canonization pipeline to get proper new *.len* files
-
-=> Done
 
 ### 15.05.20 implement kb for transformer
 
@@ -97,14 +76,23 @@ according to Artem I should definitely do 1, best move it all to generator (but 
 
 -> open two sub branches for this?
 
-### 02.06.20 implement generator in preparation for transformer
 
--> mostly done, works for recurrent decoder
 
-for the generator, test if log\_softmax makes a difference for search if I put it in generator
+### 07.04.20 training on GPU
 
--> open branch for this
+* 63 epochs after 520 minutes => 8.2 minutes per epoch
+* validate every 100 examples
+* TOK/SEC increases per epoch from 200 to 6600
+* testing should work (beam search), test again with saved checkpt
 
+TODO for actual gpu training:
+* import and use tensorboard writer again
+
+---
+
+# Issues Archive
+
+## Old Issue
 ### 08.05.20 debug kb batch matchup
 
 batches have random kbs??
@@ -114,7 +102,17 @@ look in:
 
 -> for debugging, create bash alias for config with no\_traffic/best.ckpt as load\_model ... then check hypotheses postprocessing quick
 
+=> Done, dev\_kb\_len was wrongly assigned in training.py startup ..
 
+## Old Issue
+### 02.06.20 implement generator in preparation for transformer
+
+-> mostly done, works for recurrent decoder
+
+=> Done
+
+
+## Old Issue
 ### 19.04.20 canonize target to same resolution as kb values 
 
 * for kvr\_attention to learn, its output like e.g. "@meeting\_time" must be contained in the same form in target sequences; in the training data they occur as e.g. "4", "pm" though!
@@ -136,23 +134,27 @@ Steps:
 
 This is not what the authors did and it is questionable whether this attention based recovery is sufficient to learn.
 
-* in kbv, (files with new\_york\_wednesday formatting, prepend @ for vocabulary check)
 
--> it still seems like some knowledgebases are matched with the wrong batch....
 
-### 07.04.20 training on GPU
+## Old Issue
+### 10.06.20 improve canonization 
 
-* 63 epochs after 520 minutes => 8.2 minutes per epoch
-* validate every 100 examples
-* TOK/SEC increases per epoch from 200 to 6600
-* testing should work (beam search), test again with saved checkpt
+1. optimize canonize.py
+2. weather:
+* split into temperature and weather type (determine how we can meaningfully split by looking at train.car lines: what do people choose to say?)
+* give location info
+* give weekday info (especially on today)
+* meaningful weather split is probably: 
+* (@temperature, @precipitation, @day\_of\_week, @weather\_location)
 
-TODO for actual gpu training:
-* import and use tensorboard writer again
+=> Create new *branch* before the dangerous following stuff:
+* update knowledgebase files: split weather kbs as above
+* while at it, also remove empty ("-") scheduling entries
+* while at it, also add poi\_name : poi\_name to traffic entries 
+* go through canonization pipeline to get proper new *.len* files
 
----
+=> Done
 
-# Issues Archive
 
 ## Old Issue
 ### 14.05.20 switch to generator
