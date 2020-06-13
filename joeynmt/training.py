@@ -398,7 +398,7 @@ class TrainManager:
 
                     # store attention plots for selected valid sentences
                     if valid_attention_scores:
-                        plot_ratio = store_attention_plots(
+                        plot_success_ratio = store_attention_plots(
                             attentions=valid_attention_scores,
                             targets=valid_hypotheses_raw,
                             sources=list(valid_data.src),#TODO
@@ -406,18 +406,19 @@ class TrainManager:
                             output_prefix="{}/att.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps)
-                        self.logger.info(f"stored {plot_ratio} valid att scores!")
+                        self.logger.info(f"stored {plot_success_ratio} valid att scores!")
                     if valid_kb_att_scores:
-                        plot_ratio = store_attention_plots(
+                        plot_success_ratio = store_attention_plots(
                             attentions=valid_kb_att_scores,
                             targets=valid_hypotheses_raw,
-                            sources=list(valid_kb.kbsrc),#TODO
+                            sources=[KEY+": "+VAL for KEY, VAL in \
+                                zip(list(valid_kb.kbsrc),list(valid_kb.kbtrg))],
                             indices=self.log_valid_sents,
                             output_prefix="{}/kbatt.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps,
-                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrg)))
-                        self.logger.info(f"stored {plot_ratio} valid kb att scores!")
+                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrv)))
+                        self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")
                 if self.stop:

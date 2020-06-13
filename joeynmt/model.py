@@ -26,7 +26,6 @@ from joeynmt.vocabulary import Vocabulary
 from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.helpers import ConfigurationError, Timer
 from joeynmt.constants import EOS_TOKEN, PAD_TOKEN
-from joeynmt.data import pkt_tokenize, tokenize
 
 
 class Model(nn.Module):
@@ -329,7 +328,7 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
     
-    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_trv, tok_fun=pkt_tokenize) -> np.array:
+    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_trv) -> np.array:
         """
         called in self.run_batch() during knowledgebase task
 
@@ -350,9 +349,7 @@ class Model(nn.Module):
         post_proc_stacked_output = []
         outputs = stacked_output.tolist()
 
-        # debug start ----------------------------------- 
-
-        print("postprocess: hardcore plotting.")
+        print("postprocess.")
         print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
         kb_length = stacked_kb_att_scores.shape[-1]
 
@@ -368,34 +365,12 @@ class Model(nn.Module):
         # remember to tile kb_trv: batch x kb => batch x time x kb
         kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
         kb_val = np.tile(np_kb_values,(1,stacked_kb_att_scores.shape[1],1))
-        # find topk entries in kb_trv
+
+        # find topk entries in kb_trv (for use as token replacement) and in kb_val (to compare the indices of possible token replacements to the token)
+        # in trv vocab:
         topk_kb_trvs = kb_trv[B,U,topk_kb_indexer]
+        # in trg vocab (as are the tokens):
         topk_kb_vals = kb_val[B,U,topk_kb_indexer]
-
-        # debug end -------------------------------------
-
-        # start attempt np only:
-
-        outputs_ = deepcopy(stacked_output)
-        outputs_roll = np.tile(stacked_output[:,:np.newaxis],(1,1, topk)) # tiled along new third kb dimension: batch x time x topk attended
-        replacement_options_indexer = topk_kb_vals[B,U,:] != outputs_roll
-        replacement_options_ = np.where(replacement_options_indexer, topk_kb_trvs,"<no-match>")
-        r_ = np.where(replacement_options_!="<no-match>") # tuple of array per dimension d where array entry i has the position along the dth dimension of the ith entry of the flattened replacement_options
-
-        contenders_dict = defaultdict(list) # this list will contain first two dimensions of a match as key, third dimension as entry in the list
-
-        contenders = [r.tolist() for r in r_]
-        contenders = list(zip(*contenders))
-        for contender in contenders: # 3 tuple of coordinates along axes batch x time x topk attended
-            batch_x_time = contender[0]*1j+contender[1] # tuples arent hashable so just enter one number as key: complex number z with Im(z)=batch, Re(z)=time
-            topk = contender[2]
-            contenders_dict[batch_x_time] = topk 
-        
-        # TODO fill outputs array with either outputs or highest value in lists of contenders
-        # outputs_ = np.where(options_available == True, outputs_, contenders)
-
-
-        # end attempt np only/
 
         for i,hyp in enumerate(outputs):
             post_proc_hyp = []
@@ -404,8 +379,8 @@ class Model(nn.Module):
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
-                    true_value_choices = topk_kb_trvs[i,step,:]
-                    replacement_options = true_value_choices[topk_kb_vals[i,step,:] == token]
+                    true_value_choices = topk_kb_trvs[i,step,:] # choices for which true value token to append
+                    replacement_options = true_value_choices[topk_kb_vals[i,step,:] == token] # restrict choices to those matching the token
 
                     if replacement_options.shape[0]: # success! found at least one match in kb !
 
@@ -422,17 +397,9 @@ class Model(nn.Module):
                         print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")
                         print(f"with kb_matches: {topk_kb_trvs[i,step,:]}")
                         print(f"and stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
-                        print(f"but np.argmax(stacked_kb_att_scores[i,step,:][kb_matches])")
                         print(f"found only an empty array...")
                         print(f"! this probably means a canonical token was suggested at random !")
                         print(f"failure sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_trvs[i,step,:].tolist())}")
-                        # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
-                        # TODO big trouble: we can handle this case (False Positives without matching kb token)
-                        # but what about the silent case (False Positives with matching kb token)
-                        # where a best match is selected without deserving it...should still learn anyways?
-                        # FIXME maybe do use intermediate clustering instead
-                        # atm: we rely on attention to disambiguate super low granular clustering
-                        # better: have intermediate clustering trg_vocab_3 with better recall
                         # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
 
                         post_proc_hyp.append(token) # didnt find a match for this, current policy: just append the canonical token ...

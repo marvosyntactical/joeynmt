@@ -69,9 +69,10 @@ def normalize_navigate(d):
     assert d["task"]["intent"]=="navigate"
     blimps = d["kb"]["items"]
     for blimp in blimps:
-        subject = blimp["poi"]
+        subject = blimp["poi_type"]
         for relation in blimp.keys():
-            normed_kb.append((subject,relation,blimp[relation]))
+            if blimp[relation] != subject:
+                normed_kb.append((subject,relation,blimp[relation]))
     return normed_kb
 
 def normalize_schedule(d):
@@ -132,7 +133,7 @@ def main(args):
 
     #line formatted normalized kb
     filestamm = filename.split(".")[0]
-    ext = "kbNEW"
+    ext = "kbFINAL"
     save_as = filestamm+"."+ext
     with open(directory+save_as, "w") as o:
         o.writelines(kb_list)
@@ -145,7 +146,7 @@ def main(args):
     # according to 
     # * dev.lkp 
 
-    lengths = "lenNEW"
+    lengths = "lenFINAL"
     save_lengths = filestamm + "." + lengths
     with open(directory+save_lengths, "w") as l:
         l.writelines(lens)

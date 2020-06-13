@@ -51,14 +51,14 @@ def replace_lines(lines: List[str], d:defaultdict=kbval_lkp):
 def main(args):
     if args[0] == 0:
         # default f:
-        f = "../kvr/dev.kbvNEW"
+        f = "../kvr/dev.kbvFINAL"
     elif type(args[0])==type(""):
-        f = f"../kvr/{args[0]}.kbvNEW"
+        f = f"../kvr/{args[0]}.kbvFINAL"
     else:
         raise ValueError(f"this shouldnt ever happen...: {args[0]}")
 
     f_stump = ".".join(f.split(".")[:-1])+"."
-    cluster_ext = "kbcNEW"
+    cluster_ext = "kbcFINAL"
     fp = f_stump + cluster_ext
 
     with open(f, "r") as fine:
