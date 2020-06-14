@@ -13,6 +13,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -382,6 +383,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -493,6 +495,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @weather_attribute
 @temperature
 @temperature
@@ -1113,6 +1116,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -1168,6 +1172,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @weather_attribute
 @temperature
 @temperature
@@ -1336,6 +1341,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -1592,6 +1598,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -2291,6 +2298,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -2491,6 +2499,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -3739,6 +3748,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -4486,6 +4496,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -5400,6 +5411,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -5447,6 +5459,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -5663,6 +5676,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -6662,6 +6676,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -6685,6 +6700,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -7324,6 +7340,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -8047,6 +8064,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -9761,6 +9779,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -9962,9 +9981,11 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -10499,9 +10520,11 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -10521,6 +10544,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @weather_attribute
 @temperature
 @temperature
@@ -11031,6 +11055,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -11772,6 +11797,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @weather_attribute
 @temperature
 @temperature
@@ -12571,6 +12597,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -12578,6 +12605,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -12848,6 +12876,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -12863,6 +12892,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -13063,9 +13093,11 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -13270,6 +13302,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -13555,6 +13588,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -14071,6 +14105,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @room
 @agenda
 @time
@@ -15987,6 +16022,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -16108,6 +16144,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @weather_attribute
 @temperature
 @temperature
@@ -16360,6 +16397,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -17107,9 +17145,11 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -17117,6 +17157,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -17145,6 +17186,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -17381,6 +17423,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -17412,6 +17455,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -17487,6 +17531,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -17558,6 +17603,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -18068,6 +18114,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -18720,6 +18767,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @weather_attribute
 @temperature
 @temperature
@@ -19143,6 +19191,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -20061,6 +20110,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @weather_attribute
 @temperature
 @temperature
@@ -20289,6 +20339,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -20328,6 +20379,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address
@@ -20580,6 +20632,7 @@
 @poi_distance
 @traffic_info
 @poi_address
+@poi_name
 @poi_distance
 @traffic_info
 @poi_address

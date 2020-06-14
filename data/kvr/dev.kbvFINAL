@@ -1299,6 +1299,7 @@ rest_stop_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 certain_address_distance
 certain_address_traffic_info
 certain_address_address
@@ -1523,6 +1524,7 @@ chinese_restaurant_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 gas_station_distance
 gas_station_traffic_info
 gas_station_address
@@ -2590,6 +2592,7 @@ parking_garage_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 grocery_store_distance
 grocery_store_traffic_info
 grocery_store_address
@@ -2967,6 +2970,7 @@ coffee_or_tea_place_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 parking_garage_distance
 parking_garage_traffic_info
 parking_garage_address
@@ -2996,6 +3000,7 @@ coffee_or_tea_place_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 shopping_center_distance
 shopping_center_traffic_info
 shopping_center_address
@@ -3003,6 +3008,7 @@ shopping_center_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 grocery_store_distance
 grocery_store_traffic_info
 grocery_store_address
@@ -3864,6 +3870,7 @@ rest_stop_poi
 rest_stop_distance
 rest_stop_traffic_info
 rest_stop_address
+home_poi
 home_distance
 home_traffic_info
 home_address
@@ -3939,6 +3946,7 @@ friends_house_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 grocery_store_distance
 grocery_store_traffic_info
 grocery_store_address
@@ -4765,6 +4773,7 @@ today_date
 home_distance
 home_traffic_info
 home_address
+home_poi
 coffee_or_tea_place_distance
 coffee_or_tea_place_traffic_info
 coffee_or_tea_place_address
@@ -5279,6 +5288,7 @@ pizza_restaurant_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 rest_stop_distance
 rest_stop_traffic_info
 rest_stop_address
@@ -6574,6 +6584,7 @@ shopping_center_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 grocery_store_distance
 grocery_store_traffic_info
 grocery_store_address
@@ -7655,6 +7666,7 @@ rest_stop_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 grocery_store_distance
 grocery_store_traffic_info
 grocery_store_address
@@ -7674,6 +7686,7 @@ shopping_center_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 certain_address_distance
 certain_address_traffic_info
 certain_address_address
@@ -7693,6 +7706,7 @@ gas_station_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 rest_stop_distance
 rest_stop_traffic_info
 rest_stop_address
@@ -7720,6 +7734,7 @@ grocery_store_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 shopping_center_distance
 shopping_center_traffic_info
 shopping_center_address
@@ -7976,6 +7991,7 @@ grocery_store_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 tennis_activity_time
 tennis_activity_date
 tennis_activity_party
@@ -8716,6 +8732,7 @@ coffee_or_tea_place_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 coffee_or_tea_place_distance
 coffee_or_tea_place_traffic_info
 coffee_or_tea_place_address
@@ -9000,6 +9017,7 @@ pizza_restaurant_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 coffee_or_tea_place_distance
 coffee_or_tea_place_traffic_info
 coffee_or_tea_place_address
@@ -9725,6 +9743,7 @@ friends_house_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 certain_address_distance
 certain_address_traffic_info
 certain_address_address
@@ -9764,6 +9783,7 @@ hospital_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 rest_stop_distance
 rest_stop_traffic_info
 rest_stop_address
@@ -9885,6 +9905,7 @@ certain_address_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 grocery_store_distance
 grocery_store_traffic_info
 grocery_store_address
@@ -10248,6 +10269,7 @@ gas_station_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 pizza_restaurant_distance
 pizza_restaurant_traffic_info
 pizza_restaurant_address
@@ -10255,6 +10277,7 @@ pizza_restaurant_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 coffee_or_tea_place_distance
 coffee_or_tea_place_traffic_info
 coffee_or_tea_place_address
@@ -10684,6 +10707,7 @@ gas_station_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 parking_garage_distance
 parking_garage_traffic_info
 parking_garage_address
@@ -10936,6 +10960,7 @@ gas_station_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 friends_house_distance
 friends_house_traffic_info
 friends_house_address
@@ -11112,6 +11137,7 @@ grocery_store_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 rest_stop_distance
 rest_stop_traffic_info
 rest_stop_address
@@ -11794,6 +11820,7 @@ coffee_or_tea_place_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 parking_garage_distance
 parking_garage_traffic_info
 parking_garage_address
@@ -11998,6 +12025,7 @@ shopping_center_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 gas_station_distance
 gas_station_traffic_info
 gas_station_address
@@ -12025,6 +12053,7 @@ coffee_or_tea_place_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 coffee_or_tea_place_distance
 coffee_or_tea_place_traffic_info
 coffee_or_tea_place_address
@@ -12817,6 +12846,7 @@ parking_garage_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 chinese_restaurant_distance
 chinese_restaurant_traffic_info
 chinese_restaurant_address
@@ -12868,6 +12898,7 @@ hospital_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 pizza_restaurant_distance
 pizza_restaurant_traffic_info
 pizza_restaurant_address
@@ -12883,6 +12914,7 @@ hospital_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 rest_stop_distance
 rest_stop_traffic_info
 rest_stop_address
@@ -12926,6 +12958,7 @@ coffee_or_tea_place_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 shopping_center_distance
 shopping_center_traffic_info
 shopping_center_address
@@ -13303,6 +13336,7 @@ chinese_restaurant_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 chinese_restaurant_distance
 chinese_restaurant_traffic_info
 chinese_restaurant_address
@@ -13649,6 +13683,7 @@ conference_event
 home_distance
 home_traffic_info
 home_address
+home_poi
 pizza_restaurant_distance
 pizza_restaurant_traffic_info
 pizza_restaurant_address
@@ -16352,6 +16387,7 @@ certain_address_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 pizza_restaurant_distance
 pizza_restaurant_traffic_info
 pizza_restaurant_address
@@ -16568,6 +16604,7 @@ grocery_store_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 friends_house_distance
 friends_house_traffic_info
 friends_house_address
@@ -17194,6 +17231,7 @@ grocery_store_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 pizza_restaurant_distance
 pizza_restaurant_traffic_info
 pizza_restaurant_address
@@ -17555,6 +17593,7 @@ shopping_center_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 coffee_or_tea_place_distance
 coffee_or_tea_place_traffic_info
 coffee_or_tea_place_address
@@ -17908,9 +17947,11 @@ pizza_restaurant_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 shopping_center_distance
 shopping_center_traffic_info
 shopping_center_address
@@ -19229,6 +19270,7 @@ parking_garage_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 certain_address_distance
 certain_address_traffic_info
 certain_address_address
@@ -19799,6 +19841,7 @@ parking_garage_poi
 home_distance
 home_traffic_info
 home_address
+home_poi
 rest_stop_distance
 rest_stop_traffic_info
 rest_stop_address

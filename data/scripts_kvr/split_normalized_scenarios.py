@@ -44,15 +44,17 @@ def main(args):
 
     directory = "../kvr/"
     voc_dir = "../voc/"
+    file_ext = ".kbFINAL"
     if args==0: #use defaults
-        filename = "dev.kbFINAL"
+        splitpart = "dev"
         trg_voc_file = "train.en.w2v.40k.map.voc"
     else:
-        filename = args[0]
+        splitpart = args[0]
         if len(args) > 1:
             voc_file = args[1]
         else:
             trg_voc_file = "train.en.w2v.40k.map.voc"
+    filename = splitpart+file_ext
 
     with open(directory+filename, "r") as kb:
         knowledgebase = kb.readlines()

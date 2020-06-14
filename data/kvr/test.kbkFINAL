@@ -13,6 +13,7 @@ friends house <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 rest stop <pad> distance
 rest stop <pad> traffic_info
 rest stop <pad> address
@@ -382,6 +383,7 @@ grocery store <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 coffee or tea place <pad> distance
 coffee or tea place <pad> traffic_info
 coffee or tea place <pad> address
@@ -493,6 +495,7 @@ parking garage <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 alameda <pad> today weather
 alameda <pad> today temperature low
 alameda <pad> today temperature high
@@ -1113,6 +1116,7 @@ gas station <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -1168,6 +1172,7 @@ shopping center <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 fresno <pad> today weather
 fresno <pad> today temperature low
 fresno <pad> today temperature high
@@ -1336,6 +1341,7 @@ parking garage <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -1592,6 +1598,7 @@ grocery store <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 grocery store <pad> distance
 grocery store <pad> traffic_info
 grocery store <pad> address
@@ -2291,6 +2298,7 @@ gas station <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 parking garage <pad> distance
 parking garage <pad> traffic_info
 parking garage <pad> address
@@ -2491,6 +2499,7 @@ parking garage <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 parking garage <pad> distance
 parking garage <pad> traffic_info
 parking garage <pad> address
@@ -3739,6 +3748,7 @@ grocery store <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -4486,6 +4496,7 @@ today <pad> date
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 coffee or tea place <pad> distance
 coffee or tea place <pad> traffic_info
 coffee or tea place <pad> address
@@ -5400,6 +5411,7 @@ certain address <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -5447,6 +5459,7 @@ grocery store <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 rest stop <pad> distance
 rest stop <pad> traffic_info
 rest stop <pad> address
@@ -5663,6 +5676,7 @@ hospital <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 rest stop <pad> distance
 rest stop <pad> traffic_info
 rest stop <pad> address
@@ -6662,6 +6676,7 @@ hospital <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -6685,6 +6700,7 @@ pizza restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 coffee or tea place <pad> distance
 coffee or tea place <pad> traffic_info
 coffee or tea place <pad> address
@@ -7324,6 +7340,7 @@ rest stop <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -8047,6 +8064,7 @@ shopping center <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -9761,6 +9779,7 @@ chinese restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 coffee or tea place <pad> distance
 coffee or tea place <pad> traffic_info
 coffee or tea place <pad> address
@@ -9962,9 +9981,11 @@ rest stop <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 gas station <pad> distance
 gas station <pad> traffic_info
 gas station <pad> address
@@ -10499,9 +10520,11 @@ pizza restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -10521,6 +10544,7 @@ pizza restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 manhattan <pad> today weather
 manhattan <pad> today temperature low
 manhattan <pad> today temperature high
@@ -11031,6 +11055,7 @@ chinese restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -11772,6 +11797,7 @@ chinese restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 downtown chicago <pad> today weather
 downtown chicago <pad> today temperature low
 downtown chicago <pad> today temperature high
@@ -12571,6 +12597,7 @@ shopping center <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 parking garage <pad> distance
 parking garage <pad> traffic_info
 parking garage <pad> address
@@ -12578,6 +12605,7 @@ parking garage <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 friends house <pad> distance
 friends house <pad> traffic_info
 friends house <pad> address
@@ -12848,6 +12876,7 @@ grocery store <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -12863,6 +12892,7 @@ chinese restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -13063,9 +13093,11 @@ today <pad> date
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 rest stop <pad> distance
 rest stop <pad> traffic_info
 rest stop <pad> address
@@ -13270,6 +13302,7 @@ friends house <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 pizza restaurant <pad> distance
 pizza restaurant <pad> traffic_info
 pizza restaurant <pad> address
@@ -13555,6 +13588,7 @@ coffee or tea place <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 pizza restaurant <pad> distance
 pizza restaurant <pad> traffic_info
 pizza restaurant <pad> address
@@ -14071,6 +14105,7 @@ hospital <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 meeting <pad> room
 meeting <pad> agenda
 meeting <pad> time
@@ -15987,6 +16022,7 @@ gas station <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 parking garage <pad> distance
 parking garage <pad> traffic_info
 parking garage <pad> address
@@ -16108,6 +16144,7 @@ shopping center <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 menlo park <pad> today weather
 menlo park <pad> today temperature low
 menlo park <pad> today temperature high
@@ -16360,6 +16397,7 @@ gas station <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 shopping center <pad> distance
 shopping center <pad> traffic_info
 shopping center <pad> address
@@ -17107,9 +17145,11 @@ rest stop <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -17117,6 +17157,7 @@ certain address <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 rest stop <pad> distance
 rest stop <pad> traffic_info
 rest stop <pad> address
@@ -17145,6 +17186,7 @@ hospital <pad> poi
 hospital <pad> distance
 hospital <pad> traffic_info
 hospital <pad> address
+home <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
@@ -17381,6 +17423,7 @@ pizza restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -17412,6 +17455,7 @@ parking garage <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 shopping center <pad> distance
 shopping center <pad> traffic_info
 shopping center <pad> address
@@ -17487,6 +17531,7 @@ grocery store <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -17558,6 +17603,7 @@ rest stop <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -18068,6 +18114,7 @@ coffee or tea place <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 pizza restaurant <pad> distance
 pizza restaurant <pad> traffic_info
 pizza restaurant <pad> address
@@ -18720,6 +18767,7 @@ chinese restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 cleveland <pad> today weather
 cleveland <pad> today temperature low
 cleveland <pad> today temperature high
@@ -19143,6 +19191,7 @@ pizza restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 chinese restaurant <pad> distance
 chinese restaurant <pad> traffic_info
 chinese restaurant <pad> address
@@ -20061,6 +20110,7 @@ chinese restaurant <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 grand rapids <pad> today weather
 grand rapids <pad> today temperature low
 grand rapids <pad> today temperature high
@@ -20289,6 +20339,7 @@ lab appointment <pad> event
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 certain address <pad> distance
 certain address <pad> traffic_info
 certain address <pad> address
@@ -20328,6 +20379,7 @@ rest stop <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 rest stop <pad> distance
 rest stop <pad> traffic_info
 rest stop <pad> address
@@ -20580,6 +20632,7 @@ hospital <pad> poi
 home <pad> distance
 home <pad> traffic_info
 home <pad> address
+home <pad> poi
 pizza restaurant <pad> distance
 pizza restaurant <pad> traffic_info
 pizza restaurant <pad> address

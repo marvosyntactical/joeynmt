@@ -71,7 +71,7 @@ def normalize_navigate(d):
     for blimp in blimps:
         subject = blimp["poi_type"]
         for relation in blimp.keys():
-            if blimp[relation] != subject:
+            if relation != "poi_type":
                 normed_kb.append((subject,relation,blimp[relation]))
     return normed_kb
 
@@ -103,11 +103,10 @@ def main(args):
 
     directory = "../kvr/"
     if args==0: #use defaults
-        filename = "dev.json"
         splitpart = "dev"
     else:
-        filename = args[0]
-        splitpart = args[1] 
+        splitpart = args[0]
+    filename = splitpart+".json"
     with open(directory+filename, "r") as scenarios:
         settings = json.load(scenarios)
 

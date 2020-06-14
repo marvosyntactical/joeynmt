@@ -1299,6 +1299,7 @@ rest stop::poi::Four Seasons
 home::distance::4 miles
 home::traffic_info::heavy traffic
 home::address::56 cadwell street
+home::poi::home
 certain address::distance::3 miles
 certain address::traffic_info::no traffic
 certain address::address::5677 springer street
@@ -1523,6 +1524,7 @@ chinese restaurant::poi::Chef Chu's
 home::distance::8 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 gas station::distance::2 miles
 gas station::traffic_info::heavy traffic
 gas station::address::53 University Av
@@ -2590,6 +2592,7 @@ parking garage::poi::Dish Parking
 home::distance::5 miles
 home::traffic_info::heavy traffic
 home::address::10 ames street
+home::poi::home
 grocery store::distance::1 miles
 grocery store::traffic_info::heavy traffic
 grocery store::address::638 Amherst St
@@ -2967,6 +2970,7 @@ coffee or tea place::poi::Coupa
 home::distance::1 miles
 home::traffic_info::moderate traffic
 home::address::5671 barringer street
+home::poi::home
 parking garage::distance::2 miles
 parking garage::traffic_info::no traffic
 parking garage::address::550 Alester Ave
@@ -2996,6 +3000,7 @@ coffee or tea place::poi::Coupa
 home::distance::1 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 shopping center::distance::4 miles
 shopping center::traffic_info::car collision nearby
 shopping center::address::434 Arastradero Rd
@@ -3003,6 +3008,7 @@ shopping center::poi::Ravenswood Shopping Center
 home::distance::5 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 grocery store::distance::2 miles
 grocery store::traffic_info::heavy traffic
 grocery store::address::638 Amherst St
@@ -3864,6 +3870,7 @@ rest stop::poi::Four Seasons
 rest stop::distance::3 miles
 rest stop::traffic_info::heavy traffic
 rest stop::address::465 Arcadia Pl
+home::poi::home
 home::distance::4 miles
 home::traffic_info::heavy traffic
 home::address::5671 barringer street
@@ -3939,6 +3946,7 @@ friends house::poi::toms house
 home::distance::7 miles
 home::traffic_info::car collision nearby
 home::address::10 ames street
+home::poi::home
 grocery store::distance::4 miles
 grocery store::traffic_info::road block nearby
 grocery store::address::408 University Ave
@@ -4765,6 +4773,7 @@ today::date::monday
 home::distance::4 miles
 home::traffic_info::no traffic
 home::address::56 cadwell street
+home::poi::home
 coffee or tea place::distance::2 miles
 coffee or tea place::traffic_info::moderate traffic
 coffee or tea place::address::269 Alger Dr
@@ -5279,6 +5288,7 @@ pizza restaurant::poi::Round Table
 home::distance::5 miles
 home::traffic_info::road block nearby
 home::address::10 ames street
+home::poi::home
 rest stop::distance::2 miles
 rest stop::traffic_info::heavy traffic
 rest stop::address::333 Arbol Dr
@@ -6574,6 +6584,7 @@ shopping center::poi::Stanford Shopping Center
 home::distance::6 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 grocery store::distance::2 miles
 grocery store::traffic_info::heavy traffic
 grocery store::address::638 Amherst St
@@ -7655,6 +7666,7 @@ rest stop::poi::Comfort Inn
 home::distance::2 miles
 home::traffic_info::moderate traffic
 home::address::10 ames street
+home::poi::home
 grocery store::distance::3 miles
 grocery store::traffic_info::heavy traffic
 grocery store::address::452 Arcadia Pl
@@ -7674,6 +7686,7 @@ shopping center::poi::Ravenswood Shopping Center
 home::distance::3 miles
 home::traffic_info::moderate traffic
 home::address::56 cadwell street
+home::poi::home
 certain address::distance::3 miles
 certain address::traffic_info::heavy traffic
 certain address::address::5677 springer street
@@ -7693,6 +7706,7 @@ gas station::poi::76
 home::distance::5 miles
 home::traffic_info::road block nearby
 home::address::56 cadwell street
+home::poi::home
 rest stop::distance::1 miles
 rest stop::traffic_info::heavy traffic
 rest stop::address::333 Arbol Dr
@@ -7720,6 +7734,7 @@ grocery store::poi::Sigona Farmers Market
 home::distance::3 miles
 home::traffic_info::moderate traffic
 home::address::10 ames street
+home::poi::home
 shopping center::distance::6 miles
 shopping center::traffic_info::heavy traffic
 shopping center::address::773 Alger Dr
@@ -7976,6 +7991,7 @@ grocery store::poi::Safeway
 home::distance::6 miles
 home::traffic_info::no traffic
 home::address::5671 barringer street
+home::poi::home
 tennis activity::time::10am
 tennis activity::date::the 4th
 tennis activity::party::Jeff
@@ -8716,6 +8732,7 @@ coffee or tea place::poi::Teavana
 home::distance::6 miles
 home::traffic_info::no traffic
 home::address::5671 barringer street
+home::poi::home
 coffee or tea place::distance::6 miles
 coffee or tea place::traffic_info::moderate traffic
 coffee or tea place::address::436 Alger Dr
@@ -9000,6 +9017,7 @@ pizza restaurant::poi::Pizza Chicago
 home::distance::3 miles
 home::traffic_info::no traffic
 home::address::56 cadwell street
+home::poi::home
 coffee or tea place::distance::6 miles
 coffee or tea place::traffic_info::heavy traffic
 coffee or tea place::address::394 Van Ness Ave
@@ -9725,6 +9743,7 @@ friends house::poi::jills house
 home::distance::2 miles
 home::traffic_info::no traffic
 home::address::56 cadwell street
+home::poi::home
 certain address::distance::3 miles
 certain address::traffic_info::no traffic
 certain address::address::5677 springer street
@@ -9764,6 +9783,7 @@ hospital::poi::Stanford Childrens Health
 home::distance::2 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 rest stop::distance::3 miles
 rest stop::traffic_info::heavy traffic
 rest stop::address::578 Arbol Dr
@@ -9885,6 +9905,7 @@ certain address::poi::5672 barringer street
 home::distance::2 miles
 home::traffic_info::no traffic
 home::address::5671 barringer street
+home::poi::home
 grocery store::distance::1 miles
 grocery store::traffic_info::road block nearby
 grocery store::address::408 University Ave
@@ -10248,6 +10269,7 @@ gas station::poi::76
 home::distance::3 miles
 home::traffic_info::moderate traffic
 home::address::10 ames street
+home::poi::home
 pizza restaurant::distance::4 miles
 pizza restaurant::traffic_info::moderate traffic
 pizza restaurant::address::110 Arastradero Rd
@@ -10255,6 +10277,7 @@ pizza restaurant::poi::Papa Johns
 home::distance::6 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 coffee or tea place::distance::4 miles
 coffee or tea place::traffic_info::moderate traffic
 coffee or tea place::address::145 Amherst St
@@ -10684,6 +10707,7 @@ gas station::poi::Chevron
 home::distance::5 miles
 home::traffic_info::heavy traffic
 home::address::5671 barringer street
+home::poi::home
 parking garage::distance::4 miles
 parking garage::traffic_info::moderate traffic
 parking garage::address::550 Alester Ave
@@ -10936,6 +10960,7 @@ gas station::poi::Valero
 home::distance::3 miles
 home::traffic_info::moderate traffic
 home::address::5671 barringer street
+home::poi::home
 friends house::distance::3 miles
 friends house::traffic_info::no traffic
 friends house::address::864 Almanor Ln
@@ -11112,6 +11137,7 @@ grocery store::poi::Whole Foods
 home::distance::2 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 rest stop::distance::2 miles
 rest stop::traffic_info::moderate traffic
 rest stop::address::465 Arcadia Pl
@@ -11794,6 +11820,7 @@ coffee or tea place::poi::Teavana
 home::distance::2 miles
 home::traffic_info::moderate traffic
 home::address::5671 barringer street
+home::poi::home
 parking garage::distance::5 miles
 parking garage::traffic_info::moderate traffic
 parking garage::address::481 Amaranta Ave
@@ -11998,6 +12025,7 @@ shopping center::poi::Midtown Shopping Center
 home::distance::1 miles
 home::traffic_info::no traffic
 home::address::5671 barringer street
+home::poi::home
 gas station::distance::4 miles
 gas station::traffic_info::moderate traffic
 gas station::address::783 Arcadia Pl
@@ -12025,6 +12053,7 @@ coffee or tea place::poi::Starbucks
 home::distance::1 miles
 home::traffic_info::road block nearby
 home::address::56 cadwell street
+home::poi::home
 coffee or tea place::distance::4 miles
 coffee or tea place::traffic_info::road block nearby
 coffee or tea place::address::436 Alger Dr
@@ -12817,6 +12846,7 @@ parking garage::poi::Palo Alto Garage R
 home::distance::5 miles
 home::traffic_info::heavy traffic
 home::address::56 cadwell street
+home::poi::home
 chinese restaurant::distance::4 miles
 chinese restaurant::traffic_info::car collision nearby
 chinese restaurant::address::271 Springer Street
@@ -12868,6 +12898,7 @@ hospital::poi::Stanford Express Care
 home::distance::6 miles
 home::traffic_info::moderate traffic
 home::address::5671 barringer street
+home::poi::home
 pizza restaurant::distance::6 miles
 pizza restaurant::traffic_info::heavy traffic
 pizza restaurant::address::704 El Camino Real
@@ -12883,6 +12914,7 @@ hospital::poi::Palo Alto Medical Foundation
 home::distance::2 miles
 home::traffic_info::moderate traffic
 home::address::56 cadwell street
+home::poi::home
 rest stop::distance::5 miles
 rest stop::traffic_info::moderate traffic
 rest stop::address::465 Arcadia Pl
@@ -12926,6 +12958,7 @@ coffee or tea place::poi::Coupa
 home::distance::4 miles
 home::traffic_info::heavy traffic
 home::address::56 cadwell street
+home::poi::home
 shopping center::distance::3 miles
 shopping center::traffic_info::heavy traffic
 shopping center::address::171 Oak Rd
@@ -13303,6 +13336,7 @@ chinese restaurant::poi::tai pan
 home::distance::1 miles
 home::traffic_info::moderate traffic
 home::address::56 cadwell street
+home::poi::home
 chinese restaurant::distance::1 miles
 chinese restaurant::traffic_info::moderate traffic
 chinese restaurant::address::593 Arrowhead Way
@@ -13649,6 +13683,7 @@ conference::event::conference
 home::distance::1 miles
 home::traffic_info::heavy traffic
 home::address::56 cadwell street
+home::poi::home
 pizza restaurant::distance::1 miles
 pizza restaurant::traffic_info::heavy traffic
 pizza restaurant::address::528 Anton Ct
@@ -16352,6 +16387,7 @@ certain address::poi::5677 springer street
 home::distance::4 miles
 home::traffic_info::moderate traffic
 home::address::56 cadwell street
+home::poi::home
 pizza restaurant::distance::4 miles
 pizza restaurant::traffic_info::no traffic
 pizza restaurant::address::776 Arastradero Rd
@@ -16568,6 +16604,7 @@ grocery store::poi::Trader Joes
 home::distance::4 miles
 home::traffic_info::no traffic
 home::address::10 ames street
+home::poi::home
 friends house::distance::1 miles
 friends house::traffic_info::moderate traffic
 friends house::address::864 Almanor Ln
@@ -17194,6 +17231,7 @@ grocery store::poi::Safeway
 home::distance::1 miles
 home::traffic_info::heavy traffic
 home::address::5671 barringer street
+home::poi::home
 pizza restaurant::distance::2 miles
 pizza restaurant::traffic_info::no traffic
 pizza restaurant::address::704 El Camino Real
@@ -17555,6 +17593,7 @@ shopping center::poi::Ravenswood Shopping Center
 home::distance::2 miles
 home::traffic_info::heavy traffic
 home::address::5671 barringer street
+home::poi::home
 coffee or tea place::distance::3 miles
 coffee or tea place::traffic_info::heavy traffic
 coffee or tea place::address::792 Bedoin Street
@@ -17908,9 +17947,11 @@ pizza restaurant::poi::Papa Johns
 home::distance::4 miles
 home::traffic_info::heavy traffic
 home::address::56 cadwell street
+home::poi::home
 home::distance::3 miles
 home::traffic_info::road block nearby
 home::address::10 ames street
+home::poi::home
 shopping center::distance::6 miles
 shopping center::traffic_info::no traffic
 shopping center::address::171 Oak Rd
@@ -19229,6 +19270,7 @@ parking garage::poi::Webster Garage
 home::distance::6 miles
 home::traffic_info::car collision nearby
 home::address::56 cadwell street
+home::poi::home
 certain address::distance::4 miles
 certain address::traffic_info::no traffic
 certain address::address::5677 southwest 4th street
@@ -19799,6 +19841,7 @@ parking garage::poi::Dish Parking
 home::distance::6 miles
 home::traffic_info::car collision nearby
 home::address::56 cadwell street
+home::poi::home
 rest stop::distance::1 miles
 rest stop::traffic_info::moderate traffic
 rest stop::address::333 Arbol Dr
