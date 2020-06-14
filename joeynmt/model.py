@@ -353,7 +353,9 @@ class Model(nn.Module):
         print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
         kb_length = stacked_kb_att_scores.shape[-1]
 
-        topk = min(kb_length,10) # top topk attention values are checked first atm (FIXME..), then we compare with considered token
+        topk = kb_length # top topk attention values are checked first atm, then we compare with considered token
+        # FIXME current solution: just check all values (topk=kb_length)
+        # TODO should instead compare with token and then take top attended
         
         # construct index arrays for top k attended knowledgebase entry indexing
         b,u,_ = stacked_kb_att_scores.shape
