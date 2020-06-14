@@ -1,4 +1,4 @@
-name: "kbfix"
+name: "❤️"
 
 # This configuration serves the purpose of documenting and explaining the kb settings, *NOT* as an example for good hyperparamter settings.
 
@@ -7,7 +7,7 @@ data: # specify your data here
     trg: "carno"                       # trg language
     kb_task: "YES"                   # KVR: assigned and boolean val of True if KVR task performed 
     kb_src: "kbkNEW"                         # KVR: kb keys (subj pad rel) extension; see add_canon...py script for alternative extension; atm either of kb, can
-    kb_trg: "kbvNEW"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
+    kb_trg: "kbcNEW"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_lkp: "lkp"                       # KVR: kb association lkp file ext
     kb_len: "lenNEW"                       # KVR: kb lengths file ext
     kb_truvals: "trvNEW"                   # KVR: file extension for truvals
@@ -56,7 +56,7 @@ training:                           # specify training details here
     logging_freq: 10                # log the training progress after this many updates, default: 100
     eval_metric: "bleu"             # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "loss"   # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/18_trutrg_08-06" # directory where models and validation results are stored, required
+    model_dir: "models/20_justdoit_12-06" # directory where models and validation results are stored, required
     overwrite: False # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                   # shuffle the training data, default: True
     use_cuda: True # use CUDA for acceleration on GPU, required. Set to False when working on CPU.

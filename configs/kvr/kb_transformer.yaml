@@ -1,15 +1,22 @@
-name: "kb-transformer-quicktest"
+name: "kb-transformer-proper"
 
 data:
     src: "usr"
     trg: "carno"
+
+    # kb start 
+
     kb_task: "YES"
-    kb_src: "kbk"
-    kb_trg: "kbc"
+    kb_src: "kbkNEW"
+    kb_trg: "kbcNEW"
     kb_lkp: "lkp"
-    kb_len: "len"
-    kb_truvals: "trv"
+    kb_len: "lenNEW"
+    kb_truvals: "trvNEW"
     global_trv: "global.trv"
+    trutrg: "car"
+
+    # kb end
+
     train: "data/kvr/train"
     dev: "data/kvr/dev"
     test: "data/kvr/test"
@@ -42,7 +49,7 @@ training:
     logging_freq: 100
     eval_metric: "bleu"
     model_dir: "models/kb-transformer-quicktest"
-    overwrite: True 
+    overwrite: False 
     shuffle: True
     use_cuda: False 
     max_output_length: 128
