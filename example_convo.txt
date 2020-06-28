@@ -1,0 +1,14 @@
+subject, relation, value
+---------------------------------------
+optometrist appointment, time, 10am
+optometrist appointment, date, thursday
+optometrist appointment, party, sister
+dinner, time, 8pm
+dinner, date, the 13th
+dinner, party, Ana
+optometrist appointment, time, 10am
+optometrist appointment, date, the 20th
+optometrist appointment, party, Jeff
+optometrist appointment, time, 4pm
+optometrist appointment, date, the 13th
+optometrist appointment, party, Alex

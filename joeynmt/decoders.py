@@ -705,7 +705,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             query=query, values=encoder_output, mask=src_mask)
 
         if kb_keys != None:
-            u_t = self.kvr_attention(query=query) #TODO: implement v_t 
+            u_t = self.kvr_attention(query=query) 
             print("u_t")
             print(u_t.shape) # batch_size x 1 x kb_size
 

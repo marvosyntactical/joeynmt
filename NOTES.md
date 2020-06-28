@@ -8,11 +8,11 @@ _Work rhythm_:
 
 # Open Questions and Ideas for the Future:
 
-* Is the entire model trained on just these datasets? e.g. kvr has 2.4k pairs 
-* Very heterogenous dataset: Even within domain, e.g. 'scheduling', different task types, e.g. time request (like weather, info retrieval) but also making an appointment => filter out everything that is not KB retrieval?; other than that, the info retrieval is essentially the same for all 3 domains => good!
 * how does kv attention actually work for normalized (-> triples) entries? how does attention understand on the request "Wheres the nearest cafe?" to look up the poi\_type value for starbucks among others, see cafè; and then learn to look up the distance and address for the same subject? the keys the attention sees are NOT THE SAME, they conflate both subj and relation?!? does the magic lie in the successive kb attention queries from one decoder unrol step to successive ones? is the key rep expected by the rnn cell to be incorporated into the cell state? doesnt this mean we need to track conversation long (and not just seq2seq query - response isolated examples) history either by concatenating all previous utterances or by somehow using the last previous hidden states?
-* understand: where does loss come from? => dont we need to call our loss function on the postprocessed (de-canonicalized) generated trg sequence to learn? or is this not necessary? would be interesting to bleu, but does it even matter there? does it matter to Xent?
 * does it make sense to use entity F1 as supplementary validation metric?
+* how do we disambiguate triplets with identical key representation? inject more info?
+* why not query KVR attention with context (modified hidden) from bahdanau attention instead of with query (raw hidden)?
+* 
 
 # Issues ```TODO```:
 

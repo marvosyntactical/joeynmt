@@ -273,7 +273,6 @@ def test(cfg_file,
 
     for data_set_name, data_set in data_to_predict.items():
         
-        # FIXME this depends on variable naming
         if data_set_name == "dev":
             kb_info = [dev_kb, dev_kb_lookup, dev_kb_lengths, dev_kb_truvals]
         elif data_set_name == "test":

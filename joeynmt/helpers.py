@@ -207,11 +207,13 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
         plot_file = "{}.{}.pdf".format(output_prefix, i)
 
         attention_scores = attentions[i].T
+        print(f"PLOTTING: shape of {i}th attention matrix from print_valid_sents: {attention_scores.shape}")
         trg = targets[i]
         if kb_info is None:
             src = sources[i]
         else:
             kbkey, kb_lkp, kb_lens, kbval = sources, kb_info[0], kb_info[1], kb_info[2]
+            print(f"KB PLOTTING: kb_lens: {kb_lens}")
             kb_num = kb_lkp[i]
             lower = sum(kb_lens[:kb_num])
             upper = lower+kb_lens[kb_num]+1
@@ -219,6 +221,8 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 kb_before: {kb_lens[kb_num-1]+1}, kb_after: {kb_lens[kb_num+1]+1};\
                     upper-lower={upper-lower}, kb_num={kb_num}"
             assert upper-lower == attention_scores.shape[0]==kb_lens[kb_num]+1, assertion_str
+            print(f"KB PLOTTING: kb_lens: {lower-upper}")
+            print(f"KB PLOTTING: upper-lower should be != 0 often!!: {assertion_str}")
             keys = kbkey[lower:upper]
             vals = kbval[lower:upper]
             DEFAULT = "default(<s>)=default(<s>)"

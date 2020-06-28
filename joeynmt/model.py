@@ -351,6 +351,8 @@ class Model(nn.Module):
 
         print("postprocess.")
         print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
+        print()
+        print(f"postprocess: generated hyps: {self.trg_vocab.arrays_to_sentences(stacked_output.tolist())}")
         kb_length = stacked_kb_att_scores.shape[-1]
 
         topk = kb_length # top topk attention values are checked first atm, then we compare with considered token
