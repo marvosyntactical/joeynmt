@@ -377,18 +377,19 @@ class Model(nn.Module):
         B = np.arange(b)[:,np.newaxis,np.newaxis]
         U = np.arange(u)[np.newaxis,:,np.newaxis]
 
-        topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1].copy() #FIXME why length-topk (=0??)
-
-        # debug
-        if topk_kb_indexer:
-            print(topk_kb_indexer)
-            assert False, (topk_kb_indexer.shape, topk_kb_indexer)
         
-
         # tile (=repeat n times along dimension) kb_trv: batch x kb => batch x time x kb
         kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
         # FIXME np_kb_values already seems to have singleton time dimension?
         kb_val = np.tile(np_kb_values,(1,stacked_kb_att_scores.shape[1],1))
+
+
+        topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,::-1].copy() #FIXME why length-topk (=0??)
+
+        # debug
+        # assert kb_length < 2, topk_kb_indexer.shape
+        print(topk_kb_indexer.shape, topk_kb_indexer)
+
 
         # find topk entries in kb_trv (for use as token replacement) and in kb_val (to compare the indices of possible token replacements to the token)
         # in trv vocab:
@@ -406,8 +407,29 @@ class Model(nn.Module):
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
                     true_value_choices = topk_kb_trvs[i,step,:] # choices for which true value token to append
-                    assert not true_value_choices, true_value_choices # FIXME for some reason always empty
+                    # assert False, true_value_choices # FIXME for some reason always empty
                     replacement_options = true_value_choices[topk_kb_vals[i,step,:] == token] # restrict choices to those matching the token
+
+                    # TODO TODO TODO TODO TODO TODO TODO
+                    # reverse implementation: first restrict, then select top 1:
+                    
+                    curr_val = kb_val[i,step,:] 
+                    matching_trv_candidates = np.where(curr_val==token, kb_trv[i,step,:], -1) 
+                    print(f"matching_trv_candidates: {matching_trv_candidates}")
+
+                    if matching_trv_candidates.shape[0]:
+                        # b: [t: [kb:[-1,-1,-1,998,973,-1,-1,...,-1],[-1,...,-1],....]]
+                        # now order matching != -1 by corresponding attention values
+                        top_matching = np.argsort(stacked_kb_att_scores[i,step,matching_trv_candidates!=-1][::-1]).copy()
+                        print(f"matching candidates in order: {matching_trv_candidates[top_matching]}")
+                        top1_match = matching_trv_candidates[top_matching[0]]
+                        print(f"top1_match: {top1_match}")
+                    else:
+                        pass # found no matches
+                    
+                    assert False
+                    # TODO TODO TODO TODO TODO TODO TODO
+
 
                     debug_topk = min(topk, 10)
 
