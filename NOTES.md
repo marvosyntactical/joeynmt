@@ -52,6 +52,11 @@ Preprocessing:
 
 ## _```Current Issues```_:
 
+### 10.08.20 jump back in: TODOS
+
+1. whats not working in stock impl?
+2. if done, implement kb for transformer
+
 ### 15.05.20 implement kb for transformer
 
 steps:
