@@ -396,6 +396,20 @@ class TrainManager:
                     # store validation set outputs
                     self._store_outputs(valid_hypotheses)
 
+                    # debug start 
+
+                    # FIXME TODO
+                    # i thought valid_kb.kbsrc goes only over current kb
+                    # why is valid_kb.kbsrc a generator????
+
+                    print(len(list(valid_kb.kbsrc))) # 20119, correct
+                    print(len(list(valid_kb.kbtrg))) # TODO find out
+                    print(len(list(valid_kb.kbtrv))) # TODO this is empty!
+                    print(len(list(valid_data.src))) # 777, should be 778; lkp file WRONG
+                    print(valid_kb_lkp[-1]) # 301 knowledgebases (dialogues) for 778 exchanges  
+
+                    # debug end
+
                     # store attention plots for selected valid sentences
                     if valid_attention_scores:
                         plot_success_ratio = store_attention_plots(
@@ -416,7 +430,7 @@ class TrainManager:
                             output_prefix="{}/kbatt.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps,
-                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrv)))
+                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrv))) # FIXME should be valid_kb.kbtrv
                         self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")

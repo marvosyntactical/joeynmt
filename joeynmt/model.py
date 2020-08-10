@@ -4,6 +4,7 @@ Module to represent whole models
 """
 
 from typing import Tuple
+import random #FIXME remove
 
 from copy import deepcopy
 from collections import defaultdict
@@ -204,7 +205,7 @@ class Model(nn.Module):
         # return batch loss = sum over all elements in batch that are not pad
         return batch_loss
 
-    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=False)-> (Tensor, Tensor):
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True)-> (Tensor, Tensor):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
@@ -230,7 +231,7 @@ class Model(nn.Module):
         kb_true_vals = kb_true_vals[1, :]
 
         if detailed_debug:
-            with self.Timer("kb_true_vals checks:"):
+            with self.Timer("kb_true_vals checks"):
                 print(f"debug: kb_true_vals :{kb_true_vals.shape}")
                 print(f"debug: kb_true_vals content:{kb_true_vals}")
 
@@ -249,7 +250,7 @@ class Model(nn.Module):
 
         if detailed_debug:
             print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
-            print(f"proc_batch: kbvalues.shape: {kb_values.shape}")
+            print(f"proc_batch: kbvalues.shape: {kb_values.shape}") # FIXME no embedding dim??
 
         # FIXME FIXME TODO ????
         # kb_values are most of the time here like so:
@@ -359,29 +360,43 @@ class Model(nn.Module):
         print("postprocess.")
         print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
         print()
+        print(f"postprocess: kb_trv: {self.trv_vocab.array_to_sentence(kb_trv[0,:].tolist())}")
+        print()
         print(f"postprocess: generated hyps: {self.trg_vocab.arrays_to_sentences(stacked_output.tolist())}")
-        kb_length = stacked_kb_att_scores.shape[-1]
 
+
+        kb_length = stacked_kb_att_scores.shape[-1]
         topk = kb_length # top topk attention values are checked first atm, then we compare with considered token
+
         # FIXME current solution: just check all values (topk=kb_length)
-        # TODO should instead FIRST compare with token and SECOND take top 1 attended out of matching
+        # TODO should instead FIRST compare with token and SECOND take top , should this be also indexed by [0]? => other shape errors1 attended out of matching
+
         
         # construct index arrays for top k attended knowledgebase entry indexing
         b,u,_ = stacked_kb_att_scores.shape
         B = np.arange(b)[:,np.newaxis,np.newaxis]
         U = np.arange(u)[np.newaxis,:,np.newaxis]
 
-        topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1].copy()
+        topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,:kb_length-topk-1:-1].copy() #FIXME why length-topk (=0??)
 
-        # remember to tile kb_trv: batch x kb => batch x time x kb
+        # debug
+        if topk_kb_indexer:
+            print(topk_kb_indexer)
+            assert False, (topk_kb_indexer.shape, topk_kb_indexer)
+        
+
+        # tile (=repeat n times along dimension) kb_trv: batch x kb => batch x time x kb
         kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
+        # FIXME np_kb_values already seems to have singleton time dimension?
         kb_val = np.tile(np_kb_values,(1,stacked_kb_att_scores.shape[1],1))
 
         # find topk entries in kb_trv (for use as token replacement) and in kb_val (to compare the indices of possible token replacements to the token)
         # in trv vocab:
         topk_kb_trvs = kb_trv[B,U,topk_kb_indexer]
-        # in trg vocab (as are the tokens):
+        # in trg vocab (as are the hypotheses' tokens):
         topk_kb_vals = kb_val[B,U,topk_kb_indexer]
+
+
 
         for i,hyp in enumerate(outputs):
             post_proc_hyp = []
@@ -391,8 +406,10 @@ class Model(nn.Module):
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
                     true_value_choices = topk_kb_trvs[i,step,:] # choices for which true value token to append
+                    assert not true_value_choices, true_value_choices # FIXME for some reason always empty
                     replacement_options = true_value_choices[topk_kb_vals[i,step,:] == token] # restrict choices to those matching the token
 
+                    debug_topk = min(topk, 10)
 
                     if replacement_options.shape[0]: # success! found at least one match in kb !
 
@@ -402,11 +419,10 @@ class Model(nn.Module):
 
 
                         print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
-                        print(f"postprocess success: sanity check: top {topk} attended tokens in knowledgebase: \
-                            {self.trv_vocab.array_to_sentence(true_value_choices.tolist())}")
+                        print(f"postprocess success: sanity check: top {debug_topk} attended tokens in knowledgebase: \
+                            {self.trv_vocab.array_to_sentence(true_value_choices.tolist()[:debug_topk-1])}")
 
                     else: #no matches
-                        debug_topk = min(topk, 10)
 
                         print(f"\npostprocess: Warning:")
                         print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")

@@ -63,9 +63,30 @@ Preprocessing:
 to
 (1. restrict to matching => 2. select top 1)
 
+
+
+
+
 1a. find out whats not working with postprocessing: 
 
 * lookup/token matching gone wild?
+* valid\_kb.kbtrv ist LEER! (=> versuche plotting mit kbtrg zu reetablieren)
+ TorchBatchWithKB.kbtrv ist schon immer leer!!!
+
+
+
+
+* dev.lkp ist FALSCH (=> entspr. teil der preprocessing pipeline durchgehen)
+* does kb attention actually sum to 1 ???
+  (should not be the case because for KBs with only dummy token, that should have high probability and always be favored to be output)
+
+
+
+
+
+
+
+
 
 2. if done, implement kb for transformer:
 

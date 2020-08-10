@@ -353,7 +353,7 @@ def make_data_iter(dataset: Dataset,
 
 
 class TorchBatchWithKB(Batch):
-    #inherits from torch batch, not joey batch!....
+    #inherits from torch batch, not joey batch!
     def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None, device=None):
         
         """

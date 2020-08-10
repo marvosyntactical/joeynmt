@@ -212,7 +212,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
         if kb_info is None:
             src = sources[i]
         else:
-            kbkey, kb_lkp, kb_lens, kbval = sources, kb_info[0], kb_info[1], kb_info[2]
+            kbkey, kb_lkp, kb_lens, kbtrv = sources, kb_info[0], kb_info[1], kb_info[2]
             print(f"KB PLOTTING: kb_lens: {kb_lens}")
 
             # index calculation (find batch in valid/test data)
@@ -228,10 +228,11 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
 
             # index application 
             keys = kbkey[lower:upper]
-            vals = kbval[lower:upper]
+            vals = kbtrv[lower:upper] # FIXME kbtrv always empty atm
 
 
             DEFAULT = "default(<s>)=default(<s>)"
+            # FIXME
             src = [DEFAULT]+["+".join(key)+"="+val[0] for key, val in zip(keys, vals)]
 
         try:

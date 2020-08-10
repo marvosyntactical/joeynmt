@@ -3,6 +3,7 @@
 """
 Implementation of a mini-batch.
 """
+from joeynmt.data import TorchBatchWithKB
 
 
 class Batch:
@@ -102,18 +103,18 @@ class Batch_with_KB:
     joeynmt.data.make_data_iter_batch_size_1 .
     """
 
-    def __init__(self, batch_with_kb, pad_index, use_cuda=False):
+    def __init__(self, TBatchWithKB: TorchBatchWithKB, pad_index, use_cuda=False):
         """
-        Create a new joey batch from a batch_with_kb.
+        Create a new joey batch from a TBatchWithKB.
         This batch extends torch text's batch attributes with src and trg
         length, masks, number of non-padded tokens in trg.
         Furthermore, it can be sorted by src length.
 
-        :param batch_with_kb:
+        :param TBatchWithKB:
         :param pad_index:
         :param use_cuda:
         """
-        self.src, self.src_lengths = batch_with_kb.src
+        self.src, self.src_lengths = TBatchWithKB.src
         self.src_mask = (self.src != pad_index).unsqueeze(1)
         self.nseqs = self.src.size(0)
         self.trg_input = None
@@ -123,13 +124,13 @@ class Batch_with_KB:
         self.ntokens = None
         self.use_cuda = use_cuda
         #knowledgebase:
-        self.kbsrc = batch_with_kb.kbsrc[0]
-        self.kbtrg = batch_with_kb.kbtrg[0]
-        self.kbtrv = batch_with_kb.kbtrv
+        self.kbsrc = TBatchWithKB.kbsrc[0] # .kbsrc, .kbtrg are tuples of lines, lengths # TODO do i need lengths?
+        self.kbtrg = TBatchWithKB.kbtrg[0]
+        self.kbtrv = TBatchWithKB.kbtrv #not indexed because include_lengths is false for trv field  #FIXME empty
         assert self.kbsrc.shape[0] == self.kbtrg.shape[0] == self.kbtrv.shape[0]
 
-        if hasattr(batch_with_kb, "trg"):
-            trg, trg_lengths = batch_with_kb.trg
+        if hasattr(TBatchWithKB, "trg"):
+            trg, trg_lengths = TBatchWithKB.trg
             # trg_input is used for teacher forcing, last one is cut off
             self.trg_input = trg[:, :-1]
             self.trg_lengths = trg_lengths
