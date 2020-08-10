@@ -214,6 +214,8 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
         else:
             kbkey, kb_lkp, kb_lens, kbval = sources, kb_info[0], kb_info[1], kb_info[2]
             print(f"KB PLOTTING: kb_lens: {kb_lens}")
+
+            # index calculation (find batch in valid/test data)
             kb_num = kb_lkp[i]
             lower = sum(kb_lens[:kb_num])
             upper = lower+kb_lens[kb_num]+1
@@ -223,8 +225,12 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
             assert upper-lower == attention_scores.shape[0]==kb_lens[kb_num]+1, assertion_str
             print(f"KB PLOTTING: kb_lens: {lower-upper}")
             print(f"KB PLOTTING: upper-lower should be != 0 often!!: {assertion_str}")
+
+            # index application 
             keys = kbkey[lower:upper]
             vals = kbval[lower:upper]
+
+
             DEFAULT = "default(<s>)=default(<s>)"
             src = [DEFAULT]+["+".join(key)+"="+val[0] for key, val in zip(keys, vals)]
 

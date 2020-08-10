@@ -550,7 +550,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
                                             key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
                                             query_size=hidden_size)
-        print("encoder.output_size: ", encoder.output_size)
+        #print("encoder.output_size: ", encoder.output_size)
 
         self.num_layers = num_layers
         self.hidden_size = hidden_size
@@ -706,8 +706,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         if kb_keys != None:
             u_t = self.kvr_attention(query=query) 
-            print("u_t")
-            print(u_t.shape) # batch_size x 1 x kb_size
+            #print\("u_t")
+            #print\(u_t.shape) # batch_size x 1 x kb_size
 
             #TODO resulting v_t should be batch_size x 1 x (trg_emb + kb)
         else:
@@ -715,11 +715,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
-        print("self.hidden_size: ", self.hidden_size)
-        print("[query,context]")
-        print("query: ", query.shape)
-        print("context: ", context.shape)
-        print("encoder_output; last dim should be encoder hidden (config) * 1/2 (if bidir)", encoder_output.shape)
+        #print\("self.hidden_size: ", self.hidden_size)
+        #print\("[query,context]")
+        #print\("query: ", query.shape)
+        #print\("context: ", context.shape)
+        #print\("encoder_output; last dim should be encoder hidden (config) * 1/2 (if bidir)", encoder_output.shape)
         att_vector_input = torch.cat([query, context], dim=2)
         # batch x 1 x (2*)enc_size+hidden_size
         
@@ -794,7 +794,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         """
 
         if kb_keys is not None:
-            print(f"decoder.forward call with src_mask={src_mask.shape} and kb_keys={kb_keys.shape}")
+            #print\(f"decoder.forward call with src_mask={src_mask.shape} and kb_keys={kb_keys.shape}")
+            pass
 
         # shape checks
         self._check_shapes_input_forward(

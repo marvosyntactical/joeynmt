@@ -55,7 +55,19 @@ Preprocessing:
 ### 10.08.20 jump back in: TODOS
 
 1. whats not working in stock impl?
-2. if done, implement kb for transformer
+
+* choose best model based on bleu not ppl??
+* change postprocessing from 
+
+(1. select top k => 2. restrict to matching => 3. choose top 1)
+to
+(1. restrict to matching => 2. select top 1)
+
+1a. find out whats not working with postprocessing: 
+
+* lookup/token matching gone wild?
+
+2. if done, implement kb for transformer:
 
 ### 15.05.20 implement kb for transformer
 

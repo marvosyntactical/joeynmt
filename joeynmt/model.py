@@ -162,6 +162,9 @@ class Model(nn.Module):
             a scalar loss for the complete batch
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
+
+        print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
+
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"):
             hidden, att_probs, att_vectors , _ = self.forward(
@@ -172,7 +175,6 @@ class Model(nn.Module):
         else:
             assert batch.kbsrc != None
 
-            print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
 
             kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
 
@@ -188,7 +190,7 @@ class Model(nn.Module):
 
 
         # ----- debug start
-        mle_tokens = argmax(log_probs, dim=-1)
+        mle_tokens = argmax(log_probs, dim=-1) # torch argmax
         mle_tokens = mle_tokens.cpu().numpy()
 
         print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
@@ -196,12 +198,13 @@ class Model(nn.Module):
 
         # compute batch loss
         batch_loss = loss_function(log_probs, batch.trg)
-        # return batch loss = sum over all elements in batch that are not pad
+
         print(f"\n{'-'*10}TRN FWD PASS: END current batch{'-'*10}\n")
 
+        # return batch loss = sum over all elements in batch that are not pad
         return batch_loss
 
-    def preprocess_batch_kb(self, batch: Batch_with_KB)-> (Tensor, Tensor):
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=False)-> (Tensor, Tensor):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
@@ -226,9 +229,10 @@ class Model(nn.Module):
         kb_values = kb_values[:, 1] 
         kb_true_vals = kb_true_vals[1, :]
 
-        with self.Timer("kb_true_vals checks:"):
-            print(f"debug: kb_true_vals :{kb_true_vals.shape}")
-            print(f"debug: kb_true_vals content:{kb_true_vals}")
+        if detailed_debug:
+            with self.Timer("kb_true_vals checks:"):
+                print(f"debug: kb_true_vals :{kb_true_vals.shape}")
+                print(f"debug: kb_true_vals content:{kb_true_vals}")
 
         kb_keys = self.src_embed(kb_keys)
         # NOTE: values dont need to be embedded!
@@ -243,9 +247,11 @@ class Model(nn.Module):
         kb_true_vals.unsqueeze_(0)
         kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous()
 
-        print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
-        print(f"proc_batch: kbvalues.shape: {kb_values.shape}")
+        if detailed_debug:
+            print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
+            print(f"proc_batch: kbvalues.shape: {kb_values.shape}")
 
+        # FIXME FIXME TODO ????
         # kb_values are most of the time here like so:
         # batch x kb_size # 3 x 33
         # but sometimes have one extra dim???:
@@ -261,10 +267,12 @@ class Model(nn.Module):
         
         print(f"debug: model.trg_embed attributes={dir(self.trg_embed)}")
         """
+
         assert_msg = (kb_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
-        #batch equal
+
+        #batch dim equal
         assert kb_keys.shape[0] == kb_values.shape[0] == kb_true_vals.shape[0], assert_msg
-        #kb equal
+        #kb dim equal
         assert kb_keys.shape[1] == kb_values.shape[1] == kb_true_vals.shape[1], assert_msg
 
         return kb_keys, kb_values, kb_true_vals
@@ -343,7 +351,6 @@ class Model(nn.Module):
         :return: post_proc_stacked_output
         """
 
-
         np_kb_values = kb_values.cpu().numpy()
         kb_trv = kb_trv.cpu().numpy()
         post_proc_stacked_output = []
@@ -357,7 +364,7 @@ class Model(nn.Module):
 
         topk = kb_length # top topk attention values are checked first atm, then we compare with considered token
         # FIXME current solution: just check all values (topk=kb_length)
-        # TODO should instead compare with token and then take top attended
+        # TODO should instead FIRST compare with token and SECOND take top 1 attended out of matching
         
         # construct index arrays for top k attended knowledgebase entry indexing
         b,u,_ = stacked_kb_att_scores.shape
@@ -386,29 +393,35 @@ class Model(nn.Module):
                     true_value_choices = topk_kb_trvs[i,step,:] # choices for which true value token to append
                     replacement_options = true_value_choices[topk_kb_vals[i,step,:] == token] # restrict choices to those matching the token
 
+
                     if replacement_options.shape[0]: # success! found at least one match in kb !
 
                         replacement = replacement_options.tolist()[0]
 
                         post_proc_hyp.append(replacement) # append this true value instead of the token
 
+
                         print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
-                        print(f"postprocess success: sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_trvs[i,step,:].tolist())}")
+                        print(f"postprocess success: sanity check: top {topk} attended tokens in knowledgebase: \
+                            {self.trv_vocab.array_to_sentence(true_value_choices.tolist())}")
 
                     else: #no matches
+                        debug_topk = min(topk, 10)
 
                         print(f"\npostprocess: Warning:")
                         print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")
-                        print(f"with kb_matches: {topk_kb_trvs[i,step,:]}")
+                        print(f"with kb_matches: {true_value_choices}")
                         print(f"and stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
-                        print(f"found only an empty array...")
-                        print(f"! this probably means a canonical token was suggested at random !")
-                        print(f"failure sanity check: top {topk} attended tokens in knowledgebase: {self.trv_vocab.array_to_sentence(topk_kb_trvs[i,step,:].tolist())}")
+                        print(f"found only an empty array of matching tokens...")
+                        print(f"\n         ! this probably means a canonical token was suggested at random !\n")
+                        print(f"failure sanity check: top {debug_topk} attended tokens in knowledgebase: \
+                            {self.trv_vocab.array_to_sentence(topk_kb_trvs[i,step,:].tolist()[:debug_topk-1])}")
+
                         # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
 
                         post_proc_hyp.append(token) # didnt find a match for this, current policy: just append the canonical token ...
                 else: 
-                    post_proc_hyp.append(token) # append normal boring peasant non canonical token as it was found in hypothesis
+                    post_proc_hyp.append(token) # append normal non canonical token as it was found in hypothesis
             post_proc_stacked_output.append(post_proc_hyp)
         print()
         print(f"postprocess: hyps:\n {self.trg_vocab.arrays_to_sentences(outputs)}")

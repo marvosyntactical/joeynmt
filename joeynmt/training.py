@@ -411,8 +411,7 @@ class TrainManager:
                         plot_success_ratio = store_attention_plots(
                             attentions=valid_kb_att_scores,
                             targets=valid_hypotheses_raw,
-                            sources=[KEY+": "+VAL for KEY, VAL in \
-                                zip(list(valid_kb.kbsrc),list(valid_kb.kbtrv))],
+                            sources=list(valid_kb.kbsrc),
                             indices=self.log_valid_sents,
                             output_prefix="{}/kbatt.{}".format(
                                 self.model_dir, self.steps),
