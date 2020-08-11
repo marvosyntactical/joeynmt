@@ -57,6 +57,7 @@ Preprocessing:
 1. whats not working in stock impl?
 
 * choose best model based on bleu not ppl??
+=> early stopping metric in config set to eval\_metric or anything
 
 
 
@@ -72,10 +73,12 @@ Plotting:
   (should not be the case because for KBs with only dummy token, that should have high probability and always be favored to be output)
 
 Valid/Test Postprocessing:
+
 * (1. select top k => 2. restrict to matching => 3. choose top 1)
 * to
 * (1. restrict to matching => 2. select top 1)
 
+*DONE*
 
 
 

@@ -167,15 +167,15 @@ class Model(nn.Module):
         print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
 
         # pylint: disable=unused-variable
-        if not hasattr(batch, "kbsrc"):
+        if not hasattr(batch, "kbsrc"): # no kb task
             hidden, att_probs, att_vectors , _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
-            kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None
-        else:
-            assert batch.kbsrc != None
 
+            kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None # for uniform generator call 
+        else: #kb task
+            assert batch.kbsrc != None
 
             kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
 
@@ -241,12 +241,14 @@ class Model(nn.Module):
         kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
 
 
+        # correct dimensions and make contiguous in memory
+        # (put in specifically allocated contiguous memory slot)
         kb_keys.unsqueeze_(0)
-        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous()
+        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous() # batch x 1 x kb
         kb_values.unsqueeze_(0)
-        kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous()
+        kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
         kb_true_vals.unsqueeze_(0)
-        kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous()
+        kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
 
         if detailed_debug:
             print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
@@ -331,8 +333,8 @@ class Model(nn.Module):
 
         if knowledgebase != None:
             with self.Timer("postprocessing hypotheses"):
-
-                # replace kb value tokens with actual values in hypotheses, e.g. "@meeting_time" -> "7pm"
+                # replace kb value tokens with actual values in hypotheses, e.g. 
+                # ['your','conference','is','at','@meeting_time'] => ['your', 'conference', 'is', 'at', '7pm']
                 stacked_output = self.postprocess_batch_hypotheses(stacked_output, stacked_kb_att_scores, kb_values, kb_trv)
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores

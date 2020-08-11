@@ -246,6 +246,7 @@ class TrainManager:
         :param valid_kb_lkp: List with valid example index to corresponding kb indices
         :param valid_kb_len: List with num of triples per kb 
         """
+
         if kb_task:
             train_iter = make_data_iter_kb(train_data,
                                     train_kb, train_kb_lkp, train_kb_lens,
@@ -276,9 +277,10 @@ class TrainManager:
                 # reactivate training
                 self.model.train()
 
-                # create a Batch object from torchtext batch
+                # create a Batch object from torchtext batch 
                 batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
                     Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)
+
                 if kb_task:
                     assert hasattr(batch, "kbsrc"), dir(batch)
                     assert hasattr(batch, "kbtrg"), dir(batch)
@@ -318,6 +320,7 @@ class TrainManager:
                 # validate on the entire dev set
                 if self.steps % self.validation_freq == 0 and update:
                     valid_start_time = time.time()
+
                     
                     valid_score, valid_loss, valid_ppl, valid_sources, \
                     valid_sources_raw, valid_references, valid_hypotheses, \
@@ -396,20 +399,6 @@ class TrainManager:
                     # store validation set outputs
                     self._store_outputs(valid_hypotheses)
 
-                    # debug start 
-
-                    # FIXME TODO
-                    # i thought valid_kb.kbsrc goes only over current kb
-                    # why is valid_kb.kbsrc a generator????
-
-                    print(len(list(valid_kb.kbsrc))) # 20119, correct
-                    print(len(list(valid_kb.kbtrg))) # TODO find out
-                    print(len(list(valid_kb.kbtrv))) # TODO this is empty!
-                    print(len(list(valid_data.src))) # 777, should be 778; lkp file WRONG
-                    print(valid_kb_lkp[-1]) # 301 knowledgebases (dialogues) for 778 exchanges  
-
-                    # debug end
-
                     # store attention plots for selected valid sentences
                     if valid_attention_scores:
                         plot_success_ratio = store_attention_plots(
@@ -430,7 +419,7 @@ class TrainManager:
                             output_prefix="{}/kbatt.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps,
-                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrg))) # FIXME should be valid_kb.kbtrv
+                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb_truvals)))
                         self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")
