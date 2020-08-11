@@ -226,13 +226,13 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
             print(f"KB PLOTTING: kb_lens: {lower-upper}")
             print(f"KB PLOTTING: upper-lower should be != 0 often!!: {assertion_str}")
 
+
             # index application 
             keys = kbkey[lower:upper]
             vals = kbtrv[lower:upper] # FIXME kbtrv always empty atm
-
             DEFAULT = "default(<s>)=default(<s>)"
-            # FIXME
-            src = [DEFAULT]+["+".join(key)+"="+val.kbtrv for key, val in zip(keys, vals)]
+
+            src = [DEFAULT]+["+".join(key)+"="+val.kbtrv[0] for key, val in zip(keys, vals)]
 
         try:
             fig = plot_heatmap(scores=attention_scores, column_labels=trg,
