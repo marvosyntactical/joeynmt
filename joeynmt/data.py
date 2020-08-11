@@ -283,7 +283,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lookup, dev_kb_lookup, test_kb_lookup = [],[],[]
         train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
-
+    
 
     return train_data, dev_data, test_data,\
         src_vocab, trg_vocab,\

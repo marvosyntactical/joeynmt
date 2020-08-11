@@ -97,7 +97,7 @@ class Batch:
 
 
 
-class Batch_with_KB:
+class Batch_with_KB(Batch):
     """Object for holding a batch of data with mask and with a knowledgebase during training.
     Input is a batch from a torch text iterator created by 
     joeynmt.data.make_data_iter_batch_size_1 .
