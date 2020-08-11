@@ -359,32 +359,36 @@ class Model(nn.Module):
         kb_att = stacked_kb_att_scores # batch x time x kb      # local attention ordering info (used for indexing)
 
 
-        print("POSTPROCESSING VALID/TEST BATCH")
+        print("[[[[[[[[[[[[[[ START POSTPROC VALID/TEST BATCH ]]]]]]]]]]]]]]")
+
+        # for debugging/code readability :
+        trvSent = self.trv_vocab.array_to_sentence
 
 
         post_proc_stacked_output = []
         outputs = stacked_output.tolist()
 
-
         for i,hyp in enumerate(outputs):
             post_proc_hyp = []
 
             for step,token in enumerate(hyp): # go through i_th hypothesis
+                # (token is integer index in self.trg_vocab)
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
-                    print(f"\npp: {'='*10} DECIDING REPLACEMENT FOR CANONICAL: {token} {'='*10}\n")
+                    str_tok = trvSent([token])
+                    print(f"\npp: {'='*10} DECIDING REPLACEMENT FOR CANONICAL: {str_tok} {'='*10}\n")
 
-                    print(f"pp: while deciding for hypothesis:\n{self.trg_vocab.array_to_sentence(outputs[i].tolist())}")
-                    print(f"pp: decoded hypothesis thus far:\n{self.trv_vocab.array_to_sentence(post_proc_hyp)}")
+                    print(f"pp: while deciding for hypothesis:\n{self.trg_vocab.array_to_sentence(outputs[i])}")
+                    print(f"pp: decoded hypothesis thus far:\n{trvSent(post_proc_hyp)}")
 
                     matching_trv_candidates = np.where(kb_val==token, kb_trv, -1) #1 dim array of kb true values if belonging to same canonical category (time/distance) as token
                     # only dim: kb: [-1,-1,-1,998,-1,-1,-1,973,-1,-1,-1,1058,-1,...,-1]
 
                     print(f"pp: matching_trv_candidates tokens (should belong to same canonical):\n \
-                        {self.trv_vocab.array_to_sentence(matching_trv_candidates[matching_trv_candidates!=-1].tolist())}")
+                        {trvSent(matching_trv_candidates[matching_trv_candidates!=-1].tolist())}")
 
                     if matching_trv_candidates[matching_trv_candidates!=-1].shape[0]: # match(es) found!
-                        print(f"pp: SUCCESS! Found matches for canonical: {token}")
+                        print(f"pp: SUCCESS! Found matches for canonical: {str_tok}")
 
                         # now order matching != -1 by corresponding attention values
                         matching_scores = np.where(matching_trv_candidates!=-1, kb_att[i,step,:], float("-inf"))
@@ -395,27 +399,34 @@ class Model(nn.Module):
 
                         top_match_candids = matching_trv_candidates[top_matching]
                         print(f"pp: matching_trv_candidates in descending order of attention:\n\
-                            {self.trv_vocab.array_to_sentence(top_match_candids[top_match_candids!=-1].tolist())}")
+                            {trvSent(top_match_candids[top_match_candids!=-1].tolist())}")
 
                         top1_match = matching_trv_candidates[top_matching[0]]
-                        print(f"pp: top1_match:\n{top1_match}")
+                        print(f"pp: top1_match:\n\
+                            {trvSent([top1_match])}")
 
                         assert top1_match != -1, "somehow selected true value with non matching canonical category, shouldnt happen" 
 
                         post_proc_hyp.append(int(top1_match)) # append this true value instead of the token
+
                     else:
-                        print(f"pp: FAILURE! Found no matches for canonical: {token}")
-                        # debug: what went wrong: look at highest attended options:
+                        # what went wrong: look at highest attended options:
+
+                        print(f"pp: FAILURE! Found no matches for canonical: {str_tok}")
 
                         scores = kb_att[i,step,:]
                         hi_scores = np.argsort(scores)[::-1].copy()
                         print(f"pp: failure debug: highest attended tokens overall:\n\
-                            {self.trv_vocab.array_to_sentence(matching_trv_candidates[hi_scores].tolist())}")
-                        print(f"pp: CURRENT POLICY: NOT REPLACING FOUND CANONICAL {token} BECAUSE NO MATCH")
+                            {trvSent(matching_trv_candidates[hi_scores].tolist())}")
 
-                        post_proc_hyp.append(token) # didnt find a match for this, current policy: just append the canonical token ...
+                        print(f"pp: CURRENT POLICY: REPLACING FOUND CANONICAL {str_tok} WITH NON-MATCHING HIGHEST ATTENDED")
+
+                        top1_but_not_matching = matching_trv_candidates[hi_scores[0]]
+
+                        post_proc_hyp.append(top1_but_not_matching) # didnt find a match for this, policy: append highest attended but non matching token
                     
-                    print(f"\npp: {'+'*10} DECIDED REPLACE/KEEP FOR CANONICAL: {token} {'+'*10}\n")
+                    print(f"\npp: {'+'*10} DECIDED REPLACEMENT FOR CANONICAL: {str_tok}: \
+                        {trvSent([post_proc_hyp[-1]])} {'+'*10}\n")
                 else: 
                     post_proc_hyp.append(token) # append normal non canonical token as it was found in hypothesis
             post_proc_stacked_output.append(post_proc_hyp)
@@ -426,7 +437,7 @@ class Model(nn.Module):
         print()
         print(f"pp: knowledgebase: {self.trg_vocab.array_to_sentence(kb_val.tolist())}")
         print()
-        assert False
+        print("[[[[[[[[[[[[[[ END POSTPROC VALID/TEST BATCH ]]]]]]]]]]]]]]")
 
         post_proc_stacked_output = np.array(post_proc_stacked_output)
 
