@@ -230,7 +230,6 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
             keys = kbkey[lower:upper]
             vals = kbtrv[lower:upper] # FIXME kbtrv always empty atm
 
-
             DEFAULT = "default(<s>)=default(<s>)"
             # FIXME
             src = [DEFAULT]+["+".join(key)+"="+val[0] for key, val in zip(keys, vals)]

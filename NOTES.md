@@ -57,31 +57,24 @@ Preprocessing:
 1. whats not working in stock impl?
 
 * choose best model based on bleu not ppl??
-* change postprocessing from 
-
-(1. select top k => 2. restrict to matching => 3. choose top 1)
-to
-(1. restrict to matching => 2. select top 1)
-
-
 
 
 
 1a. find out whats not working with postprocessing: 
 
 * lookup/token matching gone wild?
+
+Plotting:
 * valid\_kb.kbtrv ist LEER! (=> versuche plotting mit kbtrg zu reetablieren)
  TorchBatchWithKB.kbtrv ist schon immer leer!!!
-
-
-
-
 * dev.lkp ist FALSCH (=> entspr. teil der preprocessing pipeline durchgehen)
 * does kb attention actually sum to 1 ???
   (should not be the case because for KBs with only dummy token, that should have high probability and always be favored to be output)
 
-
-
+Valid/Test Postprocessing:
+* (1. select top k => 2. restrict to matching => 3. choose top 1)
+* to
+* (1. restrict to matching => 2. select top 1)
 
 
 

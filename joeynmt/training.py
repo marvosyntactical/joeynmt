@@ -430,7 +430,7 @@ class TrainManager:
                             output_prefix="{}/kbatt.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps,
-                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrv))) # FIXME should be valid_kb.kbtrv
+                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb.kbtrg))) # FIXME should be valid_kb.kbtrv
                         self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")

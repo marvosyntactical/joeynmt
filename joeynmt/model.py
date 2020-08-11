@@ -352,51 +352,21 @@ class Model(nn.Module):
         :return: post_proc_stacked_output
         """
 
-        np_kb_values = kb_values.cpu().numpy()
-        kb_trv = kb_trv.cpu().numpy()
+        kb_trv = kb_trv.cpu().numpy()[0,:] # kb (1 dim)         # used as replacement
+        kb_val = kb_values.cpu().numpy()[0,0,:] # kb  (1 dim)   # used for indexing
+        kb_att = stacked_kb_att_scores # batch x time x kb      # local attention ordering info (used for indexing)
+
+
+        print("POSTPROCESSING VALID/TEST BATCH")
+        print(f"pp: knowledgebase: {self.trg_vocab.array_to_sentence(kb_val.tolist())}")
+        print()
+        print(f"pp: kb_trv: {self.trv_vocab.array_to_sentence(kb_trv.tolist())}")
+        print()
+        print(f"pp: generated hyps: {self.trg_vocab.arrays_to_sentences(stacked_output.tolist())}")
+
+
         post_proc_stacked_output = []
         outputs = stacked_output.tolist()
-
-        print("postprocess.")
-        print(f"postprocess: knowledgebase: {self.trg_vocab.array_to_sentence(np_kb_values[0,0,:].tolist())}")
-        print()
-        print(f"postprocess: kb_trv: {self.trv_vocab.array_to_sentence(kb_trv[0,:].tolist())}")
-        print()
-        print(f"postprocess: generated hyps: {self.trg_vocab.arrays_to_sentences(stacked_output.tolist())}")
-
-
-        kb_length = stacked_kb_att_scores.shape[-1]
-        topk = kb_length # top topk attention values are checked first atm, then we compare with considered token
-
-        # FIXME current solution: just check all values (topk=kb_length)
-        # TODO should instead FIRST compare with token and SECOND take top , should this be also indexed by [0]? => other shape errors1 attended out of matching
-
-        
-        # construct index arrays for top k attended knowledgebase entry indexing
-        b,u,_ = stacked_kb_att_scores.shape
-        B = np.arange(b)[:,np.newaxis,np.newaxis]
-        U = np.arange(u)[np.newaxis,:,np.newaxis]
-
-        
-        # tile (=repeat n times along dimension) kb_trv: batch x kb => batch x time x kb
-        kb_trv = np.tile(kb_trv[:,np.newaxis,:],(1,stacked_kb_att_scores.shape[1],1))
-        # FIXME np_kb_values already seems to have singleton time dimension?
-        kb_val = np.tile(np_kb_values,(1,stacked_kb_att_scores.shape[1],1))
-
-
-        topk_kb_indexer = np.argsort(stacked_kb_att_scores)[:,:,::-1].copy() #FIXME why length-topk (=0??)
-
-        # debug
-        # assert kb_length < 2, topk_kb_indexer.shape
-        print(topk_kb_indexer.shape, topk_kb_indexer)
-
-
-        # find topk entries in kb_trv (for use as token replacement) and in kb_val (to compare the indices of possible token replacements to the token)
-        # in trv vocab:
-        topk_kb_trvs = kb_trv[B,U,topk_kb_indexer]
-        # in trg vocab (as are the hypotheses' tokens):
-        topk_kb_vals = kb_val[B,U,topk_kb_indexer]
-
 
 
         for i,hyp in enumerate(outputs):
@@ -406,64 +376,46 @@ class Model(nn.Module):
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
-                    true_value_choices = topk_kb_trvs[i,step,:] # choices for which true value token to append
-                    # assert False, true_value_choices # FIXME for some reason always empty
-                    replacement_options = true_value_choices[topk_kb_vals[i,step,:] == token] # restrict choices to those matching the token
+                    matching_trv_candidates = np.where(kb_val==token, kb_trv, -1) #1 dim array of kb true values if belonging to same canonical category (time/distance) as token
+                    # only dim: kb: [-1,-1,-1,998,-1,-1,-1,973,-1,-1,-1,1058,-1,...,-1]
 
-                    # TODO TODO TODO TODO TODO TODO TODO
-                    # reverse implementation: first restrict, then select top 1:
-                    
-                    curr_val = kb_val[i,step,:] 
-                    matching_trv_candidates = np.where(curr_val==token, kb_trv[i,step,:], -1) 
-                    print(f"matching_trv_candidates: {matching_trv_candidates}")
+                    print(f"pp: matching_trv_candidates: {matching_trv_candidates}")
+                    print(f"pp: matching_trv_candidates tokens (should belong to same canonical):\n \
+                        {self.trv_vocab.array_to_sentence(matching_trv_candidates[matching_trv_candidates!=-1].tolist())}")
 
-                    if matching_trv_candidates.shape[0]:
-                        # b: [t: [kb:[-1,-1,-1,998,973,-1,-1,...,-1],[-1,...,-1],....]]
+                    if matching_trv_candidates[matching_trv_candidates!=-1].shape[0]: # match(es) found!
+                        print(f"pp: success! Found matches for token {token}")
+
                         # now order matching != -1 by corresponding attention values
-                        top_matching = np.argsort(stacked_kb_att_scores[i,step,matching_trv_candidates!=-1][::-1]).copy()
-                        print(f"matching candidates in order: {matching_trv_candidates[top_matching]}")
+                        # matching_scores = kb_att[i,step,matching_trv_candidates!=-1]
+                        matching_scores = np.where(matching_trv_candidates!=-1, kb_att[i,step,:], float("-inf"))
+                        print(f"pp: matching_scores (should have no '-1's):\n{matching_scores}") # should not contain '-1's
+
+                        top_matching = np.argsort(matching_scores)[::-1].copy() # reverse index array to descending order
+                        print(f"pp: top_matching:\n{top_matching}")
+
+                        top_match_candids = matching_trv_candidates[top_matching]
+                        print(f"pp: matching_trv_candidates in order descending order of attention:\n\
+                            {self.trv_vocab.array_to_sentence(top_match_candids[top_match_candids!=-1].tolist())}")
+
                         top1_match = matching_trv_candidates[top_matching[0]]
-                        print(f"top1_match: {top1_match}")
+                        print(f"pp: top1_match:\n{top1_match}")
+
+                        assert top1_match != -1, "somehow selected true value with non matching canonical category, shouldnt happen" 
+
+                        post_proc_hyp.append(int(top1_match)) # append this true value instead of the token
                     else:
-                        pass # found no matches
-                    
-                    assert False
-                    # TODO TODO TODO TODO TODO TODO TODO
-
-
-                    debug_topk = min(topk, 10)
-
-                    if replacement_options.shape[0]: # success! found at least one match in kb !
-
-                        replacement = replacement_options.tolist()[0]
-
-                        post_proc_hyp.append(replacement) # append this true value instead of the token
-
-
-                        print(f"postprocess success:\nRecovered '{self.trv_vocab.array_to_sentence([replacement])}' from '{self.trg_vocab.array_to_sentence([token])}'")
-                        print(f"postprocess success: sanity check: top {debug_topk} attended tokens in knowledgebase: \
-                            {self.trv_vocab.array_to_sentence(true_value_choices.tolist()[:debug_topk-1])}")
-
-                    else: #no matches
-
-                        print(f"\npostprocess: Warning:")
-                        print(f"attempted to replace token {self.trg_vocab.array_to_sentence([token])}")
-                        print(f"with kb_matches: {true_value_choices}")
-                        print(f"and stacked_kb_att_scores: {stacked_kb_att_scores.shape}")
-                        print(f"found only an empty array of matching tokens...")
-                        print(f"\n         ! this probably means a canonical token was suggested at random !\n")
-                        print(f"failure sanity check: top {debug_topk} attended tokens in knowledgebase: \
-                            {self.trv_vocab.array_to_sentence(topk_kb_trvs[i,step,:].tolist()[:debug_topk-1])}")
-
-                        # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+                        print(f"pp: Warning! Found canonical token {token}")
+                        print(f"pp: but no match!!!\n")
 
                         post_proc_hyp.append(token) # didnt find a match for this, current policy: just append the canonical token ...
                 else: 
                     post_proc_hyp.append(token) # append normal non canonical token as it was found in hypothesis
             post_proc_stacked_output.append(post_proc_hyp)
         print()
-        print(f"postprocess: hyps:\n {self.trg_vocab.arrays_to_sentences(outputs)}")
-        print(f"postprocess: post processed hyps:\n {self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
+        print(f"pp: hyps:\n{self.trg_vocab.arrays_to_sentences(outputs)}")
+        print(post_proc_stacked_output)
+        print(f"pp: post processed hyps:\n{self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
         print()
         post_proc_stacked_output = np.array(post_proc_stacked_output)
 
