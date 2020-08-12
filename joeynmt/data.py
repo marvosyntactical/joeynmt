@@ -269,12 +269,17 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     if kb_task:
         # NOTE this vocab is hardcodedly built from the concatenation of train+dev+test trv files!
         trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
+
         assert os.path.isfile(trv_path)
+
         trv_vocab = deepcopy(trg_vocab)
         trv_vocab._from_file(trv_path)
         
+        assert trg_vocab.itos == trv_vocab.itos[:len(trg_vocab)]
+
         print(f"Added true value lines as tokens to trv_vocab of length={len(trv_vocab)}")
         trv_field.vocab = trv_vocab
+
 
 
     if not kb_task: #default values for normal pipeline

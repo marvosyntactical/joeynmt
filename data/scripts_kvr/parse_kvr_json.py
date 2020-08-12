@@ -22,8 +22,8 @@ def historify_src(utterances, even=True):
 def main(args):
     #defaults:
     directory = "../kvr/"
-    filename = "kvret_dev_public.json" if args == 0 else args[0]
-    splitpart = "dev" if args == 0 else args[1]
+    splitpart = "dev" if args == 0 else args[0]
+    filename = "kvret_dev_public.json" if args == 0 or len(args) <= 1 else args[1]
     assert splitpart in ["dev", "train", "test"]
 
 

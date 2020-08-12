@@ -364,40 +364,46 @@ class Model(nn.Module):
         # for debugging/code readability :
         trvSent = self.trv_vocab.array_to_sentence
 
-
         post_proc_stacked_output = []
         outputs = stacked_output.tolist()
 
-        for i,hyp in enumerate(outputs):
+        for i, hyp in enumerate(outputs):
             post_proc_hyp = []
 
-            for step,token in enumerate(hyp): # go through i_th hypothesis
+            for step, token in enumerate(hyp): # go through i_th hypothesis
                 # (token is integer index in self.trg_vocab)
 
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
-                    str_tok = trvSent([token])
-                    print(f"\npp: {'='*10} DECIDING REPLACEMENT FOR CANONICAL: {str_tok} {'='*10}\n")
 
-                    print(f"pp: while deciding for hypothesis:\n{self.trg_vocab.array_to_sentence(outputs[i])}")
+                    str_tok = trvSent([token])
+                    hypotSent = self.trg_vocab.array_to_sentence(hyp)
+
+                    print(f"\npp: {'='*10} DECIDING REPLACEMENT FOR CANONICAL: {str_tok} {'='*10}\n")
+                    print(f"pp: while deciding for hypothesis:\n{hypotSent}")
                     print(f"pp: decoded hypothesis thus far:\n{trvSent(post_proc_hyp)}")
 
-                    matching_trv_candidates = np.where(kb_val==token, kb_trv, -1) #1 dim array of kb true values if belonging to same canonical category (time/distance) as token
+                    assert str_tok[0] in hypotSent, (str_tok, hypotSent)
+
+                    matching_trv_candidates = np.where(kb_val==token, kb_trv, -1) 
+                    #1 dim array of kb true values if belonging to same canonical category (time/distance) as token
                     # only dim: kb: [-1,-1,-1,998,-1,-1,-1,973,-1,-1,-1,1058,-1,...,-1]
 
                     print(f"pp: matching_trv_candidates tokens (should belong to same canonical):\n \
                         {trvSent(matching_trv_candidates[matching_trv_candidates!=-1].tolist())}")
 
                     if matching_trv_candidates[matching_trv_candidates!=-1].shape[0]: # match(es) found!
+
                         print(f"pp: SUCCESS! Found matches for canonical: {str_tok}")
 
                         # now order matching != -1 by corresponding attention values
                         matching_scores = np.where(matching_trv_candidates!=-1, kb_att[i,step,:], float("-inf"))
+
                         print(f"pp: matching_scores (should have no '-1's):\n{matching_scores}") # should not contain '-1's
 
-                        top_matching = np.argsort(matching_scores)[::-1].copy() # reverse index array to descending order
-                        print(f"pp: top_matching:\n{top_matching}")
+                        top_matching = np.argsort(matching_scores)[::-1].copy() # reverse index array in descending order of score
 
-                        top_match_candids = matching_trv_candidates[top_matching]
+
+                        top_match_candids = matching_trv_candidates[top_matching] # only for printing
                         print(f"pp: matching_trv_candidates in descending order of attention:\n\
                             {trvSent(top_match_candids[top_match_candids!=-1].tolist())}")
 
@@ -425,17 +431,16 @@ class Model(nn.Module):
 
                         post_proc_hyp.append(top1_but_not_matching) # didnt find a match for this, policy: append highest attended but non matching token
                     
-                    print(f"\npp: {'+'*10} DECIDED REPLACEMENT FOR CANONICAL: {str_tok}: \
-                        {trvSent([post_proc_hyp[-1]])} {'+'*10}\n")
+                    print(f"\npp: {'+'*10} DECIDED REPLACEMENT FOR CANONICAL: {str_tok}: {trvSent([post_proc_hyp[-1]])} {'+'*10}\n")
                 else: 
                     post_proc_hyp.append(token) # append normal non canonical token as it was found in hypothesis
             post_proc_stacked_output.append(post_proc_hyp)
         print()
         print(f"pp: raw hyps:\n{self.trg_vocab.arrays_to_sentences(outputs)}")
-        print(post_proc_stacked_output)
+        print()
         print(f"pp: post processed hyps:\n{self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
         print()
-        print(f"pp: knowledgebase: {self.trg_vocab.array_to_sentence(kb_val.tolist())}")
+        print(f"pp: knowledgebase: {trvSent(kb_trv.tolist())}")
         print()
         print("[[[[[[[[[[[[[[ END POSTPROC VALID/TEST BATCH ]]]]]]]]]]]]]]")
 

@@ -1,29 +1,36 @@
 5 miles
 moderate traffic
+gas station
 783 Arcadia Pl
 Chevron
 5 miles
 no traffic
+shopping center
 383 University Ave
 Town and Country
 5 miles
 no traffic
+friends house
 864 Almanor Ln
 jacks house
 6 miles
 heavy traffic
+home
 5671 barringer street
 home
 4 miles
 no traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 1 miles
 heavy traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 6 miles
 no traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 hot
@@ -48,7 +55,6 @@ danville
 dry
 80F
 90F
-monday
 rain
 80F
 100F
@@ -71,7 +77,6 @@ alhambra
 drizzle
 30F
 40F
-monday
 snow
 40F
 50F
@@ -94,7 +99,6 @@ inglewood
 warm
 70F
 90F
-monday
 rain
 80F
 100F
@@ -117,7 +121,6 @@ durham
 hail
 70F
 80F
-monday
 clear skies
 40F
 50F
@@ -140,7 +143,6 @@ san francisco
 foggy
 80F
 90F
-monday
 clear skies
 90F
 100F
@@ -163,7 +165,6 @@ compton
 raining
 70F
 80F
-monday
 dry
 70F
 90F
@@ -186,34 +187,40 @@ brentwood
 dry
 20F
 40F
-monday
 The Westin
 4 miles
 no traffic
+rest stop
 329 El Camino Real
 Palo Alto Garage R
 2 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Mandarin Roots
 4 miles
 moderate traffic
+chinese restaurant
 271 Springer Street
 Sigona Farmers Market
 4 miles
 no traffic
+grocery store
 638 Amherst St
 Whole Foods
 2 miles
 heavy traffic
+grocery store
 819 Alma St
 Stanford Shopping Center
 2 miles
 moderate traffic
+shopping center
 773 Alger Dr
 toms house
 1 miles
 no traffic
+friends house
 580 Van Ness Ave
 stormy
 90F
@@ -237,7 +244,6 @@ durham
 clear skies
 80F
 100F
-monday
 foggy
 80F
 90F
@@ -260,7 +266,6 @@ manhattan
 misty
 90F
 100F
-monday
 rain
 80F
 100F
@@ -283,7 +288,6 @@ grand rapids
 warm
 60F
 70F
-monday
 raining
 50F
 60F
@@ -306,7 +310,6 @@ san francisco
 dry
 90F
 100F
-monday
 foggy
 40F
 50F
@@ -329,7 +332,6 @@ atherton
 rain
 90F
 100F
-monday
 snow
 80F
 100F
@@ -352,7 +354,6 @@ seattle
 snow
 40F
 60F
-monday
 cloudy
 40F
 60F
@@ -375,125 +376,154 @@ fresno
 overcast
 30F
 50F
-monday
 5 miles
 heavy traffic
+grocery store
 408 University Ave
 Trader Joes
 3 miles
 heavy traffic
+home
 56 cadwell street
 home
 3 miles
 car collision nearby
+coffee or tea place
 145 Amherst St
 Teavana
 3 miles
 car collision nearby
+pizza restaurant
 776 Arastradero Rd
 Dominos
 3 miles
 car collision nearby
+grocery store
 819 Alma St
 Whole Foods
 6 miles
 no traffic
+rest stop
 753 University Ave
 Comfort Inn
 2 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 4 miles
 road block nearby
+chinese restaurant
 830 Almanor Ln
 tai pan
 5 miles
 moderate traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 4 miles
 heavy traffic
+grocery store
 819 Alma St
 Whole Foods
 3 miles
 no traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 4 miles
 no traffic
+grocery store
 452 Arcadia Pl
 Safeway
 3 miles
 no traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 4 miles
 heavy traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 3 miles
 moderate traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 3 miles
 car collision nearby
+grocery store
 409 Bollard St
 Willows Market
 3 miles
 car collision nearby
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 5 miles
 moderate traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 5 miles
 no traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 5 miles
 moderate traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 5 miles
 car collision nearby
+gas station
 91 El Camino Real
 76
 4 miles
 moderate traffic
+coffee or tea place
 9981 Archuleta Ave
 Peets Coffee
 6 miles
 road block nearby
+coffee or tea place
 394 Van Ness Ave
 Coupa
 3 miles
 moderate traffic
+coffee or tea place
 145 Amherst St
 Teavana
 2 miles
 heavy traffic
+grocery store
 408 University Ave
 Trader Joes
 5 miles
 heavy traffic
+friends house
 347 Alta Mesa Ave
 jills house
 1 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 5 miles
 moderate traffic
+certain address
 5672 barringer street
 5672 barringer street
 4 miles
 heavy traffic
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 1 miles
 no traffic
+home
 56 cadwell street
 home
 warm
@@ -518,7 +548,6 @@ alameda
 humid
 80F
 100F
-monday
 frost
 50F
 60F
@@ -541,7 +570,6 @@ mountain view
 snow
 80F
 90F
-monday
 clear skies
 50F
 60F
@@ -564,7 +592,6 @@ los angeles
 overcast
 70F
 80F
-monday
 overcast
 40F
 60F
@@ -587,7 +614,6 @@ fresno
 overcast
 60F
 80F
-monday
 dry
 30F
 40F
@@ -610,7 +636,6 @@ brentwood
 blizzard
 40F
 60F
-monday
 rain
 70F
 80F
@@ -633,7 +658,6 @@ alhambra
 overcast
 20F
 30F
-monday
 windy
 50F
 70F
@@ -656,7 +680,6 @@ manhattan
 foggy
 20F
 40F
-monday
 11 am
 thursday
 swimming activity
@@ -678,89 +701,111 @@ dentist
 Ravenswood Shopping Center
 4 miles
 heavy traffic
+shopping center
 434 Arastradero Rd
 Civic Center Garage
 4 miles
 no traffic
+parking garage
 270 Altaire Walk
 jills house
 4 miles
 heavy traffic
+friends house
 347 Alta Mesa Ave
 Sigona Farmers Market
 4 miles
 no traffic
+grocery store
 638 Amherst St
 Trader Joes
 5 miles
 no traffic
+grocery store
 408 University Ave
 Mandarin Roots
 4 miles
 moderate traffic
+chinese restaurant
 271 Springer Street
 Chevron
 3 miles
 moderate traffic
+gas station
 783 Arcadia Pl
 Stanford Shopping Center
 2 miles
 moderate traffic
+shopping center
 773 Alger Dr
 jacks house
 6 miles
 no traffic
+friends house
 864 Almanor Ln
 Comfort Inn
 5 miles
 no traffic
+rest stop
 753 University Ave
 5677 southwest 4th street
 5 miles
 moderate traffic
+certain address
 5677 southwest 4th street
 Ravenswood Shopping Center
 4 miles
 heavy traffic
+shopping center
 434 Arastradero Rd
 Panda Express
 1 miles
 moderate traffic
+chinese restaurant
 842 Arrowhead Way
 Valero
 2 miles
 no traffic
+gas station
 200 Alester Ave
 5 miles
 no traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 5 miles
 no traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 5 miles
 moderate traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 6 miles
 moderate traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 2 miles
 no traffic
+friends house
 580 Van Ness Ave
 toms house
 2 miles
 road block nearby
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 2 miles
 heavy traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 4 miles
 car collision nearby
+coffee or tea place
 583 Alester Ave
 Philz
 overcast
@@ -785,7 +830,6 @@ brentwood
 rain
 80F
 90F
-monday
 cloudy
 70F
 90F
@@ -808,7 +852,6 @@ corona
 clear skies
 60F
 80F
-monday
 blizzard
 50F
 60F
@@ -831,7 +874,6 @@ carson
 drizzle
 70F
 90F
-monday
 cloudy
 40F
 60F
@@ -854,7 +896,6 @@ atherton
 snow
 30F
 40F
-monday
 hail
 30F
 40F
@@ -877,7 +918,6 @@ danville
 hail
 40F
 60F
-monday
 windy
 20F
 30F
@@ -900,7 +940,6 @@ boston
 dry
 40F
 50F
-monday
 foggy
 60F
 80F
@@ -923,7 +962,6 @@ redwood city
 frost
 20F
 30F
-monday
 cloudy
 30F
 50F
@@ -946,7 +984,6 @@ corona
 cloudy
 90F
 100F
-monday
 dry
 20F
 40F
@@ -969,7 +1006,6 @@ boston
 blizzard
 30F
 50F
-monday
 snow
 40F
 50F
@@ -992,7 +1028,6 @@ durham
 clear skies
 80F
 90F
-monday
 snow
 30F
 40F
@@ -1015,7 +1050,6 @@ compton
 hot
 70F
 80F
-monday
 dry
 80F
 90F
@@ -1038,7 +1072,6 @@ redwood city
 misty
 70F
 80F
-monday
 stormy
 20F
 30F
@@ -1061,7 +1094,6 @@ manhattan
 drizzle
 60F
 80F
-monday
 frost
 30F
 40F
@@ -1084,93 +1116,114 @@ carson
 clear skies
 80F
 90F
-monday
 3 miles
 heavy traffic
+friends house
 580 Van Ness Ave
 toms house
 2 miles
 moderate traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 2 miles
 no traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 5 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 1 miles
 heavy traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 2 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 4 miles
 heavy traffic
+gas station
 200 Alester Ave
 Valero
 5 miles
 no traffic
+home
 56 cadwell street
 home
 1 miles
 moderate traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 6 miles
 moderate traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 4 miles
 moderate traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 2 miles
 moderate traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 1 miles
 heavy traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 1 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 2 miles
 no traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 4 miles
 road block nearby
+grocery store
 408 University Ave
 Trader Joes
 6 miles
 car collision nearby
+grocery store
 452 Arcadia Pl
 Safeway
 5 miles
 car collision nearby
+pizza restaurant
 776 Arastradero Rd
 Dominos
 2 miles
 moderate traffic
+gas station
 53 University Av
 Shell
 2 miles
 car collision nearby
+gas station
 783 Arcadia Pl
 Chevron
 3 miles
 no traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 6 miles
 road block nearby
+home
 5671 barringer street
 home
 overcast
@@ -1195,7 +1248,6 @@ fresno
 snow
 40F
 60F
-monday
 foggy
 40F
 50F
@@ -1218,7 +1270,6 @@ downtown chicago
 windy
 50F
 70F
-monday
 raining
 60F
 70F
@@ -1241,7 +1292,6 @@ san jose
 frost
 20F
 40F
-monday
 humid
 60F
 80F
@@ -1264,7 +1314,6 @@ oakland
 snow
 20F
 30F
-monday
 foggy
 60F
 80F
@@ -1287,7 +1336,6 @@ exeter
 overcast
 40F
 50F
-monday
 warm
 90F
 100F
@@ -1310,7 +1358,6 @@ cleveland
 dry
 70F
 80F
-monday
 hot
 50F
 70F
@@ -1333,33 +1380,39 @@ seattle
 foggy
 20F
 30F
-monday
 2 miles
 no traffic
+parking garage
 270 Altaire Walk
 Civic Center Garage
 3 miles
 no traffic
+home
 56 cadwell street
 home
 2 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 1 miles
 no traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 5 miles
 heavy traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 6 miles
 heavy traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 3 miles
 moderate traffic
+gas station
 783 Arcadia Pl
 Chevron
 100 conference room
@@ -1420,7 +1473,6 @@ compton
 raining
 40F
 60F
-monday
 rain
 80F
 90F
@@ -1443,7 +1495,6 @@ menlo park
 clear skies
 30F
 40F
-monday
 overcast
 70F
 80F
@@ -1466,7 +1517,6 @@ oakland
 raining
 30F
 40F
-monday
 raining
 80F
 100F
@@ -1489,7 +1539,6 @@ inglewood
 foggy
 60F
 70F
-monday
 raining
 30F
 40F
@@ -1512,7 +1561,6 @@ san francisco
 windy
 30F
 40F
-monday
 raining
 40F
 60F
@@ -1535,7 +1583,6 @@ los angeles
 snow
 30F
 40F
-monday
 clear skies
 30F
 40F
@@ -1558,65 +1605,79 @@ redwood city
 warm
 90F
 100F
-monday
 toms house
 1 miles
 no traffic
+friends house
 580 Van Ness Ave
 Chef Chu's
 5 miles
 heavy traffic
+chinese restaurant
 593 Arrowhead Way
 The Clement Hotel
 5 miles
 no traffic
+rest stop
 657 Ames Ave
 Midtown Shopping Center
 3 miles
 no traffic
+shopping center
 338 Alester Ave
 Pizza Chicago
 6 miles
 heavy traffic
+pizza restaurant
 915 Arbol Dr
 Teavana
 2 miles
 heavy traffic
+coffee or tea place
 145 Amherst St
 Pizza Hut
 3 miles
 heavy traffic
+pizza restaurant
 704 El Camino Real
 1 miles
 road block nearby
+grocery store
 1313 Chester Ave
 Hacienda Market
 2 miles
 heavy traffic
+grocery store
 408 University Ave
 Trader Joes
 4 miles
 heavy traffic
+home
 5671 barringer street
 home
 4 miles
 car collision nearby
+grocery store
 409 Bollard St
 Willows Market
 1 miles
 car collision nearby
+coffee or tea place
 394 Van Ness Ave
 Coupa
 2 miles
 road block nearby
+rest stop
 578 Arbol Dr
 Hotel Keen
 3 miles
 road block nearby
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 4 miles
 car collision nearby
+pizza restaurant
 776 Arastradero Rd
 Dominos
 raining
@@ -1641,7 +1702,6 @@ san mateo
 hail
 20F
 30F
-monday
 cloudy
 80F
 100F
@@ -1664,7 +1724,6 @@ grand rapids
 stormy
 40F
 60F
-monday
 hot
 60F
 70F
@@ -1687,7 +1746,6 @@ atherton
 clear skies
 90F
 100F
-monday
 overcast
 20F
 40F
@@ -1710,7 +1768,6 @@ exeter
 snow
 70F
 90F
-monday
 hot
 80F
 90F
@@ -1733,7 +1790,6 @@ los angeles
 clear skies
 50F
 60F
-monday
 humid
 90F
 100F
@@ -1756,7 +1812,6 @@ downtown chicago
 clear skies
 90F
 100F
-monday
 drizzle
 40F
 60F
@@ -1779,7 +1834,6 @@ oakland
 overcast
 40F
 50F
-monday
 5pm
 the 4th
 sister
@@ -1826,7 +1880,6 @@ exeter
 snow
 50F
 60F
-monday
 snow
 80F
 100F
@@ -1849,7 +1902,6 @@ mountain view
 overcast
 20F
 40F
-monday
 snow
 30F
 40F
@@ -1872,7 +1924,6 @@ menlo park
 raining
 30F
 40F
-monday
 cloudy
 30F
 50F
@@ -1895,7 +1946,6 @@ boston
 dry
 90F
 100F
-monday
 clear skies
 30F
 50F
@@ -1918,7 +1968,6 @@ oakland
 drizzle
 60F
 70F
-monday
 windy
 80F
 100F
@@ -1941,7 +1990,6 @@ san francisco
 hot
 60F
 70F
-monday
 blizzard
 30F
 50F
@@ -1964,7 +2012,6 @@ durham
 foggy
 60F
 70F
-monday
 snow
 90F
 100F
@@ -1987,7 +2034,6 @@ inglewood
 foggy
 80F
 90F
-monday
 snow
 30F
 50F
@@ -2010,7 +2056,6 @@ downtown chicago
 raining
 30F
 40F
-monday
 rain
 50F
 70F
@@ -2033,7 +2078,6 @@ corona
 foggy
 20F
 30F
-monday
 overcast
 20F
 30F
@@ -2056,7 +2100,6 @@ mountain view
 cloudy
 90F
 100F
-monday
 foggy
 60F
 70F
@@ -2079,7 +2122,6 @@ compton
 foggy
 60F
 80F
-monday
 raining
 50F
 60F
@@ -2102,7 +2144,6 @@ manhattan
 drizzle
 30F
 50F
-monday
 blizzard
 20F
 40F
@@ -2125,7 +2166,6 @@ danville
 dry
 20F
 30F
-monday
 foggy
 20F
 30F
@@ -2148,7 +2188,6 @@ cleveland
 raining
 80F
 100F
-monday
 dew
 50F
 70F
@@ -2171,7 +2210,6 @@ downtown chicago
 dry
 40F
 50F
-monday
 hail
 30F
 50F
@@ -2194,7 +2232,6 @@ manhattan
 windy
 90F
 100F
-monday
 drizzle
 80F
 90F
@@ -2217,7 +2254,6 @@ danville
 misty
 90F
 100F
-monday
 hot
 90F
 100F
@@ -2240,7 +2276,6 @@ exeter
 drizzle
 80F
 100F
-monday
 dry
 60F
 70F
@@ -2263,7 +2298,6 @@ alameda
 hot
 70F
 90F
-monday
 windy
 80F
 100F
@@ -2286,37 +2320,44 @@ brentwood
 stormy
 30F
 40F
-monday
 1 miles
 car collision nearby
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 4 miles
 heavy traffic
+gas station
 200 Alester Ave
 Valero
 5 miles
 no traffic
+home
 5671 barringer street
 home
 4 miles
 car collision nearby
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 3 miles
 no traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 3 miles
 no traffic
+coffee or tea place
 583 Alester Ave
 Philz
 1 miles
 heavy traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 2 miles
 road block nearby
+shopping center
 171 Oak Rd
 Topanga Mall
 dew
@@ -2341,7 +2382,6 @@ carson
 dew
 20F
 40F
-monday
 dry
 20F
 30F
@@ -2364,7 +2404,6 @@ mountain view
 blizzard
 50F
 60F
-monday
 snow
 50F
 70F
@@ -2387,7 +2426,6 @@ grand rapids
 humid
 80F
 90F
-monday
 misty
 30F
 50F
@@ -2410,7 +2448,6 @@ san mateo
 rain
 60F
 70F
-monday
 foggy
 30F
 40F
@@ -2433,7 +2470,6 @@ redwood city
 dry
 40F
 60F
-monday
 dew
 70F
 90F
@@ -2456,7 +2492,6 @@ compton
 overcast
 40F
 50F
-monday
 clear skies
 40F
 60F
@@ -2479,33 +2514,39 @@ manhattan
 raining
 90F
 100F
-monday
 1 miles
 moderate traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 1 miles
 moderate traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 5 miles
 heavy traffic
+certain address
 5672 barringer street
 5672 barringer street
 1 miles
 no traffic
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 5 miles
 no traffic
+home
 5671 barringer street
 home
 2 miles
 no traffic
+parking garage
 270 Altaire Walk
 Civic Center Garage
 1 miles
 heavy traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 overcast
@@ -2530,7 +2571,6 @@ compton
 blizzard
 30F
 50F
-monday
 dry
 80F
 100F
@@ -2553,7 +2593,6 @@ carson
 misty
 50F
 70F
-monday
 windy
 90F
 100F
@@ -2576,7 +2615,6 @@ downtown chicago
 dew
 40F
 50F
-monday
 foggy
 40F
 50F
@@ -2599,7 +2637,6 @@ inglewood
 foggy
 40F
 60F
-monday
 humid
 60F
 70F
@@ -2622,7 +2659,6 @@ los angeles
 foggy
 60F
 70F
-monday
 clear skies
 70F
 90F
@@ -2645,7 +2681,6 @@ new york
 misty
 90F
 100F
-monday
 raining
 20F
 40F
@@ -2668,7 +2703,6 @@ alameda
 overcast
 90F
 100F
-monday
 dry
 80F
 90F
@@ -2691,7 +2725,6 @@ oakland
 dry
 80F
 90F
-monday
 frost
 30F
 40F
@@ -2714,7 +2747,6 @@ mountain view
 misty
 90F
 100F
-monday
 drizzle
 30F
 40F
@@ -2737,7 +2769,6 @@ compton
 snow
 40F
 50F
-monday
 windy
 50F
 60F
@@ -2760,7 +2791,6 @@ atherton
 hot
 80F
 90F
-monday
 warm
 60F
 80F
@@ -2783,7 +2813,6 @@ durham
 blizzard
 20F
 40F
-monday
 dry
 50F
 60F
@@ -2806,7 +2835,6 @@ brentwood
 dry
 80F
 100F
-monday
 drizzle
 40F
 60F
@@ -2829,7 +2857,6 @@ grand rapids
 snow
 40F
 50F
-monday
 6pm
 the 9th
 brother
@@ -2866,30 +2893,37 @@ aunt
 doctor appointment
 2 miles
 heavy traffic
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 6 miles
 no traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 5 miles
 heavy traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 2 miles
 moderate traffic
+friends house
 347 Alta Mesa Ave
 jills house
 6 miles
 heavy traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 4 miles
 heavy traffic
+coffee or tea place
 583 Alester Ave
 Philz
 4 miles
 moderate traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 stormy
@@ -2914,7 +2948,6 @@ brentwood
 foggy
 80F
 100F
-monday
 foggy
 60F
 70F
@@ -2937,7 +2970,6 @@ alhambra
 dew
 30F
 50F
-monday
 dry
 90F
 100F
@@ -2960,7 +2992,6 @@ exeter
 rain
 60F
 80F
-monday
 clear skies
 80F
 100F
@@ -2983,7 +3014,6 @@ oakland
 misty
 20F
 30F
-monday
 hot
 60F
 70F
@@ -3006,7 +3036,6 @@ fresno
 dry
 30F
 40F
-monday
 dry
 30F
 40F
@@ -3029,7 +3058,6 @@ seattle
 drizzle
 40F
 50F
-monday
 frost
 50F
 60F
@@ -3052,7 +3080,6 @@ danville
 foggy
 40F
 60F
-monday
 hot
 50F
 70F
@@ -3075,7 +3102,6 @@ grand rapids
 foggy
 50F
 60F
-monday
 misty
 30F
 50F
@@ -3098,7 +3124,6 @@ new york
 cloudy
 30F
 50F
-monday
 hail
 90F
 100F
@@ -3121,7 +3146,6 @@ boston
 overcast
 50F
 70F
-monday
 hot
 90F
 100F
@@ -3144,7 +3168,6 @@ durham
 hail
 30F
 40F
-monday
 rain
 60F
 70F
@@ -3167,7 +3190,6 @@ san francisco
 clear skies
 90F
 100F
-monday
 raining
 70F
 80F
@@ -3190,7 +3212,6 @@ carson
 overcast
 50F
 70F
-monday
 blizzard
 40F
 50F
@@ -3213,7 +3234,6 @@ san jose
 dry
 50F
 60F
-monday
 cloudy
 90F
 100F
@@ -3236,7 +3256,6 @@ redwood city
 foggy
 70F
 90F
-monday
 clear skies
 60F
 80F
@@ -3259,7 +3278,6 @@ cleveland
 overcast
 80F
 100F
-monday
 dew
 30F
 50F
@@ -3282,7 +3300,6 @@ atherton
 windy
 40F
 60F
-monday
 hail
 20F
 40F
@@ -3305,7 +3322,6 @@ downtown chicago
 hail
 40F
 50F
-monday
 snow
 50F
 60F
@@ -3328,7 +3344,6 @@ alameda
 dry
 30F
 50F
-monday
 humid
 50F
 70F
@@ -3351,7 +3366,6 @@ compton
 snow
 90F
 100F
-monday
 drizzle
 60F
 70F
@@ -3374,7 +3388,6 @@ menlo park
 hot
 80F
 90F
-monday
 foggy
 80F
 100F
@@ -3397,7 +3410,6 @@ new york
 clear skies
 90F
 100F
-monday
 overcast
 20F
 40F
@@ -3420,7 +3432,6 @@ san mateo
 dry
 40F
 50F
-monday
 drizzle
 50F
 60F
@@ -3443,7 +3454,6 @@ corona
 misty
 70F
 90F
-monday
 hail
 90F
 100F
@@ -3466,7 +3476,6 @@ alameda
 dew
 50F
 70F
-monday
 foggy
 30F
 50F
@@ -3489,7 +3498,6 @@ mountain view
 overcast
 50F
 70F
-monday
 frost
 20F
 30F
@@ -3512,7 +3520,6 @@ oakland
 cloudy
 70F
 90F
-monday
 windy
 20F
 30F
@@ -3535,7 +3542,6 @@ san jose
 cloudy
 80F
 100F
-monday
 overcast
 30F
 50F
@@ -3558,7 +3564,6 @@ san mateo
 rain
 70F
 80F
-monday
 drizzle
 30F
 50F
@@ -3581,7 +3586,6 @@ inglewood
 snow
 60F
 70F
-monday
 foggy
 50F
 60F
@@ -3604,7 +3608,6 @@ downtown chicago
 snow
 50F
 70F
-monday
 drizzle
 60F
 70F
@@ -3627,7 +3630,6 @@ manhattan
 dry
 60F
 70F
-monday
 overcast
 80F
 90F
@@ -3650,7 +3652,6 @@ seattle
 warm
 60F
 80F
-monday
 raining
 30F
 50F
@@ -3673,7 +3674,6 @@ exeter
 warm
 80F
 100F
-monday
 raining
 60F
 80F
@@ -3696,65 +3696,79 @@ boston
 dry
 60F
 70F
-monday
 4 miles
 heavy traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 5 miles
 heavy traffic
+grocery store
 819 Alma St
 Whole Foods
 1 miles
 car collision nearby
+hospital
 899 Ames Ct
 Stanford Childrens Health
 6 miles
 car collision nearby
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 2 miles
 no traffic
+parking garage
 880 Ames Ct
 Webster Garage
 2 miles
 road block nearby
+rest stop
 465 Arcadia Pl
 Four Seasons
 5 miles
 no traffic
+gas station
 783 Arcadia Pl
 Chevron
 1 miles
 road block nearby
+grocery store
 638 Amherst St
 Sigona Farmers Market
 5 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 4 miles
 moderate traffic
+rest stop
 753 University Ave
 Comfort Inn
 3 miles
 moderate traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 3 miles
 moderate traffic
+grocery store
 408 University Ave
 Trader Joes
 2 miles
 heavy traffic
+home
 56 cadwell street
 home
 6 miles
 no traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 2 miles
 moderate traffic
+certain address
 5677 springer street
 5677 springer street
 windy
@@ -3779,7 +3793,6 @@ durham
 blizzard
 30F
 40F
-monday
 clear skies
 40F
 50F
@@ -3802,7 +3815,6 @@ los angeles
 windy
 70F
 80F
-monday
 raining
 40F
 50F
@@ -3825,7 +3837,6 @@ compton
 dry
 40F
 50F
-monday
 snow
 60F
 70F
@@ -3848,7 +3859,6 @@ oakland
 frost
 40F
 50F
-monday
 overcast
 80F
 90F
@@ -3871,7 +3881,6 @@ redwood city
 dry
 50F
 70F
-monday
 cloudy
 60F
 70F
@@ -3894,7 +3903,6 @@ cleveland
 snow
 30F
 40F
-monday
 drizzle
 90F
 100F
@@ -3917,7 +3925,6 @@ san mateo
 dry
 20F
 40F
-monday
 snow
 80F
 90F
@@ -3940,7 +3947,6 @@ alameda
 overcast
 80F
 100F
-monday
 misty
 40F
 50F
@@ -3963,7 +3969,6 @@ san jose
 stormy
 50F
 70F
-monday
 dry
 30F
 40F
@@ -3986,7 +3991,6 @@ los angeles
 drizzle
 20F
 40F
-monday
 dry
 90F
 100F
@@ -4009,7 +4013,6 @@ new york
 hail
 40F
 50F
-monday
 foggy
 60F
 70F
@@ -4032,7 +4035,6 @@ fresno
 foggy
 70F
 80F
-monday
 cloudy
 80F
 100F
@@ -4055,7 +4057,6 @@ compton
 snow
 70F
 80F
-monday
 foggy
 60F
 70F
@@ -4078,7 +4079,6 @@ atherton
 dew
 90F
 100F
-monday
 6pm
 the 20th
 mother
@@ -4193,7 +4193,6 @@ inglewood
 snow
 90F
 100F
-monday
 dry
 20F
 30F
@@ -4216,7 +4215,6 @@ los angeles
 raining
 30F
 40F
-monday
 foggy
 70F
 80F
@@ -4239,7 +4237,6 @@ danville
 drizzle
 30F
 40F
-monday
 windy
 40F
 60F
@@ -4262,7 +4259,6 @@ alhambra
 cloudy
 50F
 60F
-monday
 foggy
 60F
 70F
@@ -4285,7 +4281,6 @@ grand rapids
 hail
 80F
 100F
-monday
 rain
 80F
 90F
@@ -4308,7 +4303,6 @@ san jose
 stormy
 40F
 60F
-monday
 foggy
 90F
 100F
@@ -4331,7 +4325,6 @@ boston
 windy
 40F
 60F
-monday
 foggy
 80F
 90F
@@ -4354,7 +4347,6 @@ mountain view
 cloudy
 30F
 40F
-monday
 windy
 20F
 30F
@@ -4377,7 +4369,6 @@ san jose
 rain
 30F
 50F
-monday
 warm
 80F
 100F
@@ -4400,7 +4391,6 @@ alhambra
 frost
 40F
 60F
-monday
 humid
 60F
 80F
@@ -4423,7 +4413,6 @@ oakland
 raining
 80F
 90F
-monday
 rain
 80F
 100F
@@ -4446,7 +4435,6 @@ exeter
 hail
 40F
 60F
-monday
 dew
 20F
 30F
@@ -4469,7 +4457,6 @@ brentwood
 cloudy
 40F
 50F
-monday
 overcast
 30F
 40F
@@ -4492,37 +4479,44 @@ grand rapids
 overcast
 50F
 60F
-monday
 1 miles
 road block nearby
+home
 10 ames street
 home
 4 miles
 car collision nearby
+coffee or tea place
 145 Amherst St
 Teavana
 4 miles
 road block nearby
+pizza restaurant
 113 Anton Ct
 Round Table
 3 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 2 miles
 no traffic
+rest stop
 753 University Ave
 Comfort Inn
 5 miles
 car collision nearby
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 3 miles
 road block nearby
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 5 miles
 no traffic
+certain address
 5672 barringer street
 5672 barringer street
 clear skies
@@ -4547,7 +4541,6 @@ exeter
 hot
 80F
 100F
-monday
 raining
 60F
 70F
@@ -4570,7 +4563,6 @@ san francisco
 snow
 40F
 60F
-monday
 foggy
 90F
 100F
@@ -4593,7 +4585,6 @@ new york
 foggy
 30F
 40F
-monday
 windy
 90F
 100F
@@ -4616,7 +4607,6 @@ los angeles
 hot
 30F
 40F
-monday
 windy
 70F
 80F
@@ -4639,7 +4629,6 @@ durham
 foggy
 70F
 90F
-monday
 cloudy
 90F
 100F
@@ -4662,7 +4651,6 @@ san mateo
 foggy
 90F
 100F
-monday
 overcast
 80F
 100F
@@ -4685,7 +4673,6 @@ manhattan
 windy
 70F
 80F
-monday
 windy
 20F
 40F
@@ -4708,7 +4695,6 @@ inglewood
 dry
 80F
 90F
-monday
 misty
 30F
 50F
@@ -4731,7 +4717,6 @@ manhattan
 dew
 30F
 50F
-monday
 overcast
 30F
 50F
@@ -4754,7 +4739,6 @@ fresno
 windy
 80F
 100F
-monday
 raining
 40F
 50F
@@ -4777,7 +4761,6 @@ grand rapids
 cloudy
 30F
 50F
-monday
 warm
 60F
 80F
@@ -4800,7 +4783,6 @@ san mateo
 frost
 40F
 60F
-monday
 overcast
 40F
 50F
@@ -4823,7 +4805,6 @@ corona
 snow
 20F
 40F
-monday
 hail
 60F
 70F
@@ -4846,7 +4827,6 @@ boston
 dew
 20F
 40F
-monday
 5 pm
 tuesday
 dinner
@@ -4890,7 +4870,6 @@ oakland
 rain
 40F
 60F
-monday
 dry
 80F
 90F
@@ -4913,7 +4892,6 @@ fresno
 rain
 40F
 50F
-monday
 drizzle
 70F
 90F
@@ -4936,7 +4914,6 @@ seattle
 dry
 30F
 40F
-monday
 dry
 20F
 40F
@@ -4959,7 +4936,6 @@ inglewood
 foggy
 70F
 80F
-monday
 clear skies
 70F
 80F
@@ -4982,7 +4958,6 @@ new york
 raining
 80F
 90F
-monday
 raining
 30F
 50F
@@ -5005,7 +4980,6 @@ grand rapids
 snow
 30F
 50F
-monday
 drizzle
 80F
 100F
@@ -5028,7 +5002,6 @@ mountain view
 overcast
 60F
 80F
-monday
 humid
 60F
 80F
@@ -5051,7 +5024,6 @@ exeter
 clear skies
 30F
 50F
-monday
 raining
 40F
 60F
@@ -5074,7 +5046,6 @@ alameda
 windy
 50F
 60F
-monday
 hot
 80F
 100F
@@ -5097,7 +5068,6 @@ danville
 clear skies
 50F
 60F
-monday
 rain
 80F
 100F
@@ -5120,7 +5090,6 @@ seattle
 overcast
 30F
 40F
-monday
 humid
 70F
 90F
@@ -5143,7 +5112,6 @@ cleveland
 drizzle
 20F
 40F
-monday
 cloudy
 80F
 90F
@@ -5166,7 +5134,6 @@ new york
 foggy
 80F
 100F
-monday
 stormy
 40F
 60F
@@ -5189,7 +5156,6 @@ compton
 humid
 80F
 100F
-monday
 overcast
 40F
 60F
@@ -5212,7 +5178,6 @@ camarillo
 dew
 30F
 50F
-monday
 dry
 40F
 50F
@@ -5235,7 +5200,6 @@ redwood city
 drizzle
 70F
 90F
-monday
 stormy
 50F
 60F
@@ -5258,7 +5222,6 @@ durham
 snow
 70F
 90F
-monday
 overcast
 50F
 70F
@@ -5281,7 +5244,6 @@ downtown chicago
 cloudy
 80F
 90F
-monday
 hail
 30F
 40F
@@ -5304,7 +5266,6 @@ corona
 dry
 90F
 100F
-monday
 blizzard
 40F
 60F
@@ -5327,7 +5288,6 @@ menlo park
 raining
 20F
 30F
-monday
 snow
 90F
 100F
@@ -5350,7 +5310,6 @@ san jose
 dew
 80F
 90F
-monday
 10 am
 monday
 yoga activity
@@ -5374,118 +5333,147 @@ monday
 swimming activity
 4 miles
 road block nearby
+friends house
 347 Alta Mesa Ave
 jills house
 5 miles
 car collision nearby
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 6 miles
 moderate traffic
+gas station
 91 El Camino Real
 76
 6 miles
 road block nearby
+certain address
 5672 barringer street
 5672 barringer street
 6 miles
 moderate traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 2 miles
 no traffic
+pizza restaurant
 915 Arbol Dr
 Pizza Chicago
 5 miles
 moderate traffic
+gas station
 783 Arcadia Pl
 Chevron
 3 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 5 miles
 moderate traffic
+certain address
 5677 springer street
 5677 springer street
 1 miles
 no traffic
+home
 5671 barringer street
 home
 1 miles
 heavy traffic
+certain address
 5672 barringer street
 5672 barringer street
 4 miles
 moderate traffic
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 3 miles
 heavy traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 6 miles
 no traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 5 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 1 miles
 moderate traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 1 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 1 miles
 no traffic
+parking garage
 550 Alester Ave
 Dish Parking
 4 miles
 no traffic
+parking garage
 880 Ames Ct
 Webster Garage
 4 miles
 no traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 1 miles
 no traffic
+grocery store
 408 University Ave
 Trader Joes
 3 miles
 moderate traffic
+home
 5671 barringer street
 home
 5 miles
 moderate traffic
+rest stop
 329 El Camino Real
 The Westin
 4 miles
 no traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 5 miles
 no traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 4 miles
 moderate traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 6 miles
 heavy traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 6 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 2 miles
 heavy traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 blizzard
@@ -5510,7 +5498,6 @@ san mateo
 windy
 80F
 90F
-monday
 foggy
 30F
 40F
@@ -5533,7 +5520,6 @@ compton
 cloudy
 80F
 90F
-monday
 overcast
 60F
 80F
@@ -5556,7 +5542,6 @@ fresno
 rain
 20F
 30F
-monday
 dew
 20F
 40F
@@ -5579,7 +5564,6 @@ menlo park
 blizzard
 20F
 40F
-monday
 drizzle
 50F
 70F
@@ -5602,7 +5586,6 @@ alhambra
 snow
 30F
 40F
-monday
 clear skies
 80F
 90F
@@ -5625,7 +5608,6 @@ carson
 snow
 90F
 100F
-monday
 clear skies
 30F
 40F
@@ -5648,37 +5630,44 @@ san jose
 foggy
 20F
 40F
-monday
 3 miles
 no traffic
+friends house
 580 Van Ness Ave
 toms house
 5 miles
 heavy traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 5 miles
 moderate traffic
+coffee or tea place
 145 Amherst St
 Teavana
 3 miles
 car collision nearby
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 2 miles
 road block nearby
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 2 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 4 miles
 no traffic
+home
 10 ames street
 home
 4 miles
 heavy traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 cloudy
@@ -5703,7 +5692,6 @@ danville
 overcast
 90F
 100F
-monday
 hail
 40F
 60F
@@ -5726,7 +5714,6 @@ camarillo
 hot
 70F
 90F
-monday
 windy
 80F
 90F
@@ -5749,7 +5736,6 @@ los angeles
 overcast
 80F
 90F
-monday
 stormy
 40F
 50F
@@ -5772,7 +5758,6 @@ corona
 drizzle
 70F
 80F
-monday
 dry
 30F
 50F
@@ -5795,7 +5780,6 @@ grand rapids
 snow
 40F
 50F
-monday
 cloudy
 80F
 90F
@@ -5818,7 +5802,6 @@ atherton
 overcast
 90F
 100F
-monday
 stormy
 90F
 100F
@@ -5841,7 +5824,6 @@ new york
 raining
 30F
 40F
-monday
 stormy
 40F
 50F
@@ -5864,7 +5846,6 @@ exeter
 raining
 50F
 60F
-monday
 humid
 80F
 90F
@@ -5887,7 +5868,6 @@ alhambra
 dry
 60F
 70F
-monday
 drizzle
 90F
 100F
@@ -5910,7 +5890,6 @@ inglewood
 stormy
 90F
 100F
-monday
 hail
 60F
 80F
@@ -5933,7 +5912,6 @@ carson
 humid
 70F
 80F
-monday
 windy
 70F
 90F
@@ -5956,7 +5934,6 @@ corona
 stormy
 80F
 100F
-monday
 snow
 90F
 100F
@@ -5979,7 +5956,6 @@ compton
 snow
 90F
 100F
-monday
 cloudy
 60F
 80F
@@ -6002,7 +5978,6 @@ durham
 foggy
 60F
 80F
-monday
 rain
 20F
 30F
@@ -6025,7 +6000,6 @@ atherton
 misty
 40F
 50F
-monday
 dry
 40F
 50F
@@ -6048,7 +6022,6 @@ manhattan
 dry
 90F
 100F
-monday
 dry
 20F
 40F
@@ -6071,7 +6044,6 @@ redwood city
 clear skies
 40F
 50F
-monday
 warm
 50F
 70F
@@ -6094,7 +6066,6 @@ grand rapids
 drizzle
 70F
 80F
-monday
 dry
 60F
 70F
@@ -6117,7 +6088,6 @@ cleveland
 dry
 30F
 40F
-monday
 windy
 70F
 80F
@@ -6140,7 +6110,6 @@ seattle
 drizzle
 90F
 100F
-monday
 misty
 30F
 40F
@@ -6163,7 +6132,6 @@ downtown chicago
 hail
 90F
 100F
-monday
 hail
 30F
 40F
@@ -6186,7 +6154,6 @@ seattle
 hail
 40F
 60F
-monday
 windy
 60F
 70F
@@ -6209,7 +6176,6 @@ oakland
 humid
 80F
 90F
-monday
 frost
 40F
 60F
@@ -6232,7 +6198,6 @@ durham
 dry
 60F
 80F
-monday
 stormy
 20F
 40F
@@ -6255,7 +6220,6 @@ boston
 dry
 30F
 40F
-monday
 rain
 40F
 50F
@@ -6278,7 +6242,6 @@ corona
 dry
 30F
 50F
-monday
 snow
 20F
 30F
@@ -6301,7 +6264,6 @@ fresno
 blizzard
 30F
 50F
-monday
 hail
 90F
 100F
@@ -6324,7 +6286,6 @@ menlo park
 overcast
 30F
 40F
-monday
 snow
 90F
 100F
@@ -6347,7 +6308,6 @@ durham
 raining
 80F
 100F
-monday
 windy
 40F
 60F
@@ -6370,7 +6330,6 @@ seattle
 hot
 40F
 60F
-monday
 foggy
 80F
 90F
@@ -6393,7 +6352,6 @@ downtown chicago
 overcast
 70F
 80F
-monday
 warm
 80F
 100F
@@ -6416,7 +6374,6 @@ grand rapids
 raining
 40F
 60F
-monday
 cloudy
 80F
 90F
@@ -6439,7 +6396,6 @@ mountain view
 cloudy
 90F
 100F
-monday
 warm
 70F
 90F
@@ -6462,7 +6418,6 @@ compton
 warm
 40F
 60F
-monday
 overcast
 90F
 100F
@@ -6485,7 +6440,6 @@ new york
 windy
 80F
 90F
-monday
 1 pm
 monday
 medicine
@@ -6526,7 +6480,6 @@ boston
 warm
 80F
 90F
-monday
 hot
 90F
 100F
@@ -6549,7 +6502,6 @@ inglewood
 cloudy
 30F
 40F
-monday
 clear skies
 60F
 80F
@@ -6572,7 +6524,6 @@ oakland
 snow
 70F
 80F
-monday
 overcast
 90F
 100F
@@ -6595,7 +6546,6 @@ compton
 cloudy
 90F
 100F
-monday
 snow
 60F
 70F
@@ -6618,7 +6568,6 @@ seattle
 windy
 40F
 60F
-monday
 clear skies
 60F
 70F
@@ -6641,7 +6590,6 @@ redwood city
 warm
 90F
 100F
-monday
 windy
 40F
 60F
@@ -6664,65 +6612,79 @@ san mateo
 warm
 70F
 90F
-monday
 1 miles
 heavy traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 2 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 1 miles
 no traffic
+home
 10 ames street
 home
 1 miles
 heavy traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 2 miles
 heavy traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 6 miles
 moderate traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 4 miles
 no traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 2 miles
 road block nearby
+pizza restaurant
 776 Arastradero Rd
 Dominos
 2 miles
 heavy traffic
+home
 10 ames street
 home
 3 miles
 road block nearby
+coffee or tea place
 792 Bedoin Street
 Starbucks
 1 miles
 no traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 4 miles
 car collision nearby
+parking garage
 550 Alester Ave
 Dish Parking
 4 miles
 heavy traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 5 miles
 no traffic
+friends house
 347 Alta Mesa Ave
 jills house
 3 miles
 car collision nearby
+chinese restaurant
 830 Almanor Ln
 tai pan
 drizzle
@@ -6747,7 +6709,6 @@ brentwood
 windy
 80F
 100F
-monday
 windy
 70F
 80F
@@ -6770,7 +6731,6 @@ san mateo
 cloudy
 20F
 30F
-monday
 misty
 90F
 100F
@@ -6793,7 +6753,6 @@ redwood city
 snow
 70F
 90F
-monday
 hail
 20F
 40F
@@ -6816,7 +6775,6 @@ cleveland
 foggy
 40F
 50F
-monday
 snow
 40F
 60F
@@ -6839,7 +6797,6 @@ new york
 stormy
 70F
 80F
-monday
 overcast
 40F
 50F
@@ -6862,7 +6819,6 @@ seattle
 dry
 20F
 30F
-monday
 rain
 90F
 100F
@@ -6885,33 +6841,39 @@ fresno
 windy
 50F
 70F
-monday
 3 miles
 moderate traffic
+coffee or tea place
 583 Alester Ave
 Philz
 1 miles
 no traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 1 miles
 moderate traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 3 miles
 heavy traffic
+coffee or tea place
 145 Amherst St
 Teavana
 3 miles
 moderate traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 1 miles
 no traffic
+shopping center
 383 University Ave
 Town and Country
 4 miles
 moderate traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 100 conference room
@@ -6978,34 +6940,42 @@ HR
 meeting
 3 miles
 heavy traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 7 miles
 moderate traffic
+gas station
 200 Alester Ave
 Valero
 1 miles
 no traffic
+parking garage
 550 Alester Ave
 Dish Parking
 3 miles
 heavy traffic
+shopping center
 383 University Ave
 Town and Country
 1 miles
 no traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 5 miles
 road block nearby
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 6 miles
 car collision nearby
+grocery store
 638 Amherst St
 Sigona Farmers Market
 1 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 1pm
@@ -7070,30 +7040,37 @@ thursday
 medicine
 1 miles
 no traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 1 miles
 no traffic
+grocery store
 452 Arcadia Pl
 Safeway
 1 miles
 moderate traffic
+rest stop
 753 University Ave
 Comfort Inn
 5 miles
 moderate traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 6 miles
 no traffic
+coffee or tea place
 583 Alester Ave
 Philz
 4 miles
 heavy traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 2 miles
 moderate traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 6pm
@@ -7146,7 +7123,6 @@ oakland
 clear skies
 90F
 100F
-monday
 windy
 50F
 70F
@@ -7169,7 +7145,6 @@ danville
 foggy
 60F
 70F
-monday
 rain
 70F
 90F
@@ -7192,7 +7167,6 @@ brentwood
 cloudy
 60F
 70F
-monday
 clear skies
 70F
 90F
@@ -7215,7 +7189,6 @@ carson
 windy
 20F
 30F
-monday
 overcast
 40F
 60F
@@ -7238,7 +7211,6 @@ boston
 clear skies
 90F
 100F
-monday
 stormy
 60F
 70F
@@ -7261,7 +7233,6 @@ atherton
 stormy
 90F
 100F
-monday
 foggy
 50F
 70F
@@ -7284,65 +7255,79 @@ mountain view
 windy
 30F
 40F
-monday
 4 miles
 no traffic
+parking garage
 880 Ames Ct
 Webster Garage
 4 miles
 heavy traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 5 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 5 miles
 heavy traffic
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 3 miles
 heavy traffic
+shopping center
 171 Oak Rd
 Topanga Mall
 4 miles
 moderate traffic
+friends house
 580 Van Ness Ave
 toms house
 1 miles
 road block nearby
+rest stop
 578 Arbol Dr
 Hotel Keen
 1 miles
 heavy traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 6 miles
 no traffic
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 2 miles
 moderate traffic
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 5 miles
 moderate traffic
+shopping center
 383 University Ave
 Town and Country
 5 miles
 moderate traffic
+pizza restaurant
 915 Arbol Dr
 Pizza Chicago
 4 miles
 moderate traffic
+rest stop
 329 El Camino Real
 The Westin
 4 miles
 no traffic
+home
 10 ames street
 home
 4 miles
 heavy traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 5pm
@@ -7391,7 +7376,6 @@ san francisco
 rain
 80F
 100F
-monday
 overcast
 70F
 90F
@@ -7414,7 +7398,6 @@ downtown chicago
 blizzard
 20F
 40F
-monday
 hail
 60F
 80F
@@ -7437,7 +7420,6 @@ carson
 drizzle
 60F
 70F
-monday
 dew
 20F
 40F
@@ -7460,7 +7442,6 @@ camarillo
 misty
 40F
 50F
-monday
 snow
 90F
 100F
@@ -7483,7 +7464,6 @@ boston
 dry
 50F
 70F
-monday
 foggy
 70F
 80F
@@ -7506,7 +7486,6 @@ fresno
 dew
 90F
 100F
-monday
 stormy
 40F
 50F
@@ -7529,7 +7508,6 @@ san jose
 snow
 40F
 60F
-monday
 1pm
 the 7th
 mother
@@ -7588,7 +7566,6 @@ durham
 warm
 60F
 80F
-monday
 humid
 90F
 100F
@@ -7611,7 +7588,6 @@ grand rapids
 frost
 20F
 40F
-monday
 drizzle
 50F
 70F
@@ -7634,7 +7610,6 @@ mountain view
 warm
 70F
 80F
-monday
 clear skies
 80F
 90F
@@ -7657,7 +7632,6 @@ seattle
 raining
 30F
 50F
-monday
 drizzle
 70F
 90F
@@ -7680,7 +7654,6 @@ san jose
 hot
 50F
 70F
-monday
 raining
 40F
 60F
@@ -7703,7 +7676,6 @@ menlo park
 snow
 90F
 100F
-monday
 dry
 90F
 100F
@@ -7726,7 +7698,6 @@ san francisco
 foggy
 30F
 50F
-monday
 rain
 40F
 60F
@@ -7749,7 +7720,6 @@ grand rapids
 snow
 60F
 80F
-monday
 overcast
 60F
 70F
@@ -7772,7 +7742,6 @@ mountain view
 clear skies
 40F
 60F
-monday
 clear skies
 90F
 100F
@@ -7795,7 +7764,6 @@ compton
 rain
 30F
 40F
-monday
 windy
 40F
 60F
@@ -7818,7 +7786,6 @@ los angeles
 snow
 80F
 90F
-monday
 foggy
 40F
 60F
@@ -7841,7 +7808,6 @@ menlo park
 overcast
 90F
 100F
-monday
 snow
 30F
 40F
@@ -7864,7 +7830,6 @@ seattle
 cloudy
 80F
 100F
-monday
 rain
 70F
 90F
@@ -7887,7 +7852,6 @@ redwood city
 overcast
 90F
 100F
-monday
 hail
 70F
 90F
@@ -7910,7 +7874,6 @@ mountain view
 raining
 70F
 90F
-monday
 warm
 70F
 90F
@@ -7933,7 +7896,6 @@ alameda
 clear skies
 90F
 100F
-monday
 stormy
 30F
 50F
@@ -7956,7 +7918,6 @@ boston
 raining
 30F
 40F
-monday
 frost
 20F
 30F
@@ -7979,7 +7940,6 @@ compton
 cloudy
 30F
 50F
-monday
 cloudy
 50F
 60F
@@ -8002,7 +7962,6 @@ camarillo
 dry
 30F
 50F
-monday
 raining
 90F
 100F
@@ -8025,7 +7984,6 @@ san francisco
 stormy
 50F
 70F
-monday
 clear skies
 60F
 80F
@@ -8048,37 +8006,44 @@ grand rapids
 misty
 30F
 50F
-monday
 6 miles
 car collision nearby
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 6 miles
 no traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 3 miles
 road block nearby
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 4 miles
 car collision nearby
+home
 5671 barringer street
 home
 5 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 8 miles
 no traffic
+friends house
 580 Van Ness Ave
 toms house
 5 miles
 no traffic
+grocery store
 452 Arcadia Pl
 Safeway
 2 miles
 no traffic
+parking garage
 880 Ames Ct
 Webster Garage
 11 am
@@ -8121,7 +8086,6 @@ san jose
 stormy
 80F
 90F
-monday
 overcast
 90F
 100F
@@ -8144,7 +8108,6 @@ san francisco
 raining
 60F
 80F
-monday
 dry
 20F
 30F
@@ -8167,7 +8130,6 @@ compton
 cloudy
 40F
 60F
-monday
 cloudy
 30F
 40F
@@ -8190,7 +8152,6 @@ menlo park
 overcast
 60F
 80F
-monday
 hail
 50F
 70F
@@ -8213,7 +8174,6 @@ downtown chicago
 cloudy
 80F
 90F
-monday
 foggy
 90F
 100F
@@ -8236,7 +8196,6 @@ danville
 warm
 60F
 70F
-monday
 hot
 90F
 100F
@@ -8259,7 +8218,6 @@ san mateo
 dry
 60F
 70F
-monday
 overcast
 20F
 40F
@@ -8282,7 +8240,6 @@ grand rapids
 clear skies
 30F
 40F
-monday
 foggy
 60F
 80F
@@ -8305,7 +8262,6 @@ san francisco
 overcast
 50F
 70F
-monday
 rain
 60F
 80F
@@ -8328,7 +8284,6 @@ fresno
 windy
 70F
 80F
-monday
 hail
 30F
 50F
@@ -8351,7 +8306,6 @@ durham
 rain
 40F
 60F
-monday
 drizzle
 20F
 40F
@@ -8374,7 +8328,6 @@ alhambra
 dew
 50F
 60F
-monday
 stormy
 60F
 70F
@@ -8397,7 +8350,6 @@ menlo park
 clear skies
 50F
 60F
-monday
 drizzle
 60F
 70F
@@ -8420,7 +8372,6 @@ camarillo
 dry
 20F
 40F
-monday
 9am
 the 10th
 Ana
@@ -8479,7 +8430,6 @@ san francisco
 cloudy
 50F
 60F
-monday
 drizzle
 60F
 70F
@@ -8502,7 +8452,6 @@ durham
 clear skies
 80F
 100F
-monday
 rain
 90F
 100F
@@ -8525,7 +8474,6 @@ san mateo
 clear skies
 50F
 60F
-monday
 cloudy
 90F
 100F
@@ -8548,7 +8496,6 @@ oakland
 overcast
 20F
 40F
-monday
 overcast
 70F
 90F
@@ -8571,7 +8518,6 @@ fresno
 clear skies
 40F
 50F
-monday
 cloudy
 90F
 100F
@@ -8594,7 +8540,6 @@ cleveland
 frost
 20F
 30F
-monday
 snow
 80F
 100F
@@ -8617,7 +8562,6 @@ mountain view
 humid
 70F
 90F
-monday
 blizzard
 40F
 60F
@@ -8640,7 +8584,6 @@ san francisco
 humid
 70F
 90F
-monday
 overcast
 30F
 50F
@@ -8663,7 +8606,6 @@ seattle
 cloudy
 40F
 50F
-monday
 drizzle
 50F
 60F
@@ -8686,7 +8628,6 @@ san jose
 blizzard
 30F
 40F
-monday
 clear skies
 20F
 40F
@@ -8709,7 +8650,6 @@ manhattan
 hot
 60F
 80F
-monday
 humid
 70F
 90F
@@ -8732,7 +8672,6 @@ boston
 raining
 50F
 60F
-monday
 snow
 90F
 100F
@@ -8755,7 +8694,6 @@ fresno
 overcast
 80F
 90F
-monday
 foggy
 70F
 90F
@@ -8778,7 +8716,6 @@ new york
 clear skies
 50F
 70F
-monday
 cloudy
 50F
 70F
@@ -8801,7 +8738,6 @@ cleveland
 snow
 40F
 50F
-monday
 clear skies
 20F
 40F
@@ -8824,7 +8760,6 @@ boston
 windy
 60F
 70F
-monday
 windy
 30F
 40F
@@ -8847,7 +8782,6 @@ corona
 stormy
 60F
 80F
-monday
 rain
 30F
 40F
@@ -8870,7 +8804,6 @@ menlo park
 windy
 50F
 70F
-monday
 warm
 60F
 80F
@@ -8893,7 +8826,6 @@ fresno
 raining
 90F
 100F
-monday
 hail
 60F
 80F
@@ -8916,7 +8848,6 @@ danville
 hot
 80F
 90F
-monday
 overcast
 90F
 100F
@@ -8939,37 +8870,44 @@ alhambra
 hail
 50F
 70F
-monday
 4 miles
 moderate traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 4 miles
 road block nearby
+hospital
 899 Ames Ct
 Stanford Childrens Health
 1 miles
 no traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 3 miles
 moderate traffic
+certain address
 5677 springer street
 5677 springer street
 3 miles
 road block nearby
+coffee or tea place
 583 Alester Ave
 Philz
 1 miles
 no traffic
+grocery store
 409 Bollard St
 Willows Market
 1 miles
 heavy traffic
+grocery store
 408 University Ave
 Trader Joes
 1 miles
 moderate traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 7pm
@@ -9000,30 +8938,37 @@ Martha
 tennis activity
 2 miles
 moderate traffic
+grocery store
 452 Arcadia Pl
 Safeway
 3 miles
 no traffic
+friends house
 580 Van Ness Ave
 toms house
 2 miles
 moderate traffic
+pizza restaurant
 915 Arbol Dr
 Pizza Chicago
 2 miles
 heavy traffic
+friends house
 864 Almanor Ln
 jacks house
 3 miles
 no traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 6 miles
 heavy traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 1 miles
 no traffic
+shopping center
 383 University Ave
 Town and Country
 stormy
@@ -9048,7 +8993,6 @@ seattle
 dry
 80F
 90F
-monday
 hot
 90F
 100F
@@ -9071,7 +9015,6 @@ new york
 foggy
 30F
 40F
-monday
 snow
 90F
 100F
@@ -9094,7 +9037,6 @@ carson
 hail
 70F
 80F
-monday
 drizzle
 40F
 50F
@@ -9117,7 +9059,6 @@ fresno
 overcast
 80F
 100F
-monday
 windy
 90F
 100F
@@ -9140,7 +9081,6 @@ alhambra
 windy
 30F
 50F
-monday
 stormy
 50F
 60F
@@ -9163,7 +9103,6 @@ menlo park
 dry
 50F
 60F
-monday
 dry
 70F
 80F
@@ -9186,7 +9125,6 @@ manhattan
 rain
 80F
 100F
-monday
 blizzard
 30F
 50F
@@ -9209,7 +9147,6 @@ corona
 dry
 90F
 100F
-monday
 warm
 90F
 100F
@@ -9232,7 +9169,6 @@ boston
 foggy
 80F
 100F
-monday
 rain
 60F
 80F
@@ -9255,7 +9191,6 @@ san jose
 windy
 80F
 90F
-monday
 humid
 80F
 100F
@@ -9278,7 +9213,6 @@ oakland
 raining
 70F
 90F
-monday
 drizzle
 50F
 70F
@@ -9301,7 +9235,6 @@ menlo park
 dry
 60F
 80F
-monday
 foggy
 40F
 60F
@@ -9324,7 +9257,6 @@ cleveland
 frost
 40F
 60F
-monday
 rain
 70F
 90F
@@ -9347,7 +9279,6 @@ mountain view
 dry
 50F
 70F
-monday
 misty
 20F
 30F
@@ -9370,7 +9301,6 @@ grand rapids
 hail
 90F
 100F
-monday
 foggy
 50F
 70F
@@ -9393,7 +9323,6 @@ new york
 snow
 80F
 100F
-monday
 cloudy
 90F
 100F
@@ -9416,7 +9345,6 @@ durham
 dew
 20F
 30F
-monday
 cloudy
 40F
 60F
@@ -9439,7 +9367,6 @@ compton
 stormy
 60F
 70F
-monday
 frost
 30F
 50F
@@ -9462,7 +9389,6 @@ inglewood
 rain
 80F
 100F
-monday
 misty
 90F
 100F
@@ -9485,7 +9411,6 @@ san francisco
 stormy
 40F
 50F
-monday
 stormy
 70F
 90F
@@ -9508,7 +9433,6 @@ downtown chicago
 frost
 30F
 40F
-monday
 drizzle
 20F
 30F
@@ -9531,7 +9455,6 @@ oakland
 humid
 50F
 70F
-monday
 dry
 80F
 90F
@@ -9554,7 +9477,6 @@ danville
 frost
 20F
 40F
-monday
 clear skies
 40F
 60F
@@ -9577,7 +9499,6 @@ new york
 snow
 60F
 80F
-monday
 overcast
 50F
 70F
@@ -9600,7 +9521,6 @@ alameda
 foggy
 60F
 80F
-monday
 overcast
 80F
 100F
@@ -9623,7 +9543,6 @@ brentwood
 drizzle
 20F
 40F
-monday
 dry
 90F
 100F
@@ -9646,7 +9565,6 @@ redwood city
 hail
 30F
 50F
-monday
 foggy
 30F
 40F
@@ -9669,7 +9587,6 @@ manhattan
 raining
 30F
 50F
-monday
 conference room 102
 go over budget
 7pm
@@ -9698,90 +9615,112 @@ Alex
 dentist appointment
 3 miles
 no traffic
+parking garage
 880 Ames Ct
 Webster Garage
 5 miles
 heavy traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 3 miles
 moderate traffic
+friends house
 864 Almanor Ln
 jacks house
 3 miles
 no traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 6 miles
 no traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 5 miles
 moderate traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 1 miles
 no traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 5 miles
 moderate traffic
+coffee or tea place
 145 Amherst St
 Teavana
 4 miles
 car collision nearby
+certain address
 5672 barringer street
 5672 barringer street
 1 miles
 road block nearby
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 2 miles
 moderate traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 1 miles
 car collision nearby
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 1 miles
 heavy traffic
+pizza restaurant
 915 Arbol Dr
 Pizza Chicago
 6 miles
 heavy traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 5 miles
 moderate traffic
+rest stop
 333 Arbol Dr
 Travelers Lodge
 5 miles
 no traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 4 miles
 heavy traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 6 miles
 heavy traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 4 miles
 heavy traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 5 miles
 heavy traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 5 miles
 heavy traffic
+home
 5671 barringer street
 home
 3 miles
 no traffic
+coffee or tea place
 583 Alester Ave
 Philz
 1 pm
@@ -9827,7 +9766,6 @@ compton
 overcast
 40F
 60F
-monday
 raining
 50F
 70F
@@ -9850,7 +9788,6 @@ new york
 misty
 70F
 80F
-monday
 cloudy
 70F
 90F
@@ -9873,7 +9810,6 @@ menlo park
 hail
 30F
 40F
-monday
 snow
 80F
 90F
@@ -9896,7 +9832,6 @@ brentwood
 clear skies
 60F
 80F
-monday
 drizzle
 90F
 100F
@@ -9919,7 +9854,6 @@ manhattan
 overcast
 90F
 100F
-monday
 cloudy
 20F
 30F
@@ -9942,7 +9876,6 @@ fresno
 hail
 50F
 60F
-monday
 warm
 60F
 70F
@@ -9965,37 +9898,44 @@ downtown chicago
 snow
 30F
 50F
-monday
 6 miles
 no traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 2 miles
 no traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 3 miles
 car collision nearby
+rest stop
 578 Arbol Dr
 Hotel Keen
 6 miles
 no traffic
+home
 56 cadwell street
 home
 5 miles
 road block nearby
+home
 5671 barringer street
 home
 1 miles
 road block nearby
+gas station
 783 Arcadia Pl
 Chevron
 1 miles
 car collision nearby
+grocery store
 819 Alma St
 Whole Foods
 2 miles
 car collision nearby
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 5pm
@@ -10052,7 +9992,6 @@ alhambra
 stormy
 40F
 60F
-monday
 dry
 20F
 30F
@@ -10075,7 +10014,6 @@ compton
 clear skies
 40F
 50F
-monday
 raining
 70F
 90F
@@ -10098,7 +10036,6 @@ atherton
 frost
 50F
 60F
-monday
 rain
 50F
 60F
@@ -10121,7 +10058,6 @@ mountain view
 clear skies
 70F
 80F
-monday
 blizzard
 30F
 50F
@@ -10144,7 +10080,6 @@ downtown chicago
 hot
 80F
 90F
-monday
 rain
 70F
 90F
@@ -10167,7 +10102,6 @@ san mateo
 clear skies
 60F
 80F
-monday
 dew
 50F
 70F
@@ -10190,7 +10124,6 @@ corona
 hail
 80F
 100F
-monday
 snow
 90F
 100F
@@ -10213,7 +10146,6 @@ san mateo
 foggy
 30F
 50F
-monday
 overcast
 90F
 100F
@@ -10236,7 +10168,6 @@ alhambra
 dry
 30F
 40F
-monday
 cloudy
 30F
 40F
@@ -10259,7 +10190,6 @@ los angeles
 clear skies
 50F
 70F
-monday
 warm
 70F
 80F
@@ -10282,7 +10212,6 @@ atherton
 stormy
 30F
 50F
-monday
 stormy
 60F
 80F
@@ -10305,7 +10234,6 @@ alameda
 windy
 70F
 90F
-monday
 rain
 20F
 40F
@@ -10328,7 +10256,6 @@ boston
 cloudy
 20F
 30F
-monday
 misty
 90F
 100F
@@ -10351,7 +10278,6 @@ seattle
 stormy
 80F
 90F
-monday
 clear skies
 30F
 40F
@@ -10374,7 +10300,6 @@ atherton
 overcast
 70F
 90F
-monday
 foggy
 60F
 70F
@@ -10397,7 +10322,6 @@ alameda
 dry
 90F
 100F
-monday
 foggy
 60F
 80F
@@ -10420,7 +10344,6 @@ san mateo
 misty
 50F
 70F
-monday
 blizzard
 40F
 50F
@@ -10443,7 +10366,6 @@ san francisco
 cloudy
 70F
 80F
-monday
 windy
 60F
 80F
@@ -10466,7 +10388,6 @@ manhattan
 foggy
 50F
 60F
-monday
 rain
 60F
 70F
@@ -10489,7 +10410,6 @@ danville
 cloudy
 20F
 40F
-monday
 raining
 80F
 90F
@@ -10512,37 +10432,44 @@ alhambra
 stormy
 80F
 90F
-monday
 6 miles
 car collision nearby
+pizza restaurant
 110 Arastradero Rd
 Papa Johns
 4 miles
 heavy traffic
+home
 10 ames street
 home
 6 miles
 car collision nearby
+home
 10 ames street
 home
 5 miles
 heavy traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 8 miles
 moderate traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 6 miles
 road block nearby
+grocery store
 1313 Chester Ave
 Hacienda Market
 3 miles
 moderate traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 4 miles
 road block nearby
+home
 56 cadwell street
 home
 clear skies
@@ -10567,7 +10494,6 @@ manhattan
 snow
 60F
 80F
-monday
 cloudy
 60F
 70F
@@ -10590,7 +10516,6 @@ boston
 foggy
 40F
 60F
-monday
 raining
 90F
 100F
@@ -10613,7 +10538,6 @@ exeter
 foggy
 70F
 80F
-monday
 hot
 90F
 100F
@@ -10636,7 +10560,6 @@ downtown chicago
 rain
 80F
 100F
-monday
 hot
 40F
 60F
@@ -10659,7 +10582,6 @@ los angeles
 warm
 30F
 40F
-monday
 snow
 70F
 80F
@@ -10682,7 +10604,6 @@ san mateo
 raining
 40F
 60F
-monday
 hot
 30F
 40F
@@ -10705,7 +10626,6 @@ new york
 rain
 90F
 100F
-monday
 snow
 70F
 90F
@@ -10728,7 +10648,6 @@ seattle
 humid
 90F
 100F
-monday
 windy
 80F
 100F
@@ -10751,7 +10670,6 @@ menlo park
 foggy
 20F
 40F
-monday
 raining
 70F
 80F
@@ -10774,7 +10692,6 @@ fresno
 drizzle
 60F
 80F
-monday
 overcast
 40F
 60F
@@ -10797,7 +10714,6 @@ inglewood
 snow
 40F
 50F
-monday
 clear skies
 80F
 100F
@@ -10820,7 +10736,6 @@ san francisco
 windy
 30F
 40F
-monday
 warm
 80F
 100F
@@ -10843,7 +10758,6 @@ brentwood
 windy
 80F
 90F
-monday
 raining
 40F
 60F
@@ -10866,7 +10780,6 @@ new york
 foggy
 30F
 40F
-monday
 misty
 80F
 90F
@@ -10889,7 +10802,6 @@ menlo park
 humid
 90F
 100F
-monday
 windy
 40F
 50F
@@ -10912,7 +10824,6 @@ alameda
 snow
 30F
 50F
-monday
 windy
 30F
 40F
@@ -10935,7 +10846,6 @@ seattle
 foggy
 50F
 60F
-monday
 clear skies
 60F
 80F
@@ -10958,7 +10868,6 @@ camarillo
 snow
 80F
 100F
-monday
 raining
 70F
 80F
@@ -10981,7 +10890,6 @@ inglewood
 dew
 40F
 50F
-monday
 raining
 50F
 70F
@@ -11004,7 +10912,6 @@ redwood city
 foggy
 60F
 70F
-monday
 dew
 20F
 30F
@@ -11027,69 +10934,84 @@ cleveland
 humid
 70F
 80F
-monday
 4 miles
 heavy traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 2 miles
 moderate traffic
+coffee or tea place
 9981 Archuleta Ave
 Peets Coffee
 4 miles
 road block nearby
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 5 miles
 heavy traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 4 miles
 heavy traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 4 miles
 no traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 1 miles
 moderate traffic
+home
 5671 barringer street
 home
 2 miles
 moderate traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 2 miles
 moderate traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 3 miles
 car collision nearby
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 1 miles
 moderate traffic
+certain address
 5677 springer street
 5677 springer street
 6 miles
 moderate traffic
+shopping center
 383 University Ave
 Town and Country
 6 miles
 no traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 3 miles
 no traffic
+shopping center
 171 Oak Rd
 Topanga Mall
 6 miles
 no traffic
+gas station
 53 University Av
 Shell
 7 miles
 no traffic
+rest stop
 329 El Camino Real
 The Westin
 conference room 102
@@ -11148,7 +11070,6 @@ boston
 frost
 20F
 30F
-monday
 snow
 50F
 60F
@@ -11171,7 +11092,6 @@ new york
 snow
 20F
 30F
-monday
 rain
 70F
 80F
@@ -11194,7 +11114,6 @@ redwood city
 snow
 90F
 100F
-monday
 overcast
 20F
 40F
@@ -11217,7 +11136,6 @@ mountain view
 snow
 50F
 70F
-monday
 dry
 60F
 70F
@@ -11240,7 +11158,6 @@ camarillo
 humid
 70F
 90F
-monday
 hot
 80F
 90F
@@ -11263,7 +11180,6 @@ carson
 foggy
 60F
 70F
-monday
 overcast
 50F
 70F
@@ -11286,7 +11202,6 @@ exeter
 dry
 60F
 70F
-monday
 dry
 20F
 40F
@@ -11309,7 +11224,6 @@ corona
 rain
 80F
 90F
-monday
 foggy
 40F
 50F
@@ -11332,7 +11246,6 @@ fresno
 snow
 80F
 90F
-monday
 humid
 90F
 100F
@@ -11355,7 +11268,6 @@ san jose
 hail
 90F
 100F
-monday
 cloudy
 20F
 30F
@@ -11378,7 +11290,6 @@ camarillo
 foggy
 60F
 70F
-monday
 overcast
 70F
 80F
@@ -11401,7 +11312,6 @@ downtown chicago
 misty
 50F
 60F
-monday
 clear skies
 50F
 70F
@@ -11424,7 +11334,6 @@ grand rapids
 rain
 50F
 70F
-monday
 dry
 70F
 90F
@@ -11447,7 +11356,6 @@ san mateo
 overcast
 50F
 60F
-monday
 7 pm
 monday
 yoga activity
@@ -11533,7 +11441,6 @@ atherton
 rain
 20F
 30F
-monday
 raining
 90F
 100F
@@ -11556,7 +11463,6 @@ danville
 rain
 30F
 40F
-monday
 stormy
 30F
 50F
@@ -11579,7 +11485,6 @@ inglewood
 stormy
 70F
 80F
-monday
 rain
 40F
 60F
@@ -11602,7 +11507,6 @@ carson
 snow
 20F
 30F
-monday
 clear skies
 20F
 40F
@@ -11625,7 +11529,6 @@ brentwood
 windy
 80F
 90F
-monday
 foggy
 80F
 100F
@@ -11648,7 +11551,6 @@ alhambra
 clear skies
 60F
 80F
-monday
 cloudy
 40F
 60F
@@ -11671,7 +11573,6 @@ los angeles
 dry
 50F
 60F
-monday
 conference room 100
 onboard new members
 10am
@@ -11713,89 +11614,111 @@ dinner
 Stanford Express Care
 3 miles
 no traffic
+hospital
 214 El Camino Real
 The Clement Hotel
 5 miles
 no traffic
+rest stop
 657 Ames Ave
 Comfort Inn
 5 miles
 no traffic
+rest stop
 753 University Ave
 toms house
 1 miles
 no traffic
+friends house
 580 Van Ness Ave
 Stanford Oval Parking
 5 miles
 no traffic
+parking garage
 610 Amarillo Ave
 jacks house
 6 miles
 no traffic
+friends house
 864 Almanor Ln
 5672 barringer street
 5 miles
 heavy traffic
+certain address
 5672 barringer street
 6 miles
 moderate traffic
+coffee or tea place
 583 Alester Ave
 Philz
 6 miles
 heavy traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 5 miles
 no traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 6 miles
 moderate traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 5 miles
 no traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 2 miles
 moderate traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 3 miles
 no traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 6 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 3 miles
 heavy traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 6 miles
 car collision nearby
+hospital
 214 El Camino Real
 Stanford Express Care
 6 miles
 car collision nearby
+rest stop
 657 Ames Ave
 The Clement Hotel
 1 miles
 no traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 3 miles
 road block nearby
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 5 miles
 car collision nearby
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 1 miles
 heavy traffic
+home
 10 ames street
 home
 windy
@@ -11820,7 +11743,6 @@ downtown chicago
 foggy
 20F
 30F
-monday
 rain
 20F
 40F
@@ -11843,7 +11765,6 @@ carson
 raining
 30F
 40F
-monday
 drizzle
 30F
 50F
@@ -11866,7 +11787,6 @@ seattle
 foggy
 70F
 80F
-monday
 blizzard
 20F
 40F
@@ -11889,7 +11809,6 @@ alhambra
 hot
 80F
 100F
-monday
 stormy
 80F
 100F
@@ -11912,7 +11831,6 @@ mountain view
 stormy
 20F
 40F
-monday
 cloudy
 60F
 70F
@@ -11935,7 +11853,6 @@ grand rapids
 foggy
 80F
 90F
-monday
 rain
 40F
 50F
@@ -11958,33 +11875,39 @@ redwood city
 frost
 40F
 60F
-monday
 6 miles
 heavy traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 1 miles
 moderate traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 4 miles
 moderate traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 4 miles
 heavy traffic
+friends house
 580 Van Ness Ave
 toms house
 5 miles
 no traffic
+friends house
 864 Almanor Ln
 jacks house
 2 miles
 moderate traffic
+parking garage
 880 Ames Ct
 Webster Garage
 1 miles
 moderate traffic
+grocery store
 452 Arcadia Pl
 Safeway
 1pm
@@ -12041,30 +11964,37 @@ friday
 swimming activity
 3 miles
 moderate traffic
+shopping center
 383 University Ave
 Town and Country
 5 miles
 heavy traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 6 miles
 no traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 4 miles
 no traffic
+coffee or tea place
 145 Amherst St
 Teavana
 5 miles
 moderate traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 1 miles
 heavy traffic
+parking garage
 550 Alester Ave
 Dish Parking
 3 miles
 no traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 cloudy
@@ -12089,7 +12019,6 @@ cleveland
 windy
 20F
 30F
-monday
 cloudy
 30F
 40F
@@ -12112,7 +12041,6 @@ alhambra
 dew
 30F
 40F
-monday
 overcast
 60F
 80F
@@ -12135,7 +12063,6 @@ san mateo
 warm
 80F
 100F
-monday
 clear skies
 30F
 50F
@@ -12158,7 +12085,6 @@ mountain view
 cloudy
 30F
 50F
-monday
 windy
 20F
 30F
@@ -12181,7 +12107,6 @@ boston
 dry
 30F
 40F
-monday
 stormy
 20F
 40F
@@ -12204,7 +12129,6 @@ san jose
 raining
 90F
 100F
-monday
 overcast
 50F
 70F
@@ -12227,7 +12151,6 @@ exeter
 clear skies
 90F
 100F
-monday
 dew
 40F
 50F
@@ -12250,7 +12173,6 @@ cleveland
 drizzle
 60F
 70F
-monday
 foggy
 20F
 40F
@@ -12273,7 +12195,6 @@ durham
 dew
 90F
 100F
-monday
 drizzle
 20F
 30F
@@ -12296,7 +12217,6 @@ new york
 overcast
 60F
 70F
-monday
 clear skies
 80F
 100F
@@ -12319,7 +12239,6 @@ mountain view
 hot
 60F
 80F
-monday
 clear skies
 40F
 60F
@@ -12342,7 +12261,6 @@ exeter
 drizzle
 20F
 30F
-monday
 warm
 90F
 100F
@@ -12365,7 +12283,6 @@ manhattan
 blizzard
 20F
 30F
-monday
 windy
 80F
 100F
@@ -12388,33 +12305,39 @@ san francisco
 clear skies
 80F
 90F
-monday
 2 miles
 heavy traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 3 miles
 moderate traffic
+grocery store
 452 Arcadia Pl
 Safeway
 1 miles
 moderate traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 1 miles
 no traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 3 miles
 no traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 6 miles
 moderate traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 4 miles
 heavy traffic
+grocery store
 819 Alma St
 Whole Foods
 warm
@@ -12439,7 +12362,6 @@ grand rapids
 clear skies
 90F
 100F
-monday
 dry
 60F
 80F
@@ -12462,7 +12384,6 @@ danville
 dry
 70F
 80F
-monday
 foggy
 60F
 70F
@@ -12485,7 +12406,6 @@ inglewood
 stormy
 90F
 100F
-monday
 dry
 40F
 50F
@@ -12508,7 +12428,6 @@ menlo park
 cloudy
 50F
 70F
-monday
 drizzle
 90F
 100F
@@ -12531,7 +12450,6 @@ boston
 overcast
 80F
 100F
-monday
 rain
 60F
 80F
@@ -12554,7 +12472,6 @@ cleveland
 humid
 90F
 100F
-monday
 drizzle
 60F
 70F
@@ -12577,37 +12494,44 @@ brentwood
 cloudy
 60F
 70F
-monday
 6 miles
 heavy traffic
+gas station
 53 University Av
 Shell
 5 miles
 no traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 6 miles
 road block nearby
+rest stop
 329 El Camino Real
 The Westin
 5 miles
 car collision nearby
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 6 miles
 moderate traffic
+home
 5671 barringer street
 home
 2 miles
 heavy traffic
+parking garage
 880 Ames Ct
 Webster Garage
 1 miles
 moderate traffic
+home
 56 cadwell street
 home
 4 miles
 road block nearby
+friends house
 864 Almanor Ln
 jacks house
 7pm
@@ -12646,34 +12570,42 @@ HR
 conference
 2 miles
 car collision nearby
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 6 miles
 car collision nearby
+grocery store
 1313 Chester Ave
 Hacienda Market
 5 miles
 moderate traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 6 miles
 no traffic
+certain address
 5672 barringer street
 5672 barringer street
 2 miles
 heavy traffic
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 6 miles
 no traffic
+coffee or tea place
 583 Alester Ave
 Philz
 2 miles
 moderate traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 2 miles
 moderate traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 raining
@@ -12698,7 +12630,6 @@ new york
 dew
 50F
 60F
-monday
 snow
 50F
 70F
@@ -12721,7 +12652,6 @@ oakland
 drizzle
 90F
 100F
-monday
 hail
 90F
 100F
@@ -12744,7 +12674,6 @@ brentwood
 dry
 40F
 50F
-monday
 foggy
 90F
 100F
@@ -12767,7 +12696,6 @@ cleveland
 hail
 20F
 30F
-monday
 rain
 40F
 50F
@@ -12790,7 +12718,6 @@ carson
 rain
 50F
 60F
-monday
 snow
 20F
 30F
@@ -12813,7 +12740,6 @@ danville
 snow
 40F
 60F
-monday
 drizzle
 70F
 90F
@@ -12836,97 +12762,119 @@ exeter
 rain
 60F
 70F
-monday
 6 miles
 no traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 1 miles
 road block nearby
+shopping center
 383 University Ave
 Town and Country
 2 miles
 moderate traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 4 miles
 no traffic
+gas station
 783 Arcadia Pl
 Chevron
 4 miles
 heavy traffic
+gas station
 53 University Av
 Shell
 1 miles
 road block nearby
+grocery store
 638 Amherst St
 Sigona Farmers Market
 5 miles
 moderate traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 8 miles
 car collision nearby
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 4 miles
 no traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 1 miles
 moderate traffic
+home
 10 ames street
 home
 5 miles
 heavy traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 1 miles
 no traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 6 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 2 miles
 moderate traffic
+home
 56 cadwell street
 home
 5 miles
 moderate traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 2 miles
 no traffic
+gas station
 91 El Camino Real
 76
 2 miles
 road block nearby
+pizza restaurant
 776 Arastradero Rd
 Dominos
 2 miles
 road block nearby
+grocery store
 819 Alma St
 Whole Foods
 1 miles
 no traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 1 miles
 car collision nearby
+friends house
 580 Van Ness Ave
 toms house
 3 miles
 car collision nearby
+rest stop
 578 Arbol Dr
 Hotel Keen
 5 miles
 no traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 3 miles
 road block nearby
+pizza restaurant
 915 Arbol Dr
 Pizza Chicago
 rain
@@ -12951,7 +12899,6 @@ san francisco
 warm
 60F
 80F
-monday
 dry
 60F
 70F
@@ -12974,7 +12921,6 @@ seattle
 warm
 90F
 100F
-monday
 clear skies
 50F
 60F
@@ -12997,7 +12943,6 @@ alameda
 rain
 50F
 60F
-monday
 dry
 90F
 100F
@@ -13020,7 +12965,6 @@ mountain view
 stormy
 30F
 40F
-monday
 stormy
 50F
 60F
@@ -13043,7 +12987,6 @@ exeter
 rain
 20F
 30F
-monday
 clear skies
 40F
 50F
@@ -13066,7 +13009,6 @@ oakland
 raining
 50F
 60F
-monday
 humid
 70F
 90F
@@ -13089,37 +13031,44 @@ manhattan
 clear skies
 80F
 90F
-monday
 4 miles
 no traffic
+home
 10 ames street
 home
 5 miles
 no traffic
+home
 5671 barringer street
 home
 6 miles
 no traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 3 miles
 car collision nearby
+pizza restaurant
 110 Arastradero Rd
 Papa Johns
 6 miles
 moderate traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 6 miles
 car collision nearby
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 3 miles
 no traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 2 miles
 moderate traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 drizzle
@@ -13144,7 +13093,6 @@ atherton
 snow
 20F
 30F
-monday
 foggy
 90F
 100F
@@ -13167,7 +13115,6 @@ cleveland
 raining
 20F
 40F
-monday
 warm
 90F
 100F
@@ -13190,7 +13137,6 @@ carson
 dew
 90F
 100F
-monday
 stormy
 80F
 100F
@@ -13213,7 +13159,6 @@ redwood city
 cloudy
 90F
 100F
-monday
 windy
 90F
 100F
@@ -13236,7 +13181,6 @@ corona
 dry
 90F
 100F
-monday
 rain
 70F
 80F
@@ -13259,7 +13203,6 @@ los angeles
 rain
 40F
 50F
-monday
 drizzle
 50F
 60F
@@ -13282,33 +13225,39 @@ fresno
 rain
 80F
 100F
-monday
 6 miles
 moderate traffic
+coffee or tea place
 145 Amherst St
 Teavana
 5 miles
 no traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 6 miles
 heavy traffic
+grocery store
 452 Arcadia Pl
 Safeway
 2 miles
 moderate traffic
+friends house
 347 Alta Mesa Ave
 jills house
 2 miles
 heavy traffic
+home
 56 cadwell street
 home
 2 miles
 moderate traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 3 miles
 moderate traffic
+friends house
 864 Almanor Ln
 jacks house
 3 pm
@@ -13334,34 +13283,42 @@ tuesday
 dentist
 1 miles
 car collision nearby
+hospital
 899 Ames Ct
 Stanford Childrens Health
 1 miles
 moderate traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 5 miles
 moderate traffic
+friends house
 864 Almanor Ln
 jacks house
 1 miles
 moderate traffic
+friends house
 580 Van Ness Ave
 toms house
 4 miles
 no traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 3 miles
 car collision nearby
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 1 miles
 car collision nearby
+hospital
 214 El Camino Real
 Stanford Express Care
 5 miles
 moderate traffic
+shopping center
 383 University Ave
 Town and Country
 4pm
@@ -13390,34 +13347,42 @@ Alex
 taking medicine
 3 miles
 no traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 1 miles
 no traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 5 miles
 road block nearby
+gas station
 200 Alester Ave
 Valero
 3 miles
 no traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 4 miles
 heavy traffic
+rest stop
 753 University Ave
 Comfort Inn
 5 miles
 heavy traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 2 miles
 heavy traffic
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 6 miles
 no traffic
+friends house
 864 Almanor Ln
 jacks house
 cloudy
@@ -13442,7 +13407,6 @@ compton
 humid
 50F
 70F
-monday
 foggy
 40F
 50F
@@ -13465,7 +13429,6 @@ san francisco
 blizzard
 30F
 40F
-monday
 cloudy
 50F
 60F
@@ -13488,7 +13451,6 @@ menlo park
 dry
 40F
 60F
-monday
 drizzle
 50F
 60F
@@ -13511,7 +13473,6 @@ cleveland
 dry
 70F
 90F
-monday
 snow
 50F
 70F
@@ -13534,7 +13495,6 @@ exeter
 dew
 50F
 60F
-monday
 snow
 50F
 60F
@@ -13557,7 +13517,6 @@ fresno
 hail
 30F
 50F
-monday
 hail
 30F
 40F
@@ -13580,37 +13539,44 @@ redwood city
 dry
 30F
 40F
-monday
 1 miles
 heavy traffic
+coffee or tea place
 9981 Archuleta Ave
 Peets Coffee
 4 miles
 heavy traffic
+home
 56 cadwell street
 home
 4 miles
 no traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 3 miles
 car collision nearby
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 3 miles
 road block nearby
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 2 miles
 road block nearby
+rest stop
 329 El Camino Real
 The Westin
 1 miles
 road block nearby
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 4 miles
 moderate traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 cloudy
@@ -13635,7 +13601,6 @@ corona
 stormy
 60F
 70F
-monday
 dew
 60F
 80F
@@ -13658,7 +13623,6 @@ brentwood
 rain
 20F
 30F
-monday
 hot
 60F
 80F
@@ -13681,7 +13645,6 @@ san mateo
 cloudy
 20F
 40F
-monday
 clear skies
 90F
 100F
@@ -13704,7 +13667,6 @@ cleveland
 dew
 40F
 60F
-monday
 rain
 90F
 100F
@@ -13727,7 +13689,6 @@ boston
 foggy
 70F
 90F
-monday
 overcast
 80F
 90F
@@ -13750,7 +13711,6 @@ seattle
 hot
 90F
 100F
-monday
 humid
 90F
 100F
@@ -13773,33 +13733,39 @@ manhattan
 dew
 50F
 60F
-monday
 2 miles
 no traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 6 miles
 moderate traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 5 miles
 moderate traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 3 miles
 heavy traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 4 miles
 no traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 4 miles
 no traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 5 miles
 no traffic
+friends house
 864 Almanor Ln
 jacks house
 7pm
@@ -13917,7 +13883,6 @@ menlo park
 rain
 50F
 60F
-monday
 foggy
 90F
 100F
@@ -13940,7 +13905,6 @@ danville
 misty
 20F
 30F
-monday
 hail
 50F
 60F
@@ -13963,7 +13927,6 @@ redwood city
 dew
 70F
 80F
-monday
 warm
 50F
 70F
@@ -13986,7 +13949,6 @@ oakland
 dew
 90F
 100F
-monday
 raining
 60F
 80F
@@ -14009,7 +13971,6 @@ boston
 dry
 20F
 40F
-monday
 snow
 20F
 40F
@@ -14032,7 +13993,6 @@ inglewood
 foggy
 50F
 70F
-monday
 misty
 60F
 70F
@@ -14055,7 +14015,6 @@ los angeles
 foggy
 60F
 80F
-monday
 10 am
 monday
 optometrist appointment
@@ -14076,34 +14035,42 @@ wednesday
 doctor appointment
 1 miles
 heavy traffic
+coffee or tea place
 145 Amherst St
 Teavana
 5 miles
 no traffic
+coffee or tea place
 583 Alester Ave
 Philz
 5 miles
 car collision nearby
+rest stop
 753 University Ave
 Comfort Inn
 1 miles
 road block nearby
+rest stop
 329 El Camino Real
 The Westin
 3 miles
 no traffic
+certain address
 5677 springer street
 5677 springer street
 1 miles
 no traffic
+rest stop
 333 Arbol Dr
 Travelers Lodge
 3 miles
 moderate traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 1 miles
 moderate traffic
+home
 5671 barringer street
 home
 100 conference room
@@ -14222,7 +14189,6 @@ durham
 rain
 80F
 90F
-monday
 foggy
 90F
 100F
@@ -14245,7 +14211,6 @@ exeter
 warm
 90F
 100F
-monday
 cloudy
 70F
 90F
@@ -14268,7 +14233,6 @@ downtown chicago
 warm
 60F
 80F
-monday
 foggy
 40F
 60F
@@ -14291,7 +14255,6 @@ mountain view
 clear skies
 80F
 100F
-monday
 foggy
 90F
 100F
@@ -14314,7 +14277,6 @@ grand rapids
 windy
 60F
 80F
-monday
 clear skies
 40F
 60F
@@ -14337,7 +14299,6 @@ fresno
 raining
 40F
 60F
-monday
 overcast
 90F
 100F
@@ -14360,61 +14321,74 @@ oakland
 overcast
 30F
 40F
-monday
 Ravenswood Shopping Center
 4 miles
 heavy traffic
+shopping center
 434 Arastradero Rd
 Stanford Express Care
 3 miles
 no traffic
+hospital
 214 El Camino Real
 Palo Alto Garage R
 2 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Jing Jing
 5 miles
 heavy traffic
+chinese restaurant
 113 Arbol Dr
 Sigona Farmers Market
 4 miles
 no traffic
+grocery store
 638 Amherst St
 The Westin
 4 miles
 no traffic
+rest stop
 329 El Camino Real
 Cafe Venetia
 4 miles
 no traffic
+coffee or tea place
 269 Alger Dr
 4 miles
 no traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 6 miles
 moderate traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 3 miles
 heavy traffic
+parking garage
 550 Alester Ave
 Dish Parking
 3 miles
 heavy traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 6 miles
 moderate traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 1 miles
 heavy traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 3 miles
 heavy traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 snow
@@ -14439,7 +14413,6 @@ san jose
 overcast
 30F
 40F
-monday
 raining
 70F
 90F
@@ -14462,7 +14435,6 @@ atherton
 cloudy
 90F
 100F
-monday
 foggy
 90F
 100F
@@ -14485,7 +14457,6 @@ manhattan
 overcast
 80F
 90F
-monday
 drizzle
 70F
 80F
@@ -14508,7 +14479,6 @@ los angeles
 windy
 30F
 40F
-monday
 humid
 70F
 90F
@@ -14531,7 +14501,6 @@ corona
 stormy
 80F
 90F
-monday
 frost
 40F
 50F
@@ -14554,7 +14523,6 @@ new york
 raining
 50F
 70F
-monday
 cloudy
 70F
 80F
@@ -14577,65 +14545,79 @@ alhambra
 drizzle
 70F
 80F
-monday
 6 miles
 road block nearby
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 4 miles
 road block nearby
+pizza restaurant
 110 Arastradero Rd
 Papa Johns
 6 miles
 moderate traffic
+rest stop
 333 Arbol Dr
 Travelers Lodge
 2 miles
 car collision nearby
+gas station
 783 Arcadia Pl
 Chevron
 1 miles
 heavy traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 5 miles
 road block nearby
+parking garage
 550 Alester Ave
 Dish Parking
 7 miles
 road block nearby
+rest stop
 329 El Camino Real
 The Westin
 1 miles
 road block nearby
+coffee or tea place
 145 Amherst St
 Teavana
 3 miles
 no traffic
+rest stop
 753 University Ave
 Comfort Inn
 2 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 4 miles
 heavy traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 6 miles
 moderate traffic
+parking garage
 550 Alester Ave
 Dish Parking
 3 miles
 heavy traffic
+grocery store
 452 Arcadia Pl
 Safeway
 5 miles
 heavy traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 6 miles
 no traffic
+friends house
 347 Alta Mesa Ave
 jills house
 raining
@@ -14660,7 +14642,6 @@ menlo park
 rain
 30F
 40F
-monday
 rain
 80F
 100F
@@ -14683,7 +14664,6 @@ san mateo
 snow
 30F
 40F
-monday
 hot
 60F
 70F
@@ -14706,7 +14686,6 @@ redwood city
 overcast
 70F
 90F
-monday
 overcast
 40F
 60F
@@ -14729,7 +14708,6 @@ new york
 clear skies
 60F
 80F
-monday
 overcast
 40F
 60F
@@ -14752,7 +14730,6 @@ oakland
 warm
 60F
 70F
-monday
 hot
 80F
 100F
@@ -14775,7 +14752,6 @@ manhattan
 foggy
 30F
 40F
-monday
 windy
 70F
 80F
@@ -14798,121 +14774,149 @@ compton
 clear skies
 70F
 80F
-monday
 2 miles
 moderate traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 3 miles
 no traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 2 miles
 no traffic
+certain address
 5672 barringer street
 5672 barringer street
 2 miles
 heavy traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 4 miles
 moderate traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 3 miles
 heavy traffic
+friends house
 580 Van Ness Ave
 toms house
 6 miles
 no traffic
+gas station
 783 Arcadia Pl
 Chevron
 5 miles
 moderate traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 2 miles
 heavy traffic
+friends house
 580 Van Ness Ave
 toms house
 1 miles
 no traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 3 miles
 moderate traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 1 miles
 heavy traffic
+certain address
 5677 springer street
 5677 springer street
 3 miles
 moderate traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 6 miles
 no traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 7 miles
 car collision nearby
+hospital
 214 El Camino Real
 Stanford Express Care
 5 miles
 no traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 2 miles
 road block nearby
+parking garage
 270 Altaire Walk
 Civic Center Garage
 4 miles
 moderate traffic
+gas station
 200 Alester Ave
 Valero
 3 miles
 road block nearby
+grocery store
 819 Alma St
 Whole Foods
 6 miles
 moderate traffic
+gas station
 53 University Av
 Shell
 2 miles
 no traffic
+friends house
 864 Almanor Ln
 jacks house
 1 miles
 heavy traffic
+pizza restaurant
 110 Arastradero Rd
 Papa Johns
 4 miles
 heavy traffic
+shopping center
 383 University Ave
 Town and Country
 2 miles
 moderate traffic
+grocery store
 408 University Ave
 Trader Joes
 6 miles
 moderate traffic
+gas station
 783 Arcadia Pl
 Chevron
 4 miles
 heavy traffic
+parking garage
 550 Alester Ave
 Dish Parking
 4 miles
 heavy traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 5 miles
 no traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 4 miles
 no traffic
+rest stop
 329 El Camino Real
 The Westin
 11am
@@ -14963,7 +14967,6 @@ fresno
 dry
 80F
 90F
-monday
 drizzle
 50F
 70F
@@ -14986,7 +14989,6 @@ los angeles
 clear skies
 80F
 90F
-monday
 blizzard
 40F
 60F
@@ -15009,7 +15011,6 @@ corona
 dew
 90F
 100F
-monday
 snow
 20F
 40F
@@ -15032,7 +15033,6 @@ san francisco
 windy
 70F
 80F
-monday
 rain
 60F
 70F
@@ -15055,7 +15055,6 @@ new york
 drizzle
 30F
 50F
-monday
 hot
 70F
 80F
@@ -15078,7 +15077,6 @@ seattle
 overcast
 90F
 100F
-monday
 foggy
 30F
 50F
@@ -15101,7 +15099,6 @@ mountain view
 hail
 30F
 40F
-monday
 2pm
 monday
 Jeff
@@ -15184,7 +15181,6 @@ san jose
 snow
 30F
 40F
-monday
 windy
 80F
 100F
@@ -15207,7 +15203,6 @@ durham
 clear skies
 80F
 90F
-monday
 warm
 90F
 100F
@@ -15230,7 +15225,6 @@ oakland
 windy
 30F
 40F
-monday
 rain
 90F
 100F
@@ -15253,7 +15247,6 @@ los angeles
 warm
 90F
 100F
-monday
 warm
 30F
 40F
@@ -15276,7 +15269,6 @@ redwood city
 raining
 70F
 90F
-monday
 hot
 30F
 40F
@@ -15299,7 +15291,6 @@ manhattan
 foggy
 90F
 100F
-monday
 cloudy
 90F
 100F
@@ -15322,7 +15313,6 @@ seattle
 rain
 40F
 60F
-monday
 snow
 80F
 90F
@@ -15345,7 +15335,6 @@ carson
 warm
 80F
 100F
-monday
 foggy
 50F
 70F
@@ -15368,7 +15357,6 @@ corona
 clear skies
 30F
 50F
-monday
 dry
 50F
 60F
@@ -15391,7 +15379,6 @@ boston
 clear skies
 90F
 100F
-monday
 dew
 50F
 70F
@@ -15414,7 +15401,6 @@ new york
 foggy
 80F
 90F
-monday
 cloudy
 80F
 90F
@@ -15437,7 +15423,6 @@ fresno
 clear skies
 70F
 90F
-monday
 drizzle
 80F
 90F
@@ -15460,7 +15445,6 @@ cleveland
 dew
 30F
 50F
-monday
 overcast
 50F
 60F
@@ -15483,7 +15467,6 @@ san mateo
 stormy
 80F
 100F
-monday
 dry
 70F
 80F
@@ -15506,7 +15489,6 @@ manhattan
 raining
 30F
 50F
-monday
 hail
 30F
 50F
@@ -15529,7 +15511,6 @@ durham
 foggy
 20F
 30F
-monday
 hail
 50F
 70F
@@ -15552,7 +15533,6 @@ mountain view
 drizzle
 40F
 50F
-monday
 misty
 70F
 80F
@@ -15575,7 +15555,6 @@ redwood city
 misty
 60F
 80F
-monday
 hot
 90F
 100F
@@ -15598,7 +15577,6 @@ los angeles
 rain
 60F
 70F
-monday
 dew
 80F
 90F
@@ -15621,7 +15599,6 @@ san jose
 foggy
 50F
 70F
-monday
 hail
 90F
 100F
@@ -15644,7 +15621,6 @@ grand rapids
 raining
 70F
 90F
-monday
 5 pm
 monday
 dinner
@@ -15691,7 +15667,6 @@ cleveland
 cloudy
 50F
 60F
-monday
 snow
 60F
 70F
@@ -15714,7 +15689,6 @@ san mateo
 overcast
 30F
 40F
-monday
 humid
 80F
 100F
@@ -15737,7 +15711,6 @@ los angeles
 cloudy
 70F
 90F
-monday
 hail
 40F
 60F
@@ -15760,7 +15733,6 @@ camarillo
 hail
 90F
 100F
-monday
 overcast
 30F
 40F
@@ -15783,7 +15755,6 @@ san francisco
 hail
 60F
 80F
-monday
 stormy
 90F
 100F
@@ -15806,7 +15777,6 @@ atherton
 drizzle
 50F
 60F
-monday
 stormy
 50F
 60F
@@ -15829,7 +15799,6 @@ mountain view
 snow
 30F
 40F
-monday
 hail
 30F
 50F
@@ -15852,7 +15821,6 @@ san jose
 rain
 50F
 60F
-monday
 dry
 20F
 30F
@@ -15875,7 +15843,6 @@ corona
 blizzard
 50F
 60F
-monday
 stormy
 90F
 100F
@@ -15898,7 +15865,6 @@ atherton
 raining
 80F
 100F
-monday
 clear skies
 40F
 60F
@@ -15921,7 +15887,6 @@ grand rapids
 clear skies
 60F
 70F
-monday
 cloudy
 20F
 30F
@@ -15944,7 +15909,6 @@ compton
 stormy
 30F
 50F
-monday
 warm
 80F
 90F
@@ -15967,7 +15931,6 @@ seattle
 overcast
 20F
 40F
-monday
 misty
 20F
 40F
@@ -15990,65 +15953,79 @@ boston
 clear skies
 90F
 100F
-monday
 5 miles
 moderate traffic
+friends house
 580 Van Ness Ave
 toms house
 6 miles
 car collision nearby
+rest stop
 465 Arcadia Pl
 Four Seasons
 4 miles
 car collision nearby
+rest stop
 333 Arbol Dr
 Travelers Lodge
 4 miles
 no traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 6 miles
 moderate traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 2 miles
 car collision nearby
+grocery store
 409 Bollard St
 Willows Market
 2 miles
 road block nearby
+gas station
 91 El Camino Real
 76
 6 miles
 heavy traffic
+home
 5671 barringer street
 home
 3 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 3 miles
 heavy traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 4 miles
 no traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 6 miles
 no traffic
+gas station
 783 Arcadia Pl
 Chevron
 3 miles
 heavy traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 4 miles
 no traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 4 miles
 moderate traffic
+friends house
 864 Almanor Ln
 jacks house
 11am
@@ -16087,62 +16064,77 @@ brother
 optometrist appointment
 6 miles
 moderate traffic
+rest stop
 657 Ames Ave
 The Clement Hotel
 3 miles
 moderate traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 5 miles
 moderate traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 3 miles
 heavy traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 3 miles
 heavy traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 2 miles
 no traffic
+parking garage
 880 Ames Ct
 Webster Garage
 4 miles
 heavy traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 5 miles
 moderate traffic
+certain address
 5677 springer street
 5677 springer street
 2 miles
 heavy traffic
+grocery store
 408 University Ave
 Trader Joes
 3 miles
 road block nearby
+shopping center
 171 Oak Rd
 Topanga Mall
 5 miles
 road block nearby
+coffee or tea place
 145 Amherst St
 Teavana
 4 miles
 no traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 6 miles
 road block nearby
+grocery store
 638 Amherst St
 Sigona Farmers Market
 6 miles
 car collision nearby
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 6 miles
 car collision nearby
+home
 56 cadwell street
 home
 snow
@@ -16167,7 +16159,6 @@ menlo park
 rain
 40F
 60F
-monday
 snow
 40F
 60F
@@ -16190,7 +16181,6 @@ exeter
 cloudy
 70F
 90F
-monday
 overcast
 70F
 80F
@@ -16213,7 +16203,6 @@ new york
 foggy
 40F
 60F
-monday
 raining
 60F
 80F
@@ -16236,7 +16225,6 @@ inglewood
 snow
 80F
 90F
-monday
 clear skies
 60F
 80F
@@ -16259,7 +16247,6 @@ compton
 windy
 40F
 60F
-monday
 windy
 60F
 80F
@@ -16282,7 +16269,6 @@ san jose
 raining
 60F
 70F
-monday
 snow
 60F
 80F
@@ -16305,125 +16291,154 @@ redwood city
 warm
 80F
 100F
-monday
 2 miles
 no traffic
+rest stop
 753 University Ave
 Comfort Inn
 4 miles
 heavy traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 5 miles
 heavy traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 4 miles
 heavy traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 1 miles
 no traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 3 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 3 miles
 moderate traffic
+grocery store
 408 University Ave
 Trader Joes
 6 miles
 car collision nearby
+grocery store
 452 Arcadia Pl
 Safeway
 2 miles
 moderate traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 2 miles
 road block nearby
+gas station
 200 Alester Ave
 Valero
 2 miles
 road block nearby
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 3 miles
 no traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 4 miles
 heavy traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 2 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 1 miles
 road block nearby
+rest stop
 329 El Camino Real
 The Westin
 6 miles
 moderate traffic
+rest stop
 329 El Camino Real
 The Westin
 3 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 1 miles
 no traffic
+grocery store
 819 Alma St
 Whole Foods
 5 miles
 heavy traffic
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 2 miles
 heavy traffic
+certain address
 5677 springer street
 5677 springer street
 1 miles
 moderate traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 5 miles
 moderate traffic
+gas station
 783 Arcadia Pl
 Chevron
 1 miles
 car collision nearby
+home
 10 ames street
 home
 2 miles
 moderate traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 1 miles
 no traffic
+shopping center
 171 Oak Rd
 Topanga Mall
 4 miles
 road block nearby
+grocery store
 452 Arcadia Pl
 Safeway
 6 miles
 car collision nearby
+pizza restaurant
 113 Anton Ct
 Round Table
 2 miles
 heavy traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 5 miles
 road block nearby
+rest stop
 329 El Camino Real
 The Westin
 3 miles
 heavy traffic
+certain address
 5677 springer street
 5677 springer street
 5 pm
@@ -16472,7 +16487,6 @@ redwood city
 snow
 60F
 70F
-monday
 snow
 80F
 100F
@@ -16495,7 +16509,6 @@ grand rapids
 snow
 70F
 80F
-monday
 cloudy
 70F
 80F
@@ -16518,7 +16531,6 @@ new york
 windy
 40F
 60F
-monday
 cloudy
 70F
 90F
@@ -16541,7 +16553,6 @@ oakland
 raining
 70F
 80F
-monday
 cloudy
 70F
 80F
@@ -16564,7 +16575,6 @@ fresno
 overcast
 90F
 100F
-monday
 snow
 30F
 40F
@@ -16587,7 +16597,6 @@ durham
 windy
 60F
 80F
-monday
 snow
 70F
 80F
@@ -16610,7 +16619,6 @@ los angeles
 snow
 40F
 60F
-monday
 rain
 20F
 30F
@@ -16633,7 +16641,6 @@ downtown chicago
 dry
 80F
 90F
-monday
 raining
 70F
 80F
@@ -16656,7 +16663,6 @@ mountain view
 dry
 20F
 40F
-monday
 overcast
 90F
 100F
@@ -16679,7 +16685,6 @@ seattle
 warm
 70F
 80F
-monday
 snow
 70F
 90F
@@ -16702,7 +16707,6 @@ inglewood
 blizzard
 30F
 50F
-monday
 windy
 60F
 70F
@@ -16725,7 +16729,6 @@ cleveland
 rain
 50F
 70F
-monday
 clear skies
 70F
 90F
@@ -16748,7 +16751,6 @@ oakland
 cloudy
 80F
 90F
-monday
 windy
 70F
 90F
@@ -16771,33 +16773,39 @@ los angeles
 blizzard
 50F
 60F
-monday
 1 miles
 heavy traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 3 miles
 heavy traffic
+rest stop
 329 El Camino Real
 The Westin
 5 miles
 heavy traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 1 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 1 miles
 heavy traffic
+grocery store
 408 University Ave
 Trader Joes
 4 miles
 heavy traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 3 miles
 heavy traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 cloudy
@@ -16822,7 +16830,6 @@ redwood city
 misty
 60F
 80F
-monday
 rain
 30F
 50F
@@ -16845,7 +16852,6 @@ corona
 overcast
 20F
 30F
-monday
 rain
 80F
 90F
@@ -16868,7 +16874,6 @@ exeter
 rain
 60F
 80F
-monday
 overcast
 20F
 30F
@@ -16891,7 +16896,6 @@ san francisco
 cloudy
 50F
 60F
-monday
 hot
 70F
 80F
@@ -16914,7 +16918,6 @@ menlo park
 frost
 40F
 50F
-monday
 overcast
 90F
 100F
@@ -16937,7 +16940,6 @@ atherton
 windy
 30F
 50F
-monday
 windy
 40F
 50F
@@ -16960,7 +16962,6 @@ seattle
 rain
 20F
 30F
-monday
 rain
 20F
 40F
@@ -16983,7 +16984,6 @@ oakland
 foggy
 70F
 90F
-monday
 stormy
 90F
 100F
@@ -17006,7 +17006,6 @@ seattle
 misty
 80F
 100F
-monday
 warm
 80F
 90F
@@ -17029,7 +17028,6 @@ fresno
 blizzard
 20F
 40F
-monday
 dry
 70F
 90F
@@ -17052,7 +17050,6 @@ atherton
 clear skies
 50F
 70F
-monday
 warm
 70F
 80F
@@ -17075,7 +17072,6 @@ redwood city
 rain
 30F
 50F
-monday
 foggy
 90F
 100F
@@ -17098,7 +17094,6 @@ compton
 humid
 80F
 100F
-monday
 misty
 70F
 90F
@@ -17121,94 +17116,115 @@ cleveland
 hot
 90F
 100F
-monday
 1 miles
 no traffic
+certain address
 5672 barringer street
 5672 barringer street
 1 miles
 heavy traffic
+coffee or tea place
 145 Amherst St
 Teavana
 4 miles
 heavy traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 2 miles
 heavy traffic
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 4 miles
 no traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 1 miles
 no traffic
+home
 10 ames street
 home
 5 miles
 no traffic
+home
 10 ames street
 home
 3 miles
 no traffic
+certain address
 5677 springer street
 5677 springer street
 3 miles
 moderate traffic
+home
 56 cadwell street
 home
 1 miles
 road block nearby
+rest stop
 753 University Ave
 Comfort Inn
 5 miles
 heavy traffic
+rest stop
 329 El Camino Real
 The Westin
 6 miles
 car collision nearby
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 4 miles
 no traffic
+hospital
 611 Ames Ave
 Palo Alto Medical Foundation
 2 miles
 road block nearby
+grocery store
 819 Alma St
 Whole Foods
 8 miles
 car collision nearby
+friends house
 347 Alta Mesa Ave
 jills house
 Stanford Express Care
 3 miles
 no traffic
+hospital
 214 El Camino Real
 home
 4 miles
 heavy traffic
+home
 5671 barringer street
 Whole Foods
 2 miles
 heavy traffic
+grocery store
 819 Alma St
 P.F. Changs
 6 miles
 moderate traffic
+chinese restaurant
 669 El Camino Real
 Jing Jing
 5 miles
 heavy traffic
+chinese restaurant
 113 Arbol Dr
 Pizza My Heart
 6 miles
 moderate traffic
+pizza restaurant
 528 Anton Ct
 Cafe Venetia
 4 miles
 no traffic
+coffee or tea place
 269 Alger Dr
 conference room 100
 discuss the merger
@@ -17253,7 +17269,6 @@ san jose
 warm
 60F
 70F
-monday
 snow
 90F
 100F
@@ -17276,7 +17291,6 @@ durham
 hail
 70F
 90F
-monday
 snow
 90F
 100F
@@ -17299,7 +17313,6 @@ boston
 clear skies
 20F
 30F
-monday
 clear skies
 20F
 40F
@@ -17322,7 +17335,6 @@ compton
 hail
 80F
 100F
-monday
 drizzle
 50F
 60F
@@ -17345,7 +17357,6 @@ seattle
 foggy
 60F
 70F
-monday
 hail
 90F
 100F
@@ -17368,7 +17379,6 @@ mountain view
 overcast
 60F
 80F
-monday
 hail
 20F
 40F
@@ -17391,221 +17401,274 @@ danville
 drizzle
 30F
 40F
-monday
 4 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 5 miles
 moderate traffic
+grocery store
 819 Alma St
 Whole Foods
 5 miles
 road block nearby
+grocery store
 452 Arcadia Pl
 Safeway
 4 miles
 car collision nearby
+rest stop
 329 El Camino Real
 The Westin
 1 miles
 car collision nearby
+coffee or tea place
 394 Van Ness Ave
 Coupa
 2 miles
 moderate traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 1 miles
 road block nearby
+pizza restaurant
 528 Anton Ct
 Pizza My Heart
 3 miles
 heavy traffic
+home
 56 cadwell street
 home
 5 miles
 heavy traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 2 miles
 moderate traffic
+pizza restaurant
 915 Arbol Dr
 Pizza Chicago
 6 miles
 no traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 3 miles
 road block nearby
+parking garage
 550 Alester Ave
 Dish Parking
 2 miles
 car collision nearby
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 4 miles
 road block nearby
+rest stop
 753 University Ave
 Comfort Inn
 4 miles
 car collision nearby
+parking garage
 880 Ames Ct
 Webster Garage
 2 miles
 car collision nearby
+home
 56 cadwell street
 home
 4 miles
 road block nearby
+shopping center
 338 Alester Ave
 Midtown Shopping Center
 6 miles
 moderate traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 3 miles
 no traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 4 miles
 car collision nearby
+parking garage
 880 Ames Ct
 Webster Garage
 6 miles
 moderate traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 6 miles
 no traffic
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 2 miles
 no traffic
+certain address
 5672 barringer street
 5672 barringer street
 3 miles
 moderate traffic
+parking garage
 270 Altaire Walk
 Civic Center Garage
 4 miles
 moderate traffic
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 6 miles
 no traffic
+rest stop
 753 University Ave
 Comfort Inn
 4 miles
 no traffic
+grocery store
 819 Alma St
 Whole Foods
 3 miles
 heavy traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 2 miles
 heavy traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 4 miles
 moderate traffic
+chinese restaurant
 593 Arrowhead Way
 Chef Chu's
 1 miles
 heavy traffic
+friends house
 580 Van Ness Ave
 toms house
 5 miles
 road block nearby
+rest stop
 578 Arbol Dr
 Hotel Keen
 1 miles
 road block nearby
+hospital
 899 Ames Ct
 Stanford Childrens Health
 1 miles
 no traffic
+grocery store
 452 Arcadia Pl
 Safeway
 2 miles
 heavy traffic
+home
 56 cadwell street
 home
 6 miles
 moderate traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 4 miles
 no traffic
+pizza restaurant
 776 Arastradero Rd
 Dominos
 4 miles
 car collision nearby
+shopping center
 171 Oak Rd
 Topanga Mall
 5 miles
 road block nearby
+coffee or tea place
 792 Bedoin Street
 Starbucks
 4 miles
 heavy traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 1 miles
 moderate traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 2 miles
 no traffic
+grocery store
 452 Arcadia Pl
 Safeway
 1 miles
 moderate traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 1 miles
 heavy traffic
+grocery store
 819 Alma St
 Whole Foods
 6 miles
 moderate traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 6 miles
 heavy traffic
+coffee or tea place
 145 Amherst St
 Teavana
 6 miles
 moderate traffic
+grocery store
 1313 Chester Ave
 Hacienda Market
 6 miles
 road block nearby
+parking garage
 880 Ames Ct
 Webster Garage
 3 miles
 car collision nearby
+coffee or tea place
 145 Amherst St
 Teavana
 2 miles
 car collision nearby
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 6 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Palo Alto Garage R
 5 miles
 no traffic
+rest stop
 465 Arcadia Pl
 Four Seasons
 6 miles
 heavy traffic
+home
 10 ames street
 home
 4 miles
 car collision nearby
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 foggy
@@ -17630,7 +17693,6 @@ manhattan
 raining
 90F
 100F
-monday
 windy
 70F
 90F
@@ -17653,7 +17715,6 @@ fresno
 hail
 30F
 50F
-monday
 rain
 90F
 100F
@@ -17676,7 +17737,6 @@ oakland
 raining
 80F
 90F
-monday
 drizzle
 80F
 100F
@@ -17699,7 +17759,6 @@ los angeles
 drizzle
 30F
 50F
-monday
 overcast
 80F
 100F
@@ -17722,7 +17781,6 @@ corona
 rain
 70F
 90F
-monday
 hail
 40F
 60F
@@ -17745,7 +17803,6 @@ seattle
 clear skies
 40F
 60F
-monday
 dry
 60F
 70F
@@ -17768,7 +17825,6 @@ menlo park
 stormy
 50F
 70F
-monday
 clear skies
 50F
 60F
@@ -17791,7 +17847,6 @@ brentwood
 stormy
 30F
 50F
-monday
 snow
 40F
 50F
@@ -17814,7 +17869,6 @@ atherton
 stormy
 50F
 60F
-monday
 humid
 60F
 80F
@@ -17837,7 +17891,6 @@ corona
 foggy
 20F
 30F
-monday
 hot
 70F
 80F
@@ -17860,7 +17913,6 @@ danville
 cloudy
 90F
 100F
-monday
 windy
 80F
 90F
@@ -17883,7 +17935,6 @@ oakland
 drizzle
 40F
 50F
-monday
 overcast
 90F
 100F
@@ -17906,7 +17957,6 @@ mountain view
 warm
 80F
 100F
-monday
 hail
 30F
 50F
@@ -17929,7 +17979,6 @@ boston
 cloudy
 70F
 90F
-monday
 overcast
 60F
 80F
@@ -17952,7 +18001,6 @@ san jose
 humid
 50F
 70F
-monday
 overcast
 90F
 100F
@@ -17975,7 +18023,6 @@ boston
 frost
 20F
 30F
-monday
 frost
 20F
 30F
@@ -17998,7 +18045,6 @@ new york
 overcast
 50F
 70F
-monday
 windy
 90F
 100F
@@ -18021,7 +18067,6 @@ san mateo
 humid
 80F
 90F
-monday
 rain
 20F
 40F
@@ -18044,7 +18089,6 @@ grand rapids
 raining
 80F
 100F
-monday
 warm
 60F
 70F
@@ -18067,7 +18111,6 @@ manhattan
 dry
 70F
 90F
-monday
 hot
 60F
 70F
@@ -18090,37 +18133,44 @@ seattle
 overcast
 50F
 60F
-monday
 6 miles
 heavy traffic
+gas station
 53 University Av
 Shell
 3 miles
 no traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 2 miles
 car collision nearby
+pizza restaurant
 113 Anton Ct
 Round Table
 6 miles
 car collision nearby
+friends house
 864 Almanor Ln
 jacks house
 3 miles
 no traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 2 miles
 heavy traffic
+home
 56 cadwell street
 home
 3 miles
 car collision nearby
+pizza restaurant
 776 Arastradero Rd
 Dominos
 1 miles
 heavy traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 raining
@@ -18145,7 +18195,6 @@ alhambra
 humid
 60F
 80F
-monday
 foggy
 30F
 40F
@@ -18168,7 +18217,6 @@ inglewood
 raining
 60F
 80F
-monday
 snow
 30F
 40F
@@ -18191,7 +18239,6 @@ menlo park
 clear skies
 70F
 80F
-monday
 stormy
 30F
 40F
@@ -18214,7 +18261,6 @@ atherton
 dew
 80F
 90F
-monday
 drizzle
 40F
 50F
@@ -18237,7 +18283,6 @@ san francisco
 foggy
 30F
 50F
-monday
 rain
 90F
 100F
@@ -18260,7 +18305,6 @@ carson
 dry
 80F
 100F
-monday
 raining
 20F
 40F
@@ -18283,7 +18327,6 @@ danville
 dew
 70F
 90F
-monday
 overcast
 90F
 100F
@@ -18306,7 +18349,6 @@ fresno
 hot
 90F
 100F
-monday
 cloudy
 80F
 90F
@@ -18329,7 +18371,6 @@ los angeles
 clear skies
 70F
 80F
-monday
 rain
 90F
 100F
@@ -18352,7 +18393,6 @@ redwood city
 rain
 70F
 80F
-monday
 hot
 90F
 100F
@@ -18375,7 +18415,6 @@ grand rapids
 snow
 30F
 40F
-monday
 raining
 90F
 100F
@@ -18398,7 +18437,6 @@ san mateo
 hot
 90F
 100F
-monday
 hot
 60F
 80F
@@ -18421,7 +18459,6 @@ menlo park
 warm
 60F
 70F
-monday
 clear skies
 30F
 40F
@@ -18444,7 +18481,6 @@ exeter
 windy
 60F
 80F
-monday
 5pm
 the 5th
 father
@@ -18517,7 +18553,6 @@ san jose
 frost
 20F
 40F
-monday
 dry
 30F
 50F
@@ -18540,7 +18575,6 @@ durham
 drizzle
 50F
 60F
-monday
 windy
 80F
 100F
@@ -18563,7 +18597,6 @@ downtown chicago
 snow
 40F
 60F
-monday
 foggy
 70F
 80F
@@ -18586,7 +18619,6 @@ new york
 dry
 80F
 100F
-monday
 overcast
 40F
 50F
@@ -18609,7 +18641,6 @@ manhattan
 foggy
 70F
 90F
-monday
 overcast
 60F
 80F
@@ -18632,7 +18663,6 @@ fresno
 dry
 60F
 70F
-monday
 cloudy
 20F
 30F
@@ -18655,7 +18685,6 @@ seattle
 clear skies
 30F
 50F
-monday
 11 am
 tuesday
 optometrist appointment
@@ -18710,62 +18739,77 @@ Jeff
 football activity
 5 miles
 moderate traffic
+friends house
 580 Van Ness Ave
 toms house
 5 miles
 road block nearby
+hospital
 214 El Camino Real
 Stanford Express Care
 6 miles
 road block nearby
+pizza restaurant
 113 Anton Ct
 Round Table
 6 miles
 road block nearby
+parking garage
 610 Amarillo Ave
 Stanford Oval Parking
 6 miles
 car collision nearby
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 3 miles
 heavy traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 4 miles
 car collision nearby
+parking garage
 270 Altaire Walk
 Civic Center Garage
 3 miles
 moderate traffic
+shopping center
 383 University Ave
 Town and Country
 3 miles
 no traffic
+shopping center
 383 University Ave
 Town and Country
 4 miles
 moderate traffic
+parking garage
 550 Alester Ave
 Dish Parking
 3 miles
 no traffic
+rest stop
 753 University Ave
 Comfort Inn
 3 miles
 no traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 4 miles
 heavy traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 4 miles
 no traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 5 miles
 no traffic
+home
 10 ames street
 home
 warm
@@ -18790,7 +18834,6 @@ cleveland
 snow
 90F
 100F
-monday
 humid
 70F
 90F
@@ -18813,7 +18856,6 @@ durham
 dry
 90F
 100F
-monday
 snow
 50F
 70F
@@ -18836,7 +18878,6 @@ grand rapids
 windy
 80F
 100F
-monday
 rain
 90F
 100F
@@ -18859,7 +18900,6 @@ inglewood
 foggy
 70F
 90F
-monday
 humid
 60F
 70F
@@ -18882,7 +18922,6 @@ exeter
 cloudy
 30F
 40F
-monday
 drizzle
 20F
 30F
@@ -18905,7 +18944,6 @@ manhattan
 foggy
 30F
 40F
-monday
 humid
 70F
 80F
@@ -18928,33 +18966,39 @@ san mateo
 rain
 20F
 40F
-monday
 6 miles
 no traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 5 miles
 no traffic
+coffee or tea place
 394 Van Ness Ave
 Coupa
 4 miles
 moderate traffic
+parking garage
 270 Altaire Walk
 Civic Center Garage
 2 miles
 moderate traffic
+gas station
 200 Alester Ave
 Valero
 1 miles
 moderate traffic
+coffee or tea place
 583 Alester Ave
 Philz
 1 miles
 heavy traffic
+parking garage
 880 Ames Ct
 Webster Garage
 1 miles
 no traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 windy
@@ -18979,7 +19023,6 @@ san francisco
 snow
 40F
 50F
-monday
 rain
 30F
 40F
@@ -19002,7 +19045,6 @@ manhattan
 dry
 70F
 90F
-monday
 cloudy
 20F
 40F
@@ -19025,7 +19067,6 @@ seattle
 windy
 60F
 70F
-monday
 warm
 90F
 100F
@@ -19048,7 +19089,6 @@ oakland
 clear skies
 50F
 70F
-monday
 snow
 60F
 80F
@@ -19071,7 +19111,6 @@ exeter
 overcast
 60F
 70F
-monday
 windy
 50F
 60F
@@ -19094,7 +19133,6 @@ menlo park
 foggy
 50F
 70F
-monday
 clear skies
 60F
 70F
@@ -19117,7 +19155,6 @@ carson
 windy
 80F
 100F
-monday
 conference room 100
 discuss dress code
 9am
@@ -19178,30 +19215,37 @@ mother
 swimming activity
 6 miles
 heavy traffic
+parking garage
 550 Alester Ave
 Dish Parking
 4 miles
 heavy traffic
+grocery store
 452 Arcadia Pl
 Safeway
 3 miles
 heavy traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 4 miles
 heavy traffic
+home
 10 ames street
 home
 4 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 3 miles
 heavy traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 3 miles
 heavy traffic
+chinese restaurant
 830 Almanor Ln
 tai pan
 11am
@@ -19264,7 +19308,6 @@ san jose
 drizzle
 30F
 40F
-monday
 dry
 80F
 100F
@@ -19287,7 +19330,6 @@ downtown chicago
 windy
 50F
 60F
-monday
 cloudy
 50F
 60F
@@ -19310,7 +19352,6 @@ fresno
 rain
 20F
 40F
-monday
 windy
 30F
 50F
@@ -19333,7 +19374,6 @@ manhattan
 clear skies
 80F
 100F
-monday
 humid
 70F
 90F
@@ -19356,7 +19396,6 @@ exeter
 windy
 90F
 100F
-monday
 rain
 30F
 50F
@@ -19379,7 +19418,6 @@ san mateo
 drizzle
 70F
 90F
-monday
 windy
 90F
 100F
@@ -19402,7 +19440,6 @@ seattle
 clear skies
 60F
 80F
-monday
 9am
 the 11th
 father
@@ -19457,7 +19494,6 @@ brentwood
 warm
 50F
 70F
-monday
 clear skies
 30F
 50F
@@ -19480,7 +19516,6 @@ los angeles
 foggy
 90F
 100F
-monday
 windy
 40F
 50F
@@ -19503,7 +19538,6 @@ downtown chicago
 clear skies
 90F
 100F
-monday
 dry
 40F
 60F
@@ -19526,7 +19560,6 @@ oakland
 rain
 50F
 70F
-monday
 rain
 20F
 30F
@@ -19549,7 +19582,6 @@ manhattan
 foggy
 90F
 100F
-monday
 dry
 90F
 100F
@@ -19572,7 +19604,6 @@ cleveland
 windy
 20F
 30F
-monday
 drizzle
 20F
 40F
@@ -19595,7 +19626,6 @@ new york
 dry
 70F
 80F
-monday
 cloudy
 80F
 90F
@@ -19618,7 +19648,6 @@ downtown chicago
 windy
 70F
 80F
-monday
 foggy
 90F
 100F
@@ -19641,7 +19670,6 @@ redwood city
 foggy
 80F
 100F
-monday
 cloudy
 50F
 70F
@@ -19664,7 +19692,6 @@ san francisco
 clear skies
 60F
 80F
-monday
 clear skies
 30F
 40F
@@ -19687,7 +19714,6 @@ seattle
 overcast
 30F
 50F
-monday
 snow
 40F
 50F
@@ -19710,7 +19736,6 @@ cleveland
 cloudy
 30F
 40F
-monday
 warm
 60F
 80F
@@ -19733,7 +19758,6 @@ durham
 dry
 80F
 100F
-monday
 cloudy
 50F
 60F
@@ -19756,7 +19780,6 @@ grand rapids
 overcast
 90F
 100F
-monday
 cloudy
 60F
 80F
@@ -19779,7 +19802,6 @@ san francisco
 clear skies
 50F
 70F
-monday
 blizzard
 30F
 50F
@@ -19802,7 +19824,6 @@ compton
 clear skies
 30F
 50F
-monday
 raining
 80F
 100F
@@ -19825,7 +19846,6 @@ san jose
 foggy
 60F
 70F
-monday
 foggy
 40F
 60F
@@ -19848,7 +19868,6 @@ new york
 overcast
 90F
 100F
-monday
 cloudy
 50F
 70F
@@ -19871,7 +19890,6 @@ inglewood
 clear skies
 50F
 60F
-monday
 raining
 50F
 70F
@@ -19894,7 +19912,6 @@ manhattan
 raining
 20F
 40F
-monday
 raining
 80F
 90F
@@ -19917,7 +19934,6 @@ fresno
 clear skies
 30F
 50F
-monday
 warm
 30F
 40F
@@ -19940,7 +19956,6 @@ redwood city
 snow
 60F
 70F
-monday
 rain
 90F
 100F
@@ -19963,7 +19978,6 @@ new york
 overcast
 70F
 90F
-monday
 raining
 70F
 80F
@@ -19986,7 +20000,6 @@ menlo park
 foggy
 70F
 80F
-monday
 warm
 70F
 80F
@@ -20009,7 +20022,6 @@ mountain view
 foggy
 80F
 90F
-monday
 windy
 70F
 90F
@@ -20032,7 +20044,6 @@ san francisco
 hot
 70F
 80F
-monday
 raining
 90F
 100F
@@ -20055,7 +20066,6 @@ inglewood
 windy
 90F
 100F
-monday
 warm
 90F
 100F
@@ -20078,37 +20088,44 @@ durham
 hot
 30F
 40F
-monday
 4 miles
 heavy traffic
+chinese restaurant
 271 Springer Street
 Mandarin Roots
 6 miles
 no traffic
+gas station
 53 University Av
 Shell
 4 miles
 moderate traffic
+friends house
 347 Alta Mesa Ave
 jills house
 6 miles
 no traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 2 miles
 heavy traffic
+grocery store
 1313 Chester Ave
 Hacienda Market
 6 miles
 moderate traffic
+grocery store
 638 Amherst St
 Sigona Farmers Market
 4 miles
 car collision nearby
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 7 miles
 heavy traffic
+home
 10 ames street
 home
 humid
@@ -20133,7 +20150,6 @@ grand rapids
 snow
 90F
 100F
-monday
 stormy
 50F
 60F
@@ -20156,7 +20172,6 @@ san francisco
 drizzle
 30F
 40F
-monday
 misty
 50F
 60F
@@ -20179,7 +20194,6 @@ compton
 clear skies
 90F
 100F
-monday
 raining
 60F
 70F
@@ -20202,7 +20216,6 @@ new york
 snow
 30F
 50F
-monday
 drizzle
 40F
 50F
@@ -20225,7 +20238,6 @@ menlo park
 dry
 60F
 70F
-monday
 cloudy
 40F
 60F
@@ -20248,7 +20260,6 @@ redwood city
 misty
 40F
 50F
-monday
 stormy
 80F
 90F
@@ -20271,37 +20282,44 @@ atherton
 dew
 40F
 50F
-monday
 5 miles
 heavy traffic
+coffee or tea place
 792 Bedoin Street
 Starbucks
 7 miles
 no traffic
+shopping center
 773 Alger Dr
 Stanford Shopping Center
 2 miles
 no traffic
+chinese restaurant
 113 Arbol Dr
 Jing Jing
 6 miles
 car collision nearby
+rest stop
 333 Arbol Dr
 Travelers Lodge
 6 miles
 no traffic
+hospital
 214 El Camino Real
 Stanford Express Care
 1 miles
 heavy traffic
+parking garage
 550 Alester Ave
 Dish Parking
 1 miles
 road block nearby
+shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
 4 miles
 road block nearby
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 9am
@@ -20338,123 +20356,153 @@ father
 lab appointment
 4 miles
 moderate traffic
+home
 56 cadwell street
 home
 6 miles
 heavy traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 1 miles
 car collision nearby
+pizza restaurant
 110 Arastradero Rd
 Papa Johns
 5 miles
 no traffic
+coffee or tea place
 145 Amherst St
 Teavana
 1 miles
 heavy traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 5 miles
 car collision nearby
+rest stop
 657 Ames Ave
 The Clement Hotel
 3 miles
 car collision nearby
+parking garage
 550 Alester Ave
 Dish Parking
 1 miles
 moderate traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 3 miles
 heavy traffic
+pizza restaurant
 704 El Camino Real
 Pizza Hut
 5 miles
 no traffic
+rest stop
 578 Arbol Dr
 Hotel Keen
 6 miles
 no traffic
+home
 56 cadwell street
 home
 6 miles
 no traffic
+rest stop
 753 University Ave
 Comfort Inn
 2 miles
 heavy traffic
+coffee or tea place
 269 Alger Dr
 Cafe Venetia
 6 miles
 no traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 1 miles
 moderate traffic
+grocery store
 408 University Ave
 Trader Joes
 6 miles
 road block nearby
+gas station
 53 University Av
 Shell
 2 miles
 moderate traffic
+coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
 3 miles
 moderate traffic
+chinese restaurant
 669 El Camino Real
 P.F. Changs
 2 miles
 road block nearby
+grocery store
 409 Bollard St
 Willows Market
 2 miles
 moderate traffic
+chinese restaurant
 842 Arrowhead Way
 Panda Express
 5 miles
 moderate traffic
+friends house
 864 Almanor Ln
 jacks house
 6 miles
 moderate traffic
+certain address
 5677 southwest 4th street
 5677 southwest 4th street
 5 miles
 heavy traffic
+pizza restaurant
 915 Arbol Dr
 Pizza Chicago
 Webster Garage
 3 miles
 heavy traffic
+parking garage
 880 Ames Ct
 tai pan
 3 miles
 heavy traffic
+chinese restaurant
 830 Almanor Ln
 Chef Chu's
 5 miles
 heavy traffic
+chinese restaurant
 593 Arrowhead Way
 Jing Jing
 5 miles
 heavy traffic
+chinese restaurant
 113 Arbol Dr
 Palo Alto Garage R
 2 miles
 moderate traffic
+parking garage
 481 Amaranta Ave
 Mandarin Roots
 4 miles
 moderate traffic
+chinese restaurant
 271 Springer Street
 Palo Alto Cafe
 5 miles
 no traffic
+coffee or tea place
 436 Alger Dr
 misty
 80F
@@ -20478,7 +20526,6 @@ inglewood
 warm
 60F
 70F
-monday
 cloudy
 20F
 30F
@@ -20501,7 +20548,6 @@ compton
 clear skies
 20F
 40F
-monday
 cloudy
 60F
 70F
@@ -20524,7 +20570,6 @@ alhambra
 hot
 80F
 100F
-monday
 windy
 80F
 100F
@@ -20547,7 +20592,6 @@ oakland
 clear skies
 90F
 100F
-monday
 stormy
 40F
 60F
@@ -20570,7 +20614,6 @@ cleveland
 stormy
 70F
 80F
-monday
 foggy
 30F
 50F
@@ -20593,7 +20636,6 @@ boston
 overcast
 30F
 50F
-monday
 hail
 30F
 50F
@@ -20616,32 +20658,38 @@ redwood city
 overcast
 70F
 90F
-monday
 4 miles
 moderate traffic
+shopping center
 383 University Ave
 Town and Country
 6 miles
 moderate traffic
+grocery store
 452 Arcadia Pl
 Safeway
 3 miles
 no traffic
+hospital
 899 Ames Ct
 Stanford Childrens Health
 3 miles
 moderate traffic
+home
 5671 barringer street
 home
 4 miles
 no traffic
+pizza restaurant
 113 Anton Ct
 Round Table
 5 miles
 no traffic
+friends house
 347 Alta Mesa Ave
 jills house
 1 miles
 heavy traffic
+gas station
 200 Alester Ave
 Valero

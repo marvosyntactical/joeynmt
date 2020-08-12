@@ -45,12 +45,45 @@ Preprocessing:
 * batch convos with same kb together
 
 ####### Optimization
-* rewrite model.run\_batch post processing to use numpy funs instead of double for
-* figure out how to make joeynmt.vocabulary.Vocabulary object serializable for optional saving in joeynmt.data.load\_data 
-  * -> (not important since vocab is small now)
+* later
 
 
 ## _```Current Issues```_:
+
+
+### 12.08.20 data formatting issues
+
+* canonical target data has @poi\_type, @distance
+* knowledgebases have NO @poi\_type (used as key), @poi\_distance
+
+KB considerations:
+
+WEATHER:
+
+* canonical trg weather data not perfectly formatted:
+- some temperatures missing
+
+* canonical trg weather data contains: @location @weekly\_time @date
+
+TRAFFIC:
+
+* canonical trg data contains @poi\_type (a third (!) as often as poi\_name), add to kb as "stanford express care+hospital=hospital"!
+*DONE*
+
+
+
+
+
+
+
+Postprocessing:
+
+* "clear" (trv\_vocab.stoi[-1]) used as replacement for unmatched canonicals
+* => decide on some dummy token to use as default instead after above fixes!
+
+* inner pp for loop token check prints out tokens that arent even in the hypothesis???
+
+
 
 ### 10.08.20 jump back in: TODOS
 
@@ -72,19 +105,6 @@ Plotting:
 * does kb attention actually sum to 1 ???
   (should not be the case because for KBs with only dummy token, that should have high probability and always be favored to be output)
 
-Valid/Test Postprocessing:
-
-* (1. select top k => 2. restrict to matching => 3. choose top 1)
-* to
-* (1. restrict to matching => 2. select top 1)
-
-*DONE*
-
-
-
-
-
-2. if done, implement kb for transformer:
 
 ### 15.05.20 implement kb for transformer
 
@@ -125,6 +145,19 @@ TODO for actual gpu training:
 ---
 
 # Issues Archive
+
+
+## Old Issue
+### 11.08.20 postprocessing: failure to match canonicals
+Valid/Test Postprocessing:
+
+* (1. select top k => 2. restrict to matching => 3. choose top 1)
+* to
+* (1. restrict to matching => 2. select top 1)
+
+*DONE*
+
+
 
 ## Old Issue
 ### 08.05.20 debug kb batch matchup

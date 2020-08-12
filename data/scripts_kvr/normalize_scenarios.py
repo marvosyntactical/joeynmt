@@ -32,21 +32,26 @@ def normalize_weather(d):
     assert d["task"]["intent"]=="weather"
     locations = d["kb"]["items"]
     for location in locations:
+
         subject = location["location"]
         today = location["today"]
+
         for weekday in location.keys():
-            if weekday == "today": # add ("today", "date", "monday")
-                normed_kb.append((weekday, "date", location[weekday]))
-            elif weekday == "location": # add ("ohio", "location", "ohio")
+
+            if weekday == "location": # add ("ohio", "location", "ohio")
+
                 normed_kb.append((subject, weekday, location[weekday]))
-            else: # add ("san francisco", "monday weather", "rain")
+
+            elif weekday != "today": # add ("san francisco", "monday weather", "rain")
+
                 weather_info = location[weekday].split(",")
                 weather_attribute, temp_low, temp_high = weather_info
-                temp_low = temp_low.split()[-1] # just degree fahrenheit 
-                temp_high = temp_high.split()[-1] # just degree fahrenheit 
+
+                temp_low = temp_low.split()[-1] # just degree f
+                temp_high = temp_high.split()[-1] # just degree f
 
                 if weekday == today:
-                    weekday = "today"
+                    weekday += " today" #add "today" token to whichever day today is
 
                 normed_kb.append((subject,weekday+" weather",weather_attribute))
                 normed_kb.append((subject,weekday+" temperature low",temp_low))
@@ -71,8 +76,7 @@ def normalize_navigate(d):
     for blimp in blimps:
         subject = blimp["poi_type"]
         for relation in blimp.keys():
-            if relation != "poi_type":
-                normed_kb.append((subject,relation,blimp[relation]))
+            normed_kb.append((subject,relation,blimp[relation]))
     return normed_kb
 
 def normalize_schedule(d):

@@ -151,5 +151,5 @@
 					{"address": "783 Arcadia Pl", "poi": "Chevron", "type": "gas station"},	
 					{"address": "145 Amherst St", "poi": "Teavana", "type": "coffee or tea place"}
     			],
-    "distance": ["1 mile", "2 miles", "3 miles", "4 miles", "5 miles", "6 miles", "7 miles", "8 miles", "9 miles"]
+    "poi_distance": ["1 mile", "2 miles", "3 miles", "4 miles", "5 miles", "6 miles", "7 miles", "8 miles", "9 miles"]
 }
