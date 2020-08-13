@@ -64,7 +64,8 @@ WEATHER:
 - some temperatures missing
 
 * canonical trg weather data contains: @weekly\_time @date
-=> remove from kvret_entities_altered.json
+=> remove @weekly\_time from from kvret\_entities\_altered.json *DONE*
+=> add date to weather weekdays *DONE*
 
 TRAFFIC:
 

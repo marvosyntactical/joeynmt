@@ -15,12 +15,6 @@
                     "mountain view", "compton", "inglewood", "durham", "manhattan", "fresno",
                     "alameda", "alhambra", "atherton", "brentwood", "camarillo", "carson",
                     "corona", "danville"],
-    "weekly_time": ["today", "tomorrow", "week",
-                             "weekend",
-                             "next few days", 
-                             "two day",
-                             "next week"
-                    ],
     "temperature": [20, 30, 40, 50, 60, 70, 80, 90, 100, "20 f", "30 f", "40 f", "50 f", "60 f", "70 f", "80 f", "90 f", "100 f"],
     "weather_attribute": ["lowest temperature", "highest temperature", "overcast",
                      "snow", "stormy", "hail",

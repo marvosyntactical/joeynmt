@@ -706,8 +706,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         if kb_keys != None:
             u_t = self.kvr_attention(query=query) 
-            #print\("u_t")
-            #print\(u_t.shape) # batch_size x 1 x kb_size
+            #print("u_t")
+            #print(u_t.shape) # batch_size x 1 x kb_size
 
             #TODO resulting v_t should be batch_size x 1 x (trg_emb + kb)
         else:
@@ -715,11 +715,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
-        #print\("self.hidden_size: ", self.hidden_size)
-        #print\("[query,context]")
-        #print\("query: ", query.shape)
-        #print\("context: ", context.shape)
-        #print\("encoder_output; last dim should be encoder hidden (config) * 1/2 (if bidir)", encoder_output.shape)
+        #print("self.hidden_size: ", self.hidden_size)
+        #print("[query,context]")
+        #print("query: ", query.shape)
+        #print("context: ", context.shape)
+        #print("encoder_output; last dim should be encoder hidden (config) * 1/2 (if bidir)", encoder_output.shape)
         att_vector_input = torch.cat([query, context], dim=2)
         # batch x 1 x (2*)enc_size+hidden_size
         
@@ -1052,6 +1052,7 @@ class Generator(Gen):
             outputs[B, U, kb_values] += kb_probs
 
         # compute log probs
-        log_probs = F.log_softmax(outputs, dim=-1)
+        log_probs = F.log_softmax(outputs, dim=-1) 
+        # in default joeynmt, log softmax isnt always used. now it is always called at the end of model.forward right here
 
         return log_probs 

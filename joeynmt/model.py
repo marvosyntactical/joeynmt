@@ -382,7 +382,7 @@ class Model(nn.Module):
                     print(f"pp: while deciding for hypothesis:\n{hypotSent}")
                     print(f"pp: decoded hypothesis thus far:\n{trvSent(post_proc_hyp)}")
 
-                    # assert str_tok[0] in hypotSent, (str_tok, hypotSent)
+                    assert str_tok[0] in hypotSent, (str_tok, hypotSent)
 
                     matching_trv_candidates = np.where(kb_val==token, kb_trv, -1) 
                     #1 dim array of kb true values if belonging to same canonical category (time/distance) as token
@@ -407,6 +407,7 @@ class Model(nn.Module):
                         print(f"pp: matching_trv_candidates in descending order of attention:\n\
                             {trvSent(top_match_candids[top_match_candids!=-1].tolist())}")
 
+
                         top1_match = matching_trv_candidates[top_matching[0]]
                         print(f"pp: top1_match:\n\
                             {trvSent([top1_match])}")
@@ -423,11 +424,11 @@ class Model(nn.Module):
                         scores = kb_att[i,step,:]
                         hi_scores = np.argsort(scores)[::-1].copy()
                         print(f"pp: failure debug: highest attended tokens overall:\n\
-                            {trvSent(matching_trv_candidates[hi_scores].tolist())}")
+                            {trvSent(kb_trv[hi_scores].tolist())}")
 
                         print(f"pp: CURRENT POLICY: REPLACING FOUND CANONICAL {str_tok} WITH NON-MATCHING HIGHEST ATTENDED")
 
-                        top1_but_not_matching = matching_trv_candidates[hi_scores[0]]
+                        top1_but_not_matching = kb_trv[hi_scores[0]]
 
                         post_proc_hyp.append(top1_but_not_matching) # didnt find a match for this, policy: append highest attended but non matching token
                     
@@ -440,7 +441,7 @@ class Model(nn.Module):
         print()
         print(f"pp: post processed hyps:\n{self.trv_vocab.arrays_to_sentences(post_proc_stacked_output)}")
         print()
-        print(f"pp: knowledgebase: {trvSent(kb_trv.tolist())}")
+        print(f"pp: knowledgebase: {trvSent(kb_trv.tolist()[:40])}")
         print()
         print("[[[[[[[[[[[[[[ END POSTPROC VALID/TEST BATCH ]]]]]]]]]]]]]]")
 

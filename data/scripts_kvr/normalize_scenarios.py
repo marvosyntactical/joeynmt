@@ -53,6 +53,7 @@ def normalize_weather(d):
                 if weekday == today:
                     weekday += " today" #add "today" token to whichever day today is
 
+                normed_kb.append((subject,weekday+" date",weekday.split()[-1])) # 'monday' or 'today'
                 normed_kb.append((subject,weekday+" weather",weather_attribute))
                 normed_kb.append((subject,weekday+" temperature low",temp_low))
                 normed_kb.append((subject,weekday+" temperature high",temp_high))
@@ -74,7 +75,7 @@ def normalize_navigate(d):
     assert d["task"]["intent"]=="navigate"
     blimps = d["kb"]["items"]
     for blimp in blimps:
-        subject = blimp["poi_type"]
+        subject = blimp["poi_type"] + " " + blimp["poi"]
         for relation in blimp.keys():
             normed_kb.append((subject,relation,blimp[relation]))
     return normed_kb
@@ -119,7 +120,6 @@ def main(args):
 
     normed_kbs_inner = [triple for scenario in normed_kbs for triple in scenario]
     kb_list = ["::".join(t)+"\n" for t in normed_kbs_inner]
-
 
     """
     LATEST TODO:

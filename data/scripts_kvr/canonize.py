@@ -138,6 +138,8 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                  "20", "30","40","50","60","70","80","90","100",#temperatures
                  "next", "two",#weekly time
                  "four",#poi name
+                 "go",#agenda
+                 "rest",#poi_type
                 ]
     r = []
     i = 0
