@@ -9,6 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
+
 class AttentionMechanism(nn.Module):
     """
     Base attention class
@@ -136,7 +137,7 @@ class KeyValRetAtt(AttentionMechanism):
     from eric et al.
     """
 
-    def __init__(self, hidden_size=1, key_size=1, query_size=1, n=1):
+    def __init__(self, hidden_size=1, key_size=1, query_size=1,kb_max=256,n=1):
         """
         Creates key value retrieval attention mechanism.
         hidden refers to attention layer hidden, not decoder or encoder hidden
@@ -154,6 +155,12 @@ class KeyValRetAtt(AttentionMechanism):
         self.query_layer = nn.Linear(query_size, hidden_size, bias=False)
         self.energy_layer = nn.Linear(hidden_size, 1, bias=False)
 
+        # multihop attention
+        self.kb_max = kb_max # atm weather kb are max at 203
+        self.curr_kb_size = None
+        self.khop = 5
+        self.multihop_feeding = nn.Linear(query_size+kb_max, query_size,bias=False)
+        
 
         self.proj_keys = None   # to store projected keys
         self.proj_query = None  # projected query
@@ -172,24 +179,47 @@ class KeyValRetAtt(AttentionMechanism):
 
         assert self.proj_keys is not None,\
             "projection keys have to get pre-computed"
+        assert self.curr_kb_size is not None,\
+            "projection keys have to get pre-computed"
 
-        # We first project the query (the decoder state).
-        # The projected keys (the knowledgebase entry sums) were already pre-computated.
-        self.compute_proj_query(query)
 
-        # Calculate u_t.
-        # proj_keys: batch x kb_size x hidden_size
-        # proj_query: batch x 1 x hidden_size
-        u_t = self.energy_layer(torch.tanh(self.proj_query + self.proj_keys))
-        # u_t: batch x kb_size x 1
+        u_t_k = None
 
-        # this is done to make the singleton dimension the unroll steps dim
-        # to concatenate 1..t...T together and get the same shape
-        # as outputs
-        u_t = u_t.squeeze(2).unsqueeze(1)
-        # u_t: batch x 1 x kb_size
+        for k in range(self.khop):
+            # u_t_k = batch x 1 x kb_max
+            # query = batch x 1 x dec.hidden
+            if u_t_k is not None: # successive multihop attention passes
+                query_k = torch.cat([u_t_k, query], dim=-1) # query_k = batch x 1 x dec.hidden + kb_max
+                query_k = self.multihop_feeding(query_k) # query_k = batch x 1 x dec.hidden
+            else: # first attention pass
+                query_k = query
 
-        # assert u_t.shape[0] == 3, u_t.shape
+            # We first project the query (the decoder state).
+            # The projected keys (the knowledgebase entry sums) were already pre-computed.
+            self.compute_proj_query(query_k)
+            # self.proj_query= batch x 1 x hidden
+
+
+            # Calculate u_t_k. (kb entry utilities at decoding step t and multihop pass k)
+
+            # proj_keys: batch x kb_max x hidden_size
+            # proj_query: batch x 1 x hidden
+
+            u_t_k = self.energy_layer(torch.tanh(self.proj_query + self.proj_keys))
+            # u_t_k: batch x kb_max x 1
+            # ('+' repeats query required number of times (kb) along dim 1)
+
+
+            u_t_k = u_t_k.squeeze(2).unsqueeze(1)
+            # u_t_k: batch x 1 x kb_max
+
+            # this is also done to make the singleton dimension the unroll steps dim
+            # to concatenate 1..t...T together and get the same shape
+            # as outputs
+
+        u_t = u_t_k[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
+
+        # assert False, (u_t.shape, u_t)
 
         return u_t
 
@@ -198,9 +228,24 @@ class KeyValRetAtt(AttentionMechanism):
         Compute the projection of the keys.
         Is efficient if pre-computed before receiving individual queries.
 
-        :param keys:
+        :param keys: batch x kb x trg_emb
         :return:
         """
+        # kb dim will get used in multihop feeding input dimension, so it needs to be the same always
+        # kb dim is determined by keys input only
+        # solution: 
+        # pad key tensor along that dimension up to kb max with 0.0
+        # and remember true kb size
+
+        self.curr_kb_size = keys.shape[1]
+
+        padding = self.kb_max - self.curr_kb_size
+        assert padding >= 0, f"kb dim of keys {keys.shape} appears to be larger than self.kb_max={self.kb_max}"
+
+        keys_pad = torch.zeros(keys.shape[0],padding,keys.shape[2])
+        keys = torch.cat([keys,keys_pad], dim=1)
+
+
         self.proj_keys = self.key_layer(keys)
 
     def compute_proj_query(self, query: Tensor):

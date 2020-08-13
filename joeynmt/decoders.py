@@ -7,6 +7,7 @@ from typing import Optional, Tuple
 import time
 from copy import deepcopy
 
+import random # remove me TODO FIXME
 import numpy as np # TODO remove!
 
 import torch
@@ -819,7 +820,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             self.attention.compute_proj_keys(keys=encoder_output)
 
         if hasattr(self.kvr_attention, "compute_proj_keys") and kb_keys != None:
-            self.kvr_attention.compute_proj_keys(keys=kb_keys)
+            # i believe kb_keys is: batch x kb x trg_emb
+            self.kvr_attention.compute_proj_keys(keys=kb_keys) 
         # here we store all intermediate attention vectors (used for prediction)
         att_vectors = []
         att_probs = []
