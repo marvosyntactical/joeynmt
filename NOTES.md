@@ -63,7 +63,8 @@ WEATHER:
 * canonical trg weather data not perfectly formatted:
 - some temperatures missing
 
-* canonical trg weather data contains: @location @weekly\_time @date
+* canonical trg weather data contains: @weekly\_time @date
+=> remove from kvret_entities_altered.json
 
 TRAFFIC:
 
@@ -72,16 +73,14 @@ TRAFFIC:
 
 
 
-
-
-
-
 Postprocessing:
 
 * "clear" (trv\_vocab.stoi[-1]) used as replacement for unmatched canonicals
 * => decide on some dummy token to use as default instead after above fixes!
 
-* inner pp for loop token check prints out tokens that arent even in the hypothesis???
+* inner pp for loop token if check triggers on tokens that arent even in the hypothesis???
+(according to prints)
+=> assertion added; this doesnt trigger; investigate in next training output
 
 
 
