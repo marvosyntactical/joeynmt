@@ -149,8 +149,8 @@ def recurrent_greedy(
 # pylint: disable=unused-argument
 def transformer_greedy(
         src_mask: Tensor, embed: Embeddings,
-        bos_index: int, max_output_length: int, decoder: Decoder,
-        encoder_output: Tensor, encoder_hidden: Tensor, knowledgebase:Tuple=None) -> (np.array, np.array):
+        bos_index: int, max_output_length: int, decoder: Decoder, generator: Gen,
+        encoder_output: Tensor, encoder_hidden: Tensor, knowledgebase:Tuple=(None,None,None)) -> (np.array, np.array):
 
     """
     Special greedy function for transformer, since it works differently.
@@ -164,11 +164,19 @@ def transformer_greedy(
     :param generator: generator to use as output layer 
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder final state (unused in Transformer)
+    :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
     """
-
+    kb_att_scores = None
+    if knowledgebase == None: # not kb task
+        knowledgebase = (None,)*3
+    elif knowledgebase == (None, None,None): # also not kb task
+        pass
+    else: # kb task!
+        kb_att_scores = []
+    
     batch_size = src_mask.size(0)
 
     # start with BOS-symbol for each sentence in the batch
@@ -183,7 +191,7 @@ def transformer_greedy(
 
         # pylint: disable=unused-variable
         with torch.no_grad():
-            out, _, _ = decoder(
+            _ , _, out, kb_probs = decoder(
                 trg_embed=trg_embed,
                 encoder_output=encoder_output,
                 encoder_hidden=None,
@@ -192,15 +200,23 @@ def transformer_greedy(
                 hidden=None,
                 trg_mask=trg_mask
             )
-            logits = generator(out) #TODO write transformer search for knowledgebase task
+            logits = generator(out,kb_values=knowledgebase[1],kb_probs=kb_probs)
 
-            logits = logits[:, -1]
+            logits = logits[:, -1] # TODO FIXME what does this do? what dims are this
             _, next_word = torch.max(logits, dim=1)
             next_word = next_word.data
             ys = torch.cat([ys, next_word.unsqueeze(-1)], dim=1)
+            
+            if kb_probs is not None:
+                kb_att_scores.append(kb_probs)
+    
+    if kb_att_scores is not None:
+        stacked_kb_att_scores = np.stack(kb_att_scores, axis=1)
+    else:
+        stacked_kb_att_scores = None
 
     ys = ys[:, 1:]  # remove BOS-symbol
-    return ys, None
+    return ys, None, stacked_kb_att_scores
 
 
 # pylint: disable=too-many-statements,too-many-branches

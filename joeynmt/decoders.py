@@ -1000,8 +1000,8 @@ class TransformerDecoder(Decoder):
             x, kb_probs = layer(x=x, memory=encoder_output, kb_keys=kb_keys,
                       src_mask=src_mask, trg_mask=trg_mask)
         
-
         x = self.layer_norm(x)
+
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
         return None, None, x, kb_probs

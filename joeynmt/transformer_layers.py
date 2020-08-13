@@ -336,4 +336,8 @@ class TransformerDecoderLayer(nn.Module):
         # final position-wise feed-forward layer
         o = self.feed_forward(self.dropout(h2) + h1)
 
+        if kb_keys is None:
+            h2 = None
+        # h2 is kb attentions or None
+        
         return o, h2
