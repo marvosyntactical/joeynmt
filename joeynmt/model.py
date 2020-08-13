@@ -382,7 +382,7 @@ class Model(nn.Module):
                     print(f"pp: while deciding for hypothesis:\n{hypotSent}")
                     print(f"pp: decoded hypothesis thus far:\n{trvSent(post_proc_hyp)}")
 
-                    assert str_tok[0] in hypotSent, (str_tok, hypotSent)
+                    # assert str_tok[0] in hypotSent, (str_tok, hypotSent)
 
                     matching_trv_candidates = np.where(kb_val==token, kb_trv, -1) 
                     #1 dim array of kb true values if belonging to same canonical category (time/distance) as token
