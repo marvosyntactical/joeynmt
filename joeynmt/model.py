@@ -549,10 +549,9 @@ def build_model(cfg: dict = None,
     dec_dropout = cfg["decoder"].get("dropout", 0.)
     dec_emb_dropout = cfg["decoder"]["embeddings"].get("dropout", dec_dropout)
     if cfg["decoder"].get("type", "recurrent") == "transformer":
-        assert not kb, "Transformer with kb not implemented yet"
         decoder = TransformerDecoder(
             **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
+            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, kb_task=kb)
     else:
         if not kb:
             decoder = RecurrentDecoder(

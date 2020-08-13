@@ -925,6 +925,7 @@ class TransformerDecoder(Decoder):
                  vocab_size: int = 1,
                  freeze: bool = False,
                  emb_size: int = 0,
+                 kb_task: bool=False,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -938,6 +939,7 @@ class TransformerDecoder(Decoder):
         :param vocab_size: size of the output vocabulary
         :param freeze: set to True keep all decoder parameters fixed
         :param emb_size: if given, perform knowledgebase task (FIXME: this should be src emb size, but atm its trg_emb...)
+        :param kb_task: performing kb_task or not? used in layer init
         :param kwargs:
         """
         super(TransformerDecoder, self).__init__()
@@ -948,7 +950,7 @@ class TransformerDecoder(Decoder):
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout) for _ in range(num_layers)],)
+                dropout=dropout, kb_task=kb_task) for _ in range(num_layers)],)
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)

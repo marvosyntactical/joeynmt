@@ -49,7 +49,7 @@ training:
     logging_freq: 100
     eval_metric: "bleu"
     model_dir: "models/tf"
-    overwrite: False 
+    overwrite: True
     shuffle: True
     use_cuda: False 
     max_output_length: 128
@@ -57,6 +57,7 @@ training:
     keep_last_ckpts: 5
 
 model:
+    kb: True                        # kb decoder to be used or not?
     initializer: "xavier"
     embed_initializer: "xavier"
     embed_init_gain: 1.0

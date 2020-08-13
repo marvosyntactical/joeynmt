@@ -58,15 +58,18 @@ class MultiHeadedAttention(nn.Module):
         q = self.q_layer(q)
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x key_len x head_size
         v = v.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
-        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+
+        print(f"k={k.shape}, q={q.shape}")
 
         # compute scores
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
+        print(f"scores={scores.shape}")
 
         # apply the mask (if we have one)
         # we add a dimension for the heads to it below: [B, 1, 1, M]
@@ -75,13 +78,17 @@ class MultiHeadedAttention(nn.Module):
 
         # apply attention dropout and compute context vectors.
         attention = self.softmax(scores)
-        attention = self.dropout(attention)
+        attention = self.dropout(attention) # batch x num_h x ? x ?
+        print(f"attention={attention.shape}")
 
         # get context vector (select values with attention) and reshape
         # back to [B, M, D]
         context = torch.matmul(attention, v)
         context = context.transpose(1, 2).contiguous().view(
             batch_size, -1, num_heads * self.head_size)
+
+        # assert False, (attention.shape, context.shape, v.shape)
+        # (torch.Size([39, 4, 18, 18]), torch.Size([39, 18, 64]), torch.Size([39, 4, 18, 16]))
 
         output = self.output_layer(context)
 
@@ -92,15 +99,13 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
     """
     Multi-Head Kb Attention module similar to "Eric et al.'s" which used bahdanau attention
 
-    TODO write this class
-    for the moment I will try to use the existing joeynmt.attention.KeyValRetAtt
     """
 
     def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
         """
         Computes multi-headed attention.
 
-        :param k: keys   [B, M, D] with M being the sentence length.
+        :param k: keys   [B, M, D] with M being the sentence length (Max)
         :param v: values [B, M, D]
         :param q: query  [B, M, D]
         :param mask: optional mask [B, 1, M]
@@ -114,14 +119,16 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         q = self.q_layer(q)
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
-        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x kb x head_size
+        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+        print(f"k={k.shape}, q={q.shape}")
 
         # compute scores
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
+        print(f"scores={scores.shape}")
 
         # apply the mask (if we have one)
         # we add a dimension for the heads to it below: [B, 1, 1, M]
@@ -130,11 +137,14 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
         # apply attention dropout
         attention = self.softmax(scores)
-        attention = self.dropout(attention)
+        attention = self.dropout(attention) # batch x num_heads x query_len x KB
 
-        # TODO FIXME find out attention shape
+        # attention should be reshaped to [B, M, KB, D] 
+        attention = attention.transpose(2,3).contiguous()
+        assert False, attention.shape
+        output = self.output_layer(attention)
 
-        return attention
+        return output
 
 
 
@@ -324,14 +334,15 @@ class TransformerDecoderLayer(nn.Module):
 
         # source-target attention
         h1_norm = self.dec_layer_norm(h1)
-        h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) #TODO Q: why is src masked?
+        h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) 
+        #NOTE Q: why is src masked? A: to learn stepwise prediction for inference time
 
         if kb_keys is not None:
             
             # kb-target attention
-            h2_norm = self.kb_layer_norm(h2) 
+            h2_norm = self.kb_layer_norm(h2) # dims not changed
             h3 = self.kb_trg_att(kb_keys, kb_keys, h2_norm) # TODO find out if I have to apply src_mask here too
-            h1,h2 = h2,h3
+            h1, h2 = h2, h3
 
         # final position-wise feed-forward layer
         o = self.feed_forward(self.dropout(h2) + h1)
@@ -339,5 +350,6 @@ class TransformerDecoderLayer(nn.Module):
         if kb_keys is None:
             h2 = None
         # h2 is kb attentions or None
+
         
         return o, h2
