@@ -18,8 +18,8 @@ import numpy as np
 
 import torch
 from torch import nn, Tensor
-# FIXME
-#from torch.utils.tensorboard import SummaryWriter
+
+from torch.utils.tensorboard import SummaryWriter
 
 from torchtext.data import Dataset
 import yaml
@@ -180,9 +180,7 @@ def bpe_postprocess(string) -> str:
 def store_attention_plots(attentions: np.array, targets: List[List[str]],
                           sources: List[List[str]],
                           output_prefix: str, indices: List[int],
-                          #FIXME
-                          #tb_writer: Optional[SummaryWriter] = None,
-                          tb_writer: Optional = None,
+                          tb_writer: Optional[SummaryWriter] = None,
                           steps: int = 0,
                           kb_info: Tuple[List[int]] = None) -> str:
     """

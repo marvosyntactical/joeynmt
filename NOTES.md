@@ -44,6 +44,10 @@ This is a general list of minor technical TODOs that should be useful in any cas
 Preprocessing:
 * batch convos with same kb together
 
+Postprocessing:
+* pp assertion (canonical token in hypothesis) triggers; investigate in next training output
+* does kb attention actually sum to 1 ???
+
 ####### Optimization
 * later
 
@@ -51,71 +55,18 @@ Preprocessing:
 ## _```Current Issues```_:
 
 
-### 12.08.20 data formatting issues
-
-* canonical target data has @poi\_type, @distance
-* knowledgebases have NO @poi\_type (used as key), @poi\_distance
-
-KB considerations:
-
-WEATHER:
-
-* canonical trg weather data not perfectly formatted:
-- some temperatures missing
-
-* canonical trg weather data contains: @weekly\_time @date
-=> remove @weekly\_time from from kvret\_entities\_altered.json *DONE*
-=> add date to weather weekdays *DONE*
-
-TRAFFIC:
-
-* canonical trg data contains @poi\_type (a third (!) as often as poi\_name), add to kb as "stanford express care+hospital=hospital"!
-*DONE*
-
-
-
-Postprocessing:
-
-* "clear" (trv\_vocab.stoi[-1]) used as replacement for unmatched canonicals
-* => decide on some dummy token to use as default instead after above fixes!
-
-* inner pp for loop token if check triggers on tokens that arent even in the hypothesis???
-(according to prints)
-=> assertion added; this doesnt trigger; investigate in next training output
-
-
-
-### 10.08.20 jump back in: TODOS
-
-1. whats not working in stock impl?
-
-* choose best model based on bleu not ppl??
-=> early stopping metric in config set to eval\_metric or anything
-
-
-
-1a. find out whats not working with postprocessing: 
-
-* lookup/token matching gone wild?
-
-Plotting:
-* valid\_kb.kbtrv ist LEER! (=> versuche plotting mit kbtrg zu reetablieren)
- TorchBatchWithKB.kbtrv ist schon immer leer!!!
-* dev.lkp ist FALSCH (=> entspr. teil der preprocessing pipeline durchgehen)
-* does kb attention actually sum to 1 ???
-  (should not be the case because for KBs with only dummy token, that should have high probability and always be favored to be output)
 
 
 ### 15.05.20 implement kb for transformer
 
-steps:
+Redo steps:
 
 1. merge generator branch back
 -> Done
 2. test backwards compatibility for rnn without kb task
 -> Also Done
 3. test backwards compatibility for transformer without kb task
--> Done Too
+-> Redo
 
 4. implement kb for transformer:
 * interface wise just need to generate kb\_probs somewhere within transformerdecoder
@@ -145,6 +96,65 @@ TODO for actual gpu training:
 ---
 
 # Issues Archive
+
+## Old Issue
+### 10.08.20 jump back in: TODOS
+
+1. whats not working in stock impl?
+
+* choose best model based on bleu not ppl??
+=> early stopping metric in config set to eval\_metric or anything
+
+
+
+1a. find out whats not working with postprocessing: 
+
+* lookup/token matching gone wild?
+
+Plotting:
+* valid\_kb.kbtrv ist LEER! (=> versuche plotting mit kbtrg zu reetablieren)
+ TorchBatchWithKB.kbtrv ist schon immer leer!!!
+* dev.lkp ist FALSCH (=> entspr. teil der preprocessing pipeline durchgehen)
+* does kb attention actually sum to 1 ???
+  (should not be the case because for KBs with only dummy token, that should have high probability and always be favored to be output)
+
+
+
+## Old Issue
+### 12.08.20 data formatting issues
+
+* canonical target data has @poi\_type, @distance
+* knowledgebases have NO @poi\_type (used as key), @poi\_distance 
+
+*DONE*
+
+KB considerations:
+
+WEATHER:
+
+* canonical trg weather data not perfectly formatted:
+- some temperatures missing
+
+* canonical trg weather data contains: @weekly\_time @date
+=> remove @weekly\_time from from kvret\_entities\_altered.json *DONE*
+=> add date to weather weekdays *DONE*
+
+TRAFFIC:
+
+* canonical trg data contains @poi\_type (a third (!) as often as poi\_name), add to kb as "stanford express care+hospital=hospital"!
+*DONE*
+
+
+Postprocessing:
+
+* "clear" (trv\_vocab.stoi[-1]) used as replacement for unmatched canonicals
+switched replacement array to kb\_trv, now actual replacements should be used
+
+* inner pp for loop token if check triggers on tokens that arent even in the hypothesis???
+(according to prints)
+=> assertion added; this doesnt trigger; investigate in next training output
+* does kb attention actually sum to 1 ???
+
 
 
 ## Old Issue

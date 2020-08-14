@@ -854,7 +854,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         att_probs = torch.cat(att_probs, dim=1)
         # att_probs: batch, unroll_steps, src_length
 
-        kb_probs = torch.cat(kb_probs, dim=1)
+        kb_probs = torch.cat(kb_probs, dim=1) # batch x unroll x kb
 
         return hidden, att_probs, att_vectors, kb_probs
 
@@ -927,6 +927,7 @@ class TransformerDecoder(Decoder):
                  vocab_size: int = 1,
                  freeze: bool = False,
                  emb_size: int = 0,
+                 kb_task: bool=False,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -940,6 +941,7 @@ class TransformerDecoder(Decoder):
         :param vocab_size: size of the output vocabulary
         :param freeze: set to True keep all decoder parameters fixed
         :param emb_size: if given, perform knowledgebase task (FIXME: this should be src emb size, but atm its trg_emb...)
+        :param kb_task: performing kb_task or not? used in layer init
         :param kwargs:
         """
         super(TransformerDecoder, self).__init__()
@@ -950,7 +952,7 @@ class TransformerDecoder(Decoder):
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout) for _ in range(num_layers)],)
+                dropout=dropout, kb_task=kb_task) for _ in range(num_layers)],)
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -986,6 +988,7 @@ class TransformerDecoder(Decoder):
         :param hidden: unused
         :param trg_mask: to mask out target paddings
                          Note that a subsequent mask is applied here.
+        :param kb_keys: knowledgebase keys
         :param kwargs:
         :return:
         """
@@ -1002,8 +1005,8 @@ class TransformerDecoder(Decoder):
             x, kb_probs = layer(x=x, memory=encoder_output, kb_keys=kb_keys,
                       src_mask=src_mask, trg_mask=trg_mask)
         
-
         x = self.layer_norm(x)
+
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
         return None, None, x, kb_probs
@@ -1034,7 +1037,10 @@ class Generator(Gen):
         # transformer: x
         # recurrent: att_vectors
 
-        outputs = self.output_layer(x)
+        # kb_values/keys should be: batch x unroll x kb
+        # for transformer it should be: B x M x kb
+
+        outputs = self.output_layer(x) # probably: B x M x Voc
 
         if kb_values is not None:
 
