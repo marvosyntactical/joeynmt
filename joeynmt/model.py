@@ -302,7 +302,10 @@ class Model(nn.Module):
             max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
 
         if hasattr(batch, "kbsrc"):
+            # B x KB x EMB; B x KB; B x KB
             kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
+            oldshape = kb_values.shape
+            # assert kb_values.shape[1] == 1, kb_values.shape 
             knowledgebase = (kb_keys, kb_values)
         else:
             knowledgebase = None
@@ -335,11 +338,13 @@ class Model(nn.Module):
             with self.Timer("postprocessing hypotheses"):
                 # replace kb value tokens with actual values in hypotheses, e.g. 
                 # ['your','conference','is','at','@meeting_time'] => ['your', 'conference', 'is', 'at', '7pm']
+                # assert kb_values.shape[1] == 1, kb_values.shape
                 stacked_output = self.postprocess_batch_hypotheses(stacked_output, stacked_kb_att_scores, kb_values, kb_trv)
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
     
-    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_trv) -> np.array:
+    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_truval) -> np.array:
+
         """
         called in self.run_batch() during knowledgebase task
 
@@ -350,14 +355,17 @@ class Model(nn.Module):
         :param stacked_output: Tensor
         :param stacked_kb_att_scores: Tensor
         :param kb_values: Tensor
-        :param kb_trv: Tensor
+        :param kb_truval: Tensor
         :return: post_proc_stacked_output
         """
 
-        kb_trv = kb_trv.cpu().numpy()[0,:] # kb (1 dim)         # used as replacement
-        kb_val = kb_values.cpu().numpy()[0,0,:] # kb  (1 dim)   # used for indexing
-        kb_att = stacked_kb_att_scores # batch x time x kb      # local attention ordering info (used for indexing)
 
+        #                          dimensions:  # (recurrent)         # (transf)    # use:
+        kb_trv = kb_truval.cpu().numpy()[0,:]   # kb                  # kb          # used as replacement
+        kb_val = kb_values.cpu().numpy()[0,0,:] # kb                  # kb          # used for indexing
+        kb_att = stacked_kb_att_scores          # batch x unroll x kb # B x M x KB  # local attention ordering info (used for indexing)
+
+        # assert kb_values.shape[2] == 1, (kb_values.shape, kb_val.shape, kb_att.shape, kb_truval.shape, stacked_output.shape)
 
         print("[[[[[[[[[[[[[[ START POSTPROC VALID/TEST BATCH ]]]]]]]]]]]]]]")
 
@@ -369,7 +377,6 @@ class Model(nn.Module):
 
         for i, hyp in enumerate(outputs):
             post_proc_hyp = []
-
             for step, token in enumerate(hyp): # go through i_th hypothesis
                 # (token is integer index in self.trg_vocab)
 

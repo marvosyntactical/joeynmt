@@ -4,6 +4,7 @@ import torch.nn.functional as F
 from torch import Tensor
 import numpy as np
 from typing import Tuple
+from copy import deepcopy
 
 from joeynmt.decoders import Decoder, TransformerDecoder, Gen
 from joeynmt.embeddings import Embeddings
@@ -169,13 +170,8 @@ def transformer_greedy(
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
     """
-    kb_att_scores = None
     if knowledgebase == None: # not kb task
         knowledgebase = (None,)*3
-    elif knowledgebase == (None, None,None): # also not kb task
-        pass
-    else: # kb task!
-        kb_att_scores = []
     
     batch_size = src_mask.size(0)
 
@@ -198,20 +194,21 @@ def transformer_greedy(
                 src_mask=src_mask,
                 unroll_steps=None,
                 hidden=None,
-                trg_mask=trg_mask
+                trg_mask=trg_mask,
+                kb_keys=knowledgebase[0],
             )
-            logits = generator(out,kb_values=knowledgebase[1],kb_probs=kb_probs)
+            # warning kb_values before: B x KB
+            logits = generator(out, kb_values=knowledgebase[1], kb_probs=kb_probs)
+            # warning kb_values after: B x 1 x KB
 
             logits = logits[:, -1] # TODO FIXME what does this do? what dims are this
             _, next_word = torch.max(logits, dim=1)
             next_word = next_word.data
             ys = torch.cat([ys, next_word.unsqueeze(-1)], dim=1)
             
-            if kb_probs is not None:
-                kb_att_scores.append(kb_probs)
     
-    if kb_att_scores is not None:
-        stacked_kb_att_scores = np.stack(kb_att_scores, axis=1)
+    if kb_probs is not None: # last returned kb_probs (maximum length)
+        stacked_kb_att_scores = kb_probs.cpu().numpy() # B x M x KB
     else:
         stacked_kb_att_scores = None
 

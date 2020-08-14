@@ -852,7 +852,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         att_probs = torch.cat(att_probs, dim=1)
         # att_probs: batch, unroll_steps, src_length
 
-        kb_probs = torch.cat(kb_probs, dim=1)
+        kb_probs = torch.cat(kb_probs, dim=1) # batch x unroll x kb
 
         return hidden, att_probs, att_vectors, kb_probs
 
@@ -986,6 +986,7 @@ class TransformerDecoder(Decoder):
         :param hidden: unused
         :param trg_mask: to mask out target paddings
                          Note that a subsequent mask is applied here.
+        :param kb_keys: knowledgebase keys
         :param kwargs:
         :return:
         """
@@ -1034,7 +1035,10 @@ class Generator(Gen):
         # transformer: x
         # recurrent: att_vectors
 
-        outputs = self.output_layer(x)
+        # kb_values/keys should be: batch x unroll x kb
+        # for transformer it should be: B x M x kb
+
+        outputs = self.output_layer(x) # probably: B x M x Voc
 
         if kb_values is not None:
 
