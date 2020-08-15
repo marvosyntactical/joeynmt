@@ -26,12 +26,11 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
   * it seems like ALL (not just KB) named entities are linked
   * pick NER (StanfordNER prob used by authors -> finally get this to work) vs (SOTA NER) (Ask Artem: which is higher: reproducing results or achieving good ones)
   * at what point to we link to _ner-canonical-name_? probably before producing vocab file; also save occurence probabilities in train data (only utterances?also kb?) for later backgeneration
-  * so during preprocessing, before generating any of the files used by *load_data*, let NER run over the utterances (and kb? here, referring expressions have no context. this impacts choice of NER system) and cluster, saving clusters and occurrence rates. Clusters are then named, this _ner-canonical-name_ is substituted for all referring expressions. Only now, *src\_* and *trg\_vocab* are generated.
-
+  * so during preprocessing, before generating any of the files used by *load_data*, let NER run over the utterances (and kb? here, referring expressions have no context. this impacts choice of NER system) and categorize, saving categories/labels and occurrence rates. categories are then named, this _ner-canonical-name_ is substituted for all referring expressions. Only now, *src\_* and *trg\_vocab* are generated.
 
 3. merge updated joeynmt back
-  * rather sooner than later....
-
+  * rather sooner than later.... lol
+  * how would this be done? pull from joeynmt/joeynmt ?
 
 ---
 
@@ -54,17 +53,35 @@ Postprocessing:
 
 ## _```Current Issues```_:
 
+### 15.08.20 reccurent multihop
+
+implemented in multihop branch in attention.py and merged back into master ✔️
+
+implemented as "k-hop": 
+
+```
+utilities\_k = empty tensor
+do k times:
+   input feed (concatenate) utilities\_k with keys
+   calculate utilities\_k (energies) as normal
+```
+
+special case: k=1: 1hop should be equivalent to default
+*TODO* find out if its correct
 
 
+
+### 15.08.20 backward compatibility
+to test:
+* beam search
+* recurrent without kb
 
 ### 15.05.20 implement kb for transformer
-
-Redo steps:
 
 1. merge generator branch back
 -> Done
 2. test backwards compatibility for rnn without kb task
--> Also Done
+-> Also Done (in may, TODO redo in august)
 3. test backwards compatibility for transformer without kb task
 -> Redo
 
