@@ -475,6 +475,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  init_hidden: str = "bridge",
                  input_feeding: bool = True,
                  freeze: bool = False,
+                 k_hops: int = 1,
                  **kwargs) -> None:
         """
         Create a recurrent decoder with attention and key value attention over a knowledgebase.
@@ -496,6 +497,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             (only if they have the same size)
         :param input_feeding: Use Luong's input feeding.
         :param freeze: Freeze the parameters of the decoder during training.
+        :param k_hops: how many kvr attention layers?
         :param kwargs:
         """
 
@@ -550,7 +552,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         #kv attention after bahdanau:
         self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
                                             key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
-                                            query_size=hidden_size)
+                                            query_size=hidden_size,
+                                            k_hops=k_hops) # num of layers
         #print("encoder.output_size: ", encoder.output_size)
 
         self.num_layers = num_layers
@@ -649,7 +652,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                       kb_keys: Tensor,
                       encoder_output: Tensor,
                       src_mask: Tensor,
-                      hidden: Tensor) -> (Tensor, Tensor, Tensor):
+                      hidden: Tensor,
+                      k_hop: int=1) -> (Tensor, Tensor, Tensor):
         """
         Perform a single decoder step (1 token).
 
@@ -662,6 +666,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param prev_att_vector: previous attention vector,
             shape (batch_size, 1, hidden_size)
         :param kb_keys: knowledgebase keys associated with batch
+        :param k_hops: number of kvr attention forward passes to do
         :param encoder_output: encoder hidden states for attention context,
             shape (batch_size, src_length, encoder.output_size)
         :param src_mask: src mask, 1s for area before <eos>, 0s elsewhere
@@ -706,9 +711,10 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             query=query, values=encoder_output, mask=src_mask)
 
         if kb_keys != None:
-            u_t = self.kvr_attention(query=query) 
-            #print("u_t")
-            #print(u_t.shape) # batch_size x 1 x kb_size
+            # TODO FIXME implement k hops as modulelist of k kvr attentions and do loop here with
+            # input feeding ?
+            u_t = self.kvr_attention(query=query)
+            # u_t = batch_size x 1 x kb_size
 
             #TODO resulting v_t should be batch_size x 1 x (trg_emb + kb)
         else:
@@ -740,6 +746,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 hidden: Tensor = None,
                 prev_att_vector: Tensor = None,
                 kb_keys: Tensor = None,
+                k_hops: int = 1,
                 **kwargs) \
             -> (Tensor, Tensor, Tensor, Tensor):
         """
@@ -783,6 +790,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param prev_att_vector: previous attentional vector,
             if not given it's initialized with zeros,
             shape (batch_size, 1, hidden_size)
+        :param kb_keys: knowledgebase keys associated with batch
+        :param k_hops: number of kvr attention forward passes to do
         :return:
             - outputs: shape (batch_size, unroll_steps, vocab_size),
             - hidden: last hidden state (num_layers, batch_size, hidden_size),

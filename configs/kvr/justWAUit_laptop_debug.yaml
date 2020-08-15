@@ -67,6 +67,7 @@ training:                           # specify training details here
 
 model:                              # specify your model architecture here
     kb: True                        # kb decoder used or not?
+    k_hops: 2                       # num of kvr att layers
     initializer: "xavier"           # initializer for all trainable weights (xavier, zeros, normal, uniform)
     init_weight: 0.01               # weight to initialize; for uniform, will use [-weight, weight]
     init_gain: 1.0                  # gain for Xavier initializer (default: 1.0)

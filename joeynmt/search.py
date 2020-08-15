@@ -313,10 +313,12 @@ def beam_search(
     results["scores"] = [[] for _ in range(batch_size)]
     results["gold_score"] = [0] * batch_size
 
-    assert False, knowledgebase
-    kb = knowledgebase
-    kb_keys = tile(kb[0],size, dim=0)
-    kb_values = tile(kb[1],size, dim=0)
+    # kb task: also tile kb tensors along batch dimension as done with other inputs above
+    if knowledgebase != None:
+        kb_keys = tile(knowledgebase[0], size, dim=0)
+        kb_values = tile(knowledgebase[1], size, dim=0)
+    else:
+        kb_keys, kb_values = None, None
 
     for step in range(max_output_length):
 
@@ -334,29 +336,19 @@ def beam_search(
         # logits: logits for final softmax
         # pylint: disable=unused-variable
         trg_embed = embed(decoder_input)
-        if (knowledgebase != None):
-            hidden, att_scores, att_vectors, kb_probs = decoder(
-                encoder_output=encoder_output,
-                encoder_hidden=encoder_hidden,
-                src_mask=src_mask,
-                trg_embed=trg_embed,
-                hidden=hidden,
-                prev_att_vector=att_vectors,
-                unroll_steps=1,
-                trg_mask=trg_mask,  # subsequent mask for Transformer only
-                kb_keys=kb_keys
-            )
-        else:
-            hidden, att_scores, att_vectors, kb_probs = decoder(
-                encoder_output=encoder_output,
-                encoder_hidden=encoder_hidden,
-                src_mask=src_mask,
-                trg_embed=trg_embed,
-                hidden=hidden,
-                prev_att_vector=att_vectors,
-                unroll_steps=1,
-                trg_mask=trg_mask  # subsequent mask for Transformer only
-            )
+
+        hidden, att_scores, att_vectors, kb_probs = decoder(
+            encoder_output=encoder_output,
+            encoder_hidden=encoder_hidden,
+            src_mask=src_mask,
+            trg_embed=trg_embed,
+            hidden=hidden,
+            prev_att_vector=att_vectors,
+            unroll_steps=1,
+            trg_mask=trg_mask,  # subsequent mask for Transformer only
+            kb_keys=kb_keys # None by default 
+        )
+
         logits = generator(att_vectors, kb_values=kb_values, kb_probs=kb_probs)
 
         # For the Transformer we made predictions for all time steps up to
@@ -365,10 +357,10 @@ def beam_search(
             logits = logits[:, -1]  # keep only the last time step
             hidden = None           # we don't need to keep it for transformer
 
-        # batch*k x trg_vocab
+        # batch * k x trg_vocab
         log_probs = F.log_softmax(logits, dim=-1).squeeze(1)
 
-        # multiply probs by the beam probability (=add logprobs)
+        # multiply probs by the beam probability ( = add logprobs)
         log_probs += topk_log_probs.view(-1).unsqueeze(1)
         curr_scores = log_probs
 

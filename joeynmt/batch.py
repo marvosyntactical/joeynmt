@@ -161,7 +161,7 @@ class Batch_with_KB(Batch):
         self.kbsrc = self.kbsrc.cuda()
         # not sure if this is only sensible for batches that
         # get embedded at some point later on but here goes:
-        self.kbtrg = self.kbtrg.cuda()
+        self.kbtrg = self.kbtrg.cuda() # FIXME TODO probably actually dont move these two to cuda??
         self.kbtrv = self.kbtrv.cuda()
 
 

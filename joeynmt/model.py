@@ -43,6 +43,7 @@ class Model(nn.Module):
                  src_vocab: Vocabulary,
                  trg_vocab: Vocabulary,
                  trv_vocab: Vocabulary=None,
+                 k_hops: int = 1,
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -54,6 +55,7 @@ class Model(nn.Module):
         :param src_vocab: source vocabulary
         :param trg_vocab: target vocabulary
         :param trv_vocab: kb true value lookup vocabulary
+        :param k_hops: number of kvr attention forward passes to do
         """
         super(Model, self).__init__()
 
@@ -74,6 +76,7 @@ class Model(nn.Module):
 
         self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
+        self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
 
         self.Timer = Timer()
 
@@ -134,23 +137,15 @@ class Model(nn.Module):
         :param trg_mask: mask for target steps
         :return: decoder outputs (outputs, hidden, att_probs, att_vectors)
         """
-        if kb_keys == None:
-            return self.decoder(trg_embed=self.trg_embed(trg_input),
-                            encoder_output=encoder_output,
-                            encoder_hidden=encoder_hidden,
-                            src_mask=src_mask,
-                            unroll_steps=unroll_steps,
-                            hidden=decoder_hidden,
-                            trg_mask=trg_mask)
-        else:
-            return self.decoder(trg_embed=self.trg_embed(trg_input),
-                            encoder_output=encoder_output,
-                            encoder_hidden=encoder_hidden,
-                            src_mask=src_mask,
-                            unroll_steps=unroll_steps,
-                            hidden=decoder_hidden,
-                            trg_mask=trg_mask,
-                            kb_keys=kb_keys)
+        return self.decoder(trg_embed=self.trg_embed(trg_input),
+                        encoder_output=encoder_output,
+                        encoder_hidden=encoder_hidden,
+                        src_mask=src_mask,
+                        unroll_steps=unroll_steps,
+                        hidden=decoder_hidden,
+                        trg_mask=trg_mask,
+                        kb_keys=kb_keys,
+                        k_hops=self.k_hops)
 
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module) \
@@ -164,7 +159,7 @@ class Model(nn.Module):
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
 
-        print(f"\n{'-'*10}TRN FWD PASS: START current batch{'-'*10}\n")
+        print(f"\n{'-'*10}GET LOSS FWD PASS: START current batch{'-'*10}\n")
 
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"): # no kb task
@@ -200,7 +195,7 @@ class Model(nn.Module):
         # compute batch loss
         batch_loss = loss_function(log_probs, batch.trg)
 
-        print(f"\n{'-'*10}TRN FWD PASS: END current batch{'-'*10}\n")
+        print(f"\n{'-'*10}GET LOSS FWD PASS: END current batch{'-'*10}\n")
 
         # return batch loss = sum over all elements in batch that are not pad
         return batch_loss
@@ -293,6 +288,7 @@ class Model(nn.Module):
         :return: stacked_output: hypotheses for batch,
             stacked_attention_scores: attention scores for batch
         """
+
         encoder_output, encoder_hidden = self.encode(
             batch.src, batch.src_lengths,
             batch.src_mask)
@@ -551,23 +547,25 @@ def build_model(cfg: dict = None,
 
     
     # build decoder
-    kb = bool(cfg.get("kb", False))
+    kb_task = bool(cfg.get("kb", False))
+    k_hops = cfg.get("k_hops", 1) # k number of kvr attention layers in decoder (eric et al/default: 1)
+
     assert cfg["decoder"]["hidden_size"]
     dec_dropout = cfg["decoder"].get("dropout", 0.)
     dec_emb_dropout = cfg["decoder"]["embeddings"].get("dropout", dec_dropout)
     if cfg["decoder"].get("type", "recurrent") == "transformer":
         decoder = TransformerDecoder(
             **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, kb_task=kb)
+            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, kb_task=kb_task)
     else:
-        if not kb:
+        if not kb_task:
             decoder = RecurrentDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
         else:
             decoder = KeyValRetRNNDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout)
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops)
     
     # specify generator which is mostly just the output layer
     generator = Generator(

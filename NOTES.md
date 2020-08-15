@@ -57,9 +57,15 @@ Postprocessing:
 to test:
 
 #### beam search
+
 without kb:
 * transformer: test, had prohibitive assert in
-* recurrent: seems to work, *TODO* do a full run with results on cluster
+* recurrent: doesnt work
+=> same error! (error in beam search impl?)
+
+with kb:
+* transformer:
+* recurrent:
 
 #### recurrent without kb
 * code runs, *TODO* do a full run with results on cluster
@@ -82,13 +88,30 @@ do k times:
    calculate utilities\_k (energies) as normal
 ```
 
-special case: k=1: 1hop should be equivalent to default
+special case: k=1: 1hop should is equiv to default (same results)
+
 *TODO* find out if its correct
+=> put khop into config
+=> do 2, 3 hops
+For the moment, the whole model has a self.k\_hops attribute, and every
+decode forward pass of the model does k kvr attention hops
+
+*TODO FIXME* ask artem/find out what stages k\_hop would be good for, e.g.:
+
+* only at (valid/)inference time (not important since training uncostly)?
+* do a while loop and hop as many times as needed until suffctly confident?
+
+*TODO FIXME* find out if scaling by k times is correct (probably not!)
 
 
 
 
-### 15.05.20 implement kb for transformer
+
+
+### 15.05.20 implement kb for transformer *WIP*
+
+* learns slowly/poorly investigate hyperparam correctness such as label smoothing
+
 
 1. merge generator branch back
 -> Done
