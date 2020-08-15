@@ -158,7 +158,7 @@ class KeyValRetAtt(AttentionMechanism):
         # multihop attention
         self.kb_max = kb_max # atm weather kb are max at 203
         self.curr_kb_size = None
-        self.khop = 5
+        self.khop = 1
         self.multihop_feeding = nn.Linear(query_size+kb_max, query_size,bias=False)
         
 
