@@ -242,9 +242,8 @@ class KeyValRetAtt(AttentionMechanism):
         padding = self.kb_max - self.curr_kb_size
         assert padding >= 0, f"kb dim of keys {keys.shape} appears to be larger than self.kb_max={self.kb_max}"
 
-        keys_pad = torch.zeros(keys.shape[0],padding,keys.shape[2])
+        keys_pad = torch.zeros(keys.shape[0],padding,keys.shape[2]).to(device=keys.device)
         keys = torch.cat([keys,keys_pad], dim=1)
-
 
         self.proj_keys = self.key_layer(keys)
 

@@ -245,7 +245,7 @@ def beam_search(
     :param alpha: `alpha` factor for length penalty
     :param embed:
     :param n_best: return this many hypotheses, <= beam
-    :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
+    :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
@@ -313,6 +313,7 @@ def beam_search(
     results["scores"] = [[] for _ in range(batch_size)]
     results["gold_score"] = [0] * batch_size
 
+    assert False, knowledgebase
     kb = knowledgebase
     kb_keys = tile(kb[0],size, dim=0)
     kb_values = tile(kb[1],size, dim=0)
@@ -334,8 +335,6 @@ def beam_search(
         # pylint: disable=unused-variable
         trg_embed = embed(decoder_input)
         if (knowledgebase != None):
-            if transformer:
-                raise NotImplementedError("beam decoding for transformer not yet implemented")
             hidden, att_scores, att_vectors, kb_probs = decoder(
                 encoder_output=encoder_output,
                 encoder_hidden=encoder_hidden,

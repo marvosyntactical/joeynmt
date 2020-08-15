@@ -1,0 +1,66 @@
+name: "iwslt14-deen-bpe"
+
+data:
+    src: "de"
+    trg: "en"
+    train: "test/data/iwslt14/train.bpe.32000"
+    dev: "test/data/iwslt14/valid.bpe.32000" 
+    test: "test/data/iwslt14/test.bpe.32000"
+    level: "bpe"
+    lowercase: True
+    max_sent_length: 62
+    src_voc_min_freq: 1
+    src_voc_limit: 32000
+    trg_voc_min_freq: 1
+    trg_voc_limit: 32000
+
+testing:
+    beam_size: 10
+    alpha: 1.0
+
+training:
+    random_seed: 420
+    optimizer: "adam"
+    learning_rate: 0.0003
+    learning_rate_min: 0.0000005
+    weight_decay: 0.0
+    clip_grad_norm: 1.0
+    batch_size: 80
+    scheduling: "plateau"
+    patience: 10
+    decrease_factor: 0.5
+    early_stopping_metric: "eval_metric"
+    epochs: 20
+    validation_freq: 5
+    logging_freq: 10
+    eval_metric: "bleu"
+    model_dir: "models/wmt_ende_default"
+    overwrite: True
+    shuffle: True
+    use_cuda: False
+    max_output_length: 100
+    print_valid_sents: [0, 1, 2]
+
+model:
+    encoder:
+        rnn_type: "lstm"
+        embeddings:
+            embedding_dim: 32
+            scale: False
+        hidden_size: 16
+        bidirectional: True
+        dropout: 0.2
+        num_layers: 1
+    decoder:
+        rnn_type: "lstm"
+        embeddings:
+            embedding_dim: 32
+            scale: False
+        emb_scale: False
+        hidden_size: 1000
+        dropout: 0.2
+        hidden_dropout: 0.2
+        num_layers: 1
+        input_feeding: True
+        init_hidden: "bridge"
+        attention: "bahdanau"

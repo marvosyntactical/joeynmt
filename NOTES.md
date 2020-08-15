@@ -53,6 +53,22 @@ Postprocessing:
 
 ## _```Current Issues```_:
 
+### 15.08.20 backward compatibility
+to test:
+
+#### beam search
+without kb:
+* transformer: test, had prohibitive assert in
+* recurrent: seems to work, *TODO* do a full run with results on cluster
+
+#### recurrent without kb
+* code runs, *TODO* do a full run with results on cluster
+
+
+
+
+
+
 ### 15.08.20 reccurent multihop
 
 implemented in multihop branch in attention.py and merged back into master ✔️
@@ -71,10 +87,6 @@ special case: k=1: 1hop should be equivalent to default
 
 
 
-### 15.08.20 backward compatibility
-to test:
-* beam search
-* recurrent without kb
 
 ### 15.05.20 implement kb for transformer
 
@@ -86,18 +98,13 @@ to test:
 -> Redo
 
 4. implement kb for transformer:
+
 * interface wise just need to generate kb\_probs somewhere within transformerdecoder
-* can kb\_probs calculation actually be moved to generator?
--> during kvr\_attention fwd pass, i need a new query. the query should probably be one of the TransformerDecoderLayer hidden states.
 
--> two options:
-1. do kvr\_attention fwd pass in TransformerDecoder, maybe take only last hidden state of last layer or something
-2. do kvr\_attention within TransformerDecoderLayer (as in block comments)
-
-according to Artem I should definitely do 1, best move it all to generator (but for that, interface-wise, in kvrRNN I would need to do kvr attention outside of unroll, then im missing the point of attention mechanism though?)
-
--> open two sub branches for this?
-
+multi head kb attentions now get calculated in new MultiHeadedKbAttention class:
+* works like MultiHeadedAttention except no matmul with values
+* instead returns kb\_probs tensor of shape B x M x KB which is passed along until the generator, where its applied to outputs using kb\_values indices just like the recurrent case
+* => looks like generator successfully works for rnn and transf case *TODO* confirm this
 
 
 ### 07.04.20 training on GPU
