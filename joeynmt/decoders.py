@@ -1031,6 +1031,7 @@ class Generator(Gen):
     """
     Functions as output layer for both recurrent and transformer decoders.
     For knowledgebase task, this is also where kb probabilities get added to outputs.
+
     """
 
     def __init__(self, dec_hidden_size, vocab_size, **kwargs):
@@ -1046,8 +1047,9 @@ class Generator(Gen):
         # transformer: x
         # recurrent: att_vectors
 
-        # kb_values/keys should be: batch x unroll x kb
-        # for transformer it should be: B x M x kb
+        # kb_probs should be: batch x unroll (or M if transf) x kb
+        # kb_values should be : batch x kb 
+        # => need to add dimension to kb_values
 
         outputs = self.output_layer(x) # probably: B x M x Voc
 
@@ -1055,8 +1057,9 @@ class Generator(Gen):
 
             # this bug comes from somewhere in or before model.process_batch_kb
             if len(kb_values.shape) < 3: #TODO find out why this happens sometimes??
-                kb_values.unsqueeze_(1)
+                kb_values = kb_values.unsqueeze(1)
             else:
+                assert False, kb_values # i dont think this should happen
                 assert kb_values.shape[1] == 1
 
             _batch, _unroll, _kb = kb_probs.shape

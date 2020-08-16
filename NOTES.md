@@ -61,11 +61,20 @@ to test:
 without kb:
 * transformer: test, had prohibitive assert in
 * recurrent: doesnt work
-=> same error! (error in beam search impl?)
 
-with kb:
+=> same error! (error in beam search impl?)
+=> seems kb\_probs need to be properly formatted during beam search
+for handling in postproc
+=> *TEMPORARY* solution: dont do beam search during valid (default)
+=> *TODO* this still needs to be fixed for inference later
+
+
+
+with kb: (untested)
 * transformer:
 * recurrent:
+
+
 
 #### recurrent without kb
 * code runs, *TODO* do a full run with results on cluster

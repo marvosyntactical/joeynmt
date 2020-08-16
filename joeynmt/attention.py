@@ -203,8 +203,10 @@ class KeyValRetAtt(AttentionMechanism):
         u_t_k = None
 
         for k in range(self.k_hops):
+
             # u_t_k = batch x 1 x kb_max
             # query = batch x 1 x dec.hidden
+
             if u_t_k is None: # first attention pass
                 query_k = query
             else: # successive multihop attention passes

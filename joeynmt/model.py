@@ -255,6 +255,7 @@ class Model(nn.Module):
         # but sometimes have one extra dim???:
         # 2 x 1 x 1
         # where does this sometimes come from?
+        assert len(kb_values.shape) == 2, kb_values.shape
         
         # NOTE shape debug; TODO add to decoder check shapes fwd
         """
@@ -354,11 +355,13 @@ class Model(nn.Module):
         :param kb_truval: Tensor
         :return: post_proc_stacked_output
         """
+        assert stacked_kb_att_scores is not None
 
+        print(stacked_kb_att_scores.shape, kb_values.shape, kb_truval.shape)
 
         #                          dimensions:  # (recurrent)         # (transf)    # use:
         kb_trv = kb_truval.cpu().numpy()[0,:]   # kb                  # kb          # used as replacement
-        kb_val = kb_values.cpu().numpy()[0,0,:] # kb                  # kb          # used for indexing
+        kb_val = kb_values.cpu().numpy()[0,:]   # kb                  # kb          # used for filtering non matching tokens
         kb_att = stacked_kb_att_scores          # batch x unroll x kb # B x M x KB  # local attention ordering info (used for indexing)
 
         # assert kb_values.shape[2] == 1, (kb_values.shape, kb_val.shape, kb_att.shape, kb_truval.shape, stacked_output.shape)

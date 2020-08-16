@@ -71,7 +71,6 @@ def recurrent_greedy(
     :param encoder_hidden: encoder last state for decoder initialization
     :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
     :return:
-    :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
     """
@@ -124,7 +123,7 @@ def recurrent_greedy(
         # logits: batch x time=1 x vocab (logits)
         # greedy decoding: choose arg max over vocabulary in each step
         next_word = torch.argmax(logits, dim=-1)  # batch x time=1
-        # NOTE: ____________ ^ find idx over ordered vocab embeddings, logits are output of decoder.forward
+        # NOTE:              ^ find idx over ordered vocab embeddings 
         # created by 2nd dimension of decoder.output_layer.weight ...
         # Q:
         # how is the association with the vocabulary done there???
@@ -345,7 +344,7 @@ def beam_search(
             hidden=hidden,
             prev_att_vector=att_vectors,
             unroll_steps=1,
-            trg_mask=trg_mask,  # subsequent mask for Transformer only
+            trg_mask=trg_mask, # subsequent mask for Transformer only
             kb_keys=kb_keys # None by default 
         )
 
@@ -468,5 +467,6 @@ def beam_search(
     final_outputs = pad_and_stack_hyps([r[0].cpu().numpy() for r in
                                         results["predictions"]],
                                        pad_value=pad_index)
-
+    # final_outputs = batch x time
+    # stacked_output, stacked_attention_scores, stacked_kb_att_scores
     return final_outputs, None, None
