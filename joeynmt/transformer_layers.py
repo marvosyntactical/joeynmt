@@ -62,14 +62,13 @@ class MultiHeadedAttention(nn.Module):
         v = v.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x ?         x head_size
         q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
-        print(f"k={k.shape}, v={v.shape}, q={q.shape}")
+        # print(f"k={k.shape}, v={v.shape}, q={q.shape}")
 
         # compute scores
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
-        print(f"scores={scores.shape}")
 
         # apply the mask (if we have one)
         # we add a dimension for the heads to it below: [B, 1, 1, M]
@@ -79,17 +78,12 @@ class MultiHeadedAttention(nn.Module):
         # apply attention dropout and compute context vectors.
         attention = self.softmax(scores)
         attention = self.dropout(attention) # batch x num_h x M x M
-        print(f"attention={attention.shape}")
 
         # get context vector (select values with attention) and reshape
         # back to [B, M, D]
         context = torch.matmul(attention, v)
-        print(f"attention x v ={context.shape}")
         context = context.transpose(1, 2).contiguous().view(
             batch_size, -1, num_heads * self.head_size)
-
-        # assert False, (attention.shape, context.shape, v.shape)
-        # (torch.Size([39, 4, 18, 18]), torch.Size([39, 18, 64]), torch.Size([39, 4, 18, 16]))
 
         output = self.output_layer(context)
 
@@ -119,16 +113,14 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         q = self.q_layer(q)
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x kb x head_size
+        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x kb        x head_size
         q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x query_len x head_size
-        print(f"k={k.shape}, q={q.shape}")
 
         # compute scores
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
-        print(f"scores={scores.shape}")
 
         # apply the mask (if we have one)
         # we add a dimension for the heads to it below: [B, 1, 1, M]
