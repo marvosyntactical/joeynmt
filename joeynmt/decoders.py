@@ -931,6 +931,7 @@ class TransformerDecoder(Decoder):
                  vocab_size: int = 1,
                  freeze: bool = False,
                  kb_task: bool=False,
+                 kb_max: int = 256,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -944,6 +945,7 @@ class TransformerDecoder(Decoder):
         :param vocab_size: size of the output vocabulary
         :param freeze: set to True keep all decoder parameters fixed
         :param kb_task: performing kb_task or not? used in layer init
+        :param kb_max: maximum kb size
         :param kwargs:
         """
         super(TransformerDecoder, self).__init__()
@@ -951,10 +953,13 @@ class TransformerDecoder(Decoder):
         self._hidden_size = hidden_size
         self._output_size = vocab_size
 
+        self.kb_max = kb_max
+        self.curr_kb_size = None
+
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout, kb_task=kb_task) for _ in range(num_layers)],)
+                dropout=dropout, kb_task=kb_task,kb_max=self.kb_max) for _ in range(num_layers)],)
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -964,6 +969,7 @@ class TransformerDecoder(Decoder):
 
         if freeze:
             freeze_params(self)
+        
 
     def forward(self,
                 trg_embed: Tensor = None,
@@ -986,10 +992,12 @@ class TransformerDecoder(Decoder):
         :param hidden: unused
         :param trg_mask: to mask out target paddings
                          Note that a subsequent mask is applied here.
-        :param kb_keys: knowledgebase keys
+        :param kb_keys: knowledgebase keys: B x KB x TRG_EMB
         :param kwargs:
         :return:
         """
+
+        kb_keys_padded = self.pad_kb_keys(kb_keys)
 
         assert trg_mask is not None, "trg_mask required for Transformer"
 
@@ -999,15 +1007,29 @@ class TransformerDecoder(Decoder):
         trg_mask = trg_mask & subsequent_mask(
             trg_embed.size(1)).type_as(trg_mask)
 
+        # k fwd pass thru k layers (with k x KVR Multihop Attention)
+        u_k = None # knowledgebase utilities at time step k
         for layer in self.layers:
-            x, kb_probs = layer(x=x, memory=encoder_output, kb_keys=kb_keys,
-                      src_mask=src_mask, trg_mask=trg_mask)
+            x, u_k = layer(x=x, memory=encoder_output, kb_keys=kb_keys_padded,
+                      src_mask=src_mask, trg_mask=trg_mask, prev_utilities=u_k)
+
+        kb_probs = u_k[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
         
         x = self.layer_norm(x)
 
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
         return None, None, x, kb_probs
+    
+    def pad_kb_keys(self, kb_keys: Tensor) -> Tensor:
+        # pad kb_keys from B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
+        # and set self.curr_kb_size
+        self.curr_kb_size = kb_keys.shape[1]
+        padding = self.kb_max - self.curr_kb_size
+        assert padding >= 0, f"kb dim of keys {kb_keys.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+
+        keys_pad = torch.zeros(kb_keys.shape[0], padding, kb_keys.shape[2]).to(device=kb_keys.device)
+        return torch.cat([kb_keys,keys_pad], dim=1)
 
 
     def __repr__(self):

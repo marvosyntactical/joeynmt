@@ -213,7 +213,7 @@ class KeyValRetAtt(AttentionMechanism):
         # query_conc_keys: batch x kb_max x hidden
         # ('+' repeats query required number of times (kb_max) along dim 1)
 
-        # (https://arxiv.org/abs/1705.05414 : (eq 2))
+        # (https://arxiv.org/abs/1705.05414 : equation 2)
         afterW1 = torch.tanh(query_conc_keys)
         afterW2 = torch.tanh(self.W2(afterW1))
         
@@ -235,21 +235,30 @@ class KeyValRetAtt(AttentionMechanism):
         :param keys: batch x kb x trg_emb
         :return:
         """
-        # kb dim will get used in multihop feeding input dimension, so it needs to be the same always
-        # kb dim is determined by keys input only
-        # solution: 
-        # pad key tensor along that dimension up to kb max with 0.0
-        # and remember true kb size
 
-        self.curr_kb_size = keys.shape[1]
-
-        padding = self.kb_max - self.curr_kb_size
-        assert padding >= 0, f"kb dim of keys {keys.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
-
-        keys_pad = torch.zeros(keys.shape[0],padding,keys.shape[2]).to(device=keys.device)
-        keys = torch.cat([keys,keys_pad], dim=1)
+        padded_keys = self.pad_kb_keys(keys)
 
         self.proj_keys = self.key_layer(keys) # B x kb_max x hidden
+
+    def pad_kb_keys(self, kb_keys: Tensor) -> Tensor:
+        """
+        pad kb_keys from B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
+        kb dim will get used in multihop feeding input dimension, so it needs to be the same always
+        kb dim is determined by keys input only
+        solution: 
+        pad key tensor along that dimension up to kb max with 0.0
+        and remember true kb size
+
+        """
+        # calculated at start of decoder.forward, retrieved during decoder.forward_step
+        self.curr_kb_size = kb_keys.shape[1]
+
+        padding = self.kb_max - curr_kb_size
+        assert padding >= 0, f"kb dim of keys {kb_keys.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+
+        keys_pad = torch.zeros(kb_keys.shape[0], padding, kb_keys.shape[2]).to(device=kb_keys.device)
+        return torch.cat([kb_keys,keys_pad], dim=1)
+
 
     def compute_proj_query(self, query: Tensor):
         """
