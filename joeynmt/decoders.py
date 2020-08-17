@@ -711,7 +711,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
         
-
         # KVR multihop attention
         u_t_k = None
         for k in range(self.k_hops):

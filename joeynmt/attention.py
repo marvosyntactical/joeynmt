@@ -193,11 +193,8 @@ class KeyValRetAtt(AttentionMechanism):
             # feed concatenation of
             # previously computed kb entry utilities and query 
             # back into new query
-            query_k = torch.cat([prev_utilities, query], dim=-1)
-            assert query_k.shape[-1] == self.kb_max + self.proj_keys.shape[-1], \
-                f"right here query should be of shape B x 1 x KB_MAX + HIDDEN: {query_k.shape}"
-            query_k = self.multihop_feeding(query_k) 
-            # query_k = batch x 1 x dec.hidden
+            query_k = torch.cat([prev_utilities, query], dim=-1) # batch x 1 x kb_max + hidden
+            query_k = self.multihop_feeding(query_k) # batch x 1 x hidden
 
         # variable names refer to eric et al (2017) notation,
         # (see https://arxiv.org/abs/1705.05414)
