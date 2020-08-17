@@ -6,6 +6,7 @@ _Work rhythm_:
   3. Start the day by **REALLY** thinking about how to solve the current issue: planning ahead seems to save a lot of trouble later :^)
   4. Adopt consistent markdown style:*bold joeynmt/torch/existing variables and words* and _cursive  eric et al variables and words added to the system during my implementation_, **BOLD CURSIVE CAPS FOR REALLY IMPORTANT STUFF**
 
+
 # Open Questions and Ideas for the Future:
 
 * how does kv attention actually work for normalized (-> triples) entries? how does attention understand on the request "Wheres the nearest cafe?" to look up the poi\_type value for starbucks among others, see cafè; and then learn to look up the distance and address for the same subject? the keys the attention sees are NOT THE SAME, they conflate both subj and relation?!? does the magic lie in the successive kb attention queries from one decoder unrol step to successive ones? is the key rep expected by the rnn cell to be incorporated into the cell state? doesnt this mean we need to track conversation long (and not just seq2seq query - response isolated examples) history either by concatenating all previous utterances or by somehow using the last previous hidden states?
@@ -34,6 +35,7 @@ These will have to get resolved someday. Unordered thoughts also jotted down:
 
 ---
 
+
 # Active Workspace
 
 ### Technical TODO:
@@ -53,6 +55,14 @@ Postprocessing:
 
 ## _```Current Issues```_:
 
+### 17.08.20 more preprocessing issues
+
+* no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
+* => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
+* (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
+* =>    "Make an entry for @event on @date at @time with my @party ."
+* =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
+
 ### 15.08.20 backward compatibility
 to test:
 
@@ -69,18 +79,12 @@ for handling in postproc
 => *TODO* this still needs to be fixed for inference later
 
 
-
 with kb: (untested)
 * transformer:
 * recurrent:
 
-
-
 #### recurrent without kb
 * code runs, *TODO* do a full run with results on cluster
-
-
-
 
 
 
@@ -111,6 +115,8 @@ decode forward pass of the model does k kvr attention hops
 * do a while loop and hop as many times as needed until suffctly confident?
 
 *TODO FIXME* find out if scaling by k times is correct (probably not!)
+
+===> seems to work okay, but kb attentions dont get plotted anymore
 
 
 

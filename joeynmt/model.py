@@ -395,24 +395,23 @@ class Model(nn.Module):
                     # only dim: kb: [-1,-1,-1,998,-1,-1,-1,973,-1,-1,-1,1058,-1,...,-1]
 
                     print(f"pp: matching_trv_candidates tokens (should belong to same canonical):\n \
-                        {trvSent(matching_trv_candidates[matching_trv_candidates!=-1].tolist())}")
+                        {trvSent(matching_trv_candidates[matching_trv_candidates != -1].tolist())}")
 
-                    if matching_trv_candidates[matching_trv_candidates!=-1].shape[0]: # match(es) found!
+                    if matching_trv_candidates[matching_trv_candidates != -1].shape[0]: # match(es) found!
 
                         print(f"pp: SUCCESS! Found matches for canonical: {str_tok}")
 
                         # now order matching != -1 by corresponding attention values
-                        matching_scores = np.where(matching_trv_candidates!=-1, kb_att[i,step,:], float("-inf"))
+                        matching_scores = np.where(matching_trv_candidates != -1, kb_att[i,step,:], float("-inf"))
 
                         print(f"pp: matching_scores (should have no '-1's):\n{matching_scores}") # should not contain '-1's
 
-                        top_matching = np.argsort(matching_scores)[::-1].copy() # reverse index array in descending order of score
-
+                        top_matching = np.argsort(matching_scores)[::-1].copy()
+                        # reverse index array in descending order of score
 
                         top_match_candids = matching_trv_candidates[top_matching] # only for printing
                         print(f"pp: matching_trv_candidates in descending order of attention:\n\
                             {trvSent(top_match_candids[top_match_candids!=-1].tolist())}")
-
 
                         top1_match = matching_trv_candidates[top_matching[0]]
                         print(f"pp: top1_match:\n\

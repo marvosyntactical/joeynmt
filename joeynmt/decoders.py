@@ -476,6 +476,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  input_feeding: bool = True,
                  freeze: bool = False,
                  k_hops: int = 1,
+                 kb_max: int = 256,
                  **kwargs) -> None:
         """
         Create a recurrent decoder with attention and key value attention over a knowledgebase.
@@ -498,6 +499,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param input_feeding: Use Luong's input feeding.
         :param freeze: Freeze the parameters of the decoder during training.
         :param k_hops: how many kvr attention layers?
+        :param kb_max: maximum size of knowledgebases
         :param kwargs:
         """
 
@@ -549,12 +551,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             raise ConfigurationError("Unknown attention mechanism: %s. "
                                      "Valid options: 'bahdanau', 'luong'."
                                      % attention)
-        #kv attention after bahdanau:
-        self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
-                                            key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
-                                            query_size=hidden_size,
-                                            k_hops=k_hops) # num of layers
-        #print("encoder.output_size: ", encoder.output_size)
 
         self.num_layers = num_layers
         self.hidden_size = hidden_size
@@ -575,10 +571,22 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if freeze:
             freeze_params(self)
 
+        #kvr attention after bahdanau attention:
+        self.kb_max = kb_max # maximum size of knowledgebases, adjust if required # TODO make dataset-dependent
+        self.k_hops = k_hops # how many kvr attention modules?
+
+        self.kvr_attention = nn.ModuleList([
+                                KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
+                                            key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
+                                            query_size=hidden_size, # queried with decoder hidden
+                                            kb_max=self.kb_max
+                                            )
+                                for _ in range(self.k_hops)])
+        
+
     def _check_shapes_input_forward_step(self,
                                          prev_embed: Tensor,
                                          prev_att_vector: Tensor,
-                                         kb_keys: Tensor,
                                          encoder_output: Tensor,
                                          src_mask: Tensor,
                                          hidden: Tensor) -> None:
@@ -588,7 +596,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         :param prev_embed:
         :param prev_att_vector:
-        :param kb_keys:
         :param encoder_output:
         :param src_mask:
         :param hidden:
@@ -612,7 +619,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                     trg_embed: Tensor,
                                     encoder_output: Tensor,
                                     encoder_hidden: Tensor,
-                                    kb_keys: Tensor,
                                     src_mask: Tensor,
                                     hidden: Tensor = None,
                                     prev_att_vector: Tensor = None) -> None:
@@ -649,11 +655,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
     def _forward_step(self,
                       prev_embed: Tensor,
                       prev_att_vector: Tensor,  # context or att vector
-                      kb_keys: Tensor,
                       encoder_output: Tensor,
                       src_mask: Tensor,
-                      hidden: Tensor,
-                      k_hop: int=1) -> (Tensor, Tensor, Tensor):
+                      hidden: Tensor,) -> (Tensor, Tensor, Tensor):
         """
         Perform a single decoder step (1 token).
 
@@ -665,8 +669,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             shape (batch_size, 1, embed_size)
         :param prev_att_vector: previous attention vector,
             shape (batch_size, 1, hidden_size)
-        :param kb_keys: knowledgebase keys associated with batch
-        :param k_hops: number of kvr attention forward passes to do
         :param encoder_output: encoder hidden states for attention context,
             shape (batch_size, src_length, encoder.output_size)
         :param src_mask: src mask, 1s for area before <eos>, 0s elsewhere
@@ -682,7 +684,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # shape checks
         self._check_shapes_input_forward_step(prev_embed=prev_embed,
                                               prev_att_vector=prev_att_vector,
-                                              kb_keys=kb_keys,
                                               encoder_output=encoder_output,
                                               src_mask=src_mask,
                                               hidden=hidden)
@@ -699,9 +700,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         _, hidden = self.rnn(rnn_input, hidden)
 
         # use new (top) decoder layer as attention query
-        if isinstance(hidden, tuple):
+        if isinstance(hidden, tuple): # for lstms, states are tuples of tensors
             query = hidden[0][-1].unsqueeze(1)
-        else:
+        else: # for grus, states are just a tensor
             query = hidden[-1].unsqueeze(1)  # [#layers, B, D] -> [B, 1, D]
 
         # compute context vector using attention mechanism
@@ -709,24 +710,21 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # key projections are pre-computed
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
+        
 
-        if kb_keys != None:
-            # TODO FIXME implement k hops as modulelist of k kvr attentions and do loop here with
-            # input feeding ?
-            u_t = self.kvr_attention(query=query)
-            # u_t = batch_size x 1 x kb_size
+        # KVR multihop attention
+        u_t_k = None
+        for k in range(self.k_hops):
+            u_t_k = self.kvr_attention[k](query=query, prev_utilities=u_t_k)
+            # u_t_k = batch x 1 x self.kb_max
 
-            #TODO resulting v_t should be batch_size x 1 x (trg_emb + kb)
-        else:
-            raise ValueError(kb_keys)
+        # get size of current KB, this avoids having to pass kb_keys or somesuch to this function (fwd_step)
+        curr_kb_size = self.kvr_attention[0].curr_kb_size
+        u_t = u_t_k[:,:,:curr_kb_size] # recover only attention values for non pad knowledgebase entries
+        # u_t = batch x 1 x curr_kb_size
 
         # return attention vector (Luong)
         # combine context with decoder hidden state before prediction
-        #print("self.hidden_size: ", self.hidden_size)
-        #print("[query,context]")
-        #print("query: ", query.shape)
-        #print("context: ", context.shape)
-        #print("encoder_output; last dim should be encoder hidden (config) * 1/2 (if bidir)", encoder_output.shape)
         att_vector_input = torch.cat([query, context], dim=2)
         # batch x 1 x (2*)enc_size+hidden_size
         
@@ -802,17 +800,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             - kb_probs: kb att probabilities
                 with shape (batch_size, unroll_steps, kb_size)
         """
-
-        if kb_keys is not None:
-            #print\(f"decoder.forward call with src_mask={src_mask.shape} and kb_keys={kb_keys.shape}")
-            pass
-
         # shape checks
         self._check_shapes_input_forward(
             trg_embed=trg_embed,
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
-            kb_keys=kb_keys,
             src_mask=src_mask,
             hidden=hidden,
             prev_att_vector=prev_att_vector)
@@ -828,11 +820,15 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
 
-        if hasattr(self.kvr_attention, "compute_proj_keys") and kb_keys != None:
-            # i believe kb_keys is: batch x kb x trg_emb
-            self.kvr_attention.compute_proj_keys(keys=kb_keys) 
-        # here we store all intermediate attention vectors (used for prediction)
-        att_vectors = []
+        if kb_keys != None:
+            # kb_keys is: batch x kb x trg_emb
+            # only compute proj keys once for all k kvr_attention modules
+            self.kvr_attention[0].compute_proj_keys(keys=kb_keys) 
+            if len(self.kvr_attention) > 1:
+                for k_th_attn in self.kvr_attention:
+                    k_th_attn.proj_keys = self.kvr_attention[0].proj_keys
+
+        att_vectors = [] 
         att_probs = []
         kb_probs = []
 
@@ -850,7 +846,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             prev_att_vector, hidden, att_prob, u_t = self._forward_step(
                 prev_embed=prev_embed,
                 prev_att_vector=prev_att_vector,
-                kb_keys=kb_keys,
                 encoder_output=encoder_output,
                 src_mask=src_mask,
                 hidden=hidden)
@@ -935,7 +930,6 @@ class TransformerDecoder(Decoder):
                  emb_dropout: float = 0.1,
                  vocab_size: int = 1,
                  freeze: bool = False,
-                 emb_size: int = 0,
                  kb_task: bool=False,
                  **kwargs):
         """
@@ -949,7 +943,6 @@ class TransformerDecoder(Decoder):
         :param emb_dropout: dropout probability for embeddings
         :param vocab_size: size of the output vocabulary
         :param freeze: set to True keep all decoder parameters fixed
-        :param emb_size: if given, perform knowledgebase task (FIXME: this should be src emb size, but atm its trg_emb...)
         :param kb_task: performing kb_task or not? used in layer init
         :param kwargs:
         """
@@ -969,10 +962,6 @@ class TransformerDecoder(Decoder):
         self.emb_dropout = nn.Dropout(p=emb_dropout)
         self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
 
-        if emb_size:
-            self.kvr_attention = KeyValRetAtt(hidden_size=hidden_size,
-                                                key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
-                                                query_size=hidden_size)
         if freeze:
             freeze_params(self)
 

@@ -149,102 +149,89 @@ class KeyValRetAtt(AttentionMechanism):
 
         super(KeyValRetAtt, self).__init__()
 
-
+        # Weights
         self.key_layer = nn.Linear(key_size, hidden_size, bias=False) # part 1 of W_1 in eric et al
+        self.query_layer = nn.Linear(query_size, hidden_size, bias=False) # part 2 of W_1 in eric et al (here: k times)
+        self.energy_layer = nn.Linear(hidden_size, 1, bias=False) # utilities for all the kb entries
+
+        self.W2 = nn.Linear(hidden_size, hidden_size, bias=False) # W_2 in eric et al (repeated k hops)
 
         self.proj_keys = None   # to store projected keys
         self.proj_query = None  # projected query
        
-        # uniformize kb dimension to kb_max as its used in multihop_feeding
+        # uniformize kb dimension to kb_max as its used in multihop_feeding (see decoders)
         self.kb_max = kb_max # atm weather kb are max at 203
         self.curr_kb_size = None # this is set during self.compute_proj_keys
 
-        self.k_hops = k_hops
 
-        # FIXME TODO instead of doing all of these modulelist, just
-        # do a modulelist of keyValRetAttentions in the decoder with input feeding???
-        # FIXME
+        # module to feed back concatenated query and previous utilities at hops k > 1
+        self.multihop_feeding = nn.Linear(hidden_size+self.kb_max, hidden_size, bias=False)
 
-        # code readablity helper function (repeat module k times)
-        k_layers = lambda module: nn.ModuleList([module for _ in range(self.k_hops)])
-
-        # multihop attention
-        self.query_layers = k_layers(
-            nn.Linear(query_size, hidden_size, bias=False) # part 2 of W_1 in eric et al (here: k times)
-        )
-        self.multihop_feeding = k_layers(
-            nn.Linear(query_size+kb_max, query_size, bias=False) # modules to feed back concatenated query and keys at hop k
-        )
-        self.W = k_layers(
-            nn.Linear(hidden_size, hidden_size, bias=False) # W_2 in eric et al (repeated k hops)
-        )
-        self.energy_layers = k_layers(
-            nn.Linear(hidden_size, 1, bias=False) # utilities for all the kb entries
-        )
         
 
     #pylint: disable=arguments-differ
-    def forward(self, query: Tensor = None):
+    def forward(self, query: Tensor = None, prev_utilities=None):
         """
         Bahdanau MLP attention forward pass.
 
         :param query: the item (decoder state) to compare with the keys/memory,
             shape (batch_size, 1, decoder.hidden_size)
+        :param prev__utilities: if not None, pass concatenation of query and this thru self.mh_f
         :return: context vector of shape (batch_size, 1, value_size),
             attention probabilities of shape (batch_size, 1, src_length)
         """
         self._check_input_shapes_forward(query=query)
 
         assert self.proj_keys is not None,\
-            "projection keys have to get pre-computed"
-        assert self.curr_kb_size is not None,\
-            "projection keys have to get pre-computed"
+            "projection keys have to get pre-computed/assigned in dec.fwd before def.fwd_step"
         
-        u_t_k = None
+        if prev_utilities is None: 
+            # first attention hop, just use query (dec hidden at time=t)
+            query_k = query
+        else: 
+            # successive att hop (k > 1 in loop), 
+            # feed concatenation of
+            # previously computed kb entry utilities and query 
+            # back into new query
+            query_k = torch.cat([prev_utilities, query], dim=-1)
+            query_k = self.multihop_feeding(query_k) # query_k = batch x 1 x dec.hidden
 
-        for k in range(self.k_hops):
+        # variable names refer to eric et al (2017) notation,
+        # (see https://arxiv.org/abs/1705.05414)
+        # with k added for kth multihop pass
 
-            # u_t_k = batch x 1 x kb_max
-            # query = batch x 1 x dec.hidden
+        # We first project the query (the decoder state).
+        # The projected keys (the knowledgebase entry sums) were already pre-computed.
+        self.compute_proj_query(query_k) 
+        # => self.proj_query = batch x 1 x hidden
 
-            if u_t_k is None: # first attention pass
-                query_k = query
-            else: # successive multihop attention passes
-                query_k = torch.cat([u_t_k, query], dim=-1) # query_k = batch x 1 x dec.hidden + kb_max
-                query_k = self.multihop_feeding[k](query_k) # query_k = batch x 1 x dec.hidden
+        # Calculate u_t_k. (kb entry utilities at decoding step t and multihop pass k)
 
-            # We first project the query (the decoder state).
-            # The projected keys (the knowledgebase entry sums) were already pre-computed.
-            self.compute_proj_query(query_k, k=k) # => self.proj_query = batch x 1 x hidden
+        # proj_keys: batch x kb_max x hidden
+        # proj_query: batch x 1 x hidden
+        query_conc_keys = self.proj_query + self.proj_keys
+        # query_conc_keys: batch x kb_max x hidden
+        # ('+' repeats query required number of times (kb_max) along dim 1)
 
-            # Calculate u_t_k. (kb entry utilities at decoding step t and multihop pass k)
+        # (https://arxiv.org/abs/1705.05414 : (eq 2))
+        afterW1 = torch.tanh(query_conc_keys)
+        afterW2 = torch.tanh(self.W2(afterW1))
+        
+        # u_t_k: batch x kb_max x 1
+        u_t_k = self.energy_layer(afterW2)
 
-            ff = lambda x: torch.tanh(self.W[k](torch.tanh(x))) 
+        # u_t_k: batch x 1 x kb_max
+        u_t_k = u_t_k.squeeze(2).unsqueeze(1)
 
-            # FIXME find out if normalizing by num of attention hops helps
-
-            # proj_keys: batch x kb_max x hidden_size
-            # proj_query: batch x 1 x hidden
-            u_t_k = self.energy_layers[k](ff(self.proj_query + self.proj_keys)) / self.k_hops
-            # u_t_k: batch x kb_max x 1
-            # ('+' repeats query required number of times (kb_max) along dim 1)
-
-            u_t_k = u_t_k.squeeze(2).unsqueeze(1)
-            # u_t_k: batch x 1 x kb_max
-
-            # this done for consistency in the loop and to make the singleton dimension the unroll steps dim
-            # to concatenate 1..t...T together and get the same shape
-            # as outputs
-
-        u_t = u_t_k[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
-
-        return u_t
+        # this done for consistency in the loop and to make the singleton dimension the unroll steps dim
+        # to concatenate 1..t...T together and get the same shape
+        # as outputs
+        return u_t_k
 
     def compute_proj_keys(self, keys: Tensor):
         """
         Compute the projection of the keys.
         Is efficient if pre-computed before receiving individual queries.
-
         :param keys: batch x kb x trg_emb
         :return:
         """
@@ -264,17 +251,16 @@ class KeyValRetAtt(AttentionMechanism):
 
         self.proj_keys = self.key_layer(keys) # B x kb_max x hidden
 
-    def compute_proj_query(self, query: Tensor, k: int = 1):
+    def compute_proj_query(self, query: Tensor):
         """
         Compute the projection of the k_th query
 
         query: 1 x kb_size x trg_emb_size
 
         :param query:
-        :param k: index to query layers
         :return:
         """
-        self.proj_query = self.query_layers[k](query)
+        self.proj_query = self.query_layer(query)
 
     def _check_input_shapes_forward(self, query: torch.Tensor):
         """
@@ -285,7 +271,7 @@ class KeyValRetAtt(AttentionMechanism):
         :return:
         """
         assert query.shape[1] == 1 
-        assert query.shape[2] == self.query_layers[0].in_features
+        assert query.shape[2] == self.query_layer.in_features
 
     def __repr__(self):
         return "KeyValRetAtt"
