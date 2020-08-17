@@ -66,7 +66,7 @@ class Model(nn.Module):
         self.generator = generator
         self.src_vocab = src_vocab
         self.trg_vocab = trg_vocab
-        self.bos_index = self.trg_vocab.stoi[BOS_TOKEN] #TODO find out when these are used
+        self.bos_index = self.trg_vocab.stoi[BOS_TOKEN]
         self.pad_index = self.trg_vocab.stoi[PAD_TOKEN]
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
         #kb stuff:
@@ -378,7 +378,8 @@ class Model(nn.Module):
             post_proc_hyp = []
             for step, token in enumerate(hyp): # go through i_th hypothesis
                 # (token is integer index in self.trg_vocab)
-
+                if token == self.eos_index:
+                    break
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
                     str_tok = trvSent([token])
@@ -422,7 +423,7 @@ class Model(nn.Module):
                         post_proc_hyp.append(int(top1_match)) # append this true value instead of the token
 
                     else:
-                        # what went wrong: look at highest attended options:
+                        # something went wrong: look at highest attended options:
 
                         print(f"pp: FAILURE! Found no matches for canonical: {str_tok}")
 
@@ -440,6 +441,8 @@ class Model(nn.Module):
                     print(f"\npp: {'+'*10} DECIDED REPLACEMENT FOR CANONICAL: {str_tok}: {trvSent([post_proc_hyp[-1]])} {'+'*10}\n")
                 else: 
                     post_proc_hyp.append(token) # append normal non canonical token as it was found in hypothesis
+            print(f"pp: finished hyp: {trvSent(post_proc_hyp)}, hyp past first <EOS> would be:\
+                {trvSent(post_proc_hyp, cut_at_eos=False)}")
             post_proc_stacked_output.append(post_proc_hyp)
         print()
         print(f"pp: raw hyps:\n{self.trg_vocab.arrays_to_sentences(outputs)}")

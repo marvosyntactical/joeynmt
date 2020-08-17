@@ -150,8 +150,8 @@ class KeyValRetAtt(AttentionMechanism):
         super(KeyValRetAtt, self).__init__()
 
         # Weights
-        self.key_layer = nn.Linear(key_size, hidden_size, bias=False) # part 1 of W_1 in eric et al
-        self.query_layer = nn.Linear(query_size, hidden_size, bias=False) # part 2 of W_1 in eric et al (here: k times)
+        self.key_layer = nn.Linear(key_size, hidden_size, bias=False) # key part of W_1 in eric et al
+        self.query_layer = nn.Linear(query_size, hidden_size, bias=False) # query part of W_1 in eric et al (here: k times)
         self.energy_layer = nn.Linear(hidden_size, 1, bias=False) # utilities for all the kb entries
 
         self.W2 = nn.Linear(hidden_size, hidden_size, bias=False) # W_2 in eric et al (repeated k hops)
@@ -194,7 +194,10 @@ class KeyValRetAtt(AttentionMechanism):
             # previously computed kb entry utilities and query 
             # back into new query
             query_k = torch.cat([prev_utilities, query], dim=-1)
-            query_k = self.multihop_feeding(query_k) # query_k = batch x 1 x dec.hidden
+            assert query_k.shape[-1] == self.kb_max + self.proj_keys.shape[-1], \
+                f"right here query should be of shape B x 1 x KB_MAX + HIDDEN: {query_k.shape}"
+            query_k = self.multihop_feeding(query_k) 
+            # query_k = batch x 1 x dec.hidden
 
         # variable names refer to eric et al (2017) notation,
         # (see https://arxiv.org/abs/1705.05414)
@@ -222,10 +225,10 @@ class KeyValRetAtt(AttentionMechanism):
 
         # u_t_k: batch x 1 x kb_max
         u_t_k = u_t_k.squeeze(2).unsqueeze(1)
-
         # this done for consistency in the loop and to make the singleton dimension the unroll steps dim
         # to concatenate 1..t...T together and get the same shape
         # as outputs
+
         return u_t_k
 
     def compute_proj_keys(self, keys: Tensor):
@@ -238,7 +241,7 @@ class KeyValRetAtt(AttentionMechanism):
 
         padded_keys = self.pad_kb_keys(keys)
 
-        self.proj_keys = self.key_layer(keys) # B x kb_max x hidden
+        self.proj_keys = self.key_layer(padded_keys) # B x kb_max x hidden
 
     def pad_kb_keys(self, kb_keys: Tensor) -> Tensor:
         """
@@ -250,10 +253,11 @@ class KeyValRetAtt(AttentionMechanism):
         and remember true kb size
 
         """
-        # calculated at start of decoder.forward, retrieved during decoder.forward_step
+        # calculated at start of decoder.forward;
+        # retrieved during decoder.forward_step to recover actual kb size
         self.curr_kb_size = kb_keys.shape[1]
 
-        padding = self.kb_max - curr_kb_size
+        padding = self.kb_max - self.curr_kb_size
         assert padding >= 0, f"kb dim of keys {kb_keys.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
 
         keys_pad = torch.zeros(kb_keys.shape[0], padding, kb_keys.shape[2]).to(device=kb_keys.device)
