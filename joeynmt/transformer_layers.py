@@ -314,7 +314,7 @@ class TransformerDecoderLayer(nn.Module):
     def forward(self,
                 x: Tensor = None,
                 memory: Tensor = None,
-                kb_keys: Tensor = None, # determine if just kb keys are enough
+                kb_keys: Tensor = None,
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
                 prev_utilities: Tensor = None) -> Tensor:

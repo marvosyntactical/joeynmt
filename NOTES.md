@@ -1,31 +1,6 @@
 _Work rhythm_:
 
   0. Use **tmux** with dedicated windows (top right ram, lower right repo navi; left training); code in **VS**
-  1. Use daily RAM file (copy this from last day, leave top the same, change only current issue (pick one from the TODO list); jot down ideas for open issues below)
-  2. Only commit if training works. **REALLY TRY** to end the day with a commit/finished thought regarding the current issue. Think about what to tackle next. Spend too much resources on a problem? Ask Artem.
-  3. Start the day by **REALLY** thinking about how to solve the current issue: planning ahead seems to save a lot of trouble later :^)
-  4. Adopt consistent markdown style:*bold joeynmt/torch/existing variables and words* and _cursive  eric et al variables and words added to the system during my implementation_, **BOLD CURSIVE CAPS FOR REALLY IMPORTANT STUFF**
-
-
-# Open Questions and Ideas for the Future:
-
-* how does kv attention actually work for normalized (-> triples) entries? how does attention understand on the request "Wheres the nearest cafe?" to look up the poi\_type value for starbucks among others, see cafè; and then learn to look up the distance and address for the same subject? the keys the attention sees are NOT THE SAME, they conflate both subj and relation?!? does the magic lie in the successive kb attention queries from one decoder unrol step to successive ones? is the key rep expected by the rnn cell to be incorporated into the cell state? doesnt this mean we need to track conversation long (and not just seq2seq query - response isolated examples) history either by concatenating all previous utterances or by somehow using the last previous hidden states?
-* does it make sense to use entity F1 as supplementary validation metric?
-* how do we disambiguate triplets with identical key representation? inject more info?
-* why not query KVR attention with context (modified hidden) from bahdanau attention instead of with query (raw hidden)?
-* 
-
-# Issues ```TODO```:
-
-This table is for the project wide software engineering / research considerations.
-These will have to get resolved someday. Unordered thoughts also jotted down:
-
-1. filter out unvalued kb entries (wait for Artem's response)
-
-2. NER/linking
-  * linking is different from _kb-canonization_ and later lookup of kb values!
-  * it seems like ALL (not just KB) named entities are linked
-  * pick NER (StanfordNER prob used by authors -> finally get this to work) vs (SOTA NER) (Ask Artem: which is higher: reproducing results or achieving good ones)
   * at what point to we link to _ner-canonical-name_? probably before producing vocab file; also save occurence probabilities in train data (only utterances?also kb?) for later backgeneration
   * so during preprocessing, before generating any of the files used by *load_data*, let NER run over the utterances (and kb? here, referring expressions have no context. this impacts choice of NER system) and categorize, saving categories/labels and occurrence rates. categories are then named, this _ner-canonical-name_ is substituted for all referring expressions. Only now, *src\_* and *trg\_vocab* are generated.
 
@@ -62,6 +37,7 @@ Postprocessing:
 * (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
 * =>    "Make an entry for @event on @date at @time with my @party ."
 * =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
+* make these the knowledgebase, so they can be attended over
 
 ### 15.08.20 backward compatibility
 to test:
@@ -69,7 +45,7 @@ to test:
 #### beam search
 
 without kb:
-* transformer: test, had prohibitive assert in
+* transformer: doesnt work
 * recurrent: doesnt work
 
 => same error! (error in beam search impl?)
@@ -103,7 +79,6 @@ do k times:
 
 special case: k=1: 1hop should is equiv to default (same results)
 
-*TODO* find out if its correct
 => put khop into config
 => do 2, 3 hops
 For the moment, the whole model has a self.k\_hops attribute, and every
@@ -113,8 +88,6 @@ decode forward pass of the model does k kvr attention hops
 
 * only at (valid/)inference time (not important since training uncostly)?
 * do a while loop and hop as many times as needed until suffctly confident?
-
-*TODO FIXME* find out if scaling by k times is correct (probably not!)
 
 ===> seems to work okay, but kb attentions dont get plotted anymore
 
@@ -131,9 +104,9 @@ decode forward pass of the model does k kvr attention hops
 1. merge generator branch back
 -> Done
 2. test backwards compatibility for rnn without kb task
--> Also Done (in may, TODO redo in august)
+-> Done, Check
 3. test backwards compatibility for transformer without kb task
--> Redo
+-> Done, Check
 
 4. implement kb for transformer:
 
@@ -142,7 +115,12 @@ decode forward pass of the model does k kvr attention hops
 multi head kb attentions now get calculated in new MultiHeadedKbAttention class:
 * works like MultiHeadedAttention except no matmul with values
 * instead returns kb\_probs tensor of shape B x M x KB which is passed along until the generator, where its applied to outputs using kb\_values indices just like the recurrent case
-* => looks like generator successfully works for rnn and transf case *TODO* confirm this
+* => looks like generator successfully works for rnn and transf case
+
+Bad Results => Something's wrong:
+* Hyperparams/Config?
+* Implementation?
+
 
 
 ### 07.04.20 training on GPU
