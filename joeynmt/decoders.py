@@ -1008,9 +1008,11 @@ class TransformerDecoder(Decoder):
 
         # k fwd pass thru k layers (with k x KVR Multihop Attention)
         u_k = None # knowledgebase utilities at time step k
-        for layer in self.layers:
+        for i, layer in enumerate(self.layers):
+            isLastLayer = i+1 == len(self.layers)
             x, u_k = layer(x=x, memory=encoder_output, kb_keys=kb_keys_padded,
-                      src_mask=src_mask, trg_mask=trg_mask, prev_utilities=u_k)
+                      src_mask=src_mask, trg_mask=trg_mask, prev_utilities=u_k,
+                      isLastLayer=isLastLayer)
 
         kb_probs = u_k[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
         

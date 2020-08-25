@@ -317,7 +317,8 @@ class TransformerDecoderLayer(nn.Module):
                 kb_keys: Tensor = None,
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
-                prev_utilities: Tensor = None) -> Tensor:
+                prev_utilities: Tensor = None,
+                isLastLayer: bool = False) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
 
@@ -327,6 +328,7 @@ class TransformerDecoderLayer(nn.Module):
         :param trg_mask: target mask (so as to not condition on future steps)
         :param kb_keys: knowledgebase keys: B x KB_MAX x TRG_EMB
         :param prev_utilities: B x M x KB_MAX previous kb entry utilities for kb att input feeding
+        :param isLastLayer: bool self explanatory FIXME tmp kludge TODO move all of this to decoders.TransformerDecoder.forward
         :return: output tensor
         """
         # decoder/target self-attention
@@ -337,12 +339,13 @@ class TransformerDecoderLayer(nn.Module):
         # source-target attention
         h1_norm = self.dec_layer_norm(h1)
         h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) 
-        #NOTE Q: why is src masked? (future words hidden) A: to learn stepwise prediction for inference time
 
         # final position-wise feed-forward layer
         o = self.feed_forward(self.dropout(h2) + h1)
 
-        if kb_keys is not None:
+        if kb_keys is not None\
+            and isLastLayer: #TODO move this to decoders
+
             # kb attention uses hidden state after src_trg_att as query
             h2_norm = self.kb_layer_norm(h2) # dims not changed
 
@@ -354,7 +357,7 @@ class TransformerDecoderLayer(nn.Module):
                 query_k = torch.cat([h2_norm, prev_utilities], dim=-1)
                 query_k = self.multihop_feeding(query_k)
 
-            kb_probs = self.kb_trg_att(kb_keys, query_k) # TODO find out if I have to apply src_mask here too
+            kb_probs = self.kb_trg_att(kb_keys, query_k) # TODO do I have to apply a kb_mask ?
         else:
             kb_probs = None
         

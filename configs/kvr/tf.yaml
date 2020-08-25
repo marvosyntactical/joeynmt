@@ -76,7 +76,7 @@ model:
         # typically ff_size = 4 x hidden_size
         hidden_size: 64
         ff_size: 256
-        dropout: 0.3
+        dropout: 0.0
     decoder:
         type: "transformer"
         num_layers: 6
@@ -88,4 +88,4 @@ model:
         # typically ff_size = 4 x hidden_size
         hidden_size: 64
         ff_size: 256 
-        dropout: 0.3
+        dropout: 0.0
