@@ -13,11 +13,11 @@ friends house jacks house::traffic_info::no traffic
 friends house jacks house::poi_type::friends house
 friends house jacks house::address::864 Almanor Ln
 friends house jacks house::poi::jacks house
-home home::distance::6 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 rest stop The Clement Hotel::distance::4 miles
 rest stop The Clement Hotel::traffic_info::no traffic
 rest stop The Clement Hotel::poi_type::rest stop
@@ -479,11 +479,11 @@ grocery store Trader Joes::traffic_info::heavy traffic
 grocery store Trader Joes::poi_type::grocery store
 grocery store Trader Joes::address::408 University Ave
 grocery store Trader Joes::poi::Trader Joes
-home home::distance::3 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::3 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 coffee or tea place Teavana::distance::3 miles
 coffee or tea place Teavana::traffic_info::car collision nearby
 coffee or tea place Teavana::poi_type::coffee or tea place
@@ -619,11 +619,11 @@ parking garage Stanford Oval Parking::traffic_info::heavy traffic
 parking garage Stanford Oval Parking::poi_type::parking garage
 parking garage Stanford Oval Parking::address::610 Amarillo Ave
 parking garage Stanford Oval Parking::poi::Stanford Oval Parking
-home home::distance::1 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 alameda::monday today date::today
 alameda::monday today weather::warm
 alameda::monday today temperature low::60F
@@ -1396,11 +1396,11 @@ gas station Valero::traffic_info::heavy traffic
 gas station Valero::poi_type::gas station
 gas station Valero::address::200 Alester Ave
 gas station Valero::poi::Valero
-home home::distance::5 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::5 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 certain address 5677 southwest 4th street::distance::1 miles
 certain address 5677 southwest 4th street::traffic_info::moderate traffic
 certain address 5677 southwest 4th street::poi_type::certain address
@@ -1466,11 +1466,11 @@ shopping center Midtown Shopping Center::traffic_info::no traffic
 shopping center Midtown Shopping Center::poi_type::shopping center
 shopping center Midtown Shopping Center::address::338 Alester Ave
 shopping center Midtown Shopping Center::poi::Midtown Shopping Center
-home home::distance::6 miles
-home home::traffic_info::road block nearby
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::road block nearby
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 fresno::monday today date::today
 fresno::monday today weather::overcast
 fresno::monday today temperature low::90F
@@ -1679,11 +1679,11 @@ parking garage Civic Center Garage::traffic_info::no traffic
 parking garage Civic Center Garage::poi_type::parking garage
 parking garage Civic Center Garage::address::270 Altaire Walk
 parking garage Civic Center Garage::poi::Civic Center Garage
-home home::distance::3 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::3 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 chinese restaurant Chef Chu's::distance::2 miles
 chinese restaurant Chef Chu's::traffic_info::no traffic
 chinese restaurant Chef Chu's::poi_type::chinese restaurant
@@ -1993,11 +1993,11 @@ grocery store Trader Joes::traffic_info::heavy traffic
 grocery store Trader Joes::poi_type::grocery store
 grocery store Trader Joes::address::408 University Ave
 grocery store Trader Joes::poi::Trader Joes
-home home::distance::4 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 grocery store Willows Market::distance::4 miles
 grocery store Willows Market::traffic_info::car collision nearby
 grocery store Willows Market::poi_type::grocery store
@@ -2869,11 +2869,11 @@ gas station Valero::traffic_info::heavy traffic
 gas station Valero::poi_type::gas station
 gas station Valero::address::200 Alester Ave
 gas station Valero::poi::Valero
-home home::distance::5 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::5 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 parking garage Stanford Oval Parking::distance::4 miles
 parking garage Stanford Oval Parking::traffic_info::car collision nearby
 parking garage Stanford Oval Parking::poi_type::parking garage
@@ -3122,11 +3122,11 @@ parking garage Stanford Oval Parking::traffic_info::no traffic
 parking garage Stanford Oval Parking::poi_type::parking garage
 parking garage Stanford Oval Parking::address::610 Amarillo Ave
 parking garage Stanford Oval Parking::poi::Stanford Oval Parking
-home home::distance::5 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::5 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 parking garage Civic Center Garage::distance::2 miles
 parking garage Civic Center Garage::traffic_info::no traffic
 parking garage Civic Center Garage::poi_type::parking garage
@@ -4687,11 +4687,11 @@ grocery store Trader Joes::traffic_info::moderate traffic
 grocery store Trader Joes::poi_type::grocery store
 grocery store Trader Joes::address::408 University Ave
 grocery store Trader Joes::poi::Trader Joes
-home home::distance::2 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::2 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 chinese restaurant Jing Jing::distance::6 miles
 chinese restaurant Jing Jing::traffic_info::no traffic
 chinese restaurant Jing Jing::poi_type::chinese restaurant
@@ -5606,11 +5606,11 @@ grand rapids::saturday date::saturday
 grand rapids::saturday weather::overcast
 grand rapids::saturday temperature low::50F
 grand rapids::saturday temperature high::60F
-home home::distance::1 miles
-home home::traffic_info::road block nearby
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::road block nearby
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 coffee or tea place Teavana::distance::4 miles
 coffee or tea place Teavana::traffic_info::car collision nearby
 coffee or tea place Teavana::poi_type::coffee or tea place
@@ -6748,11 +6748,11 @@ certain address 5677 springer street::traffic_info::moderate traffic
 certain address 5677 springer street::poi_type::certain address
 certain address 5677 springer street::address::5677 springer street
 certain address 5677 springer street::poi::5677 springer street
-home home::distance::1 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 certain address 5672 barringer street::distance::1 miles
 certain address 5672 barringer street::traffic_info::heavy traffic
 certain address 5672 barringer street::poi_type::certain address
@@ -6808,11 +6808,11 @@ grocery store Trader Joes::traffic_info::no traffic
 grocery store Trader Joes::poi_type::grocery store
 grocery store Trader Joes::address::408 University Ave
 grocery store Trader Joes::poi::Trader Joes
-home home::distance::3 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::3 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 rest stop The Westin::distance::5 miles
 rest stop The Westin::traffic_info::moderate traffic
 rest stop The Westin::poi_type::rest stop
@@ -7081,11 +7081,11 @@ hospital Stanford Express Care::traffic_info::no traffic
 hospital Stanford Express Care::poi_type::hospital
 hospital Stanford Express Care::address::214 El Camino Real
 hospital Stanford Express Care::poi::Stanford Express Care
-home home::distance::4 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 rest stop The Clement Hotel::distance::4 miles
 rest stop The Clement Hotel::traffic_info::heavy traffic
 rest stop The Clement Hotel::poi_type::rest stop
@@ -8337,11 +8337,11 @@ hospital Stanford Express Care::traffic_info::no traffic
 hospital Stanford Express Care::poi_type::hospital
 hospital Stanford Express Care::address::214 El Camino Real
 hospital Stanford Express Care::poi::Stanford Express Care
-home home::distance::1 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 chinese restaurant tai pan::distance::1 miles
 chinese restaurant tai pan::traffic_info::heavy traffic
 chinese restaurant tai pan::poi_type::chinese restaurant
@@ -8367,11 +8367,11 @@ pizza restaurant Dominos::traffic_info::road block nearby
 pizza restaurant Dominos::poi_type::pizza restaurant
 pizza restaurant Dominos::address::776 Arastradero Rd
 pizza restaurant Dominos::poi::Dominos
-home home::distance::2 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::2 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 coffee or tea place Starbucks::distance::3 miles
 coffee or tea place Starbucks::traffic_info::road block nearby
 coffee or tea place Starbucks::poi_type::coffee or tea place
@@ -9133,11 +9133,11 @@ rest stop The Westin::traffic_info::moderate traffic
 rest stop The Westin::poi_type::rest stop
 rest stop The Westin::address::329 El Camino Real
 rest stop The Westin::poi::The Westin
-home home::distance::4 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 chinese restaurant Mandarin Roots::distance::4 miles
 chinese restaurant Mandarin Roots::traffic_info::heavy traffic
 chinese restaurant Mandarin Roots::poi_type::chinese restaurant
@@ -10030,11 +10030,11 @@ shopping center Ravenswood Shopping Center::traffic_info::road block nearby
 shopping center Ravenswood Shopping Center::poi_type::shopping center
 shopping center Ravenswood Shopping Center::address::434 Arastradero Rd
 shopping center Ravenswood Shopping Center::poi::Ravenswood Shopping Center
-home home::distance::4 miles
-home home::traffic_info::car collision nearby
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::car collision nearby
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 chinese restaurant Chef Chu's::distance::5 miles
 chinese restaurant Chef Chu's::traffic_info::no traffic
 chinese restaurant Chef Chu's::poi_type::chinese restaurant
@@ -12163,11 +12163,11 @@ chinese restaurant tai pan::traffic_info::heavy traffic
 chinese restaurant tai pan::poi_type::chinese restaurant
 chinese restaurant tai pan::address::830 Almanor Ln
 chinese restaurant tai pan::poi::tai pan
-home home::distance::5 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::5 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 coffee or tea place Philz::distance::3 miles
 coffee or tea place Philz::traffic_info::no traffic
 coffee or tea place Philz::poi_type::coffee or tea place
@@ -12412,16 +12412,16 @@ rest stop Hotel Keen::traffic_info::car collision nearby
 rest stop Hotel Keen::poi_type::rest stop
 rest stop Hotel Keen::address::578 Arbol Dr
 rest stop Hotel Keen::poi::Hotel Keen
-home home::distance::6 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
-home home::distance::5 miles
-home home::traffic_info::road block nearby
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
+home::distance::5 miles
+home::traffic_info::road block nearby
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 gas station Chevron::distance::1 miles
 gas station Chevron::traffic_info::road block nearby
 gas station Chevron::poi_type::gas station
@@ -13083,16 +13083,16 @@ pizza restaurant Papa Johns::traffic_info::car collision nearby
 pizza restaurant Papa Johns::poi_type::pizza restaurant
 pizza restaurant Papa Johns::address::110 Arastradero Rd
 pizza restaurant Papa Johns::poi::Papa Johns
-home home::distance::4 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
-home home::distance::6 miles
-home home::traffic_info::car collision nearby
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
+home::distance::6 miles
+home::traffic_info::car collision nearby
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 certain address 5677 southwest 4th street::distance::5 miles
 certain address 5677 southwest 4th street::traffic_info::heavy traffic
 certain address 5677 southwest 4th street::poi_type::certain address
@@ -13113,11 +13113,11 @@ pizza restaurant Dominos::traffic_info::moderate traffic
 pizza restaurant Dominos::poi_type::pizza restaurant
 pizza restaurant Dominos::address::776 Arastradero Rd
 pizza restaurant Dominos::poi::Dominos
-home home::distance::4 miles
-home home::traffic_info::road block nearby
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::road block nearby
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 manhattan::monday today date::today
 manhattan::monday today weather::clear skies
 manhattan::monday today temperature low::30F
@@ -13757,11 +13757,11 @@ chinese restaurant tai pan::traffic_info::no traffic
 chinese restaurant tai pan::poi_type::chinese restaurant
 chinese restaurant tai pan::address::830 Almanor Ln
 chinese restaurant tai pan::poi::tai pan
-home home::distance::1 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 chinese restaurant P.F. Changs::distance::2 miles
 chinese restaurant P.F. Changs::traffic_info::moderate traffic
 chinese restaurant P.F. Changs::poi_type::chinese restaurant
@@ -14656,11 +14656,11 @@ chinese restaurant Jing Jing::traffic_info::car collision nearby
 chinese restaurant Jing Jing::poi_type::chinese restaurant
 chinese restaurant Jing Jing::address::113 Arbol Dr
 chinese restaurant Jing Jing::poi::Jing Jing
-home home::distance::1 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 downtown chicago::monday today date::today
 downtown chicago::monday today weather::windy
 downtown chicago::monday today temperature low::60F
@@ -15650,21 +15650,21 @@ shopping center Stanford Shopping Center::traffic_info::car collision nearby
 shopping center Stanford Shopping Center::poi_type::shopping center
 shopping center Stanford Shopping Center::address::773 Alger Dr
 shopping center Stanford Shopping Center::poi::Stanford Shopping Center
-home home::distance::6 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 parking garage Webster Garage::distance::2 miles
 parking garage Webster Garage::traffic_info::heavy traffic
 parking garage Webster Garage::poi_type::parking garage
 parking garage Webster Garage::address::880 Ames Ct
 parking garage Webster Garage::poi::Webster Garage
-home home::distance::1 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 friends house jacks house::distance::4 miles
 friends house jacks house::traffic_info::road block nearby
 friends house jacks house::poi_type::friends house
@@ -15992,11 +15992,11 @@ grocery store Sigona Farmers Market::traffic_info::no traffic
 grocery store Sigona Farmers Market::poi_type::grocery store
 grocery store Sigona Farmers Market::address::638 Amherst St
 grocery store Sigona Farmers Market::poi::Sigona Farmers Market
-home home::distance::1 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 chinese restaurant tai pan::distance::5 miles
 chinese restaurant tai pan::traffic_info::heavy traffic
 chinese restaurant tai pan::poi_type::chinese restaurant
@@ -16012,11 +16012,11 @@ chinese restaurant Chef Chu's::traffic_info::no traffic
 chinese restaurant Chef Chu's::poi_type::chinese restaurant
 chinese restaurant Chef Chu's::address::593 Arrowhead Way
 chinese restaurant Chef Chu's::poi::Chef Chu's
-home home::distance::2 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::2 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 certain address 5677 southwest 4th street::distance::5 miles
 certain address 5677 southwest 4th street::traffic_info::moderate traffic
 certain address 5677 southwest 4th street::poi_type::certain address
@@ -16265,16 +16265,16 @@ manhattan::saturday date::saturday
 manhattan::saturday weather::clear skies
 manhattan::saturday temperature low::80F
 manhattan::saturday temperature high::90F
-home home::distance::4 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
-home home::distance::5 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
+home::distance::5 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 rest stop Four Seasons::distance::6 miles
 rest stop Four Seasons::traffic_info::no traffic
 rest stop Four Seasons::poi_type::rest stop
@@ -16528,11 +16528,11 @@ friends house jills house::traffic_info::moderate traffic
 friends house jills house::poi_type::friends house
 friends house jills house::address::347 Alta Mesa Ave
 friends house jills house::poi::jills house
-home home::distance::2 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::2 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 pizza restaurant Dominos::distance::2 miles
 pizza restaurant Dominos::traffic_info::moderate traffic
 pizza restaurant Dominos::poi_type::pizza restaurant
@@ -16876,11 +16876,11 @@ coffee or tea place Peets Coffee::traffic_info::heavy traffic
 coffee or tea place Peets Coffee::poi_type::coffee or tea place
 coffee or tea place Peets Coffee::address::9981 Archuleta Ave
 coffee or tea place Peets Coffee::poi::Peets Coffee
-home home::distance::4 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 pizza restaurant Round Table::distance::4 miles
 pizza restaurant Round Table::traffic_info::no traffic
 pizza restaurant Round Table::poi_type::pizza restaurant
@@ -17498,11 +17498,11 @@ hospital Stanford Childrens Health::traffic_info::moderate traffic
 hospital Stanford Childrens Health::poi_type::hospital
 hospital Stanford Childrens Health::address::899 Ames Ct
 hospital Stanford Childrens Health::poi::Stanford Childrens Health
-home home::distance::1 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 meeting::room::100 conference room
 meeting::agenda::discuss the merger
 meeting::time::11 am
@@ -19859,11 +19859,11 @@ gas station 76::traffic_info::road block nearby
 gas station 76::poi_type::gas station
 gas station 76::address::91 El Camino Real
 gas station 76::poi::76
-home home::distance::6 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 parking garage Palo Alto Garage R::distance::3 miles
 parking garage Palo Alto Garage R::traffic_info::moderate traffic
 parking garage Palo Alto Garage R::poi_type::parking garage
@@ -20003,11 +20003,11 @@ shopping center Midtown Shopping Center::traffic_info::car collision nearby
 shopping center Midtown Shopping Center::poi_type::shopping center
 shopping center Midtown Shopping Center::address::338 Alester Ave
 shopping center Midtown Shopping Center::poi::Midtown Shopping Center
-home home::distance::6 miles
-home home::traffic_info::car collision nearby
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::car collision nearby
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 menlo park::monday today date::today
 menlo park::monday today weather::snow
 menlo park::monday today temperature low::80F
@@ -20321,11 +20321,11 @@ gas station Chevron::traffic_info::moderate traffic
 gas station Chevron::poi_type::gas station
 gas station Chevron::address::783 Arcadia Pl
 gas station Chevron::poi::Chevron
-home home::distance::1 miles
-home home::traffic_info::car collision nearby
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::car collision nearby
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 shopping center Stanford Shopping Center::distance::2 miles
 shopping center Stanford Shopping Center::traffic_info::moderate traffic
 shopping center Stanford Shopping Center::poi_type::shopping center
@@ -21257,26 +21257,26 @@ rest stop Hotel Keen::traffic_info::no traffic
 rest stop Hotel Keen::poi_type::rest stop
 rest stop Hotel Keen::address::578 Arbol Dr
 rest stop Hotel Keen::poi::Hotel Keen
-home home::distance::1 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
-home home::distance::5 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::1 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
+home::distance::5 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 certain address 5677 springer street::distance::3 miles
 certain address 5677 springer street::traffic_info::no traffic
 certain address 5677 springer street::poi_type::certain address
 certain address 5677 springer street::address::5677 springer street
 certain address 5677 springer street::poi::5677 springer street
-home home::distance::3 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::3 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 rest stop Comfort Inn::distance::1 miles
 rest stop Comfort Inn::traffic_info::road block nearby
 rest stop Comfort Inn::poi_type::rest stop
@@ -21312,11 +21312,11 @@ hospital Stanford Express Care::distance::3 miles
 hospital Stanford Express Care::traffic_info::no traffic
 hospital Stanford Express Care::poi_type::hospital
 hospital Stanford Express Care::address::214 El Camino Real
-home home::poi::home
-home home::distance::4 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::5671 barringer street
+home::poi::home
+home::distance::4 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::5671 barringer street
 grocery store Whole Foods::poi::Whole Foods
 grocery store Whole Foods::distance::2 miles
 grocery store Whole Foods::traffic_info::heavy traffic
@@ -21601,11 +21601,11 @@ pizza restaurant Pizza My Heart::traffic_info::road block nearby
 pizza restaurant Pizza My Heart::poi_type::pizza restaurant
 pizza restaurant Pizza My Heart::address::528 Anton Ct
 pizza restaurant Pizza My Heart::poi::Pizza My Heart
-home home::distance::3 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::3 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 chinese restaurant Chef Chu's::distance::5 miles
 chinese restaurant Chef Chu's::traffic_info::heavy traffic
 chinese restaurant Chef Chu's::poi_type::chinese restaurant
@@ -21641,11 +21641,11 @@ parking garage Webster Garage::traffic_info::car collision nearby
 parking garage Webster Garage::poi_type::parking garage
 parking garage Webster Garage::address::880 Ames Ct
 parking garage Webster Garage::poi::Webster Garage
-home home::distance::2 miles
-home home::traffic_info::car collision nearby
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::2 miles
+home::traffic_info::car collision nearby
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 shopping center Midtown Shopping Center::distance::4 miles
 shopping center Midtown Shopping Center::traffic_info::road block nearby
 shopping center Midtown Shopping Center::poi_type::shopping center
@@ -21736,11 +21736,11 @@ grocery store Safeway::traffic_info::no traffic
 grocery store Safeway::poi_type::grocery store
 grocery store Safeway::address::452 Arcadia Pl
 grocery store Safeway::poi::Safeway
-home home::distance::2 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::2 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 certain address 5677 southwest 4th street::distance::6 miles
 certain address 5677 southwest 4th street::traffic_info::moderate traffic
 certain address 5677 southwest 4th street::poi_type::certain address
@@ -21826,11 +21826,11 @@ rest stop Four Seasons::traffic_info::no traffic
 rest stop Four Seasons::poi_type::rest stop
 rest stop Four Seasons::address::465 Arcadia Pl
 rest stop Four Seasons::poi::Four Seasons
-home home::distance::6 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 certain address 5677 southwest 4th street::distance::4 miles
 certain address 5677 southwest 4th street::traffic_info::car collision nearby
 certain address 5677 southwest 4th street::poi_type::certain address
@@ -22470,11 +22470,11 @@ coffee or tea place Starbucks::traffic_info::no traffic
 coffee or tea place Starbucks::poi_type::coffee or tea place
 coffee or tea place Starbucks::address::792 Bedoin Street
 coffee or tea place Starbucks::poi::Starbucks
-home home::distance::2 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::2 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 pizza restaurant Dominos::distance::3 miles
 pizza restaurant Dominos::traffic_info::car collision nearby
 pizza restaurant Dominos::poi_type::pizza restaurant
@@ -23266,11 +23266,11 @@ chinese restaurant tai pan::traffic_info::no traffic
 chinese restaurant tai pan::poi_type::chinese restaurant
 chinese restaurant tai pan::address::830 Almanor Ln
 chinese restaurant tai pan::poi::tai pan
-home home::distance::5 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::5 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 cleveland::monday today date::today
 cleveland::monday today weather::warm
 cleveland::monday today temperature low::60F
@@ -23785,11 +23785,11 @@ pizza restaurant Round Table::traffic_info::heavy traffic
 pizza restaurant Round Table::poi_type::pizza restaurant
 pizza restaurant Round Table::address::113 Anton Ct
 pizza restaurant Round Table::poi::Round Table
-home home::distance::4 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 chinese restaurant Panda Express::distance::4 miles
 chinese restaurant Panda Express::traffic_info::no traffic
 chinese restaurant Panda Express::poi_type::chinese restaurant
@@ -24925,11 +24925,11 @@ chinese restaurant P.F. Changs::traffic_info::car collision nearby
 chinese restaurant P.F. Changs::poi_type::chinese restaurant
 chinese restaurant P.F. Changs::address::669 El Camino Real
 chinese restaurant P.F. Changs::poi::P.F. Changs
-home home::distance::7 miles
-home home::traffic_info::heavy traffic
-home home::poi_type::home
-home home::address::10 ames street
-home home::poi::home
+home::distance::7 miles
+home::traffic_info::heavy traffic
+home::poi_type::home
+home::address::10 ames street
+home::poi::home
 grand rapids::monday today date::today
 grand rapids::monday today weather::humid
 grand rapids::monday today temperature low::60F
@@ -25205,11 +25205,11 @@ lab appointment::time::4pm
 lab appointment::date::the 18th
 lab appointment::party::father
 lab appointment::event::lab appointment
-home home::distance::4 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::4 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 certain address 5677 southwest 4th street::distance::6 miles
 certain address 5677 southwest 4th street::traffic_info::heavy traffic
 certain address 5677 southwest 4th street::poi_type::certain address
@@ -25255,11 +25255,11 @@ rest stop Hotel Keen::traffic_info::no traffic
 rest stop Hotel Keen::poi_type::rest stop
 rest stop Hotel Keen::address::578 Arbol Dr
 rest stop Hotel Keen::poi::Hotel Keen
-home home::distance::6 miles
-home home::traffic_info::no traffic
-home home::poi_type::home
-home home::address::56 cadwell street
-home home::poi::home
+home::distance::6 miles
+home::traffic_info::no traffic
+home::poi_type::home
+home::address::56 cadwell street
+home::poi::home
 rest stop Comfort Inn::distance::6 miles
 rest stop Comfort Inn::traffic_info::no traffic
 rest stop Comfort Inn::poi_type::rest stop
@@ -25573,11 +25573,11 @@ hospital Stanford Childrens Health::traffic_info::no traffic
 hospital Stanford Childrens Health::poi_type::hospital
 hospital Stanford Childrens Health::address::899 Ames Ct
 hospital Stanford Childrens Health::poi::Stanford Childrens Health
-home home::distance::3 miles
-home home::traffic_info::moderate traffic
-home home::poi_type::home
-home home::address::5671 barringer street
-home home::poi::home
+home::distance::3 miles
+home::traffic_info::moderate traffic
+home::poi_type::home
+home::address::5671 barringer street
+home::poi::home
 pizza restaurant Round Table::distance::4 miles
 pizza restaurant Round Table::traffic_info::no traffic
 pizza restaurant Round Table::poi_type::pizza restaurant

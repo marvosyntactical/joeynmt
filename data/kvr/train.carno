@@ -1912,7 +1912,7 @@ the address is @poi_address , i highlighted it on your map together with the qui
 you're welcome , have a great day . 
 okay , setting reminder for doctor's appointment on @date at @time .
 what location do you want the temperature for ?
-this week in @location , @date and @date have lows in the @temperature with highs in the @temperature . the @poi_type of the week has high temperatures reaching the @temperature s
+this week in @location , @date and @date have lows in the @temperature with highs in the @temperature . the rest of the week has high temperatures reaching the @temperature s
 anytime
 it will be raining but not hailing in @location today .
 you're very welcome !
@@ -2488,7 +2488,7 @@ then let's go at @poi_name , @poi_address  ,it's just @poi_distance away but the
 navigating to @poi_address now . 
 you're welcome !
 what city can i give you the 7 day forecast for ?
-there will be @weather_attribute in @location on @date and @date only . would you like the @poi_type of the forecast ?
+there will be @weather_attribute in @location on @date and @date only . would you like the rest of the forecast ?
 you are welcome
 i have scheduled a reminder at @time on @date .
 setting reminder to take medicine on @date august 8 th at @time with @party . 
@@ -3731,7 +3731,7 @@ you're welcome
 @poi_name is nearby at @poi_address . 
 in this moment there is @traffic_info , we should reach it fast , i sent its position on your gps
 you're welcome .
-i have two @poi_type stops near you ; one is @poi_distance away with @traffic_info and one is @poi_distance away with @traffic_info . do you have a preference ?
+i have two rest stops near you ; one is @poi_distance away with @traffic_info and one is @poi_distance away with @traffic_info . do you have a preference ?
 i will begin the directions now . 
 you're welcome !
 the quickest route @poi_type is an 8 mile drive through @traffic_info .
@@ -6235,7 +6235,7 @@ what city would you like me to check the weather for ?
 it will @weather_attribute on @date in @location .
 anything else i can help you with today ?
 you're welcome , have a wonderful day . 
-you don't have a @event match scheduled for @date . should i check the @poi_type of the week ?
+you don't have a @event match scheduled for @date . should i check the rest of the week ?
 you have a @event on @date at @time
 there is no forecast of mist in @location this week .
 no problem .

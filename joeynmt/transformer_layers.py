@@ -192,10 +192,11 @@ class PositionalEncoding(nn.Module):
         if size % 2 != 0:
             raise ValueError("Cannot use sin/cos positional encoding with "
                              "odd dim (got dim={:d})".format(size))
-        pe = torch.zeros(max_len, size)
+        pe = torch.zeros( max_len, size )
         position = torch.arange(0, max_len).unsqueeze(1)
-        div_term = torch.exp((torch.arange(0, size, 2, dtype=torch.float) *
-                              -(math.log(10000.0) / size)))
+        div_term = torch.exp(
+            (torch.arange(0, size, 2, dtype=torch.float) * -(math.log(10000.0) / size))
+                              )
         pe[:, 0::2] = torch.sin(position.float() * div_term)
         pe[:, 1::2] = torch.cos(position.float() * div_term)
         pe = pe.unsqueeze(0)  # shape: [1, size, max_len]
@@ -304,8 +305,6 @@ class TransformerDecoderLayer(nn.Module):
         self.kb_max = kb_max
 
         if kb_task:
-            self.kb_trg_att = MultiHeadedKbAttention(num_heads, size,
-                                                    dropout=dropout)
             self.multihop_feeding = nn.Linear(self.kb_max + self.size, self.size, bias=True)
 
         self.dropout = nn.Dropout(dropout)
@@ -314,11 +313,10 @@ class TransformerDecoderLayer(nn.Module):
     def forward(self,
                 x: Tensor = None,
                 memory: Tensor = None,
-                kb_keys: Tensor = None,
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
-                prev_utilities: Tensor = None,
-                isLastLayer: bool = False) -> Tensor:
+                prev_utilities: Tensor = None
+                ) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
 
@@ -326,9 +324,7 @@ class TransformerDecoderLayer(nn.Module):
         :param memory: source representations
         :param src_mask: source mask
         :param trg_mask: target mask (so as to not condition on future steps)
-        :param kb_keys: knowledgebase keys: B x KB_MAX x TRG_EMB
         :param prev_utilities: B x M x KB_MAX previous kb entry utilities for kb att input feeding
-        :param isLastLayer: bool self explanatory FIXME tmp kludge TODO move all of this to decoders.TransformerDecoder.forward
         :return: output tensor
         """
         # decoder/target self-attention
@@ -343,22 +339,4 @@ class TransformerDecoderLayer(nn.Module):
         # final position-wise feed-forward layer
         o = self.feed_forward(self.dropout(h2) + h1)
 
-        if kb_keys is not None\
-            and isLastLayer: #TODO move this to decoders
-
-            # kb attention uses hidden state after src_trg_att as query
-            h2_norm = self.kb_layer_norm(h2) # dims not changed
-
-            # KVR Multihop attention
-            if prev_utilities is None: # we are in first layer, query kb attention with h2_norm
-                query_k = h2_norm
-            else:
-                # we are in layer k > 1, enrich the kb_trg_att query with previous utilities/kb_probs
-                query_k = torch.cat([h2_norm, prev_utilities], dim=-1)
-                query_k = self.multihop_feeding(query_k)
-
-            kb_probs = self.kb_trg_att(kb_keys, query_k) # TODO do I have to apply a kb_mask ?
-        else:
-            kb_probs = None
-        
-        return o, kb_probs
+        return o
