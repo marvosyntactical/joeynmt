@@ -1,0 +1,71 @@
+name: "iwslt14-deen-bpe"
+
+data:
+    src: "de"
+    trg: "en"
+    train: "test/data/iwslt14/train.bpe.32000"
+    dev: "test/data/iwslt14/valid.bpe.32000" 
+    test: "test/data/iwslt14/test.bpe.32000"
+    level: "bpe"
+    lowercase: True
+    max_sent_length: 62
+    src_voc_min_freq: 1
+    src_voc_limit: 32000
+    trg_voc_min_freq: 1
+    trg_voc_limit: 32000
+
+testing:
+    beam_size: 10
+    alpha: 1.0
+
+training:
+    batch_multiplier: 49            # increase the effective batch size with values > 1 to batch_multiplier*batch_size without increasing memory consumption by making updates only every batch_multiplier batches
+    random_seed: 420
+    optimizer: "adam"
+    learning_rate: 0.0003
+    learning_rate_min: 0.0000005
+    weight_decay: 0.0
+    clip_grad_norm: 1.0
+    batch_size: 1
+    scheduling: "plateau"
+    patience: 5
+    decrease_factor: 0.5
+    early_stopping_metric: "eval_metric"
+    epochs: 1000
+    validation_freq: 100
+    logging_freq: 10
+    eval_metric: "bleu"
+    model_dir: "models/wmt_ende_default"
+    overwrite: True
+    shuffle: True
+    use_cuda: True
+    # max_output_length: 100
+    print_valid_sents: [0,1,2,3,297,298,299,307,308,309,310,311,312,313,314,315,410,420,430,440,450,460,500,501,502,550,551,553]    # print these validation sentences during each validation run, default: [0, 1, 2]
+
+model:
+    encoder:
+        rnn_type: "lstm"
+        embeddings:
+            embedding_dim: 32
+            scale: False
+            freeze: False
+        hidden_size: 200
+        bidirectional: True
+        dropout: 0.12
+        num_layers: 1
+        freeze: False
+    decoder:
+        rnn_type: "lstm"
+        embeddings:
+            embedding_dim: 32
+            scale: False
+            freeze: False
+        emb_scale: False
+        hidden_size: 200
+        dropout: 0.12
+        hidden_dropout: 0.12
+        num_layers: 3
+        input_feeding: True
+        init_hidden: "bridge"
+        attention: "bahdanau"
+        freeze: False
