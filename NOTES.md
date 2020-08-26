@@ -75,9 +75,9 @@ Empty scheduling KBs:
 * avoid canonizing stuff thats not in the KB => how much is uncanonized by this (=> maybe trouble generalizing)?
 
 Pipeline:
-* remove double "home" in traffic KBs
-* refactor data/scripts\_kvr/ into one script
-* (batch convos with same kb together)
+* remove double "home" in traffic KBs ✔️
+* refactor data/scripts\_kvr/ into one script; go.sh ✔️
+* (batch convos with same kb together) 
 
 ---
 
@@ -159,6 +159,11 @@ Alternative Version:
 * Single attention pass with query=h2\_norm of last layer works better
 * change implementation to this if Artem agrees *TODO*
 
+MultiHeadedKBAttention:
+* figure out if possible to make this more like vanilla transformer (nativity)
+* what to do with heads? atm: sum (artem: information loss!)
+
+
 ---
 
 ### 07.04.20 training on GPU
@@ -183,11 +188,7 @@ TODO for actual gpu training:
 * choose best model based on bleu not ppl??
 => early stopping metric in config set to eval\_metric or anything
 
-
-
 1a. find out whats not working with postprocessing: 
-
-* lookup/token matching gone wild?
 
 Plotting:
 * valid\_kb.kbtrv ist LEER! (=> versuche plotting mit kbtrg zu reetablieren)
@@ -195,7 +196,6 @@ Plotting:
 * dev.lkp ist FALSCH (=> entspr. teil der preprocessing pipeline durchgehen)
 * does kb attention actually sum to 1 ???
   (should not be the case because for KBs with only dummy token, that should have high probability and always be favored to be output)
-
 
 
 ## Old Issue

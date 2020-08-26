@@ -13,11 +13,11 @@ friends house jacks house <pad> traffic_info
 friends house jacks house <pad> poi_type
 friends house jacks house <pad> address
 friends house jacks house <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 rest stop The Clement Hotel <pad> distance
 rest stop The Clement Hotel <pad> traffic_info
 rest stop The Clement Hotel <pad> poi_type
@@ -479,11 +479,11 @@ grocery store Trader Joes <pad> traffic_info
 grocery store Trader Joes <pad> poi_type
 grocery store Trader Joes <pad> address
 grocery store Trader Joes <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 coffee or tea place Teavana <pad> distance
 coffee or tea place Teavana <pad> traffic_info
 coffee or tea place Teavana <pad> poi_type
@@ -619,11 +619,11 @@ parking garage Stanford Oval Parking <pad> traffic_info
 parking garage Stanford Oval Parking <pad> poi_type
 parking garage Stanford Oval Parking <pad> address
 parking garage Stanford Oval Parking <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 alameda <pad> monday today date
 alameda <pad> monday today weather
 alameda <pad> monday today temperature low
@@ -1396,11 +1396,11 @@ gas station Valero <pad> traffic_info
 gas station Valero <pad> poi_type
 gas station Valero <pad> address
 gas station Valero <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5677 southwest 4th street <pad> distance
 certain address 5677 southwest 4th street <pad> traffic_info
 certain address 5677 southwest 4th street <pad> poi_type
@@ -1466,11 +1466,11 @@ shopping center Midtown Shopping Center <pad> traffic_info
 shopping center Midtown Shopping Center <pad> poi_type
 shopping center Midtown Shopping Center <pad> address
 shopping center Midtown Shopping Center <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 fresno <pad> monday today date
 fresno <pad> monday today weather
 fresno <pad> monday today temperature low
@@ -1679,11 +1679,11 @@ parking garage Civic Center Garage <pad> traffic_info
 parking garage Civic Center Garage <pad> poi_type
 parking garage Civic Center Garage <pad> address
 parking garage Civic Center Garage <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant Chef Chu's <pad> distance
 chinese restaurant Chef Chu's <pad> traffic_info
 chinese restaurant Chef Chu's <pad> poi_type
@@ -1993,11 +1993,11 @@ grocery store Trader Joes <pad> traffic_info
 grocery store Trader Joes <pad> poi_type
 grocery store Trader Joes <pad> address
 grocery store Trader Joes <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 grocery store Willows Market <pad> distance
 grocery store Willows Market <pad> traffic_info
 grocery store Willows Market <pad> poi_type
@@ -2869,11 +2869,11 @@ gas station Valero <pad> traffic_info
 gas station Valero <pad> poi_type
 gas station Valero <pad> address
 gas station Valero <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 parking garage Stanford Oval Parking <pad> distance
 parking garage Stanford Oval Parking <pad> traffic_info
 parking garage Stanford Oval Parking <pad> poi_type
@@ -3122,11 +3122,11 @@ parking garage Stanford Oval Parking <pad> traffic_info
 parking garage Stanford Oval Parking <pad> poi_type
 parking garage Stanford Oval Parking <pad> address
 parking garage Stanford Oval Parking <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 parking garage Civic Center Garage <pad> distance
 parking garage Civic Center Garage <pad> traffic_info
 parking garage Civic Center Garage <pad> poi_type
@@ -4687,11 +4687,11 @@ grocery store Trader Joes <pad> traffic_info
 grocery store Trader Joes <pad> poi_type
 grocery store Trader Joes <pad> address
 grocery store Trader Joes <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant Jing Jing <pad> distance
 chinese restaurant Jing Jing <pad> traffic_info
 chinese restaurant Jing Jing <pad> poi_type
@@ -5606,11 +5606,11 @@ grand rapids <pad> saturday date
 grand rapids <pad> saturday weather
 grand rapids <pad> saturday temperature low
 grand rapids <pad> saturday temperature high
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 coffee or tea place Teavana <pad> distance
 coffee or tea place Teavana <pad> traffic_info
 coffee or tea place Teavana <pad> poi_type
@@ -6748,11 +6748,11 @@ certain address 5677 springer street <pad> traffic_info
 certain address 5677 springer street <pad> poi_type
 certain address 5677 springer street <pad> address
 certain address 5677 springer street <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5672 barringer street <pad> distance
 certain address 5672 barringer street <pad> traffic_info
 certain address 5672 barringer street <pad> poi_type
@@ -6808,11 +6808,11 @@ grocery store Trader Joes <pad> traffic_info
 grocery store Trader Joes <pad> poi_type
 grocery store Trader Joes <pad> address
 grocery store Trader Joes <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 rest stop The Westin <pad> distance
 rest stop The Westin <pad> traffic_info
 rest stop The Westin <pad> poi_type
@@ -7081,11 +7081,11 @@ hospital Stanford Express Care <pad> traffic_info
 hospital Stanford Express Care <pad> poi_type
 hospital Stanford Express Care <pad> address
 hospital Stanford Express Care <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 rest stop The Clement Hotel <pad> distance
 rest stop The Clement Hotel <pad> traffic_info
 rest stop The Clement Hotel <pad> poi_type
@@ -8337,11 +8337,11 @@ hospital Stanford Express Care <pad> traffic_info
 hospital Stanford Express Care <pad> poi_type
 hospital Stanford Express Care <pad> address
 hospital Stanford Express Care <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant tai pan <pad> distance
 chinese restaurant tai pan <pad> traffic_info
 chinese restaurant tai pan <pad> poi_type
@@ -8367,11 +8367,11 @@ pizza restaurant Dominos <pad> traffic_info
 pizza restaurant Dominos <pad> poi_type
 pizza restaurant Dominos <pad> address
 pizza restaurant Dominos <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 coffee or tea place Starbucks <pad> distance
 coffee or tea place Starbucks <pad> traffic_info
 coffee or tea place Starbucks <pad> poi_type
@@ -9133,11 +9133,11 @@ rest stop The Westin <pad> traffic_info
 rest stop The Westin <pad> poi_type
 rest stop The Westin <pad> address
 rest stop The Westin <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant Mandarin Roots <pad> distance
 chinese restaurant Mandarin Roots <pad> traffic_info
 chinese restaurant Mandarin Roots <pad> poi_type
@@ -10030,11 +10030,11 @@ shopping center Ravenswood Shopping Center <pad> traffic_info
 shopping center Ravenswood Shopping Center <pad> poi_type
 shopping center Ravenswood Shopping Center <pad> address
 shopping center Ravenswood Shopping Center <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant Chef Chu's <pad> distance
 chinese restaurant Chef Chu's <pad> traffic_info
 chinese restaurant Chef Chu's <pad> poi_type
@@ -12163,11 +12163,11 @@ chinese restaurant tai pan <pad> traffic_info
 chinese restaurant tai pan <pad> poi_type
 chinese restaurant tai pan <pad> address
 chinese restaurant tai pan <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 coffee or tea place Philz <pad> distance
 coffee or tea place Philz <pad> traffic_info
 coffee or tea place Philz <pad> poi_type
@@ -12412,16 +12412,16 @@ rest stop Hotel Keen <pad> traffic_info
 rest stop Hotel Keen <pad> poi_type
 rest stop Hotel Keen <pad> address
 rest stop Hotel Keen <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 gas station Chevron <pad> distance
 gas station Chevron <pad> traffic_info
 gas station Chevron <pad> poi_type
@@ -13083,16 +13083,16 @@ pizza restaurant Papa Johns <pad> traffic_info
 pizza restaurant Papa Johns <pad> poi_type
 pizza restaurant Papa Johns <pad> address
 pizza restaurant Papa Johns <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5677 southwest 4th street <pad> distance
 certain address 5677 southwest 4th street <pad> traffic_info
 certain address 5677 southwest 4th street <pad> poi_type
@@ -13113,11 +13113,11 @@ pizza restaurant Dominos <pad> traffic_info
 pizza restaurant Dominos <pad> poi_type
 pizza restaurant Dominos <pad> address
 pizza restaurant Dominos <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 manhattan <pad> monday today date
 manhattan <pad> monday today weather
 manhattan <pad> monday today temperature low
@@ -13757,11 +13757,11 @@ chinese restaurant tai pan <pad> traffic_info
 chinese restaurant tai pan <pad> poi_type
 chinese restaurant tai pan <pad> address
 chinese restaurant tai pan <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant P.F. Changs <pad> distance
 chinese restaurant P.F. Changs <pad> traffic_info
 chinese restaurant P.F. Changs <pad> poi_type
@@ -14656,11 +14656,11 @@ chinese restaurant Jing Jing <pad> traffic_info
 chinese restaurant Jing Jing <pad> poi_type
 chinese restaurant Jing Jing <pad> address
 chinese restaurant Jing Jing <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 downtown chicago <pad> monday today date
 downtown chicago <pad> monday today weather
 downtown chicago <pad> monday today temperature low
@@ -15650,21 +15650,21 @@ shopping center Stanford Shopping Center <pad> traffic_info
 shopping center Stanford Shopping Center <pad> poi_type
 shopping center Stanford Shopping Center <pad> address
 shopping center Stanford Shopping Center <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 parking garage Webster Garage <pad> distance
 parking garage Webster Garage <pad> traffic_info
 parking garage Webster Garage <pad> poi_type
 parking garage Webster Garage <pad> address
 parking garage Webster Garage <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 friends house jacks house <pad> distance
 friends house jacks house <pad> traffic_info
 friends house jacks house <pad> poi_type
@@ -15992,11 +15992,11 @@ grocery store Sigona Farmers Market <pad> traffic_info
 grocery store Sigona Farmers Market <pad> poi_type
 grocery store Sigona Farmers Market <pad> address
 grocery store Sigona Farmers Market <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant tai pan <pad> distance
 chinese restaurant tai pan <pad> traffic_info
 chinese restaurant tai pan <pad> poi_type
@@ -16012,11 +16012,11 @@ chinese restaurant Chef Chu's <pad> traffic_info
 chinese restaurant Chef Chu's <pad> poi_type
 chinese restaurant Chef Chu's <pad> address
 chinese restaurant Chef Chu's <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5677 southwest 4th street <pad> distance
 certain address 5677 southwest 4th street <pad> traffic_info
 certain address 5677 southwest 4th street <pad> poi_type
@@ -16265,16 +16265,16 @@ manhattan <pad> saturday date
 manhattan <pad> saturday weather
 manhattan <pad> saturday temperature low
 manhattan <pad> saturday temperature high
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 rest stop Four Seasons <pad> distance
 rest stop Four Seasons <pad> traffic_info
 rest stop Four Seasons <pad> poi_type
@@ -16528,11 +16528,11 @@ friends house jills house <pad> traffic_info
 friends house jills house <pad> poi_type
 friends house jills house <pad> address
 friends house jills house <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 pizza restaurant Dominos <pad> distance
 pizza restaurant Dominos <pad> traffic_info
 pizza restaurant Dominos <pad> poi_type
@@ -16876,11 +16876,11 @@ coffee or tea place Peets Coffee <pad> traffic_info
 coffee or tea place Peets Coffee <pad> poi_type
 coffee or tea place Peets Coffee <pad> address
 coffee or tea place Peets Coffee <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 pizza restaurant Round Table <pad> distance
 pizza restaurant Round Table <pad> traffic_info
 pizza restaurant Round Table <pad> poi_type
@@ -17498,11 +17498,11 @@ hospital Stanford Childrens Health <pad> traffic_info
 hospital Stanford Childrens Health <pad> poi_type
 hospital Stanford Childrens Health <pad> address
 hospital Stanford Childrens Health <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 meeting <pad> room
 meeting <pad> agenda
 meeting <pad> time
@@ -19859,11 +19859,11 @@ gas station 76 <pad> traffic_info
 gas station 76 <pad> poi_type
 gas station 76 <pad> address
 gas station 76 <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 parking garage Palo Alto Garage R <pad> distance
 parking garage Palo Alto Garage R <pad> traffic_info
 parking garage Palo Alto Garage R <pad> poi_type
@@ -20003,11 +20003,11 @@ shopping center Midtown Shopping Center <pad> traffic_info
 shopping center Midtown Shopping Center <pad> poi_type
 shopping center Midtown Shopping Center <pad> address
 shopping center Midtown Shopping Center <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 menlo park <pad> monday today date
 menlo park <pad> monday today weather
 menlo park <pad> monday today temperature low
@@ -20321,11 +20321,11 @@ gas station Chevron <pad> traffic_info
 gas station Chevron <pad> poi_type
 gas station Chevron <pad> address
 gas station Chevron <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 shopping center Stanford Shopping Center <pad> distance
 shopping center Stanford Shopping Center <pad> traffic_info
 shopping center Stanford Shopping Center <pad> poi_type
@@ -21257,26 +21257,26 @@ rest stop Hotel Keen <pad> traffic_info
 rest stop Hotel Keen <pad> poi_type
 rest stop Hotel Keen <pad> address
 rest stop Hotel Keen <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5677 springer street <pad> distance
 certain address 5677 springer street <pad> traffic_info
 certain address 5677 springer street <pad> poi_type
 certain address 5677 springer street <pad> address
 certain address 5677 springer street <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 rest stop Comfort Inn <pad> distance
 rest stop Comfort Inn <pad> traffic_info
 rest stop Comfort Inn <pad> poi_type
@@ -21312,11 +21312,11 @@ hospital Stanford Express Care <pad> distance
 hospital Stanford Express Care <pad> traffic_info
 hospital Stanford Express Care <pad> poi_type
 hospital Stanford Express Care <pad> address
-home home <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
+home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
 grocery store Whole Foods <pad> poi
 grocery store Whole Foods <pad> distance
 grocery store Whole Foods <pad> traffic_info
@@ -21601,11 +21601,11 @@ pizza restaurant Pizza My Heart <pad> traffic_info
 pizza restaurant Pizza My Heart <pad> poi_type
 pizza restaurant Pizza My Heart <pad> address
 pizza restaurant Pizza My Heart <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant Chef Chu's <pad> distance
 chinese restaurant Chef Chu's <pad> traffic_info
 chinese restaurant Chef Chu's <pad> poi_type
@@ -21641,11 +21641,11 @@ parking garage Webster Garage <pad> traffic_info
 parking garage Webster Garage <pad> poi_type
 parking garage Webster Garage <pad> address
 parking garage Webster Garage <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 shopping center Midtown Shopping Center <pad> distance
 shopping center Midtown Shopping Center <pad> traffic_info
 shopping center Midtown Shopping Center <pad> poi_type
@@ -21736,11 +21736,11 @@ grocery store Safeway <pad> traffic_info
 grocery store Safeway <pad> poi_type
 grocery store Safeway <pad> address
 grocery store Safeway <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5677 southwest 4th street <pad> distance
 certain address 5677 southwest 4th street <pad> traffic_info
 certain address 5677 southwest 4th street <pad> poi_type
@@ -21826,11 +21826,11 @@ rest stop Four Seasons <pad> traffic_info
 rest stop Four Seasons <pad> poi_type
 rest stop Four Seasons <pad> address
 rest stop Four Seasons <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5677 southwest 4th street <pad> distance
 certain address 5677 southwest 4th street <pad> traffic_info
 certain address 5677 southwest 4th street <pad> poi_type
@@ -22470,11 +22470,11 @@ coffee or tea place Starbucks <pad> traffic_info
 coffee or tea place Starbucks <pad> poi_type
 coffee or tea place Starbucks <pad> address
 coffee or tea place Starbucks <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 pizza restaurant Dominos <pad> distance
 pizza restaurant Dominos <pad> traffic_info
 pizza restaurant Dominos <pad> poi_type
@@ -23266,11 +23266,11 @@ chinese restaurant tai pan <pad> traffic_info
 chinese restaurant tai pan <pad> poi_type
 chinese restaurant tai pan <pad> address
 chinese restaurant tai pan <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 cleveland <pad> monday today date
 cleveland <pad> monday today weather
 cleveland <pad> monday today temperature low
@@ -23785,11 +23785,11 @@ pizza restaurant Round Table <pad> traffic_info
 pizza restaurant Round Table <pad> poi_type
 pizza restaurant Round Table <pad> address
 pizza restaurant Round Table <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 chinese restaurant Panda Express <pad> distance
 chinese restaurant Panda Express <pad> traffic_info
 chinese restaurant Panda Express <pad> poi_type
@@ -24925,11 +24925,11 @@ chinese restaurant P.F. Changs <pad> traffic_info
 chinese restaurant P.F. Changs <pad> poi_type
 chinese restaurant P.F. Changs <pad> address
 chinese restaurant P.F. Changs <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 grand rapids <pad> monday today date
 grand rapids <pad> monday today weather
 grand rapids <pad> monday today temperature low
@@ -25205,11 +25205,11 @@ lab appointment <pad> time
 lab appointment <pad> date
 lab appointment <pad> party
 lab appointment <pad> event
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 certain address 5677 southwest 4th street <pad> distance
 certain address 5677 southwest 4th street <pad> traffic_info
 certain address 5677 southwest 4th street <pad> poi_type
@@ -25255,11 +25255,11 @@ rest stop Hotel Keen <pad> traffic_info
 rest stop Hotel Keen <pad> poi_type
 rest stop Hotel Keen <pad> address
 rest stop Hotel Keen <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 rest stop Comfort Inn <pad> distance
 rest stop Comfort Inn <pad> traffic_info
 rest stop Comfort Inn <pad> poi_type
@@ -25573,11 +25573,11 @@ hospital Stanford Childrens Health <pad> traffic_info
 hospital Stanford Childrens Health <pad> poi_type
 hospital Stanford Childrens Health <pad> address
 hospital Stanford Childrens Health <pad> poi
-home home <pad> distance
-home home <pad> traffic_info
-home home <pad> poi_type
-home home <pad> address
-home home <pad> poi
+home <pad> distance
+home <pad> traffic_info
+home <pad> poi_type
+home <pad> address
+home <pad> poi
 pizza restaurant Round Table <pad> distance
 pizza restaurant Round Table <pad> traffic_info
 pizza restaurant Round Table <pad> poi_type

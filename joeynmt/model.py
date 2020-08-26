@@ -44,6 +44,7 @@ class Model(nn.Module):
                  trg_vocab: Vocabulary,
                  trv_vocab: Vocabulary=None,
                  k_hops: int = 1,
+                 do_postproc: bool = True,
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -56,6 +57,7 @@ class Model(nn.Module):
         :param trg_vocab: target vocabulary
         :param trv_vocab: kb true value lookup vocabulary
         :param k_hops: number of kvr attention forward passes to do
+        :param do_postproc: do postprocessing (decode canonical tokens) in KVR task?
         """
         super(Model, self).__init__()
 
@@ -77,6 +79,8 @@ class Model(nn.Module):
         self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
         self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
+        self.do_postproc = do_postproc
+
 
         self.Timer = Timer()
 
@@ -331,7 +335,7 @@ class Model(nn.Module):
                         bos_index=self.bos_index,
                         knowledgebase = knowledgebase)
 
-        if knowledgebase != None:
+        if knowledgebase != None and self.do_postproc:
             with self.Timer("postprocessing hypotheses"):
                 # replace kb value tokens with actual values in hypotheses, e.g. 
                 # ['your','conference','is','at','@meeting_time'] => ['your', 'conference', 'is', 'at', '7pm']
@@ -553,7 +557,8 @@ def build_model(cfg: dict = None,
     
     # build decoder
     kb_task = bool(cfg.get("kb", False))
-    k_hops = cfg.get("k_hops", 1) # k number of kvr attention layers in decoder (eric et al/default: 1)
+    k_hops = int(cfg.get("k_hops", 1)) # k number of kvr attention layers in decoder (eric et al/default: 1)
+    do_postproc = bool(cfg.get("do_postproc"), True)
 
     assert cfg["decoder"]["hidden_size"]
     dec_dropout = cfg["decoder"].get("dropout", 0.)
@@ -581,7 +586,8 @@ def build_model(cfg: dict = None,
     model = Model(encoder=encoder, decoder=decoder, generator=generator,
                   src_embed=src_embed, trg_embed=trg_embed,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
-                  trv_vocab=trv_vocab)
+                  trv_vocab=trv_vocab,
+                  k_hops=k_hops, do_postproc=do_postproc)
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):

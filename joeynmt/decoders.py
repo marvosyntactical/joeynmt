@@ -18,7 +18,7 @@ from joeynmt.attention import BahdanauAttention, LuongAttention, KeyValRetAtt
 from joeynmt.encoders import Encoder
 from joeynmt.helpers import freeze_params, ConfigurationError, subsequent_mask
 from joeynmt.transformer_layers import PositionalEncoding, \
-    TransformerDecoderLayer
+    TransformerDecoderLayer, MultiHeadedKbAttention
 
 
 # pylint: disable=abstract-method
@@ -966,6 +966,11 @@ class TransformerDecoder(Decoder):
         self.emb_dropout = nn.Dropout(p=emb_dropout)
         self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
 
+        if kb_task:
+            self.curr_kb_size = None
+            self.kb_layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
+            self.kb_trg_att = MultiHeadedKbAttention(num_heads, hidden_size, dropout=dropout)
+
         if freeze:
             freeze_params(self)
         
@@ -996,7 +1001,6 @@ class TransformerDecoder(Decoder):
         :return:
         """
 
-        kb_keys_padded = self.pad_kb_keys(kb_keys)
 
         assert trg_mask is not None, "trg_mask required for Transformer"
 
@@ -1006,15 +1010,14 @@ class TransformerDecoder(Decoder):
         trg_mask = trg_mask & subsequent_mask(
             trg_embed.size(1)).type_as(trg_mask)
 
-        # k fwd pass thru k layers (with k x KVR Multihop Attention)
-        u_k = None # knowledgebase utilities at time step k
+        kb_keys_padded = self.pad_kb_keys(kb_keys)
         for i, layer in enumerate(self.layers):
-            isLastLayer = i+1 == len(self.layers)
-            x, u_k = layer(x=x, memory=encoder_output, kb_keys=kb_keys_padded,
-                      src_mask=src_mask, trg_mask=trg_mask, prev_utilities=u_k,
-                      isLastLayer=isLastLayer)
+            x = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
 
-        kb_probs = u_k[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
+        # Multiheaded KVR Attention fwd pass
+        query = self.kb_layer_norm(x)
+        u = self.kb_trg_att(kb_keys_padded, query)
+        kb_probs = u[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
         
         x = self.layer_norm(x)
 

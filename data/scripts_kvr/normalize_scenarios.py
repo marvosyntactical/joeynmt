@@ -75,7 +75,17 @@ def normalize_navigate(d):
     assert d["task"]["intent"]=="navigate"
     blimps = d["kb"]["items"]
     for blimp in blimps:
-        subject = blimp["poi_type"] + " " + blimp["poi"]
+
+        poi_type = blimp["poi_type"]
+        poi = blimp["poi"]
+
+        if poi_type != poi:
+            subject = poi_type + " " + poi
+        else:
+            # avoid "home home"; instead put "home"
+            assert poi_type.lower() == "home"
+            subject = poi_type
+
         for relation in blimp.keys():
             normed_kb.append((subject,relation,blimp[relation]))
     return normed_kb
@@ -120,19 +130,6 @@ def main(args):
 
     normed_kbs_inner = [triple for scenario in normed_kbs for triple in scenario]
     kb_list = ["::".join(t)+"\n" for t in normed_kbs_inner]
-
-    """
-    LATEST TODO:
-        look at torchtext dataset and make_train_iter_batch_size_1:
-        how is data loaded? how to write normed_kbs to file to load simultaneously with train data
-        idea: write iterator that makes data iter in parallel that takes a batch size function that is read from lines
-        in separate file kb_lengths.txt and has type list [230, 102, 56,...,95]
-        for this, here we need to output two things:
-            dev.kb: kb items line by line, all knowledgebases one after another
-            dev.len: kb lengths line by line
-        -> look at torchtext.data.Iterator kwarg batch_size_fn to see if possible
-
-    """
 
     #line formatted normalized kb
     filestamm = filename.split(".")[0]
