@@ -6,14 +6,15 @@
 * (later)
 
 
----
-
-
 
 
 
 
 # _```Current Issues```_
+
+### 26.08.20 start writing
+
+[https://www.overleaf.com/9379467478yfmhgzstdndm](Bachelor Thesis Scratch)
 
 
 ### 26.08.20 scalability *TODO*
@@ -29,7 +30,7 @@ Artem encoding idea:
 Instead of choosing one KB attribute per domain as
 KB entry key, e.g. "event" for scheduling;
 just jam all info into the key representation, and determine what 
-is key and what is subject via 
+is subject and what is relation via 
 PositionalEncoding (make keys fixed size and add some exp+trig trickery)
 
 Another encoding idea:
@@ -56,14 +57,14 @@ KBs unambiguous as designed; not like real world => experiment
 Metrics stuff :
 * ablation study with bleu without "Youre welcome", "Have a nice day", "How can I help you today?" etc etc
 * conclude if authors reported entity F1 on canonized or uncanonized data
-* in experiments section, discuss metrics: significance of bleu / ent F1
+* in experiments section, discuss metrics: significance of bleu / ent F1 / other metrics?
 * report metrics on dev and test?
 
 ---
 
-### 17.08.20 preprocessing: Empty scheduling KBs *TODO*
+### 17.08.20 preprocessing *TODO*
 
-
+Empty scheduling KBs:
 * no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
 * => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
 * (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
@@ -71,7 +72,10 @@ Metrics stuff :
 * =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
 * make these the knowledgebase, so they can be attended over
 
+* avoid canonizing stuff thats not in the KB => how much is uncanonized by this (=> maybe trouble generalizing)?
+
 Pipeline:
+* remove double "home" in traffic KBs
 * refactor data/scripts\_kvr/ into one script
 * (batch convos with same kb together)
 
@@ -81,6 +85,7 @@ Pipeline:
 
 to test:
 rnnVanilla (running on cluster)
+*TODO* doesnt work
 
 beam search
 
@@ -152,7 +157,7 @@ Bad Results => Something's wrong:
 
 Alternative Version:
 * Single attention pass with query=h2\_norm of last layer works better
-* change implementation to this if Artem agrees
+* change implementation to this if Artem agrees *TODO*
 
 ---
 
