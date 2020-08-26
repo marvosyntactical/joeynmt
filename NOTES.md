@@ -1,36 +1,56 @@
-_Work rhythm_:
+## Small Technical _TODOs_ & questions :
 
-  0. Use **tmux** with dedicated windows (top right ram, lower right repo navi; left training); code in **VS**
-  * at what point to we link to _ner-canonical-name_? probably before producing vocab file; also save occurence probabilities in train data (only utterances?also kb?) for later backgeneration
-  * so during preprocessing, before generating any of the files used by *load_data*, let NER run over the utterances (and kb? here, referring expressions have no context. this impacts choice of NER system) and categorize, saving categories/labels and occurrence rates. categories are then named, this _ner-canonical-name_ is substituted for all referring expressions. Only now, *src\_* and *trg\_vocab* are generated.
-
-3. merge updated joeynmt back
-  * rather sooner than later.... lol
-  * how would this be done? pull from joeynmt/joeynmt ?
-
----
-
-
-# Active Workspace
-
-### Technical TODO:
-
-This is a general list of minor technical TODOs that should be useful in any case. 
-\\
-Preprocessing:
-* batch convos with same kb together
-
-Postprocessing:
-* pp assertion (canonical token in hypothesis) triggers; investigate in next training output
 * does kb attention actually sum to 1 ???
 
-####### Optimization
-* later
+##### Optimization
+* (later)
 
 
-## _```Current Issues```_:
+# _```Current Issues```_:
 
-### 17.08.20 more preprocessing issues
+
+### 26.08.20 scalability *TODO*
+
+* calculate/profile attention runtime
+* mix domain KBs together (refactor preproc scripts first...)
+
+### 26.08.20 enrich KB entry encoding *TODO*
+
+Artem encoding idea:
+Instead of choosing one KB attribute per domain as
+KB entry key, e.g. "event" for scheduling;
+just jam all info into the key representation, and determine what 
+is key and what is subject via 
+PositionalEncoding (make keys fixed size and add some exp+trig trickery)
+
+Another encoding idea:
+Make attention 2-headed, one head for subject (sum of all attribute embeddings);
+a second head for relation 
+(=> only 5 attributes for scheduling/traffic, ~10 attributes for weather)
+Select key as combination of highest attended
+
+
+### 26.08.20 artem questions *TODO*
+
+Architecture/implementation:
+* How to do positional encodings? add scaled sine wave
+* name/concept/citation for the idea of training on simplified data, then postprocessing on val/test
+=> can I still call it an end to end seq2seq system? its not neural from end to end
+
+Dataset stuff to report/issues:
+* metric to show train/val/test dataset overlap too big?
+* dataset simplicity (is there a simple measure for this?)
+* in dataset section, discuss misleading design decisions:
+KBs unambiguous as designed; not like real world => experiment
+
+Metrics stuff :
+* ablation study with bleu without "Youre welcome", "Have a nice day", "How can I help you today?" etc etc
+* conclude if authors reported entity F1 on canonized or uncanonized data
+* in experiments section, discuss metrics: significance of bleu / ent F1
+* report metrics on dev and test?
+
+### 17.08.20 preprocessing: Empty scheduling KBs *TODO*
+
 
 * no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
 * => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
@@ -39,10 +59,16 @@ Postprocessing:
 * =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
 * make these the knowledgebase, so they can be attended over
 
-### 15.08.20 backward compatibility
-to test:
+Pipeline:
+* refactor data/scripts\_kvr/ into one script
+* (batch convos with same kb together)
 
-#### beam search
+### 15.08.20 backward compatibility
+
+to test:
+rnnVanilla (running on cluster)
+
+beam search
 
 without kb:
 * transformer: doesnt work
@@ -63,7 +89,6 @@ with kb: (untested)
 * code runs, *TODO* do a full run with results on cluster
 
 
-
 ### 15.08.20 reccurent multihop
 
 implemented in multihop branch in attention.py and merged back into master ✔️
@@ -77,29 +102,18 @@ do k times:
    calculate utilities\_k (energies) as normal
 ```
 
-special case: k=1: 1hop should is equiv to default (same results)
+special case: k=1: 1hop is equiv to default (same results) ✔️
 
-=> put khop into config
-=> do 2, 3 hops
-For the moment, the whole model has a self.k\_hops attribute, and every
-decode forward pass of the model does k kvr attention hops
+=> put khop into config ✔️
+=> do 2, 3 hops ✔️
 
-*TODO FIXME* ask artem/find out what stages k\_hop would be good for, e.g.:
-
-* only at (valid/)inference time (not important since training uncostly)?
 * do a while loop and hop as many times as needed until suffctly confident?
 
 ===> seems to work okay, but kb attentions dont get plotted anymore
-
-
-
-
+===> is attention state actually saved from step to step as done by jason weston et al?
 
 
 ### 15.05.20 implement kb for transformer *WIP*
-
-* learns slowly/poorly investigate hyperparam correctness such as label smoothing
-
 
 1. merge generator branch back
 -> Done
@@ -110,8 +124,6 @@ decode forward pass of the model does k kvr attention hops
 
 4. implement kb for transformer:
 
-* interface wise just need to generate kb\_probs somewhere within transformerdecoder
-
 multi head kb attentions now get calculated in new MultiHeadedKbAttention class:
 * works like MultiHeadedAttention except no matmul with values
 * instead returns kb\_probs tensor of shape B x M x KB which is passed along until the generator, where its applied to outputs using kb\_values indices just like the recurrent case
@@ -120,8 +132,11 @@ multi head kb attentions now get calculated in new MultiHeadedKbAttention class:
 Bad Results => Something's wrong:
 * Hyperparams/Config?
 * Implementation?
+* learns slowly/poorly investigate hyperparam correctness such as label smoothing
 
-
+Alternative Version:
+* Single attention pass with query=h2\_norm of last layer works better
+* change implementation to this if Artem agrees
 
 ### 07.04.20 training on GPU
 
