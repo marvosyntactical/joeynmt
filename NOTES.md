@@ -1,4 +1,4 @@
-## Small Technical _TODOs_ & questions :
+## Small Technical _TODOs_ & questions
 
 * does kb attention actually sum to 1 ???
 
@@ -6,13 +6,22 @@
 * (later)
 
 
-# _```Current Issues```_:
+---
+
+
+
+
+
+
+# _```Current Issues```_
 
 
 ### 26.08.20 scalability *TODO*
 
 * calculate/profile attention runtime
 * mix domain KBs together (refactor preproc scripts first...)
+
+---
 
 ### 26.08.20 enrich KB entry encoding *TODO*
 
@@ -29,6 +38,7 @@ a second head for relation
 (=> only 5 attributes for scheduling/traffic, ~10 attributes for weather)
 Select key as combination of highest attended
 
+---
 
 ### 26.08.20 artem questions *TODO*
 
@@ -49,6 +59,8 @@ Metrics stuff :
 * in experiments section, discuss metrics: significance of bleu / ent F1
 * report metrics on dev and test?
 
+---
+
 ### 17.08.20 preprocessing: Empty scheduling KBs *TODO*
 
 
@@ -62,6 +74,8 @@ Metrics stuff :
 Pipeline:
 * refactor data/scripts\_kvr/ into one script
 * (batch convos with same kb together)
+
+---
 
 ### 15.08.20 backward compatibility
 
@@ -109,8 +123,10 @@ special case: k=1: 1hop is equiv to default (same results) ✔️
 
 * do a while loop and hop as many times as needed until suffctly confident?
 
-===> seems to work okay, but kb attentions dont get plotted anymore
-===> is attention state actually saved from step to step as done by jason weston et al?
+=> seems to work okay, but kb attentions dont get plotted anymore
+=> is attention state actually saved from step to step as done by jason weston et al?
+
+---
 
 
 ### 15.05.20 implement kb for transformer *WIP*
@@ -137,6 +153,8 @@ Bad Results => Something's wrong:
 Alternative Version:
 * Single attention pass with query=h2\_norm of last layer works better
 * change implementation to this if Artem agrees
+
+---
 
 ### 07.04.20 training on GPU
 
