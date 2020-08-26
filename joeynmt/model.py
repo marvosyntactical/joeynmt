@@ -558,7 +558,8 @@ def build_model(cfg: dict = None,
     # build decoder
     kb_task = bool(cfg.get("kb", False))
     k_hops = int(cfg.get("k_hops", 1)) # k number of kvr attention layers in decoder (eric et al/default: 1)
-    do_postproc = bool(cfg.get("do_postproc"), True)
+    do_postproc = bool(cfg.get("do_postproc", True))
+
 
     assert cfg["decoder"]["hidden_size"]
     dec_dropout = cfg["decoder"].get("dropout", 0.)
