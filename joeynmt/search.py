@@ -325,7 +325,7 @@ def beam_search(
                                    device=encoder_output.device).repeat(
                                     batch_size))
 
-    # Structure that holds finished hypotheses.
+    # Structure that holds finished hypotheses in order of completion.
     hypotheses = [[] for _ in range(batch_size)]
 
     results = {}
@@ -339,21 +339,22 @@ def beam_search(
         kb_keys = tile(knowledgebase[0], size, dim=0)
         kb_values = tile(knowledgebase[1], size, dim=0)
 
-        kb_size = kb_keys.shape[-1]
+        kb_size = kb_keys.size(1)
 
-        att_alive = torch.empty( # batch*k x src x time
-            [batch_size * size],
-            dtype=torch.float32,
-            device=encoder_output.device) \
-            .unsqueeze(1).unsqueeze(1)
-        kb_att_alive = torch.empty( # batch*k x KB x time
-            [batch_size * size],
-            dtype=torch.float32,
-            device=encoder_output.device) \
-            .unsqueeze(1).unsqueeze(1)
+        att_alive = torch.Tensor( # batch*k x src x time
+            [[[] for _ in range(encoder_output.size(1))] for _ in range(batch_size * size)]
+        ).to(dtype=torch.float32, device=encoder_output.device)
         
-        stacked_attention_scores = []
-        stacked_kb_att_scores = []
+        # print(f"att_alive.shape: {att_alive.shape}")
+        
+        kb_att_alive = torch.Tensor( # batch*k x KB x time
+            [[[] for _ in range(kb_size)] for _ in range(batch_size * size)]
+        ).to(dtype=torch.float32, device=encoder_output.device)
+        
+        print(f"kb_att_alive.shape: {kb_att_alive.shape}")
+        
+        stacked_attention_scores = [[] for _ in range(batch_size)]
+        stacked_kb_att_scores = [[] for _ in range(batch_size)]
 
     else:
         kb_keys, kb_values = None, None
@@ -445,12 +446,18 @@ def beam_search(
              topk_ids.view(-1, 1)], -1)  # batch_size*k x hyp_len
 
         if knowledgebase is not None:
-            print(select_indices)
-            print(select_indices.shape)
-            print(step)
-            print(att_alive.shape)
+            print(f"select_indices: {select_indices}")
+            print(f"select_indices: {select_indices.shape}")
+            print(f"step: {step}")
+            print(f"att_alive.shape: {att_alive.shape}")
+            print(f"encoder steps: {encoder_output.size(1)}")
             print(att_alive.index_select(0,select_indices).shape)
             print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
+            print(f"kb_att_alive.shape: {kb_att_alive.shape}")
+            print(f"kb_size: {kb_size}")
+            print(kb_att_alive.index_select(0,select_indices).shape)
+            print(kb_scores.transpose(1,2).index_select(0,select_indices).shape)
+
             att_alive = torch.cat( # batch*k x src len x time
                 [
                     att_alive.index_select(0,select_indices),
@@ -501,10 +508,10 @@ def beam_search(
                         kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
 
                         stacked_attention_scores[b].append(
-                            attentions[i,j]
+                            attentions[i,j].numpy()
                         )
                         stacked_kb_att_scores[b].append(
-                            kb_attentions[i,j]
+                            kb_attentions[i,j].numpy()
                         )
 
                 # if the batch reached the end, save the n_best hypotheses
@@ -513,21 +520,35 @@ def beam_search(
                     best_hyps_descending = sorted(
                         hypotheses[b], key=lambda x: x[0], reverse=True)
 
+                    dbg = np.array([hyp[1].numpy() for hyp in best_hyps_descending])
+                    print(dbg.shape, dbg[0])
+
                     if knowledgebase is not None:
-                        hyps, preds = zip(*hypotheses[b])
-                        hyps_ = np.array(hyps)
-                        sort_key = np.array(preds)
+                        print(hypotheses[b][0],type(hypotheses[b][0]))
+
+                        scores, hyps = zip(*hypotheses[b])
+                        sort_key = np.array(scores)
+                        hyps = np.array([hyp.numpy() for hyp in hyps])
                         
                         # indices that would sort hyp[b] in descending order of beam score
                         best_hyps_idx = np.argsort(sort_key)[::-1].copy() 
                         best_hyps_d_ = hyps[best_hyps_idx]
 
                         # unit test implementation
-                        assert np.isclose( best_hyps_d_ , np.array(best_hyps_descending) )
+                        assert np.allclose( best_hyps_d_ , dbg)
 
-                        best_atts_d_ = stacked_attention_scores[b,best_hyps_idx] 
-                        best_kb_atts_d_ = stacked_kb_att_scores[b,best_hyps_idx]
+                        print(best_hyps_idx.dtype, best_hyps_idx.shape)
+                        print(stacked_attention_scores.shape)
 
+                        # FIXME TODO find out how to properly assign here
+
+                        stck_att_np = np.array(stacked_attention_scores[b])
+                        stck_kb_att_np = np.array([kbatt.numpy() for kbatt in stacked_kb_att_scores[b]])
+
+                        best_atts_d_ = stck_att_np[best_hyps_idx] 
+                        best_kb_atts_d_ = stck_kb_att_np[best_hyps_idx]
+                    
+                    # TODO replace best_hyps_descending with best_hyps_d_ FIXME XXX
                     for n, (score, pred) in enumerate(best_hyps_descending):
                         if n >= n_best:
                             break

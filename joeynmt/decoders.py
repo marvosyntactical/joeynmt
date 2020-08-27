@@ -1075,7 +1075,7 @@ class Generator(Gen):
         if kb_values is not None:
 
             # this bug comes from somewhere in or before model.process_batch_kb
-            if len(kb_values.shape) < 3: #TODO find out why this happens sometimes??
+            if len(kb_values.shape) < 3: 
                 kb_values = kb_values.unsqueeze(1)
             else:
                 assert False, kb_values # i dont think this should happen
