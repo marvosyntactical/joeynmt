@@ -16,4 +16,6 @@ print_debug/*
 print_debug/
 print_debug
 test/data/*
+wmt_ende_best/*
+wmt*
 
