@@ -6,10 +6,6 @@
 * (later)
 
 
-
-
-
-
 # _```Current Issues```_
 
 ### 26.08.20 start writing
@@ -57,6 +53,7 @@ KBs unambiguous as designed; not like real world => experiment
 Metrics stuff :
 * ablation study with bleu without "Youre welcome", "Have a nice day", "How can I help you today?" etc etc
 * conclude if authors reported entity F1 on canonized or uncanonized data
+=> Experiment running *TODO* results?? ('cheat.yaml')
 * in experiments section, discuss metrics: significance of bleu / ent F1 / other metrics?
 * report metrics on dev and test?
 
@@ -85,24 +82,16 @@ Pipeline:
 
 to test:
 rnnVanilla (running on cluster)
-*TODO* doesnt work
+*TODO* doesnt learn anything?? 
 
-beam search
+Beam search:
 
-without kb:
-* transformer: doesnt work
-* recurrent: doesnt work
-
-=> same error! (error in beam search impl?)
-=> seems kb\_probs need to be properly formatted during beam search
+=> kb\_probs need to be properly formatted during beam search
 for handling in postproc
 => *TEMPORARY* solution: dont do beam search during valid (default)
-=> *TODO* this still needs to be fixed for inference later
+* *TODO* reformat stacked\_kb\_att\_scores along with beam logits
+* *TODO* also do this for stacked attention scores
 
-
-with kb: (untested)
-* transformer:
-* recurrent:
 
 #### recurrent without kb
 * code runs, *TODO* do a full run with results on cluster

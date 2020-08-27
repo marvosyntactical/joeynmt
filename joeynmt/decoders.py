@@ -818,7 +818,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # this is only done for efficiency
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
-
+        
         if kb_keys != None:
             # kb_keys is: batch x kb x trg_emb
             # only compute proj keys once for all k kvr_attention modules
@@ -826,6 +826,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             if len(self.kvr_attention) > 1:
                 for k_th_attn in self.kvr_attention:
                     k_th_attn.proj_keys = self.kvr_attention[0].proj_keys
+
+                    assert k_th_attn.proj_keys is not None
 
         att_vectors = [] 
         att_probs = []
@@ -842,22 +844,25 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         for i in range(unroll_steps):
             # TODO: is this teacher forcing?
             prev_embed = trg_embed[:, i].unsqueeze(1)  # batch, 1, emb
+
             prev_att_vector, hidden, att_prob, u_t = self._forward_step(
                 prev_embed=prev_embed,
                 prev_att_vector=prev_att_vector,
                 encoder_output=encoder_output,
                 src_mask=src_mask,
                 hidden=hidden)
+
             att_vectors.append(prev_att_vector)
             att_probs.append(att_prob)
             kb_probs.append(u_t)
 
         att_vectors = torch.cat(att_vectors, dim=1)
-        # att_vectors: batch, unroll_steps, hidden_size
+        # batch, unroll_steps, hidden_size
         att_probs = torch.cat(att_probs, dim=1)
-        # att_probs: batch, unroll_steps, src_length
+        # batch, unroll_steps, src_length
 
-        kb_probs = torch.cat(kb_probs, dim=1) # batch x unroll x kb
+        kb_probs = torch.cat(kb_probs, dim=1)
+        # batch, unroll_steps, KB
 
         return hidden, att_probs, att_vectors, kb_probs
 
@@ -1001,7 +1006,6 @@ class TransformerDecoder(Decoder):
         :return:
         """
 
-
         assert trg_mask is not None, "trg_mask required for Transformer"
 
         x = self.pe(trg_embed)  # add position encoding to word embedding
@@ -1066,7 +1070,7 @@ class Generator(Gen):
         # kb_values should be : batch x kb 
         # => need to add dimension to kb_values
 
-        outputs = self.output_layer(x) # probably: B x M x Voc
+        outputs = self.output_layer(x) # Batch x Time x Voc
 
         if kb_values is not None:
 

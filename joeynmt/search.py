@@ -73,6 +73,7 @@ def recurrent_greedy(
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
+        - stacked_log_probs: stepwise output log_probs
     """
     batch_size = src_mask.size(0)
     prev_y = src_mask.new_full(size=[batch_size, 1], fill_value=bos_index,
@@ -82,17 +83,24 @@ def recurrent_greedy(
     hidden = None
     prev_att_vector = None
 
+    print(f"in search.recurrent_greedy; knowledgebase is {knowledgebase}")
+
+
     if knowledgebase != None:
         # knowledgebase is (kb_keys, kb_values) (see model.run_batch)
 
         # kept as Tuple since dynamic typing easily allows shoving more objects into this
         # so I dont have to rewrite tons of function signatures 
 
-        kb_att_scores = []
         kb_keys = knowledgebase[0]
         kb_values = knowledgebase[1]
+        print(kb_keys, kb_values)
+
+        kb_att_scores = []
+        all_log_probs = []
     else:
         kb_values = None
+        stacked_log_probs = None
 
     # pylint: disable=unused-variable
     for t in range(max_output_length):
@@ -118,32 +126,45 @@ def recurrent_greedy(
                 prev_att_vector=prev_att_vector,
                 unroll_steps=1)
 
-        logits = generator(prev_att_vector, kb_values=kb_values, kb_probs=kb_att_probs)
+        log_probs = generator(prev_att_vector, kb_values=kb_values, kb_probs=kb_att_probs)
 
-        # logits: batch x time=1 x vocab (logits)
+        # logits: batch x time=1 x vocab
         # greedy decoding: choose arg max over vocabulary in each step
-        next_word = torch.argmax(logits, dim=-1)  # batch x time=1
+        next_word = torch.argmax(log_probs, dim=-1)  # batch x time=1
         # NOTE:              ^ find idx over ordered vocab embeddings 
         # created by 2nd dimension of decoder.output_layer.weight ...
         # Q:
         # how is the association with the vocabulary done there???
         # the output_layer has no information about which of its output neurons
         # should be associated with which index of the trg_vocab
-        # A: the model just randomly guesses and soon learns the connection here 
-        output.append(next_word.squeeze(1).cpu().numpy())
-        print(output)
+        # A: the output layer just randomly guesses and soon learns the connection via bp 
         prev_y = next_word
-        attention_scores.append(att_probs.squeeze(1).cpu().numpy())
-        if kb_att_probs is not None:
-            kb_att_scores.append(kb_att_probs.squeeze(1).cpu().numpy())
+
+        dump = lambda tnsr: tnsr.squeeze(1).cpu().detach().numpy() # helper func
+
         # batch, max_src_lengths
+        output.append(dump(next_word))
+        attention_scores.append(dump(att_probs))
+
+        if kb_att_probs is not None:
+            kb_att_scores.append(dump(kb_att_probs))
+
+            # need to return log probs because in KB task,
+            # greedy search is used to get model loss during training
+            all_log_probs.append(log_probs)
+
+    # batch, max_src_lengths, time
     stacked_output = np.stack(output, axis=1)  # batch, time
     stacked_attention_scores = np.stack(attention_scores, axis=1)
+
     if kb_att_probs is not None:
         stacked_kb_att_scores = np.stack(kb_att_scores, axis=1)
+        stacked_log_probs = torch.cat(all_log_probs, dim=1)
     else:
         stacked_kb_att_scores = None
-    return stacked_output, stacked_attention_scores, stacked_kb_att_scores
+        stacked_log_probs = None
+
+    return stacked_output, stacked_attention_scores, stacked_kb_att_scores, stacked_log_probs
 
 
 # pylint: disable=unused-argument
@@ -186,7 +207,7 @@ def transformer_greedy(
 
         # pylint: disable=unused-variable
         with torch.no_grad():
-            _ , _, out, kb_probs = decoder(
+            _ , _, out, kb_scores = decoder(
                 trg_embed=trg_embed,
                 encoder_output=encoder_output,
                 encoder_hidden=None,
@@ -197,7 +218,7 @@ def transformer_greedy(
                 kb_keys=knowledgebase[0],
             )
             # warning kb_values before: B x KB
-            logits = generator(out, kb_values=knowledgebase[1], kb_probs=kb_probs)
+            logits = generator(out, kb_values=knowledgebase[1], kb_probs=kb_scores)
             # warning kb_values after: B x 1 x KB
 
             logits = logits[:, -1] # TODO FIXME what does this do? what dims are this
@@ -206,8 +227,8 @@ def transformer_greedy(
             ys = torch.cat([ys, next_word.unsqueeze(-1)], dim=1)
             
     
-    if kb_probs is not None: # last returned kb_probs (maximum length)
-        stacked_kb_att_scores = kb_probs.cpu().numpy() # B x M x KB
+    if kb_scores is not None: # last returned kb_scores (maximum length)
+        stacked_kb_att_scores = kb_scores.cpu().numpy() # B x M x KB
     else:
         stacked_kb_att_scores = None
 
@@ -310,15 +331,37 @@ def beam_search(
     results = {}
     results["predictions"] = [[] for _ in range(batch_size)]
     results["scores"] = [[] for _ in range(batch_size)]
-    results["gold_score"] = [0] * batch_size
+    results["att_scores"] = [[] for _ in range(batch_size)]
+    results["kb_att_scores"] = [[] for _ in range(batch_size)]
 
     # kb task: also tile kb tensors along batch dimension as done with other inputs above
     if knowledgebase != None:
         kb_keys = tile(knowledgebase[0], size, dim=0)
         kb_values = tile(knowledgebase[1], size, dim=0)
+
+        kb_size = kb_keys.shape[-1]
+
+        att_alive = torch.empty( # batch*k x src x time
+            [batch_size * size],
+            dtype=torch.float32,
+            device=encoder_output.device) \
+            .unsqueeze(1).unsqueeze(1)
+        kb_att_alive = torch.empty( # batch*k x KB x time
+            [batch_size * size],
+            dtype=torch.float32,
+            device=encoder_output.device) \
+            .unsqueeze(1).unsqueeze(1)
+        
+        stacked_attention_scores = []
+        stacked_kb_att_scores = []
+
     else:
         kb_keys, kb_values = None, None
-
+        kb_size = None
+        att_alive = None 
+        kb_att_alive = None 
+        stacked_attention_scores, stacked_kb_att_scores = None, None
+       
     for step in range(max_output_length):
 
         # This decides which part of the predicted sentence we feed to the
@@ -332,11 +375,10 @@ def beam_search(
 
         # expand current hypotheses
         # decode one single step
-        # logits: logits for final softmax
         # pylint: disable=unused-variable
         trg_embed = embed(decoder_input)
 
-        hidden, att_scores, att_vectors, kb_probs = decoder(
+        hidden, att_scores, att_vectors, kb_scores = decoder(
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
             src_mask=src_mask,
@@ -348,7 +390,14 @@ def beam_search(
             kb_keys=kb_keys # None by default 
         )
 
-        logits = generator(att_vectors, kb_values=kb_values, kb_probs=kb_probs)
+        # generator applies output layer, biases towards KB values, then applies log_softmax
+        log_probs = generator(att_vectors, kb_values=kb_values, kb_probs=kb_scores)
+
+        # hidden = ?? x batch*k x dec hidden       #FIXME why 3 ??????
+        # att_scores = batch*k x 1 x src_len       #TODO Find correct beam in dim 0 at every timestep.
+        # att_vectors = batch*k x 1 x dec hidden
+        # kb_scores = batch*k x 1 x KB              #TODO find correct beam in dim 0 at every timestep
+        # log_probs = batch*k x 1 x trg_voc
 
         # For the Transformer we made predictions for all time steps up to
         # this point, so we only want to know about the last time step.
@@ -357,7 +406,7 @@ def beam_search(
             hidden = None           # we don't need to keep it for transformer
 
         # batch * k x trg_vocab
-        log_probs = F.log_softmax(logits, dim=-1).squeeze(1)
+        log_probs = log_probs.squeeze(1)
 
         # multiply probs by the beam probability ( = add logprobs)
         log_probs += topk_log_probs.view(-1).unsqueeze(1)
@@ -369,64 +418,132 @@ def beam_search(
             curr_scores /= length_penalty
 
         # flatten log_probs into a list of possibilities
-        curr_scores = curr_scores.reshape(-1, size * decoder.output_size)
+        curr_scores = curr_scores.reshape(-1, size * generator.output_size) # batch x k * voc FIXME
 
         # pick currently best top k hypotheses (flattened order)
-        topk_scores, topk_ids = curr_scores.topk(size, dim=-1)
+        topk_scores, topk_ids = curr_scores.topk(size, dim=-1) # each: batch x k * k
 
         if alpha > -1:
             # recover original log probs
             topk_log_probs = topk_scores * length_penalty
 
         # reconstruct beam origin and true word ids from flattened order
-        topk_beam_index = topk_ids.div(decoder.output_size)
-        topk_ids = topk_ids.fmod(decoder.output_size)
+        topk_beam_index = topk_ids.div(generator.output_size) # NOTE why divide by voc size??
+        topk_ids = topk_ids.fmod(generator.output_size) # NOTE why mod voc size? isnt every entry < voc size?
 
         # map beam_index to batch_index in the flat representation
         batch_index = (
             topk_beam_index
             + beam_offset[:topk_beam_index.size(0)].unsqueeze(1))
-        select_indices = batch_index.view(-1)
+        select_indices = batch_index.view(-1) # batch * k 
+
+        print(alive_seq.shape)
 
         # append latest prediction
         alive_seq = torch.cat(
-            [alive_seq.index_select(0, select_indices),
+            [alive_seq.index_select(0, select_indices), # index first dim (batch * k) with the beams we want to continue this step
              topk_ids.view(-1, 1)], -1)  # batch_size*k x hyp_len
 
-        is_finished = topk_ids.eq(eos_index)
+        if knowledgebase is not None:
+            print(select_indices)
+            print(select_indices.shape)
+            print(step)
+            print(att_alive.shape)
+            print(att_alive.index_select(0,select_indices).shape)
+            print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
+            att_alive = torch.cat( # batch*k x src len x time
+                [
+                    att_alive.index_select(0,select_indices),
+                    att_scores.transpose(1,2).index_select(0,select_indices)
+                ],
+            -1 ) 
+            kb_att_alive = torch.cat( # batch*k x KB x time
+                [
+                    kb_att_alive.index_select(0, select_indices),
+                    kb_scores.transpose(1,2).index_select(0,select_indices)
+                ],
+            -1) 
+
+        # which batches are finished? 
+        is_finished = topk_ids.eq(eos_index) # batch x k
         if step + 1 == max_output_length:
+            # force finish
             is_finished.fill_(1)
         # end condition is whether the top beam is finished
         end_condition = is_finished[:, 0].eq(1)
 
         # save finished hypotheses
         if is_finished.any():
-            predictions = alive_seq.view(-1, size, alive_seq.size(-1))
-            for i in range(is_finished.size(0)):
+
+            predictions = alive_seq.view(-1, size, alive_seq.size(-1)) # batch x k x time
+
+            for i in range(is_finished.size(0)): # iter over batches
+
                 b = batch_offset[i]
                 if end_condition[i]:
+                    # this batch finished 
                     is_finished[i].fill_(1)
-                finished_hyp = is_finished[i].nonzero().view(-1)
+
+                finished_hyp = is_finished[i].nonzero().view(-1) # k
+
                 # store finished hypotheses for this batch
-                for j in finished_hyp:
+                # (that doesnt mean the batch is completely finished, hence
+                # the list 'hypotheses' being maintained outside the unroll loop)
+                for j in finished_hyp: # iter over beams
                     hypotheses[b].append((
-                        topk_scores[i, j],
+                        topk_scores[i, j], # for sorting beams by prob (below)
                         predictions[i, j, 1:])  # ignore start_token
                     )
+                    if knowledgebase is not None:
+                        # batch x k x src len x time 
+                        attentions = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) 
+                        # batch x k x KB x time 
+                        kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
+
+                        stacked_attention_scores[b].append(
+                            attentions[i,j]
+                        )
+                        stacked_kb_att_scores[b].append(
+                            kb_attentions[i,j]
+                        )
+
                 # if the batch reached the end, save the n_best hypotheses
                 if end_condition[i]:
-                    best_hyp = sorted(
+                    # which beam is best?
+                    best_hyps_descending = sorted(
                         hypotheses[b], key=lambda x: x[0], reverse=True)
-                    for n, (score, pred) in enumerate(best_hyp):
+
+                    if knowledgebase is not None:
+                        hyps, preds = zip(*hypotheses[b])
+                        hyps_ = np.array(hyps)
+                        sort_key = np.array(preds)
+                        
+                        # indices that would sort hyp[b] in descending order of beam score
+                        best_hyps_idx = np.argsort(sort_key)[::-1].copy() 
+                        best_hyps_d_ = hyps[best_hyps_idx]
+
+                        # unit test implementation
+                        assert np.isclose( best_hyps_d_ , np.array(best_hyps_descending) )
+
+                        best_atts_d_ = stacked_attention_scores[b,best_hyps_idx] 
+                        best_kb_atts_d_ = stacked_kb_att_scores[b,best_hyps_idx]
+
+                    for n, (score, pred) in enumerate(best_hyps_descending):
                         if n >= n_best:
                             break
                         results["scores"][b].append(score)
                         results["predictions"][b].append(pred)
-            non_finished = end_condition.eq(0).nonzero().view(-1)
+
+                        if knowledgebase is not None:
+                            results["att_scores"][b].append(best_atts_d_[n])
+                            results["kb_att_scores"][b].append(best_kb_atts_d_[n])
+                        
             # if all sentences are translated, no need to go further
             # pylint: disable=len-as-condition
+            non_finished = end_condition.eq(0).nonzero().view(-1) # batch
             if len(non_finished) == 0:
                 break
+                        
             # remove finished batches for the next step
             topk_log_probs = topk_log_probs.index_select(0, non_finished)
             batch_index = batch_index.index_select(0, non_finished)
@@ -434,12 +551,23 @@ def beam_search(
             alive_seq = predictions.index_select(0, non_finished) \
                 .view(-1, alive_seq.size(-1))
 
+            if knowledgebase is not None:
+                # TODO: go from 
+                # batch x k x src len x time 
+                # to
+                # batch*k x time x src
+                att_alive = attentions.index_select(0, non_finished) \
+                    .view(-1,attentions.size(-1), attentions.size(-2))
+                kb_att_alive = kb_attentions.index_select(0, non_finished) \
+                    .view(-1,attentions.size(-1), attentions.size(-2))
+
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)
         encoder_output = encoder_output.index_select(0, select_indices)
-        src_mask = src_mask.index_select(0, select_indices)
+        src_mask = src_mask.index_select(0, select_indices) # for transformer
 
         if hidden is not None and not transformer:
+            # reshape hidden to correct shape for next step
             if isinstance(hidden, tuple):
                 # for LSTMs, states are tuples of tensors
                 h, c = hidden
@@ -450,8 +578,12 @@ def beam_search(
                 # for GRUs, states are single tensors
                 hidden = hidden.index_select(1, select_indices)
 
+
         if att_vectors is not None:
             att_vectors = att_vectors.index_select(0, select_indices)
+        if knowledgebase is not None:
+            kb_keys = kb_keys.index_select(0, select_indices)
+            kb_values = kb_values.index_select(0, select_indices)
 
     def pad_and_stack_hyps(hyps, pad_value):
         filled = np.ones((len(hyps), max([h.shape[0] for h in hyps])),
@@ -463,10 +595,15 @@ def beam_search(
 
     # from results to stacked outputs
     assert n_best == 1
-    # only works for n_best=1 for now
+    # only works for n_best=1 for now 
+    # NOTE FIXME XXX why is that?
     final_outputs = pad_and_stack_hyps([r[0].cpu().numpy() for r in
                                         results["predictions"]],
                                        pad_value=pad_index)
     # final_outputs = batch x time
-    # stacked_output, stacked_attention_scores, stacked_kb_att_scores
-    return final_outputs, None, None
+
+    if knowledgebase is not None:
+        stacked_attention_scores = [atts[0] for atts in results["att_scores"]]
+        stacked_kb_att_scores = [kb_atts[0] for kb_atts in results["kb_att_scores"]]
+
+    return final_outputs, stacked_attention_scores, stacked_kb_att_scores

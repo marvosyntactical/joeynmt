@@ -151,15 +151,15 @@ class Model(nn.Module):
                         kb_keys=kb_keys,
                         k_hops=self.k_hops)
 
-
-    def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module) \
-            -> Tensor:
+    def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module,
+    max_output_length: int = None) -> Tensor:
         """
         Compute non-normalized loss and number of tokens for a batch
 
         :param batch: batch to compute loss for
         :param loss_function: loss function, computes for input and target
             a scalar loss for the complete batch
+        :param max_output_length: maximum length of hypotheses TODO FIXME find out where to get this during train
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
 
@@ -167,27 +167,59 @@ class Model(nn.Module):
 
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"): # no kb task
+
+            kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None # for uniform generator call 
+
             hidden, att_probs, att_vectors , _ = self.forward(
                 src=batch.src, trg_input=batch.trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=batch.trg_mask)
 
-            kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None # for uniform generator call 
+            # pass att_vectors through Generator
+
+            log_probs = self.generator(att_vectors)
+
         else: #kb task
-            assert batch.kbsrc != None
+            assert batch.kbsrc != None, batch.kbsrc
 
-            kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
+            kb_keys, kb_values, _ = self.preprocess_batch_kb(batch)
 
-            with self.Timer("model fwd pass"):
-                hidden, att_probs, att_vectors, kb_probs = self.forward(
+            """
+            # FIXME remove this
+            with self.Timer("model training: KB Task: model fwd pass for time comparison"):
+
+            # hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
+                hidden, att_probs, att_vectors , kb_probs = self.forward(
                     src=batch.src, trg_input=batch.trg_input,
                     src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                     trg_mask=batch.trg_mask, kb_keys=kb_keys)
-        
-        # pass att_vectors through Generator
 
-        log_probs = self.generator(att_vectors, kb_values=kb_values, kb_probs=kb_probs)
+                log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
+            """
 
+            with self.Timer("model training: KB Task: do greedy search"):
+
+                encoder_output, encoder_hidden = self.encode(
+                    batch.src, batch.src_lengths,
+                    batch.src_mask)
+
+                # if maximum output length is not globally specified, adapt to src len
+                if max_output_length is None:
+                    max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
+
+                print(f"in model.glfb; kb_keys are {kb_keys}")
+                stacked_output, stacked_attention_scores, stacked_kb_att_scores, log_probs = greedy(
+                        encoder_hidden=encoder_hidden,
+                        encoder_output=encoder_output,
+                        src_mask=batch.src_mask, embed=self.trg_embed,
+                        bos_index=self.bos_index, decoder=self.decoder, generator=self.generator,
+                        max_output_length=batch.trg.size(-1),
+                        knowledgebase = (kb_keys, kb_values))
+
+        print(f"log_probs: {log_probs.shape};\nbatch.trg: {batch.trg.shape}")
+
+        # compute batch loss
+        batch_loss = loss_function(log_probs, batch.trg)
 
         # ----- debug start
         mle_tokens = argmax(log_probs, dim=-1) # torch argmax
@@ -196,14 +228,76 @@ class Model(nn.Module):
         print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
         # ----- debug end
 
-        # compute batch loss
-        batch_loss = loss_function(log_probs, batch.trg)
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: END current batch{'-'*10}\n")
 
         # return batch loss = sum over all elements in batch that are not pad
         return batch_loss
 
+
+    def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
+                  beam_alpha: float) -> (np.array, np.array):
+        """
+        Get outputs and attentions scores for a given batch
+
+        :param batch: batch to generate hypotheses for
+        :param max_output_length: maximum length of hypotheses
+        :param beam_size: size of the beam for beam search, if 0 use greedy
+        :param beam_alpha: alpha value for beam search
+        :return: stacked_output: hypotheses for batch,
+            stacked_attention_scores: attention scores for batch
+        """
+
+        encoder_output, encoder_hidden = self.encode(
+            batch.src, batch.src_lengths,
+            batch.src_mask)
+
+        # if maximum output length is not globally specified, adapt to src len
+        if max_output_length is None:
+            max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
+
+        if hasattr(batch, "kbsrc"):
+            # B x KB x EMB; B x KB; B x KB
+            kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
+            oldshape = kb_values.shape
+            # assert kb_values.shape[1] == 1, kb_values.shape 
+            knowledgebase = (kb_keys, kb_values)
+        else:
+            knowledgebase = None
+
+        # greedy decoding
+        if beam_size == 0:
+            stacked_output, stacked_attention_scores, stacked_kb_att_scores, _ = greedy(
+                    encoder_hidden=encoder_hidden,
+                    encoder_output=encoder_output,
+                    src_mask=batch.src_mask, embed=self.trg_embed,
+                    bos_index=self.bos_index, decoder=self.decoder, generator=self.generator,
+                    max_output_length=max_output_length,
+                    knowledgebase = knowledgebase)
+            # batch, time, max_src_length
+        else:  # beam size
+            stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
+                    beam_search(
+                        decoder=self.decoder,
+                        generator=self.generator,
+                        size=beam_size, encoder_output=encoder_output,
+                        encoder_hidden=encoder_hidden,
+                        src_mask=batch.src_mask, embed=self.trg_embed,
+                        max_output_length=max_output_length,
+                        alpha=beam_alpha, eos_index=self.eos_index,
+                        pad_index=self.pad_index,
+                        bos_index=self.bos_index,
+                        knowledgebase = knowledgebase)
+
+        if knowledgebase != None and self.do_postproc:
+            with self.Timer("postprocessing hypotheses"):
+                # replace kb value tokens with actual values in hypotheses, e.g. 
+                # ['your','conference','is','at','@meeting_time'] => ['your', 'conference', 'is', 'at', '7pm']
+                # assert kb_values.shape[1] == 1, kb_values.shape
+                stacked_output = self.postprocess_batch_hypotheses(stacked_output, stacked_kb_att_scores, kb_values, kb_trv)
+
+        return stacked_output, stacked_attention_scores, stacked_kb_att_scores
+        
     def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True)-> (Tensor, Tensor):
 
         kb_keys = batch.kbsrc
@@ -281,68 +375,7 @@ class Model(nn.Module):
         return kb_keys, kb_values, kb_true_vals
 
 
-    def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
-                  beam_alpha: float) -> (np.array, np.array):
-        """
-        Get outputs and attentions scores for a given batch
 
-        :param batch: batch to generate hypotheses for
-        :param max_output_length: maximum length of hypotheses
-        :param beam_size: size of the beam for beam search, if 0 use greedy
-        :param beam_alpha: alpha value for beam search
-        :return: stacked_output: hypotheses for batch,
-            stacked_attention_scores: attention scores for batch
-        """
-
-        encoder_output, encoder_hidden = self.encode(
-            batch.src, batch.src_lengths,
-            batch.src_mask)
-
-        # if maximum output length is not globally specified, adapt to src len
-        if max_output_length is None:
-            max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
-
-        if hasattr(batch, "kbsrc"):
-            # B x KB x EMB; B x KB; B x KB
-            kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
-            oldshape = kb_values.shape
-            # assert kb_values.shape[1] == 1, kb_values.shape 
-            knowledgebase = (kb_keys, kb_values)
-        else:
-            knowledgebase = None
-
-        # greedy decoding
-        if beam_size == 0:
-            stacked_output, stacked_attention_scores, stacked_kb_att_scores = greedy(
-                    encoder_hidden=encoder_hidden,
-                    encoder_output=encoder_output,
-                    src_mask=batch.src_mask, embed=self.trg_embed,
-                    bos_index=self.bos_index, decoder=self.decoder, generator=self.generator,
-                    max_output_length=max_output_length,
-                    knowledgebase = knowledgebase)
-            # batch, time, max_src_length
-        else:  # beam size
-            stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
-                    beam_search(
-                        decoder=self.decoder,
-                        generator=self.generator,
-                        size=beam_size, encoder_output=encoder_output,
-                        encoder_hidden=encoder_hidden,
-                        src_mask=batch.src_mask, embed=self.trg_embed,
-                        max_output_length=max_output_length,
-                        alpha=beam_alpha, eos_index=self.eos_index,
-                        pad_index=self.pad_index,
-                        bos_index=self.bos_index,
-                        knowledgebase = knowledgebase)
-
-        if knowledgebase != None and self.do_postproc:
-            with self.Timer("postprocessing hypotheses"):
-                # replace kb value tokens with actual values in hypotheses, e.g. 
-                # ['your','conference','is','at','@meeting_time'] => ['your', 'conference', 'is', 'at', '7pm']
-                # assert kb_values.shape[1] == 1, kb_values.shape
-                stacked_output = self.postprocess_batch_hypotheses(stacked_output, stacked_kb_att_scores, kb_values, kb_trv)
-
-        return stacked_output, stacked_attention_scores, stacked_kb_att_scores
     
     def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_truval) -> np.array:
 
@@ -359,7 +392,6 @@ class Model(nn.Module):
         :param kb_truval: Tensor
         :return: post_proc_stacked_output
         """
-        assert stacked_kb_att_scores is not None
 
         print(stacked_kb_att_scores.shape, kb_values.shape, kb_truval.shape)
 
