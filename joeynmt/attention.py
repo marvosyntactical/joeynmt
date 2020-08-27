@@ -163,10 +163,8 @@ class KeyValRetAtt(AttentionMechanism):
         self.kb_max = kb_max # atm weather kb are max at 203
         self.curr_kb_size = None # this is set during self.compute_proj_keys
 
-
         # module to feed back concatenated query and previous utilities at hops k > 1
         self.multihop_feeding = nn.Linear(hidden_size+self.kb_max, hidden_size, bias=False)
-
         
 
     #pylint: disable=arguments-differ
@@ -183,7 +181,7 @@ class KeyValRetAtt(AttentionMechanism):
         self._check_input_shapes_forward(query=query)
 
         assert self.proj_keys is not None,\
-            "projection keys have to get pre-computed/assigned in dec.fwd before def.fwd_step"
+            f"projection keys have to get pre-computed/assigned in dec.fwd before def.fwd_step"
         
         if prev_utilities is None: 
             # first attention hop, just use query (dec hidden at time=t)
