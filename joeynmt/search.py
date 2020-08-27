@@ -537,18 +537,14 @@ def beam_search(
                         # unit test implementation
                         assert np.allclose( best_hyps_d_ , dbg)
 
-                        print(best_hyps_idx.dtype, best_hyps_idx.shape)
-                        print(stacked_attention_scores.shape)
-
-                        # FIXME TODO find out how to properly assign here
-
                         stck_att_np = np.array(stacked_attention_scores[b])
-                        stck_kb_att_np = np.array([kbatt.numpy() for kbatt in stacked_kb_att_scores[b]])
+                        stck_kb_att_np = np.array(stacked_kb_att_scores[b])
+
 
                         best_atts_d_ = stck_att_np[best_hyps_idx] 
                         best_kb_atts_d_ = stck_kb_att_np[best_hyps_idx]
                     
-                    # TODO replace best_hyps_descending with best_hyps_d_ FIXME XXX
+                    # TODO replace best_hyps_descending with best_hyps_d_ FIXME XXX (after cluster beam test)
                     for n, (score, pred) in enumerate(best_hyps_descending):
                         if n >= n_best:
                             break
@@ -617,14 +613,24 @@ def beam_search(
     # from results to stacked outputs
     assert n_best == 1
     # only works for n_best=1 for now 
-    # NOTE FIXME XXX why is that?
+
+    # final_outputs = batch x time
     final_outputs = pad_and_stack_hyps([r[0].cpu().numpy() for r in
                                         results["predictions"]],
                                        pad_value=pad_index)
-    # final_outputs = batch x time
 
     if knowledgebase is not None:
-        stacked_attention_scores = [atts[0] for atts in results["att_scores"]]
-        stacked_kb_att_scores = [kb_atts[0] for kb_atts in results["kb_att_scores"]]
+        # TODO FIXME confirm this implementation
+
+        # stacked_attention_scores: batch x max output len x src len
+        stacked_attention_scores = np.stack([
+            # select attentions of top (0) beam
+            atts[0].T for atts in results["att_scores"]
+            ], axis=0)
+
+        # stacked_kb_att_scores: batch x max output len x kb
+        stacked_kb_att_scores = np.stack([
+            kb_atts[0].T for kb_atts in results["kb_att_scores"]
+            ], axis=0)
 
     return final_outputs, stacked_attention_scores, stacked_kb_att_scores
