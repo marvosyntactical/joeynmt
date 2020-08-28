@@ -5,7 +5,6 @@ from typing import List, Dict, Union
 import json
 from collections import defaultdict
 
-
 # tokenization function from joeynmt data:
 
 def pkt_tokenize(s)-> List:
@@ -130,8 +129,14 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     """
     Efficiently canonize with values in dict
     (search further ahead if a token matches first word in canon string)
+
+    return 
+        - result: List[str] strings of sequence; replaced with canonical strings where possible
+        - indices: List[int] list of length len(seq), with each indices[i] being equal to the index in r that the raw token at i
+            was mapped to (surjective but not injective map)
+
     """
-    #if only these words match, dont replace them
+    # if only these words match, dont replace them
     stopwords = [\
                  "the", "no",#meetings, pois etc\ 
                  "0","1","2","3","4","5","6","7","8","9","10",#distances
@@ -142,6 +147,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                  "rest",#poi_type
                 ]
     r = []
+    indices = []
     i = 0
     while i < len(seq):
         token = seq[i]
@@ -181,6 +187,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                 #winner is simply longest candidate (in sequence with "2", "pm", match time (both tokens) instead of distance (only first token))
                 winning_candidate, lbl = max(candidates, key=lambda tup: len(tup[0]))
                 r += [lbl]
+                indices += [len(r)-1] * len(winning_candidate)
                 i += len(winning_candidate)-1
             elif partial_match_backup:
                 #winner is the candidate that matches farthest
@@ -188,8 +195,10 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                 if winning_candidate[0] in stopwords:
                     print(f"Warning: Omitting possible match {winning_candidate}; only matched with first token!")
                     r += [token]
+                    indices += [len(r)-1]
                 else:
                     r += [lbl]
+                    indices += [len(r)-1] * (upto)
                     i += upto-1
             else:
                 assert RuntimeError("This shouldnt happen")
@@ -200,14 +209,16 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                     {(winning_candidate, lbl)};\nr is:\n{r}")
         else:
             r += [token] # dont replace the token, theres no match, just add the token to the result
+            indices += [len(r)-1]
         i += 1
     print("\n"+("="*40))
     print(f"\tFinished up Sequence\n{seq}\nand transformed it to\n{r}")
     print(("="*40)+"\n")
-    return r
+    assert len(indices) == len(seq), (indices, seq)
+    return r, indices 
 
 def canonize_sequences(seqs: List[List[str]] = [], dictionary: defaultdict = defaultdict()):
-    return [canonize_sequence(seq,dictionary) for seq in seqs]
+    return [canonize_sequence(seq,dictionary)[0] for seq in seqs]
 
 def main(args):
 

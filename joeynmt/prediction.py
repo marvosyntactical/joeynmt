@@ -84,7 +84,8 @@ def validate_on_data(model: Model, data: Dataset,
             data, valid_kb, valid_kb_lkp, valid_kb_lens, valid_kb_truvals,
             batch_size=batch_size,
             batch_type=batch_type,
-            shuffle=False, train=False)
+            shuffle=False, train=False,
+            canonize=model.canonize)
 
     valid_sources_raw = data.src
     pad_index = model.src_vocab.stoi[PAD_TOKEN]

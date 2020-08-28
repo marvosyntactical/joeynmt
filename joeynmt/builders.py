@@ -196,7 +196,6 @@ def build_scheduled_sampling(config: dict):
         if c > 0: c = -c
 
         def scheduled_sampling(i):
-            print(i)
             return max(e,k+c*i)
     return scheduled_sampling
 
