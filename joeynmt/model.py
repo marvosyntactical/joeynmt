@@ -288,11 +288,13 @@ class Model(nn.Module):
                         pad_index=self.pad_index,
                         bos_index=self.bos_index,
                         knowledgebase = knowledgebase)
+        
+        assert False, self.do_postproc
 
         if knowledgebase != None and self.do_postproc:
             with self.Timer("postprocessing hypotheses"):
                 # replace kb value tokens with actual values in hypotheses, e.g. 
-                # ['your','conference','is','at','@meeting_time'] => ['your', 'conference', 'is', 'at', '7pm']
+                # ['your','@event','is','at','@meeting_time'] => ['your', 'conference', 'is', 'at', '7pm']
                 # assert kb_values.shape[1] == 1, kb_values.shape
                 stacked_output = self.postprocess_batch_hypotheses(stacked_output, stacked_kb_att_scores, kb_values, kb_trv)
 

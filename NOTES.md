@@ -13,6 +13,18 @@
 [https://www.overleaf.com/9379467478yfmhgzstdndm](Bachelor Thesis Scratch)
 
 
+### 28.08.20 wikiBIO dataset
+
+* need NER parser to canonize sequence data into classes as given in infoboxes
+
+
+### 28.08.20 cheat version (bleu on canonized)
+
+*TODO* redo?? is postprocessing still done?
+
+
+
+
 ### 26.08.20 scalability *TODO*
 
 * calculate/profile attention runtime
@@ -88,9 +100,11 @@ Beam search:
 
 => kb\_probs need to be properly formatted during beam search
 for handling in postproc
-=> *TEMPORARY* solution: dont do beam search during valid (default)
-* *TODO* reformat stacked\_kb\_att\_scores along with beam logits
-* *TODO* also do this for stacked attention scores
+* reformat stacked\_kb\_att\_scores along with beam logits
+* also do this for stacked attention scores
+
+beam search should work now ✔️ 
+*TODO* confirm implementation
 
 
 #### recurrent without kb
@@ -151,6 +165,9 @@ Alternative Version:
 MultiHeadedKBAttention:
 * figure out if possible to make this more like vanilla transformer (nativity)
 * what to do with heads? atm: sum (artem: information loss!)
+
+
+*TODO* Scheduler should be Noam
 
 
 ---
