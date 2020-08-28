@@ -145,6 +145,7 @@ for handling in postproc
 
 beam search should work now ✔️ 
 *TODO* confirm implementation
+*TODO* remove stacked attention reshaping for transformer
 
 
 #### recurrent without kb

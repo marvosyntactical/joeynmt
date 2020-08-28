@@ -205,7 +205,8 @@ class Model(nn.Module):
 
                     log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
 
-            else: # only use true labels with probability 0 <= e_i < 1; otherwise take model generation; => greedy search
+            else: # scheduled sampling
+                # only use true labels with probability 0 <= e_i < 1; otherwise take previous model generation; => greedy search
                 with self.Timer("model training: KB Task: do greedy search"):
 
                     encoder_output, encoder_hidden = self.encode(
