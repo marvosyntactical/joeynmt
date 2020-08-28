@@ -6,6 +6,8 @@ import numpy as np
 from typing import Tuple
 from copy import deepcopy
 
+import random
+
 from joeynmt.decoders import Decoder, TransformerDecoder, Gen
 from joeynmt.embeddings import Embeddings
 from joeynmt.helpers import tile
@@ -17,7 +19,8 @@ __all__ = ["greedy", "transformer_greedy", "beam_search"]
 def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
            max_output_length: int, decoder: Decoder, generator: Gen,
            encoder_output: Tensor, encoder_hidden: Tensor,
-           knowledgebase: Tuple[Tensor] = None)\
+           knowledgebase: Tuple[Tensor] = None,
+           trg_input: Tensor=None, e_i: float=1.)\
         -> (np.array, np.array, np.array):
     """
     Greedy decoding. Select the token word highest probability at each time
@@ -33,6 +36,8 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder last state for decoder initialization
     :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
+    :param trg_input: batch.trg_input for scheduled sampling
+    :param e_i: probability of taking the true token as input to next time step at each step (self doubt of the model)
     :return:
     """
 
@@ -42,7 +47,8 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
 
         return greedy_fun(
         src_mask, embed, bos_index, max_output_length,
-        decoder, generator, encoder_output, encoder_hidden, knowledgebase)
+        decoder, generator, encoder_output, encoder_hidden, knowledgebase,
+        trg_input, e_i)
 
     else:
         # Recurrent greedy decoding
@@ -50,13 +56,15 @@ def greedy(src_mask: Tensor, embed: Embeddings, bos_index: int,
 
         return greedy_fun(
             src_mask, embed, bos_index, max_output_length,
-            decoder, generator, encoder_output, encoder_hidden, knowledgebase)
+            decoder, generator, encoder_output, encoder_hidden, knowledgebase,
+            trg_input, e_i)
 
 def recurrent_greedy(
         src_mask: Tensor, embed: Embeddings, bos_index: int,
         max_output_length: int, decoder: Decoder, generator: Gen,
         encoder_output: Tensor, encoder_hidden: Tensor,
-        knowledgebase: Tuple = None) -> (np.array, np.array, np.array):
+        knowledgebase: Tuple = None,
+        trg_input: Tensor=None, e_i: float=0.) -> (np.array, np.array, np.array):
     """
     Greedy decoding: in each step, choose the word that gets highest score.
     Version for recurrent decoder. 
@@ -70,11 +78,14 @@ def recurrent_greedy(
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder last state for decoder initialization
     :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
+    :param trg_input: batch.trg_input for scheduled sampling
+    :param e_i: probability of taking the true token as input to next time step at each step (self doubt of the model)
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
         - stacked_log_probs: stepwise output log_probs
     """
+
     batch_size = src_mask.size(0)
     prev_y = src_mask.new_full(size=[batch_size, 1], fill_value=bos_index,
                                dtype=torch.long)
@@ -138,9 +149,19 @@ def recurrent_greedy(
         # the output_layer has no information about which of its output neurons
         # should be associated with which index of the trg_vocab
         # A: the output layer just randomly guesses and soon learns the connection via bp 
-        prev_y = next_word
 
-        dump = lambda tnsr: tnsr.squeeze(1).cpu().detach().numpy() # helper func
+        if e_i > 0.0 and trg_input is not None:
+            # do scheduled sampling (https://arxiv.org/abs/1506.03099 Section 2.4)
+            true_y = trg_input[:,t].unsqueeze(1)
+
+            assert true_y.shape == next_word.shape, (true_y.shape, next_word.shape)
+
+            feed_true_y = random.random() < e_i
+            prev_y = true_y if feed_true_y else next_word 
+        else:
+            prev_y = next_word
+
+        dump = lambda t: t.squeeze(1).cpu().detach().numpy() # helper func
 
         # batch, max_src_lengths
         output.append(dump(next_word))

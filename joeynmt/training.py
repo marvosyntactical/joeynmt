@@ -29,7 +29,7 @@ from joeynmt.prediction import validate_on_data
 from joeynmt.loss import XentLoss
 from joeynmt.data import load_data, make_data_iter, make_data_iter_kb, MonoDataset
 from joeynmt.builders import build_optimizer, build_scheduler, \
-    build_gradient_clipper
+    build_gradient_clipper, build_scheduled_sampling
 from joeynmt.prediction import test
 
 
@@ -111,6 +111,10 @@ class TrainManager:
             scheduler_mode="min" if self.minimize_metric else "max",
             optimizer=self.optimizer,
             hidden_size=config["model"]["encoder"]["hidden_size"])
+
+        # scheduled sampling
+        self.scheduled_sampling = build_scheduled_sampling( config=train_config )
+        self.minibatch_count = 0
 
         # data & batch handling
         self.level = config["data"]["level"]
@@ -444,7 +448,7 @@ class TrainManager:
         :return: loss for batch (sum)
         """
         batch_loss = self.model.get_loss_for_batch(
-            batch=batch, loss_function=self.loss)
+            batch=batch, loss_function=self.loss, e_i=self.scheduled_sampling(self.minibatch_count))
 
         # normalize batch loss
         if self.normalization == "batch":
@@ -476,6 +480,9 @@ class TrainManager:
         # increment token counter
         self.total_tokens += batch.ntokens
 
+        # increment minibatch count for scheduled sampling
+        self.minibatch_count += 1
+
         return norm_batch_loss
 
     def _add_report(self, valid_score: float, valid_ppl: float,
@@ -501,9 +508,10 @@ class TrainManager:
         with open(self.valid_report_file, 'a') as opened_file:
             opened_file.write(
                 "Steps: {}\tLoss: {:.5f}\tPPL: {:.5f}\t{}: {:.5f}\t"
-                "LR: {:.8f}\t{}\n".format(
+                "LR: {:.8f}\tmbtch: {}\teps_i: {:.5f}\t{}\n".format(
                     self.steps, valid_loss, valid_ppl, eval_metric,
-                    valid_score, current_lr, "*" if new_best else ""))
+                    valid_score, current_lr,
+                    self.minibatch_count,self.scheduled_sampling(self.minibatch_count), "*" if new_best else ""))
 
     def _log_parameters_list(self) -> None:
         """

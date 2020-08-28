@@ -17,12 +17,48 @@
 
 * need NER parser to canonize sequence data into classes as given in infoboxes
 
+### 28.08.20 scheduled sampling
+
+implement scheduled sampling:
+
+yaml:
+add hyperparams:
+scheduled\_sampling\_type: linear, exponential, invsigmoid (default) 
+scheduled\_sampling\_k: value of k (float) # allowed range depends on sampl type
+scheduled\_sampling\_c: value of c (slope of linear schedule)
+
+
+
+#### TrainManager:
+* initialize with 
+self.scheduled\_sampling(type,k,c) => function that only depends on i
+* keep track of num of minibatches i across epochs
+* for each batch: calculate e\_i
+* call glfb with e\_i
+
+#### get\_loss\_for\_batch:
+args:
+e\_i: float = 0.
+pass this to greedy search if > 0.
+
+#### greedy\_search:
+args: 
+batch.trg: Tensor = None, e\_i: float = 0.
+if received arg batch.trg, then select previous y with probability e\_i
+from batch.trg or model prediction
+
+
+
+
+
+
+
+
+
 
 ### 28.08.20 cheat version (bleu on canonized)
 
 *TODO* redo?? is postprocessing still done?
-
-
 
 
 ### 26.08.20 scalability *TODO*
@@ -165,7 +201,6 @@ Alternative Version:
 MultiHeadedKBAttention:
 * figure out if possible to make this more like vanilla transformer (nativity)
 * what to do with heads? atm: sum (artem: information loss!)
-
 
 *TODO* Scheduler should be Noam
 

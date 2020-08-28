@@ -152,21 +152,28 @@ class Model(nn.Module):
                         k_hops=self.k_hops)
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module,
-    max_output_length: int = None) -> Tensor:
+    max_output_length: int = None, e_i: float = 1.) -> Tensor:
         """
         Compute non-normalized loss and number of tokens for a batch
 
         :param batch: batch to compute loss for
         :param loss_function: loss function, computes for input and target
             a scalar loss for the complete batch
-        :param max_output_length: maximum length of hypotheses TODO FIXME find out where to get this during train
+        :param max_output_length: maximum length of hypotheses
+        :param e_i: scheduled sampling probability of taking true label vs model generation at every decoding step
+        (https://arxiv.org/abs/1506.03099 Section 2.4)
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: START current batch{'-'*10}\n")
 
+        assert 0. <= e_i <= 1., f"e_i={e_i} should be a probability"
+
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"): # no kb task
+
+            if e_i != 1.:
+                raise NotImplementedError("scheduled sampling only works for KB task atm")
 
             kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None # for uniform generator call 
 
@@ -184,37 +191,39 @@ class Model(nn.Module):
 
             kb_keys, kb_values, _ = self.preprocess_batch_kb(batch)
 
-            """
-            # FIXME remove this
-            with self.Timer("model training: KB Task: model fwd pass for time comparison"):
+            if e_i == 1.0: # take true label at every step => just do training fwd pass
+                with self.Timer("model training: KB Task: model fwd pass for time comparison"):
 
-            # hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
-                hidden, att_probs, att_vectors , kb_probs = self.forward(
-                    src=batch.src, trg_input=batch.trg_input,
-                    src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                    trg_mask=batch.trg_mask, kb_keys=kb_keys)
+                    hidden, att_probs, att_vectors , kb_probs = self.forward(
+                        src=batch.src, trg_input=batch.trg_input,
+                        src_mask=batch.src_mask, src_lengths=batch.src_lengths,
+                        trg_mask=batch.trg_mask, kb_keys=kb_keys)
 
-                log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
-            """
+                    log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
 
-            with self.Timer("model training: KB Task: do greedy search"):
+            else: # only use true labels with probability 0 <= e_i < 1; otherwise take model generation; => greedy search
+                with self.Timer("model training: KB Task: do greedy search"):
 
-                encoder_output, encoder_hidden = self.encode(
-                    batch.src, batch.src_lengths,
-                    batch.src_mask)
+                    encoder_output, encoder_hidden = self.encode(
+                        batch.src, batch.src_lengths,
+                        batch.src_mask)
 
-                # if maximum output length is not globally specified, adapt to src len
-                if max_output_length is None:
-                    max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
+                    # if maximum output length is not globally specified, adapt to src len
+                    if max_output_length is None:
+                        max_output_length = int(max(batch.src_lengths.cpu().numpy()) * 1.5)
 
-                print(f"in model.glfb; kb_keys are {kb_keys}")
-                stacked_output, stacked_attention_scores, stacked_kb_att_scores, log_probs = greedy(
-                        encoder_hidden=encoder_hidden,
-                        encoder_output=encoder_output,
-                        src_mask=batch.src_mask, embed=self.trg_embed,
-                        bos_index=self.bos_index, decoder=self.decoder, generator=self.generator,
-                        max_output_length=batch.trg.size(-1),
-                        knowledgebase = (kb_keys, kb_values))
+                    print(f"in model.glfb; kb_keys are {kb_keys}")
+                    stacked_output, stacked_attention_scores, stacked_kb_att_scores, log_probs = greedy(
+                            encoder_hidden=encoder_hidden, encoder_output=encoder_output,
+                            src_mask=batch.src_mask,
+                            embed=self.trg_embed,
+                            bos_index=self.bos_index,
+                            decoder=self.decoder, generator=self.generator,
+                            max_output_length=batch.trg.size(-1),
+                            knowledgebase = (kb_keys, kb_values),
+                            trg_input=batch.trg_input,
+                            e_i=e_i
+                            )
 
         print(f"log_probs: {log_probs.shape};\nbatch.trg: {batch.trg.shape}")
 
@@ -289,8 +298,6 @@ class Model(nn.Module):
                         bos_index=self.bos_index,
                         knowledgebase = knowledgebase)
         
-        assert False, self.do_postproc
-
         if knowledgebase != None and self.do_postproc:
             with self.Timer("postprocessing hypotheses"):
                 # replace kb value tokens with actual values in hypotheses, e.g. 

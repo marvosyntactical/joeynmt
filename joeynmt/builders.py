@@ -4,6 +4,8 @@ Collection of builder functions
 """
 from typing import Callable, Optional, Generator
 
+import math
+
 import torch
 from torch import nn
 from torch.optim.lr_scheduler import _LRScheduler, ReduceLROnPlateau, \
@@ -159,6 +161,47 @@ def build_scheduler(config: dict, optimizer: Optimizer, scheduler_mode: str,
 
             scheduler_step_at = "step"
     return scheduler, scheduler_step_at
+
+def build_scheduled_sampling(config: dict):
+    "https://arxiv.org/abs/1506.03099 Section 2.4"
+
+    types = ["invsigmoid", "exponential", "linear"]
+
+    sched_sampl_type = str(config.get("sched_sampl_type", "linear"))
+    assert sched_sampl_type.lower() in types 
+
+    k = float(config.get("sched_sampl_k", 1.))
+
+    if sched_sampl_type.lower() == "exponential":
+        assert k <= 1.0, "https://arxiv.org/abs/1506.03099"
+
+        scheduled_sampling = lambda i: k**i
+
+    elif sched_sampl_type.lower() == "invsigmoid":
+        assert k > 1.0, "for inverse sigmoid decay, set k to roughly half of \
+            how long you think you will train for (in num of minibatches)"
+        scheduled_sampling = lambda i: k / (k+math.exp(i/k))
+    
+    elif sched_sampl_type.lower() == "linear":
+        # default
+        c, e = config.get("sched_sampl_c_e", [1e-5, 0.2])
+        c = float(c)
+        e = float(e)
+
+        assert 0. <= k <= 1., "for linear scheduled sampling, k is the bias in probability \
+            towards using true labels at the start of training, so must be between 0 and 1"
+        assert 0. <= e <= 1., "for linear scheduled sampling, e is the minimal probability \
+            for providing true lbales"
+        # c must have negative sign
+        if c > 0: c = -c
+
+        def scheduled_sampling(i):
+            print(i)
+            return max(e,k+c*i)
+    return scheduled_sampling
+
+
+
 
 
 class NoamScheduler:
