@@ -1008,6 +1008,7 @@ class TransformerDecoder(Decoder):
 
         assert trg_mask is not None, "trg_mask required for Transformer"
 
+
         x = self.pe(trg_embed)  # add position encoding to word embedding
         x = self.emb_dropout(x)
 
@@ -1074,20 +1075,15 @@ class Generator(Gen):
 
         if kb_values is not None:
 
-            # this bug comes from somewhere in or before model.process_batch_kb
-            if len(kb_values.shape) < 3: 
-                kb_values = kb_values.unsqueeze(1)
-            else:
-                assert False, kb_values # i dont think this should happen
-                assert kb_values.shape[1] == 1
+            # kb_values: b x kb => b x time x kb
+            kb_values = kb_values.unsqueeze(1).repeat((1, _unroll, 1))
 
             _batch, _unroll, _kb = kb_probs.shape
 
             B = torch.arange(_batch).unsqueeze(1).unsqueeze(1)
             U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
 
-            kb_values = kb_values.repeat((1, _unroll, 1))
-            # add v to outputs (v_t in Eric et al.)
+            # add v_t = kb_probs to outputs (logits vector in Eric et al.)
             outputs[B, U, kb_values] += kb_probs
 
         # compute log probs

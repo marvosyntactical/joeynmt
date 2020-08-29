@@ -170,7 +170,7 @@ def build_scheduled_sampling(config: dict):
     sched_sampl_type = str(config.get("sched_sampl_type", "linear"))
     assert sched_sampl_type.lower() in types 
 
-    k = float(config.get("sched_sampl_k", 1.))
+    k = float(config.get("sched_sampl_k", 1.)) # comment on defaults see below
 
     if sched_sampl_type.lower() == "exponential":
         assert k <= 1.0, "https://arxiv.org/abs/1506.03099"
@@ -184,20 +184,17 @@ def build_scheduled_sampling(config: dict):
     
     elif sched_sampl_type.lower() == "linear":
         # default
-        c, e = config.get("sched_sampl_c_e", [1e-5, 0.2])
-        c = float(c)
-        e = float(e)
+        c, e = config.get("sched_sampl_c_e", [0., 0.2]) # by default, k=1, c=0 => k+c*i = 1 always => teacher forcing as usual 
+        slope = float(c)
+        minimal_truth = float(e)
 
         assert 0. <= k <= 1., "for linear scheduled sampling, k is the bias in probability \
             towards using true labels at the start of training, so must be between 0 and 1"
         assert 0. <= e <= 1., "for linear scheduled sampling, e is the minimal probability \
             for providing true lbales"
-        # c must have negative sign
-        if c > 0: c = -c
-
-        def scheduled_sampling(i):
-            print(i)
-            return max(e,k+c*i)
+        # slope must have negative sign
+        if slope > 0: slope = -slope
+        scheduled_sampling = lambda i : max(minimal_truth, k+slope*i)
     return scheduled_sampling
 
 

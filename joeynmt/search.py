@@ -110,32 +110,21 @@ def recurrent_greedy(
         kb_att_scores = []
         all_log_probs = []
     else:
-        kb_values = None
+        kb_keys = kb_values = None
         stacked_log_probs = None
 
     # pylint: disable=unused-variable
     for t in range(max_output_length):
         # decode one single step
-        if knowledgebase != None:
-            hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
-                encoder_output=encoder_output,
-                encoder_hidden=encoder_hidden,
-                src_mask=src_mask,
-                trg_embed=embed(prev_y),
-                hidden=hidden,
-                prev_att_vector=prev_att_vector,
-                unroll_steps=1,
-                kb_keys=kb_keys)
-
-        else:
-           hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
-                encoder_output=encoder_output,
-                encoder_hidden=encoder_hidden,
-                src_mask=src_mask,
-                trg_embed=embed(prev_y),
-                hidden=hidden,
-                prev_att_vector=prev_att_vector,
-                unroll_steps=1)
+        hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
+            encoder_output=encoder_output,
+            encoder_hidden=encoder_hidden,
+            src_mask=src_mask,
+            trg_embed=embed(prev_y),
+            hidden=hidden,
+            prev_att_vector=prev_att_vector,
+            unroll_steps=1,
+            kb_keys=kb_keys)
 
         log_probs = generator(prev_att_vector, kb_values=kb_values, kb_probs=kb_att_probs)
 
@@ -192,7 +181,8 @@ def recurrent_greedy(
 def transformer_greedy(
         src_mask: Tensor, embed: Embeddings,
         bos_index: int, max_output_length: int, decoder: Decoder, generator: Gen,
-        encoder_output: Tensor, encoder_hidden: Tensor, knowledgebase:Tuple=(None,None,None)) -> (np.array, np.array):
+        encoder_output: Tensor, encoder_hidden: Tensor, 
+        knowledgebase:Tuple=(None,None,None), trg_input: Tensor=None, e_i:float = None) -> (np.array, np.array):
 
     """
     Special greedy function for transformer, since it works differently.
@@ -207,54 +197,78 @@ def transformer_greedy(
     :param encoder_output: encoder hidden states for attention
     :param encoder_hidden: encoder final state (unused in Transformer)
     :param knowledgebase: knowledgebase tuple containing keys, values and true values for decoding:
+    :param trg_input: batch.trg_input for scheduled sampling
+    :param e_i: probability of taking the true token as input to next time step at each step (self doubt of the model)
     :return:
         - stacked_output: output hypotheses (2d array of indices),
         - stacked_attention_scores: attention scores (3d array)
     """
     if knowledgebase == None: # not kb task
         knowledgebase = (None,)*3
+    if knowledgebase[0] is not None:
+        all_log_probs = []
     
     batch_size = src_mask.size(0)
 
     # start with BOS-symbol for each sentence in the batch
     ys = encoder_output.new_full([batch_size, 1], bos_index, dtype=torch.long)
+    # batch x max_output_length
 
     # a subsequent mask is intersected with this in decoder forward pass
     trg_mask = src_mask.new_ones([1, 1, 1])
 
-    for _ in range(max_output_length):
+    for t in range(max_output_length):
 
         trg_embed = embed(ys)  # embed the BOS-symbol
 
-        # pylint: disable=unused-variable
-        with torch.no_grad():
-            _ , _, out, kb_scores = decoder(
-                trg_embed=trg_embed,
-                encoder_output=encoder_output,
-                encoder_hidden=None,
-                src_mask=src_mask,
-                unroll_steps=None,
-                hidden=None,
-                trg_mask=trg_mask,
-                kb_keys=knowledgebase[0],
-            )
-            # warning kb_values before: B x KB
-            logits = generator(out, kb_values=knowledgebase[1], kb_probs=kb_scores)
-            # warning kb_values after: B x 1 x KB
+        _ , _, out, kb_scores = decoder(
+            trg_embed=trg_embed,
+            encoder_output=encoder_output,
+            encoder_hidden=None,
+            src_mask=src_mask,
+            unroll_steps=None,
+            hidden=None,
+            trg_mask=trg_mask,
+            kb_keys=knowledgebase[0],
+        )
 
-            logits = logits[:, -1] # TODO FIXME what does this do? what dims are this
-            _, next_word = torch.max(logits, dim=1)
-            next_word = next_word.data
-            ys = torch.cat([ys, next_word.unsqueeze(-1)], dim=1)
+        # kb_values : B x KB
+        log_probs = generator(out, kb_values=knowledgebase[1], kb_probs=kb_scores)
+
+        # TODO FIXME understand the difference between log_probs[:,-1] vs log_probs.unsqueeze(1)
+        log_probs = log_probs[:,-1] # remove singleton time dimension => B x VOC 
+        next_word = torch.argmax(log_probs, dim=-1) # B (select index of top value along VOC dim)
+        next_word = next_word.unsqueeze(1) # B x time=1
+
+        assert len(next_word.shape) == 2, next_word.shape
+
+        if e_i > 0.0 and trg_input is not None:
+            # do scheduled sampling (https://arxiv.org/abs/1506.03099 Section 2.4)
+            true_y = trg_input[:,t].unsqueeze(-1) # B x time=1
             
+            assert true_y.shape == next_word.shape, (true_y.shape, next_word.shape)
+
+            feed_true_y = random.random() < e_i
+            prev_y = true_y if feed_true_y else next_word 
+        else:
+            prev_y = next_word
+
+        ys = torch.cat([ys, prev_y], dim=-1)
+
+        if knowledgebase[0] is not None:
+            all_log_probs.append(log_probs.unsqueeze(1)) # re-add time dimension for later concatenation => B x time=1 x VOC
+        
     
-    if kb_scores is not None: # last returned kb_scores (maximum length)
-        stacked_kb_att_scores = kb_scores.cpu().numpy() # B x M x KB
+    if kb_scores is not None:  
+        stacked_kb_att_scores = kb_scores.detach().cpu().numpy() # B x M x KB
+        stacked_log_probs = torch.cat(all_log_probs,dim=1) # B x M x VOC
     else:
         stacked_kb_att_scores = None
+        stacked_log_probs = None
 
     ys = ys[:, 1:]  # remove BOS-symbol
-    return ys, None, stacked_kb_att_scores
+    # return stacked_output, stacked_attention_scores, stacked_kb_att_scores, stacked_log_probs
+    return ys, None, stacked_kb_att_scores, stacked_log_probs
 
 
 # pylint: disable=too-many-statements,too-many-branches

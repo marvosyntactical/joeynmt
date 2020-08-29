@@ -45,6 +45,7 @@ class Model(nn.Module):
                  trv_vocab: Vocabulary=None,
                  k_hops: int = 1,
                  do_postproc: bool = True,
+                 canonize = None
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -58,6 +59,7 @@ class Model(nn.Module):
         :param trv_vocab: kb true value lookup vocabulary
         :param k_hops: number of kvr attention forward passes to do
         :param do_postproc: do postprocessing (decode canonical tokens) in KVR task?
+        :param canonize: canonization function to try to create KB on the fly if none exists; not used by model but piggybacks off it
         """
         super(Model, self).__init__()
 
@@ -80,6 +82,8 @@ class Model(nn.Module):
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
         self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
         self.do_postproc = do_postproc
+        self.canonize = canonize
+
 
 
         self.Timer = Timer()
@@ -201,7 +205,8 @@ class Model(nn.Module):
 
                     log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
 
-            else: # only use true labels with probability 0 <= e_i < 1; otherwise take model generation; => greedy search
+            else: # scheduled sampling
+                # only use true labels with probability 0 <= e_i < 1; otherwise take previous model generation; => greedy search
                 with self.Timer("model training: KB Task: do greedy search"):
 
                     encoder_output, encoder_hidden = self.encode(
@@ -520,7 +525,8 @@ class Model(nn.Module):
 def build_model(cfg: dict = None,
                 src_vocab: Vocabulary = None,
                 trg_vocab: Vocabulary = None,
-                trv_vocab: Vocabulary = None) -> Model:
+                trv_vocab: Vocabulary = None,
+                canonize = None) -> Model:
     """
     Build and initialize the model according to the configuration.
 
@@ -629,7 +635,8 @@ def build_model(cfg: dict = None,
                   src_embed=src_embed, trg_embed=trg_embed,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
                   trv_vocab=trv_vocab,
-                  k_hops=k_hops, do_postproc=do_postproc)
+                  k_hops=k_hops, do_postproc=do_postproc,
+                  canonize=canonize)
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):

@@ -12,6 +12,15 @@
 
 [https://www.overleaf.com/9379467478yfmhgzstdndm](Bachelor Thesis Scratch)
 
+haha
+
+### 28.08.20 perplexity
+
+perplexity should be going down instead of up
+it should be upper bounded by output vocab
+
+*TODO* investigate
+
 
 ### 28.08.20 wikiBIO dataset
 
@@ -26,8 +35,7 @@ add hyperparams:
 scheduled\_sampling\_type: linear, exponential, invsigmoid (default) 
 scheduled\_sampling\_k: value of k (float) # allowed range depends on sampl type
 scheduled\_sampling\_c: value of c (slope of linear schedule)
-
-
+✔️
 
 #### TrainManager:
 * initialize with 
@@ -35,30 +43,27 @@ self.scheduled\_sampling(type,k,c) => function that only depends on i
 * keep track of num of minibatches i across epochs
 * for each batch: calculate e\_i
 * call glfb with e\_i
-
+✔️
 #### get\_loss\_for\_batch:
 args:
 e\_i: float = 0.
 pass this to greedy search if > 0.
-
+✔️
 #### greedy\_search:
 args: 
 batch.trg: Tensor = None, e\_i: float = 0.
 if received arg batch.trg, then select previous y with probability e\_i
 from batch.trg or model prediction
+✔️
 
-
-
-
-
-
-
+*TODO* See results of sampling, sigmoid
 
 
 
 ### 28.08.20 cheat version (bleu on canonized)
 
 *TODO* redo?? is postprocessing still done?
+(hyps still look postprocessed??)
 
 
 ### 26.08.20 scalability *TODO*
@@ -88,7 +93,6 @@ Select key as combination of highest attended
 ### 26.08.20 artem questions *TODO*
 
 Architecture/implementation:
-* How to do positional encodings? add scaled sine wave
 * name/concept/citation for the idea of training on simplified data, then postprocessing on val/test
 => can I still call it an end to end seq2seq system? its not neural from end to end
 
@@ -116,8 +120,8 @@ Empty scheduling KBs:
 * =>    "Make an entry for @event on @date at @time with my @party ."
 * =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
 * make these the knowledgebase, so they can be attended over
-
-* avoid canonizing stuff thats not in the KB => how much is uncanonized by this (=> maybe trouble generalizing)?
+✔️
+*TODO* TEST this
 
 Pipeline:
 * remove double "home" in traffic KBs ✔️
@@ -141,6 +145,7 @@ for handling in postproc
 
 beam search should work now ✔️ 
 *TODO* confirm implementation
+*TODO* remove stacked attention reshaping for transformer
 
 
 #### recurrent without kb
@@ -193,11 +198,10 @@ Bad Results => Something's wrong:
 * Hyperparams/Config?
 * Implementation?
 * learns slowly/poorly investigate hyperparam correctness such as label smoothing
-
+✔️
 Alternative Version:
 * Single attention pass with query=h2\_norm of last layer works better
-* change implementation to this if Artem agrees *TODO*
-
+✔️
 MultiHeadedKBAttention:
 * figure out if possible to make this more like vanilla transformer (nativity)
 * what to do with heads? atm: sum (artem: information loss!)
