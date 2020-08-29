@@ -1075,10 +1075,10 @@ class Generator(Gen):
 
         if kb_values is not None:
 
+            _batch, _unroll, _kb = kb_probs.shape
+
             # kb_values: b x kb => b x time x kb
             kb_values = kb_values.unsqueeze(1).repeat((1, _unroll, 1))
-
-            _batch, _unroll, _kb = kb_probs.shape
 
             B = torch.arange(_batch).unsqueeze(1).unsqueeze(1)
             U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
