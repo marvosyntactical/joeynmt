@@ -173,6 +173,8 @@ class Model(nn.Module):
 
         assert 0. <= e_i <= 1., f"e_i={e_i} should be a probability"
 
+        trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
+
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"): # no kb task
 
@@ -182,31 +184,37 @@ class Model(nn.Module):
             kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None # for uniform generator call 
 
             hidden, att_probs, att_vectors , _ = self.forward(
-                src=batch.src, trg_input=batch.trg_input,
+                src=batch.src, trg_input=trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                trg_mask=batch.trg_mask)
+                trg_mask=trg_mask)
 
             # pass att_vectors through Generator
 
             log_probs = self.generator(att_vectors)
 
-        else: #kb task
+        else: # kb task
             assert batch.kbsrc != None, batch.kbsrc
 
             kb_keys, kb_values, _ = self.preprocess_batch_kb(batch)
 
-            if e_i == 1.0: # take true label at every step => just do training fwd pass
-                with self.Timer("model training: KB Task: model fwd pass for time comparison"):
+            # FIXME hardcoded attribute name
+            if hasattr(batch, "trgcanon"): 
+                # get loss on canonized target data, see joeynmt.prediction.validate_on_data
+                trg, trg_input, trg_mask = batch.trgcanon, batch.trgcanon_input, batch.trgcanon_mask
+
+            if e_i == 1.0: # take true label at every step => just do fwd pass like in normal teacher forcing training
+                with self.Timer("model training: KB Task: model fwd pass"):
 
                     hidden, att_probs, att_vectors , kb_probs = self.forward(
-                        src=batch.src, trg_input=batch.trg_input,
+                        src=batch.src, trg_input=trg_input,
                         src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                        trg_mask=batch.trg_mask, kb_keys=kb_keys)
+                        trg_mask=trg_mask, kb_keys=kb_keys)
 
                     log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
 
             else: # scheduled sampling
-                # only use true labels with probability 0 <= e_i < 1; otherwise take previous model generation; => greedy search
+                # only use true labels with probability 0 <= e_i < 1; otherwise take previous model generation;
+                # => do a greedy search (autoregressive training as hinted at in Eric et al)
                 with self.Timer("model training: KB Task: do greedy search"):
 
                     encoder_output, encoder_hidden = self.encode(
@@ -224,16 +232,18 @@ class Model(nn.Module):
                             embed=self.trg_embed,
                             bos_index=self.bos_index,
                             decoder=self.decoder, generator=self.generator,
-                            max_output_length=batch.trg.size(-1),
+                            max_output_length=trg.size(-1),
                             knowledgebase = (kb_keys, kb_values),
-                            trg_input=batch.trg_input,
+                            trg_input=trg_input,
                             e_i=e_i
                             )
+            if hasattr(batch, "trgcanon"):
+                assert not log_probs.requires_grad, "this shouldnt happen/ be done during training (canonized data is used in the 'trg' field there)"
 
-        print(f"log_probs: {log_probs.shape};\nbatch.trg: {batch.trg.shape}")
+        print(f"log_probs: {log_probs.shape};\nbatch.trg: {trg.shape}")
 
         # compute batch loss
-        batch_loss = loss_function(log_probs, batch.trg)
+        batch_loss = loss_function(log_probs, trg)
 
         # ----- debug start
         mle_tokens = argmax(log_probs, dim=-1) # torch argmax
@@ -258,7 +268,8 @@ class Model(nn.Module):
         :param max_output_length: maximum length of hypotheses
         :param beam_size: size of the beam for beam search, if 0 use greedy
         :param beam_alpha: alpha value for beam search
-        :return: stacked_output: hypotheses for batch,
+        :return: 
+            stacked_output: hypotheses for batch,
             stacked_attention_scores: attention scores for batch
         """
 
@@ -289,6 +300,13 @@ class Model(nn.Module):
                     max_output_length=max_output_length,
                     knowledgebase = knowledgebase)
             # batch, time, max_src_length
+            """
+            assert not stacked_kb_att_scores.shape[-1] == 5, (
+                ("kbsrc:", self.src_vocab.arrays_to_sentences(batch.kbsrc)),"\n",
+                ("kbtrg:", self.trg_vocab.arrays_to_sentences(knowledgebase[1])),"\n",
+                ("kbtrv:", self.trv_vocab.arrays_to_sentences(kb_trv))
+            )
+            """
         else:  # beam size
             stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
                     beam_search(

@@ -18,6 +18,7 @@ from torch import Tensor
 from torch.utils.tensorboard import SummaryWriter
 
 from torchtext.data import Dataset
+from torchtext.datasets import TranslationDataset
 
 from joeynmt.model import build_model
 from joeynmt.batch import Batch, Batch_with_KB
@@ -227,9 +228,11 @@ class TrainManager:
         if self.use_cuda:
             self.model.cuda()
 
-    def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: MonoDataset =None,\
-        train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals: MonoDataset=None, valid_kb: Tuple=None, \
-        valid_kb_lkp: list=[], valid_kb_lens: list = [], valid_kb_truvals:list=[]) \
+    # the typing here lies
+    def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: TranslationDataset =None,\
+        train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals: TranslationDataset=None, valid_kb: Tuple=None, \
+        valid_kb_lkp: list=[], valid_kb_lens: list = [], valid_kb_truvals:list=[],
+        valid_data_canon: list=[]) \
             -> None:
         """
         Train the model and validate it from time to time on the validation set.
@@ -237,12 +240,14 @@ class TrainManager:
         :param train_data: training data
         :param valid_data: validation data
         :param kb_task: is not None if kb_task should be executed
-        :param train_kb: MonoDataset holding the loaded train kb data
+        :param train_kb: TranslationDataset holding the loaded train kb data
         :param train_kb_lkp: List with train example index to corresponding kb indices
         :param train_kb_len: List with num of triples per kb 
-        :param valid_kb: MonoDataset holding the loaded valid kb data
+        :param valid_kb: TranslationDataset holding the loaded valid kb data
         :param valid_kb_lkp: List with valid example index to corresponding kb indices
         :param valid_kb_len: List with num of triples per kb 
+        :param valid_kb_truvals: FIXME TODO
+        :param valid_data_canon: required to report loss 
         """
 
         if kb_task:
@@ -252,7 +257,8 @@ class TrainManager:
                                     batch_size=self.batch_size,
                                     batch_type=self.batch_type,
                                     train=True, shuffle=self.shuffle,
-                                    canonize=self.model.canonize)
+                                    canonize=self.model.canonize
+                                    )
         else:
             train_iter = make_data_iter(train_data,
                                     batch_size=self.batch_size,
@@ -324,7 +330,8 @@ class TrainManager:
                     
                     valid_score, valid_loss, valid_ppl, valid_sources, \
                     valid_sources_raw, valid_references, valid_hypotheses, \
-                        valid_hypotheses_raw, valid_attention_scores, valid_kb_att_scores = \
+                        valid_hypotheses_raw, valid_attention_scores, valid_kb_att_scores, \
+                        valid_ent_f1 = \
                         validate_on_data(
                             batch_size=self.eval_batch_size,
                             data=valid_data,
@@ -339,7 +346,8 @@ class TrainManager:
                             valid_kb=valid_kb,
                             valid_kb_lkp=valid_kb_lkp,
                             valid_kb_lens=valid_kb_lens,
-                            valid_kb_truvals=valid_kb_truvals
+                            valid_kb_truvals=valid_kb_truvals,
+                            valid_data_canon=valid_data_canon
                         )
 
                     self.tb_writer.add_scalar("valid/valid_loss",
@@ -376,7 +384,7 @@ class TrainManager:
                     self._add_report(
                         valid_score=valid_score, valid_loss=valid_loss,
                         valid_ppl=valid_ppl, eval_metric=self.eval_metric,
-                        new_best=new_best)
+                        new_best=new_best, valid_ent_f1=valid_ent_f1)
 
                     # pylint: disable=unnecessary-comprehension
                     self._log_examples(
@@ -398,12 +406,13 @@ class TrainManager:
                     # store validation set outputs
                     self._store_outputs(valid_hypotheses)
 
+                    valid_src = list(valid_data.src)
                     # store attention plots for selected valid sentences
                     if valid_attention_scores:
                         plot_success_ratio = store_attention_plots(
                             attentions=valid_attention_scores,
                             targets=valid_hypotheses_raw,
-                            sources=list(valid_data.src),#TODO
+                            sources=valid_src,
                             indices=self.log_valid_sents,
                             output_prefix="{}/att.{}".format(
                                 self.model_dir, self.steps),
@@ -413,12 +422,13 @@ class TrainManager:
                         plot_success_ratio = store_attention_plots(
                             attentions=valid_kb_att_scores,
                             targets=valid_hypotheses_raw,
-                            sources=list(valid_kb.kbsrc),
+                            sources=list(valid_kb.kbsrc), 
                             indices=self.log_valid_sents,
                             output_prefix="{}/kbatt.{}".format(
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps,
-                            kb_info = (valid_kb_lkp, valid_kb_lens, list(valid_kb_truvals)))
+                            kb_info = (valid_kb_lkp, valid_kb_lens, valid_kb_truvals),
+                            on_the_fly_info = (valid_src, valid_kb, self.model.canonize, self.model.trg_vocab))
                         self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")
@@ -487,7 +497,7 @@ class TrainManager:
         return norm_batch_loss
 
     def _add_report(self, valid_score: float, valid_ppl: float,
-                    valid_loss: float, eval_metric: str,
+                    valid_loss: float, eval_metric: str, valid_ent_f1: float = None,
                     new_best: bool = False) -> None:
         """
         Append a one-line report to validation logging file.
@@ -496,6 +506,7 @@ class TrainManager:
         :param valid_ppl: validation perplexity
         :param valid_loss: validation loss (sum over whole validation set)
         :param eval_metric: evaluation metric, e.g. "bleu"
+        :param valid_ent_f1: average validation entity f1
         :param new_best: whether this is a new best model
         """
         current_lr = -1
@@ -509,10 +520,13 @@ class TrainManager:
         with open(self.valid_report_file, 'a') as opened_file:
             opened_file.write(
                 "Steps: {}\tLoss: {:.5f}\tPPL: {:.5f}\t{}: {:.5f}\t"
-                "LR: {:.8f}\tmbtch: {}\teps_i: {:.5f}\t{}\n".format(
+                "LR: {:.8f}\tmbtch: {}\teps_i: {:.5f}\tentF1:{:.5f}\t{}\n".format(
                     self.steps, valid_loss, valid_ppl, eval_metric,
                     valid_score, current_lr,
-                    self.minibatch_count,self.scheduled_sampling(self.minibatch_count), "*" if new_best else ""))
+                    self.minibatch_count,
+                    self.scheduled_sampling(self.minibatch_count),
+                    valid_ent_f1,
+                     "*" if new_best else ""))
 
     def _log_parameters_list(self) -> None:
         """
@@ -598,7 +612,8 @@ def train(cfg_file: str) -> None:
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
-        trv_vocab, canonize\
+        trv_vocab, canonize,\
+        dev_data_canon, test_data_canon\
             = load_data(data_cfg=cfg["data"])
 
 
@@ -633,7 +648,8 @@ def train(cfg_file: str) -> None:
     # train the model
     trainer.train_and_validate(train_data=train_data, valid_data=dev_data, kb_task=kb_task,\
         train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths, train_kb_truvals=train_kb_truvals,\
-        valid_kb=dev_kb, valid_kb_lkp=dev_kb_lookup, valid_kb_lens=dev_kb_lengths, valid_kb_truvals=dev_kb_truvals)
+        valid_kb=dev_kb, valid_kb_lkp=dev_kb_lookup, valid_kb_lens=dev_kb_lengths, valid_kb_truvals=dev_kb_truvals,\
+            valid_data_canon=dev_data_canon)
 
     # predict with the best model on validation and test
     # (if test data is available)

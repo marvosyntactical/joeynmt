@@ -7,7 +7,7 @@ import random
 import io
 import os
 import os.path
-from typing import Optional, List
+from typing import Optional, List, Tuple
 from copy import deepcopy
 from pprint import pprint
 
@@ -20,6 +20,7 @@ from joeynmt.vocabulary import build_vocab, Vocabulary
 
 # FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
 from data.scripts_kvr.canonize import load_entity_dict, preprocess_entity_dict, canonize_sequence
+# joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
 
 
 
@@ -89,6 +90,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     # load data from files
     src_lang = data_cfg["src"]
     trg_lang = data_cfg["trg"]
+
+
     train_path = data_cfg["train"]
     dev_path = data_cfg["dev"]
     test_path = data_cfg.get("test", None)
@@ -157,9 +160,11 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     if kb_task: #load train_kb and metadata
 
         # NOTE change trg_lang to trutrg for dev/test 
-        # train_data has been loaded with normal extension (canonized files, e.g. train.carnon)
+        # train_data has been loaded with normal extension (canonized files, e.g. train.carno)
         # dev/test_data will be loaded from non canonized files
+        canon_trg = trg_lang # keep this for loss reporting (load dev/test data from here separately)
         trg_lang = trutrg
+
 
         train_kb_truvals = MonoDataset(path=train_path,
                                     ext=("."+kb_trv),
@@ -219,7 +224,12 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                   exts=("." + src_lang, "." + trg_lang),
                                   fields=(src_field, trg_field))
 
-    if kb_task: #load dev kb and metadata
+    if kb_task: #load dev kb and metadata; load canonized dev data for loss reporting
+
+        dev_data_canon = TranslationDataset(path=dev_path,
+                                        exts=("."+src_lang, "." + canon_trg),
+                                        fields=(src_field, trg_field))
+
         dev_kb = TranslationDataset(path=dev_path,
                                 exts=("." + kb_src, "." + kb_trg),
                                 fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
@@ -250,6 +260,10 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             test_data = MonoDataset(path=test_path, ext="." + src_lang,
                                     field=src_field)
     if kb_task: #load test kb and metadata
+
+        test_data_canon = TranslationDataset(path=test_path,
+                                        exts=("."+src_lang, "." + canon_trg),
+                                        fields=(src_field, trg_field))
         test_kb = TranslationDataset(path=test_path,
                                 exts=("." + kb_src, "." + kb_trg),
                                 fields=(("kbsrc", src_field), ("kbtrg", trg_field)),
@@ -306,6 +320,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lookup, dev_kb_lookup, test_kb_lookup = [],[],[]
         train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
+        dev_data_canon, test_data_canon = [], []
     
 
     return train_data, dev_data, test_data,\
@@ -314,8 +329,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
-        trv_vocab,\
-            canonize
+        trv_vocab, canonize, dev_data_canon, test_data_canon
 
 
 # pylint: disable=global-at-module-level
@@ -378,12 +392,15 @@ def make_data_iter(dataset: Dataset,
 
 class TorchBatchWithKB(Batch):
     #inherits from torch batch, not joey batch!
-    def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None, device=None):
+    def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None, device=None, canon_dataset=None):
         
         """
         Create a TorchBatchWithKB from a list of examples.
         Cant be put in .batch because of variable name clash
         between torchtext batch and joeynmt batch :(
+        TODO FIXME document
+        data is batch_with_kb object from below
+        canon_dataset is optional dataset for having dual targets: "trg" and self.canon_field
         """
 
         if data is not None:
@@ -392,6 +409,12 @@ class TorchBatchWithKB(Batch):
             self.dataset = dataset
             self.kb_data = kb_data
             self.kb_truval_data = kb_truval_data
+
+            self.canon_dataset = canon_dataset
+            if self.canon_dataset is not None:
+                assert canon_dataset.fields == canon_dataset.fields, (canon_dataset.fields, canon_dataset.fields)
+                # set trgcanon field 
+                self.canon_field = "trgcanon"
 
             joint_field_dict = deepcopy(dataset.fields)
             joint_field_dict.update(kb_data.fields)
@@ -405,10 +428,8 @@ class TorchBatchWithKB(Batch):
             self.knowledgebase_fields = [k for k,v in kb_data.fields.items() if v is not None]
 
             for (name, field) in self.dataset.fields.items():
-                print(f"processing field: {(name, field)}")
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
-                    print(f"batch.{name} unprocessed={batch}")
                     setattr(self, name, field.process(batch, device=device))
                     #print(f"self.{name}={getattr(self, name)}")
             #print(f"data fields: {self.dataset.fields.items()}")
@@ -417,45 +438,24 @@ class TorchBatchWithKB(Batch):
                 if field is not None:
                     truvals = [["@DUM"]]
                     truvals += [getattr(x, name) for x in data.kbtrv]
-                    print(f"batch.trv unprocessed={truvals}")
                     setattr(self, name, field.process(truvals, device=device))
-                    print(f"self.{name}={getattr(self, name)}")
-            """ TODO: remove this 
-            print(f"kbtrv fields: {self.kb_truval_data.fields.items()}")
-            print(f"kbtrv field vocab: {self.kb_truval_data.fields['kbtrv'].vocab.stoi}")
-            print(f"kbtrv vocab.itos[7]: {self.kb_truval_data.fields['kbtrv'].vocab.itos[7]}")
-            print(f"kbtrv vocab.stoi['550 Alester Ave']: {self.kb_truval_data.fields['kbtrv'].vocab.stoi['550 Alester Ave']}")
-            print(f"kbtrv vocab.stoi['parking garage']: {self.kb_truval_data.fields['kbtrv'].vocab.stoi['parking garage']}")
-            print(f"kbtrv field batch sentences: {self.kb_truval_data.fields['kbtrv'].vocab.arrays_to_sentences(self.kbtrv)}")
-            """
 
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
                     kb = [] # used to be KB_minibatch
-                    if name == "kbsrc":
-                        kb.append(["@DUM"]) #dummy elem key
-                    elif name == "kbtrg":
-                        kb.append(["@DUM"]) #dummy elem val
-                    
-                    # dummy kb entry for scheduling task, added to all kbs as first entry
-                    # TODO what should dummy tokens be? shouldnt affect default decoder behavior..
-                    # the kb has only the dummy elem iff theres null items in the scenario
-                    # which happens iff 
-                    # the task is of calendar scheduling type
-                    # AND
-                    # the driver is only tasked with making an appointment, not requesting one
-                    # (NOTE current implementation) add dummy element in zeroth place every single time
+                    kb.append(["@DUM"]) #dummy token (both for key and value)
 
                     kb += [getattr(x,name) for x in data.kb]
                     setattr(self, name, field.process(kb, device=device))
 
-                    print(f"batch.{name}: ", eval(f"self.{name}"), type(eval(f"self.{name}")))
-
-                    # TODO: find out what the second batch.kbsrc/kbtrg tensor is!
-                    # we discard it anyways in model.get_loss_for_batch
-
                 else:
                     raise ValueError(kb_data.field)
+            if self.canon_dataset is not None:
+                for (name, field) in self.canon_dataset.fields.items():
+                    if name == "trg" and field is not None:
+                        batch = [getattr(x, name) for x in data]
+                        setattr(self, self.canon_field, field.process(batch, device=device))
+                        
 
     @classmethod
     def fromvars(cls, dataset, kb_data, batch_size, train=None, **kwargs):
@@ -478,27 +478,62 @@ class KB_minibatch(list):
         super(KB_minibatch, self).__init__(*args, **kwargs)
         self.kb = None
         self.kbtrv = None
-
-class Pseudo_KB_Example:
-    """
-    #FIXME replace this by kb_data.Example.fromList ...
-    acts like its a torchtext example to get treated like one in TorchBatchWithKB loops
-    used for creation of spontaneous KB without having to create an entire torchtext Dataset
-    """
-    def __init__(self, fields: List[str], values:List[List[str]]):
-        assert len(fields) == len(values), (fields, values)
-        for field, value in zip(fields, values):
-            try:
-                setattr(self, field,value)
-            except TypeError:
-                assert False, (f"field={field} needs to be a string")
+        self.canontrg = [] # holds list with examples where example.trg is canonized
 
 
+def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
+    # called in data.batch_with_kb and again in helpers.store_attention_plots
 
-def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None):
+    src = src_seq_str
+    relations, indices = c_fun(src) # canonized source, try to make KB out of this 
+    
+    rels_vals = dict()
+    prev_target = None
+
+    for i, raw in enumerate(src):
+        canon_idx = indices[i]
+        relation = relations[canon_idx]
+        if relation != raw:
+            if relation not in rels_vals.keys():
+                rels_vals[relation] = [raw]
+            else: # entry already exists 
+                if canon_idx == prev_target: # multi word expression, e.g. 'the' '11th' => '@date'
+                    rels_vals[relation] += [raw]
+                else: # multiple occurrences of e.g. @date FIXME how to handle this?? XXX
+                    pass
+        prev_target = canon_idx
+    
+    # FIXME dangerous heuristic requiring internal knowledge of everything in the universe
+
+    EVENT = "@event"
+
+    # try to get the raw token in the source that was replaced by '@event' as subject for the key
+    subject = " ".join(rels_vals.get(EVENT, []))
+
+    on_the_fly_kb = [
+        data.Example.fromlist(
+            # FIXME this reads [relation] using the first (source) field
+            # FIXME TODO what does signature of data.Example.fromlist actually look like
+        [[subject, PAD_TOKEN, relation], [relation]], # FIXME hardcoded KB structure
+        fields=list(kb_fields.items())
+    ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] # FIXME replace 'False' by this to get on the fly creation again
+
+    on_the_fly_kbtrv = [
+        data.Example.fromlist(
+        [[" ".join(val)]], # FIXME hardcoded KB structure
+        fields=list(kbtrv_fields.items())
+    ) for rel, val in rels_vals.items() if not trg_voc.is_unk(rel)] # FIXME replace 'False' by this to get it on the fly creation again
+
+    return on_the_fly_kb, on_the_fly_kbtrv
+
+
+def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data=None):
     # TODO document this hackiest of generators
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
+
+    if canon_data is not None:
+        assert len(data) == len(canon_data) # FIXME remove this
 
     minibatch = KB_minibatch()
     current = 0
@@ -518,6 +553,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None):
 
             current += kb_len
             
+        print(ex.trg, kb_lens,corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
 
         minibatch.kb = kb_data[current:current+kb_len]
@@ -525,55 +561,19 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None):
 
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
-            # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME 
-            if c is not None:
-                src = ex.src
-                relations, indices = c(src) # canonized source, try to make KB out of this 
-                rels_vals = dict()
-                prev_relation = None
+            # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME TODO XXX
+            # add a toggle for doing this to configs!!!! TODO TODO XXX FIXME
+            if c is not None: # TODO add toggle for doing this in cfg
 
-                for i, raw in enumerate(src):
-                    canon_idx = indices[i]
-                    relation = relations[canon_idx]
-                    if relation != raw:
-                        if relation not in rels_vals.keys():
-                            rels_vals[relation] = [raw]
-                        else: # entry already exists 
-                            if relation == prev_relation: # multi word expression, e.g. 'the' '11th' => '@date'
-                                rels_vals[relation] += [raw]
-                            else: # multiple occurrences of e.g. @date FIXME how to handle this?? XXX
-                                pass
-
-                    prev_relation = relation
-                
-                # FIXME dangerous heuristic requiring internal knowledge of everything in the universe
-
-                # try to get the raw token in the source that was replaced by '@event' as subject for the key
-                subject = " ".join(rels_vals.get("@event",[]))
-
-                # get field names of kb data (2) and kb truval data (1)
-                kbsrc_, kbtrg_ = kb_data.fields.keys()
-                kbtrv_ = list(kb_truvals.fields.keys())[0]
-                assert kbsrc_ == "kbsrc", kbsrc_
-
-                on_the_fly_kb = [\
-                    # pseudo kb ex sets these attributes to the lists in the second arg, to be accessed in TorchBatchWithKB... FIXME lol
-                    # FIXME replace pseudo thing by kb_data.Example.fromList
-                    Pseudo_KB_Example([kbsrc_, kbtrg_],\
-                         [[subject,PAD_TOKEN,relation], [relation]]) \
-                    for relation, _ in rels_vals.items()]
-
-                on_the_fly_kbtrv = [\
-                    Pseudo_KB_Example([kbtrv_],\
-                        [[" ".join(val)]])\
-                    for _, val in rels_vals.items()]
-                
-                minibatch.kb = on_the_fly_kb
-                minibatch.kbtrv = on_the_fly_kbtrv 
+                otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src,data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
+                minibatch.kb = otf_kb
+                minibatch.kbtrv = otf_kbtrv 
 
         assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),len(minibatch.kbtrv)) 
 
         minibatch.append(ex)
+        if canon_data is not None:
+            minibatch.canontrg.append(canon_data[i])
 
         # debug start:
         previous_kb_len = kb_lens[last_corresponding_kb] 
@@ -617,6 +617,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None):
         # debug end
 
     if minibatch:
+        # there's no more data examples to append to this last minibatch, yield it and return 
         yield minibatch
 
 
@@ -630,15 +631,17 @@ class KB_Iterator(Iterator):
     sorting and shuffling is ignored and not done
     """
 
-    def __init__(self, dataset, kb_dataset, kb_lkp, kb_lens, kb_truvals, sort_key=None, device=None,\
-    batch_size_fn=None, train=True, repeat=False, shuffle=None, sort=None, sort_within_batch=None,\
-        c_fn=None):
+    def __init__(self, dataset, kb_dataset, kb_lkp, kb_lens, kb_truvals,\
+        sort_key=None, device=None, batch_size_fn=None, train=True,\
+        repeat=False, shuffle=None, sort=None, sort_within_batch=None,\
+        c_fn=None, canon_data=None):
         """
         takes additional args:
         :param kb_data: monodataset created in load_data from kb 
         :param kb_lkp: list of association lookups between dataset examples and \
             kbs in kb_data
         :param kb_len: list of kb lengths within kb_data
+        FIXME document
 
         
         :return data_iter: data iterator object where each batch
@@ -653,12 +656,17 @@ class KB_Iterator(Iterator):
         self.kb_lens= kb_lens
         self.kb_truvals = kb_truvals
         self.c = c_fn # canonization function to canonize source incase KB empty
-        
-    def create_batches(self):
-        self.batches = batch_with_kb(self.data(), self.kb_data, self.kb_lkp, self.kb_lens,self.kb_truvals, c=self.c)
+        # FIXME find out how not to assign this TODO FIXME XXX this is big on optimization
+        self.canon_dataset = canon_data # used as secondary canonized dataset in valid/test for loss calculation 
 
     def data(self):
         return self.dataset
+
+    def canon_data(self):
+        return self.canon_dataset
+        
+    def create_batches(self):
+        self.batches = batch_with_kb(self.data(), self.kb_data, self.kb_lkp, self.kb_lens,self.kb_truvals, c=self.c,canon_data=self.canon_data())
     
     def __iter__(self):
         while True:
@@ -677,7 +685,7 @@ class KB_Iterator(Iterator):
                         minibatch.reverse()
                     else:
                         minibatch.sort(key=self.sort_key, reverse=True)
-                batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.kb_truvals, self.device)
+                batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.kb_truvals, self.device,self.canon_data())
                 assert hasattr(batch, "kbsrc"), dir(batch)
                 assert hasattr(batch, "kbtrg"), dir(batch)
                 yield batch
@@ -701,7 +709,8 @@ class MonoDataset(Dataset):
         :param field: Containing the field that will be used for data. Can also be tuple of (name, field)
         :param kwargs: Passed to the constructor of data.Dataset.
         """
-        fields = [('src', field)] if not type(field) == type(()) else [field]
+        fields = [('src', field)] if not type(field) == type(())\
+             else [field] # field is already a tuple (name, attr)
 
         if hasattr(path, "readline"):  # special usage: stdin
             src_file = path
@@ -731,7 +740,8 @@ def make_data_iter_kb(dataset: Dataset,
                     batch_type: str = "sentence",
                     train: bool = False,
                     shuffle: bool = False,
-                    canonize = None) -> Iterator:
+                    canonize = None,
+                    canon_data: TranslationDataset = None) -> Iterator:
     """
     Returns a torchtext Iterator (not BucketIterator) for a torchtext dataset.
     Uses batch_size = 1
@@ -752,10 +762,10 @@ def make_data_iter_kb(dataset: Dataset,
         # optionally shuffle and sort during training
         data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens, kb_truvals,\
             repeat=False, sort=False, 
-            train=True, shuffle=shuffle, c_fn=canonize)
+            train=True, shuffle=shuffle, c_fn=canonize, canon_data=canon_data)
     else:
         # don't sort/shuffle for validation/inference
         data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens, kb_truvals,\
-            repeat=False, train=False, sort=False, sort_within_batch=True,c_fn=canonize)
+            repeat=False, train=False, sort=False, sort_within_batch=True,c_fn=canonize,canon_data=canon_data)
 
     return data_iter

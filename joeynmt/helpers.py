@@ -25,6 +25,7 @@ from torchtext.data import Dataset
 import yaml
 from joeynmt.vocabulary import Vocabulary
 from joeynmt.plotting import plot_heatmap
+from joeynmt.data import create_KB_on_the_fly
 
 
 class ConfigurationError(Exception):
@@ -182,7 +183,8 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                           output_prefix: str, indices: List[int],
                           tb_writer: Optional[SummaryWriter] = None,
                           steps: int = 0,
-                          kb_info: Tuple[List[int]] = None) -> str:
+                          kb_info: Tuple[List[int]] = None,
+                          on_the_fly_info: Tuple = None) -> str:
     """
     Saves attention plots.
 
@@ -194,43 +196,92 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
     :param tb_writer: Tensorboard summary writer (optional)
     :param steps: current training steps, needed for tb_writer
     :param dpi: resolution for images
-    :param kbinfo: tuple containing kb_lkp, kb_lens
+    :param kbinfo: tuple of the valid set's kb_lkp, kb_lens, kb_truvals
+    :param on_the_fly_info: tuple containing valid_data.src field, valid_kb, canonization function, model.trg_vocab
     """
     success, failure = 0,0
     for i in indices:
+        i -= 1
         if i < 0:
             i = len(indices)+i
         if i >= len(sources):
             continue
         plot_file = "{}.{}.pdf".format(output_prefix, i)
 
-        attention_scores = attentions[i].T
+        attention_scores = attentions[i].T # => KB x UNROLL
         print(f"PLOTTING: shape of {i}th attention matrix from print_valid_sents: {attention_scores.shape}")
         trg = targets[i]
         if kb_info is None:
             src = sources[i]
         else:
-            kbkey, kb_lkp, kb_lens, kbtrv = sources, kb_info[0], kb_info[1], kb_info[2]
+            kbkey = sources
+            kb_lkp, kb_lens, kbtrv = kb_info
+            kbtrv_fields = kbtrv.fields # needed for on the fly creation below
+            kbtrv = list(kbtrv)
             print(f"KB PLOTTING: kb_lens: {kb_lens}")
 
-            # index calculation (find batch in valid/test data)
+            # index calculation (find batch in valid/test files using kb lookup indices and length info)
             kb_num = kb_lkp[i]
             lower = sum(kb_lens[:kb_num])
             upper = lower+kb_lens[kb_num]+1
-            assertion_str = f"plotting idx={i} with kb_num={kb_num} and kb_len={kb_lens[kb_num]+1}, att_scores.shape={attention_scores.shape};\n\
-                kb_before: {kb_lens[kb_num-1]+1}, kb_after: {kb_lens[kb_num+1]+1};\
-                    upper-lower={upper-lower}, kb_num={kb_num}"
-            assert upper-lower == attention_scores.shape[0]==kb_lens[kb_num]+1, assertion_str
-            print(f"KB PLOTTING: kb_lens: {lower-upper}")
-            print(f"KB PLOTTING: upper-lower should be != 0 often!!: {assertion_str}")
+            calcKbLen = upper-lower
 
+            if calcKbLen == 1 and attention_scores.shape[0] > 1:
+                # FIXME make this an option in the cfg
+                # this is a scheduling KB created on the fly in data.batch_with_kb
+                # TODO which fields are needed to recreate it on the fly here
+                # valid_kb: has fields kbsrc, kbtrg; valid_kbtrv
+                valid_src, valid_kb, canon_func, trg_vocab = on_the_fly_info
+                v_src = list(valid_src)
+
+                on_the_fly_kb, on_the_fly_kbtrv = create_KB_on_the_fly(
+                    # FIXME perhaps matchup issues are due to generator to list issues?
+                    v_src[i], trg_vocab, valid_kb.fields, kbtrv_fields, canon_func
+                )
+
+                keys = [entry.kbsrc for entry in on_the_fly_kb]
+                vals = on_the_fly_kbtrv
+
+                calcKbLen = len(keys) # update with length of newly created KB
+
+                print(f"KB PLOTTING: on the fly recreation:")
+                print(keys, [v.kbtrv for v in vals])
+                print(f"calcKbLen={calcKbLen}")
+            else:
+
+                keys = kbkey[lower:upper]
+                vals = kbtrv[lower:upper]
+
+                # in the normal case (non_empty KB),
+                # the kb lengths (i) summed and (ii) looked up 
+                # should match up
+                assert calcKbLen == kb_lens[kb_num]+1, (calcKbLen, kb_lens[kb_num]+1)
+
+            assertion_str = f"plotting idx={i} with kb_num={kb_num} and kb_len={kb_lens[kb_num]+1},\n\
+                kb_before: {kb_lens[kb_num-1]+1}, kb_after: {kb_lens[kb_num+1]+1};\n\
+                att_scores.shape={attention_scores.shape};\n\
+                calcKbLen={calcKbLen};\n\
+                kb_lens[kb_num]+1={kb_lens[kb_num]+1};"
+
+            # make sure attention plots have the right shape
+            if not calcKbLen == attention_scores.shape[0]:
+                print(f"Couldnt plot example {i} because knowledgebase was created on the fly")
+                print(f"actual shape mismatch: retrieved: {calcKbLen} vs att matrix: {attention_scores.shape[0]}")
+                print(assertion_str)
+                # FIXME FIXME FIXME FIXME im doing something wrong with the vocab lookup in the code above
+                failure += 1
+                continue
+                
+
+
+
+            print(f"KB PLOTTING: calcKbLen: {calcKbLen}")
+            print(f"KB PLOTTING: calcKbLen should be != 0 often!!: {assertion_str}")
 
             # index application 
-            keys = kbkey[lower:upper]
-            vals = kbtrv[lower:upper] # FIXME kbtrv always empty atm
-            DEFAULT = "default(<s>)=default(<s>)"
+            DUMMY = "@DUMMY=@DUMMY"
 
-            src = [DEFAULT]+["+".join(key)+"="+val.kbtrv[0] for key, val in zip(keys, vals)]
+            src = [DUMMY]+["+".join(key)+"="+val.kbtrv[0] for key, val in zip(keys, vals)]
 
         try:
             fig = plot_heatmap(scores=attention_scores, column_labels=trg,

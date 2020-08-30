@@ -94,7 +94,7 @@ def recurrent_greedy(
     hidden = None
     prev_att_vector = None
 
-    print(f"in search.recurrent_greedy; knowledgebase is {knowledgebase}")
+    print(f"in search.recurrent_greedy; knowledgebase is {[t.shape for t in knowledgebase]}")
 
 
     if knowledgebase != None:
@@ -173,6 +173,9 @@ def recurrent_greedy(
     else:
         stacked_kb_att_scores = None
         stacked_log_probs = None
+
+    # FIXME fix kb shape being 5 (see notes)
+    # assert stacked_log_probs.requires_grad, stacked_kb_att_scores.shape # FIXME remove me
 
     return stacked_output, stacked_attention_scores, stacked_kb_att_scores, stacked_log_probs
 

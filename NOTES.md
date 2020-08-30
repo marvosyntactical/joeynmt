@@ -8,18 +8,39 @@
 
 # _```Current Issues```_
 
+
+### 30.08.20 entity F1
+
+* use model.canonize to report entity F1
+* DONE, TODO confirm implementation
+
+### 29.08.20 plotting issues
+
+* made rShort, tShort commands for running short valid locally (r=Rnn, t=transf)
+* look at first kb there
+* misalign: on the fly empty kb in first example of dev set has
+ - attention matrix: 128 x 5 # find out where this happens (put asserts in model run batch)
+ - remade on the fly kb: 128 x 2
+ - on the fly kb: 128 x 2
+
+
 ### 26.08.20 start writing
 
-[https://www.overleaf.com/9379467478yfmhgzstdndm](Bachelor Thesis Scratch)
+*TODO* lol
 
-haha
-
-### 28.08.20 perplexity
+### 29.08.20 perplexity 
 
 perplexity should be going down instead of up
 it should be upper bounded by output vocab
 
-*TODO* investigate
+=> this happens because valid loss is reported on uncanonized data (hard)
+
+=> solution:
+* canonize dev.car into dev.carno
+* make a new TorchBatchWithKB attribute validtrg for the valid\_iter KB\_Iterator 
+* use this in model.get\_loss\_for\_batch if torch no grad and its available
+
+
 
 
 ### 28.08.20 wikiBIO dataset
@@ -176,7 +197,6 @@ special case: k=1: 1hop is equiv to default (same results) ✔️
 => is attention state actually saved from step to step as done by jason weston et al?
 
 ---
-
 
 ### 15.05.20 implement kb for transformer *WIP*
 

@@ -39,11 +39,11 @@ class XentLoss(nn.Module):
         # fill distribution uniformly with smoothing
         smooth_dist.fill_(self.smoothing / (vocab_size - 2))
         # assign true label the probability of 1-smoothing ("confidence")
-        smooth_dist.scatter_(1, targets.unsqueeze(1).data, 1.0-self.smoothing)
+        smooth_dist.scatter_(1, targets.unsqueeze(1), 1.0-self.smoothing)
         # give padding probability of 0 everywhere
         smooth_dist[:, self.pad_index] = 0
         # masking out padding area (sum of probabilities for padding area = 0)
-        padding_positions = torch.nonzero(targets.data == self.pad_index)
+        padding_positions = torch.nonzero(targets == self.pad_index)
         # pylint: disable=len-as-condition
         if len(padding_positions) > 0:
             smooth_dist.index_fill_(0, padding_positions.squeeze(), 0.0)
@@ -52,7 +52,7 @@ class XentLoss(nn.Module):
     # pylint: disable=arguments-differ
     def forward(self, log_probs, targets):
         """
-        Compute the cross-entropy between logits and targets.
+        Compute the cross-entropy between log_probs and targets.
 
         If label smoothing is used, target distributions are not one-hot, but
         "1-smoothing" for the correct target token and the rest of the

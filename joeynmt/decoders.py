@@ -1067,9 +1067,8 @@ class Generator(Gen):
         # transformer: x
         # recurrent: att_vectors
 
-        # kb_probs should be: batch x unroll (or M if transf) x kb
-        # kb_values should be : batch x kb 
-        # => need to add dimension to kb_values
+        # kb_probs : batch x unroll x kb
+        # kb_values : batch x kb 
 
         outputs = self.output_layer(x) # Batch x Time x Voc
 
@@ -1088,6 +1087,7 @@ class Generator(Gen):
 
         # compute log probs
         log_probs = F.log_softmax(outputs, dim=-1) 
-        # in default joeynmt, log softmax isnt always used. now it is always called at the end of model.forward right here
+        # in default joeynmt, log softmax isnt always used before taking the argmax over VOC dimension.
+        # now it is always called at the end of model.forward right here
 
         return log_probs 

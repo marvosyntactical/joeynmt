@@ -8,12 +8,14 @@ import logging
 from typing import List, Optional, Tuple
 import numpy as np
 
+from itertools import tee
+
 import torch
 from torchtext.data import Dataset, Field
 
 from joeynmt.helpers import bpe_postprocess, load_config, \
     get_latest_checkpoint, load_checkpoint, store_attention_plots
-from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy
+from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy, ent_f1
 from joeynmt.model import build_model, Model
 from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.data import load_data, make_data_iter, make_data_iter_kb, MonoDataset
@@ -30,9 +32,10 @@ def validate_on_data(model: Model, data: Dataset,
                      beam_size: int = 0, beam_alpha: int = -1,
                      batch_type: str = "sentence",
                      kb_task = None,
-                     valid_kb: Tuple= None,
-                     valid_kb_lkp: list =[], valid_kb_lens:list=[],
-                     valid_kb_truvals: Dataset=None,
+                     valid_kb: Dataset = None,
+                     valid_kb_lkp: list = [], valid_kb_lens:list=[],
+                     valid_kb_truvals: Dataset = None,
+                     valid_data_canon: Dataset = None
                      ) \
         -> (float, float, float, List[str], List[List[str]], List[str],
             List[str], List[List[str]], List[np.array]):
@@ -59,6 +62,7 @@ def validate_on_data(model: Model, data: Dataset,
     :param valid_kb: MonoDataset holding the loaded valid kb data
     :param valid_kb_lkp: List with valid example index to corresponding kb indices
     :param valid_kb_len: List with amount of triples per kb 
+    :param valid_data_canon: TranslationDataset of valid data but with canonized target data (for loss reporting)
 
 
     :return:
@@ -71,6 +75,7 @@ def validate_on_data(model: Model, data: Dataset,
         - valid_hypotheses: validation_hypotheses,
         - decoded_valid: raw validation hypotheses (before post-processing),
         - valid_attention_scores: attention scores for validation hypotheses
+        - valid_ent_f1: TODO FIXME
     """
 
     print(f"\n{'-'*10} ENTER VALIDATION {'-'*10}\n")
@@ -80,15 +85,20 @@ def validate_on_data(model: Model, data: Dataset,
             dataset=data, batch_size=batch_size, batch_type=batch_type,
             shuffle=False, train=False)
     else:
+        # knowledgebase version of make data iter and also provide canonized target data
+        # data: for bleu/ent f1 
+        # canon_data: for loss 
         valid_iter = make_data_iter_kb(
             data, valid_kb, valid_kb_lkp, valid_kb_lens, valid_kb_truvals,
             batch_size=batch_size,
             batch_type=batch_type,
             shuffle=False, train=False,
-            canonize=model.canonize)
+            canonize=model.canonize,
+            canon_data=valid_data_canon)
 
     valid_sources_raw = data.src
     pad_index = model.src_vocab.stoi[PAD_TOKEN]
+
     # disable dropout
     model.eval()
     # don't track gradients during validation
@@ -115,10 +125,18 @@ def validate_on_data(model: Model, data: Dataset,
 
             # run as during training with teacher forcing
             if loss_function is not None and batch.trg is not None:
+
+                ntokens = batch.ntokens
+                assert hasattr(batch, "trgcanon")
+                if hasattr(batch, "trgcanon") and batch.trgcanon is not None:
+                    ntokens = batch.ntokenscanon
+                # do a loss calculation without grad updates just to report valid loss
+                # we can only do this when batch.trg exists, so not during actual translation/deployment
                 batch_loss = model.get_loss_for_batch(
                     batch, loss_function=loss_function)
+                # keep track of metrics for reporting
                 total_loss += batch_loss
-                total_ntokens += batch.ntokens
+                total_ntokens += ntokens # gold target tokens
                 total_nseqs += batch.nseqs
 
             # run as during inference to produce translations
@@ -140,8 +158,10 @@ def validate_on_data(model: Model, data: Dataset,
         if loss_function is not None and total_ntokens > 0:
             # total validation loss
             valid_loss = total_loss
-            # exponent of token-level negative log prob
-            valid_ppl = torch.exp(total_loss / total_ntokens)
+            # exponent of token-level negative log likelihood
+            # can be seen as 2^(cross_entropy of model on valid set); normalized by num tokens; 
+            # see https://en.wikipedia.org/wiki/Perplexity#Perplexity_per_word
+            valid_ppl = torch.exp(valid_loss / total_ntokens)
         else:
             valid_loss = -1
             valid_ppl = -1
@@ -182,13 +202,21 @@ def validate_on_data(model: Model, data: Dataset,
             elif eval_metric.lower() == 'sequence_accuracy':
                 current_valid_score = sequence_accuracy(
                     valid_hypotheses, valid_references)
+
+            if kb_task:
+                valid_ent_f1 = ent_f1(valid_hypotheses, valid_references,
+                    vocab=model.trv_vocab,
+                    c_fun=model.canonize,
+                    report_on_canonicals=False
+                    )
         else:
             current_valid_score = -1
 
     print(f"\n{'-'*10} EXIT VALIDATION {'-'*10}\n")
     return current_valid_score, valid_loss, valid_ppl, valid_sources, \
         valid_sources_raw, valid_references, valid_hypotheses, \
-        decoded_valid, valid_attention_scores, valid_kb_att_scores
+        decoded_valid, valid_attention_scores, valid_kb_att_scores, \
+        valid_ent_f1
 
 # pylint: disable-msg=logging-too-many-args
 def test(cfg_file,
@@ -246,7 +274,8 @@ def test(cfg_file,
     _, dev_kb_lookup, test_kb_lookup,\
     _, dev_kb_lengths, test_kb_lengths,\
     _, dev_kb_truvals, test_kb_truvals, \
-    trv_vocab\
+    trv_vocab, canon_fun,\
+         dev_data_canon, test_data_canon\
         = load_data(
         data_cfg=cfg["data"]
     )
@@ -262,7 +291,7 @@ def test(cfg_file,
     model.load_state_dict(model_checkpoint["model_state"])
 
     if use_cuda:
-        model.cuda()
+        model.cuda() # move to GPU
 
     # whether to use beam search for decoding, 0: greedy decoding
     if "testing" in cfg.keys():
@@ -283,7 +312,7 @@ def test(cfg_file,
         
         #pylint: disable=unused-variable
         score, loss, ppl, sources, sources_raw, references, hypotheses, \
-        hypotheses_raw, attention_scores, kb_att_scores = validate_on_data(
+        hypotheses_raw, attention_scores, kb_att_scores, ent_f1 = validate_on_data(
             model,
             data=data_set,
             batch_size=batch_size,
@@ -300,6 +329,7 @@ def test(cfg_file,
             valid_kb_lkp=kb_info[1], 
             valid_kb_lens=kb_info[2],
             valid_kb_truvals=kb_info[3],
+            valid_data_canon=dev_data_canon,
             )
         """
                 batch_size=self.eval_batch_size,
@@ -369,6 +399,7 @@ def test(cfg_file,
 
 
 def translate(cfg_file, ckpt: str, output_path: str = None) -> None:
+    # TODO FIXME XXX this function needs to be adapted to the KB case
     """
     Interactive translation function.
     Loads model from checkpoint and translates either the stdin input or
@@ -408,7 +439,8 @@ def translate(cfg_file, ckpt: str, output_path: str = None) -> None:
             batch_type=batch_type, level=level,
             max_output_length=max_output_length, eval_metric="",
             use_cuda=use_cuda, loss_function=None, beam_size=beam_size,
-            beam_alpha=beam_alpha)
+            beam_alpha=beam_alpha,
+            )
         return hypotheses
 
     cfg = load_config(cfg_file)
