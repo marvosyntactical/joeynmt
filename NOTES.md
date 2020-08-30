@@ -40,6 +40,7 @@ it should be upper bounded by output vocab
 * make a new TorchBatchWithKB attribute validtrg for the valid\_iter KB\_Iterator 
 * use this in model.get\_loss\_for\_batch if torch no grad and its available
 
+* find out why im not seeing the canonized data???
 
 
 

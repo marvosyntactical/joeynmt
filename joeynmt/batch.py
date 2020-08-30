@@ -168,7 +168,7 @@ class Batch_with_KB(Batch):
             self.trg = self.trg.cuda()
             self.trg_mask = self.trg_mask.cuda()
 
-        if self.trgcanon_input is not None:
+        if hasattr(self, "trgcanon"):
             self.trgcanon_input = self.trgcanon_input.cuda()
             self.trgcanon = self.trgcanon.cuda()
             self.trgcanon_mask = self.trgcanon_mask.cuda()

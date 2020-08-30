@@ -300,7 +300,7 @@ class Model(nn.Module):
                     max_output_length=max_output_length,
                     knowledgebase = knowledgebase)
             # batch, time, max_src_length
-            """
+            """ # TODO FIXME BUG
             assert not stacked_kb_att_scores.shape[-1] == 5, (
                 ("kbsrc:", self.src_vocab.arrays_to_sentences(batch.kbsrc)),"\n",
                 ("kbtrg:", self.trg_vocab.arrays_to_sentences(knowledgebase[1])),"\n",
