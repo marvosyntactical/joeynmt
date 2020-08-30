@@ -201,6 +201,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
     """
     success, failure = 0,0
     for i in indices:
+        i -= 1
         if i < 0:
             i = len(indices)+i
         if i >= len(sources):
@@ -232,10 +233,6 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 # valid_kb: has fields kbsrc, kbtrg; valid_kbtrv
                 valid_src, valid_kb, canon_func, trg_vocab = on_the_fly_info
                 v_src = list(valid_src)
-
-                print(i)
-                assert False, (len(v_src), type(valid_src), dir(valid_src))
-                print(f"v_src[i]: {v_src[i]}")
 
                 on_the_fly_kb, on_the_fly_kbtrv = create_KB_on_the_fly(
                     # FIXME perhaps matchup issues are due to generator to list issues?
@@ -272,7 +269,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 print(f"actual shape mismatch: retrieved: {calcKbLen} vs att matrix: {attention_scores.shape[0]}")
                 print(assertion_str)
                 # FIXME FIXME FIXME FIXME im doing something wrong with the vocab lookup in the code above
-
+                failure += 1
                 continue
                 
 

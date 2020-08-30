@@ -406,12 +406,13 @@ class TrainManager:
                     # store validation set outputs
                     self._store_outputs(valid_hypotheses)
 
+                    valid_src = list(valid_data.src)
                     # store attention plots for selected valid sentences
                     if valid_attention_scores:
                         plot_success_ratio = store_attention_plots(
                             attentions=valid_attention_scores,
                             targets=valid_hypotheses_raw,
-                            sources=list(valid_data.src),
+                            sources=valid_src,
                             indices=self.log_valid_sents,
                             output_prefix="{}/att.{}".format(
                                 self.model_dir, self.steps),
@@ -427,7 +428,7 @@ class TrainManager:
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps,
                             kb_info = (valid_kb_lkp, valid_kb_lens, valid_kb_truvals),
-                            on_the_fly_info = (valid_data.src, valid_kb, self.model.canonize, self.model.trg_vocab))
+                            on_the_fly_info = (valid_src, valid_kb, self.model.canonize, self.model.trg_vocab))
                         self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")
