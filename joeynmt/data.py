@@ -22,10 +22,6 @@ from joeynmt.vocabulary import build_vocab, Vocabulary
 from data.scripts_kvr.canonize import load_entity_dict, preprocess_entity_dict, canonize_sequence
 # joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
 
-
-
-
-
 def pkt_tokenize(s)-> List:
     s = s+" "
     pkt = ".,?!-;:()" # NOTE candidates: '
@@ -391,7 +387,7 @@ def make_data_iter(dataset: Dataset,
 
 
 class TorchBatchWithKB(Batch):
-    #inherits from torch batch, not joey batch!
+    # inherits from torch batch, not joey batch!
     def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None, device=None, canon_dataset=None):
         
         """
@@ -431,8 +427,7 @@ class TorchBatchWithKB(Batch):
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
                     setattr(self, name, field.process(batch, device=device))
-                    #print(f"self.{name}={getattr(self, name)}")
-            #print(f"data fields: {self.dataset.fields.items()}")
+                    # assert name!="trg" or self.canon_dataset is None, (batch, field.vocab.arrays_to_sentences(self.trg[0].numpy().tolist())[0])
             
             for (name, field) in self.kb_truval_data.fields.items():
                 if field is not None:
@@ -453,8 +448,10 @@ class TorchBatchWithKB(Batch):
             if self.canon_dataset is not None:
                 for (name, field) in self.canon_dataset.fields.items():
                     if name == "trg" and field is not None:
-                        batch = [getattr(x, name) for x in data]
-                        setattr(self, self.canon_field, field.process(batch, device=device))
+                        canontrg_batch = [getattr(x, name) for x in data.canontrg]
+                        setattr(self, self.canon_field, field.process(canontrg_batch, device=device))
+                        # assert False, (batch, field.vocab.arrays_to_sentences(self.trgcanon[0].numpy().tolist())[0])
+
                         
 
     @classmethod
