@@ -94,7 +94,7 @@ def recurrent_greedy(
     hidden = None
     prev_att_vector = None
 
-    print(f"in search.recurrent_greedy; knowledgebase is {knowledgebase}")
+    print(f"in search.recurrent_greedy; knowledgebase is {[t.shape for t in knowledgebase]}")
 
 
     if knowledgebase != None:

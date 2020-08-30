@@ -98,16 +98,24 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
     # define helper functions
     ## eval metrics
     def precision(predictions: List[int], gold_labels: List[int]):
-        # TP/(TP+FP) => iterate over Positives (predicted)
-        tp, fp = zip(*[(1,0) if pred in gold_labels else (0,1) for pred in predictions])
-        return sum(tp)/len(predictions)
+        # TP/(TP+FP) => iterate over positives (predicted)
+        positives = len(predictions)
+        if positives:
+            tp, fp = zip(*[(1,0) if pred in gold_labels else (0,1) for pred in predictions])
+            return sum(tp)/positives
+        else:
+            return 0.
 
     def recall(predictions: List[int], gold_labels: List[int]):
         # TP/(TP+FN) => iterate over ground truths (gold labels)
-        tp, fn  = zip(*[(1,0) if pred in gold_labels else (0,1) for pred in predictions])
-        return sum(tp)/len(gold_labels)
+        truths = len(gold_labels)
+        if truths:
+            tp, fn  = zip(*[(1,0) if gold in predictions else (0,1) for gold in gold_labels])
+            return sum(tp)/truths
+        else:
+            return 0.
 
-    harm_mean = lambda p, r: 2 * (p*r)/(p+r)
+    harm_mean = lambda p, r: 2 * (p*r)/(p+r) if p+r != 0. else 0.
 
     # compare ent f1 in trv => lookup vocab indices
 
@@ -121,12 +129,15 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
             canons, indices = c_fun(seq_tokzd) # turn to canonical tokens and return indices that raw tokens were mapped to
 
             entities = [\
-                " ".join([seq_tokzd[j] for j, (idx, raw) in enumerate(zip(indices,seq_tokzd)) if idx==i])
+                " ".join([raw for map_idx, raw in zip(indices,seq_tokzd) if map_idx==i])
                      for i in range(len((canons)))
                          ]
 
             # Filter out tokens that werent changed (noncanonical)
-            canonical_entities, surface_entities = zip(*[(c,t) for c,t in zip(canons,entities) if c!=t])
+            try:
+                canonical_entities, surface_entities = list(zip(*[(c,t) for c,t in zip(canons,entities) if c!=t]))
+            except ValueError:
+                canonical_entities, surface_entities = [], []
             
             if report_on_canonicals: 
                 entities = canonical_entities
@@ -134,7 +145,7 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
                 entities = surface_entities
 
             # Filter out unk IDs
-            entities = [tok  for tok in entities if not vocab.is_unk(tok)]
+            entities = [tok for tok in entities if not vocab.is_unk(tok)]
             # turn to vocab indices (int)
             seq_enty_voc_indices = [vocab.stoi[entity] for entity in entities]
 
@@ -143,9 +154,10 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
         p, t = hyp_ents_ref_ents
         # calc f1 score for this pair
         f1_score = harm_mean(precision(p,t), recall(p,t))
+        f1s.append(f1_score)
             
     assert len(hyps) == len(refs) == len(f1s), (len(hyps), len(refs), len(f1s))
-    f1_avg = sum(f1s)/len(f1s)
+    f1_avg = sum(f1s) / len(f1s)
     return f1_avg
 
     

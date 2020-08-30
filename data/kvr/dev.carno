@@ -6,7 +6,7 @@ you're welcome !
 since there is a @traffic_info , i found another route for you and i sent it on your screen
 you're welcome ; drive carefully . 
 there is no @poi_name listed locally , would you like directions to a different @poi_type shop ?
-there is a @poi_name @poi_distance miles away . would you like directions ? 
+there is a @poi_name @poi_distance away . would you like directions ? 
 the address for @poi_name is @poi_address
 you're welcome , setting gps to quickest route . we will be there soon . 
 @event event time , @time , @date evening . 
@@ -14,16 +14,16 @@ you are welcome .
 reminder has been set for @time at @date .
 no problem .
 what location , specifically , are you asking about ? 
-no raining in @location @weekly_time , the prediction is @weather_attribute
+no raining in @location today , the prediction is @weather_attribute
 you're very welcome !
-the nearest @poi_type is @poi_name at @poi_address , @poi_distance miles away . setting directions now . 
+the nearest @poi_type is @poi_name at @poi_address , @poi_distance away . setting directions now . 
 @poi_name is at @poi_address and @traffic_info is being noted . 
 you're welcome !
-on @date the @weather_attribute in @location is @temperaturef
+on @date the @weather_attribute in @location is @temperature
 no problem .
 there is @weather_attribute but no mist in @location now . 
 you are welcome .
-there is @poi_name @poi_distance miles away from here but with @traffic_info on our way
+there is @poi_name @poi_distance away from here but with @traffic_info on our way
 the address to @poi_name is @poi_address .
 you are welcome .
 on @date the forecast is predicted to be @weather_attribute in @location .
@@ -31,32 +31,32 @@ anytime .
 your doctor's appointment is on @date at @time
 you're welcome . 
 what city are you interested in ?
-it will be between @temperature -70 f on @date and @date in @location .  @temperature -90 f on @date , @temperature -100 f on @date , @temperature -70 f on @date , @temperature -100 f on @date , and @temperature -100 f on @date .
+it will be between @temperature - @temperature on @date and @date in @location .  @temperature - @temperature on @date , @temperature - @temperature on @date , @temperature - @temperature on @date , @temperature - @temperature on @date , and @temperature - @temperature on @date .
 no problem .
 okay , when should i schedule it ?
 where are you interested in the weather for ?
-in @location right now , it is @weather_attribute , with a low of @temperaturef and a high of @temperaturef .
+in @location right now , it is @weather_attribute , with a low of @temperature and a high of @temperature .
 you're welcome !
 only @poi_name is here and there is @traffic_info .
 domino's address is @poi_address .
 you're welcome !
-@poi_name is @poi_distance miles away but there is @traffic_info on our way . do you want me to set the gps to get there ?
+@poi_name is @poi_distance away but there is @traffic_info on our way . do you want me to set the gps to get there ?
 the quickest route is @poi_address and is set . 
 you're welcome . 
 what city would you like today's forecast for ?
-@weekly_time in @location it is @weather_attribute with a temperature between @temperature -80 f .
+today in @location it is @weather_attribute with a temperature between @temperature - @temperature .
 you are welcome .
 your @poi_type is at @poi_address .
 setting gps to avoid any @traffic_info . your route is now set .
 you're welcome . 
 what city do you want the weather for ?
-there will be no @weather_attribute @weekly_time and @weekly_time in chicago . the forecast for @date is @weather_attribute , low of @temperaturef , high of @temperaturef . the forecast for @date will be @weather_attribute , low of @temperaturef , high of @temperaturef .
+there will be no @weather_attribute today and tomorrow in chicago . the forecast for @date is @weather_attribute , low of @temperature , high of @temperature . the forecast for @date will be @weather_attribute , low of @temperature , high of @temperature .
 great talking with you , goodbye .
 your reminder has been scheduled
-i have @poi_name , one with @party at @time on @date , one with your @party at @time on @date , one with @party on @date , and one with @party on @date . which one ?
+i have four , one with @party at @time on @date , one with your @party at @time on @date , one with @party on @date , and one with @party on @date . which one ?
 you are welcome .
 for what city would you like the forecast ?
-the weather in chicago will be mainly rainy and @weather_attribute over the @weekly_time .
+the weather in chicago will be mainly rainy and @weather_attribute over the next few days .
 okay , for what time and day ? 
 i am setting a reminder for @event lessons at @time  on @date . 
 you are welcome . 
@@ -64,32 +64,32 @@ okay great , would you like to set a reminder for it ?
 okay , i just set that reminder for you . can i help with anything else ?
 no problem
 which city would you like to find out if it's snowing in ?
-@weather_attribute is predicted to fall in @location @weekly_time .
+@weather_attribute is predicted to fall in @location today .
 you're welcome !
 @poi_name and @poi_name are close .
-@poi_name is just @poi_distance miles away and there is less traffic on its way than on the other @poi_type . do you want me to set the navigation to @agenda there ?
+@poi_name is just @poi_distance away and there is less traffic on its way than on the other @poi_type . do you want me to set the navigation to go there ?
 you're welcome , glad to help . 
-the forecast does not predict @weather_attribute in @location @weekly_time or @weekly_time
+the forecast does not predict @weather_attribute in @location today or tomorrow
 you're welcome , have a great day . 
 what city should i check for @weather_attribute ?
-it will not be snowing in @location @weekly_time . it will be @weather_attribute with a low of @temperaturef and a high of @temperaturef .
+it will not be snowing in @location today . it will be @weather_attribute with a low of @temperature and a high of @temperature .
 you're welcome !
 okay , i have scheduled your @event for this @date at @time with your @party . anything else i can help with ?
 current schedule is empty
 okay , you have a @event with your @party , at @time on @date .
 happy to help
 what city do you want the temperature for ?
-@weekly_time the temperatures in @location will be as follows : a low of @temperaturef and a high of @temperaturef on @date , a low of @temperaturef and a high of @temperaturef on @date , a low of @temperaturef and a high of @temperaturef on @date , a low of @temperaturef and a high of @temperaturef on @date , a low of @temperaturef and a high of @temperaturef on @date , a low of @temperaturef and a high of @temperaturef on @date , and a low of @temperaturef and a high of @temperaturef on @date
+next week the temperatures in @location will be as follows : a low of @temperature and a high of @temperature on @date , a low of @temperature and a high of @temperature on @date , a low of @temperature and a high of @temperature on @date , a low of @temperature and a high of @temperature on @date , a low of @temperature and a high of @temperature on @date , a low of @temperature and a high of @temperature on @date , and a low of @temperature and a high of @temperature on @date
 you are very welcome !
-there is @poi_name @poi_distance miles away from here but with @traffic_info on our way
+there is @poi_name 1 miles away from here but with @traffic_info on our way
 setting quickest route to @poi_name on gps now .
 you're welcome , stay safe . 
-sure ! do you want me to schedule it for @weekly_time ?
-okay , scheduling your @event for @weekly_time at @time with your @party .
-i have a @poi_type that is @poi_distance miles away . would you like info on it ?
-then let's @agenda at @poi_name , the address is @poi_address , i sent it on your screen
+sure ! do you want me to schedule it for tomorrow ?
+okay , scheduling your @event for today at @time with your @party .
+i have a @poi_type that is @poi_distance away . would you like info on it ?
+then let's go at @poi_name , the address is @poi_address , i sent it on your screen
 goodbye .
-it is @weather_attribute and @temperature -100 f in @location @weekly_time .
+it is @weather_attribute and @temperature - @temperature in @location today .
 you're welcome . glad to be of assistance . 
 it will be @weather_attribute both @date and @date in @location .
 you're welcome . hope you have a great day . 
@@ -105,81 +105,81 @@ what days are you interested in ?
 it should not @weather_attribute in chicago on @date .
 you're very welcome . 
 where should i check the forecast for @weather_attribute ?
-there isn't any @weather_attribute predicted to fall in @location @weekly_time
+there isn't any @weather_attribute predicted to fall in @location today
 no problem .
 what city do you want the weather for ?
-it will not @weather_attribute in @location @weekly_time .
+it will not @weather_attribute in @location today .
 goodbye .
 what city can i give you the @weather_attribute information about ?
 it will @weather_attribute on @date in @location .
 you're welcome !
-the nearest @poi_name is the @poi_name , @poi_address , it's @poi_distance miles away
+the nearest @poi_name is the @poi_name , @poi_address , it's @poi_distance away
 you are welcome .
-reminding you of eye @event @weekly_time at @time , will remind at @time
+reminding you of eye @event tomorrow at @time , will remind at @time
 is there anything else i can do for you  ?
 you are welcome . 
 what days are you inquiring about ?
 on @date in @location there isn't any prediction for @weather_attribute .
 you're welcome !
-setting reminder for @event on august @poi_distance th at @time with @party . 
+setting reminder for @event on august 8 th at @time with @party . 
 you are welcome .
-then let's @agenda at @poi_name , @poi_address
+then let's go at @poi_name , @poi_address
 happy to help . 
 the swim lesson is on @date at @time .
-@poi_name @poi_type is @poi_distance miles away at @poi_address , there isn't any traffic
+@poi_name @poi_type is @poi_distance away at @poi_address , there isn't any traffic
 navigation set , happy to help . 
-your @poi_type is @poi_distance miles away but there is a @traffic_info , i sent on your screen the best possible route
+your @poi_type is @poi_distance away but there is a @traffic_info , i sent on your screen the best possible route
 you're welcome !
 for what location do you want tomorrow's forecast ? 
-yes , the weather forecast is predicting @weather_attribute for @weekly_time in @location
+yes , the weather forecast is predicting @weather_attribute for tomorrow in @location
 of course .
 okay , @event with @party on @date at @time is set .
 you are welcome
-ok setting reminder of your @event match with @party on @date at @poi_distance :00 a .m .
+ok setting reminder of your @event match with @party on @date at 9 :00 a .m .
 you're welcome
-the @poi_name is @poi_distance miles away at @poi_address , though there is a @traffic_info . would you like directions there ?
+the @poi_name is 1 miles away at @poi_address , though there is a @traffic_info . would you like directions there ?
 @poi_name is located at @poi_address . 
 you are welcome .
-the nearest one is @poi_name , it's @poi_distance miles away but there is a @traffic_info
+the nearest one is @poi_name , it's @poi_distance away but there is a @traffic_info
 setting directions to @poi_name at @poi_address . now . 
 gps is set . drive carefully .
-the low temperature for @location on @date is @temperaturef with a high of @temperaturef , it will be extremely @weather_attribute
+the low temperature for @location on @date is @temperature with a high of @temperature , it will be extremely @weather_attribute
 you're welcome !
 your @event with @party is at @time .
 you are welcome .
-the nearest @poi_type @poi_name is @poi_distance miles away with @traffic_info , do you still want to @agenda ?
+the nearest @poi_type @poi_name is @poi_distance away with @traffic_info , do you still want to go ?
 setting gps now .
-@poi_name is at @poi_address . the only route i have is @poi_distance miles through @traffic_info
+@poi_name is at @poi_address . the only route i have is @poi_distance through @traffic_info
 you're welcome !
-i have set a reminder for a @event lesson at @poi_distance :50 pm on august 12 th . would you like an alarm ? 
+i have set a reminder for a @event lesson at 4 :50 pm on august 12 th . would you like an alarm ? 
 will do , your @event with @party on @date at @time has been scheduled . 
 my pleasure .
 goodbye .
-it will not be @weather_attribute in @location @weekly_time .
+it will not be @weather_attribute in @location next week .
 you're welcome !
 i have one @event on your calendar . it is @date at @time .
 no problem .
 what days are you interested in ?
-it shouldn't be @weather_attribute in @location this @weekly_time
+it shouldn't be @weather_attribute in @location this week
 glad to help
-we're @poi_distance miles away from @poi_type and there is @traffic_info on our route , you should reach in few minutes
+we're @poi_distance away from @poi_type and there is @traffic_info on our route , you should reach in few minutes
 the address to your @poi_type is @poi_address .
 you are welcome .
 where are you located ?
-@location does not have any @weather_attribute weather prediction this @weekly_time .
+@location does not have any @weather_attribute weather prediction this week .
 you're welcome !
-it will not be @weather_attribute in @location @weekly_time or @weekly_time .
+it will not be @weather_attribute in @location today or tomorrow .
 no problem .
-it will be @temperaturef @date in @location .
+it will be @temperature @date in @location .
 you're welcome
-there is a @poi_name @poi_distance miles away : would you like me to send you its address on the screen ?
-@poi_name is located at @poi_address but a @traffic_info is noted nearby . do you still want to @agenda there ?
+there is a @poi_name @poi_distance away : would you like me to send you its address on the screen ?
+@poi_name is located at @poi_address but a @traffic_info is noted nearby . do you still want to go there ?
 gps set , have a great day . 
-the @weather_attribute in @location is supposed to be @temperaturef @weekly_time , and @temperaturef @weekly_time
+the @weather_attribute in @location is supposed to be @temperature today , and @temperature tomorrow
 anytime .
 who do you mean by 'him' ?
-for which city would you like to know when the @weekly_time @weather_attribute day is ? 
-it will not be @weather_attribute in @location @weekly_time .
+for which city would you like to know when the next @weather_attribute day is ? 
+it will not be @weather_attribute in @location next week .
 you're welcome .
 your @event with @party on @date at @time has been scheduled . 
 no problem .
@@ -187,43 +187,43 @@ there is a @poi_name nearby .
 the address for @poi_name is @poi_address .
 you're welcome , gps set and you should arrive shortly . 
 @poi_name and @poi_name are both near .
-@poi_name is @poi_distance miles away with a @traffic_info
+@poi_name is @poi_distance away with a @traffic_info
 there is a @traffic_info but i sent on your screen another route that should allow you to reach there fast enough
 you're welcome !
 there will not be @weather_attribute in @location on @date .
 you're welcome .
 what date and time should i schedule your @event ?
-i am setting a @location @event in your calendar for @weekly_time at @time with @party to @agenda the budget .
+i am setting a @location @event in your calendar for today at @time with @party to go over the budget .
 no problem
-it will be between @temperature -100 f on @date in @location .
+it will be between @temperature - @temperature on @date in @location .
 sure .
 it will be raining in @location on @date .
 anytime .
 there is a @poi_name and a @poi_name .
-they are both within @poi_distance miles . @poi_name is @poi_distance miles away and @poi_name is @poi_distance miles away . 
+they are both within @poi_distance . @poi_name is @poi_distance away and @poi_name is @poi_distance away . 
 setting route to @poi_name at @poi_address now .
 you're welcome , have a great evening . 
-there is @poi_name @poi_distance miles away : is it okay for you ?
+there is @poi_name @poi_distance away : is it okay for you ?
 i highlighted its address on the map , drive carefully !
-okay , reminder set for @event call @weekly_time .
+okay , reminder set for @event call tomorrow .
 what time should i set the reminder for ?
-in what city can i check @weekly_time and tomorrow's forecast ?
-there will be no @weather_attribute in @location @weekly_time .
+in what city can i check today and tomorrow's forecast ?
+there will be no @weather_attribute in @location next week .
 you're welcome , have a great day .
 it will not be @weather_attribute on @date in @location .
 you are welcome .
-you are @weekly_time miles away from @poi_name , would you like to get its address ?
+you are two miles away from @poi_name , would you like to get its address ?
 then we're going at @poi_address , @traffic_info on our way , enjoy the trip !
 you're welcome !
 what city do you need the forecast for ?
-it will not be @weather_attribute in @location this @weekly_time .
+it will not be @weather_attribute in @location this week .
 you're welcome
 @poi_address . is the address .
 anything else ?
-you're @poi_distance miles away
+you're @poi_distance away
 you're welcome !
 what is the date and time for the @event  ?
-@event has been set on august @poi_distance rd  at @time . 
+@event has been set on august 3 rd  at @time . 
 no problem . 
 your @event reservations are set for @date at @time . 
 you are welcome . 
@@ -232,41 +232,41 @@ you're welcome .
 jack lives at @poi_address , it is shown on the map .
 anytime !
 for which day and city would you like to know the weather ?
-currently in @location it is @weather_attribute with a low of @temperaturef and a high of @temperaturef
+currently in @location it is @weather_attribute with a low of @temperature and a high of @temperature
 you're welcome !
-your @weekly_time @event is on @date at @time .
+your next @event is on @date at @time .
 you're welcome ! 
 what date and time is your @event at ?
 @event in calendar for @time on @date
-the nearest @poi_type is @poi_distance miles away , though there is a @traffic_info . would you like directions there ?
+the nearest @poi_type is @poi_distance away , though there is a @traffic_info . would you like directions there ?
 @poi_name is located at @poi_address . setting navigation now . 
 avoiding @traffic_info on the way to @poi_name .
 you're welcome !
-which city do you want to know if it's gonna @weather_attribute @weekly_time ?
+which city do you want to know if it's gonna @weather_attribute next week ?
 it's gonna @weather_attribute in @location on @date and @date
 you're welcome !
 i have a @event for @time on @date .
 your @event is on @date at @time .
 there is no @poi_name in the area , i'm sorry . 
-@poi_name located at @poi_address is @poi_distance miles away without any traffic
+@poi_name located at @poi_address is @poi_distance away without any traffic
 navigating to @poi_address now .
 anytime !
-we are @poi_distance miles away from @poi_name with @traffic_info on our way and @poi_distance miles away from @poi_name with @traffic_info : where would you like to @agenda ?
-sorry , i didn't understand which address would you like me to give you . would you prefer to @agenda at @poi_name or at @poi_name ?
-then let's @agenda at @poi_name , better if you get some @poi_type , the address is @poi_address
+we are 1 miles away from @poi_name with @traffic_info on our way and 1 miles away from @poi_name with @traffic_info : where would you like to go ?
+sorry , i didn't understand which address would you like me to give you . would you prefer to go at @poi_name or at @poi_name ?
+then let's go at @poi_name , better if you get some @poi_type , the address is @poi_address
 you're welcome . 
 what city would you like to know the temperature about ?
-the temperature range for @weekly_time goes from lows in the @temperature s to highs in the @temperature s for @location . 
+the temperature range for next week goes from lows in the @temperature s to highs in the @temperature s for @location . 
 you're welcome .
 setting reminder for @event at @time on @date with @party .
 my pleasure .
-yes @poi_name is @poi_distance miles away . do you want the address ?
+yes @poi_name is @poi_distance away . do you want the address ?
 @poi_name is located at @poi_address . do you want me to set the gps ?
 happy to help . 
 i have one @poi_type listed . want more info ?
 @poi_name is at @poi_address .
 you're welcome , stay safe . 
-there is @weekly_time @poi_type , @poi_name and @poi_name . do you have a preference ?
+there is two @poi_type , @poi_name and @poi_name . do you have a preference ?
 @poi_name is closer .
 okay , heading to @poi_name at @poi_address
 your are scheduled to play @event @date at @time .
@@ -275,9 +275,9 @@ it might @weather_attribute on @date , do you need to know anything else ?
 you are welcome .
 reminder for @event on @date at @time with @party is set
 anytime .
-you have @poi_distance dinners on your schedule . one on @date at @time with your @party and one on @date at @time with your @party . 
+you have 2 dinners on your schedule . one on @date at @time with your @party and one on @date at @time with your @party . 
 you're welcome !
-@weekly_time @poi_type centers are located nearby . one is the @poi_name located @poi_distance miles away and the other is @poi_name that's @poi_distance miles away . which do you prefer ?
+two @poi_type centers are located nearby . one is the @poi_name located @poi_distance away and the other is @poi_name that's @poi_distance away . which do you prefer ?
 the address is @poi_address , i picked the fastest route for you , it's on your screen
 you're welcome !
 for which one ? i have one with @party at @time to @agenda , and i also have another with @party at @time to @agenda . 
@@ -285,16 +285,16 @@ anytime .
  okay setting a reminder on @date to refill prescription .
 okay , setting a reminder for your doctor's appointment at @time on @date @date with @party .
 you are welcome .
-we're @poi_distance miles away drom @poi_name and there is @traffic_info on our way
-the quickest route to @poi_name is @poi_distance mile away at @poi_address avenue . 
+we're 1 miles away drom @poi_name and there is @traffic_info on our way
+the quickest route to @poi_name is @poi_distance away at @poi_address avenue . 
 no problem
-your @weekly_time @event is @date at @time with your @party . 
+your next @event is @date at @time with your @party . 
 happy to help
 the weather in @location is predicted as a @weather_attribute with lows in the @temperature s and highs in the @temperature s
-it will not be @weather_attribute in @location city @weekly_time .
+it will not be @weather_attribute in @location city tomorrow .
 you are welcome .
-there are @weekly_time @poi_type restaurants nearby : @poi_name @poi_distance miles away and @poi_name @poi_distance miles away
-@poi_name is @poi_distance miles away in @traffic_info , it is located at @poi_address .
+there are two @poi_type restaurants nearby : @poi_name @poi_distance away and @poi_name @poi_distance away
+@poi_name is @poi_distance away in @traffic_info , it is located at @poi_address .
 anytime !
 @poi_name is the nearby @poi_type .
 @poi_name is at @poi_address .
@@ -302,18 +302,18 @@ anytime !
 what city are you inquiring about ?
 it will be raining on @date and hailing on @date in @location .
 happy to help
-the weather in @location is @weather_attribute @weekly_time . are you interested in other days' forecast ?
+the weather in @location is @weather_attribute today . are you interested in other days' forecast ?
 on @date it will be @weather_attribute !
 you're welcome !
 what time on @date should i set the appointment reminder ?
 okay great , i have that all set for you . can i help with anything else ?
-your @event is on @date at @time , the purpose is to @agenda the quarterly report .
+your @event is on @date at @time , the purpose is to go over the quarterly report .
 i'm here to serve . 
-the nearest one is @poi_name , it's @poi_distance miles away
+the nearest one is @poi_name , it's @poi_distance away
 @poi_name has @traffic_info and is the only local one , is it okay ?
 the address to @poi_name is @poi_address .
 bye for now .
-there is @poi_name @poi_distance miles away : does it sound good ?
+there is @poi_name @poi_distance away : does it sound good ?
 the quickest route to @poi_name is with @traffic_info to @poi_address . 
 i sent the route on your screen , drive carefully !
 you're welcome ; drive safely , and enjoy .
@@ -324,192 +324,192 @@ which one ? there is one at @time on @date , and there is another at @time on @d
 @party will be at the one on @date and the @party will be present at the one on @date .
 okay reminder set for your @event appointment on @date at @time with your @party .
 not a problem .
-the closest is @poi_name @poi_distance mile away , then @poi_name @poi_distance miles away , @poi_name is @poi_distance miles away and @poi_name is @poi_distance miles away .
+the closest is @poi_name @poi_distance away , then @poi_name @poi_distance away , @poi_name is @poi_distance away and @poi_name is @poi_distance away .
 there is a @traffic_info on the route to @poi_address . would you like directions there ?
 you are welcome
 for what city did you need the forecast ? 
-it will not be @weather_attribute in @location this @weekly_time .
+it will not be @weather_attribute in @location this week .
 anytime !
 @poi_name is the closest @poi_type , would you like the address ?
 we're going to @poi_address , there is @traffic_info and you should be able to reach in few minutes . and you're welcome , i'm here to assist you !
-this @weekly_time in @location will be rainy and @weather_attribute with @weather_attribute skies .
-there aren't any days predicted to be @weather_attribute in @location this @weekly_time
+this week in @location will be rainy and @weather_attribute with @weather_attribute skies .
+there aren't any days predicted to be @weather_attribute in @location this week
 glad to help
 your @event is at @time on @date
 you are welcome .
 the forecast does not predict a @weather_attribute in @location this @date .
 glad i could help out
-your @weekly_time @event is on @date with your @party .
+your next @event is on @date with your @party .
 your @date @event with your @party is at @time .
 what city do you want the weather for ?
-there is no @weather_attribute forecasted for chicago this @weekly_time .
+there is no @weather_attribute forecasted for chicago this week .
 anytime !
-yes , @location is predicted to be @weather_attribute @weekly_time .
+yes , @location is predicted to be @weather_attribute today .
 you are welcome human !
 @poi_name is the nearest @poi_type at @poi_address .
 yes the route to @poi_address is the quickest available . 
 i sent you the info on your screen , please drive carefully !
-scheduling @event for @time later this @weekly_time with @party to @agenda . do you have a specific day in mind ? 
+scheduling @event for @time later this week with @party to @agenda . do you have a specific day in mind ? 
 anything else ?
 you're welcome
 okay setting reminder for your @event with the @party on @date at @time .
 happy to help
-we're @poi_distance miles away from @poi_name and @poi_distance miles away from @poi_name : do they sound good ?
+we're @poi_distance away from @poi_name and @poi_distance away from @poi_name : do they sound good ?
 @poi_name is the quickest . navigating to @poi_address . there is @traffic_info on the route . 
 navigation set . have a great day . 
-your @weekly_time @event is on @date at @time .
+your next @event is on @date at @time .
 you're welcome . 
 okay , what date should the reminder be on ?
 @date .
 your @event is scheduled on @date at @time .
 you are welcome .
-a reminder has been set for @event on august @poi_distance rd at @poi_distance pm with your @party .
- you have @weekly_time , one at @time on @date , and one at @time on @date . 
+a reminder has been set for @event on august 3 rd at 9 pm with your @party .
+ you have two , one at @time on @date , and one at @time on @date . 
 happy to help
 navigating you to @poi_name .
 @poi_name is at @poi_address .
 you're welcome !
-i have a listing for a @poi_type named @poi_name and its @poi_distance miles away .
+i have a listing for a @poi_type named @poi_name and its @poi_distance away .
 its address is @poi_address , unfortunately there is @traffic_info on our way : what to do ?
 no problem !
 what day and time is the @event ?
-setting @event at @time on august @poi_distance rd with @party to @agenda .
+setting @event at @time on august 3 rd with @party to @agenda .
 glad to be of service . 
 it will be @weather_attribute on @date and there will be @weather_attribute on @date in @location .
 anytime !
 your @event is on @date at @time .
 you're welcome
-you have three possible @poi_type stops , one @poi_distance miles away , one @poi_distance miles away , and one @poi_distance miles away
-@poi_name appears to be the fastest at @poi_distance miles away and @traffic_info . do you need the address ?
+you have three possible rest stops , one @poi_distance away , one @poi_distance away , and one @poi_distance away
+@poi_name appears to be the fastest at @poi_distance away and @traffic_info . do you need the address ?
 @poi_name is located at @poi_address . setting navigation now .
 you are very welcome
 the @event game is on @date at @time . 
 you are welcome human
-there is @poi_name @poi_distance miles away but with @traffic_info on its direction : do you want me to set the navigation there ?
+there is @poi_name @poi_distance away but with @traffic_info on its direction : do you want me to set the navigation there ?
 setting gps now .
 the address for @poi_name is @poi_address .
 you are welcome driver !
 okay , please tell me which day you would like me to schedule .
 your doctor's appointment is @date at @time . 
-the nearest @poi_type is @poi_distance miles away at @poi_address , there is @traffic_info on the way . 
+the nearest @poi_type is @poi_distance away at @poi_address , there is @traffic_info on the way . 
 you are welcome .
-the nearest @poi_type is @poi_name at @poi_distance miles away but a @traffic_info is nearby . 
+the nearest @poi_type is @poi_name at @poi_distance away but a @traffic_info is nearby . 
 you are welcome
 in @location the weather will be @weather_attribute on @date
 happy to help
-which one ? i have @weekly_time , one for @time with @party , and one for @time with job .
+which one ? i have two , one for @time with @party , and one for @time with job .
 all done , you are welcome . 
 the @event game is at @time .
 what city are you wanting to know if it's going to @weather_attribute ?
 in @location , it will @weather_attribute on @date and @date .
 no problem .
-the fastest route to the @poi_type is @poi_address . at @poi_distance miles away with a @traffic_info . do you want to @agenda to @poi_name ?
+the fastest route to the @poi_type is @poi_address . at @poi_distance away with a @traffic_info . do you want to go to @poi_name ?
 shortest route found and being set . you will arrive shortly . 
 there is no @poi_name nearby .
-there is @poi_name , it's just @poi_distance miles away but there is @traffic_info on our way
+there is @poi_name , it's just @poi_distance away but there is @traffic_info on our way
 @poi_name is located at @poi_address avenue . setting the fastest route on gps . 
 you're welcome !
 what can i tell you about this week's weather in @location ?
-it will not @weather_attribute this @weekly_time in @location .
+it will not @weather_attribute this week in @location .
 you're welcome !
 jill's house is located at @poi_address . anything else ?
 there is @traffic_info on the way to jill's house .
 okay , we're on the way now !
 you're welcome , happy i could help . 
-@poi_name is @poi_distance miles away .
-sure , it's just @poi_distance miles away at @poi_address avenue .
+@poi_name is @poi_distance away .
+sure , it's just @poi_distance away at @poi_address avenue .
 setting route to @poi_address avenue now . 
 you're welcome , happy to help . 
 jill or jack ?
 jack is closer .
-@poi_address , it's @poi_distance miles away , i sent his address on your screen
+@poi_address , it's @poi_distance away , i sent his address on your screen
 you're welcome , happy to help . 
  okay making appointment with @party on @date at @time .
 my pleasure .
-it will not @weather_attribute in @location @weekly_time .
+it will not @weather_attribute in @location next week .
 no problem .
 you live at @poi_address .
-we're @poi_distance miles away and there is @traffic_info , i sent the route on your screen , keep your eyes open on the @traffic_info !
+we're @poi_distance away and there is @traffic_info , i sent the route on your screen , keep your eyes open on the @traffic_info !
 happy to help
-the @poi_name is located at @poi_address , it is @poi_distance miles away with @traffic_info
+the @poi_name is located at @poi_address , it is @poi_distance away with @traffic_info
 i sent the info on your screen , you're welcome !
-@poi_name is @poi_distance miles away .
-@poi_name route is reporting a @traffic_info . do you still want to @agenda there ?
+@poi_name is @poi_distance away .
+@poi_name route is reporting a @traffic_info . do you still want to go there ?
 i sent the best available route on your screen , drive carefully !
 you're welcome !
-i have scheduled a @event with the @party @weekly_time at @time
+i have scheduled a @event with the @party next week at @time
 what time is your @event class
 what city would you like to know the temperature for ?
 for what day are you interested ? 
-in @location , it will be @temperature -60 f on @date , @temperature -50 f on @date , @temperature -60 f on @date , @temperature -70 f on @date , @temperature -100 f on @date , @temperature -90 f on @date , and @temperature -100 f on @date . 
+in @location , it will be @temperature - @temperature on @date , @temperature - @temperature on @date , @temperature - @temperature on @date , @temperature - @temperature on @date , @temperature - @temperature on @date , @temperature - @temperature on @date , and @temperature - @temperature on @date . 
 you are welcome .
-i have @weekly_time , one at @time with @party , and one at @time with @party .
+i have two , one at @time with @party , and one at @time with @party .
 the @event with @party is at @time .
 anytime !
-for which city would you like to know if there is going to be @weather_attribute @weekly_time ?
+for which city would you like to know if there is going to be @weather_attribute next week ?
 it will @weather_attribute @date , @date , and @date in @location .
 no problem .
 navigating you to @poi_name .
 setting gps to quickest route for @poi_name which has @traffic_info .
 you're welcome , glad i could help . 
-it is not snowy in @location @weekly_time .
+it is not snowy in @location today .
 no problem .
-we're @poi_distance miles away from @poi_name and there is @traffic_info on our way : set the gps to @agenda there ?
+we're 1 miles away from @poi_name and there is @traffic_info on our way : set the gps to go there ?
 @poi_name is at @poi_address
 @event you there on the shortest distance .
 you're welcome , glad i could help . 
-@poi_name is the only @poi_type i can find . it is @poi_distance miles away .
+@poi_name is the only @poi_type i can find . it is @poi_distance away .
 you're welcome !
 there is a @poi_name and a @poi_name nearby .
 the nearest @poi_type is at @poi_address .
 you're welcome !
 for what city ?
-today's temperature in @location will have a low of @temperaturef and a high of @temperaturef . tomorrow's temperature will be a low of @temperaturef and a high of @temperaturef
+today's temperature in @location will have a low of @temperature and a high of @temperature . tomorrow's temperature will be a low of @temperature and a high of @temperature
 glad to help
 alright , setting a reminder at @time to take medicine on @date with @party
 you're welcome
 @poi_type is programmed as @poi_address . 
-the route to @poi_type does not have any traffic , you should arrive quickly being that it is @poi_distance mile away .
+the route to @poi_type does not have any traffic , you should arrive quickly being that it is @poi_distance away .
 you are welcome
 the nearest @poi_type shop is @poi_name on @poi_address
 there is a @traffic_info reported on the route to @poi_name . 
 unfortunately there is a @traffic_info . do you want me to set the gps anyway ?
-@poi_distance miles away
+@poi_distance away
 ok , setting navigation now . 
 you're very welcome !
-this @weekly_time it's not gonna be @weather_attribute in @location
+this week it's not gonna be @weather_attribute in @location
 you are welcome human !
 when would you like to schedule your appointment ?
 your @event is on @date at @time .
 no problem , have a good day .
 what city would you like the weather report from ?
-it's not gonna @weather_attribute in @location this @weekly_time
+it's not gonna @weather_attribute in @location this week
 you are very welcome .
 today's @event is at @time .
 what city would you like to know the high temperature of ?
-this @weekly_time the @weather_attribute in @location will be @temperaturef on @date and @date
+this week the @weather_attribute in @location will be @temperature on @date and @date
 you are welcome .
 your doctor's appointment is at @time on @date .
 your @event is scheduled for @time on @date , nothing is scheduled for @date .
 you are welcome . 
 what city do you want the weather for ?
-it is not forecasted to @weather_attribute in @location this @weekly_time .
+it is not forecasted to @weather_attribute in @location this week .
 you are very welcome .
 there is no @poi_name in your area but there are other @poi_type places near by . would you like more info ?
-the nearest @poi_type shop is @poi_distance miles away and the name of it is @poi_name . would you like the address ?
-@poi_name is @poi_distance miles away at @poi_address avenue . anything else ?
+the nearest @poi_type shop is @poi_distance away and the name of it is @poi_name . would you like the address ?
+@poi_name is @poi_distance away at @poi_address avenue . anything else ?
 great , glad to help . 
 there is a @poi_name and @poi_name near .
-@poi_name is closer at @poi_distance miles .
+@poi_name is closer at @poi_distance .
 setting navigation to @poi_name at @poi_address . anything else ?
 you're welcome !
-your swim meet has been set for @time @weekly_time @date , @date . . . .is that correct ?
+your swim meet has been set for @time next @date , @date . . . .is that correct ?
 you are welcome ! 
-in this moment there is @traffic_info on our way but since we're just @poi_distance miles away it shouldn't take too long to reach @poi_type . i sent the route on your screen
+in this moment there is @traffic_info on our way but since we're just @poi_distance away it shouldn't take too long to reach @poi_type . i sent the route on your screen
 setting directions to @poi_address now . 
 anytime !
-there are no nearby @poi_name , but there are @poi_distance other @poi_type places nearby . 
-setting directions to @poi_name , located @poi_distance miles away at @poi_address
+there are no nearby @poi_name , but there are 3 other @poi_type places nearby . 
+setting directions to @poi_name , located @poi_distance away at @poi_address
 you are welcome .
 @poi_name is the only one nearby but here is @traffic_info .
 i sent its position on your screen , drive carefully !
@@ -517,40 +517,40 @@ which city do you want the weather forecast for ?
 in @location it will be frosty on @date , @weather_attribute on @date , raining on @date , @weather_attribute on @date , @weather_attribute on @date and @date , @weather_attribute on @date
 no problem !
 what location do you want the weather for ?
-there will be no @weather_attribute @weekly_time in @location .
+there will be no @weather_attribute today in @location .
 anytime .
 okay , i am scheduling a @event for you on @date at @time .
 your @party has been added to parties involved for your @event at @time on @date .
 i'm happy to help you !
-there is a @poi_name @poi_distance miles away .
-alright , the route to @poi_address drive is @poi_distance miles away with a @traffic_info
+there is a @poi_name @poi_distance away .
+alright , the route to @poi_address drive is @poi_distance away with a @traffic_info
 navigation is set . drive carefully , and enjoy . 
 you're very welcome !
-@poi_name is @poi_distance miles away .
-unfortunately @poi_name is the only @poi_type place i can find . it is @poi_distance miles away through @traffic_info , located at @poi_address
+@poi_name is @poi_distance away .
+unfortunately @poi_name is the only @poi_type place i can find . it is @poi_distance away through @traffic_info , located at @poi_address
 navigation is set , have a great day . 
-okay , scheduling a @event with your @party for august @poi_distance rd at @time .
+okay , scheduling a @event with your @party for august 3 rd at @time .
 no problem driver .
 for what location and time ?
-no , it will not be @weather_attribute in @location @weekly_time . today's forecast is @weather_attribute , with a low of @temperaturef and a high of @temperaturef
+no , it will not be @weather_attribute in @location today . today's forecast is @weather_attribute , with a low of @temperature and a high of @temperature
 you are very welcome
-@poi_name is @poi_distance miles away in light traffic . would you like directions there ? 
+@poi_name is @poi_distance away in light traffic . would you like directions there ? 
 @poi_name is at @poi_address . do you need me to set the navigation ?
 no problem
-i have @weekly_time , one on @date with @party , and one on @date with @party .
+i have two , one on @date with @party , and one on @date with @party .
 you are welcome driver .
-there is a @poi_type @poi_distance miles away . it's @poi_name . would you like more details ?
+there is a @poi_type @poi_distance away . it's @poi_name . would you like more details ?
 here is the best route to @poi_name .
 @poi_address : do you want me to send the route on your screen ?
-plotting route to @poi_address , @poi_distance miles away with @traffic_info
+plotting route to @poi_address , @poi_distance away with @traffic_info
 you're welcome !
-there is @poi_distance @poi_type stations nearby one has a @traffic_info noted and the other is @poi_distance miles away with @traffic_info . which do you prefer ?
+there is 2 @poi_type stations nearby one has a @traffic_info noted and the other is @poi_distance away with @traffic_info . which do you prefer ?
 directions to @poi_name are on your screen .
 @poi_name is located at @poi_address and has a @traffic_info reported . 
 the info are on your screen and you're welcome !
-currently you have @weekly_time @event appointments . one on @date which @party is attending , and one on @date that your @party is attending .
+currently you have two @event appointments . one on @date which @party is attending , and one on @date that your @party is attending .
 you are welcome .
-i have set a reminder for your @event on august 12 th at @poi_distance :50
+i have set a reminder for your @event on august 12 th at 5 :50
 glad to be of service . 
 the only route i currently have to @poi_type currently has @traffic_info . would you like me to set your gps anyway ?
 @event you on the quickest way @poi_type .
@@ -560,14 +560,14 @@ the @poi_name @poi_name is located at @poi_address .
 gps set . anything else ?
 you're welcome !
 what city are you inquiring about ?
-in the @weekly_time in @location it will be @weather_attribute on @date , raining on @date , @weather_attribute on @date and @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date
+in the next week in @location it will be @weather_attribute on @date , raining on @date , @weather_attribute on @date and @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date
 you're welcome !
 for what city do you need the weekly forecast ? 
-the weather in @location during the @weekly_time will be @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , raining on @date , @weather_attribute on @date , raining again on @date and @date
+the weather in @location during the next week will be @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , raining on @date , @weather_attribute on @date , raining again on @date and @date
 you are very welcome !
 okay , scheduling @event with @party for @date @date at @time .
 you are very welcome !
-it will not be @weather_attribute in @location this @weekly_time .
+it will not be @weather_attribute in @location this week .
 you are welcome .
 setting a schedule for @event with @party for august 14 th at @time .
 you are welcome friend .
@@ -576,173 +576,173 @@ glad i could help out
 on @date there will be @weather_attribute in @location .
 you are very welcome !
 what city should i check the forecast for ?
-in @location there will be @weather_attribute @weekly_time , and it will be @weather_attribute @weekly_time
+in @location there will be @weather_attribute today , and it will be @weather_attribute tomorrow
 you're very welcome !
 what date and time are you blood test ?
-your blood test has been scheduled for @weekly_time at @time .
+your blood test has been scheduled for tomorrow at @time .
 no problem
-your @weekly_time @event class is at @time on @date .
+your next @event class is at @time on @date .
 what city do you want to hear thursday's weather for ?
 it will be @weather_attribute in @location on @date .
 you're very welcome !
 @poi_name and @poi_name are both near .
-@poi_name is only @poi_distance miles away and @poi_name is @poi_distance mile away . 
+@poi_name is only @poi_distance away and @poi_name is @poi_distance away . 
 
 its address is @poi_address , i sent the position on your screen
 you're welcome !
-i have you set for @weekly_time . one at @time and one at @time .
+i have you set for two . one at @time and one at @time .
 @party is one the helping at @time . anything else ? 
 you are welcome
 where would you like to hear the weather forecast from ?
-there will be no @weather_attribute in @location @weekly_time , the weather will be a @weather_attribute , low of @temperaturef , high of @temperaturef
+there will be no @weather_attribute in @location today , the weather will be a @weather_attribute , low of @temperature , high of @temperature
 anytime !
-@poi_name located at @poi_address is @poi_distance miles away , there isn't any traffic on this route
+@poi_name located at @poi_address is @poi_distance away , there isn't any traffic on this route
 you're welcome .
 the weather in @location is @weather_attribute
-no , the weather isn't going to be good in @location in @weekly_time days
+no , the weather isn't going to be good in @location in next days
 anytime
 what time should i set the appointment ?
 your @event with @party has been scheduled for @date at @time .
 you're welcome
-setting a reminder to take my medicine on @date aug @poi_distance at @time with your @party
+setting a reminder to take my medicine on @date aug 8 at @time with your @party
 you are welcome
-your @weekly_time @event is at @time with your @party on @date .
-@date , @date , and @date appear to be the @weather_attribute days expected in @location this @weekly_time .
+your next @event is at @time with your @party on @date .
+@date , @date , and @date appear to be the @weather_attribute days expected in @location this week .
 you are welcome .
 what city are you wanting to know the temperature for ?
-it is currently @weather_attribute with a low of @temperaturef and a high of @temperaturef in @location .
+it is currently @weather_attribute with a low of @temperature and a high of @temperature in @location .
 you are welcome .
 what days are you interested in ?
 no , there is not a @weather_attribute in @location right now .
 you're welcome !
 when ?
 jack or jill ?
-jill's house is @poi_distance miles away , while @poi_name is @poi_distance miles . there is @traffic_info to both locations .
+jill's house is @poi_distance away , while @poi_name is @poi_distance . there is @traffic_info to both locations .
 displaying gps now . 
 you're welcome . 
-there is no @weather_attribute in the forecast for @weekly_time in @location .
+there is no @weather_attribute in the forecast for today in @location .
 no problem .
 what day and time should i add playing @event to your schedule ?
 okay , adding playing @event to your calendar , on august @date at @time .
-we're @poi_distance miles away from @poi_name and @poi_distance miles away from @poi_name .changs : which one do you like more ?
+we're @poi_distance away from @poi_name and @poi_distance away from @poi_name .changs : which one do you like more ?
 i sent its position and the route to reach it on your screen , don't speed too much
 @poi_name is at @poi_address . there is a @traffic_info . shall i give you directions ?
 i sent the best route on your screen , enjoy your trip !
 you're welcome !
 @location is supposed to be fair with a chance of @weather_attribute on @date with the highs in the @temperature s and lows in the @temperature s . 
 glad to help
-your @weekly_time doctor's appointment is @date at @time . 
+your next doctor's appointment is @date at @time . 
 you are welcome
 what location do you want the weather for ?
-it is not predicted to be @weather_attribute in @location @weekly_time
+it is not predicted to be @weather_attribute in @location today
 anytime
 sure , a calender reminder has been set for @time this upcoming @date with your @party .
 my pleasure .
 navigating you @poi_type with the least traffic .
 the address to your @poi_type is @poi_address . setting gps for the fastest route now .
 you're welcome !
-we're @poi_distance miles away from @poi_name and there is also a @traffic_info : do you want me to find a quickest way to @agenda there ?
+we're @poi_distance away from @poi_name and there is also a @traffic_info : do you want me to find a quickest way to go there ?
 setting navigation to @poi_address now . 
 yes , i will navigate you via the fastest route .
 you are welcome .
 what city would you like the forecast for ?
-it will not @weather_attribute in @location this @weekly_time .
+it will not @weather_attribute in @location this week .
 @poi_name is a @poi_type nearby .
 currently the quickest route to @poi_name is through @traffic_info . should i set the gps now ?
 no , @poi_name is the only one i have listed .
 @poi_name is located at @poi_address
 i sent the info on your screen , you're welcome !
-here is a route to @poi_name , @poi_distance miles away .
+here is a route to @poi_name , @poi_distance away .
 there isn't any traffic , heading to @poi_address
 you're welcome . 
 what date and time would you like to make your appointment ? 
 it will be @weather_attribute on @date in @location .
 no problem . 
-there is no @poi_name nearby , the @poi_name is @poi_distance miles away . would you like directions there ? 
+there is no @poi_name nearby , the @poi_name is @poi_distance away . would you like directions there ? 
 the @poi_name is reporting @traffic_info but i will still find the quickest route to @poi_address . 
 you're welcome !
 what city should i check the temperature for ?
-the temperature for @location @weekly_time will be low of @temperaturef , high of @temperaturef , and also @weather_attribute .
+the temperature for @location today will be low of @temperature , high of @temperature , and also @weather_attribute .
 you're welcome !
-there is the @poi_type @poi_name at @poi_address , it's just @poi_distance miles away
+there is the @poi_type @poi_name at @poi_address , it's just @poi_distance away
 @poi_name has @traffic_info at the moment . i am setting the navigation and we should arrive soon . 
 you're welcome !
-what city do you want to know the @poi_distance day forecast for ?
+what city do you want to know the 7 day forecast for ?
 the weather forecast predicts it will @weather_attribute on @date .
 you are welcome .
-the closest @poi_type seems to be @poi_name chang's at @poi_distance miles away with @traffic_info . do you want the address ?
+the closest @poi_type seems to be @poi_name chang's at @poi_distance away with @traffic_info . do you want the address ?
 the address of @poi_name is @poi_address . we should be there shortly . 
 setting navigation now . enjoy !
 you're welcome !
-we are @poi_distance miles away from @poi_name : do you want me to send you its address on screen ?
+we are @poi_distance away from @poi_name : do you want me to send you its address on screen ?
 @poi_name is located at @poi_address . with @traffic_info . setting gps now . 
 no problem driver .
-over the @weekly_time @poi_distance days the days with the @weather_attribute will be @date and @date with a high of @temperaturef .
+over the next 7 days the days with the @weather_attribute will be @date and @date with a high of @temperature .
 anytime
 where are you located ?
-@weekly_time in @location it will be @weather_attribute , there isn't a prediction for humidity
+tomorrow in @location it will be @weather_attribute , there isn't a prediction for humidity
 not a problem .
-there is @poi_name @poi_distance miles away and @poi_name @poi_distance miles away : which one do you prefer ?
-@poi_name is @poi_distance mile away at @poi_address drive . we shouldn't be long in getting there . 
+there is @poi_name 1 miles away and @poi_name @poi_distance away : which one do you prefer ?
+@poi_name is @poi_distance away at @poi_address drive . we shouldn't be long in getting there . 
 you're welcome , glad to help . 
 what city do you need to know if it will be @weather_attribute ?
-this @weekly_time in @location it will be @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date
+this week in @location it will be @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date , @weather_attribute on @date
 you're welcome !
 okay , i am scheduling a @event with @party for @date at @time .
 for what city do you need information about today's forecast ?
-it appears it will be @weather_attribute  - i do not have information about cloud cover .
+it appears it will be @weather_attribute  -  i do not have information about cloud cover .
 you're welcome .
-i have a listing for a @poi_type mall that is @poi_distance miles away . want more info ?
+i have a listing for a @poi_type mall that is @poi_distance away . want more info ?
 @poi_name is located at @poi_address @traffic_info . want me to set the gps ?
 you're welcome !
 what city do you want to know the temperature ?
-it will be between @temperature -100 f in @location this @weekly_time .
+it will be between @temperature - @temperature in @location this weekend .
 anytime !
 there is a @poi_type but there is a @traffic_info collison nearby that could delay your arrival but only one listed in area . do you want the details ?
 @poi_name is located at @poi_address , i sent its position with the quickest route on your screen
 you're welcome !
-@poi_name is a @poi_type that is @poi_distance miles away . need more info ?
+@poi_name is a @poi_type that is @poi_distance away . need more info ?
 @poi_name is located at @poi_address .
 anytime !
 what city should i check the weekly temperature for ?
-@location has the following forecast : low of @temperaturef and high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date , low of @temperaturef , high of @temperaturef on @date
+@location has the following forecast : low of @temperature and high of @temperature on @date , low of @temperature , high of @temperature on @date , low of @temperature , high of @temperature on @date , low of @temperature , high of @temperature on @date , low of @temperature , high of @temperature on @date , low of @temperature , high of @temperature on @date , low of @temperature , high of @temperature on @date
 you're welcome !
 your @event class or @event ?
-your @event class is scheduled for @time @weekly_time .
+your @event class is scheduled for @time today .
 what city will you be @event your drive in ?
-there are @weather_attribute on @location now but don't @agenda too fast !
+there are @weather_attribute on @location now but don't go too fast !
 you're welcome !
 i will set a reminder for an @event at @time on @date of this month with your @party attending as well .
 you're welcome . 
 you have three @event activities scheduled . one with @party , your @party , and your @party .
 what city do you want the weather for ?
-no @weather_attribute is in the forecast for @location this @weekly_time . 
+no @weather_attribute is in the forecast for @location this week . 
 no problem !
 @poi_name is the closest .
 there is @traffic_info . 
 i sent the info on your screen , drive carefully !
 for what city would you like me to check tomorrow's weather for ?
-the weather forecast for @location says there will be @weather_attribute with a low of @temperaturef and a high of @temperaturef @weekly_time .
+the weather forecast for @location says there will be @weather_attribute with a low of @temperature and a high of @temperature tomorrow .
 not a problem .
 your reminder is set .
 the nearest @poi_type restaraunt is @poi_name at @poi_address .
 you're welcome !
 what is the date and time needed ?
 what city are you interested in ?
-it will be @weather_attribute with a low of @temperaturef and a high of @temperaturef in @location @weekly_time .
+it will be @weather_attribute with a low of @temperature and a high of @temperature in @location today .
 scheduling your @event with the @party on @date @date , what time shall i add ?
 okay , setting a reminder about your @event with the @party on @date @date at @time to @agenda .
 no problem
 what city do you want the weather for ?
-the weather for @location will be @weather_attribute , low of @temperaturef , high of @temperaturef on @date , and @weather_attribute , low of @temperaturef , high of @temperaturef on @date
+the weather for @location will be @weather_attribute , low of @temperature , high of @temperature on @date , and @weather_attribute , low of @temperature , high of @temperature on @date
 no problem
-@poi_address is @poi_distance miles away with @traffic_info .
+@poi_address is @poi_distance away with @traffic_info .
 you're welcome !
 what city would you like the weather for ?
-@date will be @weather_attribute in @location . @date will have a high temperature of @temperaturef and a low of @temperaturef
+@date will be @weather_attribute in @location . @date will have a high temperature of @temperature and a low of @temperature
 you are welcome . 
 what city are you asking about ?
-there will be no @weather_attribute for @location this @weekly_time .
+there will be no @weather_attribute for @location this week .
 you're welcome !
 okay , i've got it scheduled for you . anything else ?
 anytime !
@@ -750,7 +750,7 @@ the nearest @poi_type place is @poi_name at @poi_address
 setting navigation now . there is @traffic_info , so drive carefully .
 you're welcome ; drive carefully , and enjoy
 you @event is at @time on @date .
-okay , setting a reminder for your @event @weekly_time at @time with @party .
+okay , setting a reminder for your @event today at @time with @party .
 no problem .
 what city are you wanting to know if it's going to be @weather_attribute ?
 it will be @weather_attribute in @location on @date .
@@ -759,20 +759,20 @@ you're welcome !
 you're welcome !
 is there a date or time for @event that i should add to this reminder ?
 where is the location ?
-i have set a reminder for @event at @time @weekly_time . 
+i have set a reminder for @event at @time tomorrow . 
 you are welcome
 reminder set for @party to take medicine on @date at @time 
 you are welcome .
 okay , scheduling a @event with your @party for @date @date at @time .
 no problem .
-there are @poi_distance @poi_type stations near you , woud you like the closest one ?
-the @poi_name is located at @poi_address ; it is @poi_distance miles away in @traffic_info .
+there are 2 @poi_type stations near you , woud you like the closest one ?
+the @poi_name is located at @poi_address ; it is @poi_distance away in @traffic_info .
 that is still the closest @poi_type .
 you're welcome !
 jill lives at @poi_address .
 yes that route has @traffic_info noted . 
 okay
-@temperaturef is the @weather_attribute predicted for the @weekly_time @weekly_time days in @location
+@temperature is the @weather_attribute predicted for the next two days in @location
 anytime .
 for which one ? i have three , one with @party at @time . one with @party at @time , and one with your @party at @time .
 you are welcome

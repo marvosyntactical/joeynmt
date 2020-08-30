@@ -1087,6 +1087,7 @@ class Generator(Gen):
 
         # compute log probs
         log_probs = F.log_softmax(outputs, dim=-1) 
-        # in default joeynmt, log softmax isnt always used. now it is always called at the end of model.forward right here
+        # in default joeynmt, log softmax isnt always used before taking the argmax over VOC dimension.
+        # now it is always called at the end of model.forward right here
 
         return log_probs 

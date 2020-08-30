@@ -26,16 +26,21 @@
 
 ### 26.08.20 start writing
 
-[https://www.overleaf.com/9379467478yfmhgzstdndm](Bachelor Thesis Scratch)
+*TODO* lol
 
-haha
-
-### 28.08.20 perplexity
+### 29.08.20 perplexity 
 
 perplexity should be going down instead of up
 it should be upper bounded by output vocab
 
-*TODO* investigate
+=> this happens because valid loss is reported on uncanonized data (hard)
+
+=> solution:
+* canonize dev.car into dev.carno
+* make a new TorchBatchWithKB attribute validtrg for the valid\_iter KB\_Iterator 
+* use this in model.get\_loss\_for\_batch if torch no grad and its available
+
+
 
 
 ### 28.08.20 wikiBIO dataset

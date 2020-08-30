@@ -197,7 +197,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
     :param steps: current training steps, needed for tb_writer
     :param dpi: resolution for images
     :param kbinfo: tuple of the valid set's kb_lkp, kb_lens, kb_truvals
-    :param on_the_fly_info: tuple containing valid_data.src field, valid_kb, canonization function
+    :param on_the_fly_info: tuple containing valid_data.src field, valid_kb, canonization function, model.trg_vocab
     """
     success, failure = 0,0
     for i in indices:
@@ -219,7 +219,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
             kbtrv = list(kbtrv)
             print(f"KB PLOTTING: kb_lens: {kb_lens}")
 
-            # index calculation (find batch in valid/test data)
+            # index calculation (find batch in valid/test files using kb lookup indices and length info)
             kb_num = kb_lkp[i]
             lower = sum(kb_lens[:kb_num])
             upper = lower+kb_lens[kb_num]+1
@@ -230,19 +230,19 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 # this is a scheduling KB created on the fly in data.batch_with_kb
                 # TODO which fields are needed to recreate it on the fly here
                 # valid_kb: has fields kbsrc, kbtrg; valid_kbtrv
-                valid_src, valid_kb, canon_func = on_the_fly_info
+                valid_src, valid_kb, canon_func, trg_vocab = on_the_fly_info
                 v_src = list(valid_src)
 
                 print(i)
+                print(f"v_src[i]: {v_src[i]}")
 
                 on_the_fly_kb, on_the_fly_kbtrv = create_KB_on_the_fly(
                     # FIXME perhaps matchup issues are due to generator to list issues?
-                    v_src[i], valid_kb.fields, kbtrv_fields, canon_func
+                    v_src[i], trg_vocab, valid_kb.fields, kbtrv_fields, canon_func
                 )
 
                 keys = [entry.kbsrc for entry in on_the_fly_kb]
                 vals = on_the_fly_kbtrv
-
 
                 calcKbLen = len(keys) # update with length of newly created KB
 
@@ -266,7 +266,17 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 kb_lens[kb_num]+1={kb_lens[kb_num]+1};"
 
             # make sure attention plots have the right shape
-            assert calcKbLen == attention_scores.shape[0], assertion_str
+            if not calcKbLen == attention_scores.shape[0]:
+                if upper-lower == 0:
+                    print(f"Couldnt plot example {i} because knowledgebase was created on the fly")
+                    print(assertion_str)
+                    # FIXME FIXME FIXME FIXME im doing something wrong with the vocab lookup in the code above
+                    continue
+                else:
+                    assert False, f"actual shape mismatch: {calcKbLen} vs {attention_scores.shape[0]}"
+                
+
+
 
             print(f"KB PLOTTING: calcKbLen: {calcKbLen}")
             print(f"KB PLOTTING: calcKbLen should be != 0 often!!: {assertion_str}")

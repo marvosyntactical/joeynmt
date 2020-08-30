@@ -228,9 +228,11 @@ class TrainManager:
         if self.use_cuda:
             self.model.cuda()
 
+    # the typing here lies
     def train_and_validate(self, train_data: Dataset, valid_data: Dataset, kb_task=None, train_kb: TranslationDataset =None,\
         train_kb_lkp: list = [], train_kb_lens: list = [], train_kb_truvals: TranslationDataset=None, valid_kb: Tuple=None, \
-        valid_kb_lkp: list=[], valid_kb_lens: list = [], valid_kb_truvals:list=[]) \
+        valid_kb_lkp: list=[], valid_kb_lens: list = [], valid_kb_truvals:list=[],
+        valid_data_canon: list=[]) \
             -> None:
         """
         Train the model and validate it from time to time on the validation set.
@@ -245,6 +247,7 @@ class TrainManager:
         :param valid_kb_lkp: List with valid example index to corresponding kb indices
         :param valid_kb_len: List with num of triples per kb 
         :param valid_kb_truvals: FIXME TODO
+        :param valid_data_canon: required to report loss 
         """
 
         if kb_task:
@@ -254,7 +257,8 @@ class TrainManager:
                                     batch_size=self.batch_size,
                                     batch_type=self.batch_type,
                                     train=True, shuffle=self.shuffle,
-                                    canonize=self.model.canonize)
+                                    canonize=self.model.canonize
+                                    )
         else:
             train_iter = make_data_iter(train_data,
                                     batch_size=self.batch_size,
@@ -342,7 +346,8 @@ class TrainManager:
                             valid_kb=valid_kb,
                             valid_kb_lkp=valid_kb_lkp,
                             valid_kb_lens=valid_kb_lens,
-                            valid_kb_truvals=valid_kb_truvals
+                            valid_kb_truvals=valid_kb_truvals,
+                            valid_data_canon=valid_data_canon
                         )
 
                     self.tb_writer.add_scalar("valid/valid_loss",
@@ -422,7 +427,7 @@ class TrainManager:
                                 self.model_dir, self.steps),
                             tb_writer=self.tb_writer, steps=self.steps,
                             kb_info = (valid_kb_lkp, valid_kb_lens, valid_kb_truvals),
-                            on_the_fly_info = (valid_data.src, valid_kb, self.model.canonize))
+                            on_the_fly_info = (valid_data.src, valid_kb, self.model.canonize, self.model.trg_vocab))
                         self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
                     else:
                         self.logger.info("theres no valid kb att scores...")
@@ -606,7 +611,8 @@ def train(cfg_file: str) -> None:
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
-        trv_vocab, canonize\
+        trv_vocab, canonize,\
+        dev_data_canon, test_data_canon\
             = load_data(data_cfg=cfg["data"])
 
 
@@ -641,7 +647,8 @@ def train(cfg_file: str) -> None:
     # train the model
     trainer.train_and_validate(train_data=train_data, valid_data=dev_data, kb_task=kb_task,\
         train_kb=train_kb, train_kb_lkp=train_kb_lookup, train_kb_lens=train_kb_lengths, train_kb_truvals=train_kb_truvals,\
-        valid_kb=dev_kb, valid_kb_lkp=dev_kb_lookup, valid_kb_lens=dev_kb_lengths, valid_kb_truvals=dev_kb_truvals)
+        valid_kb=dev_kb, valid_kb_lkp=dev_kb_lookup, valid_kb_lens=dev_kb_lengths, valid_kb_truvals=dev_kb_truvals,\
+            valid_data_canon=dev_data_canon)
 
     # predict with the best model on validation and test
     # (if test data is available)
