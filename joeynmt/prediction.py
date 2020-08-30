@@ -123,13 +123,18 @@ def validate_on_data(model: Model, data: Dataset,
 
             # run as during training with teacher forcing
             if loss_function is not None and batch.trg is not None:
+
+                ntokens = batch.ntokens
+                assert hasattr(batch, "trgcanon")
+                if hasattr(batch, "trgcanon") and batch.trgcanon is not None:
+                    ntokens = batch.ntokenscanon
                 # do a loss calculation without grad updates just to report valid loss
                 # we can only do this when batch.trg exists, so not during actual translation/deployment
                 batch_loss = model.get_loss_for_batch(
                     batch, loss_function=loss_function)
                 # keep track of metrics for reporting
                 total_loss += batch_loss
-                total_ntokens += batch.ntokens # gold target tokens!!
+                total_ntokens += ntokens # gold target tokens
                 total_nseqs += batch.nseqs
 
             # run as during inference to produce translations

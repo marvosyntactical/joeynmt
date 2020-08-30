@@ -234,6 +234,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 v_src = list(valid_src)
 
                 print(i)
+                assert False, (len(v_src), type(valid_src), dir(valid_src))
                 print(f"v_src[i]: {v_src[i]}")
 
                 on_the_fly_kb, on_the_fly_kbtrv = create_KB_on_the_fly(
@@ -267,13 +268,12 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
 
             # make sure attention plots have the right shape
             if not calcKbLen == attention_scores.shape[0]:
-                if upper-lower == 0:
-                    print(f"Couldnt plot example {i} because knowledgebase was created on the fly")
-                    print(assertion_str)
-                    # FIXME FIXME FIXME FIXME im doing something wrong with the vocab lookup in the code above
-                    continue
-                else:
-                    assert False, f"actual shape mismatch: {calcKbLen} vs {attention_scores.shape[0]}"
+                print(f"Couldnt plot example {i} because knowledgebase was created on the fly")
+                print(f"actual shape mismatch: retrieved: {calcKbLen} vs att matrix: {attention_scores.shape[0]}")
+                print(assertion_str)
+                # FIXME FIXME FIXME FIXME im doing something wrong with the vocab lookup in the code above
+
+                continue
                 
 
 
