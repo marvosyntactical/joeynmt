@@ -4,6 +4,8 @@ This module holds various MT evaluation metrics.
 """
 
 import sacrebleu
+from joeynmt.data import pkt_tokenize
+from typing import List
 
 
 def chrf(hypotheses, references):
@@ -65,3 +67,86 @@ def sequence_accuracy(hypotheses, references):
     correct_sequences = sum([1 for (hyp, ref) in zip(hypotheses, references)
                              if hyp == ref])
     return (correct_sequences / len(hypotheses))*100 if hypotheses else 0.0
+
+def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals: bool = False, tok_fun=pkt_tokenize):
+    """
+    :param hyps: list of string sentences to be tokenized by tok_fun
+    :param refs: list of string sentences to be tokenized by tok_fun
+    :param vocab: vocab to turn tokenized strings to indices; provides vocab.stoi; vocab.is_unk
+    :param c_fun: canonization function to turn a raw sequence List[str] canonical
+    :param report_on_canonicals: wether to calculate on canonical entities (~cheating) or surface occurrences
+      - True: cheat by comparing in @time == @time; vocab must be model.trg_vocab !
+      - False: compare in 7 pm == 8 pm;  vocab must be model.trv_vocab !
+
+    :return:
+     - f1_avg: float f1 score == 2* (prec*rec) / (prec + rec) ('harmonic mean'); averaged over all examples
+    """
+
+    # requires internal knowledge of the entire universe
+    # specifically of names of kb_fields, kbtrv_fields
+
+    # FIXME create_KB_on_the_fly and pkt_tokenize 
+    # are referred to separately in 
+    # * helpers.py
+    # * metrics.py
+    # fix this by 
+    #  adding them to cfg
+    # or 
+    #  giving it as attribute to the model 
+
+
+    # define helper functions
+    ## eval metrics
+    def precision(predictions: List[int], gold_labels: List[int]):
+        # TP/(TP+FP) => iterate over Positives (predicted)
+        tp, fp = zip(*[(1,0) if pred in gold_labels else (0,1) for pred in predictions])
+        return sum(tp)/len(predictions)
+
+    def recall(predictions: List[int], gold_labels: List[int]):
+        # TP/(TP+FN) => iterate over ground truths (gold labels)
+        tp, fn  = zip(*[(1,0) if pred in gold_labels else (0,1) for pred in predictions])
+        return sum(tp)/len(gold_labels)
+
+    harm_mean = lambda p, r: 2 * (p*r)/(p+r)
+
+    # compare ent f1 in trv => lookup vocab indices
+
+    f1s = [] # accumulate scores
+    for i, (hyp,ref) in enumerate(zip(hyps, refs)):
+
+        hyp_ents_ref_ents = [] # will hold entity vocabulary indices in the order hyp,ref
+
+        for seq in (hyp,ref):
+            seq_tokzd = tok_fun(seq)
+            canons, indices = c_fun(seq_tokzd) # turn to canonical tokens and return indices that raw tokens were mapped to
+
+            entities = [\
+                " ".join([seq_tokzd[j] for j, (idx, raw) in enumerate(zip(indices,seq_tokzd)) if idx==i])
+                     for i in range(len((canons)))
+                         ]
+
+            # Filter out tokens that werent changed (noncanonical)
+            canonical_entities, surface_entities = zip(*[(c,t) for c,t in zip(canons,entities) if c!=t])
+            
+            if report_on_canonicals: 
+                entities = canonical_entities
+            else:
+                entities = surface_entities
+
+            # Filter out unk IDs
+            entities = [tok  for tok in entities if not vocab.is_unk(tok)]
+            # turn to vocab indices (int)
+            seq_enty_voc_indices = [vocab.stoi[entity] for entity in entities]
+
+            hyp_ents_ref_ents.append(seq_enty_voc_indices)
+
+        p, t = hyp_ents_ref_ents
+        # calc f1 score for this pair
+        f1_score = harm_mean(precision(p,t), recall(p,t))
+            
+    assert len(hyps) == len(refs) == len(f1s), (len(hyps), len(refs), len(f1s))
+    f1_avg = sum(f1s)/len(f1s)
+    return f1_avg
+
+    
+

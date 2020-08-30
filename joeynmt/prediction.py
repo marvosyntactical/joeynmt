@@ -13,7 +13,7 @@ from torchtext.data import Dataset, Field
 
 from joeynmt.helpers import bpe_postprocess, load_config, \
     get_latest_checkpoint, load_checkpoint, store_attention_plots
-from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy
+from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy, ent_f1
 from joeynmt.model import build_model, Model
 from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.data import load_data, make_data_iter, make_data_iter_kb, MonoDataset
@@ -30,9 +30,9 @@ def validate_on_data(model: Model, data: Dataset,
                      beam_size: int = 0, beam_alpha: int = -1,
                      batch_type: str = "sentence",
                      kb_task = None,
-                     valid_kb: Tuple= None,
-                     valid_kb_lkp: list =[], valid_kb_lens:list=[],
-                     valid_kb_truvals: Dataset=None,
+                     valid_kb: Dataset = None,
+                     valid_kb_lkp: list = [], valid_kb_lens:list=[],
+                     valid_kb_truvals: Dataset = None,
                      ) \
         -> (float, float, float, List[str], List[List[str]], List[str],
             List[str], List[List[str]], List[np.array]):
@@ -71,6 +71,7 @@ def validate_on_data(model: Model, data: Dataset,
         - valid_hypotheses: validation_hypotheses,
         - decoded_valid: raw validation hypotheses (before post-processing),
         - valid_attention_scores: attention scores for validation hypotheses
+        - valid_ent_f1: TODO FIXME
     """
 
     print(f"\n{'-'*10} ENTER VALIDATION {'-'*10}\n")
@@ -141,7 +142,7 @@ def validate_on_data(model: Model, data: Dataset,
             # total validation loss
             valid_loss = total_loss
             # exponent of token-level negative log prob
-            valid_ppl = torch.exp(total_loss / total_ntokens)
+            valid_ppl = torch.exp(valid_loss/ total_ntokens)
         else:
             valid_loss = -1
             valid_ppl = -1
@@ -182,13 +183,22 @@ def validate_on_data(model: Model, data: Dataset,
             elif eval_metric.lower() == 'sequence_accuracy':
                 current_valid_score = sequence_accuracy(
                     valid_hypotheses, valid_references)
+
+            if kb_task:
+                # FIXME return/ report this in logging
+                valid_ent_f1 = ent_f1(valid_hypotheses, valid_references,
+                    vocab=model.trv_vocab,
+                    c_fun=model.canonize,
+                    report_on_canonicals=False
+                    )
         else:
             current_valid_score = -1
 
     print(f"\n{'-'*10} EXIT VALIDATION {'-'*10}\n")
     return current_valid_score, valid_loss, valid_ppl, valid_sources, \
         valid_sources_raw, valid_references, valid_hypotheses, \
-        decoded_valid, valid_attention_scores, valid_kb_att_scores
+        decoded_valid, valid_attention_scores, valid_kb_att_scores, \
+        valid_ent_f1
 
 # pylint: disable-msg=logging-too-many-args
 def test(cfg_file,

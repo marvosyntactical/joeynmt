@@ -1067,9 +1067,8 @@ class Generator(Gen):
         # transformer: x
         # recurrent: att_vectors
 
-        # kb_probs should be: batch x unroll (or M if transf) x kb
-        # kb_values should be : batch x kb 
-        # => need to add dimension to kb_values
+        # kb_probs : batch x unroll x kb
+        # kb_values : batch x kb 
 
         outputs = self.output_layer(x) # Batch x Time x Voc
 

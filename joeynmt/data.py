@@ -7,7 +7,7 @@ import random
 import io
 import os
 import os.path
-from typing import Optional, List
+from typing import Optional, List, Tuple
 from copy import deepcopy
 from pprint import pprint
 
@@ -20,6 +20,7 @@ from joeynmt.vocabulary import build_vocab, Vocabulary
 
 # FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
 from data.scripts_kvr.canonize import load_entity_dict, preprocess_entity_dict, canonize_sequence
+# joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
 
 
 
@@ -89,6 +90,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     # load data from files
     src_lang = data_cfg["src"]
     trg_lang = data_cfg["trg"]
+
+
     train_path = data_cfg["train"]
     dev_path = data_cfg["dev"]
     test_path = data_cfg.get("test", None)
@@ -479,20 +482,50 @@ class KB_minibatch(list):
         self.kb = None
         self.kbtrv = None
 
-class Pseudo_KB_Example:
-    """
-    #FIXME replace this by kb_data.Example.fromList ...
-    acts like its a torchtext example to get treated like one in TorchBatchWithKB loops
-    used for creation of spontaneous KB without having to create an entire torchtext Dataset
-    """
-    def __init__(self, fields: List[str], values:List[List[str]]):
-        assert len(fields) == len(values), (fields, values)
-        for field, value in zip(fields, values):
-            try:
-                setattr(self, field,value)
-            except TypeError:
-                assert False, (f"field={field} needs to be a string")
 
+def create_KB_on_the_fly(src_seq_str, kb_fields, kbtrv_fields, c_fun):
+    # called in data.batch_with_kb and again in helpers.store_attention_plots
+
+    src = src_seq_str
+    relations, indices = c_fun(src) # canonized source, try to make KB out of this 
+    rels_vals = dict()
+    prev_target = None
+
+    for i, raw in enumerate(src):
+        canon_idx = indices[i]
+        relation = relations[canon_idx]
+        if relation != raw:
+            if relation not in rels_vals.keys():
+                rels_vals[relation] = [raw]
+            else: # entry already exists 
+                if canon_idx == prev_target: # multi word expression, e.g. 'the' '11th' => '@date'
+                    rels_vals[relation] += [raw]
+                else: # multiple occurrences of e.g. @date FIXME how to handle this?? XXX
+                    pass
+        prev_target = canon_idx
+    
+    # FIXME dangerous heuristic requiring internal knowledge of everything in the universe
+
+    EVENT = "@event"
+
+    # try to get the raw token in the source that was replaced by '@event' as subject for the key
+    subject = " ".join(rels_vals.get(EVENT, []))
+
+    kbfs = [(name, field) for name, field in kb_fields.items()]
+    on_the_fly_kb = [
+        data.Example.fromlist(
+        [[subject,PAD_TOKEN,relation], [relation]], # FIXME hardcoded KB structure
+        fields=kbfs
+    ) for relation, _ in rels_vals.items()]
+
+    kbtrvfs = [(name, field) for name, field in kbtrv_fields.items()]
+    on_the_fly_kbtrv = [
+        data.Example.fromlist(
+        [[" ".join(val)]], # FIXME hardcoded KB structure
+        fields=kbtrvfs
+    ) for _, val in rels_vals.items()]
+    
+    return on_the_fly_kb, on_the_fly_kbtrv
 
 
 def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None):
@@ -518,6 +551,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None):
 
             current += kb_len
             
+        print(ex.trg, kb_lens,corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
 
         minibatch.kb = kb_data[current:current+kb_len]
@@ -526,50 +560,11 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None):
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
             # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME 
-            if c is not None:
-                src = ex.src
-                relations, indices = c(src) # canonized source, try to make KB out of this 
-                rels_vals = dict()
-                prev_relation = None
+            if c is not None: # TODO add toggle for doing this in cfg
 
-                for i, raw in enumerate(src):
-                    canon_idx = indices[i]
-                    relation = relations[canon_idx]
-                    if relation != raw:
-                        if relation not in rels_vals.keys():
-                            rels_vals[relation] = [raw]
-                        else: # entry already exists 
-                            if relation == prev_relation: # multi word expression, e.g. 'the' '11th' => '@date'
-                                rels_vals[relation] += [raw]
-                            else: # multiple occurrences of e.g. @date FIXME how to handle this?? XXX
-                                pass
-
-                    prev_relation = relation
-                
-                # FIXME dangerous heuristic requiring internal knowledge of everything in the universe
-
-                # try to get the raw token in the source that was replaced by '@event' as subject for the key
-                subject = " ".join(rels_vals.get("@event",[]))
-
-                # get field names of kb data (2) and kb truval data (1)
-                kbsrc_, kbtrg_ = kb_data.fields.keys()
-                kbtrv_ = list(kb_truvals.fields.keys())[0]
-                assert kbsrc_ == "kbsrc", kbsrc_
-
-                on_the_fly_kb = [\
-                    # pseudo kb ex sets these attributes to the lists in the second arg, to be accessed in TorchBatchWithKB... FIXME lol
-                    # FIXME replace pseudo thing by kb_data.Example.fromList
-                    Pseudo_KB_Example([kbsrc_, kbtrg_],\
-                         [[subject,PAD_TOKEN,relation], [relation]]) \
-                    for relation, _ in rels_vals.items()]
-
-                on_the_fly_kbtrv = [\
-                    Pseudo_KB_Example([kbtrv_],\
-                        [[" ".join(val)]])\
-                    for _, val in rels_vals.items()]
-                
-                minibatch.kb = on_the_fly_kb
-                minibatch.kbtrv = on_the_fly_kbtrv 
+                otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src, kb_data.fields, kb_truvals.fields, c)
+                minibatch.kb = otf_kb
+                minibatch.kbtrv = otf_kbtrv 
 
         assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),len(minibatch.kbtrv)) 
 
@@ -701,7 +696,8 @@ class MonoDataset(Dataset):
         :param field: Containing the field that will be used for data. Can also be tuple of (name, field)
         :param kwargs: Passed to the constructor of data.Dataset.
         """
-        fields = [('src', field)] if not type(field) == type(()) else [field]
+        fields = [('src', field)] if not type(field) == type(())\
+             else [field] # field is already a tuple (name, attr)
 
         if hasattr(path, "readline"):  # special usage: stdin
             src_file = path

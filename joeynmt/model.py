@@ -258,7 +258,8 @@ class Model(nn.Module):
         :param max_output_length: maximum length of hypotheses
         :param beam_size: size of the beam for beam search, if 0 use greedy
         :param beam_alpha: alpha value for beam search
-        :return: stacked_output: hypotheses for batch,
+        :return: 
+            stacked_output: hypotheses for batch,
             stacked_attention_scores: attention scores for batch
         """
 
@@ -289,6 +290,8 @@ class Model(nn.Module):
                     max_output_length=max_output_length,
                     knowledgebase = knowledgebase)
             # batch, time, max_src_length
+            # FIXME kb shape during val
+            # assert stacked_kb_att_scores.shape[-1] != 5, self.trv_vocab.arrays_to_sentences(knowledgebase[1])
         else:  # beam size
             stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
                     beam_search(
