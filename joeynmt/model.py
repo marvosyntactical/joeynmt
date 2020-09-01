@@ -331,17 +331,21 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
         
-    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdim=False)-> (Tensor, Tensor):
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1)-> (Tensor, Tensor):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
         kb_true_vals = batch.kbtrv.T.contiguous()
 
         # true values should not contain unknown words (trv vocab should be initialized from concatenation of train/dev/test)
-        for seq in range(kb_true_vals.shape[0]):
-            for word in range(kb_true_vals.shape[1]):
-                assert not self.trv_vocab.is_unk(kb_true_vals[seq,word]), \
-                    self.trv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())
+        """
+        with self.Timer("making sure all knowledgebase values are in the vocab"):
+            for seq in range(kb_true_vals.shape[0]):
+                for word in range(kb_true_vals.shape[1]):
+                    # FIXME for some reason @DUM is still unk after TorchBatchWithKB field process ??
+                    assert not self.trv_vocab.is_unk(kb_true_vals[seq,word]), \
+                        (seq,word,kb_true_vals.shape,self.trv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy()))
+        """
 
 
         kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src #replace eos with pad
@@ -366,24 +370,32 @@ class Model(nn.Module):
                 print(f"debug: kb_true_vals :{kb_true_vals.shape}")
                 print(f"debug: kb_true_vals content:{kb_true_vals}")
 
-        with self.Timer(f"kb att dim == {kbattdim}"):
-            kbattdim = 2 # remove me FIXME
-            if kbattdim == 2:
-                # reshape kb_keys and kb values in kb dimension from KB to SUBJ x REL
+        with self.Timer(f"knowledgebase attention dimensions == {kbattdims}"):
+            kbattdims = 2 # remove me FIXME
+            if kbattdims > 1:
+                # reshape kb_keys in kb dimension from KB to SUBJ x REL or KB to kb1 x kb2 x ... x kbn
                 # |keys| == KB x key_repr
 
                 # go along dim 1 (key_repr) and find first column where all entries are <PAD> (before are subjects, after are relation)
                 pad_val = self.src_pad_index
                 kb_size, key_repr_size = kb_keys.shape
 
-                subjs, rels = [], []
-
+                kb_dim_entries = [[] for _ in range(kbattdims)]
+                dims = [] # dimensions of each kb entry
                 for entry in range(kb_size):
+                    prev_pad_idx = 0
+                    dim = 0
                     for i in range(key_repr_size):
                         if kb_keys[entry, i] == pad_val: # first part of key repr that is a <PAD> token
-                            subjs += kb_keys[entry,:i].unsqueeze(0) # before first <PAD> is subj repr
-                            rels += kb_keys[entry,i+1:].unsqueeze(0) #  after it is relation repr
-                            break # go to next entry
+                            # TODO FIXME avoid adding pad values at end 
+                            # theres more than PAD values coming
+                            # if not (kb_keys[entry,prev_pad_idx+1:] == pad_val).all():
+                            kb_dim_entries[dim] += kb_keys[entry,prev_pad_idx+1:i].unsqueeze(0) # before first <PAD> is subj repr
+                            prev_pad_idx = i
+                            dim += 1  
+                # TODO FIXME implement n dimensional KB reformatting
+
+                assert set(dims) == {kbattdims}, dims # dimensions wrong or different num of dimensions
 
                 assert len(subjs) == kb_size, (len(subjs), kb_size, kb_keys.shape)
                 
@@ -417,13 +429,9 @@ class Model(nn.Module):
 
                 kb_keys = (kb_subjs, kb_rels)
 
-                # TODO original kb_keys dims should be recoverable with tile:
-                # kb_probs = kb_subj_probs
-                # outputs[B, U, kb_values] += kb_probs
-
             else:
                 # normal (1D) mode 
-                assert kbattdim == 1, kbattdim
+
                 # NOTE: values dont need to be embedded! they are only used for indexing
                 kb_keys = self.src_embed(kb_keys)
                 kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)

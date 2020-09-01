@@ -50,7 +50,7 @@ class Decoder(nn.Module):
     @property
     def output_size(self):
         """
-        Return the output size (size of the target vocabulary)
+        Return the output size (NOT vocab size)
 
         :return:
         """
@@ -476,7 +476,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  input_feeding: bool = True,
                  freeze: bool = False,
                  k_hops: int = 1,
-                 kb_max: int = 256,
+                 kb_max: Tuple[int]= (256,),
                  **kwargs) -> None:
         """
         Create a recurrent decoder with attention and key value attention over a knowledgebase.
@@ -571,17 +571,36 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if freeze:
             freeze_params(self)
 
-        #kvr attention after bahdanau attention:
-        self.kb_max = kb_max # maximum size of knowledgebases, adjust if required # TODO make dataset-dependent
+        # kvr attention after bahdanau attention:
+        # multihops:
         self.k_hops = k_hops # how many kvr attention modules?
 
+        if not isinstance(kb_max, Tuple): kb_max = (kb_max,)
+        self.kb_max = kb_max # tuple of maximum size for each knowledgebase dimension
+        # for each dimension, 
+        # e.g. subj and relation or city x weekday x weather_attribute
+        # stores maximum allowable size for this dataset
+        # e.g. (7,3) for 7 weekdays and 3 weather attributes
+
+        allowableDims = [1,2]
+        if kb_dims not in allowableDims:
+            raise NotImplementedError(f"Multidimensional KB attentions only implemented for n={allowableDims}")
+        self.kb_dims = len(self.kb_max)
+        # as in joeynmt.search.beam_search, tile KB dimension along each dimension:
+        # offset = step value along flat kb_total dimension for each dimension
+        #           (product of all previous dimensions)
+        self.kbattdim_step_offset = lambda dim: 1 if dim == 0 else self.kb_max[dim-1] * self.kbattdim_step_offset(dim-1)
+        # product of all kb_max values for all dimensions
+        self.kb_total = self.kbattdim_step_offset(self.kb_dims+1)
+
+        # list of [kvr for dim 0, kvr for dim 1] * k_hops
         self.kvr_attention = nn.ModuleList([
                                 KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
                                             key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
                                             query_size=hidden_size, # queried with decoder hidden
-                                            kb_max=self.kb_max
+                                            kb_max=self.kb_max[i%self.k_hops]
                                             )
-                                for _ in range(self.k_hops)])
+                                for i in range(self.k_hops*self.kb_dims)])
         
 
     def _check_shapes_input_forward_step(self,
@@ -711,11 +730,33 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
         
-        # KVR multihop attention
+        # KVR attention
+        batch_size = att_probs.size(0)
+
+        # multiple attention hops
         u_t_k = None
-        for k in range(self.k_hops):
-            u_t_k = self.kvr_attention[k](query=query, prev_utilities=u_t_k)
-            # u_t_k = batch x 1 x self.kb_max
+        for k in range(self.k_hops): # self.k_hops == 1 <=> Eric et al version
+
+            u_t_k = torch.zeros(batch_size, 1, self.kb_total)
+
+            # for each hop, do an attention pass for each key representation dimension
+            # e.g. KB total = subject x relation
+            # or   KB total = city x weekday x weather attribute
+            for dim in range(self.kb_dims):
+                # u_t_k_n = b x 1 x kb_max[dim]
+                u_t_k_n = self.kvr_attention[k+dim](query=query, prev_utilities=u_t_k)
+
+                step = self.kbattdim_step_offset(dim) 
+                repeat = int(self.kb_total/step)
+
+                # u_t_k_n = b x 1 x kb_total
+                u_t_k_n = u_t_k_n[:,:,::step]
+                u_t_k_n = u_t_k_n.repeat(1,1,repeat)
+
+                u_t_k += u_t_k_n
+                # TODO unit test that this leads to same entry arrangement as in model.preprocess
+            
+            # u_t_k = batch x 1 x product(kb_max) = b x 1 x kb_total
 
         # get size of current KB, this avoids having to pass kb_keys or somesuch to this function (fwd_step)
         curr_kb_size = self.kvr_attention[0].curr_kb_size
@@ -820,14 +861,17 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             self.attention.compute_proj_keys(keys=encoder_output)
         
         if kb_keys != None:
-            # kb_keys is: batch x kb x trg_emb
-            # only compute proj keys once for all k kvr_attention modules
-            self.kvr_attention[0].compute_proj_keys(keys=kb_keys) 
-            if len(self.kvr_attention) > 1:
-                for k_th_attn in self.kvr_attention:
-                    k_th_attn.proj_keys = self.kvr_attention[0].proj_keys
+            # kb_keys is: b x kb x emb OR tuple of (b x kb_max_i x emb,) * n
+            for dim in range(self.kb_dims):
+                # only compute proj keys once for all hops
+                self.kvr_attention[dim].compute_proj_keys(keys=kb_keys) 
 
-                    assert k_th_attn.proj_keys is not None
+            if len(self.kvr_attention) > self.kb_dims: # multiple hops
+                for successive_hop in range(1, self.k_hops):
+                    for dim in range(self.kb_dims):
+                        self.kvr_attention[successive_hop+dim].proj_keys = pjK = self.kvr_attention[dim].proj_keys
+
+                        assert pjK is not None
 
         att_vectors = [] 
         att_probs = []

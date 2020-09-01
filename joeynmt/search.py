@@ -238,7 +238,7 @@ def transformer_greedy(
         # kb_values : B x KB
         log_probs = generator(out, kb_values=knowledgebase[1], kb_probs=kb_scores)
 
-        # TODO FIXME understand the difference between log_probs[:,-1] vs log_probs.unsqueeze(1)
+        # TODO FIXME understand the difference between log_probs[:,-1] vs log_probs.squeeze(1)
         log_probs = log_probs[:,-1] # remove singleton time dimension => B x VOC 
         next_word = torch.argmax(log_probs, dim=-1) # B (select index of top value along VOC dim)
         next_word = next_word.unsqueeze(1) # B x time=1

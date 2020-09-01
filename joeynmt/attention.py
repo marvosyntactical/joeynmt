@@ -151,10 +151,10 @@ class KeyValRetAtt(AttentionMechanism):
 
         # Weights
         self.key_layer = nn.Linear(key_size, hidden_size, bias=False) # key part of W_1 in eric et al
-        self.query_layer = nn.Linear(query_size, hidden_size, bias=False) # query part of W_1 in eric et al (here: k times)
+        self.query_layer = nn.Linear(query_size, hidden_size, bias=False) # query part of W_1 in eric et al
         self.energy_layer = nn.Linear(hidden_size, 1, bias=False) # utilities for all the kb entries
 
-        self.W2 = nn.Linear(hidden_size, hidden_size, bias=False) # W_2 in eric et al (repeated k hops)
+        self.W2 = nn.Linear(hidden_size, hidden_size, bias=False) # W_2 in eric et al
 
         self.proj_keys = None   # to store projected keys
         self.proj_query = None  # projected query
