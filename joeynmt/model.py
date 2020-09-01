@@ -12,7 +12,7 @@ from collections import defaultdict
 import numpy as np
 
 import torch.nn as nn
-from torch import Tensor, cat, FloatTensor
+from torch import Tensor, cat, FloatTensor, arange
 from torch import argmax
 import torch.nn.functional as F
 
@@ -75,6 +75,7 @@ class Model(nn.Module):
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
         #kb stuff:
         self.kb_embed = self.trg_embed 
+        self.src_pad_index = self.src_vocab.stoi[PAD_TOKEN]
         if trv_vocab != None:
             self.trv_vocab = trv_vocab #TODO should probably be deleted altogether
 
@@ -330,15 +331,20 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
         
-    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True)-> (Tensor, Tensor):
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdim=False)-> (Tensor, Tensor):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
         kb_true_vals = batch.kbtrv.T.contiguous()
 
-        # TODO to save a little time, figure out how to avoid putting eos here
-        # during init
-        kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src #replace eos with pad # TODO why was this after embed and working before?
+        # true values should not contain unknown words (trv vocab should be initialized from concatenation of train/dev/test)
+        for seq in range(kb_true_vals.shape[0]):
+            for word in range(kb_true_vals.shape[1]):
+                assert not self.trv_vocab.is_unk(kb_true_vals[seq,word]), \
+                    self.trv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())
+
+
+        kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src #replace eos with pad
 
         with self.Timer("converting arrays to sentences for current batch"):
 
@@ -360,48 +366,86 @@ class Model(nn.Module):
                 print(f"debug: kb_true_vals :{kb_true_vals.shape}")
                 print(f"debug: kb_true_vals content:{kb_true_vals}")
 
-        kb_keys = self.src_embed(kb_keys)
-        # NOTE: values dont need to be embedded!
+        with self.Timer(f"kb att dim == {kbattdim}"):
+            kbattdim = 2 # remove me FIXME
+            if kbattdim == 2:
+                # reshape kb_keys and kb values in kb dimension from KB to SUBJ x REL
+                # |keys| == KB x key_repr
 
-        kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
+                # go along dim 1 (key_repr) and find first column where all entries are <PAD> (before are subjects, after are relation)
+                pad_val = self.src_pad_index
+                kb_size, key_repr_size = kb_keys.shape
+
+                subjs, rels = [], []
+
+                for entry in range(kb_size):
+                    for i in range(key_repr_size):
+                        if kb_keys[entry, i] == pad_val: # first part of key repr that is a <PAD> token
+                            subjs += kb_keys[entry,:i].unsqueeze(0) # before first <PAD> is subj repr
+                            rels += kb_keys[entry,i+1:].unsqueeze(0) #  after it is relation repr
+                            break # go to next entry
+
+                assert len(subjs) == kb_size, (len(subjs), kb_size, kb_keys.shape)
+                
+                max_subj = max(subjs, key=lambda subj_repr_tensor: subj_repr_tensor.shape[0])
+                max_rel = max(rels, key=lambda rel_repr_tensor: rel_repr_tensor.shape[0])
+
+                kb_subjs = cat([F.pad(subj,(pad_val, max_subj-subj.shape[0])) for subj in subjs],dim=0)
+                kb_rels = cat([F.pad(rels,(pad_val, max_rel-rel.shape[0])) for rel in rels],dim=0)
+
+                # all entries except first (dummy) have same length (num of attributes);
+                # = > find out length of first entry 
+                if len(kb_subjs) > 1: # KB has more than dummy token
+                    first_entry = kb_subjs[1]
+                    entry_length = 2 
+                    while True:
+                        if not (kb_subjs[i] == first_entry).all():
+                            break
+                        entry_length += 1
+
+                    assert len(kb_subjs)-1 % entry_length == 0, (len(kb_subjs)-1, entry_length)
+
+                    kb_subjs = kb_subjs[::entry_length] # stride along KB dimension, taking only every entry_length'th elem
+                    kb_rels = kb_rels[::entry_length]
+
+                    assert False, f"kb_subjs: {self.src_vocab.arrays_to_sentences(kb_subjs.cpu().numpy())}"
+
+                # sum embeddings for each
+                kb_subjs = self.src_embed(kb_subjs).sum(dim=1) # num_entries
+                kb_rels = self.src_embed(kb_rels).sum(dim=1) # num_rels
+                # KB = num_entries * num_rels
+
+                kb_keys = (kb_subjs, kb_rels)
+
+                # TODO original kb_keys dims should be recoverable with tile:
+                # kb_probs = kb_subj_probs
+                # outputs[B, U, kb_values] += kb_probs
+
+            else:
+                # normal (1D) mode 
+                assert kbattdim == 1, kbattdim
+                # NOTE: values dont need to be embedded! they are only used for indexing
+                kb_keys = self.src_embed(kb_keys)
+                kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
 
 
+        # ADD BATCH DIMENSION
         # correct dimensions and make contiguous in memory
         # (put in specifically allocated contiguous memory slot)
         kb_keys.unsqueeze_(0)
-        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous() # batch x 1 x kb
+        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous() # batch x kb x emb
         kb_values.unsqueeze_(0)
         kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
         kb_true_vals.unsqueeze_(0)
         kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
 
-        if detailed_debug:
-            print(f"proc_batch: kbkeys.shape: {kb_keys.shape}")
-            print(f"proc_batch: kbvalues.shape: {kb_values.shape}") # FIXME no embedding dim??
-
-        # FIXME FIXME TODO ????
-        # kb_values are most of the time here like so:
-        # batch x kb_size # 3 x 33
-        # but sometimes have one extra dim???:
-        # 2 x 1 x 1
-        # where does this sometimes come from?
         assert len(kb_values.shape) == 2, kb_values.shape
         
-        # NOTE shape debug; TODO add to decoder check shapes fwd
-        """
-        print(f"debug: dir(batch):{[s for s in dir(batch) if s.startswith(('kb', 'src', 'trg'))]}")
-        print(f"debug: batch.src.shape:{batch.src.shape}")
-        print(f"debug: batch.trg.shape:{batch.trg.shape}")
-        #assert batch.src.shape[0] == 3,batch.src.shape[0] # Latest TODO find where this happens???
-        
-        print(f"debug: model.trg_embed attributes={dir(self.trg_embed)}")
-        """
-
         assert_msg = (kb_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
 
         #batch dim equal
         assert kb_keys.shape[0] == kb_values.shape[0] == kb_true_vals.shape[0], assert_msg
-        #kb dim equal
+        #kb dim equal # TODO update for twoheaded version
         assert kb_keys.shape[1] == kb_values.shape[1] == kb_true_vals.shape[1], assert_msg
 
         return kb_keys, kb_values, kb_true_vals

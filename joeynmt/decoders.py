@@ -1015,17 +1015,18 @@ class TransformerDecoder(Decoder):
         trg_mask = trg_mask & subsequent_mask(
             trg_embed.size(1)).type_as(trg_mask)
 
-        kb_keys_padded = self.pad_kb_keys(kb_keys)
         for i, layer in enumerate(self.layers):
             x = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
 
-        # Multiheaded KVR Attention fwd pass
-        query = self.kb_layer_norm(x)
-        u = self.kb_trg_att(kb_keys_padded, query)
-        kb_probs = u[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
-        
         x = self.layer_norm(x)
-
+        # Multiheaded KVR Attention fwd pass
+        if kb_keys is not None:
+            kb_keys_padded = self.pad_kb_keys(kb_keys)
+            u = self.kb_trg_att(kb_keys_padded, x)
+            kb_probs = u[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
+        else:
+            kb_probs = None
+        
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
         return None, None, x, kb_probs
@@ -1083,7 +1084,7 @@ class Generator(Gen):
             U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
 
             # add v_t = kb_probs to outputs (logits vector in Eric et al.)
-            outputs[B, U, kb_values] += kb_probs
+            outputs[B, U, kb_values] += kb_probs # bias outputs towards kb_probs
 
         # compute log probs
         log_probs = F.log_softmax(outputs, dim=-1) 

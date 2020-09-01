@@ -55,9 +55,12 @@ training:
     max_output_length: 128
     print_valid_sents: [0,1,2,3,145,148,151,154,157,160,164,297,298,299,307,308,309,310,311,312,313,314,315,410,420,430,440,450,460,500,501,502,550,551,553]    # print these validation sentences during each validation run, default: [0, 1, 2]
     keep_last_ckpts: 5
+    
+    # scheduled sampling defaults (=> teacher forcing):
+    #type = linear, k = 1, c = 0. (e. doesnt matter in this case)
     sched_sampl_type: "linear"      # scheduled sampling type, must be one of linear(default) or exponential or invsigmoid
-    sched_sampl_k: .99               # k value for sched sampl, cf. https://arxiv.org/abs/1506.03099 Section 2.4
-    sched_sampl_c_e: [0.1, 0.2]      # c (negative slope) and e (minimal truth) values for sched sampl
+    sched_sampl_k: 1.               # k value for sched sampl, cf. https://arxiv.org/abs/1506.03099 Section 2.4
+    sched_sampl_c_e: [0., 0.2]      # c (negative slope) and e (minimal truth) values for sched sampl
 
 model:
     kb: True                        # kb decoder to be used or not?

@@ -546,10 +546,10 @@ def beam_search(
                         kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
 
                         stacked_attention_scores[b].append(
-                            attentions[i,j].numpy()
+                            attentions[i,j].cpu().numpy()
                         )
                         stacked_kb_att_scores[b].append(
-                            kb_attentions[i,j].numpy()
+                            kb_attentions[i,j].cpu().numpy()
                         )
 
                 # if the batch reached the end, save the n_best hypotheses
@@ -558,7 +558,7 @@ def beam_search(
                     best_hyps_descending = sorted(
                         hypotheses[b], key=lambda x: x[0], reverse=True)
 
-                    dbg = np.array([hyp[1].numpy() for hyp in best_hyps_descending])
+                    dbg = np.array([hyp[1].cpu().numpy() for hyp in best_hyps_descending])
                     print(dbg.shape, dbg[0])
 
                     if knowledgebase is not None:
@@ -566,7 +566,7 @@ def beam_search(
 
                         scores, hyps = zip(*hypotheses[b])
                         sort_key = np.array(scores)
-                        hyps = np.array([hyp.numpy() for hyp in hyps])
+                        hyps = np.array([hyp.cpu().numpy() for hyp in hyps])
                         
                         # indices that would sort hyp[b] in descending order of beam score
                         best_hyps_idx = np.argsort(sort_key)[::-1].copy() 
