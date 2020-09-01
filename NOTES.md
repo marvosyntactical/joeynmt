@@ -5,8 +5,12 @@
 ##### Optimization
 * (later)
 
-
 # _```Current Issues```_
+
+### 31.08.20 stuff to add to config
+
+* copy from source? bool
+* knowledgebase encoding: "positional", "2d"
 
 
 ### 30.08.20 entity F1
@@ -22,25 +26,12 @@
  - attention matrix: 128 x 5 # find out where this happens (put asserts in model run batch)
  - remade on the fly kb: 128 x 2
  - on the fly kb: 128 x 2
+*TODO*
 
 
 ### 26.08.20 start writing
 
 *TODO* lol
-
-### 29.08.20 perplexity 
-
-perplexity should be going down instead of up
-it should be upper bounded by output vocab
-
-=> this happens because valid loss is reported on uncanonized data (hard)
-
-=> solution:
-* canonize dev.car into dev.carno
-* make a new TorchBatchWithKB attribute validtrg for the valid\_iter KB\_Iterator 
-* use this in model.get\_loss\_for\_batch if torch no grad and its available
-
-* find out why im not seeing the canonized data???
 
 
 
@@ -87,11 +78,15 @@ from batch.trg or model prediction
 *TODO* redo?? is postprocessing still done?
 (hyps still look postprocessed??)
 
+* Canonization level: can meeting\_time level be achieved? need linked target data: how to map any 5 pm to meeting\_time or 20 Main Street to Pizza\_My\_Heart\_Address
+
 
 ### 26.08.20 scalability *TODO*
 
 * calculate/profile attention runtime
 * mix domain KBs together (refactor preproc scripts first...)
+
+
 
 ---
 
@@ -104,11 +99,21 @@ just jam all info into the key representation, and determine what
 is subject and what is relation via 
 PositionalEncoding (make keys fixed size and add some exp+trig trickery)
 
+* in preproc, create copies of kb with all infos in the keys
+* if config["kbattencoding"] == "positional", pipe kb keys thru transformer\_layers.positional\_encoding 
+* thats all?
+
 Another encoding idea:
 Make attention 2-headed, one head for subject (sum of all attribute embeddings);
 a second head for relation 
 (=> only 5 attributes for scheduling/traffic, ~10 attributes for weather)
 Select key as combination of highest attended
+
+* in preproc, create copies of kb with all attributes in the keys 
+* if config["kbattencoding"] == "twoheaded": 
+ - in decoder init, give twoheaded=True as arg and init attention module with 2 heads
+ - transform kb key tensor in model.preprocesskb, adding extra dim for last elems and striding along this dim until they repeat themselves
+
 
 ---
 
@@ -130,25 +135,6 @@ Metrics stuff :
 => Experiment running *TODO* results?? ('cheat.yaml')
 * in experiments section, discuss metrics: significance of bleu / ent F1 / other metrics?
 * report metrics on dev and test?
-
----
-
-### 17.08.20 preprocessing *TODO*
-
-Empty scheduling KBs:
-* no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
-* => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
-* (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
-* =>    "Make an entry for @event on @date at @time with my @party ."
-* =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
-* make these the knowledgebase, so they can be attended over
-✔️
-*TODO* TEST this
-
-Pipeline:
-* remove double "home" in traffic KBs ✔️
-* refactor data/scripts\_kvr/ into one script; go.sh ✔️
-* (batch convos with same kb together) 
 
 ---
 
@@ -174,6 +160,17 @@ beam search should work now ✔️
 * code runs, *TODO* do a full run with results on cluster
 
 
+### 31.08.20 recurrent multihop issues
+=> seems to work okay, but kb attentions dont get plotted anymore
+*TODO*
+=> is attention state actually saved from step to step as done by jason weston et al?
+
+---
+
+# Issues Archive
+
+
+## Old Issue
 ### 15.08.20 reccurent multihop
 
 implemented in multihop branch in attention.py and merged back into master ✔️
@@ -194,11 +191,31 @@ special case: k=1: 1hop is equiv to default (same results) ✔️
 
 * do a while loop and hop as many times as needed until suffctly confident?
 
-=> seems to work okay, but kb attentions dont get plotted anymore
-=> is attention state actually saved from step to step as done by jason weston et al?
 
----
 
+
+
+## Old Issue
+### 17.08.20 preprocessing 
+
+Empty scheduling KBs:
+* no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
+* => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
+* (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
+* =>    "Make an entry for @event on @date at @time with my @party ."
+* =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
+* make these the knowledgebase, so they can be attended over
+✔️
+*TODO* TEST this
+
+Pipeline:
+* remove double "home" in traffic KBs ✔️
+* refactor data/scripts\_kvr/ into one script; go.sh ✔️
+* (batch convos with same kb together) 
+
+
+
+## Old Issue
 ### 15.05.20 implement kb for transformer *WIP*
 
 1. merge generator branch back
@@ -230,8 +247,8 @@ MultiHeadedKBAttention:
 *TODO* Scheduler should be Noam
 
 
----
 
+## Old Issue
 ### 07.04.20 training on GPU
 
 * 63 epochs after 520 minutes => 8.2 minutes per epoch
@@ -241,10 +258,26 @@ MultiHeadedKBAttention:
 
 TODO for actual gpu training:
 * import and use tensorboard writer again
+*DONE*
 
----
 
-# Issues Archive
+
+## Old Issue
+### 29.08.20 perplexity 
+
+perplexity should be going down instead of up
+it should be upper bounded by output vocab
+
+=> this happens because valid loss is reported on uncanonized data (hard)
+
+=> solution:
+* canonize dev.car into dev.carno
+* make a new TorchBatchWithKB attribute validtrg for the valid\_iter KB\_Iterator 
+* use this in model.get\_loss\_for\_batch if torch no grad and its available
+
+*SOLVED*
+
+
 
 ## Old Issue
 ### 10.08.20 jump back in: TODOS

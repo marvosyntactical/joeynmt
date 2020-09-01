@@ -131,7 +131,7 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         attention = self.softmax(scores)
         attention = self.dropout(attention) # batch x num_heads x query_len x KB
 
-        u_k = torch.sum(attention, dim=1) # TODO FIXME ask artem if summing heads is the way to go
+        u_k = torch.sum(attention, dim=1) # TODO FIXME find better way than summing 
 
         # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
         # utilities at attention hop (=transf layer) number k

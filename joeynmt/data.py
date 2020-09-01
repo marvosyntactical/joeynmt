@@ -317,6 +317,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
         dev_data_canon, test_data_canon = [], []
+        canonize = None
     
 
     return train_data, dev_data, test_data,\
@@ -434,11 +435,11 @@ class TorchBatchWithKB(Batch):
                     truvals = [["@DUM"]]
                     truvals += [getattr(x, name) for x in data.kbtrv]
                     setattr(self, name, field.process(truvals, device=device))
+                    # assert False, (truvals, field.vocab.arrays_to_sentences(getattr(self, name)))
 
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
-                    kb = [] # used to be KB_minibatch
-                    kb.append(["@DUM"]) #dummy token (both for key and value)
+                    kb= [["@DUM"]] #dummy token (both for key and value)
 
                     kb += [getattr(x,name) for x in data.kb]
                     setattr(self, name, field.process(kb, device=device))

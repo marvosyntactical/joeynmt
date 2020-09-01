@@ -8,8 +8,6 @@ import logging
 from typing import List, Optional, Tuple
 import numpy as np
 
-from itertools import tee
-
 import torch
 from torchtext.data import Dataset, Field
 
@@ -112,7 +110,8 @@ def validate_on_data(model: Model, data: Dataset,
         for valid_batch in iter(valid_iter):
             # run as during training to get validation loss (e.g. xent)
 
-            batch = Batch(valid_batch, pad_index, use_cuda=use_cuda) if not kb_task else \
+            batch = Batch(valid_batch, pad_index, use_cuda=use_cuda) \
+                                if not kb_task else \
                 Batch_with_KB(valid_batch, pad_index, use_cuda=use_cuda)
 
             assert hasattr(batch, "kbsrc") == bool(kb_task)
@@ -127,9 +126,8 @@ def validate_on_data(model: Model, data: Dataset,
             if loss_function is not None and batch.trg is not None:
 
                 ntokens = batch.ntokens
-                assert hasattr(batch, "trgcanon")
                 if hasattr(batch, "trgcanon") and batch.trgcanon is not None:
-                    ntokens = batch.ntokenscanon
+                    ntokens = batch.ntokenscanon # normalize loss with num canonical tokens for perplexity
                 # do a loss calculation without grad updates just to report valid loss
                 # we can only do this when batch.trg exists, so not during actual translation/deployment
                 batch_loss = model.get_loss_for_batch(
