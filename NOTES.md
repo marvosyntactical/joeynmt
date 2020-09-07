@@ -156,8 +156,12 @@ beam search should work now ✔️
 *TODO* remove stacked attention reshaping for transformer
 
 
-#### recurrent without kb
+vanilla RNN
 * code runs, *TODO* do a full run with results on cluster
+
+vanilla TF
+
+
 
 
 ### 31.08.20 recurrent multihop issues
