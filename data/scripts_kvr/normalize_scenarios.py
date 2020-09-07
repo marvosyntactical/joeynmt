@@ -2,6 +2,10 @@ import json
 import os
 import sys
 
+DUMMY_SUBJ = "DUMMYSUBJ"
+DUMMY_REL = "DUMMYREL"
+DUMMY_VAL = "DUMMYVAL"
+
 
 def normalize_kb(d):
     """
@@ -31,7 +35,9 @@ def normalize_weather(d):
     normed_kb = [] #to add (subj, rel, val) triples
     assert d["task"]["intent"]=="weather"
     locations = d["kb"]["items"]
+    location_keys_length = set()
     for location in locations:
+        location_keys_length |= {len(location.keys())}
 
         subject = location["location"]
         today = location["today"]
@@ -58,11 +64,18 @@ def normalize_weather(d):
                 normed_kb.append((subject,weekday+" temperature low",temp_low))
                 normed_kb.append((subject,weekday+" temperature high",temp_high))
 
-    return normed_kb
+    assert len(location_keys_length) == 1, f" {location_keys_length}; all KB items (locations) should have same number of keys (weekdays)"
+    # add how many dummy entries using num of entries from first kb example
+    dummy_numby = len([elem for elem in normed_kb if elem[0]==locations[0]["location"]])
+
+    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, DUMMY_REL, DUMMY_VAL) for _ in range(dummy_numby)]
+    normed_kb_with_dummy_entries += normed_kb
+    
+    return normed_kb_with_dummy_entries
 
 def normalize_navigate(d):
     """
-    takes a kb with task intent "navigate" and items with
+    takes a kb with task intent "navigate" 
     and normalizes all items into triples
     of the form: 
 
@@ -73,8 +86,10 @@ def normalize_navigate(d):
     """
     normed_kb = [] #to add (subj, rel, val) triples
     assert d["task"]["intent"]=="navigate"
-    blimps = d["kb"]["items"]
+    blimps = d["kb"]["items"] # blimps as in map marker blips
+    blimp_keys_length = set()
     for blimp in blimps:
+        blimp_keys_length |= {len(blimp.keys())}
 
         poi_type = blimp["poi_type"]
         poi = blimp["poi"]
@@ -88,11 +103,19 @@ def normalize_navigate(d):
 
         for relation in blimp.keys():
             normed_kb.append((subject,relation,blimp[relation]))
-    return normed_kb
+
+    assert len(blimp_keys_length) == 1, f"{blimp_keys_length}; all KB items ) should have same number of keys (weekdays)"
+    # add how many dummy entries using num of entries from first kb example
+    dummy_numby = len([elem for elem in normed_kb if elem[0]==normed_kb[0][0]])
+
+    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, DUMMY_REL, DUMMY_VAL) for _ in range(dummy_numby)]
+    normed_kb_with_dummy_entries += normed_kb
+    
+    return normed_kb_with_dummy_entries
 
 def normalize_schedule(d):
     """
-    takes a kb with task intent "schedule" and items with
+    takes a kb with task intent "schedule" 
     and normalizes all items into triples
     of the form: 
 
@@ -104,15 +127,25 @@ def normalize_schedule(d):
     normed_kb = [] #to add (subj, rel, val) triples
     assert d["task"]["intent"]=="schedule"
     appointments = d["kb"]["items"]
+    appointment_keys_lengths = set()
     for appointment in appointments:
+        appointment_keys_lengths |= {len(appointment.keys())}
+
         event = appointment["event"]
         for relation in appointment.keys():
-            # Latest TODO:
-            # possible also check appointment[relation] != "-"
+            # also check appointment[relation] != "-"
             # to filter out unassigned rooms/agendas/..
-            if appointment[relation] != "-":
-                normed_kb.append((event,relation,appointment[relation]))
-    return normed_kb
+            # if appointment[relation] != "-":
+            normed_kb.append((event,relation,appointment[relation]))
+
+    assert len(appointment_keys_lengths) == 1, f"{appointment_keys_lengths}; all KB items should have same number of keys"
+    # add how many dummy entries using num of entries from first kb example
+    dummy_numby = len([elem for elem in normed_kb if elem[0]==normed_kb[0][0]])
+
+    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, DUMMY_REL, DUMMY_VAL) for _ in range(dummy_numby)]
+    normed_kb_with_dummy_entries += normed_kb
+    
+    return normed_kb_with_dummy_entries
 
 def main(args):
 

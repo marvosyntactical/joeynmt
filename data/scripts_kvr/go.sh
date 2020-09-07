@@ -8,7 +8,7 @@ do
 	for i in "${splitparts[@]}"
 	do
 		if python3 ${script}.py $i; then
-			echo "Successfully executed ${script}"
+			echo "Successfully executed ${script}.py $i"
 		else
 			echo "Tried to execute ${script}, that didnt work."
 			exit 1
@@ -19,6 +19,9 @@ done
 python3 canonize.py
 
 cd ../kvr/
-cat train.trvFINAL dev.trvFINAL test.trvFINAL > global.trv
+
+cat train.trvFINAL dev.trvFINAL test.trvFINAL > global.tmp
+cat global.tmp | sort | uniq > global.trv
+rm global.tmp
 
 echo "all done letsgo"

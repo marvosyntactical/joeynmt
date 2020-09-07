@@ -21,11 +21,11 @@ from joeynmt.initialization import initialize_model
 from joeynmt.embeddings import Embeddings
 from joeynmt.encoders import Encoder, RecurrentEncoder, TransformerEncoder
 from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, TransformerDecoder, Generator
-from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN
+from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN, UNASSIGNED_TOKEN
 from joeynmt.search import beam_search, greedy
 from joeynmt.vocabulary import Vocabulary
 from joeynmt.batch import Batch, Batch_with_KB
-from joeynmt.helpers import ConfigurationError, Timer
+from joeynmt.helpers import ConfigurationError, Timer, product, split_tensor_on_pads
 from joeynmt.constants import EOS_TOKEN, PAD_TOKEN
 
 
@@ -45,7 +45,8 @@ class Model(nn.Module):
                  trv_vocab: Vocabulary=None,
                  k_hops: int = 1,
                  do_postproc: bool = True,
-                 canonize = None
+                 canonize = None,
+                 kb_att_dims : int = None,
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -84,6 +85,7 @@ class Model(nn.Module):
         self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
         self.do_postproc = do_postproc
         self.canonize = canonize
+        self.kb_att_dims = kb_att_dims
 
 
 
@@ -92,8 +94,8 @@ class Model(nn.Module):
 
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
-                src_lengths: Tensor, trg_mask: Tensor = None, kb_keys: Tensor = None) -> (
-        Tensor, Tensor, Tensor, Tensor, Tensor):
+                src_lengths: Tensor, trg_mask: Tensor = None, kb_keys: Tensor = None,
+                kb_mask = None) -> (Tensor, Tensor, Tensor, Tensor, Tensor):
         """
         First encodes the source sentence.
         Then produces the target one word at a time.
@@ -115,7 +117,8 @@ class Model(nn.Module):
                            src_mask=src_mask, trg_input=trg_input,
                            unroll_steps=unroll_steps,
                            trg_mask=trg_mask,
-                           kb_keys=kb_keys)
+                           kb_keys=kb_keys,
+                           kb_mask=kb_mask)
 
     def encode(self, src: Tensor, src_length: Tensor, src_mask: Tensor) \
         -> (Tensor, Tensor):
@@ -132,7 +135,8 @@ class Model(nn.Module):
     def decode(self, encoder_output: Tensor, encoder_hidden: Tensor,
                src_mask: Tensor, trg_input: Tensor,
                unroll_steps: int, decoder_hidden: Tensor = None,
-               trg_mask: Tensor = None, kb_keys: Tensor = None) \
+               trg_mask: Tensor = None, kb_keys: Tensor = None,
+               kb_mask: Tensor=None) \
         -> (Tensor, Tensor, Tensor, Tensor):
         """
         Decode, given an encoded source sentence.
@@ -154,7 +158,8 @@ class Model(nn.Module):
                         hidden=decoder_hidden,
                         trg_mask=trg_mask,
                         kb_keys=kb_keys,
-                        k_hops=self.k_hops)
+                        k_hops=self.k_hops,
+                        kb_mask=kb_mask)
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module,
     max_output_length: int = None, e_i: float = 1.) -> Tensor:
@@ -196,7 +201,7 @@ class Model(nn.Module):
         else: # kb task
             assert batch.kbsrc != None, batch.kbsrc
 
-            kb_keys, kb_values, _ = self.preprocess_batch_kb(batch)
+            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
 
             # FIXME hardcoded attribute name
             if hasattr(batch, "trgcanon"): 
@@ -209,7 +214,7 @@ class Model(nn.Module):
                     hidden, att_probs, att_vectors , kb_probs = self.forward(
                         src=batch.src, trg_input=trg_input,
                         src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                        trg_mask=trg_mask, kb_keys=kb_keys)
+                        trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask)
 
                     log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
 
@@ -234,7 +239,7 @@ class Model(nn.Module):
                             bos_index=self.bos_index,
                             decoder=self.decoder, generator=self.generator,
                             max_output_length=trg.size(-1),
-                            knowledgebase = (kb_keys, kb_values),
+                            knowledgebase = (kb_keys, kb_values, kb_mask),
                             trg_input=trg_input,
                             e_i=e_i
                             )
@@ -246,12 +251,11 @@ class Model(nn.Module):
         # compute batch loss
         batch_loss = loss_function(log_probs, trg)
 
-        # ----- debug start
-        mle_tokens = argmax(log_probs, dim=-1) # torch argmax
-        mle_tokens = mle_tokens.cpu().numpy()
+        with self.Timer("debugging: greedy hypothesis:"):
+            mle_tokens = argmax(log_probs, dim=-1) # torch argmax
+            mle_tokens = mle_tokens.cpu().numpy()
 
-        print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
-        # ----- debug end
+            print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
 
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: END current batch{'-'*10}\n")
@@ -284,10 +288,10 @@ class Model(nn.Module):
 
         if hasattr(batch, "kbsrc"):
             # B x KB x EMB; B x KB; B x KB
-            kb_keys, kb_values, kb_trv = self.preprocess_batch_kb(batch)
+            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
             oldshape = kb_values.shape
             # assert kb_values.shape[1] == 1, kb_values.shape 
-            knowledgebase = (kb_keys, kb_values)
+            knowledgebase = (kb_keys, kb_values,kb_mask)
         else:
             knowledgebase = None
 
@@ -365,13 +369,22 @@ class Model(nn.Module):
         kb_values = kb_values[:, 1] 
         kb_true_vals = kb_true_vals[1, :]
 
+        # ADD BATCH DIMENSION
+        # correct dimensions and make contiguous in memory
+        # (put in specifically allocated contiguous memory slot)
+        kb_values.unsqueeze_(0)
+        kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
+        kb_true_vals.unsqueeze_(0)
+        kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
+
+        # (also add batch dim to keys below)
+
         if detailed_debug:
             with self.Timer("kb_true_vals checks"):
                 print(f"debug: kb_true_vals :{kb_true_vals.shape}")
                 print(f"debug: kb_true_vals content:{kb_true_vals}")
 
         with self.Timer(f"knowledgebase attention dimensions == {kbattdims}"):
-            kbattdims = 2 # remove me FIXME
             if kbattdims > 1:
                 # reshape kb_keys in kb dimension from KB to SUBJ x REL or KB to kb1 x kb2 x ... x kbn
                 # |keys| == KB x key_repr
@@ -379,63 +392,101 @@ class Model(nn.Module):
                 # go along dim 1 (key_repr) and find first column where all entries are <PAD> (before are subjects, after are relation)
                 pad_val = self.src_pad_index
                 kb_size, key_repr_size = kb_keys.shape
-
-                kb_dim_entries = [[] for _ in range(kbattdims)]
+                kb_entries = [] 
                 dims = [] # dimensions of each kb entry
-                for entry in range(kb_size):
-                    prev_pad_idx = 0
-                    dim = 0
-                    for i in range(key_repr_size):
-                        if kb_keys[entry, i] == pad_val: # first part of key repr that is a <PAD> token
-                            # TODO FIXME avoid adding pad values at end 
-                            # check if theres more than just PAD values coming ??
-                            # if not (kb_keys[entry,prev_pad_idx+1:] == pad_val).all():
-                            kb_dim_entries[dim].append(kb_keys[entry,prev_pad_idx+1:i].unsqueeze(0)) # before first <PAD> is subj repr
-                            prev_pad_idx = i
-                            dim += 1  
-                # TODO FIXME implement n dimensional KB reformatting
+                for entry in kb_keys:
 
-                assert set(dims) == {kbattdims}, dims # dimensions wrong or different num of dimensions
+                    entry_dim_vals = split_tensor_on_pads(entry, pad_val=pad_val)
+                    dims.append(len(entry_dim_vals))
 
-                assert set([len(dim) for dim in kb_dim_entries]) == {kb_size}, \
-                     (set([len(dim) for dim in kb_dim_entries]), kb_size)
-                
+                    kb_entries.append(entry_dim_vals) # before first <PAD> is subj repr
+
+
+                assert set(dims) == {kbattdims}, (dims,set(dims), {kbattdims}) # dimensions wrong or different num of dimensions
+                assert set([len(dim) for dim in kb_entries]) == {kbattdims}, \
+                     (set([len(dim) for dim in kb_entries]), kbattdims)
+
+                kb_dim_entries = list(zip(*kb_entries)) # [list of subject tensors, list of relation tensors]
+
+                assert len(kb_dim_entries) == kbattdims, (len(kb_dim_entries), kbattdims)
+
                 kb_repr = []
+                steps = [1]
                 for dim, entries in enumerate(kb_dim_entries): 
                     # e.g. relation = [tensor(997),tensor(998),tensor(999),...] (repeat)
 
-                    max_repr = max(entries, key=lambda attr_repr_tensor: attr_repr_tensor.shape[0])
+                    max_repr = max([len(repr) for repr in entries])
 
-                    entries_padded = cat([F.pad(entry,(pad_val, max_repr-entry.shape[0])) for entry in entries],dim=0)
-
+                    entries_padded = [F.pad(entry, (pad_val, max_repr-entry.shape[0])).unsqueeze(1) for entry in entries]
+                    entries_padded_stacked = cat(entries_padded, dim=1)
 
                     # sum embeddings for each dim
-                    kb_dim_embed = self.src_embed(entries_padded).sum(dim=1) # num_entries
+                    kb_dim_embed = self.src_embed(entries_padded_stacked).sum(dim=0) # kb_size x emb 
 
                     # KB = num_entries * attr_0 * attr_1 * ...
-                    # FIXME change this if 1 dummy token changes to [dummy time, dummy date, dum...]
-                    block = 2 # TODO FIXME
-                    first_entry = kb_dim_embed[1]
-                    if kb_size > 1: # more than just dummy token
-                        while True:
-                            # FIXME for this to not fail KB needs more than 2 entries
-                            if kb_dim_embed[block+1] != first_entry:
-                                break
-                            block += 1
-                        step = block 
-                        while step < kb_size:
-                            if kb_dim_embed[step+1] == first_entry:
-                                break
-                            step += 1
 
-                    assert block * step == kb_size, (block,step,kb_size)
+                    # TODO FIXME make 2, FIXME then n dimensional
 
-                    kb_dim_entry_set = kb_dim_embed[:block:step]
+                    # find out block (num of entries for first subject)
+                    # and step (num of entries until relation same as first relation)
+                    # sizes 
+
+                    i = step = 1
+                    block_flag, step_flag = False, False
+                    first_entry = kb_dim_embed[i] 
+                    # find out if first entry is repeated
+                    # multiple times in a block (subjects)
+                    # or multiple times every so many steps (relations)
+                    while i < kb_size-1:
+                        # FIXME doing the step & block calc like this is extremely inefficient
+                        # do this before embed & sum?
+
+                        if not kb_dim_embed[i+1].allclose(first_entry):
+                            # continue step 
+                            step_flag = True
+
+                        else:
+                            # finish step
+                            if step_flag == True:
+                                step = i
+                                break
+                            elif step_flag == False:
+                                step = 1
+                                break
+                        i += 1
+
+                    assert kb_size%step==0, (kb_size, step, self.src_vocab.arrays_to_sentences(entries))
+
+                    steps += [step]
+
+                # steps = [1,1,5,15,60] => step_i = steps[i+1]//steps[i], block_i = kb_size/step_i+1
+                # dim_sizes = [5,3,4]
+
+                dim_sizes = [int(steps[i]/steps[i-1]) for i in range(1,len(steps))] 
+                block_sizes = dim_sizes[1:]+[kb_size] 
+
+                dim_sizes = dim_sizes[::-1] # 5,1
+                block_sizes = block_sizes[::-1] # 40, 5
+
+                for i in range(kbattdims):
+                    step_i = dim_sizes[i] 
+                    block_i = block_sizes[i]
+
+                    kb_dim_entry_set = kb_dim_embed[:block_i:step_i]
+                    kb_dim_entry_set = kb_dim_entry_set.unsqueeze(0) # add batch dimension to keys
+                    kb_dim_entry_set = kb_dim_entry_set.repeat((batch.trg.shape[0],1,1)).contiguous() # batch x kb_dim_i x embed
+
                     kb_repr.append(kb_dim_entry_set)
 
-                    # FIXME this horrible code
-
                 kb_keys = tuple(kb_repr)
+
+                if detailed_debug:
+                    print(steps, kb_size, [t.shape for t in kb_repr],\
+                        self.src_vocab.arrays_to_sentences(entries[:block_i:step_i]))
+
+                shape_check_keys = kb_keys[0]
+                assert product([key_dim.shape[1] for key_dim in kb_keys]) == kb_size,\
+                    [key_dim.shape[1] for key_dim in kb_keys]
 
             else:
                 # normal (1D) mode 
@@ -443,28 +494,31 @@ class Model(nn.Module):
                 # NOTE: values dont need to be embedded! they are only used for indexing
                 kb_keys = self.src_embed(kb_keys)
                 kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
+            
+                # add batch dimension to keys
+                kb_keys.unsqueeze_(0)
+                kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous() # batch x kb x emb
 
-
-        # ADD BATCH DIMENSION
-        # correct dimensions and make contiguous in memory
-        # (put in specifically allocated contiguous memory slot)
-        kb_keys.unsqueeze_(0)
-        kb_keys = kb_keys.repeat((batch.src.shape[0], 1, 1)).contiguous() # batch x kb x emb
-        kb_values.unsqueeze_(0)
-        kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
-        kb_true_vals.unsqueeze_(0)
-        kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
+                shape_check_keys = kb_keys
+        
 
         assert len(kb_values.shape) == 2, kb_values.shape
         
-        assert_msg = (kb_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
+        assert_msg = (shape_check_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
 
-        #batch dim equal
-        assert kb_keys.shape[0] == kb_values.shape[0] == kb_true_vals.shape[0], assert_msg
-        #kb dim equal # TODO update for twoheaded version
-        assert kb_keys.shape[1] == kb_values.shape[1] == kb_true_vals.shape[1], assert_msg
+        # batch dim equal
+        assert shape_check_keys.shape[0] == kb_values.shape[0] == kb_true_vals.shape[0], assert_msg
+        # kb dim equal 
+        assert kb_values.shape[1] == kb_true_vals.shape[1], assert_msg
 
-        return kb_keys, kb_values, kb_true_vals
+        kb_mask = kb_true_vals == self.trv_vocab.stoi[UNASSIGNED_TOKEN]
+
+        assert (~kb_mask).all(), kb_mask 
+        # FIXME this should hopefully trigger at some point for partially assigned scheduling dialogues
+
+        # assert False, [t.shape for t in kb_keys]
+
+        return kb_keys, kb_values, kb_true_vals, kb_mask
 
 
 
@@ -680,10 +734,17 @@ def build_model(cfg: dict = None,
        
 
     
-    # build decoder
+    # retrieve kb task info
     kb_task = bool(cfg.get("kb", False))
     k_hops = int(cfg.get("k_hops", 1)) # k number of kvr attention layers in decoder (eric et al/default: 1)
     do_postproc = bool(cfg.get("do_postproc", True))
+
+    kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
+    if hasattr(kb_max_dims, "__iter__"):
+        kb_max_dims = tuple(kb_max_dims)
+    else:
+        assert type(kb_max_dims) == int, kb_max_dims
+        kb_max_dims = (kb_max_dims,)
 
 
     assert cfg["decoder"]["hidden_size"]
@@ -701,7 +762,7 @@ def build_model(cfg: dict = None,
         else:
             decoder = KeyValRetRNNDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops)
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops, kb_max=kb_max_dims)
     
     # specify generator which is mostly just the output layer
     generator = Generator(
@@ -714,7 +775,7 @@ def build_model(cfg: dict = None,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
                   trv_vocab=trv_vocab,
                   k_hops=k_hops, do_postproc=do_postproc,
-                  canonize=canonize)
+                  canonize=canonize, kb_att_dims=len(kb_max_dims))
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):

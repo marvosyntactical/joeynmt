@@ -432,16 +432,15 @@ class TorchBatchWithKB(Batch):
             
             for (name, field) in self.kb_truval_data.fields.items():
                 if field is not None:
-                    truvals = [["@DUM"]]
-                    truvals += [getattr(x, name) for x in data.kbtrv]
+                    # truvals = [["@DUM"]]
+                    truvals = [getattr(x, name) for x in data.kbtrv]
                     setattr(self, name, field.process(truvals, device=device))
                     # assert False, (truvals, field.vocab.arrays_to_sentences(getattr(self, name)))
 
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
-                    kb= [["@DUM"]] #dummy token (both for key and value)
-
-                    kb += [getattr(x,name) for x in data.kb]
+                    # kb = [["@DUM"]] #dummy token (both for key and value)
+                    kb = [getattr(x,name) for x in data.kb]
                     setattr(self, name, field.process(kb, device=device))
 
                 else:

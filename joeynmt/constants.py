@@ -9,3 +9,9 @@ BOS_TOKEN = '<s>'
 EOS_TOKEN = '</s>'
 
 DEFAULT_UNK_ID = lambda: 0
+
+
+
+# KB task constants
+
+UNASSIGNED_TOKEN = "-"
