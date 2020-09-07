@@ -337,7 +337,7 @@ def load_checkpoint(path: str, use_cuda: bool = True) -> dict:
     return checkpoint
 
 
-product = lambda list_ : 1 if list_ == [] else product(list_[:-1]) * list_[-1]
+product = lambda iterable : 1 if len(iterable) == 0 else product(iterable[:-1]) * iterable[-1]
 
 # from onmt
 def tile(x: Tensor, count: int, dim=0) -> Tensor:
@@ -404,3 +404,24 @@ class Timer(object):
         else: yield None
         dt = time.time()-t
         print(f"Time spent on {str(activity)}: {str(dt)}")
+
+def split_tensor_on_pads(tensor, pad_val):
+    # ["cafe", "central", "<PAD>", "distance", "<PAD>", "<PAD>"]
+    # -> [["cafe", "central"], ["distance"]]
+    # but used with voc idx ints instead of strings
+    r = [[]]
+
+    for i, elem in enumerate(tensor):
+        if elem != pad_val:
+            r[-1].append(elem.unsqueeze(0)) # continue adding elems to list
+        else: 
+            # pad value reached
+            r[-1] = torch.cat(r[-1], dim=0) # finish up previous list by concatenating tensors
+
+            # stop if only <PAD> values are leftover now (at end of list)
+            if (tensor[i:] == pad_val).all():
+                break
+
+            r.append([]) # make new list to hold coming elems after this PAD value
+    return r
+

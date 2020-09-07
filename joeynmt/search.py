@@ -94,8 +94,8 @@ def recurrent_greedy(
     hidden = None
     prev_att_vector = None
 
-    print(f"in search.recurrent_greedy; knowledgebase is {[t.shape for t in knowledgebase]}")
-
+    print(f"in search.recurrent_greedy; knowledgebase is \
+    {[t.shape if isinstance(t, torch.Tensor) else [t_dim.shape for t_dim in t] for t in knowledgebase]}")
 
     if knowledgebase != None:
         # knowledgebase is (kb_keys, kb_values) (see model.run_batch)
@@ -105,12 +105,13 @@ def recurrent_greedy(
 
         kb_keys = knowledgebase[0]
         kb_values = knowledgebase[1]
+        kb_mask = knowledgebase[2]
         print(kb_keys, kb_values)
 
         kb_att_scores = []
         all_log_probs = []
     else:
-        kb_keys = kb_values = None
+        kb_keys = kb_values = kb_mask = None
         stacked_log_probs = None
 
     # pylint: disable=unused-variable
@@ -124,7 +125,8 @@ def recurrent_greedy(
             hidden=hidden,
             prev_att_vector=prev_att_vector,
             unroll_steps=1,
-            kb_keys=kb_keys)
+            kb_keys=kb_keys,
+            kb_mask=kb_mask)
 
         log_probs = generator(prev_att_vector, kb_values=kb_values, kb_probs=kb_att_probs)
 
@@ -233,6 +235,7 @@ def transformer_greedy(
             hidden=None,
             trg_mask=trg_mask,
             kb_keys=knowledgebase[0],
+            kb_mask=knowledgebase[2]
         )
 
         # kb_values : B x KB
@@ -376,6 +379,7 @@ def beam_search(
     if knowledgebase != None:
         kb_keys = tile(knowledgebase[0], size, dim=0)
         kb_values = tile(knowledgebase[1], size, dim=0)
+        kb_mask = tile(knowledgebase[2], size, dim=0)
 
         kb_size = kb_keys.size(1)
 
@@ -395,7 +399,7 @@ def beam_search(
         stacked_kb_att_scores = [[] for _ in range(batch_size)]
 
     else:
-        kb_keys, kb_values = None, None
+        kb_keys, kb_values, kb_mask = None, None, None
         kb_size = None
         att_alive = None 
         kb_att_alive = None 
@@ -426,7 +430,8 @@ def beam_search(
             prev_att_vector=att_vectors,
             unroll_steps=1,
             trg_mask=trg_mask, # subsequent mask for Transformer only
-            kb_keys=kb_keys # None by default 
+            kb_keys=kb_keys, # None by default 
+            kb_mask=kb_mask
         )
 
         # generator applies output layer, biases towards KB values, then applies log_softmax

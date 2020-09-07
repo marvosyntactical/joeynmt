@@ -3,7 +3,7 @@
 """
 Various decoders
 """
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 import time
 from copy import deepcopy
 
@@ -575,8 +575,10 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # multihops:
         self.k_hops = k_hops # how many kvr attention modules?
 
-        if not isinstance(kb_max, Tuple): kb_max = (kb_max,)
-        self.kb_max = kb_max # tuple of maximum size for each knowledgebase dimension
+        # make sure kb_max is iterable, e.g. tuple of ints, instead of a single int
+        if not hasattr(kb_max, "__iter__"): kb_max = (kb_max,)
+        self.kb_max = kb_max 
+        # tuple of maximum size for each knowledgebase dimension
         # for each dimension, 
         # e.g. subj and relation or city x weekday x weather_attribute
         # stores maximum allowable size for this dataset
@@ -585,7 +587,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         self.kb_dims = len(self.kb_max)
         allowableDims = [1,2]
         if self.kb_dims not in allowableDims:
-            raise NotImplementedError(f"Multidimensional KB attentions only implemented for n={allowableDims}")
+            raise NotImplementedError(f"Multidimensional KB attentions only implemented for n={allowableDims}; n={self.kb_dims}; kb_max:{self.kb_max}")
 
         # as in joeynmt.search.beam_search, repeat and tile KB dimension along each dimension:
         # dims before: repeat value along flat kb_total dimension for each dimension
@@ -595,7 +597,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # precalculate these products; use them for indexing in attention hop
         self.dims_before = [product(self.kb_max[:dim]) for dim in range(self.kb_dims)]
-        self.dims_after = [product(self.kb_max[:dim:-1]) for dim in range(self.kb_max)]
+        self.dims_after = [product(self.kb_max[:dim:-1]) for dim in range(self.kb_dims)]
         self.kb_total = product(self.kb_max)
 
         # list of [kvr for dim 0, kvr for dim 1] * k_hops
@@ -603,7 +605,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                 KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
                                             key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
                                             query_size=hidden_size, # queried with decoder hidden
-                                            kb_max=self.kb_max[i%self.k_hops]
+                                            kb_max=self.kb_max[i%self.kb_dims] # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
                                             )
                                 for i in range(self.k_hops*self.kb_dims)])
         
@@ -681,7 +683,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                       prev_att_vector: Tensor,  # context or att vector
                       encoder_output: Tensor,
                       src_mask: Tensor,
-                      hidden: Tensor,) -> (Tensor, Tensor, Tensor):
+                      hidden: Tensor,
+                      kb_mask: Tensor = None) -> (Tensor, Tensor, Tensor):
         """
         Perform a single decoder step (1 token).
 
@@ -735,14 +738,15 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         context, att_probs = self.attention(
             query=query, values=encoder_output, mask=src_mask)
         
-        # KVR attention
-        batch_size = att_probs.size(0)
+        # KVR attention terminology:
+        # t: timestep, k: multihop, dim: KB dimension, u: utilities
 
+        batch_size = att_probs.size(0)
+        u_t_k_dims = [None] * self.kb_dims # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
         # multiple attention hops
-        u_t_k = None
         for k in range(self.k_hops): # self.k_hops == 1 <=> Eric et al version
 
-            u_t_k = torch.zeros(batch_size, 1, self.kb_total)
+            u_t_k_init = torch.zeros(batch_size, 1, self.kb_total)
 
             # for each hop, do an attention pass for each key representation dimension
             # e.g. KB total = subject x relation
@@ -750,20 +754,29 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             for dim in range(self.kb_dims):
 
                 # utilities_n = b x 1 x kb_max[dim]
-                utilities_n = self.kvr_attention[k+dim](query=query, prev_utilities=u_t_k)
+                utilities_n = self.kvr_attention[k*self.kb_dims + dim](query=query, prev_utilities=u_t_k_dims[dim])
+
+                u_t_k_dims[dim] = utilities_n # cache this for same dim on next hop
 
                 # repeat as often as the product of dims before this dim
-                utilities_n = utilities_n.repeat(1, 1, self.dims_before[dim])
+                utilities_n_blocked = utilities_n.repeat(1, 1, self.dims_before[dim])
+                
                 # tile as often as the product of dims after this dim
-                utilities_n = tile(utilities_n, count= self.dims_after[dim], dim=-1)
+                utilities_n_blocked_tiled = tile(utilities_n_blocked, count=self.dims_after[dim], dim=-1)
 
-                u_t_k += utilities_n
+                u_t_k_init += utilities_n_blocked_tiled
                 # TODO unit test that this leads to same entry arrangement as in model.preprocess
+            
+            if kb_mask is not None:
+                # mask entries that arent actually assigned (happens in scheduling)
+                u_t_k_init = torch.where(~kb_mask, u_t_k_init, torch.zeros_like(u_t_k_init))
+
+            u_t_k = u_t_k_init
             
             # u_t_k = batch x 1 x product(kb_max) = b x 1 x kb_total
 
         # get size of current KB (having this attribute avoids having to pass kb_keys or something from the attention to here)
-        curr_kb_size = self.kvr_attention[0].curr_kb_size
+        curr_kb_size = product([att.curr_kb_size for att in self.kvr_attention[:self.kb_dims]])
         u_t = u_t_k[:,:,:curr_kb_size] # recover only attention values for non pad knowledgebase entries
         # u_t = batch x 1 x curr_kb_size
 
@@ -787,8 +800,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 unroll_steps: int,
                 hidden: Tensor = None,
                 prev_att_vector: Tensor = None,
-                kb_keys: Tensor = None,
+                kb_keys: Union[Tuple, Tensor] = None,
                 k_hops: int = 1,
+                kb_mask: Tensor = None,
                 **kwargs) \
             -> (Tensor, Tensor, Tensor, Tensor):
         """
@@ -864,18 +878,36 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if hasattr(self.attention, "compute_proj_keys"):
             self.attention.compute_proj_keys(keys=encoder_output)
         
-        if kb_keys != None:
+        if kb_keys is not None:
+            if not isinstance(kb_keys, tuple): 
+                assert self.kb_dims == 1, (self.kb_dims, kb_keys)
+                kb_keys = (kb_keys,)
             # kb_keys is: b x kb x emb OR tuple of (b x kb_max_i x emb,) * n
             for dim in range(self.kb_dims):
                 # only compute proj keys once for all hops
-                self.kvr_attention[dim].compute_proj_keys(keys=kb_keys) 
+                self.kvr_attention[dim].compute_proj_keys(keys=kb_keys[dim]) 
 
             if len(self.kvr_attention) > self.kb_dims: # multiple hops
                 for successive_hop in range(1, self.k_hops):
                     for dim in range(self.kb_dims):
-                        self.kvr_attention[successive_hop+dim].proj_keys = pjK = self.kvr_attention[dim].proj_keys
-
+                        self.kvr_attention[successive_hop*self.kb_dims + dim].proj_keys = pjK = self.kvr_attention[dim].proj_keys
                         assert pjK is not None
+
+        if kb_mask is not None:
+            kb_pad_len = self.kb_total - product([keys.shape[1] for keys in kb_keys])
+            assert kb_pad_len >= 0, f"kb dim of mask {kb_mask.shape} appears to be larger than self.kb_total={self.kb_total} => increase self.kb_max"
+
+            # FIXME why is this sometimes a tuple of filled pad tensors instead of 1?! TODO
+            kb_mask_padding = torch.full((kb_mask.shape[0], kb_pad_len), fill_value=False)
+
+            if type(kb_mask_padding) == tuple:
+                assert False, kb_mask_padding
+            if len(kb_mask_padding.shape) < 2:
+                assert False, ((kb_mask.shape[0], kb_pad_len), kb_mask_padding.shape)
+
+            # assert False, dir(kb_mask_padding)
+            kb_mask_padded = torch.cat([kb_mask, kb_mask_padding.to(dtype=torch.bool)], dim=1)
+            kb_mask = kb_mask_padded.unsqueeze(1)
 
         att_vectors = [] 
         att_probs = []
@@ -898,7 +930,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 prev_att_vector=prev_att_vector,
                 encoder_output=encoder_output,
                 src_mask=src_mask,
-                hidden=hidden)
+                hidden=hidden,
+                kb_mask=kb_mask)
 
             att_vectors.append(prev_att_vector)
             att_probs.append(att_prob)
@@ -1037,6 +1070,7 @@ class TransformerDecoder(Decoder):
                 hidden: Tensor = None,
                 trg_mask: Tensor = None,
                 kb_keys: Tensor = None,
+                kb_mask: Tensor = None,
                 **kwargs):
         """
         Transformer decoder forward pass.
@@ -1070,7 +1104,7 @@ class TransformerDecoder(Decoder):
         # Multiheaded KVR Attention fwd pass
         if kb_keys is not None:
             kb_keys_padded = self.pad_kb_keys(kb_keys)
-            u = self.kb_trg_att(kb_keys_padded, x)
+            u = self.kb_trg_att(kb_keys_padded, x, mask=kb_mask)
             kb_probs = u[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
         else:
             kb_probs = None
@@ -1088,6 +1122,15 @@ class TransformerDecoder(Decoder):
 
         keys_pad = torch.zeros(kb_keys.shape[0], padding, kb_keys.shape[2]).to(device=kb_keys.device)
         return torch.cat([kb_keys,keys_pad], dim=1)
+    
+    def pad_kb_mask(self, kb_mask: Tensor) -> Tensor:
+        # pad kb_mask from B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
+        # and set self.curr_kb_size
+        padding = self.kb_max - self.curr_kb_size
+        assert padding >= 0, f"kb dim of keys {kb_mask.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+
+        keys_pad = torch.full((kb_mask.shape[0], padding, kb_mask.shape[2]),fill_value=False).to(device=kb_mask.device)
+        return torch.cat([kb_mask, keys_pad], dim=1)
 
 
     def __repr__(self):

@@ -11,6 +11,7 @@ def load_entitties(ent_json="../kvr/kvret_entities.json"):
 
 #hardcoded lookup
 kbval_lkp = {
+    "DUMMYREL" : "DUMMYREL",
     "distance" : "poi_distance",
     "traffic_info": "traffic_info",
     "poi_type": "poi_type",

@@ -98,7 +98,7 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
     def forward(self, k: Tensor, q: Tensor, mask: Tensor = None):
         """
-        Computes multi-headed attention.
+        Computes multi-headed KB attention.
 
         :param k: keys   [B, M, D] with M being the sentence length (Max)
         :param q: query  [B, M, D]
@@ -107,6 +107,8 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         """
         batch_size = k.size(0)
         num_heads = self.num_heads
+
+
 
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
@@ -122,10 +124,10 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
 
-        # apply the mask (if we have one)
-        # we add a dimension for the heads to it below: [B, 1, 1, M]
+
+        # mask utilities if we have a mask
         if mask is not None:
-            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
+            scores = torch.where(~mask.unsqueeze(1), scores, torch.zeros_like(scores))
 
         # apply attention dropout
         attention = self.softmax(scores)

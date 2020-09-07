@@ -3,9 +3,24 @@
 * does kb attention actually sum to 1 ???
 
 ##### Optimization
-* (later)
+(later)
 
-# _```Current Issues```_
+---
+
+# _```Issues```_
+---
+
+### Empty scheduling KBs:
+* no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
+* => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
+* (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
+* =>    "Make an entry for @event on @date at @time with my @party ."
+* =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
+* make these the knowledgebase, so they can be attended over
+✔️
+*TODO* TEST this
+
+
 
 ### 31.08.20 stuff to add to config
 
@@ -131,26 +146,6 @@ KBs unambiguous as designed; not like real world => experiment
 
 Metrics stuff :
 * ablation study with bleu without "Youre welcome", "Have a nice day", "How can I help you today?" etc etc
-* conclude if authors reported entity F1 on canonized or uncanonized data
-=> Experiment running *TODO* results?? ('cheat.yaml')
-* in experiments section, discuss metrics: significance of bleu / ent F1 / other metrics?
-* report metrics on dev and test?
-
----
-
-### 15.08.20 backward compatibility
-
-to test:
-rnnVanilla (running on cluster)
-*TODO* doesnt learn anything?? 
-
-Beam search:
-
-=> kb\_probs need to be properly formatted during beam search
-for handling in postproc
-* reformat stacked\_kb\_att\_scores along with beam logits
-* also do this for stacked attention scores
-
 beam search should work now ✔️ 
 *TODO* confirm implementation
 *TODO* remove stacked attention reshaping for transformer
@@ -199,18 +194,9 @@ special case: k=1: 1hop is equiv to default (same results) ✔️
 
 
 
+
 ## Old Issue
 ### 17.08.20 preprocessing 
-
-Empty scheduling KBs:
-* no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
-* => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
-* (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
-* =>    "Make an entry for @event on @date at @time with my @party ."
-* =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
-* make these the knowledgebase, so they can be attended over
-✔️
-*TODO* TEST this
 
 Pipeline:
 * remove double "home" in traffic KBs ✔️
