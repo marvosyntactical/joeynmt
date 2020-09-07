@@ -388,46 +388,54 @@ class Model(nn.Module):
                     for i in range(key_repr_size):
                         if kb_keys[entry, i] == pad_val: # first part of key repr that is a <PAD> token
                             # TODO FIXME avoid adding pad values at end 
-                            # theres more than PAD values coming
+                            # check if theres more than just PAD values coming ??
                             # if not (kb_keys[entry,prev_pad_idx+1:] == pad_val).all():
-                            kb_dim_entries[dim] += kb_keys[entry,prev_pad_idx+1:i].unsqueeze(0) # before first <PAD> is subj repr
+                            kb_dim_entries[dim].append(kb_keys[entry,prev_pad_idx+1:i].unsqueeze(0)) # before first <PAD> is subj repr
                             prev_pad_idx = i
                             dim += 1  
                 # TODO FIXME implement n dimensional KB reformatting
 
                 assert set(dims) == {kbattdims}, dims # dimensions wrong or different num of dimensions
 
-                assert len(subjs) == kb_size, (len(subjs), kb_size, kb_keys.shape)
+                assert set([len(dim) for dim in kb_dim_entries]) == {kb_size}, \
+                     (set([len(dim) for dim in kb_dim_entries]), kb_size)
                 
-                max_subj = max(subjs, key=lambda subj_repr_tensor: subj_repr_tensor.shape[0])
-                max_rel = max(rels, key=lambda rel_repr_tensor: rel_repr_tensor.shape[0])
+                kb_repr = []
+                for dim, entries in enumerate(kb_dim_entries): 
+                    # e.g. relation = [tensor(997),tensor(998),tensor(999),...] (repeat)
 
-                kb_subjs = cat([F.pad(subj,(pad_val, max_subj-subj.shape[0])) for subj in subjs],dim=0)
-                kb_rels = cat([F.pad(rels,(pad_val, max_rel-rel.shape[0])) for rel in rels],dim=0)
+                    max_repr = max(entries, key=lambda attr_repr_tensor: attr_repr_tensor.shape[0])
 
-                # all entries except first (dummy) have same length (num of attributes);
-                # = > find out length of first entry 
-                if len(kb_subjs) > 1: # KB has more than dummy token
-                    first_entry = kb_subjs[1]
-                    entry_length = 2 
-                    while True:
-                        if not (kb_subjs[i] == first_entry).all():
-                            break
-                        entry_length += 1
+                    entries_padded = cat([F.pad(entry,(pad_val, max_repr-entry.shape[0])) for entry in entries],dim=0)
 
-                    assert len(kb_subjs)-1 % entry_length == 0, (len(kb_subjs)-1, entry_length)
 
-                    kb_subjs = kb_subjs[::entry_length] # stride along KB dimension, taking only every entry_length'th elem
-                    kb_rels = kb_rels[::entry_length]
+                    # sum embeddings for each dim
+                    kb_dim_embed = self.src_embed(entries_padded).sum(dim=1) # num_entries
 
-                    assert False, f"kb_subjs: {self.src_vocab.arrays_to_sentences(kb_subjs.cpu().numpy())}"
+                    # KB = num_entries * attr_0 * attr_1 * ...
+                    # FIXME change this if 1 dummy token changes to [dummy time, dummy date, dum...]
+                    block = 2 # TODO FIXME
+                    first_entry = kb_dim_embed[1]
+                    if kb_size > 1: # more than just dummy token
+                        while True:
+                            # FIXME for this to not fail KB needs more than 2 entries
+                            if kb_dim_embed[block+1] != first_entry:
+                                break
+                            block += 1
+                        step = block 
+                        while step < kb_size:
+                            if kb_dim_embed[step+1] == first_entry:
+                                break
+                            step += 1
 
-                # sum embeddings for each
-                kb_subjs = self.src_embed(kb_subjs).sum(dim=1) # num_entries
-                kb_rels = self.src_embed(kb_rels).sum(dim=1) # num_rels
-                # KB = num_entries * num_rels
+                    assert block * step == kb_size, (block,step,kb_size)
 
-                kb_keys = (kb_subjs, kb_rels)
+                    kb_dim_entry_set = kb_dim_embed[:block:step]
+                    kb_repr.append(kb_dim_entry_set)
+
+                    # FIXME this horrible code
+
+                kb_keys = tuple(kb_repr)
 
             else:
                 # normal (1D) mode 

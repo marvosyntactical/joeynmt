@@ -207,6 +207,8 @@ def validate_on_data(model: Model, data: Dataset,
                     c_fun=model.canonize,
                     report_on_canonicals=False
                     )
+            else:
+                valid_ent_f1 = -1
         else:
             current_valid_score = -1
 

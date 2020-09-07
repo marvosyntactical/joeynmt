@@ -16,7 +16,7 @@ import torch.nn.functional as F
 from torch import Tensor, cat
 from joeynmt.attention import BahdanauAttention, LuongAttention, KeyValRetAtt
 from joeynmt.encoders import Encoder
-from joeynmt.helpers import freeze_params, ConfigurationError, subsequent_mask
+from joeynmt.helpers import freeze_params, ConfigurationError, subsequent_mask, tile, product
 from joeynmt.transformer_layers import PositionalEncoding, \
     TransformerDecoderLayer, MultiHeadedKbAttention
 
@@ -582,16 +582,21 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # stores maximum allowable size for this dataset
         # e.g. (7,3) for 7 weekdays and 3 weather attributes
 
-        allowableDims = [1,2]
-        if kb_dims not in allowableDims:
-            raise NotImplementedError(f"Multidimensional KB attentions only implemented for n={allowableDims}")
         self.kb_dims = len(self.kb_max)
-        # as in joeynmt.search.beam_search, tile KB dimension along each dimension:
-        # offset = step value along flat kb_total dimension for each dimension
+        allowableDims = [1,2]
+        if self.kb_dims not in allowableDims:
+            raise NotImplementedError(f"Multidimensional KB attentions only implemented for n={allowableDims}")
+
+        # as in joeynmt.search.beam_search, repeat and tile KB dimension along each dimension:
+        # dims before: repeat value along flat kb_total dimension for each dimension
         #           (product of all previous dimensions)
-        self.kbattdim_step_offset = lambda dim: 1 if dim == 0 else self.kb_max[dim-1] * self.kbattdim_step_offset(dim-1)
-        # product of all kb_max values for all dimensions
-        self.kb_total = self.kbattdim_step_offset(self.kb_dims+1)
+        # dims after: tile value along flat kb_total dimension for each dimension
+        #           (product of all successive dimensions)
+
+        # precalculate these products; use them for indexing in attention hop
+        self.dims_before = [product(self.kb_max[:dim]) for dim in range(self.kb_dims)]
+        self.dims_after = [product(self.kb_max[:dim:-1]) for dim in range(self.kb_max)]
+        self.kb_total = product(self.kb_max)
 
         # list of [kvr for dim 0, kvr for dim 1] * k_hops
         self.kvr_attention = nn.ModuleList([
@@ -743,22 +748,21 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             # e.g. KB total = subject x relation
             # or   KB total = city x weekday x weather attribute
             for dim in range(self.kb_dims):
-                # u_t_k_n = b x 1 x kb_max[dim]
-                u_t_k_n = self.kvr_attention[k+dim](query=query, prev_utilities=u_t_k)
 
-                step = self.kbattdim_step_offset(dim) 
-                repeat = int(self.kb_total/step)
+                # utilities_n = b x 1 x kb_max[dim]
+                utilities_n = self.kvr_attention[k+dim](query=query, prev_utilities=u_t_k)
 
-                # u_t_k_n = b x 1 x kb_total
-                u_t_k_n = u_t_k_n[:,:,::step]
-                u_t_k_n = u_t_k_n.repeat(1,1,repeat)
+                # repeat as often as the product of dims before this dim
+                utilities_n = utilities_n.repeat(1, 1, self.dims_before[dim])
+                # tile as often as the product of dims after this dim
+                utilities_n = tile(utilities_n, count= self.dims_after[dim], dim=-1)
 
-                u_t_k += u_t_k_n
+                u_t_k += utilities_n
                 # TODO unit test that this leads to same entry arrangement as in model.preprocess
             
             # u_t_k = batch x 1 x product(kb_max) = b x 1 x kb_total
 
-        # get size of current KB, this avoids having to pass kb_keys or somesuch to this function (fwd_step)
+        # get size of current KB (having this attribute avoids having to pass kb_keys or something from the attention to here)
         curr_kb_size = self.kvr_attention[0].curr_kb_size
         u_t = u_t_k[:,:,:curr_kb_size] # recover only attention values for non pad knowledgebase entries
         # u_t = batch x 1 x curr_kb_size

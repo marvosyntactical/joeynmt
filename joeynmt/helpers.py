@@ -337,6 +337,8 @@ def load_checkpoint(path: str, use_cuda: bool = True) -> dict:
     return checkpoint
 
 
+product = lambda list_ : 1 if list_ == [] else product(list_[:-1]) * list_[-1]
+
 # from onmt
 def tile(x: Tensor, count: int, dim=0) -> Tensor:
     """
