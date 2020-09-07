@@ -1069,7 +1069,7 @@ class TransformerDecoder(Decoder):
                 unroll_steps: int = None,
                 hidden: Tensor = None,
                 trg_mask: Tensor = None,
-                kb_keys: Tensor = None,
+                kb_keys: Union[Tensor, Tuple] = None,
                 kb_mask: Tensor = None,
                 **kwargs):
         """
@@ -1104,8 +1104,13 @@ class TransformerDecoder(Decoder):
         # Multiheaded KVR Attention fwd pass
         if kb_keys is not None:
             kb_keys_padded = self.pad_kb_keys(kb_keys)
-            u = self.kb_trg_att(kb_keys_padded, x, mask=kb_mask)
-            kb_probs = u[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
+
+            for dim in range(self.kb_dims):
+                util_n = self.kb_trg_att(kb_keys_padded, x, mask=kb_mask)
+
+            # TODO implement N dimensional transformer attention
+
+            kb_probs = util_n[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
         else:
             kb_probs = None
         

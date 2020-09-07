@@ -68,7 +68,8 @@ def normalize_weather(d):
     # add how many dummy entries using num of entries from first kb example
     dummy_numby = len([elem for elem in normed_kb if elem[0]==locations[0]["location"]])
 
-    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, DUMMY_REL, DUMMY_VAL) for _ in range(dummy_numby)]
+    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
+                                    entry[0]==normed_kb[0][0]]
     normed_kb_with_dummy_entries += normed_kb
     
     return normed_kb_with_dummy_entries
@@ -108,7 +109,8 @@ def normalize_navigate(d):
     # add how many dummy entries using num of entries from first kb example
     dummy_numby = len([elem for elem in normed_kb if elem[0]==normed_kb[0][0]])
 
-    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, DUMMY_REL, DUMMY_VAL) for _ in range(dummy_numby)]
+    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
+                                    entry[0]==normed_kb[0][0]]
     normed_kb_with_dummy_entries += normed_kb
     
     return normed_kb_with_dummy_entries
@@ -142,7 +144,8 @@ def normalize_schedule(d):
     # add how many dummy entries using num of entries from first kb example
     dummy_numby = len([elem for elem in normed_kb if elem[0]==normed_kb[0][0]])
 
-    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, DUMMY_REL, DUMMY_VAL) for _ in range(dummy_numby)]
+    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
+                                    entry[0]==normed_kb[0][0]]
     normed_kb_with_dummy_entries += normed_kb
     
     return normed_kb_with_dummy_entries

@@ -516,7 +516,8 @@ class Model(nn.Module):
         assert (~kb_mask).all(), kb_mask 
         # FIXME this should hopefully trigger at some point for partially assigned scheduling dialogues
 
-        # assert False, [t.shape for t in kb_keys]
+        assert not (type(kb_keys)==tuple and kb_keys[0].shape[1]==1), [t.shape for t in kb_keys]
+
 
         return kb_keys, kb_values, kb_true_vals, kb_mask
 
@@ -738,6 +739,8 @@ def build_model(cfg: dict = None,
     kb_task = bool(cfg.get("kb", False))
     k_hops = int(cfg.get("k_hops", 1)) # k number of kvr attention layers in decoder (eric et al/default: 1)
     do_postproc = bool(cfg.get("do_postproc", True))
+    copy_from_source = bool(cfg.get("copy_from_source", True))
+    canonization_func = canonize if copy_from_source else None
 
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
     if hasattr(kb_max_dims, "__iter__"):
@@ -775,7 +778,7 @@ def build_model(cfg: dict = None,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
                   trv_vocab=trv_vocab,
                   k_hops=k_hops, do_postproc=do_postproc,
-                  canonize=canonize, kb_att_dims=len(kb_max_dims))
+                  canonize=canonization_func, kb_att_dims=len(kb_max_dims))
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):
