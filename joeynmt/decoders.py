@@ -746,7 +746,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # multiple attention hops
         for k in range(self.k_hops): # self.k_hops == 1 <=> Eric et al version
 
-            u_t_k_init = torch.zeros(batch_size, 1, self.kb_total)
+            u_t_k_init = torch.zeros(batch_size, 1, self.kb_total).to(query.device)
 
             # for each hop, do an attention pass for each key representation dimension
             # e.g. KB total = subject x relation
@@ -1104,11 +1104,10 @@ class TransformerDecoder(Decoder):
 
         x = self.layer_norm(x)
 
-        # TODO implement N dimensional transformer attention FIXME
-
         # Multiheaded KVR Attention fwd pass
         if kb_keys is not None:
             assert kb_mask is not None, kb_keys.shape
+            if isinstance(kb_keys, tuple): kb_keys = kb_keys[0]# TODO implement N dimensional transformer attention FIXME
 
             curr_kb_size = kb_keys.shape[1]
             kb_keys_padded = self.pad_kb_tensor(kb_keys) # FIXME

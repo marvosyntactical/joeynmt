@@ -161,7 +161,7 @@ class Model(nn.Module):
                         kb_mask=kb_mask)
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module,
-    max_output_length: int = None, e_i: float = 1.) -> Tensor:
+    max_output_length: int = None, e_i: float = 1., greedy_threshold: float = 0.9) -> Tensor:
         """
         Compute non-normalized loss and number of tokens for a batch
 
@@ -171,19 +171,21 @@ class Model(nn.Module):
         :param max_output_length: maximum length of hypotheses
         :param e_i: scheduled sampling probability of taking true label vs model generation at every decoding step
         (https://arxiv.org/abs/1506.03099 Section 2.4)
+        :param greedy_threshold: only actually do greedy search once e_i is below this threshold
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: START current batch{'-'*10}\n")
 
         assert 0. <= e_i <= 1., f"e_i={e_i} should be a probability"
+        do_teacher_force = e_i >= greedy_threshold # prefer to still do teacher forcing when e_i="label taking probability" is high in scheduled sampling
 
         trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
 
         # pylint: disable=unused-variable
         if not hasattr(batch, "kbsrc"): # no kb task
 
-            if e_i != 1.:
+            if not do_teacher_force:
                 raise NotImplementedError("scheduled sampling only works for KB task atm")
 
             kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None # for uniform generator call 
@@ -207,7 +209,7 @@ class Model(nn.Module):
                 # get loss on canonized target data, see joeynmt.prediction.validate_on_data
                 trg, trg_input, trg_mask = batch.trgcanon, batch.trgcanon_input, batch.trgcanon_mask
 
-            if e_i == 1.0: # take true label at every step => just do fwd pass like in normal teacher forcing training
+            if do_teacher_force: # take true label at every step => just do fwd pass like in normal teacher forcing training
                 with self.Timer("model training: KB Task: model fwd pass"):
 
                     hidden, att_probs, att_vectors , kb_probs = self.forward(
