@@ -5,11 +5,6 @@
 ##### Optimization
 (later)
 
----
-
-# _```Issues```_
----
-
 ### Empty scheduling KBs:
 * no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
 * => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
@@ -25,7 +20,7 @@
 ### 31.08.20 stuff to add to config
 
 * copy from source? bool✔️
-* knowledgebase encoding: "positional", "2d"✔️
+* knowledgebase encoding: "2d"✔️, "separate", "positional"
 
 
 ### 30.08.20 entity F1
@@ -50,7 +45,6 @@
 
 ---
 
-
 ### 08.09.20 theory
 
 * "label shift" vs "covariate shift"
@@ -65,54 +59,19 @@
 ### 08.09.20 Transformer
 
 * find a working vanilla implementation; Options:
-1. use RNN version of kvr attention
+1. use RNN version of kvr attention *BRANCH TODO NOW*
 2. put kb-trg attention's output thru some sort of feedforward layer
 3. bruh
 * add other stuff:
 1.  multiple hops
 2.  multiple dimensions
 
-### 28.08.20 scheduled sampling
-
-implement scheduled sampling:
-
-yaml:
-add hyperparams:
-scheduled\_sampling\_type: linear, exponential, invsigmoid (default) 
-scheduled\_sampling\_k: value of k (float) # allowed range depends on sampl type
-scheduled\_sampling\_c: value of c (slope of linear schedule)
-✔️
-
-#### TrainManager:
-* initialize with 
-self.scheduled\_sampling(type,k,c) => function that only depends on i
-* keep track of num of minibatches i across epochs
-* for each batch: calculate e\_i
-* call glfb with e\_i
-✔️
-#### get\_loss\_for\_batch:
-args:
-e\_i: float = 0.
-pass this to greedy search if > 0.
-✔️
-#### greedy\_search:
-args: 
-batch.trg: Tensor = None, e\_i: float = 0.
-if received arg batch.trg, then select previous y with probability e\_i
-from batch.trg or model prediction
-✔️
-
-*TODO* See results of sampling, sigmoid
-
 ---
-
 
 ### 28.08.20 cheat version (bleu on canonized)
 
-*TODO* redo?? is postprocessing still done?
-(hyps still look postprocessed??)
-
 * Canonization level: can meeting\_time level be achieved? need linked target data: how to map any 5 pm to meeting\_time or 20 Main Street to Pizza\_My\_Heart\_Address
+
 
 ---
 
@@ -120,7 +79,6 @@ from batch.trg or model prediction
 
 * calculate/profile attention runtime
 * mix domain KBs together (refactor preproc scripts first...)
-
 
 
 ---
@@ -175,6 +133,7 @@ vanilla RNN
 * code runs, *TODO* do a full run with results on cluster
 
 vanilla TF
+*TODO*
 
 
 ### 31.08.20 recurrent multihop issues
@@ -184,6 +143,9 @@ vanilla TF
 
 ---
 
+# Issues Archive
+
+## Old Issue
 ### 28.08.20 wikiBIO dataset
 
 
@@ -221,8 +183,38 @@ Problem: Heterogenous data structure across infoboxes
 result: lots of unassigned entries and loose ends
 
 
+## Old Issue
+### 28.08.20 scheduled sampling
 
-# Issues Archive
+implement scheduled sampling:
+
+yaml:
+add hyperparams:
+scheduled\_sampling\_type: linear, exponential, invsigmoid (default) 
+scheduled\_sampling\_k: value of k (float) # allowed range depends on sampl type
+scheduled\_sampling\_c: value of c (slope of linear schedule)
+✔️
+
+#### TrainManager:
+* initialize with 
+self.scheduled\_sampling(type,k,c) => function that only depends on i
+* keep track of num of minibatches i across epochs
+* for each batch: calculate e\_i
+* call glfb with e\_i
+✔️
+#### get\_loss\_for\_batch:
+args:
+e\_i: float = 0.
+pass this to greedy search if > 0.
+✔️
+#### greedy\_search:
+args: 
+batch.trg: Tensor = None, e\_i: float = 0.
+if received arg batch.trg, then select previous y with probability e\_i
+from batch.trg or model prediction
+✔️
+
+
 
 
 ## Old Issue
