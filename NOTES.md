@@ -52,7 +52,43 @@
 
 ### 28.08.20 wikiBIO dataset
 
-* need NER parser to canonize sequence data into classes as given in infoboxes
+
+###Problems:
+---
+
+##### 0: What is input to generate first sentence?
+Just title + KB ?
+
+##### A: Knowledgebases (infoboxes) dont contain all entities used in bios 
+
+###### Approach 1:
+* use NER system to link/label entities in bios without looking at infobox
+* create huge json file with lookups like @birthday: [jan 1st 1900, jan 2nd 1900,...]
+* only be able to replace generated labels that happen to appear in KB (get fd)
+
+This is more like a real world task
+Model will be incentivized to generate labels that appear in the KB because of training signal
+But: Because all of the training data was labelled, the only way to be creative is to generate labels that dont appear in the infobox still
+
+
+###### Approach 2:
+* take values from box and link these to entities in bios
+* replace these entities with infobox categories as labels
+
+In this case the model doesnt actually make any choice in the knowledgebase.
+Even if Problem B is adressed, the model only needs to choose an entry (trivial) and selecting an attribute should be unambiguous again
+
+This might be worth it, if we care about showing the KVR Attention can select which entry to attend to
+
+##### Problem B: Knowledgebases not ambiguous enough (want more diversity)
+
+Approach 1:
+
+Collect many infoboxes entries in large knowledgebases
+
+Problem: Heterogenous data structure across infoboxes 
+result: lots of unassigned entries and loose ends
+
 
 ### 28.08.20 scheduled sampling
 

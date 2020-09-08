@@ -108,8 +108,6 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         batch_size = k.size(0)
         num_heads = self.num_heads
 
-
-
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
         q = self.q_layer(q)
@@ -123,7 +121,6 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
-
 
         # mask utilities if we have a mask
         if mask is not None:
