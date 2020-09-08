@@ -44,16 +44,17 @@ def main(args):
 
     directory = "../kvr/"
     voc_dir = "../voc/"
-    file_ext = ".kbFINAL"
+    file_ext = ".kb"
     if args==0: #use defaults
         splitpart = "dev"
-        trg_voc_file = "train.en.w2v.40k.map.voc"
+        EXT = "FINAL"
     else:
         splitpart = args[0]
         if len(args) > 1:
-            voc_file = args[1]
+            EXT = args[1]
         else:
-            trg_voc_file = "train.en.w2v.40k.map.voc"
+            EXT = "FINAL"
+    file_ext += EXT
     filename = splitpart+file_ext
 
     with open(directory+filename, "r") as kb:
@@ -68,20 +69,8 @@ def main(args):
         canons.append(canon_val+"\n")
         vals.append(val)
 
-    # --- add canonical values to vocab
-    trg_voc_loc = voc_dir+trg_voc_file
-    kb_voc_ext = "kbvoc"
-    new_kb_voc_loc = ".".join(trg_voc_loc.split(".")[:-1]+[kb_voc_ext])
 
-    with open(trg_voc_loc, "r") as V:
-        trg_vocab = V.readlines()
-
-    new_vocab = trg_vocab+canons
-
-    with open(new_kb_voc_loc, "w") as newV:
-        newV.writelines(new_vocab)
-
-    kb_src_ext, kb_trg_ext,kb_proper_val_ext = "kbkFINAL","kbvFINAL", "trvFINAL"
+    kb_src_ext, kb_trg_ext, kb_proper_val_ext = [ext+EXT for ext in ["kbk","kbv", "trv"]]
     old = ".".join(filename.split(".")[:-1])
     kb_src, kb_trg, kb_proper_val = old+"."+kb_src_ext, old+"."+kb_trg_ext, old+"."+kb_proper_val_ext
 

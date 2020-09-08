@@ -249,6 +249,7 @@ def main(args):
     output = [" ".join(out)+"\n" for out in canonized_seqs]
 
     output_ext = ".carno"
+
     with open(directory+filestub+output_ext, "w") as out:
         out.writelines(output)
 

@@ -13,7 +13,7 @@ data: # specify your data here
     kb_len: "lenFINAL"                       # KVR: kb lengths file ext
     kb_truvals: "trvFINAL"                   # KVR: file extension for truvals
     trutrg: "carno"                       # KVR: file extension for uncanonized target data (for valid/test postprocessing)
-    global_trv: "global.trv"            # KVR: concatenation of train/dev/test trv files for lookup vocab building
+    global.trv: "global.trvFINAL"            # KVR: concatenation of train/dev/test trv files for lookup vocab building
     
     train: "data/kvr/train"    # training data
     dev: "data/kvr/dev"        # development data for validation

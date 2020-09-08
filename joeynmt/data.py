@@ -477,6 +477,28 @@ class KB_minibatch(list):
         self.kbtrv = None
         self.canontrg = [] # holds list with examples where example.trg is canonized
 
+def dummy_KB_on_the_fly(trg_voc, kb_fields, kbtrv_fields):
+    # called in data.batch_with_kb and again in helpers.store_attention_plots
+    
+    # try to get the raw token in the source that was replaced by '@event' as subject for the key
+    subject = "dummySubj"
+    relation = "dummyRel"
+    value = "dummyVal"
+
+    dummy_kb = [
+        data.Example.fromlist(
+        [[subject, PAD_TOKEN, relation], [relation]], # FIXME hardcoded KB structure
+        fields=list(kb_fields.items())
+    )]
+    dummy_kbtrv = [
+        data.Example.fromlist(
+        [[value]], 
+        fields=list(kbtrv_fields.items())
+    )] 
+
+    return dummy_kb, dummy_kbtrv
+
+
 
 def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
     # called in data.batch_with_kb and again in helpers.store_attention_plots
@@ -559,12 +581,16 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
             # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME TODO XXX
-            # add a toggle for doing this to configs!!!! TODO TODO XXX FIXME
-            if c is not None: # TODO add toggle for doing this in cfg
+            if c is not None: 
 
                 otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src,data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
                 minibatch.kb = otf_kb
                 minibatch.kbtrv = otf_kbtrv 
+            else:
+                dummy_kb, dummy_kbtrv = dummy_KB_on_the_fly(data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields)
+                minibatch.kb = dummy_kb
+                minibatch.kbtrv = dummy_kbtrv
+                
 
         assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),len(minibatch.kbtrv)) 
 

@@ -20,7 +20,7 @@ from joeynmt.initialization import initialize_model
 from joeynmt.embeddings import Embeddings
 from joeynmt.encoders import Encoder, RecurrentEncoder, TransformerEncoder
 from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, TransformerDecoder, Generator
-from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN, UNASSIGNED_TOKEN
+from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN, UNASSIGNED_TOKEN, DEFAULT_UNK_ID
 from joeynmt.search import beam_search, greedy
 from joeynmt.vocabulary import Vocabulary
 from joeynmt.batch import Batch, Batch_with_KB
@@ -182,27 +182,14 @@ class Model(nn.Module):
 
         trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
 
-        # pylint: disable=unused-variable
-        if not hasattr(batch, "kbsrc"): # no kb task
-
-            if not do_teacher_force:
-                raise NotImplementedError("scheduled sampling only works for KB task atm")
-
-            kb_keys, kb_values, kb_trv, kb_probs = None, None, None, None # for uniform generator call 
-
-            hidden, att_probs, att_vectors , _ = self.forward(
-                src=batch.src, trg_input=trg_input,
-                src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                trg_mask=trg_mask)
-
-            # pass att_vectors through Generator
-
-            log_probs = self.generator(att_vectors)
-
-        else: # kb task
-            assert batch.kbsrc != None, batch.kbsrc
-
+        if hasattr(batch, "kbsrc"):
             kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
+        else:
+            kb_keys = None
+
+        # pylint: disable=unused-variable
+        if kb_keys is not None: # kb task
+            assert batch.kbsrc != None, batch.kbsrc
 
             # FIXME hardcoded attribute name
             if hasattr(batch, "trgcanon"): 
@@ -217,7 +204,6 @@ class Model(nn.Module):
                         src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                         trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask)
 
-                    log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
 
             else: # scheduled sampling
                 # only use true labels with probability 0 <= e_i < 1; otherwise take previous model generation;
@@ -244,10 +230,22 @@ class Model(nn.Module):
                             trg_input=trg_input,
                             e_i=e_i
                             )
-            if hasattr(batch, "trgcanon"):
-                assert not log_probs.requires_grad, "this shouldnt happen/ be done during training (canonized data is used in the 'trg' field there)"
 
-        print(f"log_probs: {log_probs.shape};\nbatch.trg: {trg.shape}")
+        else:
+            if not do_teacher_force:
+                raise NotImplementedError("scheduled sampling only works for KB task atm")
+
+            hidden, att_probs, att_vectors , _ = self.forward(
+                src=batch.src, trg_input=trg_input,
+                src_mask=batch.src_mask, src_lengths=batch.src_lengths,
+                trg_mask=trg_mask)
+
+
+        # pass att_vectors through Generator and add biases for KB entries in vocab indexes of kb values
+        log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
+
+        if hasattr(batch, "trgcanon"):
+            assert not log_probs.requires_grad, "this shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
 
         # compute batch loss
         batch_loss = loss_function(log_probs, trg)
@@ -257,7 +255,6 @@ class Model(nn.Module):
             mle_tokens = mle_tokens.cpu().numpy()
 
             print(f"proc_batch: Hypothesis: {self.trg_vocab.arrays_to_sentences(mle_tokens)[-1]}")
-
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: END current batch{'-'*10}\n")
 
@@ -290,9 +287,9 @@ class Model(nn.Module):
         if hasattr(batch, "kbsrc"):
             # B x KB x EMB; B x KB; B x KB
             kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
-            oldshape = kb_values.shape
-            # assert kb_values.shape[1] == 1, kb_values.shape 
-            knowledgebase = (kb_keys, kb_values,kb_mask)
+            knowledgebase = (kb_keys, kb_values, kb_mask)
+            if kb_keys is None:
+                knowledgebase = None
         else:
             knowledgebase = None
 
@@ -336,22 +333,19 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
         
-    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1)-> (Tensor, Tensor):
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1) -> \
+        (Tensor, Tensor, Tensor, Tensor):
 
         kb_keys = batch.kbsrc
         kb_values = batch.kbtrg
         kb_true_vals = batch.kbtrv.T.contiguous()
 
+        """
+        # use <UNK> token among targets to determine if we should just return None
         # true values should not contain unknown words (trv vocab should be initialized from concatenation of train/dev/test)
+        if (kb_true_vals == DEFAULT_UNK_ID()).any():
+            use_dummy_kb = True
         """
-        with self.Timer("making sure all knowledgebase values are in the vocab"):
-            for seq in range(kb_true_vals.shape[0]):
-                for word in range(kb_true_vals.shape[1]):
-                    # FIXME for some reason @DUM is still unk after TorchBatchWithKB field process ??
-                    assert not self.trv_vocab.is_unk(kb_true_vals[seq,word]), \
-                        (seq,word,kb_true_vals.shape,self.trv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy()))
-        """
-
 
         kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src #replace eos with pad
 
@@ -413,6 +407,7 @@ class Model(nn.Module):
 
                 kb_repr = []
                 steps = [1]
+                dim_embeds = []
                 for dim, entries in enumerate(kb_dim_entries): 
                     # e.g. relation = [tensor(997),tensor(998),tensor(999),...] (repeat)
 
@@ -423,10 +418,15 @@ class Model(nn.Module):
 
                     # sum embeddings for each dim
                     kb_dim_embed = self.src_embed(entries_padded_stacked).sum(dim=0) # kb_size x emb 
+                    dim_embeds += [kb_dim_embed]
 
                     # KB = num_entries * attr_0 * attr_1 * ...
 
                     # TODO FIXME make 2, FIXME then n dimensional
+                    
+                    if len(kb_dim_embed) == 1:
+                        steps += [1]
+                        continue
 
                     # find out block (num of entries for first subject)
                     # and step (num of entries until relation same as first relation)
@@ -434,18 +434,18 @@ class Model(nn.Module):
 
                     i = step = 1
                     block_flag, step_flag = False, False
+                    # assert False, self.trv_vocab.arrays_to_sentences(batch.kbtrv) 
                     first_entry = kb_dim_embed[i] 
+
                     # find out if first entry is repeated
                     # multiple times in a block (subjects)
                     # or multiple times every so many steps (relations)
                     while i < kb_size-1:
                         # FIXME doing the step & block calc like this is extremely inefficient
                         # do this before embed & sum?
-
                         if not kb_dim_embed[i+1].allclose(first_entry):
                             # continue step 
                             step_flag = True
-
                         else:
                             # finish step
                             if step_flag == True:
@@ -473,7 +473,7 @@ class Model(nn.Module):
                     step_i = dim_sizes[i] 
                     block_i = block_sizes[i]
 
-                    kb_dim_entry_set = kb_dim_embed[:block_i:step_i]
+                    kb_dim_entry_set = dim_embeds[i][:block_i:step_i]
 
                     kb_dim_entry_set = kb_dim_entry_set.unsqueeze(0) # add batch dimension to keys
                     kb_dim_entry_set = kb_dim_entry_set.repeat((batch.trg.shape[0],1,1)).contiguous() # batch x kb_dim_i x embed
@@ -518,10 +518,8 @@ class Model(nn.Module):
         if type(self.decoder) == TransformerDecoder:
             kb_mask = kb_mask.to(float32) 
         
-        assert (kb_mask==0.).all(), kb_mask 
         # FIXME this should hopefully trigger at some point for partially assigned scheduling dialogues
-
-        assert not (type(kb_keys)==tuple and kb_keys[0].shape[1]==1), [t.shape for t in kb_keys]
+        # assert (kb_mask==0.).all(), kb_mask 
 
         return kb_keys, kb_values, kb_true_vals, kb_mask
 

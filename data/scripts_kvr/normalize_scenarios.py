@@ -6,6 +6,8 @@ DUMMY_SUBJ = "DUMMYSUBJ"
 DUMMY_REL = "DUMMYREL"
 DUMMY_VAL = "DUMMYVAL"
 
+ADD_DUMMY = True
+
 
 def normalize_kb(d):
     """
@@ -66,13 +68,14 @@ def normalize_weather(d):
 
     assert len(location_keys_length) == 1, f" {location_keys_length}; all KB items (locations) should have same number of keys (weekdays)"
     # add how many dummy entries using num of entries from first kb example
-    dummy_numby = len([elem for elem in normed_kb if elem[0]==locations[0]["location"]])
+    if ADD_DUMMY:
 
-    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
-                                    entry[0]==normed_kb[0][0]]
-    normed_kb_with_dummy_entries += normed_kb
-    
-    return normed_kb_with_dummy_entries
+        normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
+                                        entry[0]==normed_kb[0][0]]
+        normed_kb_with_dummy_entries += normed_kb
+        return normed_kb_with_dummy_entries
+    else:
+        return normed_kb
 
 def normalize_navigate(d):
     """
@@ -107,17 +110,19 @@ def normalize_navigate(d):
 
     assert len(blimp_keys_length) == 1, f"{blimp_keys_length}; all KB items ) should have same number of keys (weekdays)"
     # add how many dummy entries using num of entries from first kb example
-    dummy_numby = len([elem for elem in normed_kb if elem[0]==normed_kb[0][0]])
+    if ADD_DUMMY:
 
-    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
-                                    entry[0]==normed_kb[0][0]]
-    normed_kb_with_dummy_entries += normed_kb
-    
-    return normed_kb_with_dummy_entries
+        normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
+                                        entry[0]==normed_kb[0][0]]
+        normed_kb_with_dummy_entries += normed_kb
+
+        return normed_kb_with_dummy_entries
+    else:
+        return normed_kb
 
 def normalize_schedule(d):
     """
-    takes a kb with task intent "schedule" 
+    takes a kb with task intent "schedule"
     and normalizes all items into triples
     of the form: 
 
@@ -142,21 +147,28 @@ def normalize_schedule(d):
 
     assert len(appointment_keys_lengths) == 1, f"{appointment_keys_lengths}; all KB items should have same number of keys"
     # add how many dummy entries using num of entries from first kb example
-    dummy_numby = len([elem for elem in normed_kb if elem[0]==normed_kb[0][0]])
+    if ADD_DUMMY:
 
-    normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
-                                    entry[0]==normed_kb[0][0]]
-    normed_kb_with_dummy_entries += normed_kb
-    
-    return normed_kb_with_dummy_entries
+        normed_kb_with_dummy_entries = [(DUMMY_SUBJ, entry[1], DUMMY_VAL) for entry in normed_kb if
+                                        entry[0]==normed_kb[0][0]]
+        normed_kb_with_dummy_entries += normed_kb
+        return normed_kb_with_dummy_entries
+    else:
+        return normed_kb
+
+
 
 def main(args):
 
+    EXT = "FINAL"
     directory = "../kvr/"
+
     if args==0: #use defaults
         splitpart = "dev"
     else:
         splitpart = args[0]
+        if len(args) > 1:
+            EXT = args[1]
     filename = splitpart+".json"
     with open(directory+filename, "r") as scenarios:
         settings = json.load(scenarios)
@@ -169,7 +181,7 @@ def main(args):
 
     #line formatted normalized kb
     filestamm = filename.split(".")[0]
-    ext = "kbFINAL"
+    ext = "kb"+EXT
     save_as = filestamm+"."+ext
     with open(directory+save_as, "w") as o:
         o.writelines(kb_list)
@@ -182,7 +194,7 @@ def main(args):
     # according to 
     # * dev.lkp 
 
-    lengths = "lenFINAL"
+    lengths = "len"+EXT
     save_lengths = filestamm + "." + lengths
     with open(directory+save_lengths, "w") as l:
         l.writelines(lens)

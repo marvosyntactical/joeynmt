@@ -14,7 +14,7 @@ data: # specify your data here
     kb_len: "len"                       # KVR: kb lengths file ext
     kb_truvals: "trv"                   # KVR: file extension for uncanonized kb values
     trutrg: "car"                       # KVR: file extension for uncanonized target data
-    global_trv: "global.trv"            # KVR: concatenation of train/dev/test trv files for lookup vocab building
+    global.trv: "global.trvFINAL"            # KVR: concatenation of train/dev/test trv files for lookup vocab building
     ###### end kb #######
     
     train: "data/kvr/train"    # training data

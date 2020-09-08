@@ -8,8 +8,7 @@ def load_entitties(ent_json="../kvr/kvret_entities.json"):
     ent_dict = json.load(ent_json)
     return ent_dict
 
-
-#hardcoded lookup
+# hardcoded lookup
 kbval_lkp = {
     "DUMMYREL" : "DUMMYREL",
     "distance" : "poi_distance",
@@ -50,22 +49,26 @@ def replace_lines(lines: List[str], d:defaultdict=kbval_lkp):
     return [replace_line(line,d) for line in lines]
 
 def main(args):
+    EXT = "FINAL"
     if args[0] == 0:
         # default f:
-        f = "../kvr/dev.kbvFINAL"
+        f = "../kvr/dev.kbv" + EXT
     elif type(args[0])==type(""):
-        f = f"../kvr/{args[0]}.kbvFINAL"
+        f = f"../kvr/{args[0]}.kbv"
+        if len(args)>1:
+            EXT = args[1]
+        f += EXT
     else:
         raise ValueError(f"this shouldnt ever happen...: {args[0]}")
 
     f_stump = ".".join(f.split(".")[:-1])+"."
-    cluster_ext = "kbcFINAL"
+    cluster_ext = "kbc"+EXT
     fp = f_stump + cluster_ext
 
     with open(f, "r") as fine:
         ll = fine.readlines()
-    ll = [l[:-1] if l.endswith("\n") else l for l in ll]
-    ll = [l for l in ll if l]
+    ll = [l[:-1] if l.endswith("\n") else l for l in ll] #remove newlines at end of lines
+    ll = [l for l in ll if l] # remove empty lines
 
     #code
 

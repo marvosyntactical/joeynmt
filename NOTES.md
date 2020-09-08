@@ -45,6 +45,11 @@
 
 ---
 
+### 10.09.20 DUMMY entries vs deciding to copy from source
+
+* add copy from source option ✔️
+* if KB empty, dont use attention module
+
 ### 08.09.20 theory
 
 * "label shift" vs "covariate shift"
@@ -72,14 +77,12 @@
 
 * Canonization level: can meeting\_time level be achieved? need linked target data: how to map any 5 pm to meeting\_time or 20 Main Street to Pizza\_My\_Heart\_Address
 
-
 ---
 
 ### 26.08.20 scalability *TODO*
 
 * calculate/profile attention runtime
 * mix domain KBs together (refactor preproc scripts first...)
-
 
 ---
 

@@ -12,7 +12,7 @@ data:
     kb_lkp: "lkp"
     kb_len: "lenNEW"
     kb_truvals: "trvNEW"
-    global_trv: "global.trv"
+    global.trv: "global.trvFINAL"
     trutrg: "car"
 
     # kb end
