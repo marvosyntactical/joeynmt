@@ -77,7 +77,7 @@ model:                              # specify your model architecture here
     kb: True                        # kb decoder used or not?
     k_hops: 2                       # num of kvr att layers
     do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
-    kb_max_dims: [256]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256,] for flat KB (eric et al)
+    kb_max_dims: [16, 32]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256,] for flat KB (eric et al)
 
 
     initializer: "xavier"           # initializer for all trainable weights (xavier, zeros, normal, uniform)

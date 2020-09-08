@@ -25,15 +25,15 @@ class MultiHeadedAttention(nn.Module):
         """
         super(MultiHeadedAttention, self).__init__()
 
-        assert size % num_heads == 0
+        assert size % num_heads == 0, (size, num_heads)
 
         self.head_size = head_size = size // num_heads
         self.model_size = size
         self.num_heads = num_heads
 
-        self.k_layer = nn.Linear(size, num_heads * head_size)
-        self.v_layer = nn.Linear(size, num_heads * head_size)
-        self.q_layer = nn.Linear(size, num_heads * head_size)
+        self.k_layer = nn.Linear(size,size)
+        self.v_layer = nn.Linear(size,size)
+        self.q_layer = nn.Linear(size,size)
 
         self.output_layer = nn.Linear(size, size)
         self.softmax = nn.Softmax(dim=-1)
@@ -96,35 +96,31 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
     """
 
-    def forward(self, k: Tensor, q: Tensor, mask: Tensor = None):
+    def forward(self, k: Tensor, q: Tensor):
         """
         Computes multi-headed KB attention.
 
         :param k: keys   [B, M, D] with M being the sentence length (Max)
         :param q: query  [B, M, D]
-        :param mask: optional mask [B, 1, M]
         :return:
         """
         batch_size = k.size(0)
         num_heads = self.num_heads
+        head_size = self.head_size
 
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
         q = self.q_layer(q)
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x kb        x head_size
-        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x kb        x head_size
+        q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
         # compute scores
-        q = q / math.sqrt(self.head_size)
+        q = q / math.sqrt(head_size)
 
         # batch x num_heads x query_len x key_len
         scores = torch.matmul(q, k.transpose(2, 3))
-
-        # mask utilities if we have a mask
-        if mask is not None:
-            scores = torch.where(~mask.unsqueeze(1), scores, torch.zeros_like(scores))
 
         # apply attention dropout
         attention = self.softmax(scores)
@@ -271,8 +267,6 @@ class TransformerDecoderLayer(nn.Module):
                  ff_size: int = 0,
                  num_heads: int = 0,
                  dropout: float = 0.1,
-                 kb_task: bool = False,
-                 kb_max: int = 256,
     ):
         """
         Represents a single Transformer decoder layer.
@@ -282,8 +276,6 @@ class TransformerDecoderLayer(nn.Module):
         :param size: model dimensionality
         :param ff_size: size of the feed-forward intermediate layer
         :param num_heads: number of heads
-        :param kb_task: performing kb task or not?
-        :param kb_max: maximum knowledgebase size, used in att init
         :param dropout: dropout to apply to input
         """
         super(TransformerDecoderLayer, self).__init__()
@@ -300,12 +292,6 @@ class TransformerDecoderLayer(nn.Module):
         self.x_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.dec_layer_norm = nn.LayerNorm(size, eps=1e-6)
 
-        self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
-        self.kb_max = kb_max
-
-        if kb_task:
-            self.multihop_feeding = nn.Linear(self.kb_max + self.size, self.size, bias=True)
-
         self.dropout = nn.Dropout(dropout)
 
     # pylint: disable=arguments-differ
@@ -314,7 +300,6 @@ class TransformerDecoderLayer(nn.Module):
                 memory: Tensor = None,
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
-                prev_utilities: Tensor = None
                 ) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
@@ -323,7 +308,6 @@ class TransformerDecoderLayer(nn.Module):
         :param memory: source representations
         :param src_mask: source mask
         :param trg_mask: target mask (so as to not condition on future steps)
-        :param prev_utilities: B x M x KB_MAX previous kb entry utilities for kb att input feeding
         :return: output tensor
         """
         # decoder/target self-attention

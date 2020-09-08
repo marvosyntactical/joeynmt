@@ -906,7 +906,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 assert False, ((kb_mask.shape[0], kb_pad_len), kb_mask_padding.shape)
 
             # assert False, dir(kb_mask_padding)
-            kb_mask_padded = torch.cat([kb_mask, kb_mask_padding.to(dtype=torch.bool)], dim=1)
+            kb_mask_padded = torch.cat([kb_mask, kb_mask_padding.to(dtype=torch.bool,device=kb_mask.device)], dim=1)
             kb_mask = kb_mask_padded.unsqueeze(1)
 
         att_vectors = [] 
@@ -1016,7 +1016,7 @@ class TransformerDecoder(Decoder):
                  vocab_size: int = 1,
                  freeze: bool = False,
                  kb_task: bool=False,
-                 kb_max: int = 256,
+                 kb_max: Tuple = (256,),
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -1030,7 +1030,7 @@ class TransformerDecoder(Decoder):
         :param vocab_size: size of the output vocabulary
         :param freeze: set to True keep all decoder parameters fixed
         :param kb_task: performing kb_task or not? used in layer init
-        :param kb_max: maximum kb size
+        :param kb_max: maximum kb size for each dimension FIXME only implemented for 1 d for ATM
         :param kwargs:
         """
         super(TransformerDecoder, self).__init__()
@@ -1038,13 +1038,10 @@ class TransformerDecoder(Decoder):
         self._hidden_size = hidden_size
         self._output_size = vocab_size
 
-        self.kb_max = kb_max
-        self.curr_kb_size = None
-
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout, kb_task=kb_task,kb_max=self.kb_max) for _ in range(num_layers)],)
+                dropout=dropout) for _ in range(num_layers)],)
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -1053,9 +1050,14 @@ class TransformerDecoder(Decoder):
         self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
 
         if kb_task:
-            self.curr_kb_size = None
             self.kb_layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
             self.kb_trg_att = MultiHeadedKbAttention(num_heads, hidden_size, dropout=dropout)
+
+            if not hasattr(kb_max, "__iter__"): 
+                assert type(kb_max) == int, kb_max
+                kb_max = (kb_max,)
+            self.kb_max = kb_max 
+            if len(self.kb_max) is not 1: raise NotImplementedError(f"{len(self.kb_max)} not implemented for transformer")
 
         if freeze:
             freeze_params(self)
@@ -1101,16 +1103,22 @@ class TransformerDecoder(Decoder):
             x = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
 
         x = self.layer_norm(x)
+
+        # TODO implement N dimensional transformer attention FIXME
+
         # Multiheaded KVR Attention fwd pass
         if kb_keys is not None:
-            kb_keys_padded = self.pad_kb_keys(kb_keys)
+            assert kb_mask is not None, kb_keys.shape
 
-            for dim in range(self.kb_dims):
-                util_n = self.kb_trg_att(kb_keys_padded, x, mask=kb_mask)
+            curr_kb_size = kb_keys.shape[1]
+            kb_keys_padded = self.pad_kb_tensor(kb_keys) # FIXME
+            # kb_mask_padded = self.pad_kb_tensor(kb_mask)
 
-            # TODO implement N dimensional transformer attention
+            u = self.kb_trg_att(kb_keys_padded, x)
 
-            kb_probs = util_n[:,:,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
+            kb_probs = u[:,:,:curr_kb_size] # recover only attention values for non pad knowledgebase entries
+            kb_probs.masked_fill_((kb_mask==1.).unsqueeze(1), 0.0)
+
         else:
             kb_probs = None
         
@@ -1118,24 +1126,19 @@ class TransformerDecoder(Decoder):
         # return hidden, att_probs, att_vectors, kb_probs
         return None, None, x, kb_probs
     
-    def pad_kb_keys(self, kb_keys: Tensor) -> Tensor:
-        # pad kb_keys from B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
-        # and set self.curr_kb_size
-        self.curr_kb_size = kb_keys.shape[1]
-        padding = self.kb_max - self.curr_kb_size
-        assert padding >= 0, f"kb dim of keys {kb_keys.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+    def pad_kb_tensor(self, t: Tensor) -> Tensor:
+        # pad kb tensor shaped like B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
+        # used for kb_keys & kb_mask
 
-        keys_pad = torch.zeros(kb_keys.shape[0], padding, kb_keys.shape[2]).to(device=kb_keys.device)
-        return torch.cat([kb_keys,keys_pad], dim=1)
-    
-    def pad_kb_mask(self, kb_mask: Tensor) -> Tensor:
-        # pad kb_mask from B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
-        # and set self.curr_kb_size
-        padding = self.kb_max - self.curr_kb_size
-        assert padding >= 0, f"kb dim of keys {kb_mask.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+        assert len(t.shape) == 3, t.shape
 
-        keys_pad = torch.full((kb_mask.shape[0], padding, kb_mask.shape[2]),fill_value=False).to(device=kb_mask.device)
-        return torch.cat([kb_mask, keys_pad], dim=1)
+        curr_kb_size = t.shape[1]
+        padding = self.kb_max[0] - curr_kb_size # FIXME
+        assert padding >= 0, f"KB dim of KB tensor (keys or mask) {t.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+
+        pad_ = torch.zeros(t.shape[0], padding, t.shape[-1]).to(device=t.device)
+
+        return torch.cat([t,pad_], dim=1)
 
 
     def __repr__(self):

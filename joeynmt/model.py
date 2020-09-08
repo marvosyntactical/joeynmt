@@ -12,8 +12,7 @@ from collections import defaultdict
 import numpy as np
 
 import torch.nn as nn
-from torch import Tensor, cat, FloatTensor, arange
-from torch import argmax
+from torch import Tensor, cat, FloatTensor, arange, argmax, float32
 import torch.nn.functional as F
 
 
@@ -473,6 +472,7 @@ class Model(nn.Module):
                     block_i = block_sizes[i]
 
                     kb_dim_entry_set = kb_dim_embed[:block_i:step_i]
+
                     kb_dim_entry_set = kb_dim_entry_set.unsqueeze(0) # add batch dimension to keys
                     kb_dim_entry_set = kb_dim_entry_set.repeat((batch.trg.shape[0],1,1)).contiguous() # batch x kb_dim_i x embed
 
@@ -511,13 +511,15 @@ class Model(nn.Module):
         # kb dim equal 
         assert kb_values.shape[1] == kb_true_vals.shape[1], assert_msg
 
+        # mask entries that arent assigned (empty calendar scheduling fields) in flat representation
         kb_mask = kb_true_vals == self.trv_vocab.stoi[UNASSIGNED_TOKEN]
-
-        assert (~kb_mask).all(), kb_mask 
+        if type(self.decoder) == TransformerDecoder:
+            kb_mask = kb_mask.to(float32) 
+        
+        assert (kb_mask==0.).all(), kb_mask 
         # FIXME this should hopefully trigger at some point for partially assigned scheduling dialogues
 
         assert not (type(kb_keys)==tuple and kb_keys[0].shape[1]==1), [t.shape for t in kb_keys]
-
 
         return kb_keys, kb_values, kb_true_vals, kb_mask
 

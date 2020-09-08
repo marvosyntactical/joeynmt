@@ -24,8 +24,8 @@
 
 ### 31.08.20 stuff to add to config
 
-* copy from source? bool
-* knowledgebase encoding: "positional", "2d"
+* copy from source? bool✔️
+* knowledgebase encoding: "positional", "2d"✔️
 
 
 ### 30.08.20 entity F1
@@ -48,47 +48,29 @@
 
 *TODO* lol
 
-
-
-### 28.08.20 wikiBIO dataset
-
-
-###Problems:
 ---
 
-##### 0: What is input to generate first sentence?
-Just title + KB ?
 
-##### A: Knowledgebases (infoboxes) dont contain all entities used in bios 
+### 08.09.20 theory
 
-###### Approach 1:
-* use NER system to link/label entities in bios without looking at infobox
-* create huge json file with lookups like @birthday: [jan 1st 1900, jan 2nd 1900,...]
-* only be able to replace generated labels that happen to appear in KB (get fd)
+* "label shift" vs "covariate shift"
 
-This is more like a real world task
-Model will be incentivized to generate labels that appear in the KB because of training signal
-But: Because all of the training data was labelled, the only way to be creative is to generate labels that dont appear in the infobox still
+### 08.09.20 how does attention mechanism learn to distinguish gas station from restaurant?
 
+* the model doesnt get a loss signal because of the canonization: @poi vs @poi
+* probably through a combination of embedding similarity and sentence structure
+* try different embedding table (than src vocab) for kb keys
+* if it still works, embedding similarity is not necessary
 
-###### Approach 2:
-* take values from box and link these to entities in bios
-* replace these entities with infobox categories as labels
+### 08.09.20 Transformer
 
-In this case the model doesnt actually make any choice in the knowledgebase.
-Even if Problem B is adressed, the model only needs to choose an entry (trivial) and selecting an attribute should be unambiguous again
-
-This might be worth it, if we care about showing the KVR Attention can select which entry to attend to
-
-##### Problem B: Knowledgebases not ambiguous enough (want more diversity)
-
-Approach 1:
-
-Collect many infoboxes entries in large knowledgebases
-
-Problem: Heterogenous data structure across infoboxes 
-result: lots of unassigned entries and loose ends
-
+* find a working vanilla implementation; Options:
+1. use RNN version of kvr attention
+2. put kb-trg attention's output thru some sort of feedforward layer
+3. bruh
+* add other stuff:
+1.  multiple hops
+2.  multiple dimensions
 
 ### 28.08.20 scheduled sampling
 
@@ -122,6 +104,7 @@ from batch.trg or model prediction
 
 *TODO* See results of sampling, sigmoid
 
+---
 
 
 ### 28.08.20 cheat version (bleu on canonized)
@@ -131,6 +114,7 @@ from batch.trg or model prediction
 
 * Canonization level: can meeting\_time level be achieved? need linked target data: how to map any 5 pm to meeting\_time or 20 Main Street to Pizza\_My\_Heart\_Address
 
+---
 
 ### 26.08.20 scalability *TODO*
 
@@ -193,14 +177,50 @@ vanilla RNN
 vanilla TF
 
 
-
-
 ### 31.08.20 recurrent multihop issues
 => seems to work okay, but kb attentions dont get plotted anymore
 *TODO*
 => is attention state actually saved from step to step as done by jason weston et al?
 
 ---
+
+### 28.08.20 wikiBIO dataset
+
+
+#### Problems:
+
+##### 0: What is input to generate first sentence?
+Just title + KB ?
+
+##### A: Knowledgebases (infoboxes) dont contain all entities used in bios 
+
+###### Approach 1:
+* use NER system to link/label entities in bios without looking at infobox
+* create huge json file with lookups like @birthday: [jan 1st 1900, jan 2nd 1900,...]
+* only be able to replace generated labels that happen to appear in KB (get fd)
+
+This is more like a real world task
+Model will be incentivized to generate labels that appear in the KB because of training signal
+But: Because all of the training data was labelled, the only way to be creative is to generate labels that dont appear in the infobox still
+
+
+###### Approach 2:
+* take values from box and link these to entities in bios
+* replace these entities with infobox categories as labels
+
+In this case the model doesnt actually make any choice in the knowledgebase.
+Even if Problem B is adressed, the model only needs to choose an entry (trivial) and selecting an attribute should be unambiguous again
+
+This might be worth it, if we care about showing the KVR Attention can select which entry to attend to
+
+##### Problem B: Knowledgebases not ambiguous enough (want more diversity)
+
+Collect many infoboxes entries in large knowledgebases
+
+Problem: Heterogenous data structure across infoboxes 
+result: lots of unassigned entries and loose ends
+
+
 
 # Issues Archive
 
@@ -225,8 +245,6 @@ special case: k=1: 1hop is equiv to default (same results) ✔️
 => do 2, 3 hops ✔️
 
 * do a while loop and hop as many times as needed until suffctly confident?
-
-
 
 
 
