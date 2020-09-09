@@ -5,6 +5,24 @@
 ##### Optimization
 (later)
 
+# _OPEN ISSUES_
+
+### 09.09. grid search hyperparams
+
+These hyperparams are all orthogonal:
+* architecture: RNN , transformer
+* scheduled sampling: teacherforce, invsigmoid, linear
+* kb encoding: 1D , 2D , positional
+* kb embedding: source ,  separate
+* multihops: 1 , 2 , 3
+* metric reporting: raw, canonized
+
+
+These are special cases for some of the above:
+* architecture: transformer: multiheaded , bahdanau attention
+
+
+
 ### Empty scheduling KBs:
 * no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
 * => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
@@ -20,7 +38,8 @@
 ### 31.08.20 stuff to add to config
 
 * copy from source? bool✔️
-* knowledgebase encoding: "2d"✔️, "separate", "positional"
+* knowledgebase encoding: "2d"✔️, "positional" XXX
+* separate KB embedding table
 
 
 ### 30.08.20 entity F1

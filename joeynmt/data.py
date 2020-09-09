@@ -303,10 +303,16 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         entities = load_entity_dict(fp=entities_path)
         efficient_entities = preprocess_entity_dict(entities, lower=lowercase, tok_fun=tok_fun)
 
-        def canonize(seq):
-            processed, indices = canonize_sequence(seq, efficient_entities)
-
-            return processed, indices
+        # FIXME this shit
+        class Canonizer:
+            def __init__(self, copy_from_source: bool = False):
+                self.copy_from_source = bool(copy_from_source)
+            def __call__(self, seq):
+                if self.copy_from_source:
+                    processed, indices = canonize_sequence(seq, efficient_entities)
+                    return processed, indices
+                else:
+                    return None
 
 
 
@@ -326,7 +332,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
-        trv_vocab, canonize, dev_data_canon, test_data_canon
+        trv_vocab, Canonizer, dev_data_canon, test_data_canon
 
 
 # pylint: disable=global-at-module-level
@@ -581,7 +587,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
             # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME TODO XXX
-            if c is not None: 
+            if c.copy_from_source: 
 
                 otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src,data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
                 minibatch.kb = otf_kb

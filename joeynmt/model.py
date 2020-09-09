@@ -59,7 +59,7 @@ class Model(nn.Module):
         :param trv_vocab: kb true value lookup vocabulary
         :param k_hops: number of kvr attention forward passes to do
         :param do_postproc: do postprocessing (decode canonical tokens) in KVR task?
-        :param canonize: canonization function to try to create KB on the fly if none exists; not used by model but piggybacks off it
+        :param canonize: callable canonization object to try to create KB on the fly if none exists; not used by model but piggybacks off it
         """
         super(Model, self).__init__()
 
@@ -73,20 +73,18 @@ class Model(nn.Module):
         self.bos_index = self.trg_vocab.stoi[BOS_TOKEN]
         self.pad_index = self.trg_vocab.stoi[PAD_TOKEN]
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
+
         #kb stuff:
         self.kb_embed = self.trg_embed 
         self.src_pad_index = self.src_vocab.stoi[PAD_TOKEN]
         if trv_vocab != None:
             self.trv_vocab = trv_vocab #TODO should probably be deleted altogether
-
         self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
         self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
         self.do_postproc = do_postproc
         self.canonize = canonize
         self.kb_att_dims = kb_att_dims
-
-
 
         self.Timer = Timer()
 
@@ -186,6 +184,8 @@ class Model(nn.Module):
             kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
         else:
             kb_keys = None
+        
+        log_probs = None
 
         # pylint: disable=unused-variable
         if kb_keys is not None: # kb task
@@ -196,16 +196,8 @@ class Model(nn.Module):
                 # get loss on canonized target data, see joeynmt.prediction.validate_on_data
                 trg, trg_input, trg_mask = batch.trgcanon, batch.trgcanon_input, batch.trgcanon_mask
 
-            if do_teacher_force: # take true label at every step => just do fwd pass like in normal teacher forcing training
-                with self.Timer("model training: KB Task: model fwd pass"):
-
-                    hidden, att_probs, att_vectors , kb_probs = self.forward(
-                        src=batch.src, trg_input=trg_input,
-                        src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                        trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask)
-
-
-            else: # scheduled sampling
+            
+            if not do_teacher_force: # scheduled sampling
                 # only use true labels with probability 0 <= e_i < 1; otherwise take previous model generation;
                 # => do a greedy search (autoregressive training as hinted at in Eric et al)
                 with self.Timer("model training: KB Task: do greedy search"):
@@ -230,8 +222,16 @@ class Model(nn.Module):
                             trg_input=trg_input,
                             e_i=e_i
                             )
+            else: # take true label at every step => just do fwd pass like in normal teacher forcing training
+                with self.Timer("model training: KB Task: model fwd pass"):
 
-        else:
+                    hidden, att_probs, att_vectors , kb_probs = self.forward(
+                        src=batch.src, trg_input=trg_input,
+                        src_mask=batch.src_mask, src_lengths=batch.src_lengths,
+                        trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask)
+
+
+        else: # vanilla, not kb task
             if not do_teacher_force:
                 raise NotImplementedError("scheduled sampling only works for KB task atm")
 
@@ -240,9 +240,10 @@ class Model(nn.Module):
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=trg_mask)
 
-
-        # pass att_vectors through Generator and add biases for KB entries in vocab indexes of kb values
-        log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
+        if log_probs is None:
+            # same generator fwd pass for KB task and no KB task if teacher forcing
+            # pass att_vectors through Generator and add biases for KB entries in vocab indexes of kb values
+            log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
 
         if hasattr(batch, "trgcanon"):
             assert not log_probs.requires_grad, "this shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
@@ -258,7 +259,7 @@ class Model(nn.Module):
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: END current batch{'-'*10}\n")
 
-        # return batch loss = sum over all elements in batch that are not pad
+        # batch loss = sum xent over all elements in batch that are not pad
         return batch_loss
 
 
@@ -661,7 +662,7 @@ def build_model(cfg: dict = None,
                 src_vocab: Vocabulary = None,
                 trg_vocab: Vocabulary = None,
                 trv_vocab: Vocabulary = None,
-                canonize = None) -> Model:
+                canonizer = None) -> Model:
     """
     Build and initialize the model according to the configuration.
 
@@ -742,7 +743,7 @@ def build_model(cfg: dict = None,
     k_hops = int(cfg.get("k_hops", 1)) # k number of kvr attention layers in decoder (eric et al/default: 1)
     do_postproc = bool(cfg.get("do_postproc", True))
     copy_from_source = bool(cfg.get("copy_from_source", True))
-    canonization_func = canonize if copy_from_source else None
+    canonization_func = canonizer(copy_from_source=copy_from_source) 
 
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
     if hasattr(kb_max_dims, "__iter__"):
