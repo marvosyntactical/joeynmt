@@ -106,8 +106,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_trv = data_cfg.get("kb_truvals", "trv")
         global_trv = data_cfg.get("global_trv", "global.trv")
         trutrg = data_cfg.get("trutrg", "car") 
-        kb_keys_embed = data_cfg.get("kb_keys_embed", "source").lower()
-        assert kb_keys_embed in ["separate", "source"], kb_keys_embed
+
+        kb_keys_vocab = data_cfg.get("kb_keys_vocab", "source").lower()
+        assert kb_keys_vocab in ["separate", "source"], kb_keys_vocab
 
         # TODO FIXME following is hardcoded; add to configs please
         pnctprepro = True
@@ -144,8 +145,16 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                             unk_token=UNK_TOKEN,
                             batch_first=True, lower=False,
                             include_lengths=False)
-        if kb_keys_embed == "source":
+
+        if kb_keys_vocab == "source":
             kb_src_field = src_field
+        else: # separate embedding table
+            kb_src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
+                           pad_token=PAD_TOKEN, tokenize=tok_fun,
+                           batch_first=True, lower=lowercase,
+                           unk_token=UNK_TOKEN,
+                           include_lengths=False)
+            kb_src_vocab = None
 
     train_data = TranslationDataset(path=train_path,
                                     exts=("." + src_lang, "." + trg_lang),
@@ -184,6 +193,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             lengths = lens.readlines()
         train_kb_lengths = [int(elem[:-1]) for elem in lengths if elem[:-1]]
             
+    # now that we have train data, build vocabulary from it. worry about dev and test data further below
 
     src_max_size = data_cfg.get("src_voc_limit", sys.maxsize)
     src_min_freq = data_cfg.get("src_voc_min_freq", 1)
@@ -194,21 +204,17 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     trg_vocab_file = data_cfg.get("trg_vocab", None)
     trg_kb_vocab_file = data_cfg.get("trg_kb_vocab", None)
-    trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file #prefer to use joint trg_kb_vocab_file is specified
+    trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file # prefer to use joint trg_kb_vocab_file if specified
 
     vocab_building_datasets = train_data if not kb_task else (train_data, train_kb)
-    vocab_building_src_fields = "src" if not kb_task else ("src", "kbsrc")
+    vocab_building_src_fields = "src" if (not kb_task or kb_keys_vocab != "source") else ("src", "kbsrc")
     vocab_building_trg_fields = "trg" if not kb_task else ("trg", "kbtrg")
 
-    pkld_src_voc = data_cfg.get("src_voc_pkl", "data/voc/src.p")
-    pkld_trg_voc = data_cfg.get("trg_voc_pkl", "data/voc/trg.p")
-    
-
-    # TODO figure out how to serialize/pickle Vocabulary objects
-
     src_vocab = build_vocab(fields=vocab_building_src_fields, min_freq=src_min_freq, max_size=src_max_size, dataset=vocab_building_datasets, vocab_file=src_vocab_file)
-
     trg_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=trg_min_freq, max_size=trg_max_size, dataset=vocab_building_datasets, vocab_file=trg_vocab_file)
+
+    if kb_keys_vocab != "source": 
+        kb_src_vocab = build_vocab(fields="kbsrc", min_freq=1, max_size=src_max_size, dataset=train_kb) 
 
     random_train_subset = data_cfg.get("random_train_subset", -1)
     if random_train_subset > -1:
@@ -283,7 +289,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         test_kb_lengths = [int(elem[:-1]) for elem in lengths if elem[:-1]]
 
     # finally actually set the .vocab field attributes        
-    src_field.vocab = src_vocab
+    src_field.vocab = src_vocab # also sets kb_src_field.vocab if theyre the same (variables point to same object)
     trg_field.vocab = trg_vocab
 
     if kb_task:
@@ -300,6 +306,12 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         print(f"Added true value lines as tokens to trv_vocab of length={len(trv_vocab)}")
         trv_field.vocab = trv_vocab
 
+        if not hasattr(kb_src_field, "vocab"): # separate kb key embedding
+            # TODO set kb src field vocab
+            kb_src_field.vocab = kb_src_vocab
+        else: 
+            kb_src_vocab = src_vocab
+
     if kb_task:
         # make canonization function to create KB from source for batches without one 
 
@@ -315,10 +327,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                 processed, indices = canonize_sequence(seq, efficient_entities)
                 return processed, indices
 
-
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None
-        trv_vocab = None
+        kb_src_vocab, trv_vocab = None, None
         train_kb_lookup, dev_kb_lookup, test_kb_lookup = [],[],[]
         train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
@@ -332,7 +343,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
-        trv_vocab, Canonizer, dev_data_canon, test_data_canon
+        kb_src_vocab, trv_vocab, Canonizer, \
+        dev_data_canon, test_data_canon
 
 
 # pylint: disable=global-at-module-level

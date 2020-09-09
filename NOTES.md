@@ -45,12 +45,11 @@ These are special cases for some of the above:
 *TODO* TEST this
 
 
-
 ### 31.08.20 stuff to add to config
 
 * copy from source? bool✔️
 * knowledgebase encoding: "2d"✔️, "positional" XXX
-* separate KB embedding table
+* separate KB embedding table ✔️
 
 
 ### 30.08.20 entity F1
@@ -158,8 +157,6 @@ KBs unambiguous as designed; not like real world => experiment
 Metrics stuff :
 * ablation study with bleu without "Youre welcome", "Have a nice day", "How can I help you today?" etc etc
 beam search should work now ✔️ 
-*TODO* confirm implementation
-*TODO* remove stacked attention reshaping for transformer
 
 
 vanilla RNN

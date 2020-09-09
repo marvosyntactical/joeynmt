@@ -16,6 +16,7 @@ data: # specify your data here
     kb_truvals: "trvSHORT"
     global.trv: "global.trvFINAL"
     trutrg: "carSHORT"
+    kb_keys_vocab: "source"    # seperate or source NOTE dont use this, use model[decoder[kb_key_embed] instead or omit it if not wanted
 
    
     train: "data/kvr/train"    # training data
@@ -110,6 +111,11 @@ model:                              # specify your model architecture here
             embedding_dim: 200
             scale: False
             freeze: False           # if True, embeddings are not updated during training
+        kb_key_embeddings:          # specify or omit this and the 3 settings depending on if you want separate kb key embeddings or not (use source table)
+            embedding_dim: 200
+            scale: False
+            freeze: False           # if True, embeddings are not updated during training
+
         hidden_size: 200 
         dropout: 0.12
         hidden_dropout: 0.12        # apply dropout to the attention vector, default: 0.0

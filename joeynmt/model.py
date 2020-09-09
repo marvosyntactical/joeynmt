@@ -41,6 +41,8 @@ class Model(nn.Module):
                  trg_embed: Embeddings,
                  src_vocab: Vocabulary,
                  trg_vocab: Vocabulary,
+                 kb_key_embed: Embeddings,
+                 kb_key_vocab: Vocabulary,
                  trv_vocab: Vocabulary=None,
                  k_hops: int = 1,
                  do_postproc: bool = True,
@@ -75,12 +77,12 @@ class Model(nn.Module):
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
 
         #kb stuff:
-        self.kb_embed = self.trg_embed 
-        self.src_pad_index = self.src_vocab.stoi[PAD_TOKEN]
+        self.kb_key_vocab = kb_key_vocab if kb_key_vocab is not None else self.src_vocab # optionally use separate embedding table
+        self.kbsrc_embed = kb_key_embed if kb_key_embed is not None else self.src_embed
         if trv_vocab != None:
             self.trv_vocab = trv_vocab #TODO should probably be deleted altogether
-        self.pad_idx_src = self.src_vocab.stoi[PAD_TOKEN]
-        self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
+        self.pad_idx_kbsrc = self.kb_key_vocab.stoi[PAD_TOKEN] # FIXME used for kb only?
+        self.eos_idx_src = self.kb_key_vocab.stoi[EOS_TOKEN]
         self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
         self.do_postproc = do_postproc
         self.canonize = canonize
@@ -348,7 +350,7 @@ class Model(nn.Module):
             use_dummy_kb = True
         """
 
-        kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_src #replace eos with pad
+        kb_keys[kb_keys == self.eos_idx_src] = self.pad_idx_kbsrc #replace eos with pad
 
         with self.Timer("converting arrays to sentences for current batch"):
 
@@ -356,7 +358,7 @@ class Model(nn.Module):
 
             print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
             print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
-            print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
+            print(f"proc_batch: kbkeys: {self.kb_key_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
             print(f"proc_batch: kbvalues: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
 
             print(f"debug: batch.kbtrv:{self.trv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())}")
@@ -386,7 +388,7 @@ class Model(nn.Module):
                 # |keys| == KB x key_repr
 
                 # go along dim 1 (key_repr) and find first column where all entries are <PAD> (before are subjects, after are relation)
-                pad_val = self.src_pad_index
+                pad_val = self.pad_idx_kbsrc
                 kb_size, key_repr_size = kb_keys.shape
                 kb_entries = [] 
                 dims = [] # dimensions of each kb entry
@@ -418,7 +420,7 @@ class Model(nn.Module):
                     entries_padded_stacked = cat(entries_padded, dim=1)
 
                     # sum embeddings for each dim
-                    kb_dim_embed = self.src_embed(entries_padded_stacked).sum(dim=0) # kb_size x emb 
+                    kb_dim_embed = self.kbsrc_embed(entries_padded_stacked).sum(dim=0) # kb_size x emb 
                     dim_embeds += [kb_dim_embed]
 
                     # KB = num_entries * attr_0 * attr_1 * ...
@@ -457,7 +459,7 @@ class Model(nn.Module):
                                 break
                         i += 1
 
-                    assert kb_size%step==0, (kb_size, step, self.src_vocab.arrays_to_sentences(entries))
+                    assert kb_size%step==0, (kb_size, step, self.kb_key_vocab.arrays_to_sentences(entries))
 
                     steps += [step]
 
@@ -485,7 +487,7 @@ class Model(nn.Module):
 
                 if detailed_debug:
                     print(steps, kb_size, [t.shape for t in kb_repr],\
-                        self.src_vocab.arrays_to_sentences(entries[:block_i:step_i]))
+                        self.kb_key_vocab.arrays_to_sentences(entries[:block_i:step_i]))
 
                 shape_check_keys = kb_keys[0]
                 assert product([key_dim.shape[1] for key_dim in kb_keys]) == kb_size,\
@@ -495,7 +497,7 @@ class Model(nn.Module):
                 # normal (1D) mode 
 
                 # NOTE: values dont need to be embedded! they are only used for indexing
-                kb_keys = self.src_embed(kb_keys)
+                kb_keys = self.kbsrc_embed(kb_keys)
                 kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
             
                 # add batch dimension to keys
@@ -661,6 +663,7 @@ class Model(nn.Module):
 def build_model(cfg: dict = None,
                 src_vocab: Vocabulary = None,
                 trg_vocab: Vocabulary = None,
+                kb_key_vocab: Vocabulary = None,
                 trv_vocab: Vocabulary = None,
                 canonizer = None) -> Model:
     """
@@ -669,14 +672,21 @@ def build_model(cfg: dict = None,
     :param cfg: dictionary configuration containing model specifications
     :param src_vocab: source vocabulary
     :param trg_vocab: target vocabulary
+    :param kb_key_vocab: kb key vocabulary; If none, assume src_vocab should be used (for optional separate embedding tables)
     :param trv_vocab: kb true value lookup vocabulary
     :return: built and initialized model
     """
     src_padding_idx = src_vocab.stoi[PAD_TOKEN]
     trg_padding_idx = trg_vocab.stoi[PAD_TOKEN]
+
+    if kb_key_vocab is not None:
+        kbsrc_padding_idx = kb_key_vocab.stoi[PAD_TOKEN]
+    else:
+        kbsrc_padding_idx = src_padding_idx
     
     if "embedding_files" in cfg.keys(): #init from pretrained
         assert not cfg.get("tied_embeddings", False), "TODO implement tied embeddings along with pretrained initialization"
+        raise NotImplementedError("TODO implement kbsrc embed loading for embedding files")
         weight_tensors = []
         for weight_file in cfg["embedding_files"]:
             with open(weight_file, "r") as f:
@@ -705,6 +715,14 @@ def build_model(cfg: dict = None,
         src_embed = Embeddings(
             **cfg["encoder"]["embeddings"], vocab_size=len(src_vocab),
             padding_idx=src_padding_idx)
+        try:
+            kbsrc_embed = Embeddings(
+                **cfg["decoder"]["kb_key_embed"], vocab_size=len(kb_key_vocab),
+                padding_idx=kbsrc_padding_idx)
+        except Exception: # not present in config
+            kbsrc_embed = Embeddings(
+                **cfg["encoder"]["embeddings"], vocab_size=len(kb_key_vocab),
+                padding_idx=kbsrc_padding_idx)
 
         # this ties source and target embeddings
         # for softmax layer tying, see further below
@@ -779,16 +797,17 @@ def build_model(cfg: dict = None,
     model = Model(encoder=encoder, decoder=decoder, generator=generator,
                   src_embed=src_embed, trg_embed=trg_embed,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
-                  trv_vocab=trv_vocab,
+                  kb_key_embed=kbsrc_embed,\
+                  kb_key_vocab=kb_key_vocab, trv_vocab=trv_vocab,
                   k_hops=k_hops, do_postproc=do_postproc,
                   canonize=canonization_func, kb_att_dims=len(kb_max_dims))
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):
         if trg_embed.lut.weight.shape == \
-                model.decoder.output_layer.weight.shape:
+                model.generator.output_layer.weight.shape:
             # (also) share trg embeddings and softmax layer:
-            model.decoder.output_layer.weight = trg_embed.lut.weight
+            model.generator.output_layer.weight = trg_embed.lut.weight
         else:
             raise ConfigurationError(
                 "For tied_softmax, the decoder embedding_dim and decoder "

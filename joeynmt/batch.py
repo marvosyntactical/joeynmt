@@ -124,8 +124,10 @@ class Batch_with_KB(Batch):
         self.ntokens = None
         self.use_cuda = use_cuda
         #knowledgebase:
-        self.kbsrc = TBatchWithKB.kbsrc[0] # .kbsrc, .kbtrg are tuples of lines, lengths # TODO do i need lengths?
-        self.kbtrg = TBatchWithKB.kbtrg[0]
+        bkbsrc = TBatchWithKB.kbsrc
+        bkbtrg = TBatchWithKB.kbtrg
+        self.kbsrc = bkbsrc[0] if isinstance(bkbsrc, tuple) else bkbsrc # .kbsrc, .kbtrg are tuples of lines, lengths 
+        self.kbtrg = bkbtrg[0] if isinstance(bkbtrg, tuple) else bkbtrg # .kbsrc, .kbtrg are tuples of lines, lengths
         self.kbtrv = TBatchWithKB.kbtrv #not indexed because include_lengths is false for trv field  #FIXME empty
 
         assert self.kbsrc.shape[0] == self.kbtrg.shape[0] == self.kbtrv.shape[0], "batch dimensions should be the same"

@@ -274,7 +274,7 @@ def test(cfg_file,
     _, dev_kb_lookup, test_kb_lookup,\
     _, dev_kb_lengths, test_kb_lengths,\
     _, dev_kb_truvals, test_kb_truvals, \
-    trv_vocab, canon_fun,\
+    kb_key_vocab, trv_vocab, canon_fun,\
          dev_data_canon, test_data_canon\
         = load_data(
         data_cfg=cfg["data"]
@@ -287,7 +287,7 @@ def test(cfg_file,
     model_checkpoint = load_checkpoint(ckpt, use_cuda=use_cuda)
 
     # build model and load parameters into it
-    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, trv_vocab=trv_vocab)
+    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, kb_key_vocab=kb_key_vocab, trv_vocab=trv_vocab)
     model.load_state_dict(model_checkpoint["model_state"])
 
     if use_cuda:

@@ -212,39 +212,23 @@ def build_vocab(fields: Union[str, Tuple[str]], max_size: int, min_freq: int, da
         else: kb_dataset = None
         if isinstance(fields, tuple):
             assert len(fields) == 2, "build_vocab currently only supports looking at either one field (default joeynmt) or two fields (kb_task)"
-            field, kb_field = fields
         else:
-            field = fields
-            print(f"data for field={field}")
-            kb_field = None
+            assert isinstance(fields, str), fields
+            fields = (fields,)
+            print(f"data for field={fields}")
 
-        print(f"processing data for field={field}")
+        print(f"processing data for fields={fields}")
 
+        warning = {f:0 for f in fields} 
         tokens = []
-        for i in dataset.examples:
-            if field == "src":
-                tokens.extend(i.src)
-            elif field == "trg":
-                tokens.extend(i.trg)
-            # extend by additional tokens if looking at kb dataset
-
-        if kb_dataset is not None:        
-            for j in kb_dataset.examples:
-                if kb_field == "kbsrc": 
-                    #print(f"extended {kb_field} vocab by these tokens:")
-                    #print(j.kbsrc)
-                    tokens.extend(j.kbsrc)
-                elif kb_field == "kbtrg":
-                    #print(f"extended {kb_field} vocab by this token:")
-                    #print(j.kbtrg)
-                    tokens.extend(j.kbtrg)
-                # kb_task: construct monodataset vocabulary for true values of knowledgebase entries
-                elif field == "kbtrv":
-                    print("added to kbtrv vocab: ", i.kbtrv)
-                    tokens.extend(i.kbtrv)
-
-                else:
-                    raise ValueError(f"""requested invalid field {kb_field} for example with attributes {[s for s in dir(j) if s.startswith(("kb","src", "trg"))]}""") 
+        for ex in dataset.examples:
+            for f in fields:
+                try:
+                    tokens.extend(getattr(ex, f))
+                except AttributeError:
+                    warning[f] += 1 
+                    continue # fail in silence
+        print(f"processed data for fields={fields} with {[(f, warning[f]) for f in fields]} Attribute Errors per field\n")
 
         counter = Counter(tokens)
         if min_freq > -1:
