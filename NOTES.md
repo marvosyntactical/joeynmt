@@ -7,6 +7,16 @@
 
 # _OPEN ISSUES_
 
+### 09.09. different embedding table for kb keys
+
+* add option to cfg: kb\_key\_embed: "separate", "source"
+* depending on what's read from cfg in load\_data:
+* change kb keys vocab from src\_vocab to keys\_vocab in:
+1. data.py: load\_data
+2. all the processing in TorchBatchWithKB etc etc
+3. all the debugging plotting stuff (grep src\_vocab joeynmt/\*)
+
+
 ### 09.09. grid search hyperparams
 
 These hyperparams are all orthogonal:
@@ -16,6 +26,7 @@ These hyperparams are all orthogonal:
 * kb embedding: source ,  separate
 * multihops: 1 , 2 , 3
 * metric reporting: raw, canonized
+* copy\_from\_source: True, False
 
 
 These are special cases for some of the above:

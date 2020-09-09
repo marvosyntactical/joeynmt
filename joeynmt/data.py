@@ -106,6 +106,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_trv = data_cfg.get("kb_truvals", "trv")
         global_trv = data_cfg.get("global_trv", "global.trv")
         trutrg = data_cfg.get("trutrg", "car") 
+        kb_keys_embed = data_cfg.get("kb_keys_embed", "source").lower()
+        assert kb_keys_embed in ["separate", "source"], kb_keys_embed
 
         # TODO FIXME following is hardcoded; add to configs please
         pnctprepro = True
@@ -142,6 +144,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                             unk_token=UNK_TOKEN,
                             batch_first=True, lower=False,
                             include_lengths=False)
+        if kb_keys_embed == "source":
+            kb_src_field = src_field
 
     train_data = TranslationDataset(path=train_path,
                                     exts=("." + src_lang, "." + trg_lang),
@@ -170,7 +174,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         train_kb = TranslationDataset(path=train_path,
                                     exts=("." + kb_src, "." + kb_trg),
-                                    fields=(("kbsrc", src_field), ("kbtrg", trg_field)),
+                                    fields=(("kbsrc", kb_src_field), ("kbtrg", trg_field)),
                                     filter_pred= lambda x: True)
                                    
         with open(train_path+"."+kb_lkp, "r") as lkp:
@@ -204,7 +208,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     src_vocab = build_vocab(fields=vocab_building_src_fields, min_freq=src_min_freq, max_size=src_max_size, dataset=vocab_building_datasets, vocab_file=src_vocab_file)
 
-    trg_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=trg_min_freq,max_size=trg_max_size, dataset=vocab_building_datasets, vocab_file=trg_vocab_file)
+    trg_vocab = build_vocab(fields=vocab_building_trg_fields, min_freq=trg_min_freq, max_size=trg_max_size, dataset=vocab_building_datasets, vocab_file=trg_vocab_file)
 
     random_train_subset = data_cfg.get("random_train_subset", -1)
     if random_train_subset > -1:
@@ -228,7 +232,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         dev_kb = TranslationDataset(path=dev_path,
                                 exts=("." + kb_src, "." + kb_trg),
-                                fields=(("kbsrc",src_field), ("kbtrg",trg_field)),
+                                fields=(("kbsrc", kb_src_field), ("kbtrg",trg_field)),
                                 filter_pred=
                                 lambda x: True)
         dev_kb_truvals = MonoDataset(path=dev_path,
@@ -262,7 +266,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                         fields=(src_field, trg_field))
         test_kb = TranslationDataset(path=test_path,
                                 exts=("." + kb_src, "." + kb_trg),
-                                fields=(("kbsrc", src_field), ("kbtrg", trg_field)),
+                                fields=(("kbsrc", kb_src_field), ("kbtrg", trg_field)),
                                 filter_pred=
                                 lambda x: True)
         test_kb_truvals = MonoDataset(path=test_path,
@@ -303,17 +307,13 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         entities = load_entity_dict(fp=entities_path)
         efficient_entities = preprocess_entity_dict(entities, lower=lowercase, tok_fun=tok_fun)
 
-        # FIXME this shit
+        # FIXME 
         class Canonizer:
             def __init__(self, copy_from_source: bool = False):
                 self.copy_from_source = bool(copy_from_source)
             def __call__(self, seq):
-                if self.copy_from_source:
-                    processed, indices = canonize_sequence(seq, efficient_entities)
-                    return processed, indices
-                else:
-                    return None
-
+                processed, indices = canonize_sequence(seq, efficient_entities)
+                return processed, indices
 
 
     if not kb_task: #default values for normal pipeline
@@ -323,9 +323,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
         dev_data_canon, test_data_canon = [], []
-        canonize = None
+        Canonizer = None
     
-
+    # FIXME return dict here lol
     return train_data, dev_data, test_data,\
         src_vocab, trg_vocab,\
         train_kb, dev_kb, test_kb,\
