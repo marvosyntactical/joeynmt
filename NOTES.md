@@ -10,12 +10,12 @@
 ### 09.09. different embedding table for kb keys
 
 * add option to cfg: kb\_key\_embed: "separate", "source"
-* depending on what's read from cfg in load\_data:
-* change kb keys vocab from src\_vocab to keys\_vocab in:
-1. data.py: load\_data
-2. all the processing in TorchBatchWithKB etc etc
-3. all the debugging plotting stuff (grep src\_vocab joeynmt/\*)
-
+* depending on what's read from cfg in build\_model:
+1. model.py: build\_model: create separate embeddings if "separate", otherwise use source;
+2. make these attribute to model
+3. use that attribute to embed keys in preprocess batch
+✔️
+*TODO TEST*
 
 ### 09.09. grid search hyperparams
 
@@ -31,7 +31,6 @@ These hyperparams are all orthogonal:
 
 These are special cases for some of the above:
 * architecture: transformer: multiheaded , bahdanau attention
-
 
 
 ### Empty scheduling KBs:
@@ -60,6 +59,7 @@ These are special cases for some of the above:
 ### 29.08.20 plotting issues
 
 * made rShort, tShort commands for running short valid locally (r=Rnn, t=transf)
+*TODO* update .blablaSHORT data using NODEFAULT data
 * look at first kb there
 * misalign: on the fly empty kb in first example of dev set has
  - attention matrix: 128 x 5 # find out where this happens (put asserts in model run batch)
@@ -77,18 +77,11 @@ These are special cases for some of the above:
 ### 10.09.20 DUMMY entries vs deciding to copy from source
 
 * add copy from source option ✔️
-* if KB empty, dont use attention module
+* if KB empty, dont use attention module✔️
 
 ### 08.09.20 theory
 
 * "label shift" vs "covariate shift"
-
-### 08.09.20 how does attention mechanism learn to distinguish gas station from restaurant?
-
-* the model doesnt get a loss signal because of the canonization: @poi vs @poi
-* probably through a combination of embedding similarity and sentence structure
-* try different embedding table (than src vocab) for kb keys
-* if it still works, embedding similarity is not necessary
 
 ### 08.09.20 Transformer
 
@@ -145,8 +138,7 @@ Select key as combination of highest attended
 ### 26.08.20 artem questions *TODO*
 
 Architecture/implementation:
-* name/concept/citation for the idea of training on simplified data, then postprocessing on val/test
-=> can I still call it an end to end seq2seq system? its not neural from end to end
+* name/concept/citation for the idea of training on simplified data, then postprocessing on val/test => label shift
 
 Dataset stuff to report/issues:
 * metric to show train/val/test dataset overlap too big?
@@ -159,12 +151,6 @@ Metrics stuff :
 beam search should work now ✔️ 
 
 
-vanilla RNN
-* code runs, *TODO* do a full run with results on cluster
-
-vanilla TF
-*TODO*
-
 
 ### 31.08.20 recurrent multihop issues
 => seems to work okay, but kb attentions dont get plotted anymore
@@ -174,6 +160,23 @@ vanilla TF
 ---
 
 # Issues Archive
+
+## Old Issue
+
+
+## Old Issue
+
+
+
+## Old Issue
+### 08.09.20 how does attention mechanism learn to distinguish gas station from restaurant?
+
+* the model doesnt get a loss signal because of the canonization: @poi vs @poi
+* probably through a combination of embedding similarity and sentence structure
+* try different embedding table (than src vocab) for kb keys✔️
+* if it still works, embedding similarity is not necessary
+
+
 
 ## Old Issue
 ### 28.08.20 wikiBIO dataset

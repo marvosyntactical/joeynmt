@@ -3,7 +3,7 @@
 """
 Various decoders
 """
-from typing import Optional, Tuple, Union
+from typing import Optional, Tuple, Union, List
 import time
 from copy import deepcopy
 
@@ -478,6 +478,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  kb_key_emb_size: int=0,
                  k_hops: int = 1,
                  kb_max: Tuple[int]= (256,),
+                 kb_input_feeding: bool = True,
                  **kwargs) -> None:
         """
         Create a recurrent decoder with attention and key value attention over a knowledgebase.
@@ -500,7 +501,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param input_feeding: Use Luong's input feeding.
         :param freeze: Freeze the parameters of the decoder during training.
         :param k_hops: how many kvr attention layers?
-        :param kb_max: maximum size of knowledgebases
+        :param kb_max: tuple with maximum size of knowledgebase for each of its dimensions
+        :param kb_input_feeding: bool whether to use kb scores of prev timestep as input to attention's feeding layer
         :param kwargs:
         """
 
@@ -609,6 +611,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                             kb_max=self.kb_max[i%self.kb_dims] # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
                                             )
                                 for i in range(self.k_hops*self.kb_dims)])
+        self.kb_input_feeding = kb_input_feeding
         
 
     def _check_shapes_input_forward_step(self,
@@ -685,7 +688,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                       encoder_output: Tensor,
                       src_mask: Tensor,
                       hidden: Tensor,
-                      kb_mask: Tensor = None) -> (Tensor, Tensor, Tensor):
+                      kb_mask: Tensor = None,
+                      utils_dims_cache: List[Union[Tensor, None]] = None) -> (Tensor, Tensor, Tensor):
         """
         Perform a single decoder step (1 token).
 
@@ -703,6 +707,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             shape (batch_size, 1, src_length)
         :param hidden: previous hidden state,
             shape (num_layers, batch_size, hidden_size)
+        :param kb_mask: mask to prevent unassigned KB entries from being given score (happens in scheduling)
+        :parma utils_dims_cache: provided if kb input feeding is true, else None
         :return:
             - att_vector: new attention vector (batch_size, 1, hidden_size),
             - hidden: new hidden state with shape (batch_size, 1, hidden_size),
@@ -743,7 +749,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # t: timestep, k: multihop, dim: KB dimension, u: utilities
 
         batch_size = att_probs.size(0)
-        u_t_k_dims = [None] * self.kb_dims # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
+        if utils_dims_cache == None:
+            utils_dims_cache = [None] * self.kb_dims # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
         # multiple attention hops
         for k in range(self.k_hops): # self.k_hops == 1 <=> Eric et al version
 
@@ -755,9 +762,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             for dim in range(self.kb_dims):
 
                 # utilities_n = b x 1 x kb_max[dim]
-                utilities_n = self.kvr_attention[k*self.kb_dims + dim](query=query, prev_utilities=u_t_k_dims[dim])
+                utilities_n = self.kvr_attention[k*self.kb_dims + dim](query=query, prev_utilities=utils_dims_cache[dim])
 
-                u_t_k_dims[dim] = utilities_n # cache this for same dim on next hop
+                utils_dims_cache[dim] = utilities_n # cache this for same dim on next hop
 
                 # repeat as often as the product of dims before this dim
                 utilities_n_blocked = utilities_n.repeat(1, 1, self.dims_before[dim])
@@ -765,8 +772,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 # tile as often as the product of dims after this dim
                 utilities_n_blocked_tiled = tile(utilities_n_blocked, count=self.dims_after[dim], dim=-1)
 
+                # TODO unit test that this leads to same entry arrangement as in model.preprocess ... FIXME
                 u_t_k_init += utilities_n_blocked_tiled
-                # TODO unit test that this leads to same entry arrangement as in model.preprocess
             
             if kb_mask is not None:
                 # mask entries that arent actually assigned (happens in scheduling)
@@ -791,7 +798,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         att_vector = torch.tanh(self.att_vector_layer(att_vector_input))
 
         # output: batch x 1 x hidden_size
-        return att_vector, hidden, att_probs, u_t
+        return att_vector, hidden, att_probs, u_t, utils_dims_cache
 
     def forward(self,
                 trg_embed: Tensor,
@@ -923,16 +930,20 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # unroll the decoder RNN for `unroll_steps` steps
         for i in range(unroll_steps):
-            # TODO: is this teacher forcing?
+            # TODO: is this teacher forcing? YEA
             prev_embed = trg_embed[:, i].unsqueeze(1)  # batch, 1, emb
+            prev_kb_utils = None
 
-            prev_att_vector, hidden, att_prob, u_t = self._forward_step(
+            prev_att_vector, hidden, att_prob, u_t, prev_kb_utils = self._forward_step(
                 prev_embed=prev_embed,
                 prev_att_vector=prev_att_vector,
                 encoder_output=encoder_output,
                 src_mask=src_mask,
                 hidden=hidden,
-                kb_mask=kb_mask)
+                kb_mask=kb_mask,
+                utils_dims_cache=prev_kb_utils)
+            if not self.kb_input_feeding:
+                prev_kb_utils = None
 
             att_vectors.append(prev_att_vector)
             att_probs.append(att_prob)
