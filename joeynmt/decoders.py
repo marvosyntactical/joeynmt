@@ -475,6 +475,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  init_hidden: str = "bridge",
                  input_feeding: bool = True,
                  freeze: bool = False,
+                 kb_key_emb_size: int=0,
                  k_hops: int = 1,
                  kb_max: Tuple[int]= (256,),
                  **kwargs) -> None:
@@ -603,7 +604,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # list of [kvr for dim 0, kvr for dim 1] * k_hops
         self.kvr_attention = nn.ModuleList([
                                 KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
-                                            key_size=emb_size, #TODO should be src_emb_size; temp solution: src emb == trg emb
+                                            key_size=kb_key_emb_size, 
                                             query_size=hidden_size, # queried with decoder hidden
                                             kb_max=self.kb_max[i%self.kb_dims] # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
                                             )
@@ -1017,6 +1018,7 @@ class TransformerDecoder(Decoder):
                  freeze: bool = False,
                  kb_task: bool=False,
                  kb_max: Tuple = (256,),
+                 kb_key_emb_size: int = 1,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -1050,14 +1052,18 @@ class TransformerDecoder(Decoder):
         self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
 
         if kb_task:
-            self.kb_layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
-            self.kb_trg_att = MultiHeadedKbAttention(num_heads, hidden_size, dropout=dropout)
-
             if not hasattr(kb_max, "__iter__"): 
                 assert type(kb_max) == int, kb_max
                 kb_max = (kb_max,)
             self.kb_max = kb_max 
             if len(self.kb_max) is not 1: raise NotImplementedError(f"{len(self.kb_max)} not implemented for transformer")
+
+            self.kb_layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
+            self.kb_trg_att = KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
+                                            key_size=kb_key_emb_size, #TODO sh24:15 / 1:40:26ould be src_emb_size; temp solution: src emb == trg emb
+                                            query_size=hidden_size, # queried with decoder hidden
+                                            kb_max=self.kb_max[0] # TODO maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
+                                            )
 
         if freeze:
             freeze_params(self)
@@ -1109,13 +1115,11 @@ class TransformerDecoder(Decoder):
             assert kb_mask is not None, kb_keys.shape
             if isinstance(kb_keys, tuple): kb_keys = kb_keys[0]# TODO implement N dimensional transformer attention FIXME
 
-            curr_kb_size = kb_keys.shape[1]
-            kb_keys_padded = self.pad_kb_tensor(kb_keys) # FIXME
-            # kb_mask_padded = self.pad_kb_tensor(kb_mask)
+            self.kb_trg_att.compute_proj_keys(kb_keys)
 
-            u = self.kb_trg_att(kb_keys_padded, x)
+            u = self.kb_trg_att(query=x.unsqueeze(1))
 
-            kb_probs = u[:,:,:curr_kb_size] # recover only attention values for non pad knowledgebase entries
+            kb_probs = u[:,:,:self.kb_trg_att.curr_kb_size] # recover only attention values for non pad knowledgebase entries
             kb_probs.masked_fill_((kb_mask==1.).unsqueeze(1), 0.0)
 
         else:
@@ -1188,5 +1192,6 @@ class Generator(Gen):
         log_probs = F.log_softmax(outputs, dim=-1) 
         # in default joeynmt, log softmax isnt always used before taking the argmax over VOC dimension.
         # now it is always called at the end of model.forward right here
+        # doesnt make a difference for taking argmax because log softmax is monotone transformation
 
         return log_probs 

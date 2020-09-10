@@ -112,7 +112,7 @@ model:                              # specify your model architecture here
             scale: False
             freeze: False           # if True, embeddings are not updated during training
         kb_key_embeddings:          # specify or omit this and the 3 settings depending on if you want separate kb key embeddings or not (use source table)
-            embedding_dim: 200
+            embedding_dim: 128
             scale: False
             freeze: False           # if True, embeddings are not updated during training
 

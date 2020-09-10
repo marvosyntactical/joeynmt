@@ -493,6 +493,7 @@ class Model(nn.Module):
                 assert product([key_dim.shape[1] for key_dim in kb_keys]) == kb_size,\
                     [key_dim.shape[1] for key_dim in kb_keys]
                 # make sure none of the dims is 1 if KB can be decomposed
+
                 """
                 assert kb_size == 1 or 1 not in [key_dim.shape[1] for key_dim in kb_keys],\
                     ([key_dim.shape[1] for key_dim in kb_keys], dim_sizes, block_sizes, steps, kb_size, \
@@ -716,7 +717,7 @@ def build_model(cfg: dict = None,
             padding_idx=src_padding_idx)
         try:
             kbsrc_embed = Embeddings(
-                **cfg["decoder"]["kb_key_embed"], vocab_size=len(src_vocab),
+                **cfg["decoder"]["kb_key_embeddings"], vocab_size=len(src_vocab),
                 padding_idx=src_padding_idx)
         except Exception: # not present in config
             kbsrc_embed = Embeddings(
@@ -776,7 +777,8 @@ def build_model(cfg: dict = None,
     if cfg["decoder"].get("type", "recurrent") == "transformer":
         decoder = TransformerDecoder(
             **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, kb_task=kb_task)
+            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
+            kb_task=kb_task,kb_key_emb_size=kbsrc_embed.embedding_dim)
     else:
         if not kb_task:
             decoder = RecurrentDecoder(
@@ -785,7 +787,8 @@ def build_model(cfg: dict = None,
         else:
             decoder = KeyValRetRNNDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops, kb_max=kb_max_dims)
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops, kb_max=kb_max_dims,
+                kb_key_emb_size=kbsrc_embed.embedding_dim)
     
     # specify generator which is mostly just the output layer
     generator = Generator(
