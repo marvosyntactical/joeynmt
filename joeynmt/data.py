@@ -528,7 +528,7 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
         data.Example.fromlist(
             # FIXME this reads [relation] using the first (source) field
             # FIXME TODO what does signature of data.Example.fromlist actually look like
-        [[subject, PAD_TOKEN, relation[1:]], [relation]], # FIXME hardcoded KB structure
+        [[subject, PAD_TOKEN, relation[1:]], [relation]], # remove @ from @relation
         fields=list(kb_fields.items())
     ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] # FIXME replace 'False' by this to get on the fly creation again
 
@@ -576,12 +576,15 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
             # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME TODO XXX
+            kb_empty = True
             if c.copy_from_source: 
 
                 otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src,data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
-                minibatch.kb = otf_kb
-                minibatch.kbtrv = otf_kbtrv 
-            else:
+                if len(otf_kb) > 0:
+                    kb_empty = False
+                    minibatch.kb = otf_kb
+                    minibatch.kbtrv = otf_kbtrv 
+            if kb_empty == True: # kb still empty even after maybe trying to copy from source
                 dummy_kb, dummy_kbtrv = dummy_KB_on_the_fly(data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields)
                 minibatch.kb = dummy_kb
                 minibatch.kbtrv = dummy_kbtrv
