@@ -96,6 +96,7 @@ These are special cases for some of the above:
 ### 28.08.20 cheat version (bleu on canonized)
 
 * Canonization level: can meeting\_time level be achieved? need linked target data: how to map any 5 pm to meeting\_time or 20 Main Street to Pizza\_My\_Heart\_Address
+*TODO* link to pizza hut address level !!!!!
 
 ---
 
@@ -130,7 +131,7 @@ Select key as combination of highest attended
  - in decoder init, give twoheaded=True as arg and init attention module with 2 heads
  - transform kb key tensor in model.preprocesskb, adding extra dim for last elems and striding along this dim until they repeat themselves
 
-*TODO* correct implementation
+*TODO* look at results
 
 
 ---

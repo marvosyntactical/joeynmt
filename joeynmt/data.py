@@ -528,7 +528,7 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
         data.Example.fromlist(
             # FIXME this reads [relation] using the first (source) field
             # FIXME TODO what does signature of data.Example.fromlist actually look like
-        [[subject, relation[1:]], [relation]], # FIXME hardcoded KB structure
+        [[subject, PAD_TOKEN, relation[1:]], [relation]], # FIXME hardcoded KB structure
         fields=list(kb_fields.items())
     ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] # FIXME replace 'False' by this to get on the fly creation again
 
