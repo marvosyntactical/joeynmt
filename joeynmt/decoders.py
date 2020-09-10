@@ -16,7 +16,7 @@ import torch.nn.functional as F
 from torch import Tensor, cat
 from joeynmt.attention import BahdanauAttention, LuongAttention, KeyValRetAtt
 from joeynmt.encoders import Encoder
-from joeynmt.helpers import freeze_params, ConfigurationError, subsequent_mask, tile, product
+from joeynmt.helpers import freeze_params, ConfigurationError, subsequent_mask, tile, product, Timer
 from joeynmt.transformer_layers import PositionalEncoding, \
     TransformerDecoderLayer, MultiHeadedKbAttention
 
@@ -1098,7 +1098,6 @@ class TransformerDecoder(Decoder):
 
         assert trg_mask is not None, "trg_mask required for Transformer"
 
-
         x = self.pe(trg_embed)  # add position encoding to word embedding
         x = self.emb_dropout(x)
 
@@ -1117,8 +1116,13 @@ class TransformerDecoder(Decoder):
 
             self.kb_trg_att.compute_proj_keys(kb_keys)
 
-            u = self.kb_trg_att(query=x.unsqueeze(1))
+            u_t = None
+            u = []
+            for t in range(x.shape[1]):
+                u_t = self.kb_trg_att(query=x[:,t,:].unsqueeze(1), prev_utilities=u_t)
+                u += [u_t]
 
+            u = torch.cat(u, dim=1)
             kb_probs = u[:,:,:self.kb_trg_att.curr_kb_size] # recover only attention values for non pad knowledgebase entries
             kb_probs.masked_fill_((kb_mask==1.).unsqueeze(1), 0.0)
 

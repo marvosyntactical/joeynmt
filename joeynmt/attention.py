@@ -205,8 +205,8 @@ class KeyValRetAtt(AttentionMechanism):
 
         # Calculate u_t_k. (kb entry utilities at decoding step t and multihop pass k)
 
-        # proj_keys: batch x kb_max x hidden
         # proj_query: batch x 1 x hidden
+        # proj_keys: batch x kb_max x hidden
         query_conc_keys = self.proj_query + self.proj_keys
         # query_conc_keys: batch x kb_max x hidden
         # ('+' repeats query required number of times (kb_max) along dim 1)
@@ -278,8 +278,8 @@ class KeyValRetAtt(AttentionMechanism):
         :param query:
         :return:
         """
-        assert query.shape[1] == 1 
-        assert query.shape[2] == self.query_layer.in_features
+        # assert query.shape[1] == 1, query.shape[1] # TODO for transformer, this will be SRC_LEN, not 1
+        assert query.shape[2] == self.query_layer.in_features, (query.shape, self.query_layer.in_features)
 
     def __repr__(self):
         return "KeyValRetAtt"
