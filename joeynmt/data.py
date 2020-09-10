@@ -439,7 +439,6 @@ class TorchBatchWithKB(Batch):
                     # kb = [["@DUM"]] #dummy token (both for key and value)
                     kb = [getattr(x,name) for x in data.kb]
                     setattr(self, name, field.process(kb, device=device))
-
                 else:
                     raise ValueError(field)
             if self.canon_dataset is not None:
@@ -496,7 +495,6 @@ def dummy_KB_on_the_fly(trg_voc, kb_fields, kbtrv_fields):
     return dummy_kb, dummy_kbtrv
 
 
-
 def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
     # called in data.batch_with_kb and again in helpers.store_attention_plots
 
@@ -530,7 +528,7 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
         data.Example.fromlist(
             # FIXME this reads [relation] using the first (source) field
             # FIXME TODO what does signature of data.Example.fromlist actually look like
-        [[subject, PAD_TOKEN, relation], [relation]], # FIXME hardcoded KB structure
+        [[subject, relation[1:]], [relation]], # FIXME hardcoded KB structure
         fields=list(kb_fields.items())
     ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] # FIXME replace 'False' by this to get on the fly creation again
 

@@ -397,14 +397,12 @@ class Model(nn.Module):
 
                     kb_entries.append(entry_dim_vals) # before first <PAD> is subj repr
 
-
-                assert set(dims) == {kbattdims}, (dims,set(dims), {kbattdims}) # dimensions wrong or different num of dimensions
-                assert set([len(dim) for dim in kb_entries]) == {kbattdims}, \
-                     (set([len(dim) for dim in kb_entries]), kbattdims)
-
                 kb_dim_entries = list(zip(*kb_entries)) # [list of subject tensors, list of relation tensors]
 
-                assert len(kb_dim_entries) == kbattdims, (len(kb_dim_entries), kbattdims)
+                assert set(dims) in [{kbattdims},{1}], (dims,set(dims), {kbattdims}) # dimensions wrong or different num of dimensions
+                assert set([len(dim) for dim in kb_entries]) in [{kbattdims},{1}], \
+                     (set([len(dim) for dim in kb_entries]), {kbattdims})
+                assert len(kb_dim_entries) in [kbattdims, 1], (len(kb_dim_entries), kbattdims)
 
                 kb_repr = []
                 steps = [1]
@@ -434,6 +432,7 @@ class Model(nn.Module):
                     # sizes 
 
                     i = step = 1
+                    found_second_entry = False
                     block_flag, step_flag = False, False
                     # assert False, self.trv_vocab.arrays_to_sentences(batch.kbtrv) 
                     first_entry = kb_dim_embed[i] 
@@ -445,17 +444,21 @@ class Model(nn.Module):
                         # FIXME doing the step & block calc like this is extremely inefficient
                         # do this before embed & sum?
                         if not kb_dim_embed[i+1].allclose(first_entry):
-                            # continue step 
+                            # continue step  (found different entry)
                             step_flag = True
                         else:
                             # finish step
                             if step_flag == True:
                                 step = i
+                                found_second_entry = True
                                 break
                             elif step_flag == False:
                                 step = 1
+                                found_second_entry = True
                                 break
                         i += 1
+                    if found_second_entry == False: #KB has just one subj, but possibly several attr (on the fly KB)
+                        step = i
 
                     assert kb_size%step==0, (kb_size, step, self.src_vocab.arrays_to_sentences(entries))
 
@@ -481,7 +484,10 @@ class Model(nn.Module):
 
                     kb_repr.append(kb_dim_entry_set)
 
-                kb_keys = tuple(kb_repr)
+                if len(kb_repr) == kbattdims:
+                    kb_keys = tuple(kb_repr)
+                else: # just one dummy entry, use it for both dims
+                    kb_keys = tuple(kb_repr[0], deepcopy(kb_repr[0]))
 
                 if detailed_debug:
                     print(steps, kb_size, [t.shape for t in kb_repr],\
@@ -494,6 +500,7 @@ class Model(nn.Module):
                     [key_dim.shape[1] for key_dim in kb_keys]
                 # make sure none of the dims is 1 if KB can be decomposed
 
+                # FIXME should check this: sometimes one dimension is just 1 and the other has all the info
                 """
                 assert kb_size == 1 or 1 not in [key_dim.shape[1] for key_dim in kb_keys],\
                     ([key_dim.shape[1] for key_dim in kb_keys], dim_sizes, block_sizes, steps, kb_size, \
@@ -762,6 +769,7 @@ def build_model(cfg: dict = None,
     do_postproc = bool(cfg.get("do_postproc", True))
     copy_from_source = bool(cfg.get("copy_from_source", True))
     canonization_func = canonizer(copy_from_source=copy_from_source) 
+    kb_input_feeding = bool(cfg.get("kb_input_feeding", True))
 
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
     if hasattr(kb_max_dims, "__iter__"):
@@ -788,7 +796,7 @@ def build_model(cfg: dict = None,
             decoder = KeyValRetRNNDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops, kb_max=kb_max_dims,
-                kb_key_emb_size=kbsrc_embed.embedding_dim)
+                kb_key_emb_size=kbsrc_embed.embedding_dim, kb_input_feeding=kb_input_feeding)
     
     # specify generator which is mostly just the output layer
     generator = Generator(

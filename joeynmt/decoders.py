@@ -608,7 +608,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                 KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
                                             key_size=kb_key_emb_size, 
                                             query_size=hidden_size, # queried with decoder hidden
-                                            kb_max=self.kb_max[i%self.kb_dims] # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
+                                            kb_max=self.kb_max[i%self.kb_dims], # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
                                             )
                                 for i in range(self.k_hops*self.kb_dims)])
         self.kb_input_feeding = kb_input_feeding
@@ -829,7 +829,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
          `src_mask` is needed to mask out the areas of the encoder states that
          should not receive any attention,
          which is everything after the first <eos>.
-
+neural transformer why no nonlinearities
          The `encoder_output` are the hidden states from the encoder and are
          used as context for the attention.
 

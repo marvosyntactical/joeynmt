@@ -7,6 +7,15 @@
 
 # _OPEN ISSUES_
 
+### 10.09. ent f1 calc
+
+*TODO* fixme
+
+### 10.09. kb input feeding
+
+*TODO* add this to cfg
+*TODO* test it
+
 ### 09.09. different embedding table for kb keys
 
 * add option to cfg: kb\_key\_embed: "separate", "source"
@@ -24,6 +33,7 @@ These hyperparams are all orthogonal:
 * scheduled sampling: teacherforce, invsigmoid, linear
 * kb encoding: 1D , 2D , positional
 * kb embedding: source ,  separate
+* kb input feeding: True, False
 * multihops: 1 , 2 , 3
 * metric reporting: raw, canonized
 * copy\_from\_source: True, False
@@ -31,7 +41,6 @@ These hyperparams are all orthogonal:
 
 These are special cases for some of the above:
 * architecture: transformer: multiheaded , bahdanau attention
-
 
 ### Empty scheduling KBs:
 * no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
@@ -43,18 +52,11 @@ These are special cases for some of the above:
 ✔️
 *TODO* TEST this
 
-
 ### 31.08.20 stuff to add to config
 
 * copy from source? bool✔️
 * knowledgebase encoding: "2d"✔️, "positional" XXX
 * separate KB embedding table ✔️
-
-
-### 30.08.20 entity F1
-
-* use model.canonize to report entity F1
-* DONE, TODO confirm implementation
 
 ### 29.08.20 plotting issues
 
@@ -78,10 +80,6 @@ These are special cases for some of the above:
 
 * add copy from source option ✔️
 * if KB empty, dont use attention module✔️
-
-### 08.09.20 theory
-
-* "label shift" vs "covariate shift"
 
 ### 08.09.20 Transformer
 
@@ -131,6 +129,8 @@ Select key as combination of highest attended
 * if config["kbattencoding"] == "twoheaded": 
  - in decoder init, give twoheaded=True as arg and init attention module with 2 heads
  - transform kb key tensor in model.preprocesskb, adding extra dim for last elems and striding along this dim until they repeat themselves
+
+*TODO* correct implementation
 
 
 ---

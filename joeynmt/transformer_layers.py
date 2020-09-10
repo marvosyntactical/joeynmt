@@ -51,6 +51,7 @@ class MultiHeadedAttention(nn.Module):
         """
         batch_size = k.size(0)
         num_heads = self.num_heads
+        head_size = self.head_size
 
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
@@ -58,16 +59,21 @@ class MultiHeadedAttention(nn.Module):
         q = self.q_layer(q)
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
-        v = v.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x ?         x head_size
-        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+        # using num_heads * head_size == size
+        K = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
+        k_ = k.view(batch_size, num_heads, -1, head_size) # batch x num_h x key_len   x head_size
+        assert K.allclose(k_)
+        k = K
+        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x ?         x head_size
+        q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
         # print(f"k={k.shape}, v={v.shape}, q={q.shape}")
 
-        # compute scores
+        # scale query because it helps, no idea why 
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
+        # compute scores
         scores = torch.matmul(q, k.transpose(2, 3))
 
         # apply the mask (if we have one)
@@ -79,8 +85,8 @@ class MultiHeadedAttention(nn.Module):
         attention = self.softmax(scores)
         attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
 
-        # get context vector (select values with attention) and reshape
-        # back to [B, M, D]
+        # get context vector (select values with attention) 
+        # and reshape back to [B, M, D]
         context = torch.matmul(attention, v)
         context = context.transpose(1, 2).contiguous().view(
             batch_size, -1, num_heads * self.head_size)
