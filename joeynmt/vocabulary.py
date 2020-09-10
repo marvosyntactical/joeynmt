@@ -219,9 +219,10 @@ def build_vocab(fields: Union[str, Tuple[str]], max_size: int, min_freq: int, da
 
         print(f"processing data for fields={fields}")
 
+        # FIXME greedily trying to get all we can; TODO match fields with dataset fields
         warning = {f:0 for f in fields} 
         tokens = []
-        for ex in dataset.examples:
+        for ex in dataset.examples + kb_dataset.examples:
             for f in fields:
                 try:
                     tokens.extend(getattr(ex, f))

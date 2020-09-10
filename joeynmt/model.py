@@ -42,7 +42,6 @@ class Model(nn.Module):
                  src_vocab: Vocabulary,
                  trg_vocab: Vocabulary,
                  kb_key_embed: Embeddings,
-                 kb_key_vocab: Vocabulary,
                  trv_vocab: Vocabulary=None,
                  k_hops: int = 1,
                  do_postproc: bool = True,
@@ -77,12 +76,11 @@ class Model(nn.Module):
         self.eos_index = self.trg_vocab.stoi[EOS_TOKEN]
 
         #kb stuff:
-        self.kb_key_vocab = kb_key_vocab if kb_key_vocab is not None else self.src_vocab # optionally use separate embedding table
-        self.kbsrc_embed = kb_key_embed if kb_key_embed is not None else self.src_embed
+        self.kbsrc_embed = kb_key_embed if kb_key_embed is not None else self.src_embed# optionally use separate embedding table
         if trv_vocab != None:
             self.trv_vocab = trv_vocab #TODO should probably be deleted altogether
-        self.pad_idx_kbsrc = self.kb_key_vocab.stoi[PAD_TOKEN] # FIXME used for kb only?
-        self.eos_idx_src = self.kb_key_vocab.stoi[EOS_TOKEN]
+        self.pad_idx_kbsrc = self.src_vocab.stoi[PAD_TOKEN] # FIXME used for kb only?
+        self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
         self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
         self.do_postproc = do_postproc
         self.canonize = canonize
@@ -358,7 +356,7 @@ class Model(nn.Module):
 
             print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
             print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
-            print(f"proc_batch: kbkeys: {self.kb_key_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
+            print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
             print(f"proc_batch: kbvalues: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
 
             print(f"debug: batch.kbtrv:{self.trv_vocab.arrays_to_sentences(batch.kbtrv[:,1].unsqueeze(1).cpu().numpy())}")
@@ -459,7 +457,7 @@ class Model(nn.Module):
                                 break
                         i += 1
 
-                    assert kb_size%step==0, (kb_size, step, self.kb_key_vocab.arrays_to_sentences(entries))
+                    assert kb_size%step==0, (kb_size, step, self.src_vocab.arrays_to_sentences(entries))
 
                     steps += [step]
 
@@ -487,11 +485,19 @@ class Model(nn.Module):
 
                 if detailed_debug:
                     print(steps, kb_size, [t.shape for t in kb_repr],\
-                        self.kb_key_vocab.arrays_to_sentences(entries[:block_i:step_i]))
+                        self.src_vocab.arrays_to_sentences(entries[:block_i:step_i]))
 
                 shape_check_keys = kb_keys[0]
+
+                # make sure product of dims is equal to flat representation
                 assert product([key_dim.shape[1] for key_dim in kb_keys]) == kb_size,\
                     [key_dim.shape[1] for key_dim in kb_keys]
+                # make sure none of the dims is 1 if KB can be decomposed
+                """
+                assert kb_size == 1 or 1 not in [key_dim.shape[1] for key_dim in kb_keys],\
+                    ([key_dim.shape[1] for key_dim in kb_keys], dim_sizes, block_sizes, steps, kb_size, \
+                        [self.src_vocab.arrays_to_sentences(entries) for entries in kb_dim_entries])
+                """
 
             else:
                 # normal (1D) mode 
@@ -663,7 +669,6 @@ class Model(nn.Module):
 def build_model(cfg: dict = None,
                 src_vocab: Vocabulary = None,
                 trg_vocab: Vocabulary = None,
-                kb_key_vocab: Vocabulary = None,
                 trv_vocab: Vocabulary = None,
                 canonizer = None) -> Model:
     """
@@ -672,17 +677,11 @@ def build_model(cfg: dict = None,
     :param cfg: dictionary configuration containing model specifications
     :param src_vocab: source vocabulary
     :param trg_vocab: target vocabulary
-    :param kb_key_vocab: kb key vocabulary; If none, assume src_vocab should be used (for optional separate embedding tables)
     :param trv_vocab: kb true value lookup vocabulary
     :return: built and initialized model
     """
     src_padding_idx = src_vocab.stoi[PAD_TOKEN]
     trg_padding_idx = trg_vocab.stoi[PAD_TOKEN]
-
-    if kb_key_vocab is not None:
-        kbsrc_padding_idx = kb_key_vocab.stoi[PAD_TOKEN]
-    else:
-        kbsrc_padding_idx = src_padding_idx
     
     if "embedding_files" in cfg.keys(): #init from pretrained
         assert not cfg.get("tied_embeddings", False), "TODO implement tied embeddings along with pretrained initialization"
@@ -717,12 +716,12 @@ def build_model(cfg: dict = None,
             padding_idx=src_padding_idx)
         try:
             kbsrc_embed = Embeddings(
-                **cfg["decoder"]["kb_key_embed"], vocab_size=len(kb_key_vocab),
-                padding_idx=kbsrc_padding_idx)
+                **cfg["decoder"]["kb_key_embed"], vocab_size=len(src_vocab),
+                padding_idx=src_padding_idx)
         except Exception: # not present in config
             kbsrc_embed = Embeddings(
-                **cfg["encoder"]["embeddings"], vocab_size=len(kb_key_vocab),
-                padding_idx=kbsrc_padding_idx)
+                **cfg["encoder"]["embeddings"], vocab_size=len(src_vocab),
+                padding_idx=src_padding_idx)
 
         # this ties source and target embeddings
         # for softmax layer tying, see further below
@@ -798,7 +797,7 @@ def build_model(cfg: dict = None,
                   src_embed=src_embed, trg_embed=trg_embed,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
                   kb_key_embed=kbsrc_embed,\
-                  kb_key_vocab=kb_key_vocab, trv_vocab=trv_vocab,
+                  trv_vocab=trv_vocab,
                   k_hops=k_hops, do_postproc=do_postproc,
                   canonize=canonization_func, kb_att_dims=len(kb_max_dims))
 

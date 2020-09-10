@@ -612,13 +612,13 @@ def train(cfg_file: str) -> None:
         train_kb_lookup, dev_kb_lookup, test_kb_lookup,\
         train_kb_lengths, dev_kb_lengths, test_kb_lengths,\
         train_kb_truvals, dev_kb_truvals, test_kb_truvals,\
-        kb_key_vocab, trv_vocab, canonizer,\
+        trv_vocab, canonizer,\
         dev_data_canon, test_data_canon\
             = load_data(data_cfg=cfg["data"])
 
 
     # build an encoder-decoder model
-    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, kb_key_vocab=kb_key_vocab, trv_vocab=trv_vocab,canonizer=canonizer)
+    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, trv_vocab=trv_vocab,canonizer=canonizer)
 
     # for training management, e.g. early stopping and model selection
     trainer = TrainManager(model=model, config=cfg)
