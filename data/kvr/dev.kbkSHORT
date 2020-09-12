@@ -276,24 +276,3 @@ hospital Stanford Express Care <pad> distance
 hospital Stanford Express Care <pad> traffic_info
 hospital Stanford Express Care <pad> poi_type
 hospital Stanford Express Care <pad> address
-tennis activity <pad> time
-tennis activity <pad> date
-tennis activity <pad> event
-meeting <pad> room
-meeting <pad> agenda
-meeting <pad> time
-meeting <pad> date
-meeting <pad> party
-meeting <pad> event
-dentist <pad> time
-dentist <pad> date
-dentist <pad> event
-dinner <pad> time
-dinner <pad> date
-dinner <pad> event
-football activity <pad> time
-football activity <pad> date
-football activity <pad> event
-medicine <pad> time
-medicine <pad> date
-medicine <pad> event

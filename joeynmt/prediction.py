@@ -33,7 +33,8 @@ def validate_on_data(model: Model, data: Dataset,
                      valid_kb: Dataset = None,
                      valid_kb_lkp: list = [], valid_kb_lens:list=[],
                      valid_kb_truvals: Dataset = None,
-                     valid_data_canon: Dataset = None
+                     valid_data_canon: Dataset = None,
+                     report_on_canonicals: bool = False,
                      ) \
         -> (float, float, float, List[str], List[List[str]], List[str],
             List[str], List[List[str]], List[np.array]):
@@ -205,8 +206,9 @@ def validate_on_data(model: Model, data: Dataset,
                 valid_ent_f1 = ent_f1(valid_hypotheses, valid_references,
                     vocab=model.trv_vocab,
                     c_fun=model.canonize,
-                    report_on_canonicals=False
+                    report_on_canonicals=report_on_canonicals
                     )
+                
             else:
                 valid_ent_f1 = -1
         else:

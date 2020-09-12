@@ -142,6 +142,8 @@ class TrainManager:
         if self.use_cuda:
             self.model.cuda()
             self.loss.cuda()
+        
+        self.report_entf1_on_canonicals = train_config.get("report_entf1_on_canonicals", False)
 
         # initialize training statistics
         self.steps = 0
@@ -347,7 +349,8 @@ class TrainManager:
                             valid_kb_lkp=valid_kb_lkp,
                             valid_kb_lens=valid_kb_lens,
                             valid_kb_truvals=valid_kb_truvals,
-                            valid_data_canon=valid_data_canon
+                            valid_data_canon=valid_data_canon,
+                            report_on_canonicals=self.report_entf1_on_canonicals
                         )
 
                     self.tb_writer.add_scalar("valid/valid_loss",

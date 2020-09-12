@@ -546,9 +546,6 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
 
-    if canon_data is not None:
-        assert len(data) == len(canon_data) # FIXME remove this
-
     minibatch = KB_minibatch()
     current = 0
     corresponding_kb = 0

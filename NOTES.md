@@ -7,14 +7,23 @@
 
 # _OPEN ISSUES_
 
+
+### 11.09. canonization levels
+
+* raw
+* meeting\_time
+*TODO*: make copy from source compatible with raw level
+
+*TODO* get stanford NER running
+
 ### 10.09. ent f1 calc
 
 *TODO* fixme
 
 ### 10.09. kb input feeding
 
-*TODO* add this to cfg
-*TODO* test it
+add this to cfg
+test it
 
 ### 09.09. different embedding table for kb keys
 
@@ -37,7 +46,7 @@ These hyperparams are all orthogonal:
 * multihops: 1 , 2 , 3
 * metric reporting: raw, canonized
 * copy\_from\_source: True, False
-
+* training data level: @time, @meeting\_time *TODO*, 3 pm 
 
 These are special cases for some of the above:
 * architecture: transformer: multiheaded , bahdanau attention
@@ -72,7 +81,17 @@ These are special cases for some of the above:
 
 ### 26.08.20 start writing
 
-*TODO* lol
+Outline:
+
+Introduction
+Related Work
+Background
+Architecture
+Dataset
+Experiments
+Conclusion
+
+
 
 ---
 
@@ -116,9 +135,10 @@ just jam all info into the key representation, and determine what
 is subject and what is relation via 
 PositionalEncoding (make keys fixed size and add some exp+trig trickery)
 
-* in preproc, create copies of kb with all infos in the keys
+
+* in preproc, create copies of kb with all infos in the keys (in same order everytime)
 * if config["kbattencoding"] == "positional", pipe kb keys thru transformer\_layers.positional\_encoding 
-* thats all?
+
 
 Another encoding idea:
 Make attention 2-headed, one head for subject (sum of all attribute embeddings);

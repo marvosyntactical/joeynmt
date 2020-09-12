@@ -26,6 +26,8 @@ def main(args):
     filename = "kvret_dev_public.json" if args == 0 or len(args) <= 1 else args[1]
     assert splitpart in ["dev", "train", "test"]
 
+    EXT = "FINAL"
+
 
     with open(directory+filename, "r") as f:
         data= json.load(f)
@@ -66,25 +68,25 @@ def main(args):
         convo_car += car_part
         scenario_lkp += scenario_part
 
-    train_usr, train_car = splitpart+".usrNEW", splitpart+".carNEW"
+    train_usr, train_car = splitpart+".usr"+EXT, splitpart+".car"+EXT
 
     with open(directory+train_usr, "w") as usr, open(directory+train_car, "w") as car:
         usr.write(convo_usr)
         car.write(convo_car)
 
     # for normalize scenarios.py
-    scenariofile = "scenarios_"+splitpart+"_NEW.json"
+    scenariofile = "scenarios_"+splitpart+"_"+EXT+".json"
 
     with open(directory+scenariofile, "w") as scenes:
         json.dump(scenarios, scenes, indent=4)
 
     # for data.py minibatch
-    scenario_lkp_file = splitpart+".lkpNEW"
+    scenario_lkp_file = splitpart+".lkp"+EXT
 
     with open(directory+scenario_lkp_file, "w") as lkp:
         lkp.write(scenario_lkp)
 
-    unanswered_file = splitpart+".noansNEW"
+    unanswered_file = splitpart+".noans"+EXT
 
     with open(directory+unanswered_file, "w") as unan:
         unan.write(unanswered) #user thanks etc that were never answered

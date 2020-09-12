@@ -123,6 +123,7 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
     for i, (hyp,ref) in enumerate(zip(hyps, refs)):
 
         hyp_ents_ref_ents = [] # will hold entity vocabulary indices in the order hyp,ref
+        debug = []
 
         for seq in (hyp,ref):
             seq_tokzd = tok_fun(seq)
@@ -150,7 +151,9 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
             seq_enty_voc_indices = [vocab.stoi[entity] for entity in entities]
 
             hyp_ents_ref_ents.append(seq_enty_voc_indices)
+            debug.append(entities)
 
+        assert False, (debug, hyp, ref)
         p, t = hyp_ents_ref_ents
         # calc f1 score for this pair
         f1_score = harm_mean(precision(p,t), recall(p,t))
@@ -159,6 +162,3 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
     assert len(hyps) == len(refs) == len(f1s), (len(hyps), len(refs), len(f1s))
     f1_avg = sum(f1s) / len(f1s)
     return f1_avg
-
-    
-

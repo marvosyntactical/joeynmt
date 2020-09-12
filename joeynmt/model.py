@@ -288,9 +288,10 @@ class Model(nn.Module):
         if hasattr(batch, "kbsrc"):
             # B x KB x EMB; B x KB; B x KB
             kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
-            knowledgebase = (kb_keys, kb_values, kb_mask)
             if kb_keys is None:
                 knowledgebase = None
+            else:
+                knowledgebase = (kb_keys, kb_values, kb_mask)
         else:
             knowledgebase = None
 
