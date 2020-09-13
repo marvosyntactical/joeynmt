@@ -225,7 +225,7 @@ class Model(nn.Module):
             else: # take true label at every step => just do fwd pass like in normal teacher forcing training
                 with self.Timer("model training: KB Task: model fwd pass"):
 
-                    hidden, att_probs, att_vectors , kb_probs = self.forward(
+                    hidden, att_probs, out, kb_probs = self.forward(
                         src=batch.src, trg_input=trg_input,
                         src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                         trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask)
@@ -235,15 +235,15 @@ class Model(nn.Module):
             if not do_teacher_force:
                 raise NotImplementedError("scheduled sampling only works for KB task atm")
 
-            hidden, att_probs, att_vectors , _ = self.forward(
+            hidden, att_probs, out, _ = self.forward(
                 src=batch.src, trg_input=trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=trg_mask)
 
         if log_probs is None:
             # same generator fwd pass for KB task and no KB task if teacher forcing
-            # pass att_vectors through Generator and add biases for KB entries in vocab indexes of kb values
-            log_probs = self.generator(att_vectors, kb_probs=kb_probs, kb_values=kb_values)
+            # pass output through Generator and add biases for KB entries in vocab indexes of kb values
+            log_probs = self.generator(out, kb_probs=kb_probs, kb_values=kb_values)
 
         if hasattr(batch, "trgcanon"):
             assert not log_probs.requires_grad, "this shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"

@@ -153,7 +153,7 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
             hyp_ents_ref_ents.append(seq_enty_voc_indices)
             debug.append(entities)
 
-        assert False, (debug, hyp, ref)
+        # assert False, (debug, hyp, ref)
         p, t = hyp_ents_ref_ents
         # calc f1 score for this pair
         f1_score = harm_mean(precision(p,t), recall(p,t))
