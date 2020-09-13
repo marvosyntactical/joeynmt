@@ -499,7 +499,8 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
     # called in data.batch_with_kb and again in helpers.store_attention_plots
 
     src = src_seq_str
-    relations, indices = c_fun(src) # canonized source, try to make KB out of this 
+    relations, indices, matches = c_fun(src) # canonized source, try to make KB out of this 
+    del matches # TODO use matches instead of this implementation below
     
     rels_vals = dict()
     prev_target = None

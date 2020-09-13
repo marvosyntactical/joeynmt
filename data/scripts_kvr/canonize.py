@@ -1,7 +1,7 @@
 import os
 import sys
 import shutil
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Tuple
 import json
 from collections import defaultdict
 
@@ -50,7 +50,7 @@ class DefaultFactory:
     def __repr__(self):
         return "n.a."
 
-def load_entity_dict(fp="../kvr/kvret_entities_altered.json"):
+def load_json(fp="../kvr/kvret_entities_altered.json"):
     with open(fp, "r") as file:
         entities = json.load(file)
     return entities
@@ -115,20 +115,25 @@ def preprocess_entity_dict(ent_d: Dict[str,Union[List[str],List[int], List[Dict[
     for label, value_list in ent_d.items():
         for entry in value_list:
             if type(entry) in (type(""), type(42)):
+
                 add_entry_to_dict(r, str(entry), label, lower, tok_fun)
+
             elif type(entry) == type({}):
                 for label_suffix, v in entry.items():
                     if label_suffix == "poi":
                         label_suffix = "name"
                     add_entry_to_dict(r, v, label, lower, tok_fun, "_"+label_suffix)
+
             else:
                 raise TypeError(f"Can't handle type {type(entry)} of entry: {entry}")
     return r
 
-def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> List[str]:
+def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> (List[str],
+                                                                                 List[int],
+                                                                                 List[Tuple[str]]):
     """
     Efficiently canonize with values in dict
-    (search further ahead if a token matches first word in canon string)
+    (only search further ahead if a token matches first word in canon string)
 
     return 
         - result: List[str] strings of sequence; replaced with canonical strings where possible
@@ -146,6 +151,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                  "go",#agenda
                  "rest",#poi_type
                 ]
+    matches = []
     r = []
     indices = []
     i = 0
@@ -160,10 +166,13 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                 continue
 
         next = entities[token]
-        if next:
+        if next: # at least one entity starts like this
+
             j = 0
             candidates, partial_matches = [], []
             matching_continuation, partial_match_backup = False, False
+
+            # find some continuations
             for label, continuations in next.items():
                 for continuation in continuations:
                     match = True 
@@ -183,14 +192,16 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                         matching_continuation = True
                         candidates += [([token]+continuation, label)]
 
+            # look at the perfect or imperfect continuations of the first found token
             if matching_continuation:
                 #winner is simply longest candidate (in sequence with "2", "pm", match time (both tokens) instead of distance (only first token))
                 winning_candidate, lbl = max(candidates, key=lambda tup: len(tup[0]))
                 r += [lbl]
+                matches += [(lbl, seq[len(r)-1+len(matches):len(r)+len(winning_candidate)-1+len(matches)])]
                 indices += [len(r)-1] * len(winning_candidate)
                 i += len(winning_candidate)-1
             elif partial_match_backup:
-                #winner is the candidate that matches farthest
+                # winner is the candidate that matches farthest
                 winning_candidate, lbl, upto = max(partial_matches, key=lambda tup: tup[-1])
                 if winning_candidate[0] in stopwords:
                     print(f"Warning: Omitting possible match {winning_candidate}; only matched with first token!")
@@ -198,6 +209,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                     indices += [len(r)-1]
                 else:
                     r += [lbl]
+                    matches += [(lbl, seq[len(r)-1+len(matches):len(r)-1+upto+len(matches)])]
                     indices += [len(r)-1] * (upto)
                     i += upto-1
             else:
@@ -215,6 +227,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     print(f"\tFinished up Sequence\n{seq}\nand transformed it to\n{r}")
     print(("="*40)+"\n")
     assert len(indices) == len(seq), (indices, seq)
+    input((seq, matches, r))
     return r, indices 
 
 def canonize_sequences(seqs: List[List[str]] = [], dictionary: defaultdict = defaultdict()):
@@ -242,8 +255,10 @@ def main(args):
     print(gold_standard[:5], len(gold_standard))
 
 
-    entities = load_entity_dict()
+    entities = load_json() # entity path is default arg
     efficient_entities = preprocess_entity_dict(entities, lower=lower, tok_fun=tok_fun)
+    subjs_path = "../kvr/kvret_subjects.json"
+    subjects = load_json(fp=subjs_path)
 
     canonized_seqs = canonize_sequences(gold_standard, efficient_entities)
     output = [" ".join(out)+"\n" for out in canonized_seqs]

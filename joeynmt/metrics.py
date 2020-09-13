@@ -71,6 +71,7 @@ def sequence_accuracy(hypotheses, references):
 
 def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals: bool = False, tok_fun=pkt_tokenize):
     """
+    TODO implement optional canonization level
     :param hyps: list of string sentences to be tokenized by tok_fun
     :param refs: list of string sentences to be tokenized by tok_fun
     :param vocab: vocab to turn tokenized strings to indices; provides vocab.stoi; vocab.is_unk
@@ -131,7 +132,8 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
 
         for seq in (hyp,ref):
             seq_tokzd = tok_fun(seq)
-            canons, indices = c_fun(seq_tokzd) # turn to canonical tokens and return indices that raw tokens were mapped to
+            canons, indices, matches = c_fun(seq_tokzd) # turn to canonical tokens and return indices that raw tokens were mapped to
+            del matches # TODO use matches instead of implementation below FIXME
 
             entities = [\
                 " ".join([raw for map_idx, raw in zip(indices,seq_tokzd) if map_idx==i])
