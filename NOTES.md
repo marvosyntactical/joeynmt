@@ -14,7 +14,9 @@
 * meeting\_time
 *TODO*: make copy from source compatible with raw level
 
-*TODO* get stanford NER running
+*TODO*
+intermediate level:
+1. make option in normalized scenarios to use canonical levels
 
 ### 10.09. ent f1 calc
 
@@ -168,6 +170,7 @@ Dataset stuff to report/issues:
 KBs unambiguous as designed; not like real world => experiment
 
 Metrics stuff :
+* include phi coefficient with TN in metrics / validation *TODO* !!!!
 * ablation study with bleu without "Youre welcome", "Have a nice day", "How can I help you today?" etc etc
 beam search should work now ✔️ 
 

@@ -13,7 +13,7 @@ from torchtext.data import Dataset, Field
 
 from joeynmt.helpers import bpe_postprocess, load_config, \
     get_latest_checkpoint, load_checkpoint, store_attention_plots
-from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy, ent_f1
+from joeynmt.metrics import bleu, chrf, token_accuracy, sequence_accuracy, calc_ent_f1_and_ent_mcc 
 from joeynmt.model import build_model, Model
 from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.data import load_data, make_data_iter, make_data_iter_kb, MonoDataset
@@ -203,14 +203,14 @@ def validate_on_data(model: Model, data: Dataset,
                     valid_hypotheses, valid_references)
 
             if kb_task:
-                valid_ent_f1 = ent_f1(valid_hypotheses, valid_references,
+                valid_ent_f1, valid_ent_mcc = calc_ent_f1_and_ent_mcc(valid_hypotheses, valid_references,
                     vocab=model.trv_vocab,
                     c_fun=model.canonize,
                     report_on_canonicals=report_on_canonicals
                     )
                 
             else:
-                valid_ent_f1 = -1
+                valid_ent_f1, valid_ent_mcc = -1, -1
         else:
             current_valid_score = -1
 
@@ -218,7 +218,7 @@ def validate_on_data(model: Model, data: Dataset,
     return current_valid_score, valid_loss, valid_ppl, valid_sources, \
         valid_sources_raw, valid_references, valid_hypotheses, \
         decoded_valid, valid_attention_scores, valid_kb_att_scores, \
-        valid_ent_f1
+        valid_ent_f1, valid_ent_mcc
 
 # pylint: disable-msg=logging-too-many-args
 def test(cfg_file,

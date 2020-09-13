@@ -6,6 +6,7 @@ This module holds various MT evaluation metrics.
 import sacrebleu
 from joeynmt.data import pkt_tokenize
 from typing import List
+from math import sqrt
 
 
 def chrf(hypotheses, references):
@@ -68,7 +69,7 @@ def sequence_accuracy(hypotheses, references):
                              if hyp == ref])
     return (correct_sequences / len(hypotheses))*100 if hypotheses else 0.0
 
-def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals: bool = False, tok_fun=pkt_tokenize):
+def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals: bool = False, tok_fun=pkt_tokenize):
     """
     :param hyps: list of string sentences to be tokenized by tok_fun
     :param refs: list of string sentences to be tokenized by tok_fun
@@ -79,7 +80,8 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
       - False: compare in 7 pm == 8 pm;  vocab must be model.trv_vocab !
 
     :return:
-     - f1_avg: float f1 score == 2* (prec*rec) / (prec + rec) ('harmonic mean'); averaged over all examples
+     - f1_avg: float f1 score == 2* (P*R) / (P + R) ('harmonic mean of P and R'); averaged over all examples
+     - mcc_avg: float mcc score == sqrt((R+(1/R)-1)*(P+(1/P)-1)) ('geometric mean of Informedness and Markedness'); averaged over all examples
     """
 
     # requires internal knowledge of the entire universe
@@ -115,11 +117,13 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
         else:
             return 0.
 
-    harm_mean = lambda p, r: 2 * (p*r)/(p+r) if p+r != 0. else 0.
+    f1_ = lambda p, r: 2 * (p*r)/(p+r) if p+r != 0. else 0.
+    mcc_ = lambda p, r: sqrt((r+(1/r)-1)*(p+(1/p)-1)) if r != 0. and p != 0. else 0.
 
     # compare ent f1 in trv => lookup vocab indices
 
     f1s = [] # accumulate scores
+    mccs = [] # accumulate matthew's correlation coefficients
     for i, (hyp,ref) in enumerate(zip(hyps, refs)):
 
         hyp_ents_ref_ents = [] # will hold entity vocabulary indices in the order hyp,ref
@@ -154,11 +158,15 @@ def ent_f1(hyps: List[str], refs: List[str], vocab, c_fun, report_on_canonicals:
             debug.append(entities)
 
         # assert False, (debug, hyp, ref)
-        p, t = hyp_ents_ref_ents
-        # calc f1 score for this pair
-        f1_score = harm_mean(precision(p,t), recall(p,t))
-        f1s.append(f1_score)
+        pred, truth = hyp_ents_ref_ents
+
+        P = precision(pred,truth)
+        R = recall(pred,truth)
+        
+        f1s.append(f1_(P,R))
+        mccs.append(mcc_(P,R))
             
-    assert len(hyps) == len(refs) == len(f1s), (len(hyps), len(refs), len(f1s))
+    assert len(hyps) == len(refs) == len(f1s) == len(mccs), (len(hyps), len(refs), len(f1s), len(mccs))
     f1_avg = sum(f1s) / len(f1s)
-    return f1_avg
+    mcc_avg = sum(mccs) / len(mccs)
+    return f1_avg, mcc_avg

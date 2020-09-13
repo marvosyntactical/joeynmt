@@ -4,8 +4,8 @@ you're very welcome !
 there is a @poi_name @poi_distance away .
 the @poi_name @poi_type is located at @poi_address . it is @poi_distance away through @traffic_info
 anytime !
-the closest @poi_type is pf changs , located @poi_distance away . 
-@poi_name route set to @poi_address with only @traffic_info noted . 
+the closest @poi_type is @poi_name , located @poi_distance away . 
+p .f . changs route set to @poi_address with only @traffic_info noted . 
 you're welcome . drive safely , and enjoy . 
 set ! have a good time
 @event is at @time with @party .
@@ -757,8 +757,8 @@ setting route for minimum traffic to @poi_name now .
 you're welcome !
 in @location it will be @weather_attribute on @date
 no problem
-the nearer @poi_type is @poi_name , it's 1 miles away : would you like to go there ?
-@poi_name is located at @poi_address . 
+the nearer @poi_type is p .f . changs , it's 1 miles away : would you like to go there ?
+p .f . changs is located at @poi_address . 
 you're welcome !
 your @event is at @time .
 in which city do you want to know if it will @weather_attribute ?
@@ -939,8 +939,8 @@ ok , setting a reminder to go get a shot for tomorrow , at what time ?
 we're @poi_distance away from @poi_name : do you want me to highlight its position on the map ?
 the address is @poi_address , i sent it on your map . there is @traffic_info and you should be able to reach there in few minutes
 you're welcome !
-these nearest restaurant is pf changs , located @poi_distance away with @traffic_info . would you like directions there ? 
-@poi_name is located at @poi_address . 
+these nearest restaurant is @poi_name , located @poi_distance away with @traffic_info . would you like directions there ? 
+p .f . changs is located at @poi_address . 
 i sent the directions on your screen , enjoy your trip !
 you're welcome !
 there is a @poi_name at @poi_address place , @poi_distance away . would you like directions there ?
@@ -958,7 +958,7 @@ anytime !
 where are you located ?
 no it will not be @weather_attribute in @location over the next 7 days
 you're welcome !
-there are two @poi_type restaurants nearby , @poi_name @poi_distance away and @poi_name @poi_distance away
+there are two @poi_type restaurants nearby , @poi_name @poi_distance away and p .f . changs @poi_distance away
 the quickest route is to @poi_name which is @poi_distance away and located at @poi_address . 
 you're welcome !
 @poi_name is @poi_distance away .
@@ -1745,8 +1745,8 @@ you're welcome , have a great day .
 the next vaccination date is on @date at @time
 okay , scheduling a @event with @party for @date at @time .
 no problem .
-the closest @poi_type is pf changs @poi_distance away .
-pf changs is at @poi_address .
+the closest @poi_type is @poi_name @poi_distance away .
+@poi_name is at @poi_address .
 you're welcome and we are on our way . 
 there is @poi_name @poi_distance away : would it be good for your hunger ?
 the address to @poi_name is @poi_address .
@@ -1766,7 +1766,7 @@ you are welcome .
 what location do you want the weather for ?
 no , there shouldn't be any @weather_attribute in @location tomorrow .
 no problem , it's my pleasure to assist you !
-you can pick between @poi_name and @poi_name , both @poi_distance away , or @poi_name , @poi_distance away
+you can pick between @poi_name and @poi_name , both @poi_distance away , or p .f . changs , @poi_distance away
 @poi_name has a route to @poi_address drive with @traffic_info but we should still get there quickly . is that going to work ?
 yes , it is the quickest way to reach , i've set the gps and you could follow the route on your screen
 you're very welcome !
@@ -1895,8 +1895,8 @@ you're welcome !
 @event is at @time .
 you're welcome .
 okay , doctors appointment on @date , august 8 th at @time with your @party is set .
-there are two restaurants within @poi_distance ; however , one has a @traffic_info . the @poi_name has @traffic_info on the way . 
-the pf chans is @poi_distance away with @traffic_info . 
+there are two restaurants within @poi_distance ; however , one has a @traffic_info . the p .f . changs has @traffic_info on the way . 
+the @poi_name chans is @poi_distance away with @traffic_info . 
 i sent the info on your screen . you're welcome !
 there is a @poi_name @poi_type @poi_distance away .
 @poi_address , i sent the info on your screen
@@ -2014,8 +2014,8 @@ you're welcome !
 what city do you want to know the temperature for ?
 current temperature is low of @temperature and high of @temperature .
 anytime !
-@poi_name .changs at @poi_address is @poi_distance away trough @traffic_info
-setting navigation to pf changs now . 
+p .f .changs at @poi_address is @poi_distance away trough @traffic_info
+setting navigation to @poi_name now . 
 you're welcome !
 it will not @weather_attribute in the next 2 days in @location .
 you're welcome , have a good day . 
@@ -2053,7 +2053,7 @@ what city should i get the weather information for ?
 no , it will not @weather_attribute in @location today . it is going to be @weather_attribute with a low of @temperature and a high of @temperature .
 you're welcome !
 i'm sorry but the nearest one is @poi_distance away : go there anyway ?
-this route to @poi_name has @traffic_info . would you like the address ?
+this route to p .f . changs has @traffic_info . would you like the address ?
 i picked the fastest route for you , drive carefully !
 what day and time should i set the @event game alarm ?
 your next @event is scheduled for @date at @time .
@@ -3232,8 +3232,8 @@ you have 5 upcoming @event appointments : the next one will be on @date at @time
 @event you to tom's house on the fastest route .
 tom's address is @poi_address . 
 you're welcome , have a great day . 
-we're @poi_distance away from @poi_name : would you like me to highlight its position on your map ?
-@poi_name is the only listing i have .
+we're @poi_distance away from p .f . changs : would you like me to highlight its position on your map ?
+p .f . changs is the only listing i have .
 the address is @poi_address
 plotting shortest distance to @poi_address , @poi_distance away with @traffic_info
 you're very welcome !
@@ -3359,7 +3359,7 @@ you're welcome .
 what city are you asking about ?
 there isn't any @weather_attribute predicted in @location
 my pleasure . 
-i have two @poi_type restaurants listed ; @poi_name is @poi_distance away with a @traffic_info on the route and @poi_name a mile away with a @traffic_info . which one do you prefer ?
+i have two @poi_type restaurants listed ; p .f . changs is @poi_distance away with a @traffic_info on the route and @poi_name a mile away with a @traffic_info . which one do you prefer ?
 @poi_name is located at @poi_address . do you need me to set the gps ?
 all the directions are on your screen , drive carefully !
 you're welcome
@@ -4057,8 +4057,8 @@ you're welcome !
 what city do you want the weather for ?
 in chicago , it should be @temperature - @temperature and snowing today .
 you are welcome !
-there is @poi_name , @poi_name , and @poi_name .
-in this moment there is @traffic_info towards @poi_name and @poi_name
+there is @poi_name , @poi_name , and p .f . changs .
+in this moment there is @traffic_info towards p .f . changs and @poi_name
 setting the route there , you're welcome !
 what city would you like the forecast for ?
 sunday's forecast is calling for a @weather_attribute in @location with lows near @temperature and highs in the @temperature s . 
@@ -4211,7 +4211,7 @@ there are two nearby @poi_type places .  would you like the nearest one ?
 the nearest @poi_type is @poi_name four miles away with @traffic_info on the route .  would you like the other @poi_type with @traffic_info on the route @poi_distance away ?
 then let's go at @poi_name , the address is @poi_address , i sent it on your screen
 you're welcome , sounds great . 
-there is a pf changs located within @poi_distance of you . 
+there is a @poi_name located within @poi_distance of you . 
 unfortunately there is @traffic_info on its direction
 i sent the route on your screen , enjoy your trip !
 you're welcome !
@@ -4266,9 +4266,9 @@ today's temperatures will be highs in the @temperature s with lows in the @tempe
 you're welcome . 
 it will not be @weather_attribute today or tomorrow in @location
 anytime .
-there is a @poi_name @poi_distance away .
-@poi_name is located at @poi_address .
-gps set to @poi_name at @poi_address but a @traffic_info is noted nearby , do you still want to proceed ?
+there is a p .f . changs @poi_distance away .
+p .f . changs is located at @poi_address .
+gps set to p .f . changs at @poi_address but a @traffic_info is noted nearby , do you still want to proceed ?
 you're welcome , i'm here to assist you !
 @poi_name is @poi_distance away .
 there is a @traffic_info but it is the only option i currently have .
@@ -4430,7 +4430,7 @@ sure !
 what city are you located in so i could check to see if it will be snowing this week ?
 it will not @weather_attribute in @location this week .
 you're welcome !
-@poi_name chang's is @poi_distance away at @poi_address . do you want me to set the gps ?
+p .f . chang's is @poi_distance away at @poi_address . do you want me to set the gps ?
 the quickest route is @poi_distance away with @traffic_info noted . anything else ?
 you're welcome !
 are you talking about the friend at @poi_address ?
@@ -4506,8 +4506,8 @@ glad i could help . you're welcome .
 we are 1 miles away from @poi_name
 sure , we're going to @poi_address , drive carefully !
 anytime !
-there is @poi_name @poi_distance away but there have been a @traffic_info , we might get stuck in the traffic
-@poi_name is at @poi_address .
+there is p .f . changs @poi_distance away but there have been a @traffic_info , we might get stuck in the traffic
+p .f . changs is at @poi_address .
 have a good one .
 it will be @weather_attribute on @date in @location .
 i'm happy to give you good news !
@@ -4592,8 +4592,8 @@ today in @location the low temperature in @temperature and the high is @temperat
 you are welcome .
 it should @weather_attribute in @location on @date , it will not be @weather_attribute
 happy to help
-the closest is pf changs , @poi_distance away with @traffic_info . would you like directions there ?
-you will find @poi_name .changs at @poi_address
+the closest is @poi_name , @poi_distance away with @traffic_info . would you like directions there ?
+you will find p .f .changs at @poi_address
 you're welcome !
 the nearest @poi_type is standford childrens health .
 @poi_name is at @poi_address .
@@ -4761,9 +4761,9 @@ it's not gonna @weather_attribute in @location next week
 you're welcome !
 you have two @event appointments scheduled . the first is on @date at @time and the next is on @date at @time .
 it is my pleasure .
-there are @poi_name @poi_distance away and @poi_name @poi_distance away : which one do you prefer ?
-setting directions for pf changs .
-@poi_name is located at @poi_address with @traffic_info reported . 
+there are p .f . changs @poi_distance away and @poi_name @poi_distance away : which one do you prefer ?
+setting directions for @poi_name .
+p .f . changs is located at @poi_address with @traffic_info reported . 
 you're welcome . 
 in what city would you like me to check for @weather_attribute ?
 there will be @weather_attribute this @date in @location . 
@@ -5124,7 +5124,7 @@ anytime .
 i have info only about the @poi_name @poi_type , but it's @poi_distance away
 the route to @poi_name is reporting @traffic_info to @poi_address . gps set . 
 you're welcome ; drive safely , and take care .
-there are two @poi_type restaurants nearby . @poi_name .changs and @poi_name , which one would you prefer ?
+there are two @poi_type restaurants nearby . p .f .changs and @poi_name , which one would you prefer ?
 @poi_name is @poi_distance away at @poi_address . there is @traffic_info . setting navigation now .
 you're welcome !
 for what city would you like to know the weather for ?
@@ -5183,7 +5183,7 @@ glad i can assist you .
 setting navigation now . 
 setting navigation to @poi_address now .
 you're very welcome !
-there is @poi_name and pf changs .
+there is @poi_name and @poi_name .
 they are the same .
 they are both @poi_distance away with @traffic_info to each location . 
 @poi_name is located at @poi_address . 
@@ -5364,7 +5364,7 @@ you are welcome !
 scheduling your appointment with @party at the end of the month at @time .
 okay , changing schedule for your appointment to a @event .
 no problem , have a good day .
-you can pick between the pizzeria @poi_name and the @poi_type @poi_name , they're both @poi_distance away
+you can pick between the pizzeria @poi_name and the @poi_type p .f . changs , they're both @poi_distance away
 @poi_name is located at @poi_address
 here is the quickest route to @poi_name .
 you're welcome !

@@ -2,11 +2,8 @@ import os
 from collections import defaultdict
 import json
 from typing import List
+from split_normalized_scenarios import CANON_JOIN_CHAR, REL_JOIN_CHAR
 
-
-def load_entitties(ent_json="../kvr/kvret_entities.json"):
-    ent_dict = json.load(ent_json)
-    return ent_dict
 
 # hardcoded lookup
 kbval_lkp = {
@@ -23,30 +20,41 @@ kbval_lkp = {
     "weather":"weather_attribute",
     "temperature_low":"temperature",
     "temperature_high":"temperature",
-    "location":"location",
-    "poi":"poi_name",
-    "event":"event"
+    "location":"location", # SUBJ weather
+    "poi":"poi_name", # SUBJ traffic
+    "event":"event" # SUBJ calendar
 }
 
 kbval_lkp = defaultdict(None, kbval_lkp)
 
-def replace_line(line:str, d:defaultdict = kbval_lkp):
+def find_relation(line:str, d, canon_join_char=CANON_JOIN_CHAR, rel_join_char=REL_JOIN_CHAR):
+    splitrelation = line.split(canon_join_char)[-1].split(rel_join_char)
+    relation = splitrelation[-1]
+    # hardcoded because im smart enough to use the same delimiter as appears in traffic_info, poi_type etc
+    if relation in ["info", "type", "low", "high"]:
+        relation = splitrelation[-2]+"_"+relation
+    replacement_raw = d[relation]
+    return relation
+
+def replace_lines(lines:List[str], d: defaultdict = kbval_lkp, fine_grained = False):
     #hardcoded; relies on kb entries being represented with underscores
     #with end of string being in kbval_lkp.keys(),e.g. 'meeting_agenda'
 
-    splitline = line.split("_")
-    ending = splitline[-1]
-    #hardcoded
-    if ending in ["info", "type","low","high"]:
-        ending = splitline[-2]+"_"+ending
+    replacements = []
+    for i, line in enumerate(lines):
+        relation = find_relation(line, d, CANON_JOIN_CHAR)
 
-    replacement_raw = d[ending]
-    assert replacement_raw, f"line {line} with ending {ending} not found in dictionary {d}"
-    replacement_refined = "@"+replacement_raw
-    return replacement_refined
+        if fine_grained == True:
+            # this assumes key representation is subject, run normalize_kbs accordingly
+            subj = line.split(CANON_JOIN_CHAR)[0]
+            # add subj before relation as described in Eric et al. 2017 details
+            relation = subj+REL_JOIN_CHAR+relation
 
-def replace_lines(lines: List[str], d:defaultdict=kbval_lkp):
-    return [replace_line(line,d) for line in lines]
+        assert relation, f"line {line} with relation {relation} not found in dictionary {d}"
+        replacement_refined = "@"+relation
+        replacements += [replacement_refined]
+
+    return replacements
 
 def main(args):
     EXT = "FINAL"
@@ -61,6 +69,8 @@ def main(args):
     else:
         raise ValueError(f"this shouldnt ever happen...: {args[0]}")
 
+    fine_grained = True # TODO add to args
+
     f_stump = ".".join(f.split(".")[:-1])+"."
     cluster_ext = "kbc"+EXT
     fp = f_stump + cluster_ext
@@ -72,7 +82,7 @@ def main(args):
 
     #code
 
-    processed = replace_lines(ll)
+    processed = replace_lines(ll, fine_grained=fine_grained)
     processed = [line+"\n" for line in processed]
     print(processed[:50])
     with open(fp, "w") as coarse:

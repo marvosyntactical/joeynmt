@@ -10,7 +10,9 @@ except ImportError:
         {'/'.join(__file__.split('/')[:-1])}, falling back to \
         PAD_TOKEN=={PAD_TOKEN}")
 
-CANON_JOIN_CHAR = "_"
+CANON_JOIN_CHAR = ";"
+SUBJ_JOIN_CHAR = "_"
+REL_JOIN_CHAR = "_"
 
 """
 for use without pretrained embeddings:
@@ -35,10 +37,12 @@ def canonify(kvr_triple):
     """
 
     subj, rel, val = kvr_triple.split("::")
+    subj = subj.replace(" ", SUBJ_JOIN_CHAR)
+    rel = rel.replace(" ", REL_JOIN_CHAR)
     key_rep = f" {PAD_TOKEN} ".join((subj, rel))
     canon_val = key_rep.replace(f"{PAD_TOKEN} ", "").replace(" ", CANON_JOIN_CHAR)
 
-    return key_rep,canon_val, val
+    return key_rep, canon_val, val
 
 def main(args):
 

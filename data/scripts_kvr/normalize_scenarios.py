@@ -9,7 +9,7 @@ DUMMY_VAL = "DUMMYVAL"
 ADD_DUMMY = True
 
 
-def normalize_kb(d):
+def normalize_kb(d, eric=False):
     """
     takes kb dictionary and decides which type of info to extract
 
@@ -21,10 +21,10 @@ def normalize_kb(d):
     if d["kb"]["items"] is None:
         return []
 
-    return eval("normalize_{}(d)".format(intent))
+    return eval("normalize_{}(d, eric={})".format(intent, eric))
 
 
-def normalize_weather(d):
+def normalize_weather(d, eric=False):
     """
     takes a kb with task intent "weather" and items with
     locations and normalizes all items into triples
@@ -77,7 +77,7 @@ def normalize_weather(d):
     else:
         return normed_kb
 
-def normalize_navigate(d):
+def normalize_navigate(d, eric=False):
     """
     takes a kb with task intent "navigate" 
     and normalizes all items into triples
@@ -98,12 +98,15 @@ def normalize_navigate(d):
         poi_type = blimp["poi_type"]
         poi = blimp["poi"]
 
-        if poi_type != poi:
-            subject = poi_type + " " + poi
+        if eric:
+            subject = poi
         else:
-            # avoid "home home"; instead put "home"
-            assert poi_type.lower() == "home"
-            subject = poi_type
+            if poi_type != poi:
+                subject = poi_type + " " + poi
+            else:
+                # avoid "home home"; instead put "home"
+                assert poi_type.lower() == "home"
+                subject = poi_type
 
         for relation in blimp.keys():
             normed_kb.append((subject,relation,blimp[relation]))
@@ -120,8 +123,9 @@ def normalize_navigate(d):
     else:
         return normed_kb
 
-def normalize_schedule(d):
+def normalize_schedule(d, eric=False):
     """
+    eric isnt used here :/
     takes a kb with task intent "schedule"
     and normalizes all items into triples
     of the form: 
@@ -169,11 +173,14 @@ def main(args):
         splitpart = args[0]
         if len(args) > 1:
             EXT = args[1]
+
+    eric = True # TODO add to args
+
     filename = splitpart+".json"
     with open(directory+filename, "r") as scenarios:
         settings = json.load(scenarios)
 
-    normed_kbs = [normalize_kb(kb) for kb in settings]
+    normed_kbs = [normalize_kb(kb, eric=eric) for kb in settings]
     lens = [str(len(kb))+"\n" for kb in normed_kbs]
 
     normed_kbs_inner = [triple for scenario in normed_kbs for triple in scenario]
