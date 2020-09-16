@@ -88,8 +88,32 @@
 					 "poi": "Mandarin Roots",
 					 "type": "chinese restaurant"},
 					{"address": "753 University Ave", "poi": "Comfort Inn", "type": "rest stop"},
+
+
 					{"address": "669 El Camino Real",
-					 "poi": "pf Changs",
+					 "poi": "P.F.Changs",
+					 "type": "chinese restaurant"},
+					{"address": "669 El Camino Real",
+					 "poi": "P.F.Chang's",
+					 "type": "chinese restaurant"},
+
+					{"address": "669 El Camino Real",
+					 "poi": "P.F. Chang's",
+					 "type": "chinese restaurant"},
+
+					{"address": "669 El Camino Real",
+					 "poi": "P.F. Changs",
+					 "type": "chinese restaurant"},
+
+					{"address": "669 El Camino Real",
+					 "poi": "PF .Changs",
+					 "type": "chinese restaurant"},
+					{"address": "669 El Camino Real",
+					 "poi": "PF Changs",
+					 "type": "chinese restaurant"},
+
+					{"address": "669 El Camino Real",
+					 "poi": "P.F. Changs",
 					 "type": "chinese restaurant"},
 					{"address": "915 Arbol Dr", "poi": "Pizza Chicago", "type": "pizza restaurant"},
 					{"address": "333 Arbol Dr", "poi": "Travelers Lodge", "type": "rest stop"},

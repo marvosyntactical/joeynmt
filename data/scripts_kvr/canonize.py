@@ -227,8 +227,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     print(f"\tFinished up Sequence\n{seq}\nand transformed it to\n{r}")
     print(("="*40)+"\n")
     assert len(indices) == len(seq), (indices, seq)
-    input((seq, matches, r))
-    return r, indices 
+    return r, indices, matches
 
 def canonize_sequences(seqs: List[List[str]] = [], dictionary: defaultdict = defaultdict()):
     return [canonize_sequence(seq,dictionary)[0] for seq in seqs]
@@ -253,12 +252,18 @@ def main(args):
         gold_standard = [seq.lower() for seq in gold_standard]
     gold_standard = [tok_fun(seq) for seq in gold_standard]
     print(gold_standard[:5], len(gold_standard))
+    num = 0
+    for i, l in enumerate(gold_standard):
+        p=False
+        for tok in l:
+            if "chang" in tok:
+                p=True
+        if p: print(l); num +=1
 
 
     entities = load_json() # entity path is default arg
     efficient_entities = preprocess_entity_dict(entities, lower=lower, tok_fun=tok_fun)
-    subjs_path = "../kvr/kvret_subjects.json"
-    subjects = load_json(fp=subjs_path)
+    assert False, efficient_entities
 
     canonized_seqs = canonize_sequences(gold_standard, efficient_entities)
     output = [" ".join(out)+"\n" for out in canonized_seqs]

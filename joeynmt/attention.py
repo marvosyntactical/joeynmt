@@ -137,7 +137,9 @@ class KeyValRetAtt(AttentionMechanism):
     from eric et al.
     """
 
-    def __init__(self, hidden_size=1, key_size=1, query_size=1, k_hops=1, kb_max=256):
+    def __init__(self, hidden_size=1, key_size=1, query_size=1,
+    kb_max=256, feed_rnn=True,
+    num_layers=2, dropout=0.):
         """
         Creates key value retrieval attention mechanism.
         hidden refers to attention layer hidden, not decoder or encoder hidden
@@ -163,18 +165,28 @@ class KeyValRetAtt(AttentionMechanism):
         self.kb_max = kb_max # atm weather kb are max at 203
         self.curr_kb_size = None # this is set during self.compute_proj_keys
 
+        self.feed_rnn = feed_rnn
         # module to feed back concatenated query and previous utilities at hops k > 1
-        self.multihop_feeding = nn.Linear(hidden_size+self.kb_max, hidden_size, bias=False)
+        # either parameterized by LSTM or feed forward NN
+        # (LSTM remembers stuff from last decoding step, linear one from last hop of different head (but corresponding dim)
+        if self.feed_rnn == True:
+            self.memory_network = nn.LSTM(hidden_size + self.kb_max, hidden_size, # hidden size must be == decoder hidden size
+            num_layers, batch_first=True, dropout=dropout if num_layers > 1 else 0.)
+        else:
+            self.multihop_feeding = nn.Linear(hidden_size + self.kb_max, hidden_size, bias=False)
+            self.memory_network = lambda query, _: (None, self.multihop_feeding(query))
+
         
 
     #pylint: disable=arguments-differ
-    def forward(self, query: Tensor = None, prev_utilities=None):
+    def forward(self, query: Tensor = None, prev_utilities=None, prev_kb_feed_hidden=None):
         """
         Bahdanau MLP attention forward pass.
 
         :param query: the item (decoder state) to compare with the keys/memory,
             shape (batch_size, 1, decoder.hidden_size)
-        :param prev__utilities: if not None, pass concatenation of query and this thru self.mh_f
+        :param prev__utilities: if not None, pass concatenation of query and this thru self.memory_network
+        :param prev_kb_feed_hidden: if self.memory_network is LSTM, this is its previous hidden state; or the first decoder hidden state (first query)
         :return: context vector of shape (batch_size, 1, value_size),
             attention probabilities of shape (batch_size, 1, src_length)
         """
@@ -191,8 +203,15 @@ class KeyValRetAtt(AttentionMechanism):
             # feed concatenation of
             # previously computed kb entry utilities and query 
             # back into new query
+
             query_k = torch.cat([prev_utilities, query], dim=-1) # batch x 1 x kb_max + hidden
-            query_k = self.multihop_feeding(query_k) # batch x 1 x hidden
+            _, prev_kb_feed_hidden = self.memory_network(query_k, prev_kb_feed_hidden) # batch x 1 x hidden
+
+            if not self.feed_rnn:
+                query_k = prev_kb_feed_hidden
+            else:
+                query_k = prev_kb_feed_hidden[0][-1].unsqueeze(1) # hidden is first item in LSTM state tuple; take last layer of it
+            # in case of LSTM, query_k-1 is used as hidden state
 
         # variable names refer to eric et al (2017) notation,
         # (see https://arxiv.org/abs/1705.05414)
@@ -224,7 +243,7 @@ class KeyValRetAtt(AttentionMechanism):
         # to concatenate 1..t...T together and get the same shape
         # as outputs
 
-        return u_t_k
+        return u_t_k, prev_kb_feed_hidden
 
     def compute_proj_keys(self, keys: Tensor):
         """

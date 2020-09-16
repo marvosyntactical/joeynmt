@@ -17,6 +17,10 @@
 *TODO*
 intermediate level:
 1. make option in normalized scenarios to use canonical levels
+2. added keeping track of KB to canonize.py
+3. do linking on canonized source and target *TODO*
+4. do that in extra file intermediate.py
+5. *TODO* make CRF to tell which attribute belongs to which subject
 
 ### 10.09. ent f1 calc
 

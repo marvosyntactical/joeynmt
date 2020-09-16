@@ -771,6 +771,7 @@ def build_model(cfg: dict = None,
     copy_from_source = bool(cfg.get("copy_from_source", True))
     canonization_func = canonizer(copy_from_source=copy_from_source) 
     kb_input_feeding = bool(cfg.get("kb_input_feeding", True))
+    kb_feed_rnn = bool(cfg.get("kb_feed_rnn", True))
 
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
     if hasattr(kb_max_dims, "__iter__"):
@@ -797,7 +798,7 @@ def build_model(cfg: dict = None,
             decoder = KeyValRetRNNDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops, kb_max=kb_max_dims,
-                kb_key_emb_size=kbsrc_embed.embedding_dim, kb_input_feeding=kb_input_feeding)
+                kb_key_emb_size=kbsrc_embed.embedding_dim, kb_input_feeding=kb_input_feeding, kb_feed_rnn=kb_feed_rnn)
     
     # specify generator which is mostly just the output layer
     generator = Generator(

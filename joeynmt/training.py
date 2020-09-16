@@ -387,8 +387,9 @@ class TrainManager:
                     self._add_report(
                         valid_score=valid_score, valid_loss=valid_loss,
                         valid_ppl=valid_ppl, eval_metric=self.eval_metric,
-                        new_best=new_best, valid_ent_f1=valid_ent_f1,
-                        valid_ent_mcc)
+                        valid_ent_f1=valid_ent_f1,
+                        valid_ent_mcc=valid_ent_mcc,
+                        new_best=new_best)
 
                     # pylint: disable=unnecessary-comprehension
                     self._log_examples(

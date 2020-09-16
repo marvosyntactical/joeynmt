@@ -19,7 +19,7 @@ from joeynmt.constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN
 from joeynmt.vocabulary import build_vocab, Vocabulary
 
 # FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
-from data.scripts_kvr.canonize import load_entity_dict, preprocess_entity_dict, canonize_sequence
+from data.scripts_kvr.canonize import load_json, preprocess_entity_dict, canonize_sequence
 # joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
 
 def pkt_tokenize(s)-> List:
@@ -295,7 +295,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         # make canonization function to create KB from source for batches without one 
 
         entities_path = "data/kvr/kvret_entities_altered.json" # TODO FIXME add to config
-        entities = load_entity_dict(fp=entities_path)
+        entities = load_json(fp=entities_path)
         efficient_entities = preprocess_entity_dict(entities, lower=lowercase, tok_fun=tok_fun)
 
         # FIXME 
@@ -303,8 +303,8 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             def __init__(self, copy_from_source: bool = False):
                 self.copy_from_source = bool(copy_from_source)
             def __call__(self, seq):
-                processed, indices = canonize_sequence(seq, efficient_entities)
-                return processed, indices
+                processed, indices, matches = canonize_sequence(seq, efficient_entities)
+                return processed, indices, matches
 
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None

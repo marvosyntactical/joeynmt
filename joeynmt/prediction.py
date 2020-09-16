@@ -314,7 +314,7 @@ def test(cfg_file,
         
         #pylint: disable=unused-variable
         score, loss, ppl, sources, sources_raw, references, hypotheses, \
-        hypotheses_raw, attention_scores, kb_att_scores, ent_f1 = validate_on_data(
+        hypotheses_raw, attention_scores, kb_att_scores, ent_f1, ent_mcc = validate_on_data(
             model,
             data=data_set,
             batch_size=batch_size,
