@@ -405,7 +405,7 @@ class RecurrentDecoder(Decoder):
 
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
-        return hidden, att_probs, att_vectors, None
+        return hidden, att_probs, att_vectors, None, None, None
 
     def _init_hidden(self, encoder_final: Tensor = None) \
             -> (Tensor, Optional[Tensor]):
@@ -618,8 +618,22 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                             )
                                 for i in range(self.k_hops*self.kb_dims)])
         self.kb_input_feeding = kb_input_feeding
-        
 
+    def _add_kb_utilities_for_step(self, u, utils_dims_cache, kb_feed_hidden_cache, query):
+        return add_kb_utilities_for_step(
+                u, utils_dims_cache, kb_feed_hidden_cache, query,
+                self.kvr_attention, self.kb_total, 
+                self.k_hops, self.kb_dims, self.dims_before, 
+                self.dims_after, self.kb_mask,
+        )
+    
+    def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
+        return reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys, self.kb_total)
+
+    def _init_proj_keys(self, kb_keys):
+        return init_proj_keys(self.kvr_attention, self.kb_dims, self.k_hops, kb_keys)
+
+       
     def _check_shapes_input_forward_step(self,
                                          prev_embed: Tensor,
                                          prev_att_vector: Tensor,
@@ -760,7 +774,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         if utils_dims_cache == None:
             utils_dims_cache = [None] * self.kb_dims # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
         if kb_feed_hidden_cache == None:
-            kb_feed_hidden_cache = [hidden] * (self.kb_dims * self.k_hops)
+            kb_feed_hidden_cache = [hidden[0]] * (self.kb_dims * self.k_hops)
         # multiple attention hops
         for k in range(self.k_hops): # self.k_hops == 1 <=> Eric et al version
 
@@ -959,6 +973,7 @@ neural transformer why no nonlinearities
                 kb_mask=kb_mask,
                 utils_dims_cache=prev_kb_utils,
                 kb_feed_hidden_cache=prev_kb_feed_hiddens)
+                
             if not self.kb_input_feeding:
                 prev_kb_utils = None
 
@@ -974,7 +989,7 @@ neural transformer why no nonlinearities
         kb_probs = torch.cat(kb_probs, dim=1)
         # batch, unroll_steps, KB
 
-        return hidden, att_probs, att_vectors, kb_probs
+        return hidden, att_probs, att_vectors, kb_probs, prev_kb_utils, prev_kb_feed_hiddens
 
     def _init_hidden(self, encoder_final: Tensor = None) \
             -> (Tensor, Optional[Tensor]):
@@ -1047,6 +1062,9 @@ class TransformerDecoder(Decoder):
                  kb_task: bool=False,
                  kb_max: Tuple = (256,),
                  kb_key_emb_size: int = 1,
+                 k_hops: int = 1,
+                 kb_input_feeding: bool = True,
+                 kb_feed_rnn: bool = True,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -1081,21 +1099,75 @@ class TransformerDecoder(Decoder):
 
         if kb_task:
             if not hasattr(kb_max, "__iter__"): 
-                assert type(kb_max) == int, kb_max
+                assert type(kb_max) == int, (kb_max, type(kb_max), "specify this differently in config plz")
                 kb_max = (kb_max,)
             self.kb_max = kb_max 
             if len(self.kb_max) is not 1: raise NotImplementedError(f"{len(self.kb_max)} not implemented for transformer")
+            self.kb_feed_rnn = kb_feed_rnn
 
             self.kb_layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
-            self.kb_trg_att = KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
-                                            key_size=kb_key_emb_size, #TODO sh24:15 / 1:40:26ould be src_emb_size; temp solution: src emb == trg emb
-                                            query_size=hidden_size, # queried with decoder hidden
-                                            kb_max=self.kb_max[0] # TODO maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
-                                            )
 
+            # kvr attention after bahdanau attention:
+            # multihops:
+            self.k_hops = k_hops # how many kvr attention modules?
+
+            # make sure kb_max is iterable, e.g. tuple of ints, instead of a single int
+            if not hasattr(kb_max, "__iter__"): kb_max = (kb_max,)
+            self.kb_max = kb_max 
+            # tuple of maximum size for each knowledgebase dimension
+            # for each dimension, 
+            # e.g. subj and relation or city x weekday x weather_attribute
+            # stores maximum allowable size for this dataset
+            # e.g. (7,3) for 7 weekdays and 3 weather attributes
+
+            self.kb_dims = len(self.kb_max)
+            allowableDims = [1,2]
+            if self.kb_dims not in allowableDims:
+                raise NotImplementedError(f"Multidimensional KB attentions only implemented for n={allowableDims}; n={self.kb_dims}; kb_max:{self.kb_max}")
+
+            # as in joeynmt.search.beam_search, repeat and tile KB dimension along each dimension:
+            # dims before: repeat value along flat kb_total dimension for each dimension
+            #           (product of all previous dimensions)
+            # dims after: tile value along flat kb_total dimension for each dimension
+            #           (product of all successive dimensions)
+
+            # precalculate these products; use them for indexing in attention hop
+            self.dims_before = [product(self.kb_max[:dim]) for dim in range(self.kb_dims)]
+            self.dims_after = [product(self.kb_max[:dim:-1]) for dim in range(self.kb_dims)]
+            self.kb_total = product(self.kb_max)
+
+            self.kb_feed_rnn = kb_feed_rnn # bool of whether to use LSTM (True) or feed forward network (False) for input feeding (LSTM remembers everything)
+            self.kb_layers = int(num_layers//2)
+
+            # list of [kvr for dim 0, kvr for dim 1] * k_hops
+            self.kvr_attention = nn.ModuleList([
+                                    KeyValRetAtt(hidden_size=self._hidden_size, # use same hidden size as decoder
+                                                key_size=kb_key_emb_size, 
+                                                query_size=hidden_size, # queried with decoder hidden
+                                                kb_max=self.kb_max[i % self.kb_dims], # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
+                                                feed_rnn=self.kb_feed_rnn,
+                                                num_layers=self.kb_layers,
+                                                dropout=dropout
+                                                )
+                                    for i in range(self.k_hops*self.kb_dims)])
+            self.kb_input_feeding = kb_input_feeding
         if freeze:
             freeze_params(self)
-        
+
+    def _add_kb_utilities_for_step(self, u, utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
+        return add_kb_utilities_for_step(
+                u, utils_dims_cache, kb_feed_hidden_cache, query,
+                self.kvr_attention, self.kb_total, 
+                self.k_hops, self.kb_dims, self.dims_before, 
+                self.dims_after
+        )
+    
+    def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
+        return reshape_kb_mask_to_keys_size(kb_mask, kb_keys, self.kb_total)
+
+    def _init_proj_keys(self, kb_keys):
+        return init_proj_keys(self.kvr_attention, self.kb_dims, self.k_hops, kb_keys)
+
 
     def forward(self,
                 trg_embed: Tensor = None,
@@ -1107,6 +1179,8 @@ class TransformerDecoder(Decoder):
                 trg_mask: Tensor = None,
                 kb_keys: Union[Tensor, Tuple] = None,
                 kb_mask: Tensor = None,
+                utils_dims_cache: List[Union[Tensor, None]] = None,
+                kb_feed_hidden_cache: List[Union[Tensor,None]] = None,
                 **kwargs):
         """
         Transformer decoder forward pass.
@@ -1139,27 +1213,55 @@ class TransformerDecoder(Decoder):
 
         # Multiheaded KVR Attention fwd pass
         if kb_keys is not None:
-            assert kb_mask is not None, kb_keys.shape
-            if isinstance(kb_keys, tuple): kb_keys = kb_keys[0]# TODO implement N dimensional transformer attention FIXME
+            
+            ### setup proj keys and mask dimensions
+            if not isinstance(kb_keys, tuple): 
+                assert self.kb_dims == 1, (self.kb_dims, kb_keys)
+                kb_keys = (kb_keys,)
 
-            self.kb_trg_att.compute_proj_keys(kb_keys)
+            self._init_proj_keys(kb_keys)
 
-            u_t = None
-            u = []
-            for t in range(x.shape[1]):
-                u_t = self.kb_trg_att(query=x[:,t,:].unsqueeze(1), prev_utilities=u_t)
-                u += [u_t]
+            if kb_mask is not None:
+                # reshape_kb_mask(kb_mask, kb_keys, kb_total):
+                kb_mask = self._reshape_kb_mask_to_keys_size(kb_mask, kb_keys)
+            ### end setup proj keys and mask dimensions
 
-            u = torch.cat(u, dim=1)
-            kb_probs = u[:,:,:self.kb_trg_att.curr_kb_size] # recover only attention values for non pad knowledgebase entries
-            kb_probs.masked_fill_((kb_mask==1.).unsqueeze(1), 0.0)
+            ### setup utility caches for access to different to utilities and hiddens of t-1 and aggregate utilities
 
+            u_curr = []
+            if utils_dims_cache == None:
+                # FIXME do this with torch cat right away TODO
+                utils_dims_cache = [None for _ in range(self.kb_dims)] # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
+            elif type(utils_dims_cache) == list: 
+                # cache comes from prior decoding steps during search, this is second step; utils dims cache should be inited
+                assert None not in utils_dims_cache, utils_dims_cache
+                assert set([(t.size(0)==1 and len(t.shape)==4) for t in utils_dims_cache]) == {True}, \
+                    [t.shape for t in utils_dims_cache]
+                utils_dims_cache = torch.cat(utils_dims_cache, dim=0)
+            else:
+                # utils_dims_cache is already catted (this is third step onwards)
+                pass
+
+            if kb_feed_hidden_cache == None:
+                # if not present initialize with last stage of first timestep of x
+                kb_feed_hidden_cache = torch.zeros(
+                    self.kb_dims * self.k_hops, self.kb_layers, x.size(0), self._hidden_size
+                ).to(dtype=kb_keys[0].dtype, device=kb_keys[0].device)
+
+            for t in range(x.size(1)):
+                query = x[:,t,:].clone().unsqueeze(1)
+
+                # updates u with u_t
+                u_curr = self._add_kb_utilities_for_step(u_curr, utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask)
+
+            kb_probs = torch.cat(u_curr, dim=1)
+            
         else:
             kb_probs = None
         
         # decoder output signature is:
-        # return hidden, att_probs, att_vectors, kb_probs
-        return None, None, x, kb_probs
+        # return hidden, att_probs, att_vectors, kb_probs, utils_dims_cache, kb_feed_hidden_cache
+        return None, None, x, kb_probs, utils_dims_cache, kb_feed_hidden_cache
     
     def pad_kb_tensor(self, t: Tensor) -> Tensor:
         # pad kb tensor shaped like B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
@@ -1174,7 +1276,6 @@ class TransformerDecoder(Decoder):
         pad_ = torch.zeros(t.shape[0], padding, t.shape[-1]).to(device=t.device)
 
         return torch.cat([t,pad_], dim=1)
-
 
     def __repr__(self):
         return "%s(num_layers=%r, num_heads=%r)" % (
@@ -1227,3 +1328,109 @@ class Generator(Gen):
         # doesnt make a difference for taking argmax because log softmax is monotone transformation
 
         return log_probs 
+
+### TODO move all of these to helpers
+
+def init_proj_keys(kvr_attentions, kb_dims, k_hops, kb_keys):
+    """
+    TODO document
+    """
+    # kb_keys is: b x kb x emb OR tuple of (b x kb_max_i x emb,) * n
+    for dim in range(kb_dims):
+        # only compute proj keys once for all hops
+        kvr_attentions[dim].compute_proj_keys(keys=kb_keys[dim]) 
+
+    if len(kvr_attentions) > kb_dims: # multiple hops
+        for successive_hop in range(1, k_hops):
+            for dim in range(kb_dims):
+                kvr_attentions[successive_hop * kb_dims + dim].proj_keys = pjK = kvr_attentions[dim].proj_keys
+                assert pjK is not None
+
+def reshape_kb_mask_to_keys_size(kb_mask, kb_keys, kb_total):
+    """
+    TODO document TODO move to helpers
+    """
+    keys_dim = product([keys.shape[1] for keys in kb_keys])
+    kb_pad_len = kb_total - keys_dim
+    assert kb_pad_len >= 0, f"kb dim of mask {kb_mask.shape}, with product of keys ={keys_dim} appears to be larger than self.kb_total={kb_total} => increase self.kb_total"
+
+    # FIXME why is this sometimes a tuple of filled pad tensors instead of 1?! TODO
+    kb_mask_padding = torch.full((kb_mask.shape[0], kb_pad_len), fill_value=False)
+
+    if type(kb_mask_padding) == tuple:
+        assert False, kb_mask_padding
+    if len(kb_mask_padding.shape) < 2:
+        assert False, ((kb_mask.shape[0], kb_pad_len), kb_mask_padding.shape)
+
+    kb_mask_padded = torch.cat([kb_mask, kb_mask_padding.to(dtype=kb_mask.dtype,device=kb_mask.device)], dim=1)
+    kb_mask = kb_mask_padded.unsqueeze(1)
+
+    ### end setup proj keys and mask dimensions
+    return kb_mask
+
+def add_kb_utilities_for_step(util_aggregator, utils_dims_cache, kb_feed_hidden_cache, query, kvr_attentions, kb_total, k_hops, kb_dims, dims_before, dims_after, kb_mask=None):
+    """
+    Do one time step of kb attention (with k hops and n dimensions). 
+    TODO move to helpers
+
+    modifies three lists in place:
+    :param util_aggregator: list of utilitites that u_t of this step can be added to in place
+    :param utils_dims_cache: list of previous utilities for each dimension
+    :param kb_feed_hidden_cache: list of previous LSTM hidden states or None
+    
+    :param query: query to all kvr attentions for that step (decoder hidden state or transformer output of corresponding step)
+    :param kvr_attentions:
+    :param kb_total:
+    :param kb_hops:
+    :param kb_dims:
+    :param dims_before:
+    :param dims_after:
+    """
+    
+    # multiple attention hops
+    for k in range(k_hops): # self.k_hops == 1 <=> Eric et al version
+
+        u_t_k_init = torch.zeros(query.size(0), 1, kb_total).to(query.device)
+
+        # for each hop, do an attention pass for each key representation dimension
+        # e.g. KB total = subject x relation
+        # or   KB total = city x weekday x weather attribute
+        for dim in range(kb_dims):
+
+            idx = k * kb_dims + dim
+
+            # utilities_n = b x 1 x kb_max[dim]
+            utilities_n, prev_kb_feed_hidden = kvr_attentions[idx](
+                query = query, 
+                prev_utilities = utils_dims_cache[dim], 
+                prev_kb_feed_hidden = kb_feed_hidden_cache[idx],
+            )
+
+            # update caches
+            utils_dims_cache[dim] = utilities_n.unsqueeze(0) # cache this for same dim on next hop
+            kb_feed_hidden_cache[idx] = prev_kb_feed_hidden.unsqueeze(0) # cache this for exact same kvr att module on next unroll step
+
+            # repeat as often as the product of dims before this dim
+            utilities_n_blocked = utilities_n.repeat(1, 1, dims_before[dim])
+            
+            # tile as often as the product of dims after this dim
+            utilities_n_blocked_tiled = tile(utilities_n_blocked, count=dims_after[dim], dim=-1)
+
+            # TODO unit test that this leads to same entry arrangement as in model.preprocess ... FIXME
+            u_t_k_init += utilities_n_blocked_tiled
+        
+        if kb_mask is not None:
+            # mask entries that arent actually assigned (happens in scheduling)
+            u_t_k_init = torch.where(~kb_mask, u_t_k_init, torch.zeros_like(u_t_k_init))
+
+        u_t_k = u_t_k_init
+        # u_t_k = batch x 1 x product(kb_max) = b x 1 x kb_total
+
+    # get size of current KB (having this attribute avoids having to pass kb_keys or something from the attention to here)
+    curr_kb_size = product([att.curr_kb_size for att in kvr_attentions[:kb_dims]])
+    u_t = u_t_k[:,:,:curr_kb_size] # recover only attention values for non pad knowledgebase entries
+
+    util_aggregator = util_aggregator + [u_t]
+    return util_aggregator
+
+

@@ -1,7 +1,5 @@
 ## Small Technical _TODOs_ & questions
 
-* does kb attention actually sum to 1 ???
-
 ##### Optimization
 (later)
 
@@ -45,10 +43,10 @@ test it
 
 These hyperparams are all orthogonal:
 * architecture: RNN , transformer
-* scheduled sampling: teacherforce, invsigmoid, linear
+* scheduled sampling: teacherforce, invsigmoid, linear, autoregressive
 * kb encoding: 1D , 2D , positional
 * kb embedding: source ,  separate
-* kb input feeding: True, False
+* kb input feeding: False, ff, rnn
 * multihops: 1 , 2 , 3
 * metric reporting: raw, canonized
 * copy\_from\_source: True, False

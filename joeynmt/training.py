@@ -266,192 +266,194 @@ class TrainManager:
                                     batch_size=self.batch_size,
                                     batch_type=self.batch_type,
                                     train=True, shuffle=self.shuffle)
-        for epoch_no in range(self.epochs):
-            self.logger.info("EPOCH %d", epoch_no + 1)
 
-            if self.scheduler is not None and self.scheduler_step_at == "epoch":
-                self.scheduler.step(epoch=epoch_no)
+        with torch.autograd.set_detect_anomaly(True):
+            for epoch_no in range(self.epochs):
+                self.logger.info("EPOCH %d", epoch_no + 1)
 
-            self.model.train()
+                if self.scheduler is not None and self.scheduler_step_at == "epoch":
+                    self.scheduler.step(epoch=epoch_no)
 
-            start = time.time()
-            total_valid_duration = 0
-            processed_tokens = self.total_tokens
-            count = self.batch_multiplier - 1
-            epoch_loss = 0
-
-            for batch in iter(train_iter):
-                # reactivate training
                 self.model.train()
 
-                # create a Batch object from torchtext batch 
-                batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
-                    Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)
+                start = time.time()
+                total_valid_duration = 0
+                processed_tokens = self.total_tokens
+                count = self.batch_multiplier - 1
+                epoch_loss = 0
 
-                if kb_task:
-                    assert hasattr(batch, "kbsrc"), dir(batch)
-                    assert hasattr(batch, "kbtrg"), dir(batch)
-                    assert hasattr(batch, "kbtrv"), dir(batch)
+                for batch in iter(train_iter):
+                    # reactivate training
+                    self.model.train()
+
+                    # create a Batch object from torchtext batch 
+                    batch = Batch(batch, self.pad_index, use_cuda=self.use_cuda) if not kb_task else \
+                        Batch_with_KB(batch, self.pad_index, use_cuda=self.use_cuda)
+
+                    if kb_task:
+                        assert hasattr(batch, "kbsrc"), dir(batch)
+                        assert hasattr(batch, "kbtrg"), dir(batch)
+                        assert hasattr(batch, "kbtrv"), dir(batch)
 
 
-                # only update every batch_multiplier batches
-                # see https://medium.com/@davidlmorton/
-                # increasing-mini-batch-size-without-increasing-
-                # memory-6794e10db672
-                update = count == 0
+                    # only update every batch_multiplier batches
+                    # see https://medium.com/@davidlmorton/
+                    # increasing-mini-batch-size-without-increasing-
+                    # memory-6794e10db672
+                    update = count == 0
 
-                batch_loss = self._train_batch(batch, update=update)
+                    batch_loss = self._train_batch(batch, update=update)
 
-                if update:
-                    self.tb_writer.add_scalar("train/train_batch_loss", batch_loss, self.steps)
+                    if update:
+                        self.tb_writer.add_scalar("train/train_batch_loss", batch_loss, self.steps)
 
-                count = self.batch_multiplier if update else count
-                count -= 1
-                epoch_loss += batch_loss.detach().cpu().numpy()
+                    count = self.batch_multiplier if update else count
+                    count -= 1
+                    epoch_loss += batch_loss.detach().cpu().numpy()
 
-                if self.scheduler is not None and \
-                        self.scheduler_step_at == "step" and update:
-                    self.scheduler.step()
+                    if self.scheduler is not None and \
+                            self.scheduler_step_at == "step" and update:
+                        self.scheduler.step()
 
-                # log learning progress
-                if self.steps % self.logging_freq == 0 and update:
-                    elapsed = time.time() - start - total_valid_duration
-                    elapsed_tokens = self.total_tokens - processed_tokens
-                    self.logger.info(
-                        "Epoch %3d Step: %8d Batch Loss: %12.6f "
-                        "Tokens per Sec: %8.0f, Lr: %.6f",
-                        epoch_no + 1, self.steps, batch_loss,
-                        elapsed_tokens / elapsed,
-                        self.optimizer.param_groups[0]["lr"])
-                    start = time.time()
-                    total_valid_duration = 0
+                    # log learning progress
+                    if self.steps % self.logging_freq == 0 and update:
+                        elapsed = time.time() - start - total_valid_duration
+                        elapsed_tokens = self.total_tokens - processed_tokens
+                        self.logger.info(
+                            "Epoch %3d Step: %8d Batch Loss: %12.6f "
+                            "Tokens per Sec: %8.0f, Lr: %.6f",
+                            epoch_no + 1, self.steps, batch_loss,
+                            elapsed_tokens / elapsed,
+                            self.optimizer.param_groups[0]["lr"])
+                        start = time.time()
+                        total_valid_duration = 0
 
-                # validate on the entire dev set
-                if self.steps % self.validation_freq == 0 and update:
-                    valid_start_time = time.time()
-                    
-                    valid_score, valid_loss, valid_ppl, valid_sources, \
-                    valid_sources_raw, valid_references, valid_hypotheses, \
-                        valid_hypotheses_raw, valid_attention_scores, valid_kb_att_scores, \
-                        valid_ent_f1, valid_ent_mcc = \
-                        validate_on_data(
-                            batch_size=self.eval_batch_size,
-                            data=valid_data,
-                            eval_metric=self.eval_metric,
-                            level=self.level, model=self.model,
-                            use_cuda=self.use_cuda,
-                            max_output_length=self.max_output_length,
-                            loss_function=self.loss,
-                            beam_size=0,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
-                            batch_type=self.eval_batch_type,
-                            kb_task=kb_task,
-                            valid_kb=valid_kb,
-                            valid_kb_lkp=valid_kb_lkp,
-                            valid_kb_lens=valid_kb_lens,
-                            valid_kb_truvals=valid_kb_truvals,
-                            valid_data_canon=valid_data_canon,
-                            report_on_canonicals=self.report_entf1_on_canonicals
+                    # validate on the entire dev set
+                    if self.steps % self.validation_freq == 0 and update:
+                        valid_start_time = time.time()
+                        
+                        valid_score, valid_loss, valid_ppl, valid_sources, \
+                        valid_sources_raw, valid_references, valid_hypotheses, \
+                            valid_hypotheses_raw, valid_attention_scores, valid_kb_att_scores, \
+                            valid_ent_f1, valid_ent_mcc = \
+                            validate_on_data(
+                                batch_size=self.eval_batch_size,
+                                data=valid_data,
+                                eval_metric=self.eval_metric,
+                                level=self.level, model=self.model,
+                                use_cuda=self.use_cuda,
+                                max_output_length=self.max_output_length,
+                                loss_function=self.loss,
+                                beam_size=0,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
+                                batch_type=self.eval_batch_type,
+                                kb_task=kb_task,
+                                valid_kb=valid_kb,
+                                valid_kb_lkp=valid_kb_lkp,
+                                valid_kb_lens=valid_kb_lens,
+                                valid_kb_truvals=valid_kb_truvals,
+                                valid_data_canon=valid_data_canon,
+                                report_on_canonicals=self.report_entf1_on_canonicals
+                            )
+
+                        self.tb_writer.add_scalar("valid/valid_loss",
+                                                valid_loss, self.steps)
+                        self.tb_writer.add_scalar("valid/valid_score",
+                                                valid_score, self.steps)
+                        self.tb_writer.add_scalar("valid/valid_ppl",
+                                                valid_ppl, self.steps)
+
+                        if self.early_stopping_metric == "loss":
+                            ckpt_score = valid_loss
+                        elif self.early_stopping_metric in ["ppl", "perplexity"]:
+                            ckpt_score = valid_ppl
+                        else:
+                            ckpt_score = valid_score
+
+                        new_best = False
+                        if self.is_best(ckpt_score):
+                            self.best_ckpt_score = ckpt_score
+                            self.best_ckpt_iteration = self.steps
+                            self.logger.info(
+                                'Hooray! New best validation result [%s]!',
+                                self.early_stopping_metric)
+                            if self.ckpt_queue.maxsize > 0:
+                                self.logger.info("Saving new checkpoint.")
+                                new_best = True
+                                self._save_checkpoint()
+
+                        if self.scheduler is not None \
+                                and self.scheduler_step_at == "validation":
+                            self.scheduler.step(ckpt_score)
+
+                        # append to validation report
+                        self._add_report(
+                            valid_score=valid_score, valid_loss=valid_loss,
+                            valid_ppl=valid_ppl, eval_metric=self.eval_metric,
+                            valid_ent_f1=valid_ent_f1,
+                            valid_ent_mcc=valid_ent_mcc,
+                            new_best=new_best)
+
+                        # pylint: disable=unnecessary-comprehension
+                        self._log_examples(
+                            sources_raw=[v for v in valid_sources_raw],
+                            sources=valid_sources,
+                            hypotheses_raw=valid_hypotheses_raw,
+                            hypotheses=valid_hypotheses,
+                            references=valid_references
                         )
 
-                    self.tb_writer.add_scalar("valid/valid_loss",
-                                            valid_loss, self.steps)
-                    self.tb_writer.add_scalar("valid/valid_score",
-                                            valid_score, self.steps)
-                    self.tb_writer.add_scalar("valid/valid_ppl",
-                                            valid_ppl, self.steps)
-
-                    if self.early_stopping_metric == "loss":
-                        ckpt_score = valid_loss
-                    elif self.early_stopping_metric in ["ppl", "perplexity"]:
-                        ckpt_score = valid_ppl
-                    else:
-                        ckpt_score = valid_score
-
-                    new_best = False
-                    if self.is_best(ckpt_score):
-                        self.best_ckpt_score = ckpt_score
-                        self.best_ckpt_iteration = self.steps
+                        valid_duration = time.time() - valid_start_time
+                        total_valid_duration += valid_duration
                         self.logger.info(
-                            'Hooray! New best validation result [%s]!',
-                            self.early_stopping_metric)
-                        if self.ckpt_queue.maxsize > 0:
-                            self.logger.info("Saving new checkpoint.")
-                            new_best = True
-                            self._save_checkpoint()
+                            'Validation result at epoch %3d, step %8d: %s: %6.2f, '
+                            'loss: %8.4f, ppl: %8.4f, duration: %.4fs',
+                                epoch_no+1, self.steps, self.eval_metric,
+                                valid_score, valid_loss, valid_ppl, valid_duration)
 
-                    if self.scheduler is not None \
-                            and self.scheduler_step_at == "validation":
-                        self.scheduler.step(ckpt_score)
+                        # store validation set outputs
+                        self._store_outputs(valid_hypotheses)
 
-                    # append to validation report
-                    self._add_report(
-                        valid_score=valid_score, valid_loss=valid_loss,
-                        valid_ppl=valid_ppl, eval_metric=self.eval_metric,
-                        valid_ent_f1=valid_ent_f1,
-                        valid_ent_mcc=valid_ent_mcc,
-                        new_best=new_best)
-
-                    # pylint: disable=unnecessary-comprehension
-                    self._log_examples(
-                        sources_raw=[v for v in valid_sources_raw],
-                        sources=valid_sources,
-                        hypotheses_raw=valid_hypotheses_raw,
-                        hypotheses=valid_hypotheses,
-                        references=valid_references
-                    )
-
-                    valid_duration = time.time() - valid_start_time
-                    total_valid_duration += valid_duration
-                    self.logger.info(
-                        'Validation result at epoch %3d, step %8d: %s: %6.2f, '
-                        'loss: %8.4f, ppl: %8.4f, duration: %.4fs',
-                            epoch_no+1, self.steps, self.eval_metric,
-                            valid_score, valid_loss, valid_ppl, valid_duration)
-
-                    # store validation set outputs
-                    self._store_outputs(valid_hypotheses)
-
-                    valid_src = list(valid_data.src)
-                    # store attention plots for selected valid sentences
-                    if valid_attention_scores:
-                        plot_success_ratio = store_attention_plots(
-                            attentions=valid_attention_scores,
-                            targets=valid_hypotheses_raw,
-                            sources=valid_src,
-                            indices=self.log_valid_sents,
-                            output_prefix="{}/att.{}".format(
-                                self.model_dir, self.steps),
-                            tb_writer=self.tb_writer, steps=self.steps)
-                        self.logger.info(f"stored {plot_success_ratio} valid att scores!")
-                    if valid_kb_att_scores:
-                        plot_success_ratio = store_attention_plots(
-                            attentions=valid_kb_att_scores,
-                            targets=valid_hypotheses_raw,
-                            sources=list(valid_kb.kbsrc), 
-                            indices=self.log_valid_sents,
-                            output_prefix="{}/kbatt.{}".format(
-                                self.model_dir, self.steps),
-                            tb_writer=self.tb_writer, steps=self.steps,
-                            kb_info = (valid_kb_lkp, valid_kb_lens, valid_kb_truvals),
-                            on_the_fly_info = (valid_src, valid_kb, self.model.canonize, self.model.trg_vocab))
-                        self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
-                    else:
-                        self.logger.info("theres no valid kb att scores...")
+                        valid_src = list(valid_data.src)
+                        # store attention plots for selected valid sentences
+                        if valid_attention_scores:
+                            plot_success_ratio = store_attention_plots(
+                                attentions=valid_attention_scores,
+                                targets=valid_hypotheses_raw,
+                                sources=valid_src,
+                                indices=self.log_valid_sents,
+                                output_prefix="{}/att.{}".format(
+                                    self.model_dir, self.steps),
+                                tb_writer=self.tb_writer, steps=self.steps)
+                            self.logger.info(f"stored {plot_success_ratio} valid att scores!")
+                        if valid_kb_att_scores:
+                            plot_success_ratio = store_attention_plots(
+                                attentions=valid_kb_att_scores,
+                                targets=valid_hypotheses_raw,
+                                sources=list(valid_kb.kbsrc), 
+                                indices=self.log_valid_sents,
+                                output_prefix="{}/kbatt.{}".format(
+                                    self.model_dir, self.steps),
+                                tb_writer=self.tb_writer, steps=self.steps,
+                                kb_info = (valid_kb_lkp, valid_kb_lens, valid_kb_truvals),
+                                on_the_fly_info = (valid_src, valid_kb, self.model.canonize, self.model.trg_vocab))
+                            self.logger.info(f"stored {plot_success_ratio} valid kb att scores!")
+                        else:
+                            self.logger.info("theres no valid kb att scores...")
+                    if self.stop:
+                        break
                 if self.stop:
+                    self.logger.info(
+                        'Training ended since minimum lr %f was reached.',
+                        self.learning_rate_min)
                     break
-            if self.stop:
-                self.logger.info(
-                    'Training ended since minimum lr %f was reached.',
-                     self.learning_rate_min)
-                break
 
-            self.logger.info('Epoch %3d: total training loss %.2f', epoch_no+1,
-                             epoch_loss)
-        else:
-            self.logger.info('Training ended after %3d epochs.', epoch_no+1)
-        self.logger.info('Best validation result at step %8d: %6.2f %s.',
-                         self.best_ckpt_iteration, self.best_ckpt_score,
-                         self.early_stopping_metric)
+                self.logger.info('Epoch %3d: total training loss %.2f', epoch_no+1,
+                                epoch_loss)
+            else:
+                self.logger.info('Training ended after %3d epochs.', epoch_no+1)
+            self.logger.info('Best validation result at step %8d: %6.2f %s.',
+                            self.best_ckpt_iteration, self.best_ckpt_score,
+                            self.early_stopping_metric)
 
         self.tb_writer.close()  # close Tensorboard writer
 

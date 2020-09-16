@@ -222,10 +222,10 @@ class Model(nn.Module):
                             trg_input=trg_input,
                             e_i=e_i
                             )
-            else: # take true label at every step => just do fwd pass like in normal teacher forcing training
+            else: # take true label at every step => just do fwd pass (normal teacher forcing training)
                 with self.Timer("model training: KB Task: model fwd pass"):
 
-                    hidden, att_probs, out, kb_probs = self.forward(
+                    hidden, att_probs, out, kb_probs, _, _ = self.forward(
                         src=batch.src, trg_input=trg_input,
                         src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                         trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask)
@@ -235,7 +235,7 @@ class Model(nn.Module):
             if not do_teacher_force:
                 raise NotImplementedError("scheduled sampling only works for KB task atm")
 
-            hidden, att_probs, out, _ = self.forward(
+            hidden, att_probs, out, _, _, _= self.forward(
                 src=batch.src, trg_input=trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=trg_mask)

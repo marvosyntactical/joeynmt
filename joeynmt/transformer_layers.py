@@ -60,10 +60,7 @@ class MultiHeadedAttention(nn.Module):
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
         # using num_heads * head_size == size
-        K = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
-        k_ = k.view(batch_size, num_heads, -1, head_size) # batch x num_h x key_len   x head_size
-        assert K.allclose(k_)
-        k = K
+        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
         v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x ?         x head_size
         q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 

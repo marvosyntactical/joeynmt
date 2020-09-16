@@ -106,7 +106,8 @@ def recurrent_greedy(
         kb_keys = knowledgebase[0]
         kb_values = knowledgebase[1]
         kb_mask = knowledgebase[2]
-        print(kb_keys, kb_values)
+        utils_dims_cache = None # equivalent of prev_att_vector but for each KB dim
+        kb_feed_hidden_cache = None  # equivalent of hidden but for each kvr module
 
         kb_att_scores = []
         all_log_probs = []
@@ -117,7 +118,7 @@ def recurrent_greedy(
     # pylint: disable=unused-variable
     for t in range(max_output_length):
         # decode one single step
-        hidden, att_probs, prev_att_vector, kb_att_probs = decoder(
+        hidden, att_probs, prev_att_vector, kb_att_probs, utils_dims_cache, kb_feed_hidden_cache = decoder(
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
             src_mask=src_mask,
@@ -126,7 +127,9 @@ def recurrent_greedy(
             prev_att_vector=prev_att_vector,
             unroll_steps=1,
             kb_keys=kb_keys,
-            kb_mask=kb_mask)
+            kb_mask=kb_mask,
+            utils_dims_cache=utils_dims_cache,
+            kb_feed_hidden_cache=kb_feed_hidden_cache)
 
         log_probs = generator(prev_att_vector, kb_values=kb_values, kb_probs=kb_att_probs)
 
@@ -219,6 +222,8 @@ def transformer_greedy(
     ys = encoder_output.new_full([batch_size, 1], bos_index, dtype=torch.long)
     # batch x max_output_length
 
+    utils_dims_cache, kb_feed_hidden_cache = None, None
+
     # a subsequent mask is intersected with this in decoder forward pass
     trg_mask = src_mask.new_ones([1, 1, 1])
 
@@ -226,7 +231,7 @@ def transformer_greedy(
 
         trg_embed = embed(ys)  # embed the BOS-symbol
 
-        _ , _, out, kb_scores = decoder(
+        _ , _, out, kb_scores, utils_dims_cache, kb_feed_hidden_cache = decoder(
             trg_embed=trg_embed,
             encoder_output=encoder_output,
             encoder_hidden=None,
@@ -235,7 +240,9 @@ def transformer_greedy(
             hidden=None,
             trg_mask=trg_mask,
             kb_keys=knowledgebase[0],
-            kb_mask=knowledgebase[2]
+            kb_mask=knowledgebase[2],
+            utils_dims_cache=utils_dims_cache,
+            kb_feed_hidden_cache=kb_feed_hidden_cache
         )
 
         # kb_values : B x KB
@@ -398,6 +405,9 @@ def beam_search(
         stacked_attention_scores = [[] for _ in range(batch_size)]
         stacked_kb_att_scores = [[] for _ in range(batch_size)]
 
+        util_dims_cache = None
+        kb_feed_hidden_cache = None
+
     else:
         kb_keys, kb_values, kb_mask = None, None, None
         kb_size = None
@@ -421,7 +431,7 @@ def beam_search(
         # pylint: disable=unused-variable
         trg_embed = embed(decoder_input)
 
-        hidden, att_scores, att_vectors, kb_scores = decoder(
+        hidden, att_scores, att_vectors, kb_scores, util_dims_cache, kb_feed_hidden_cache = decoder(
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
             src_mask=src_mask,
@@ -431,7 +441,9 @@ def beam_search(
             unroll_steps=1,
             trg_mask=trg_mask, # subsequent mask for Transformer only
             kb_keys=kb_keys, # None by default 
-            kb_mask=kb_mask
+            kb_mask=kb_mask,
+            util_dims_cache=util_dims_cache,
+            kb_feed_hidden_cache=kb_feed_hidden_cache
         )
 
         # generator applies output layer, biases towards KB values, then applies log_softmax
@@ -644,6 +656,10 @@ def beam_search(
         if knowledgebase is not None:
             kb_keys = kb_keys.index_select(0, select_indices)
             kb_values = kb_values.index_select(0, select_indices)
+            util_dims_cache = util_dims_cache.index_select(0, select_indices)
+            kb_feed_hidden_cache = kb_feed_hidden_cache.index_select(0, select_indices)
+
+
 
     def pad_and_stack_hyps(hyps, pad_value):
         filled = np.ones((len(hyps), max([h.shape[0] for h in hyps])),
