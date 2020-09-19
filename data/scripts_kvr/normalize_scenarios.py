@@ -6,7 +6,7 @@ DUMMY_SUBJ = "DUMMYSUBJ"
 DUMMY_REL = "DUMMYREL"
 DUMMY_VAL = "DUMMYVAL"
 
-ADD_DUMMY = True
+ADD_DUMMY = False
 
 
 def normalize_kb(d, eric=False):

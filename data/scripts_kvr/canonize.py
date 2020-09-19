@@ -150,6 +150,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                  "four",#poi name
                  "go",#agenda
                  "rest",#poi_type
+                 "car" # traffic info
                 ]
     matches = []
     r = []

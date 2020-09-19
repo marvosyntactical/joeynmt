@@ -51,19 +51,27 @@ def main(args):
 
     unanswered = ""
     scenario_lkp = ""
-    convo_usr, convo_car = "",""
+    convo_usr, convo_car = "", ""
+
     for idx, elem in enumerate(settings):
+
         if len(elem)%2==1:
             unanswered+=elem[-1]+"\n"
             elem = elem[:-1] 
+
         nturns = len(elem)
         assert nturns%2==0
+
         usr_part = historify_src(elem)
-        car_part = "\n".join([e for i,e in enumerate(elem) if i%2==1])+"\n"
+        car_part = "\n".join(
+            [e for i,e in enumerate(elem) if i % 2 == 1]
+            )+"\n"
         scenario_part = (str(idx)+"\n")*(nturns//2)
-        if usr_part.strip() =="" or car_part.strip()=="" or scenario_part.strip()=="": continue
+
         lines = lambda s: len(s.split("\n"))
         assert lines(usr_part) == lines(car_part) == lines(scenario_part), (usr_part, car_part, scenario_part)
+
+
         convo_usr += usr_part
         convo_car += car_part
         scenario_lkp += scenario_part
