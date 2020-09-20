@@ -1227,6 +1227,7 @@ class TransformerDecoder(Decoder):
             ### end setup proj keys and mask dimensions
 
             ### setup utility caches for access to different to utilities and hiddens of t-1 and aggregate utilities
+            # what
 
             u_curr = []
             if utils_dims_cache == None:
