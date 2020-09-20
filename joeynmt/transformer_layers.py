@@ -91,6 +91,8 @@ class MultiHeadedAttention(nn.Module):
 
         return output
 
+
+############################################# UNUSED
 # pylint: disable=arguments-differ
 class MultiHeadedKbAttention(MultiHeadedAttention):
     """
@@ -135,6 +137,7 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         
         # B x M x KB
         return u_k
+############################################# UNUSED
 
 
 
@@ -300,9 +303,8 @@ class TransformerDecoderLayer(nn.Module):
         self.kb_max = kb_max
 
         if kb_task:
-            self.kb_trg_att = MultiHeadedKbAttention(num_heads, size,
+            self.kb_trg_att = MultiHeadedAttention(num_heads, size,
                                                     dropout=dropout)
-            self.multihop_feeding = nn.Linear(self.kb_max + self.size, self.size, bias=True)
 
         self.dropout = nn.Dropout(dropout)
 
@@ -313,7 +315,8 @@ class TransformerDecoderLayer(nn.Module):
                 kb_keys: Tensor = None, # determine if just kb keys are enough
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
-                prev_utilities: Tensor = None) -> Tensor:
+                prev_utilities: Tensor = None,
+                kb_vals_embed: Tensor = None,) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
         :param x: inputs
@@ -334,23 +337,19 @@ class TransformerDecoderLayer(nn.Module):
         h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) 
         #NOTE Q: why is src masked? (future words hidden) A: to learn stepwise prediction for inference time
 
-        # final position-wise feed-forward layer
-        o = self.feed_forward(self.dropout(h2) + h1)
+        h2 = self.dropout(h2) + h1
 
         if kb_keys is not None:
             # kb attention uses hidden state after src_trg_att as query
             h2_norm = self.kb_layer_norm(h2) # dims not changed
 
-            # KVR Multihop attention
-            if prev_utilities is None: # we are in first layer, query kb attention with h2_norm
-                query_k = h2_norm
-            else:
-                # we are in layer k > 1, enrich the kb_trg_att query with previous utilities/kb_probs
-                query_k = torch.cat([h2_norm, prev_utilities], dim=-1)
-                query_k = self.multihop_feeding(query_k)
+            # assert False, (kb_vals_embed.shape, kb_vals_embed.dtype)
 
-            kb_probs = self.kb_trg_att(kb_keys, query_k) # TODO find out if I have to apply src_mask here too
-        else:
-            kb_probs = None
+            # assert False, (x_norm.shape, memory.shape, kb_vals_embed.shape)
+            # KVR attention
+            h2 = self.kb_trg_att(kb_keys, kb_vals_embed, h2_norm) # TODO find out if I have to apply src_mask here too
+
+        # final position-wise feed-forward layer
+        o = self.feed_forward(h2)
         
-        return o, kb_probs
+        return o

@@ -103,7 +103,7 @@ class Model(nn.Module):
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
                 src_lengths: Tensor, trg_mask: Tensor = None, kb_keys: Tensor = None,
-                kb_mask = None) -> (Tensor, Tensor, Tensor, Tensor, Tensor):
+                kb_mask = None, kb_values=None) -> (Tensor, Tensor, Tensor, Tensor, Tensor):
         """
         First encodes the source sentence.
         Then produces the target one word at a time.
@@ -126,7 +126,8 @@ class Model(nn.Module):
                            unroll_steps=unroll_steps,
                            trg_mask=trg_mask,
                            kb_keys=kb_keys,
-                           kb_mask=kb_mask)
+                           kb_mask=kb_mask,
+                           kb_values=kb_values)
 
     def encode(self, src: Tensor, src_length: Tensor, src_mask: Tensor) \
         -> (Tensor, Tensor):
@@ -144,7 +145,7 @@ class Model(nn.Module):
                src_mask: Tensor, trg_input: Tensor,
                unroll_steps: int, decoder_hidden: Tensor = None,
                trg_mask: Tensor = None, kb_keys: Tensor = None,
-               kb_mask: Tensor=None) \
+               kb_mask: Tensor=None, kb_values = None) \
         -> (Tensor, Tensor, Tensor, Tensor):
         """
         Decode, given an encoded source sentence.
@@ -167,10 +168,11 @@ class Model(nn.Module):
                         trg_mask=trg_mask,
                         kb_keys=kb_keys,
                         k_hops=self.k_hops,
-                        kb_mask=kb_mask)
+                        kb_mask=kb_mask,
+                        kb_values=kb_values)
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module,
-    max_output_length: int = None, e_i: float = 1., greedy_threshold: float = 0.9) -> Tensor:
+    max_output_length: int = None, e_i: float = 1., greedy_threshold: float = 0.9, tfstyletf=True) -> Tensor:
         """
         Compute non-normalized loss and number of tokens for a batch
 
@@ -183,6 +185,8 @@ class Model(nn.Module):
         :param greedy_threshold: only actually do greedy search once e_i is below this threshold
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
+        if tfstyletf == True: 
+            assert isinstance(self.decoder, TransformerDecoder), f"transformer style transformer works only for transformer"
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: START current batch{'-'*10}\n")
 
@@ -192,7 +196,7 @@ class Model(nn.Module):
         trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
 
         if hasattr(batch, "kbsrc"):
-            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
+            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, tfstyletf=tfstyletf)
         else:
             kb_keys = None
         
@@ -214,8 +218,7 @@ class Model(nn.Module):
                 with self.Timer("model training: KB Task: do greedy search"):
 
                     encoder_output, encoder_hidden = self.encode(
-                        batch.src, batch.src_lengths,
-                        batch.src_mask)
+                        batch.src, batch.src_lengths, batch.src_mask)
 
                     # if maximum output length is not globally specified, adapt to src len
                     if max_output_length is None:
@@ -227,11 +230,12 @@ class Model(nn.Module):
                             src_mask=batch.src_mask,
                             embed=self.trg_embed,
                             bos_index=self.bos_index,
-                            decoder=self.decoder, generator=self.generator,
+                            decoder=self.decoder, 
+                            generator=self.generator,
                             max_output_length=trg.size(-1),
                             knowledgebase = (kb_keys, kb_values, kb_mask),
                             trg_input=trg_input,
-                            e_i=e_i
+                            e_i=e_i,
                             )
             else: # take true label at every step => just do fwd pass (normal teacher forcing training)
                 with self.Timer("model training: KB Task: model fwd pass"):
@@ -239,8 +243,7 @@ class Model(nn.Module):
                     hidden, att_probs, out, kb_probs, _, _ = self.forward(
                         src=batch.src, trg_input=trg_input,
                         src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                        trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask)
-
+                        trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask, kb_values=kb_values)
 
         else: # vanilla, not kb task
             if not do_teacher_force:
@@ -254,7 +257,10 @@ class Model(nn.Module):
         if log_probs is None:
             # same generator fwd pass for KB task and no KB task if teacher forcing
             # pass output through Generator and add biases for KB entries in vocab indexes of kb values
-            log_probs = self.generator(out, kb_probs=kb_probs, kb_values=kb_values)
+            try:
+                log_probs = self.generator(out, kb_probs=kb_probs, kb_values=kb_values)
+            except Exception as e:
+                assert False, (dir())
 
         if hasattr(batch, "trgcanon"):
             assert not log_probs.requires_grad, "this shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
@@ -275,7 +281,7 @@ class Model(nn.Module):
 
 
     def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
-                  beam_alpha: float) -> (np.array, np.array):
+                  beam_alpha: float, tfstyletf: bool = True) -> (np.array, np.array):
         """
         Get outputs and attentions scores for a given batch
 
@@ -298,7 +304,7 @@ class Model(nn.Module):
 
         if hasattr(batch, "kbsrc"):
             # B x KB x EMB; B x KB; B x KB
-            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
+            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, tfstyletf=tfstyletf)
             if kb_keys is None:
                 knowledgebase = None
             else:
@@ -346,7 +352,7 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
         
-    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1, posEnc=False) -> \
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1, posEnc=False, tfstyletf=False) -> \
         (Tensor, Tensor, Tensor, Tensor):
 
         kb_keys = batch.kbsrc
@@ -382,8 +388,13 @@ class Model(nn.Module):
         # (put in specifically allocated contiguous memory slot)
         kb_values.unsqueeze_(0)
         kb_values = kb_values.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
+
         kb_true_vals.unsqueeze_(0)
         kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
+
+        if tfstyletf:
+            # embed kb values for transformer style transformer implementation (with multihead KB att instead of RNN stuff)
+            kb_values = self.trg_embed(kb_values)
 
         # (also add batch dim to keys below)
 
@@ -546,7 +557,11 @@ class Model(nn.Module):
                 shape_check_keys = kb_keys
         
 
-        assert len(kb_values.shape) == 2, kb_values.shape
+        if not tfstyletf:
+            assert len(kb_values.shape) == 2, kb_values.shape
+        else:
+            assert len(kb_values.shape) == 3, kb_values.shape
+
         
         assert_msg = (shape_check_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
 

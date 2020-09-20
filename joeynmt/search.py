@@ -240,6 +240,7 @@ def transformer_greedy(
             hidden=None,
             trg_mask=trg_mask,
             kb_keys=knowledgebase[0],
+            kb_values=knowledgebase[1],
             kb_mask=knowledgebase[2],
             utils_dims_cache=utils_dims_cache,
             kb_feed_hidden_cache=kb_feed_hidden_cache
@@ -270,7 +271,6 @@ def transformer_greedy(
 
         if knowledgebase[0] is not None:
             all_log_probs.append(log_probs.unsqueeze(1)) # re-add time dimension for later concatenation => B x time=1 x VOC
-        
     
     if kb_scores is not None:  
         stacked_kb_att_scores = kb_scores.detach().cpu().numpy() # B x M x KB
