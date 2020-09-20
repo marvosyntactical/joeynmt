@@ -26,6 +26,7 @@ from joeynmt.vocabulary import Vocabulary
 from joeynmt.batch import Batch, Batch_with_KB
 from joeynmt.helpers import ConfigurationError, Timer, product, split_tensor_on_pads
 from joeynmt.constants import EOS_TOKEN, PAD_TOKEN
+from joeynmt.transformer_layers import PositionalEncoding
 
 
 class Model(nn.Module):
@@ -46,7 +47,8 @@ class Model(nn.Module):
                  k_hops: int = 1,
                  do_postproc: bool = True,
                  canonize = None,
-                 kb_att_dims : int = None,
+                 kb_att_dims : int = 1,
+                 posEncKBkeys: bool = False, 
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -61,6 +63,8 @@ class Model(nn.Module):
         :param k_hops: number of kvr attention forward passes to do
         :param do_postproc: do postprocessing (decode canonical tokens) in KVR task?
         :param canonize: callable canonization object to try to create KB on the fly if none exists; not used by model but piggybacks off it
+        :param kb_att_dims: number of dimensions of KB 
+        :param posEncdKBkeys: apply positional encoding to KB keys?
         """
         super(Model, self).__init__()
 
@@ -85,6 +89,13 @@ class Model(nn.Module):
         self.do_postproc = do_postproc
         self.canonize = canonize
         self.kb_att_dims = kb_att_dims
+        if posEncKBkeys:
+            try:
+                decoder_hidden_size = self.decoder.hidden_size
+            except AttributeError:
+                decoder_hidden_size = self.decoder._hidden_size
+
+            self.posEnc = PositionalEncoding(decoder_hidden_size) # must be hidden size of attention mechanism actually FIXME (they the same tho atm)
 
         self.Timer = Timer()
 
@@ -335,7 +346,7 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
         
-    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1) -> \
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1, posEnc=False) -> \
         (Tensor, Tensor, Tensor, Tensor):
 
         kb_keys = batch.kbsrc
@@ -510,9 +521,22 @@ class Model(nn.Module):
 
             else:
                 # normal (1D) mode 
+                # option for positonal encoding here
+
+                
+                
+
 
                 # NOTE: values dont need to be embedded! they are only used for indexing
                 kb_keys = self.kbsrc_embed(kb_keys)
+
+
+                if posEnc:
+                    # positional encoding needs this format:
+                    # ``(seq_len, batch_size, self.dim)`` (batch size is KB size here)
+                    kb_keys = self.posEnc(kb_keys.transpose(0,1)).transpose(0,1)
+
+
                 kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
             
                 # add batch dimension to keys
@@ -779,6 +803,7 @@ def build_model(cfg: dict = None,
     else:
         assert type(kb_max_dims) == int, kb_max_dims
         kb_max_dims = (kb_max_dims,)
+    posEncKBkeys = cfg.get("posEncdKBkeys", False)
 
 
     assert cfg["decoder"]["hidden_size"]
@@ -812,7 +837,7 @@ def build_model(cfg: dict = None,
                   kb_key_embed=kbsrc_embed,\
                   trv_vocab=trv_vocab,
                   k_hops=k_hops, do_postproc=do_postproc,
-                  canonize=canonization_func, kb_att_dims=len(kb_max_dims))
+                  canonize=canonization_func, kb_att_dims=len(kb_max_dims), posEncKBkeys=posEncKBkeys)
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):

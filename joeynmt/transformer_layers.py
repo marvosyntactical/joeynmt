@@ -61,10 +61,9 @@ class MultiHeadedAttention(nn.Module):
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
         # using num_heads * head_size == size
         k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
-        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x ?         x head_size
+        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
         q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
-        # print(f"k={k.shape}, v={v.shape}, q={q.shape}")
 
         # scale query because it helps, no idea why 
         q = q / math.sqrt(self.head_size)
@@ -258,10 +257,10 @@ class TransformerEncoderLayer(nn.Module):
         return o
 
 
+
 class TransformerDecoderLayer(nn.Module):
     """
     Transformer decoder layer.
-
     Consists of self-attention, source-attention, and feed-forward.
     """
 
@@ -270,15 +269,17 @@ class TransformerDecoderLayer(nn.Module):
                  ff_size: int = 0,
                  num_heads: int = 0,
                  dropout: float = 0.1,
+                 kb_task: bool = False,
+                 kb_max: int = 256,
     ):
         """
         Represents a single Transformer decoder layer.
-
         It attends to the source representation and the previous decoder states.
-
         :param size: model dimensionality
         :param ff_size: size of the feed-forward intermediate layer
         :param num_heads: number of heads
+        :param kb_task: performing kb task or not?
+        :param kb_max: maximum knowledgebase size, used in att init
         :param dropout: dropout to apply to input
         """
         super(TransformerDecoderLayer, self).__init__()
@@ -295,22 +296,32 @@ class TransformerDecoderLayer(nn.Module):
         self.x_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.dec_layer_norm = nn.LayerNorm(size, eps=1e-6)
 
+        self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
+        self.kb_max = kb_max
+
+        if kb_task:
+            self.kb_trg_att = MultiHeadedKbAttention(num_heads, size,
+                                                    dropout=dropout)
+            self.multihop_feeding = nn.Linear(self.kb_max + self.size, self.size, bias=True)
+
         self.dropout = nn.Dropout(dropout)
 
     # pylint: disable=arguments-differ
     def forward(self,
                 x: Tensor = None,
                 memory: Tensor = None,
+                kb_keys: Tensor = None, # determine if just kb keys are enough
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
-                ) -> Tensor:
+                prev_utilities: Tensor = None) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
-
         :param x: inputs
         :param memory: source representations
         :param src_mask: source mask
         :param trg_mask: target mask (so as to not condition on future steps)
+        :param kb_keys: knowledgebase keys: B x KB_MAX x TRG_EMB
+        :param prev_utilities: B x M x KB_MAX previous kb entry utilities for kb att input feeding
         :return: output tensor
         """
         # decoder/target self-attention
@@ -321,8 +332,25 @@ class TransformerDecoderLayer(nn.Module):
         # source-target attention
         h1_norm = self.dec_layer_norm(h1)
         h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) 
+        #NOTE Q: why is src masked? (future words hidden) A: to learn stepwise prediction for inference time
 
         # final position-wise feed-forward layer
         o = self.feed_forward(self.dropout(h2) + h1)
 
-        return o
+        if kb_keys is not None:
+            # kb attention uses hidden state after src_trg_att as query
+            h2_norm = self.kb_layer_norm(h2) # dims not changed
+
+            # KVR Multihop attention
+            if prev_utilities is None: # we are in first layer, query kb attention with h2_norm
+                query_k = h2_norm
+            else:
+                # we are in layer k > 1, enrich the kb_trg_att query with previous utilities/kb_probs
+                query_k = torch.cat([h2_norm, prev_utilities], dim=-1)
+                query_k = self.multihop_feeding(query_k)
+
+            kb_probs = self.kb_trg_att(kb_keys, query_k) # TODO find out if I have to apply src_mask here too
+        else:
+            kb_probs = None
+        
+        return o, kb_probs
