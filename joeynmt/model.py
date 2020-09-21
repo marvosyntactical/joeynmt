@@ -198,7 +198,7 @@ class Model(nn.Module):
         trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
 
         if hasattr(batch, "kbsrc"):
-            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, embed_vals_for_transformer_decoder=self.embed_vals_for_tf_decoder)
+            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
         else:
             kb_keys = None
         
@@ -306,7 +306,7 @@ class Model(nn.Module):
 
         if hasattr(batch, "kbsrc"):
             # B x KB x EMB; B x KB; B x KB
-            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, embed_vals_for_transformer_decoder=self.embed_vals_for_transformer_decoder)
+            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
             if kb_keys is None:
                 knowledgebase = None
             else:
