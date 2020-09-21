@@ -49,6 +49,7 @@ class Model(nn.Module):
                  canonize = None,
                  kb_att_dims : int = 1,
                  posEncKBkeys: bool = False, 
+                 tfstyletf: bool = False,
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -96,7 +97,10 @@ class Model(nn.Module):
                 decoder_hidden_size = self.decoder._hidden_size
 
             self.posEnc = PositionalEncoding(decoder_hidden_size) # must be hidden size of attention mechanism actually FIXME (they the same tho atm)
-
+        if tfstyletf and isinstance(self.decoder, TransformerDecoder):
+            self.embed_vals_for_tf_decoder = True
+        else:
+            self.embed_vals_for_tf_decoder = False
         self.Timer = Timer()
 
 
@@ -172,7 +176,7 @@ class Model(nn.Module):
                         kb_values=kb_values)
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module,
-    max_output_length: int = None, e_i: float = 1., greedy_threshold: float = 0.9, tfstyletf=True) -> Tensor:
+    max_output_length: int = None, e_i: float = 1., greedy_threshold: float = 0.9) -> Tensor:
         """
         Compute non-normalized loss and number of tokens for a batch
 
@@ -185,8 +189,6 @@ class Model(nn.Module):
         :param greedy_threshold: only actually do greedy search once e_i is below this threshold
         :return: batch_loss: sum of losses over non-pad elements in the batch
         """
-        if tfstyletf == True: 
-            assert isinstance(self.decoder, TransformerDecoder), f"transformer style transformer works only for transformer"
 
         print(f"\n{'-'*10}GET LOSS FWD PASS: START current batch{'-'*10}\n")
 
@@ -196,7 +198,7 @@ class Model(nn.Module):
         trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
 
         if hasattr(batch, "kbsrc"):
-            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, tfstyletf=tfstyletf)
+            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, embed_vals_for_transformer_decoder=self.embed_vals_for_tf_decoder)
         else:
             kb_keys = None
         
@@ -281,7 +283,7 @@ class Model(nn.Module):
 
 
     def run_batch(self, batch: Batch, max_output_length: int, beam_size: int,
-                  beam_alpha: float, tfstyletf: bool = True) -> (np.array, np.array):
+                  beam_alpha: float) -> (np.array, np.array):
         """
         Get outputs and attentions scores for a given batch
 
@@ -304,7 +306,7 @@ class Model(nn.Module):
 
         if hasattr(batch, "kbsrc"):
             # B x KB x EMB; B x KB; B x KB
-            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, tfstyletf=tfstyletf)
+            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims, embed_vals_for_transformer_decoder=self.embed_vals_for_transformer_decoder)
             if kb_keys is None:
                 knowledgebase = None
             else:
@@ -352,7 +354,7 @@ class Model(nn.Module):
 
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
         
-    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1, posEnc=False, tfstyletf=False) -> \
+    def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1, posEnc=False) -> \
         (Tensor, Tensor, Tensor, Tensor):
 
         kb_keys = batch.kbsrc
@@ -392,7 +394,7 @@ class Model(nn.Module):
         kb_true_vals.unsqueeze_(0)
         kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
 
-        if tfstyletf:
+        if self.embed_vals_for_tf_decoder:
             # embed kb values for transformer style transformer implementation (with multihead KB att instead of RNN stuff)
             kb_values = self.trg_embed(kb_values)
 
@@ -534,9 +536,6 @@ class Model(nn.Module):
                 # normal (1D) mode 
                 # option for positonal encoding here
 
-                
-                
-
 
                 # NOTE: values dont need to be embedded! they are only used for indexing
                 kb_keys = self.kbsrc_embed(kb_keys)
@@ -557,7 +556,7 @@ class Model(nn.Module):
                 shape_check_keys = kb_keys
         
 
-        if not tfstyletf:
+        if not self.embed_vals_for_tf_decoder:
             assert len(kb_values.shape) == 2, kb_values.shape
         else:
             assert len(kb_values.shape) == 3, kb_values.shape

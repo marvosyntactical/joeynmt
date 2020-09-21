@@ -78,6 +78,7 @@ model:                              # specify your model architecture here
     kb_input_feeding: True
     kb_feed_rnn: True
     posEncKBkeys: True
+    tfstyletf: True 
     
 
 

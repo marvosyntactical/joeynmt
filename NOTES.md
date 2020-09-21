@@ -39,21 +39,39 @@ test it
 ✔️
 *TODO TEST*
 
+
+### 21.09. questions for eric et al
+
+* did you do autoregressive training?
+
+
+
 ### 09.09. grid search hyperparams
 
 These hyperparams are all orthogonal:
-* architecture: RNN , transformer
-* scheduled sampling: teacherforce, invsigmoid, linear, autoregressive
-* kb encoding: 1D , 2D , positional
-* kb embedding: source ,  separate
-* kb input feeding: False, ff, rnn
-* multihops: 1 , 2 , 3
-* metric reporting: raw, canonized
-* copy\_from\_source: True, False
-* training data level: @time, @meeting\_time *TODO*, 3 pm 
 
-These are special cases for some of the above:
-* architecture: transformer: multiheaded , bahdanau attention
+* eric et al replication: RNN, 1 hop, no kb input feeding, autoregressive, @meeting\_time level, kb dim 1, ,  
+* metric reporting: raw, canonized
+
+====== GRID SEARCH OVER THIS SHIT ======
+* 3 architecture: RNN , transformer, tftf
+* 3 multihops: 1 , 2 , 3
+* 3 kb input feeding: False, ff, rnn
+* 4 scheduled sampling: teacherforce, invsigmoid, linear, autoregressive
+====== END GRID SEARCH OVER THIS SHIT ======
+108 x 8 x 0.5  = 432 stunden = 18 tage 
+
+* 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
+
+* 3 kb encoding: 1D, 2D, positional
+* 2 kb embedding: source,  separate
+* 2 copy\_from\_source: True, False
+
+
+
+
+
+
 
 ### Empty scheduling KBs:
 * no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with

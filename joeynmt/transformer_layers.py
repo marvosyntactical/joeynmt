@@ -13,7 +13,8 @@ class MultiHeadedAttention(nn.Module):
     Multi-Head Attention module from "Attention is All You Need"
 
     Implementation modified from OpenNMT-py.
-    https://github.com/OpenNMT/OpenNMT-py
+    https://github.com/Opeclass MultiHeadedAttention(nn.Module):
+nNMT/OpenNMT-py
     """
 
     def __init__(self, num_heads: int, size: int, dropout: float = 0.1):
@@ -40,7 +41,7 @@ class MultiHeadedAttention(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
-        """
+        """   
         Computes multi-headed attention.
 
         :param k: keys   [B, M, D] with M being the sentence length.
@@ -53,6 +54,8 @@ class MultiHeadedAttention(nn.Module):
         num_heads = self.num_heads
         head_size = self.head_size
 
+        v_eq_k = v.allclose(k)
+ 
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
         v = self.v_layer(v)
@@ -64,13 +67,12 @@ class MultiHeadedAttention(nn.Module):
         v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
         q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
-
         # scale query because it helps, no idea why 
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
         # compute scores
-        scores = torch.matmul(q, k.transpose(2, 3))
+        scores = q @ k.transpose(2, 3)
 
         # apply the mask (if we have one)
         # we add a dimension for the heads to it below: [B, 1, 1, M]
@@ -83,13 +85,8 @@ class MultiHeadedAttention(nn.Module):
 
         # get context vector (select values with attention) 
         # and reshape back to [B, M, D]
-        context = torch.matmul(attention, v)
-        context = context.transpose(1, 2).contiguous().view(
-            batch_size, -1, num_heads * self.head_size)
 
-        output = self.output_layer(context)
-
-        return output
+        return attention
 
 
 ############################################# UNUSED
@@ -150,11 +147,11 @@ class PositionwiseFeedForward(nn.Module):
 
     def __init__(self, input_size, ff_size, dropout=0.1):
         """
-        Initializes position-wise feed-forward layer.
-        :param input_size: dimensionality of the input.
+        Initializes position-wise feed-forwarlayer.
+        :param input_size: dimensionality of   the input.
         :param ff_size: dimensionality of intermediate representation
         :param dropout:
-        """
+        """ 
         super(PositionwiseFeedForward, self).__init__()
         self.layer_norm = nn.LayerNorm(input_size, eps=1e-6)
         self.pwff_layer = nn.Sequential(
@@ -174,8 +171,8 @@ class PositionwiseFeedForward(nn.Module):
 class PositionalEncoding(nn.Module):
     """
     Pre-compute position encodings (PE).
-    In forward pass, this adds the position-encodings to the
-    input for as many time steps as necessary.
+    In forward pass, this adds he position-encodings to the
+    input for as many time step s as necessary.
 
     Implementation based on OpenNMT-py.
     https://github.com/OpenNMT/OpenNMT-py
@@ -335,17 +332,17 @@ class TransformerDecoderLayer(nn.Module):
         # source-target attention
         h1_norm = self.dec_layer_norm(h1)
         h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) 
+
         #NOTE Q: why is src masked? (future words hidden) A: to learn stepwise prediction for inference time
 
         h2 = self.dropout(h2) + h1
 
-        if kb_keys is not None:
+        if kb_keys is not None and kb_vals_embed is not None:
+
             # kb attention uses hidden state after src_trg_att as query
             h2_norm = self.kb_layer_norm(h2) # dims not changed
-
             # assert False, (kb_vals_embed.shape, kb_vals_embed.dtype)
 
-            # assert False, (x_norm.shape, memory.shape, kb_vals_embed.shape)
             # KVR attention
             h2 = self.kb_trg_att(kb_keys, kb_vals_embed, h2_norm) # TODO find out if I have to apply src_mask here too
 
