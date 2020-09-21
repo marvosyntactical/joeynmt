@@ -56,7 +56,7 @@ training:                           # specify training details here
     logging_freq: 10                # log the training progress after this many updates, default: 100
     eval_metric: "bleu"             # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "eval_metric"   # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/91_rnn2D_17-09" # directory where models and validation results are stored, required
+    model_dir: "models/90_rnn1D_16-09" # directory where models and validation results are stored, required
     overwrite: False # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                   # shuffle the training data, default: True
     use_cuda: True # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
@@ -65,15 +65,15 @@ training:                           # specify training details here
     keep_last_ckpts: 5              # keep this many of the latest checkpoints, if -1: all of them, default: 5
     label_smoothing: 0.0            # label smoothing: reference tokens will have 1-label_smoothing probability instead of 1, rest of probability mass is uniformly distributed over the rest of the vocabulary, default: 0.0 (off)
     sched_sampl_type: "linear"      # scheduled sampling type, must be one of linear(default) or exponential or invsigmoid
-    sched_sampl_k: 1.               # k value for sched sampl, cf. https://arxiv.org/abs/1506.03099 Section 2.4
-    sched_sampl_c_e: [1e-6, 0.2]  # c (negative slope) and e (minimal truth) values for sched sampl (only required/used if sched_sampl_type=="linear")
+    sched_sampl_k: 0.               # k value for sched sampl, cf. https://arxiv.org/abs/1506.03099 Section 2.4
+    sched_sampl_c_e: [0.,0.]  # c (negative slope) and e (minimal truth) values for sched sampl (only required/used if sched_sampl_type=="linear")
     
 
 model:                              # specify your model architecture here
     kb: True                        # kb decoder used or not?
     k_hops: 2                       # num of kvr att layers
     do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
-    kb_max_dims: [16, 32]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256,] for flat KB (eric et al) (length of list specifies num dimensions)
+    kb_max_dims: [256]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256,] for flat KB (eric et al) (length of list specifies num dimensions)
     copy_from_source: True           # whether to create KBs from source as backup when KB empty
     kb_input_feeding: True
     kb_feed_rnn: True
