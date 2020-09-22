@@ -384,11 +384,15 @@ def beam_search(
 
     # kb task: also tile kb tensors along batch dimension as done with other inputs above
     if knowledgebase != None:
-        kb_keys = tile(knowledgebase[0], size, dim=0)
         kb_values = tile(knowledgebase[1], size, dim=0)
         kb_mask = tile(knowledgebase[2], size, dim=0)
 
-        kb_size = kb_keys.size(1)
+        kb_size = kb_values.size(1)
+        kb_keys = knowledgebase[0]
+        if isinstance(kb_keys, tuple):
+            kb_keys = tuple([tile(key_dim, size, dim=0) for key_dim in kb_keys])
+        else:
+            kb_keys = tile(kb_keys, size, dim=0)
 
         att_alive = torch.Tensor( # batch*k x src x time
             [[[] for _ in range(encoder_output.size(1))] for _ in range(batch_size * size)]
@@ -654,10 +658,13 @@ def beam_search(
         if att_vectors is not None:
             att_vectors = att_vectors.index_select(0, select_indices)
         if knowledgebase is not None:
-            kb_keys = kb_keys.index_select(0, select_indices)
             kb_values = kb_values.index_select(0, select_indices)
-            util_dims_cache = util_dims_cache.index_select(0, select_indices)
-            kb_feed_hidden_cache = kb_feed_hidden_cache.index_select(0, select_indices)
+            if isinstance(kb_keys, tuple):
+                kb_keys = tuple([key_dim.index_select(0, select_indices) for key_dim in kb_keys])
+            else:
+                kb_keys = kb_keys.index_select(0, select_indices)
+            util_dims_cache = [utils.index_select(0, select_indices) for utils in util_dims_cache]
+            kb_feed_hidden_cache = [hidden.index_select(1, select_indices) for hidden in kb_feed_hidden_cache]
 
 
 

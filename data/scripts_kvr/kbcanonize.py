@@ -69,7 +69,7 @@ def main(args):
     else:
         raise ValueError(f"this shouldnt ever happen...: {args[0]}")
 
-    fine_grained = True # TODO add to args
+    fine_grained = False # TODO add to args
 
     f_stump = ".".join(f.split(".")[:-1])+"."
     cluster_ext = "kbc"+EXT

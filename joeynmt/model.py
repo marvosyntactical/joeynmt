@@ -487,7 +487,7 @@ class Model(nn.Module):
                     if found_second_entry == False: #KB has just one subj, but possibly several attr (on the fly KB)
                         step = i+1 # set number of attributes to KB size (i is at end of while loop)
 
-                    assert kb_size%step==0, (kb_size, step, self.src_vocab.arrays_to_sentences(entries))
+                    assert kb_size % step == 0, (kb_size, step, self.src_vocab.arrays_to_sentences(entries))
 
                     steps += [step]
 

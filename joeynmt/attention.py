@@ -165,13 +165,16 @@ class KeyValRetAtt(AttentionMechanism):
         self.curr_kb_size = None # this is set during self.compute_proj_keys
 
         self.feed_rnn = feed_rnn
+        self.num_feed_layers = num_layers
         # module to feed back concatenated query and previous utilities at hops k > 1
-        # either parameterized by LSTM or feed forward NN
+        # either parameterized by GRU or feed forward NN
         # (GRU remembers stuff from last decoding step, linear one from last hop of different head (but corresponding dim)
         if self.feed_rnn == True:
-            self.memory_network = nn.GRU(hidden_size + self.kb_max, hidden_size, # hidden size must be == decoder hidden size
-            num_layers, batch_first=True, dropout=dropout if num_layers > 1 else 0.)
+            self.memory_network = nn.GRU(   hidden_size + self.kb_max, hidden_size, # hidden size must be == decoder hidden size
+                                            self.num_feed_layers, batch_first=True, 
+                                            dropout=dropout if num_layers > 1 else 0.)
         else:
+            # 1 linear layer 
             self.multihop_feeding = nn.Linear(hidden_size + self.kb_max, hidden_size, bias=False)
             self.memory_network = lambda query, _: (None, self.multihop_feeding(query))
 
@@ -195,7 +198,8 @@ class KeyValRetAtt(AttentionMechanism):
             f"projection keys have to get pre-computed/assigned in dec.fwd before def.fwd_step"
         
         if prev_utilities is None: 
-            # first attention hop, just use query (dec hidden at time=t)
+            # first attention hop, just use query (last layer of dec hidden at time=0 or at any time if not input feeding)
+            # batch x 1 x hidden
             query_k = query
         else: 
             # successive att hop (k > 1 in loop), 
@@ -203,24 +207,20 @@ class KeyValRetAtt(AttentionMechanism):
             # previously computed kb entry utilities and query 
             # back into new query
 
-            ### TODO move these back to the decoder
-            if len(prev_utilities.shape) == 4:
-                prev_utilities = prev_utilities.squeeze(0)
-            assert prev_kb_feed_hidden is not None
-            if len(prev_kb_feed_hidden) == 4:
-                prev_kb_feed_hidden = prev_kb_feed_hidden.squeeze(0)
             prev_utilities = prev_utilities.clone()
             prev_kb_feed_hidden = prev_kb_feed_hidden.clone()
-            ###
 
-            query_k = torch.cat([prev_utilities, query], dim=-1) # batch x 1 x kb_max + hidden
-            _, prev_kb_feed_hidden = self.memory_network(query_k, prev_kb_feed_hidden) # batch x 1 x hidden
+            assert len(prev_kb_feed_hidden.shape) == 3, prev_kb_feed_hidden.shape
+
+
+            KVRfeedInput = torch.cat([prev_utilities, query], dim=-1) # batch x 1 x kb_max + hidden
+            _, prev_kb_feed_hidden = self.memory_network(KVRfeedInput, prev_kb_feed_hidden) # num_layers x batch x hidden
+            # GRU hidden: num_layers x batch x hidden
 
             if self.feed_rnn:
                 query_k = prev_kb_feed_hidden[-1].unsqueeze(1) # take last layer of hidden
             else:
                 query_k = prev_kb_feed_hidden
-            # in case of LSTM, query_k-1 is used as hidden state
 
         # variable names refer to eric et al (2017) notation,
         # (see https://arxiv.org/abs/1705.05414)
@@ -248,9 +248,13 @@ class KeyValRetAtt(AttentionMechanism):
 
         # u_t_k: batch x 1 x kb_max
         u_t_k = u_t_k.squeeze(2).unsqueeze(1)
-        # this done for consistency in the loop and to make the singleton dimension the unroll steps dim
+
+        # this is done for consistency in the loop and to make the singleton dimension the unroll steps dim
         # to concatenate 1..t...T together and get the same shape
         # as outputs
+
+        assert prev_kb_feed_hidden.shape[0] == self.num_feed_layers, \
+            (prev_kb_feed_hidden.shape, query_k.shape, prev_utilities)
 
         return u_t_k, prev_kb_feed_hidden
 

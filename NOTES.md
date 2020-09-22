@@ -72,7 +72,6 @@ These hyperparams are all orthogonal:
 
 
 
-
 ### Empty scheduling KBs:
 * no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
 * => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?

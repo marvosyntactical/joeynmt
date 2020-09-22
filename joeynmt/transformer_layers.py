@@ -232,8 +232,7 @@ class TransformerEncoderLayer(nn.Module):
         super(TransformerEncoderLayer, self).__init__()
 
         self.layer_norm = nn.LayerNorm(size, eps=1e-6)
-        self.src_src_att = MultiHeadedAttention(num_heads, size,
-                                                dropout=dropout)
+        self.src_src_att = MultiHeadedAttention(num_heads, size, dropout=dropout)
         self.feed_forward = PositionwiseFeedForward(size, ff_size=ff_size)
         self.dropout = nn.Dropout(dropout)
         self.size = size
