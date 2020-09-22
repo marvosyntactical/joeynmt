@@ -45,7 +45,7 @@ Code:
 
 
 Test runs:
-* None atm 
+* 2D KB plotting 
 
 
 ### 09.09. grid search hyperparams

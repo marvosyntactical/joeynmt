@@ -1098,7 +1098,8 @@ class TransformerDecoder(Decoder):
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout, kb_task=kb_task, kb_max=self.kb_max) for _ in range(num_layers)],)
+                dropout=dropout, kb_task=kb_task, kb_max=self.kb_max) for _ in range(num_layers)],
+                tfstyletf=True)
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -1154,6 +1155,246 @@ class TransformerDecoder(Decoder):
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs
         return None, None, x, None, None, None
+
+
+# pylint: disable=arguments-differ,too-many-arguments
+# pylint: disable=too-many-instance-attributes, unused-argument
+class TransformerKBrnnDecoder(TransformerDecoder):
+    """
+    A transformer decoder with N masked layers.
+    Decoder layers are masked so that an attention head cannot see the future.
+    """
+
+    def __init__(self,
+                 num_layers: int = 4,
+                 num_heads: int = 8,
+                 hidden_size: int = 512,
+                 ff_size: int = 2048,
+                 dropout: float = 0.1,
+                 emb_dropout: float = 0.1,
+                 vocab_size: int = 1,
+                 freeze: bool = False,
+                 kb_task: bool=False,
+                 kb_max: Tuple = (256,),
+                 kb_key_emb_size: int = 1,
+                 k_hops: int = 1,
+                 kb_input_feeding: bool = True,
+                 kb_feed_rnn: bool = True,
+                 **kwargs):
+        """
+        Initialize a Transformer decoder.
+        :param num_layers: number of Transformer layers
+        :param num_heads: number of heads for each layer
+        :param hidden_size: hidden size
+        :param ff_size: position-wise feed-forward size
+        :param dropout: dropout probability (1-keep)
+        :param emb_dropout: dropout probability for embeddings
+        :param vocab_size: size of the output vocabulary
+        :param freeze: set to True keep all decoder parameters fixed
+        :param kb_task: performing kb_task or not? used in layer init
+        :param kb_max: maximum kb size for each dimension FIXME only implemented for 1 d for ATM
+        :param kwargs:
+        """
+        super(TransformerDecoder, self).__init__()
+
+        self._hidden_size = hidden_size
+        self._output_size = vocab_size
+
+        # create num_layers decoder layers and put them in a list
+        self.layers = nn.ModuleList([TransformerDecoderLayer(
+                size=hidden_size, ff_size=ff_size, num_heads=num_heads,
+                dropout=dropout) for _ in range(num_layers)],
+                tfstyletf=False)
+
+        self.pe = PositionalEncoding(hidden_size)
+        self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
+
+        self.emb_dropout = nn.Dropout(p=emb_dropout)
+        self.output_layer = nn.Linear(hidden_size, vocab_size, bias=False)
+
+        if kb_task:
+            if not hasattr(kb_max, "__iter__"): 
+                assert type(kb_max) == int, (kb_max, type(kb_max), "specify this differently in config plz")
+                kb_max = (kb_max,)
+            self.kb_max = kb_max 
+            if len(self.kb_max) is not 1: raise NotImplementedError(f"{len(self.kb_max)} not implemented for transformer")
+            self.kb_feed_rnn = kb_feed_rnn
+
+            self.kb_layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
+
+            # kvr attention after bahdanau attention:
+            # multihops:
+            self.k_hops = k_hops # how many kvr attention modules?
+
+            # make sure kb_max is iterable, e.g. tuple of ints, instead of a single int
+            if not hasattr(kb_max, "__iter__"): kb_max = (kb_max,)
+            self.kb_max = kb_max 
+            # tuple of maximum size for each knowledgebase dimension
+            # for each dimension, 
+            # e.g. subj and relation or city x weekday x weather_attribute
+            # stores maximum allowable size for this dataset
+            # e.g. (7,3) for 7 weekdays and 3 weather attributes
+
+            self.kb_dims = len(self.kb_max)
+            allowableDims = [1,2]
+            if self.kb_dims not in allowableDims:
+                raise NotImplementedError(f"Multidimensional KB attentions only implemented for n={allowableDims}; n={self.kb_dims}; kb_max:{self.kb_max}")
+
+            # as in joeynmt.search.beam_search, repeat and tile KB dimension along each dimension:
+            # dims before: repeat value along flat kb_total dimension for each dimension
+            #           (product of all previous dimensions)
+            # dims after: tile value along flat kb_total dimension for each dimension
+            #           (product of all successive dimensions)
+
+            # precalculate these products; use them for indexing in attention hop
+            self.dims_before = [product(self.kb_max[:dim]) for dim in range(self.kb_dims)]
+            self.dims_after = [product(self.kb_max[:dim:-1]) for dim in range(self.kb_dims)]
+            self.kb_total = product(self.kb_max)
+
+            self.kb_feed_rnn = kb_feed_rnn # bool of whether to use LSTM (True) or feed forward network (False) for input feeding (LSTM remembers everything)
+            self.kb_layers = int(num_layers//2)
+
+            # list of [kvr for dim 0, kvr for dim 1] * k_hops
+            self.kvr_attention = nn.ModuleList([
+                                    KeyValRetAtt(hidden_size=self._hidden_size, # use same hidden size as decoder
+                                                key_size=kb_key_emb_size, 
+                                                query_size=hidden_size, # queried with decoder hidden
+                                                kb_max=self.kb_max[i % self.kb_dims], # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
+                                                feed_rnn=self.kb_feed_rnn,
+                                                num_layers=self.kb_layers,
+                                                dropout=dropout
+                                                )
+                                    for i in range(self.k_hops*self.kb_dims)])
+            self.kb_input_feeding = kb_input_feeding
+        if freeze:
+            freeze_params(self)
+
+    def _add_kb_utilities_for_step(self, u, utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
+        return add_kb_utilities_for_step(
+                u, utils_dims_cache, kb_feed_hidden_cache, query,
+                self.kvr_attention, self.kb_total, 
+                self.k_hops, self.kb_dims, self.dims_before, 
+                self.dims_after
+        )
+    
+    def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
+        return reshape_kb_mask_to_keys_size(kb_mask, kb_keys, self.kb_total)
+
+    def _init_proj_keys(self, kb_keys):
+        return init_proj_keys(self.kvr_attention, self.kb_dims, self.k_hops, kb_keys)
+
+
+    def forward(self,
+                trg_embed: Tensor = None,
+                encoder_output: Tensor = None,
+                encoder_hidden: Tensor = None,
+                src_mask: Tensor = None,
+                unroll_steps: int = None,
+                hidden: Tensor = None,
+                trg_mask: Tensor = None,
+                kb_keys: Union[Tensor, Tuple] = None,
+                kb_mask: Tensor = None,
+                utils_dims_cache: List[Union[Tensor, None]] = None,
+                kb_feed_hidden_cache: List[Union[Tensor,None]] = None,
+                **kwargs):
+        """
+        Transformer decoder forward pass.
+        :param trg_embed: embedded targets
+        :param encoder_output: source representations
+        :param encoder_hidden: unused
+        :param src_mask:
+        :param unroll_steps: unused
+        :param hidden: unused
+        :param trg_mask: to mask out target paddings
+                         Note that a subsequent mask is applied here.
+        :param kb_keys: knowledgebase keys: B x KB x TRG_EMB
+        :param kwargs:
+        :return:
+        """
+
+        assert trg_mask is not None, "trg_mask required for Transformer"
+
+        x = self.pe(trg_embed)  # add position encoding to word embedding
+        x = self.emb_dropout(x)
+
+        trg_mask = trg_mask & subsequent_mask(
+            trg_embed.size(1)).type_as(trg_mask)
+
+        for i, layer in enumerate(self.layers):
+            x = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
+
+        x = self.layer_norm(x)
+
+        # Multiheaded KVR Attention fwd pass
+        if kb_keys is not None:
+            
+            ### setup proj keys and mask dimensions
+            if not isinstance(kb_keys, tuple): 
+                assert self.kb_dims == 1, (self.kb_dims, kb_keys)
+                kb_keys = (kb_keys,)
+
+            self._init_proj_keys(kb_keys)
+
+            if kb_mask is not None:
+                # reshape_kb_mask(kb_mask, kb_keys, kb_total):
+                kb_mask = self._reshape_kb_mask_to_keys_size(kb_mask, kb_keys)
+            ### end setup proj keys and mask dimensions
+
+            ### setup utility caches for access to different to utilities and hiddens of t-1 and aggregate utilities
+
+            u_curr = []
+            if utils_dims_cache == None:
+                # FIXME do this with torch cat right away TODO
+                utils_dims_cache = [None for _ in range(self.kb_dims)] # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
+            elif type(utils_dims_cache) == list: 
+                # cache comes from prior decoding steps during search, this is second step; utils dims cache should be inited
+                assert None not in utils_dims_cache, utils_dims_cache
+                assert set([(t.size(0)==1 and len(t.shape)==4) for t in utils_dims_cache]) == {True}, \
+                    [t.shape for t in utils_dims_cache]
+                utils_dims_cache = torch.cat(utils_dims_cache, dim=0)
+            else:
+                # utils_dims_cache is already catted (this is third step onwards)
+                pass
+
+            if kb_feed_hidden_cache == None:
+                # if not present initialize with last stage of first timestep of x
+                kb_feed_hidden_cache = torch.zeros(
+                    self.kb_dims * self.k_hops, self.kb_layers, x.size(0), self._hidden_size
+                ).to(dtype=kb_keys[0].dtype, device=kb_keys[0].device)
+
+            for t in range(x.size(1)):
+                query = x[:,t,:].clone().unsqueeze(1)
+
+                # updates u with u_t
+                u_curr = self._add_kb_utilities_for_step(u_curr, utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask)
+
+            kb_probs = torch.cat(u_curr, dim=1)
+            
+        else:
+            kb_probs = None
+        
+        # decoder output signature is:
+        # return hidden, att_probs, att_vectors, kb_probs, utils_dims_cache, kb_feed_hidden_cache
+        return None, None, x, kb_probs, utils_dims_cache, kb_feed_hidden_cache
+    
+    def pad_kb_tensor(self, t: Tensor) -> Tensor:
+        # pad kb tensor shaped like B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
+        # used for kb_keys & kb_mask
+
+        assert len(t.shape) == 3, t.shape
+
+        curr_kb_size = t.shape[1]
+        padding = self.kb_max[0] - curr_kb_size # FIXME
+        assert padding >= 0, f"KB dim of KB tensor (keys or mask) {t.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+
+        pad_ = torch.zeros(t.shape[0], padding, t.shape[-1]).to(device=t.device)
+
+        return torch.cat([t,pad_], dim=1)
+    def __repr__(self):
+        return "%s(num_layers=%r, num_heads=%r)" % (
+            self.__class__.__name__, len(self.layers),
+            self.layers[0].trg_trg_att.num_heads)
+
     
 
 

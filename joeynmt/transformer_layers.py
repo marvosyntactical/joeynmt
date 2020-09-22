@@ -271,6 +271,7 @@ class TransformerDecoderLayer(nn.Module):
                  dropout: float = 0.1,
                  kb_task: bool = False,
                  kb_max: int = 256,
+                 tfstyletf: bool = False,
     ):
         """
         Represents a single Transformer decoder layer.
@@ -299,9 +300,9 @@ class TransformerDecoderLayer(nn.Module):
         self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.kb_max = kb_max
 
-        if kb_task:
-            self.kb_trg_att = MultiHeadedAttention(num_heads, size,
-                                                    dropout=dropout)
+        if kb_task and tfstyletf:
+            self.tfstyletf = True
+            self.kb_trg_att = MultiHeadedAttention(num_heads, size, dropout=dropout)
 
         self.dropout = nn.Dropout(dropout)
 
@@ -337,11 +338,10 @@ class TransformerDecoderLayer(nn.Module):
 
         h2 = self.dropout(h2) + h1
 
-        if kb_keys is not None and kb_vals_embed is not None:
+        if self.tfstyletf and kb_keys is not None and kb_vals_embed is not None:
 
             # kb attention uses hidden state after src_trg_att as query
             h2_norm = self.kb_layer_norm(h2) # dims not changed
-            # assert False, (kb_vals_embed.shape, kb_vals_embed.dtype)
 
             # KVR attention
             h2 = self.kb_trg_att(kb_keys, kb_vals_embed, h2_norm) # TODO find out if I have to apply src_mask here too

@@ -19,7 +19,7 @@ import torch.nn.functional as F
 from joeynmt.initialization import initialize_model
 from joeynmt.embeddings import Embeddings
 from joeynmt.encoders import Encoder, RecurrentEncoder, TransformerEncoder
-from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, TransformerDecoder, Generator
+from joeynmt.decoders import Decoder, RecurrentDecoder, KeyValRetRNNDecoder, TransformerDecoder, TransformerKBrnnDecoder, Generator
 from joeynmt.constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN, UNASSIGNED_TOKEN, DEFAULT_UNK_ID
 from joeynmt.search import beam_search, greedy
 from joeynmt.vocabulary import Vocabulary
@@ -49,7 +49,6 @@ class Model(nn.Module):
                  canonize = None,
                  kb_att_dims : int = 1,
                  posEncKBkeys: bool = False, 
-                 tfstyletf: bool = False,
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -97,7 +96,7 @@ class Model(nn.Module):
                 decoder_hidden_size = self.decoder._hidden_size
 
             self.posEnc = PositionalEncoding(decoder_hidden_size) # must be hidden size of attention mechanism actually FIXME (they the same tho atm)
-        if tfstyletf and isinstance(self.decoder, TransformerDecoder):
+        if isinstance(self.decoder, TransformerKBrnnDecoder):
             self.embed_vals_for_tf_decoder = True
         else:
             self.embed_vals_for_tf_decoder = False
@@ -432,7 +431,9 @@ class Model(nn.Module):
                 kb_repr = []
                 steps = [1]
                 dim_embeds = []
+
                 for dim, entries in enumerate(kb_dim_entries): 
+
                     # e.g. relation = [tensor(997),tensor(998),tensor(999),...] (repeat)
 
                     max_repr = max([len(repr) for repr in entries])
@@ -465,6 +466,7 @@ class Model(nn.Module):
                     # find out if first entry is repeated
                     # multiple times in a block (subjects)
                     # or multiple times every so many steps (relations)
+
                     while i < kb_size-1:
                         # FIXME doing the step & block calc like this is extremely inefficient
                         # do this before embed & sum?
@@ -576,6 +578,7 @@ class Model(nn.Module):
         
         # FIXME this should hopefully trigger at some point for partially assigned scheduling dialogues
         # assert (kb_mask==0.).all(), kb_mask 
+
 
         return kb_keys, kb_values, kb_true_vals, kb_mask
 
@@ -818,16 +821,25 @@ def build_model(cfg: dict = None,
         assert type(kb_max_dims) == int, kb_max_dims
         kb_max_dims = (kb_max_dims,)
     posEncKBkeys = cfg.get("posEncdKBkeys", False)
+    tfstyletf = cfg.get("tfstyletf", False)
 
 
     assert cfg["decoder"]["hidden_size"]
     dec_dropout = cfg["decoder"].get("dropout", 0.)
     dec_emb_dropout = cfg["decoder"]["embeddings"].get("dropout", dec_dropout)
     if cfg["decoder"].get("type", "recurrent") == "transformer":
-        decoder = TransformerDecoder(
-            **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-            emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
-            kb_task=kb_task,kb_key_emb_size=kbsrc_embed.embedding_dim)
+        if not tfstyletf:
+            decoder = TransformerDecoder(
+                **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
+                kb_task=kb_task,kb_key_emb_size=kbsrc_embed.embedding_dim
+                )
+        else:
+            decoder = TransformerKBrnnDecoder(
+                **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
+                kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim
+                )
     else:
         if not kb_task:
             decoder = RecurrentDecoder(
@@ -850,8 +862,11 @@ def build_model(cfg: dict = None,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
                   kb_key_embed=kbsrc_embed,\
                   trv_vocab=trv_vocab,
-                  k_hops=k_hops, do_postproc=do_postproc,
-                  canonize=canonization_func, kb_att_dims=len(kb_max_dims), posEncKBkeys=posEncKBkeys)
+                  k_hops=k_hops, 
+                  do_postproc=do_postproc,
+                  canonize=canonization_func, 
+                  kb_att_dims=len(kb_max_dims),
+                  posEncKBkeys=posEncKBkeys)
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):
