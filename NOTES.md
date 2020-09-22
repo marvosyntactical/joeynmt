@@ -6,36 +6,23 @@
 # _OPEN ISSUES_
 
 
+
+
+
+
 ### 11.09. canonization levels
 
-* raw
+* 5 pm 
 * meeting\_time
-*TODO*: make copy from source compatible with raw level
-
-*TODO*
-intermediate level:
-1. make option in normalized scenarios to use canonical levels
-2. added keeping track of KB to canonize.py
-3. do linking on canonized source and target *TODO*
-4. do that in extra file intermediate.py
-5. *TODO* make CRF to tell which attribute belongs to which subject
+=> do linking on canonized source and target *TODO*
+* time
 
 ### 10.09. ent f1 calc
 
 *TODO* fixme
 
-### 10.09. kb input feeding
-
-add this to cfg
-test it
 
 ### 09.09. different embedding table for kb keys
-
-* add option to cfg: kb\_key\_embed: "separate", "source"
-* depending on what's read from cfg in build\_model:
-1. model.py: build\_model: create separate embeddings if "separate", otherwise use source;
-2. make these attribute to model
-3. use that attribute to embed keys in preprocess batch
 ✔️
 *TODO TEST*
 
@@ -44,31 +31,44 @@ test it
 
 * did you do autoregressive training?
 
+### 21.09. grid search preparations
+
+*TODO*
+Code:
+* correct entity F1 reporting
+* correct positional encoding from 10000 to 100
+* correct 2D KBs *TODO PRIORITY*
+* add separate lookup table encoding
+* implement multiheaded KVR attention for transformer
+* write gridsearch script
+* what happens with k\_hops = 2 and feeding = False? dont I need previous utilities?
+
+
+Test runs:
+* None atm 
 
 
 ### 09.09. grid search hyperparams
 
 These hyperparams are all orthogonal:
 
-* eric et al replication: RNN, 1 hop, no kb input feeding, autoregressive, @meeting\_time level, kb dim 1, ,  
+* eric et al replication: RNN, 1 hop, no kb input feeding, autoregressive, @meeting\_time level, kb dim 1  
 * metric reporting: raw, canonized
 
 ====== GRID SEARCH OVER THIS SHIT ======
-* 3 architecture: RNN , transformer, tftf
+* 3 architecture: RNN , rnnTF , tfTF
 * 3 multihops: 1 , 2 , 3
 * 3 kb input feeding: False, ff, rnn
-* 4 scheduled sampling: teacherforce, invsigmoid, linear, autoregressive
+* 2 teacher\_force: yes, no
 ====== END GRID SEARCH OVER THIS SHIT ======
 108 x 8 x 0.5  = 432 stunden = 18 tage 
 
 * 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
+* 2 scheduled sampling: invsigmoid, linear
 
 * 3 kb encoding: 1D, 2D, positional
 * 2 kb embedding: source,  separate
 * 2 copy\_from\_source: True, False
-
-
-
 
 
 
