@@ -628,14 +628,24 @@ def beam_search(
                 .view(-1, alive_seq.size(-1))
 
             if knowledgebase is not None:
+
                 # TODO: go from 
                 # batch x k x src len x time 
                 # to
-                # batch*k x time x src
-                att_alive = attentions.index_select(0, non_finished) \
-                    .view(-1,attentions.size(-1), attentions.size(-2))
-                kb_att_alive = kb_attentions.index_select(0, non_finished) \
-                    .view(-1,attentions.size(-1), attentions.size(-2))
+                # batch * k x time x src
+
+                try:
+                    att_alive = att_alive.index_select(0, non_finished) \
+                        .view(-1, attentions.size(-1), attentions.size(-2))
+
+                    kb_att_alive = kb_att_alive.index_select(0, non_finished) \
+                        .view(-1, attentions.size(-1), attentions.size(-2))
+                except RuntimeError as e:
+                    assert False, (att_alive.shape, attentions.shape)
+
+                    print(e)
+                    exit(1)
+
 
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)

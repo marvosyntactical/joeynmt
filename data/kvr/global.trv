@@ -1,6 +1,5 @@
 -
 100 conference room
-100F
 10am
 10 am
 10 ames street
@@ -12,11 +11,10 @@
 1313 Chester Ave
 145 Amherst St
 171 Oak Rd
-1 miles
+1 mile
 1pm
 1 pm
 200 Alester Ave
-20F
 214 El Camino Real
 269 Alger Dr
 270 Altaire Walk
@@ -24,7 +22,6 @@
 2 miles
 2pm
 2 pm
-30F
 329 El Camino Real
 333 Arbol Dr
 338 Alester Ave
@@ -36,7 +33,6 @@
 3 pm
 408 University Ave
 409 Bollard St
-40F
 434 Arastradero Rd
 436 Alger Dr
 452 Arcadia Pl
@@ -44,7 +40,6 @@
 481 Amaranta Ave
 4 miles
 4pm
-50F
 528 Anton Ct
 53 University Av
 550 Alester Ave
@@ -60,7 +55,6 @@
 5 miles
 5pm
 5 pm
-60F
 610 Amarillo Ave
 611 Ames Ave
 638 Amherst St
@@ -69,9 +63,7 @@
 6 miles
 6pm
 704 El Camino Real
-70F
 753 University Ave
-76
 773 Alger Dr
 776 Arastradero Rd
 783 Arcadia Pl
@@ -79,7 +71,6 @@
 7 miles
 7pm
 7 pm
-80F
 819 Alma St
 830 Almanor Ln
 842 Arrowhead Way
@@ -88,158 +79,288 @@
 899 Ames Ct
 8 miles
 8pm
-90F
 915 Arbol Dr
 91 El Camino Real
 9981 Archuleta Ave
 9am
-alameda
 Alex
-alhambra
 Ana
-atherton
 aunt
-blizzard
+blizzard, low of 20F, high of 30F
+blizzard, low of 20F, high of 40F
+blizzard, low of 30F, high of 40F
+blizzard, low of 30F, high of 50F
+blizzard, low of 40F, high of 50F
+blizzard, low of 40F, high of 60F
+blizzard, low of 50F, high of 60F
 boss
-boston
-brentwood
 brother
-Cafe Venetia
-camarillo
 car collision nearby
-carson
 certain address
-Chef Chu's
-Chevron
 chinese restaurant
-Civic Center Garage
-clear
-clear skies
-cleveland
-cloudy
+clear, low of 80F, high of 100F
+clear skies, low of 20F, high of 30F
+clear skies, low of 20F, high of 40F
+clear skies, low of 30F, high of 40F
+clear skies, low of 30F, high of 50F
+clear skies, low of 40F, high of 50F
+clear skies, low of 40F, high of 60F
+clear skies, low of 50F, high of 60F
+clear skies, low of 50F, high of 70F
+clear skies, low of 60F, high of 70F
+clear skies, low of 60F, high of 80F
+clear skies, low of 70F, high of 80F
+clear skies, low of 70F, high of 90F
+clear skies, low of 80F, high of 100F
+clear skies, low of 80F, high of 90F
+clear skies, low of 90F, high of 100F
+cloudy, low of 20F, high of 30F
+cloudy, low of 20F, high of 40F
+cloudy, low of 30F, high of 40F
+cloudy, low of 30F, high of 50F
+cloudy, low of 40F, high of 50F
+cloudy, low of 40F, high of 60F
+cloudy, low of 50F, high of 60F
+cloudy, low of 50F, high of 70F
+cloudy, low of 60F, high of 70F
+cloudy, low of 60F, high of 80F
+cloudy, low of 70F, high of 80F
+cloudy, low of 70F, high of 90F
+cloudy, low of 80F, high of 100F
+cloudy, low of 80F, high of 90F
+cloudy, low of 90F, high of 100F
 coffee or tea place
-cold
-Comfort Inn
-compton
-conference
+cold, low of 20F, high of 30F
+cold, low of 50F, high of 60F
 conference room 100
 conference room 102
 conference room 50
-corona
-Coupa
-danville
-dentist
-dentist appointment
-dew
-dinner
+dew, low of 20F, high of 30F
+dew, low of 20F, high of 40F
+dew, low of 30F, high of 40F
+dew, low of 30F, high of 50F
+dew, low of 40F, high of 50F
+dew, low of 40F, high of 60F
+dew, low of 50F, high of 60F
+dew, low of 50F, high of 70F
+dew, low of 60F, high of 70F
+dew, low of 60F, high of 80F
+dew, low of 70F, high of 80F
+dew, low of 70F, high of 90F
+dew, low of 80F, high of 100F
+dew, low of 80F, high of 90F
+dew, low of 90F, high of 100F
 discuss dress code
 discuss the company picnic
 discuss the merger
-Dish Parking
-doctor appointment
-Dominos
-downtown chicago
-drizzle
-dry
-durham
+drizzle, low of 20F, high of 30F
+drizzle, low of 20F, high of 40F
+drizzle, low of 30F, high of 40F
+drizzle, low of 30F, high of 50F
+drizzle, low of 40F, high of 50F
+drizzle, low of 40F, high of 60F
+drizzle, low of 50F, high of 60F
+drizzle, low of 50F, high of 70F
+drizzle, low of 60F, high of 70F
+drizzle, low of 60F, high of 80F
+drizzle, low of 70F, high of 80F
+drizzle, low of 70F, high of 90F
+drizzle, low of 80F, high of 100F
+drizzle, low of 80F, high of 90F
+drizzle, low of 90F, high of 100F
+dry, low of 20F, high of 30F
+dry, low of 20F, high of 40F
+dry, low of 30F, high of 40F
+dry, low of 30F, high of 50F
+dry, low of 40F, high of 50F
+dry, low of 40F, high of 60F
+dry, low of 50F, high of 60F
+dry, low of 50F, high of 70F
+dry, low of 60F, high of 70F
+dry, low of 60F, high of 80F
+dry, low of 70F, high of 80F
+dry, low of 70F, high of 90F
+dry, low of 80F, high of 100F
+dry, low of 80F, high of 90F
+dry, low of 90F, high of 100F
 executive team
-exeter
 father
-foggy
-football activity
-Four Seasons
-fresno
+foggy, low of 20F, high of 30F
+foggy, low of 20F, high of 40F
+foggy, low of 30F, high of 40F
+foggy, low of 30F, high of 50F
+foggy, low of 40F, high of 50F
+foggy, low of 40F, high of 60F
+foggy, low of 50F, high of 60F
+foggy, low of 50F, high of 70F
+foggy, low of 60F, high of 70F
+foggy, low of 60F, high of 80F
+foggy, low of 70F, high of 80F
+foggy, low of 70F, high of 90F
+foggy, low of 80F, high of 100F
+foggy, low of 80F, high of 90F
+foggy, low of 90F, high of 100F
 friday
 friends house
-frost
+frost, low of 20F, high of 30F
+frost, low of 20F, high of 40F
+frost, low of 30F, high of 40F
+frost, low of 30F, high of 50F
+frost, low of 40F, high of 50F
+frost, low of 40F, high of 60F
+frost, low of 50F, high of 60F
 gas station
 go over budget
 go over quarterly report
-grand rapids
 grocery store
-Hacienda Market
-hail
+hail, low of 20F, high of 30F
+hail, low of 20F, high of 40F
+hail, low of 30F, high of 40F
+hail, low of 30F, high of 50F
+hail, low of 40F, high of 50F
+hail, low of 40F, high of 60F
+hail, low of 50F, high of 60F
+hail, low of 50F, high of 70F
+hail, low of 60F, high of 70F
+hail, low of 60F, high of 80F
+hail, low of 70F, high of 80F
+hail, low of 70F, high of 90F
+hail, low of 80F, high of 100F
+hail, low of 80F, high of 90F
+hail, low of 90F, high of 100F
 heavy traffic
 home
 hospital
-hot
-Hotel Keen
+hot, low of 30F, high of 40F
+hot, low of 40F, high of 60F
+hot, low of 50F, high of 70F
+hot, low of 60F, high of 70F
+hot, low of 60F, high of 80F
+hot, low of 70F, high of 80F
+hot, low of 70F, high of 90F
+hot, low of 80F, high of 100F
+hot, low of 80F, high of 90F
+hot, low of 90F, high of 100F
 HR
-humid
+humid, low of 50F, high of 70F
+humid, low of 60F, high of 70F
+humid, low of 60F, high of 80F
+humid, low of 70F, high of 80F
+humid, low of 70F, high of 90F
+humid, low of 80F, high of 100F
+humid, low of 80F, high of 90F
+humid, low of 90F, high of 100F
 infrastructure team
-inglewood
-jacks house
 Jeff
-jills house
-Jing Jing
 Jon
-lab appointment
-los angeles
 management
-Mandarin Roots
-manhattan
 Marie
 Martha
-medicine
-meeting
-menlo park
-Midtown Shopping Center
-misty
+misty, low of 20F, high of 30F
+misty, low of 20F, high of 40F
+misty, low of 30F, high of 40F
+misty, low of 30F, high of 50F
+misty, low of 40F, high of 50F
+misty, low of 40F, high of 60F
+misty, low of 50F, high of 60F
+misty, low of 50F, high of 70F
+misty, low of 60F, high of 70F
+misty, low of 60F, high of 80F
+misty, low of 70F, high of 80F
+misty, low of 70F, high of 90F
+misty, low of 80F, high of 100F
+misty, low of 80F, high of 90F
+misty, low of 90F, high of 100F
 moderate traffic
 monday
 mother
-mountain view
-new york
 no traffic
-oakland
 onboard new members
-optometrist appointment
-overcast
-Palo Alto Cafe
-Palo Alto Garage R
-Palo Alto Medical Foundation
-Panda Express
-Papa Johns
+overcast, low of 20F, high of 30F
+overcast, low of 20F, high of 40F
+overcast, low of 30F, high of 40F
+overcast, low of 30F, high of 50F
+overcast, low of 40F, high of 50F
+overcast, low of 40F, high of 60F
+overcast, low of 50F, high of 60F
+overcast, low of 50F, high of 70F
+overcast, low of 60F, high of 70F
+overcast, low of 60F, high of 80F
+overcast, low of 70F, high of 80F
+overcast, low of 70F, high of 90F
+overcast, low of 80F, high of 100F
+overcast, low of 80F, high of 90F
+overcast, low of 90F, high of 100F
 parking garage
-Peets Coffee
-P.F. Changs
-Philz
-Pizza Chicago
-Pizza Hut
-Pizza My Heart
 pizza restaurant
-rain
-raining
-Ravenswood Shopping Center
-redwood city
+raining, low of 20F, high of 30F
+raining, low of 20F, high of 40F
+raining, low of 30F, high of 40F
+raining, low of 30F, high of 50F
+raining, low of 40F, high of 50F
+raining, low of 40F, high of 60F
+raining, low of 50F, high of 60F
+raining, low of 50F, high of 70F
+raining, low of 60F, high of 70F
+raining, low of 60F, high of 80F
+raining, low of 70F, high of 80F
+raining, low of 70F, high of 90F
+raining, low of 80F, high of 100F
+raining, low of 80F, high of 90F
+raining, low of 90F, high of 100F
+rain, low of 20F, high of 30F
+rain, low of 20F, high of 40F
+rain, low of 30F, high of 40F
+rain, low of 30F, high of 50F
+rain, low of 40F, high of 50F
+rain, low of 40F, high of 60F
+rain, low of 50F, high of 60F
+rain, low of 50F, high of 70F
+rain, low of 60F, high of 70F
+rain, low of 60F, high of 80F
+rain, low of 70F, high of 80F
+rain, low of 70F, high of 90F
+rain, low of 80F, high of 100F
+rain, low of 80F, high of 90F
+rain, low of 90F, high of 100F
 rest stop
 road block nearby
-Round Table
-Safeway
 sales team
-san francisco
-san jose
-san mateo
 saturday
-seattle
-Shell
 shopping center
 sign the NDA
-Sigona Farmers Market
 sister
-snow
-Stanford Childrens Health
-Stanford Express Care
-Stanford Oval Parking
-Stanford Shopping Center
-Starbucks
-stormy
+snow, low of 20F, high of 30F
+snow, low of 20F, high of 40F
+snow, low of 30F, high of 40F
+snow, low of 30F, high of 50F
+snow, low of 40F, high of 50F
+snow, low of 40F, high of 60F
+snow, low of 50F, high of 60F
+snow, low of 50F, high of 70F
+snow, low of 60F, high of 70F
+snow, low of 60F, high of 80F
+snow, low of 70F, high of 80F
+snow, low of 70F, high of 90F
+snow, low of 80F, high of 100F
+snow, low of 80F, high of 90F
+snow, low of 90F, high of 100F
+stormy, low of 20F, high of 30F
+stormy, low of 20F, high of 40F
+stormy, low of 30F, high of 40F
+stormy, low of 30F, high of 50F
+stormy, low of 40F, high of 50F
+stormy, low of 40F, high of 60F
+stormy, low of 50F, high of 60F
+stormy, low of 50F, high of 70F
+stormy, low of 60F, high of 70F
+stormy, low of 60F, high of 80F
+stormy, low of 70F, high of 80F
+stormy, low of 70F, high of 90F
+stormy, low of 80F, high of 100F
+stormy, low of 80F, high of 90F
+stormy, low of 90F, high of 100F
 sunday
-swimming activity
-tai pan
-taking medicine
-Teavana
-tennis activity
 the 10th
 the 11th
 the 12th
@@ -260,23 +381,33 @@ the 6th
 the 7th
 the 8th
 the 9th
-The Clement Hotel
-The Westin
 thursday
-today
 Tom
-toms house
-Topanga Mall
-Town and Country
-Trader Joes
-Travelers Lodge
 tuesday
-Valero
 vice president
-warm
-Webster Garage
+warm, low of 30F, high of 40F
+warm, low of 40F, high of 60F
+warm, low of 50F, high of 70F
+warm, low of 60F, high of 70F
+warm, low of 60F, high of 80F
+warm, low of 70F, high of 80F
+warm, low of 70F, high of 90F
+warm, low of 80F, high of 100F
+warm, low of 80F, high of 90F
+warm, low of 90F, high of 100F
 wednesday
-Whole Foods
-Willows Market
-windy
-yoga activity
+windy, low of 20F, high of 30F
+windy, low of 20F, high of 40F
+windy, low of 30F, high of 40F
+windy, low of 30F, high of 50F
+windy, low of 40F, high of 50F
+windy, low of 40F, high of 60F
+windy, low of 50F, high of 60F
+windy, low of 50F, high of 70F
+windy, low of 60F, high of 70F
+windy, low of 60F, high of 80F
+windy, low of 70F, high of 80F
+windy, low of 70F, high of 90F
+windy, low of 80F, high of 100F
+windy, low of 80F, high of 90F
+windy, low of 90F, high of 100F

@@ -1191,8 +1191,8 @@ class TransformerKBrnnDecoder(TransformerDecoder):
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout) for _ in range(num_layers)],
-                tfstyletf=False)
+                dropout=dropout, tfstyletf=False) for _ in range(num_layers)],
+                )
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -1257,9 +1257,9 @@ class TransformerKBrnnDecoder(TransformerDecoder):
         if freeze:
             freeze_params(self)
 
-    def _add_kb_utilities_for_step(self, u, utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
+    def _add_kb_utilities_for_step(self, utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
         return add_kb_utilities_for_step(
-                u, utils_dims_cache, kb_feed_hidden_cache, query,
+                utils_dims_cache, kb_feed_hidden_cache, query,
                 self.kvr_attention, self.kb_total, 
                 self.k_hops, self.kb_dims, self.dims_before, 
                 self.dims_after, kb_mask=kb_mask
@@ -1420,7 +1420,10 @@ class Generator(Gen):
             _batch, _unroll, _kb = kb_probs.shape
 
             # kb_values: b x kb => b x time x kb
-            kb_values = kb_values.unsqueeze(1).repeat((1, _unroll, 1))
+            try:
+                kb_values = kb_values.unsqueeze(1).repeat((1, _unroll, 1))
+            except:
+                print(kb_values.shape)
 
             B = torch.arange(_batch).unsqueeze(1).unsqueeze(1)
             U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)

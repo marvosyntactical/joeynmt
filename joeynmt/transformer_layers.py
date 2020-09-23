@@ -54,7 +54,6 @@ nNMT/OpenNMT-py
         num_heads = self.num_heads
         head_size = self.head_size
 
-        v_eq_k = v.allclose(k)
  
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
@@ -85,8 +84,13 @@ nNMT/OpenNMT-py
 
         # get context vector (select values with attention) 
         # and reshape back to [B, M, D]
+        context = attention @ v
+        context = context.transpose(1, 2).contiguous().view(
+            batch_size, -1, num_heads * head_size)
 
-        return attention
+        output = self.output_layer(context)
+
+        return output 
 
 
 ############################################# UNUSED
@@ -179,7 +183,8 @@ class PositionalEncoding(nn.Module):
     """
     def __init__(self,
                  size: int = 0,
-                 max_len: int = 5000):
+                 max_len: int = 5000,
+                 e: int = 4):
         """
         Positional Encoding with maximum length max_len
         :param size:
@@ -192,7 +197,7 @@ class PositionalEncoding(nn.Module):
         pe = torch.zeros( max_len, size )
         position = torch.arange(0, max_len).unsqueeze(1)
         div_term = torch.exp(
-            (torch.arange(0, size, 2, dtype=torch.float) * -(math.log(10000.0) / size))
+            (torch.arange(0, size, 2, dtype=torch.float) * -(math.log(10**e) / size))
                               )
         pe[:, 0::2] = torch.sin(position.float() * div_term)
         pe[:, 1::2] = torch.cos(position.float() * div_term)
@@ -244,7 +249,6 @@ class TransformerEncoderLayer(nn.Module):
         First applies layer norm, then self attention,
         then dropout with residual connection (adding the input to the result),
         and then a position-wise feed-forward layer.
-
         :param x: layer input
         :param mask: input mask
         :return: output tensor
@@ -254,7 +258,6 @@ class TransformerEncoderLayer(nn.Module):
         h = self.dropout(h) + x
         o = self.feed_forward(h)
         return o
-
 
 
 class TransformerDecoderLayer(nn.Module):
@@ -299,8 +302,8 @@ class TransformerDecoderLayer(nn.Module):
         self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.kb_max = kb_max
 
-        if kb_task and tfstyletf:
-            self.tfstyletf = True
+        self.tfstyletf = tfstyletf 
+        if kb_task :
             self.kb_trg_att = MultiHeadedAttention(num_heads, size, dropout=dropout)
 
         self.dropout = nn.Dropout(dropout)
@@ -332,8 +335,6 @@ class TransformerDecoderLayer(nn.Module):
         # source-target attention
         h1_norm = self.dec_layer_norm(h1)
         h2 = self.src_trg_att(memory, memory, h1_norm, mask=src_mask) 
-
-        #NOTE Q: why is src masked? (future words hidden) A: to learn stepwise prediction for inference time
 
         h2 = self.dropout(h2) + h1
 

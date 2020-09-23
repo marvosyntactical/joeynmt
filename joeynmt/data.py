@@ -553,7 +553,6 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
     kb_len = 0
 
     for i, ex in enumerate(data):
-        #print(f"batch_with_kb: loop begin current index in train.kb(.*): {current}")
 
         last_corresponding_kb = corresponding_kb
         corresponding_kb = kb_lkp[i]
@@ -563,9 +562,12 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             yield minibatch
             minibatch = KB_minibatch()
 
-            current += kb_len
+            # sum over last kb and all inbetween that and current one (excluding current)
+            # sometimes a KB is skipped
+            current += sum(kb_lens[last_corresponding_kb:corresponding_kb])
+
             
-        print(ex.trg, kb_lens,corresponding_kb)
+        print(ex.trg, kb_lens, corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
 
         minibatch.kb = kb_data[current:current+kb_len]

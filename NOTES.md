@@ -21,12 +21,6 @@
 
 *TODO* fixme
 
-
-### 09.09. different embedding table for kb keys
-✔️
-*TODO TEST*
-
-
 ### 21.09. questions for eric et al
 
 * did you do autoregressive training?
@@ -42,6 +36,7 @@ Code:
 * implement multiheaded KVR attention for transformer
 * write gridsearch script
 * what happens with k\_hops = 2 and feeding = False? dont I need previous utilities?
+* fix transformer encoder???
 
 
 Test runs:
@@ -206,8 +201,14 @@ beam search should work now ✔️
 
 ## Old Issue
 
+## Old Issue
 
 ## Old Issue
+
+## Old Issue
+
+### 09.09. different embedding table for kb keys
+✔️
 
 
 

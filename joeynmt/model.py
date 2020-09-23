@@ -95,7 +95,7 @@ class Model(nn.Module):
             except AttributeError:
                 decoder_hidden_size = self.decoder._hidden_size
 
-            self.posEnc = PositionalEncoding(decoder_hidden_size) # must be hidden size of attention mechanism actually FIXME (they the same tho atm)
+            self.posEnc = PositionalEncoding(decoder_hidden_size,e=2) # must be hidden size of attention mechanism actually FIXME (they the same tho atm)
         if isinstance(self.decoder, TransformerKBrnnDecoder):
             self.embed_vals_for_tf_decoder = True
         else:
@@ -258,10 +258,7 @@ class Model(nn.Module):
         if log_probs is None:
             # same generator fwd pass for KB task and no KB task if teacher forcing
             # pass output through Generator and add biases for KB entries in vocab indexes of kb values
-            try:
-                log_probs = self.generator(out, kb_probs=kb_probs, kb_values=kb_values)
-            except Exception as e:
-                assert False, (dir())
+            log_probs = self.generator(out, kb_probs=kb_probs, kb_values=kb_values)
 
         if hasattr(batch, "trgcanon"):
             assert not log_probs.requires_grad, "this shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
@@ -828,7 +825,7 @@ def build_model(cfg: dict = None,
     dec_dropout = cfg["decoder"].get("dropout", 0.)
     dec_emb_dropout = cfg["decoder"]["embeddings"].get("dropout", dec_dropout)
     if cfg["decoder"].get("type", "recurrent") == "transformer":
-        if not tfstyletf:
+        if False:
             decoder = TransformerDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
