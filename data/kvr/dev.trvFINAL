@@ -1,33 +1,4 @@
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 snow
 60F
 80F
@@ -56,7 +27,7 @@ saturday
 cloudy
 80F
 100F
-today
+monday
 windy
 40F
 60F
@@ -85,7 +56,7 @@ saturday
 cloudy
 80F
 90F
-today
+monday
 humid
 50F
 70F
@@ -114,7 +85,7 @@ saturday
 cloudy
 60F
 70F
-today
+monday
 dew
 30F
 40F
@@ -143,7 +114,7 @@ saturday
 windy
 20F
 40F
-today
+monday
 raining
 30F
 40F
@@ -172,7 +143,7 @@ saturday
 drizzle
 50F
 60F
-today
+monday
 cloudy
 70F
 90F
@@ -201,7 +172,7 @@ saturday
 overcast
 60F
 80F
-today
+monday
 foggy
 70F
 90F
@@ -230,11 +201,6 @@ saturday
 rain
 20F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 car collision nearby
 grocery store
@@ -275,11 +241,6 @@ no traffic
 grocery store
 409 Bollard St
 Willows Market
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 Trader Joes
 5 miles
 no traffic
@@ -315,12 +276,6 @@ Stanford Express Care
 no traffic
 hospital
 214 El Camino Real
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2 pm
@@ -357,36 +312,7 @@ football activity
 monday
 -
 medicine
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 30F
 50F
@@ -415,7 +341,7 @@ saturday
 foggy
 80F
 100F
-today
+monday
 blizzard
 40F
 50F
@@ -444,7 +370,7 @@ saturday
 clear skies
 40F
 60F
-today
+monday
 overcast
 70F
 80F
@@ -473,7 +399,7 @@ saturday
 stormy
 30F
 50F
-today
+monday
 cloudy
 60F
 70F
@@ -502,7 +428,7 @@ saturday
 foggy
 20F
 40F
-today
+monday
 rain
 60F
 70F
@@ -531,7 +457,7 @@ saturday
 warm
 90F
 100F
-today
+monday
 stormy
 80F
 100F
@@ -560,7 +486,7 @@ saturday
 hail
 80F
 90F
-today
+monday
 dry
 40F
 50F
@@ -589,11 +515,6 @@ saturday
 cloudy
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 road block nearby
 coffee or tea place
@@ -634,36 +555,7 @@ no traffic
 friends house
 347 Alta Mesa Ave
 jills house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 70F
 80F
@@ -692,7 +584,7 @@ saturday
 clear skies
 40F
 50F
-today
+monday
 foggy
 70F
 90F
@@ -721,7 +613,7 @@ saturday
 raining
 50F
 60F
-today
+monday
 snow
 20F
 30F
@@ -750,7 +642,7 @@ saturday
 overcast
 80F
 90F
-today
+monday
 raining
 50F
 60F
@@ -779,7 +671,7 @@ saturday
 clear skies
 30F
 40F
-today
+monday
 rain
 80F
 100F
@@ -808,7 +700,7 @@ saturday
 misty
 40F
 60F
-today
+monday
 overcast
 30F
 50F
@@ -837,7 +729,7 @@ saturday
 drizzle
 50F
 70F
-today
+monday
 clear skies
 70F
 80F
@@ -866,36 +758,7 @@ saturday
 overcast
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 drizzle
 30F
 50F
@@ -924,7 +787,7 @@ saturday
 hot
 70F
 90F
-today
+monday
 snow
 50F
 60F
@@ -953,7 +816,7 @@ saturday
 foggy
 80F
 100F
-today
+monday
 foggy
 90F
 100F
@@ -982,7 +845,7 @@ saturday
 foggy
 90F
 100F
-today
+monday
 dry
 80F
 90F
@@ -1011,7 +874,7 @@ saturday
 raining
 30F
 50F
-today
+monday
 stormy
 20F
 40F
@@ -1040,7 +903,7 @@ saturday
 frost
 30F
 50F
-today
+monday
 hail
 30F
 40F
@@ -1069,7 +932,7 @@ saturday
 snow
 20F
 30F
-today
+monday
 stormy
 50F
 60F
@@ -1098,11 +961,6 @@ saturday
 hail
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 heavy traffic
 hospital
@@ -1138,36 +996,7 @@ no traffic
 rest stop
 465 Arcadia Pl
 Four Seasons
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 blizzard
 40F
 60F
@@ -1196,7 +1025,7 @@ saturday
 frost
 30F
 40F
-today
+monday
 clear skies
 20F
 40F
@@ -1225,7 +1054,7 @@ saturday
 overcast
 20F
 30F
-today
+monday
 stormy
 70F
 80F
@@ -1254,7 +1083,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 overcast
 30F
 40F
@@ -1283,7 +1112,7 @@ saturday
 blizzard
 40F
 50F
-today
+monday
 foggy
 90F
 100F
@@ -1312,7 +1141,7 @@ saturday
 raining
 30F
 50F
-today
+monday
 clear skies
 80F
 100F
@@ -1341,7 +1170,7 @@ saturday
 snow
 50F
 60F
-today
+monday
 windy
 50F
 70F
@@ -1370,12 +1199,6 @@ saturday
 clear skies
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 11 am
@@ -1412,36 +1235,7 @@ yoga activity
 wednesday
 -
 medicine
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 60F
 70F
@@ -1470,7 +1264,7 @@ saturday
 warm
 80F
 100F
-today
+monday
 warm
 80F
 90F
@@ -1499,7 +1293,7 @@ saturday
 hot
 80F
 100F
-today
+monday
 snow
 90F
 100F
@@ -1528,7 +1322,7 @@ saturday
 raining
 70F
 90F
-today
+monday
 clear skies
 40F
 60F
@@ -1557,7 +1351,7 @@ saturday
 snow
 30F
 40F
-today
+monday
 snow
 70F
 80F
@@ -1586,7 +1380,7 @@ saturday
 cloudy
 80F
 100F
-today
+monday
 raining
 90F
 100F
@@ -1615,7 +1409,7 @@ saturday
 clear skies
 30F
 40F
-today
+monday
 warm
 70F
 90F
@@ -1644,36 +1438,7 @@ saturday
 foggy
 80F
 90F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 overcast
 60F
 70F
@@ -1702,7 +1467,7 @@ saturday
 humid
 60F
 80F
-today
+monday
 drizzle
 30F
 40F
@@ -1731,7 +1496,7 @@ saturday
 overcast
 50F
 70F
-today
+monday
 raining
 40F
 60F
@@ -1760,7 +1525,7 @@ saturday
 overcast
 80F
 100F
-today
+monday
 cloudy
 20F
 30F
@@ -1789,7 +1554,7 @@ saturday
 overcast
 20F
 30F
-today
+monday
 raining
 40F
 50F
@@ -1818,7 +1583,7 @@ saturday
 rain
 60F
 80F
-today
+monday
 dry
 40F
 60F
@@ -1847,7 +1612,7 @@ saturday
 clear skies
 80F
 90F
-today
+monday
 warm
 60F
 70F
@@ -1876,11 +1641,6 @@ saturday
 cloudy
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 no traffic
 shopping center
@@ -1916,11 +1676,6 @@ heavy traffic
 pizza restaurant
 776 Arastradero Rd
 Dominos
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 road block nearby
 hospital
@@ -1961,36 +1716,7 @@ moderate traffic
 coffee or tea place
 792 Bedoin Street
 Starbucks
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 snow
 20F
 40F
@@ -2019,7 +1745,7 @@ saturday
 hot
 80F
 90F
-today
+monday
 clear skies
 90F
 100F
@@ -2048,7 +1774,7 @@ saturday
 clear skies
 20F
 40F
-today
+monday
 cloudy
 40F
 50F
@@ -2077,7 +1803,7 @@ saturday
 rain
 20F
 30F
-today
+monday
 rain
 60F
 80F
@@ -2106,7 +1832,7 @@ saturday
 rain
 50F
 60F
-today
+monday
 cloudy
 70F
 80F
@@ -2135,7 +1861,7 @@ saturday
 foggy
 50F
 70F
-today
+monday
 blizzard
 50F
 60F
@@ -2164,7 +1890,7 @@ saturday
 overcast
 70F
 80F
-today
+monday
 raining
 70F
 90F
@@ -2193,11 +1919,6 @@ saturday
 rain
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 moderate traffic
 pizza restaurant
@@ -2238,36 +1959,7 @@ car collision nearby
 parking garage
 610 Amarillo Ave
 Stanford Oval Parking
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 snow
 30F
 40F
@@ -2296,7 +1988,7 @@ saturday
 windy
 60F
 80F
-today
+monday
 windy
 90F
 100F
@@ -2325,7 +2017,7 @@ saturday
 warm
 80F
 100F
-today
+monday
 foggy
 80F
 90F
@@ -2354,7 +2046,7 @@ saturday
 hot
 30F
 40F
-today
+monday
 cloudy
 90F
 100F
@@ -2383,7 +2075,7 @@ saturday
 overcast
 80F
 90F
-today
+monday
 hot
 80F
 90F
@@ -2412,7 +2104,7 @@ saturday
 hot
 60F
 80F
-today
+monday
 windy
 60F
 70F
@@ -2441,7 +2133,7 @@ saturday
 windy
 80F
 90F
-today
+monday
 warm
 40F
 60F
@@ -2470,30 +2162,6 @@ saturday
 hot
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 5pm
@@ -2542,36 +2210,7 @@ optometrist appointment
 the 5th
 sister
 optometrist appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 40F
 60F
@@ -2600,7 +2239,7 @@ saturday
 raining
 40F
 60F
-today
+monday
 warm
 60F
 80F
@@ -2629,7 +2268,7 @@ saturday
 overcast
 90F
 100F
-today
+monday
 foggy
 80F
 100F
@@ -2658,7 +2297,7 @@ saturday
 rain
 90F
 100F
-today
+monday
 warm
 40F
 60F
@@ -2687,7 +2326,7 @@ saturday
 clear skies
 30F
 40F
-today
+monday
 hot
 70F
 90F
@@ -2716,7 +2355,7 @@ saturday
 overcast
 60F
 80F
-today
+monday
 warm
 40F
 60F
@@ -2745,7 +2384,7 @@ saturday
 foggy
 70F
 80F
-today
+monday
 windy
 40F
 60F
@@ -2774,36 +2413,7 @@ saturday
 foggy
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 stormy
 40F
 60F
@@ -2832,7 +2442,7 @@ saturday
 foggy
 20F
 40F
-today
+monday
 clear skies
 60F
 70F
@@ -2861,7 +2471,7 @@ saturday
 dry
 20F
 40F
-today
+monday
 warm
 60F
 80F
@@ -2890,7 +2500,7 @@ saturday
 raining
 60F
 70F
-today
+monday
 windy
 60F
 80F
@@ -2919,7 +2529,7 @@ saturday
 clear skies
 40F
 60F
-today
+monday
 snow
 40F
 60F
@@ -2948,7 +2558,7 @@ saturday
 foggy
 20F
 40F
-today
+monday
 foggy
 50F
 60F
@@ -2977,7 +2587,7 @@ saturday
 blizzard
 20F
 40F
-today
+monday
 hail
 70F
 90F
@@ -3006,11 +2616,6 @@ saturday
 rain
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 heavy traffic
 parking garage
@@ -3046,36 +2651,7 @@ no traffic
 grocery store
 638 Amherst St
 Sigona Farmers Market
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 hail
 50F
 70F
@@ -3104,7 +2680,7 @@ saturday
 windy
 90F
 100F
-today
+monday
 humid
 60F
 70F
@@ -3133,7 +2709,7 @@ saturday
 overcast
 20F
 40F
-today
+monday
 drizzle
 80F
 100F
@@ -3162,7 +2738,7 @@ saturday
 warm
 80F
 90F
-today
+monday
 foggy
 90F
 100F
@@ -3191,7 +2767,7 @@ saturday
 dry
 70F
 90F
-today
+monday
 dry
 80F
 100F
@@ -3220,7 +2796,7 @@ saturday
 dry
 20F
 40F
-today
+monday
 dry
 40F
 50F
@@ -3249,7 +2825,7 @@ saturday
 stormy
 60F
 70F
-today
+monday
 dew
 20F
 30F
@@ -3278,36 +2854,7 @@ saturday
 rain
 60F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 rain
 60F
 70F
@@ -3336,7 +2883,7 @@ saturday
 frost
 40F
 60F
-today
+monday
 dry
 90F
 100F
@@ -3365,7 +2912,7 @@ saturday
 rain
 20F
 40F
-today
+monday
 overcast
 90F
 100F
@@ -3394,7 +2941,7 @@ saturday
 raining
 30F
 50F
-today
+monday
 warm
 50F
 70F
@@ -3423,7 +2970,7 @@ saturday
 windy
 70F
 80F
-today
+monday
 stormy
 90F
 100F
@@ -3452,7 +2999,7 @@ saturday
 drizzle
 60F
 70F
-today
+monday
 clear skies
 80F
 100F
@@ -3481,7 +3028,7 @@ saturday
 cloudy
 50F
 70F
-today
+monday
 windy
 50F
 70F
@@ -3510,36 +3057,7 @@ saturday
 rain
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 hail
 30F
 40F
@@ -3568,7 +3086,7 @@ saturday
 humid
 60F
 70F
-today
+monday
 overcast
 50F
 70F
@@ -3597,7 +3115,7 @@ saturday
 stormy
 20F
 30F
-today
+monday
 humid
 80F
 90F
@@ -3626,7 +3144,7 @@ saturday
 humid
 60F
 80F
-today
+monday
 rain
 90F
 100F
@@ -3655,7 +3173,7 @@ saturday
 cloudy
 60F
 80F
-today
+monday
 warm
 80F
 100F
@@ -3684,7 +3202,7 @@ saturday
 raining
 60F
 70F
-today
+monday
 cloudy
 80F
 100F
@@ -3713,7 +3231,7 @@ saturday
 hail
 60F
 70F
-today
+monday
 windy
 50F
 70F
@@ -3742,11 +3260,6 @@ saturday
 hail
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 road block nearby
 coffee or tea place
@@ -3787,11 +3300,6 @@ heavy traffic
 grocery store
 638 Amherst St
 Sigona Farmers Market
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 heavy traffic
 chinese restaurant
@@ -3827,36 +3335,7 @@ heavy traffic
 chinese restaurant
 842 Arrowhead Way
 Panda Express
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 hail
 70F
 90F
@@ -3885,7 +3364,7 @@ saturday
 windy
 80F
 100F
-today
+monday
 misty
 50F
 70F
@@ -3914,7 +3393,7 @@ saturday
 hail
 20F
 40F
-today
+monday
 warm
 80F
 100F
@@ -3943,7 +3422,7 @@ saturday
 cloudy
 30F
 50F
-today
+monday
 cloudy
 80F
 90F
@@ -3972,7 +3451,7 @@ saturday
 dew
 80F
 100F
-today
+monday
 stormy
 90F
 100F
@@ -4001,7 +3480,7 @@ saturday
 blizzard
 30F
 50F
-today
+monday
 blizzard
 20F
 40F
@@ -4030,7 +3509,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 foggy
 70F
 80F
@@ -4059,36 +3538,7 @@ saturday
 cloudy
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 misty
 80F
 100F
@@ -4117,7 +3567,7 @@ saturday
 clear skies
 30F
 40F
-today
+monday
 rain
 90F
 100F
@@ -4146,7 +3596,7 @@ saturday
 windy
 80F
 100F
-today
+monday
 warm
 90F
 100F
@@ -4175,7 +3625,7 @@ saturday
 windy
 20F
 30F
-today
+monday
 misty
 70F
 90F
@@ -4204,7 +3654,7 @@ saturday
 cloudy
 90F
 100F
-today
+monday
 windy
 40F
 50F
@@ -4233,7 +3683,7 @@ saturday
 drizzle
 90F
 100F
-today
+monday
 hail
 70F
 80F
@@ -4262,7 +3712,7 @@ saturday
 stormy
 60F
 80F
-today
+monday
 dry
 60F
 70F
@@ -4291,11 +3741,6 @@ saturday
 cloudy
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 no traffic
 friends house
@@ -4331,12 +3776,6 @@ no traffic
 parking garage
 550 Alester Ave
 Dish Parking
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2 pm
@@ -4373,11 +3812,6 @@ dinner
 friday
 -
 dentist appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 no traffic
 coffee or tea place
@@ -4418,36 +3852,7 @@ moderate traffic
 grocery store
 409 Bollard St
 Willows Market
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dry
 90F
 100F
@@ -4476,7 +3881,7 @@ saturday
 rain
 70F
 80F
-today
+monday
 overcast
 40F
 50F
@@ -4505,7 +3910,7 @@ saturday
 warm
 80F
 100F
-today
+monday
 hail
 40F
 60F
@@ -4534,7 +3939,7 @@ saturday
 foggy
 80F
 100F
-today
+monday
 dry
 80F
 100F
@@ -4563,7 +3968,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 humid
 50F
 70F
@@ -4592,7 +3997,7 @@ saturday
 blizzard
 40F
 50F
-today
+monday
 hail
 60F
 80F
@@ -4621,7 +4026,7 @@ saturday
 stormy
 20F
 30F
-today
+monday
 dew
 50F
 60F
@@ -4650,36 +4055,7 @@ saturday
 humid
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 rain
 70F
 90F
@@ -4708,7 +4084,7 @@ saturday
 dry
 40F
 60F
-today
+monday
 rain
 40F
 50F
@@ -4737,7 +4113,7 @@ saturday
 overcast
 20F
 30F
-today
+monday
 dry
 90F
 100F
@@ -4766,7 +4142,7 @@ saturday
 overcast
 70F
 90F
-today
+monday
 clear skies
 90F
 100F
@@ -4795,7 +4171,7 @@ saturday
 cloudy
 40F
 50F
-today
+monday
 warm
 80F
 90F
@@ -4824,7 +4200,7 @@ saturday
 clear skies
 80F
 100F
-today
+monday
 foggy
 50F
 60F
@@ -4853,7 +4229,7 @@ saturday
 windy
 20F
 30F
-today
+monday
 clear skies
 60F
 70F
@@ -4882,36 +4258,7 @@ saturday
 frost
 30F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 40F
 60F
@@ -4940,7 +4287,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 foggy
 40F
 60F
@@ -4969,7 +4316,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 raining
 70F
 80F
@@ -4998,7 +4345,7 @@ saturday
 overcast
 70F
 80F
-today
+monday
 foggy
 90F
 100F
@@ -5027,7 +4374,7 @@ saturday
 raining
 80F
 90F
-today
+monday
 hot
 30F
 40F
@@ -5056,7 +4403,7 @@ saturday
 foggy
 30F
 40F
-today
+monday
 warm
 70F
 80F
@@ -5085,7 +4432,7 @@ saturday
 cloudy
 90F
 100F
-today
+monday
 windy
 90F
 100F
@@ -5114,36 +4461,7 @@ saturday
 clear skies
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 windy
 70F
 90F
@@ -5172,7 +4490,7 @@ saturday
 raining
 30F
 40F
-today
+monday
 drizzle
 70F
 80F
@@ -5201,7 +4519,7 @@ saturday
 snow
 30F
 40F
-today
+monday
 cloudy
 30F
 40F
@@ -5230,7 +4548,7 @@ saturday
 raining
 90F
 100F
-today
+monday
 rain
 30F
 40F
@@ -5259,7 +4577,7 @@ saturday
 foggy
 30F
 50F
-today
+monday
 raining
 20F
 40F
@@ -5288,7 +4606,7 @@ saturday
 cloudy
 40F
 60F
-today
+monday
 warm
 50F
 70F
@@ -5317,7 +4635,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 overcast
 30F
 50F
@@ -5346,11 +4664,6 @@ saturday
 dry
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 Four Seasons
 3 miles
 heavy traffic
@@ -5386,36 +4699,7 @@ Sigona Farmers Market
 no traffic
 grocery store
 638 Amherst St
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 50F
 60F
@@ -5444,7 +4728,7 @@ saturday
 hail
 70F
 90F
-today
+monday
 cloudy
 50F
 70F
@@ -5473,7 +4757,7 @@ saturday
 cloudy
 50F
 70F
-today
+monday
 foggy
 50F
 70F
@@ -5502,7 +4786,7 @@ saturday
 cloudy
 90F
 100F
-today
+monday
 humid
 80F
 90F
@@ -5531,7 +4815,7 @@ saturday
 raining
 30F
 40F
-today
+monday
 foggy
 60F
 80F
@@ -5560,7 +4844,7 @@ saturday
 rain
 20F
 30F
-today
+monday
 dry
 90F
 100F
@@ -5589,7 +4873,7 @@ saturday
 frost
 30F
 50F
-today
+monday
 windy
 20F
 40F
@@ -5618,11 +4902,6 @@ saturday
 rain
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 Round Table
 2 miles
 heavy traffic
@@ -5658,12 +4937,6 @@ Civic Center Garage
 no traffic
 parking garage
 270 Altaire Walk
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2 pm
@@ -5700,11 +4973,6 @@ medicine
 tuesday
 -
 swimming activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 heavy traffic
 chinese restaurant
@@ -5745,11 +5013,6 @@ car collision nearby
 coffee or tea place
 792 Bedoin Street
 Starbucks
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 moderate traffic
 friends house
@@ -5790,36 +5053,7 @@ car collision nearby
 grocery store
 452 Arcadia Pl
 Safeway
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 70F
 80F
@@ -5848,7 +5082,7 @@ saturday
 cloudy
 30F
 50F
-today
+monday
 snow
 40F
 60F
@@ -5877,7 +5111,7 @@ saturday
 clear skies
 50F
 60F
-today
+monday
 foggy
 20F
 40F
@@ -5906,7 +5140,7 @@ saturday
 drizzle
 50F
 60F
-today
+monday
 dry
 70F
 90F
@@ -5935,7 +5169,7 @@ saturday
 dew
 50F
 60F
-today
+monday
 windy
 80F
 90F
@@ -5964,7 +5198,7 @@ saturday
 dew
 20F
 30F
-today
+monday
 dry
 90F
 100F
@@ -5993,7 +5227,7 @@ saturday
 clear skies
 60F
 80F
-today
+monday
 hail
 60F
 70F
@@ -6022,11 +5256,6 @@ saturday
 stormy
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 no traffic
 shopping center
@@ -6067,11 +5296,6 @@ moderate traffic
 pizza restaurant
 113 Anton Ct
 Round Table
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 car collision nearby
 shopping center
@@ -6112,36 +5336,7 @@ moderate traffic
 hospital
 899 Ames Ct
 Stanford Childrens Health
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 30F
 50F
@@ -6170,7 +5365,7 @@ saturday
 raining
 80F
 90F
-today
+monday
 hail
 30F
 40F
@@ -6199,7 +5394,7 @@ saturday
 hail
 40F
 60F
-today
+monday
 overcast
 20F
 40F
@@ -6228,7 +5423,7 @@ saturday
 warm
 60F
 70F
-today
+monday
 stormy
 90F
 100F
@@ -6257,7 +5452,7 @@ saturday
 dew
 70F
 90F
-today
+monday
 warm
 90F
 100F
@@ -6286,7 +5481,7 @@ saturday
 raining
 50F
 70F
-today
+monday
 rain
 80F
 90F
@@ -6315,7 +5510,7 @@ saturday
 overcast
 70F
 80F
-today
+monday
 raining
 40F
 60F
@@ -6344,12 +5539,6 @@ saturday
 hail
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 4pm
@@ -6398,11 +5587,6 @@ lab appointment
 the 10th
 Martha
 lab appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 no traffic
 rest stop
@@ -6443,36 +5627,7 @@ heavy traffic
 grocery store
 408 University Ave
 Trader Joes
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dew
 60F
 70F
@@ -6501,7 +5656,7 @@ saturday
 drizzle
 40F
 60F
-today
+monday
 clear skies
 70F
 80F
@@ -6530,7 +5685,7 @@ saturday
 hail
 20F
 40F
-today
+monday
 overcast
 50F
 60F
@@ -6559,7 +5714,7 @@ saturday
 cloudy
 40F
 50F
-today
+monday
 frost
 50F
 60F
@@ -6588,7 +5743,7 @@ saturday
 raining
 90F
 100F
-today
+monday
 overcast
 40F
 60F
@@ -6617,7 +5772,7 @@ saturday
 overcast
 50F
 60F
-today
+monday
 rain
 40F
 60F
@@ -6646,7 +5801,7 @@ saturday
 drizzle
 60F
 70F
-today
+monday
 rain
 20F
 40F
@@ -6675,12 +5830,6 @@ saturday
 windy
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 11 am
@@ -6717,36 +5866,7 @@ meeting
 wednesday
 -
 swimming activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 20F
 40F
@@ -6775,7 +5895,7 @@ saturday
 overcast
 70F
 80F
-today
+monday
 raining
 30F
 40F
@@ -6804,7 +5924,7 @@ saturday
 rain
 60F
 80F
-today
+monday
 overcast
 70F
 80F
@@ -6833,7 +5953,7 @@ saturday
 windy
 60F
 70F
-today
+monday
 windy
 40F
 60F
@@ -6862,7 +5982,7 @@ saturday
 clear skies
 20F
 40F
-today
+monday
 blizzard
 40F
 60F
@@ -6891,7 +6011,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 foggy
 20F
 30F
@@ -6920,7 +6040,7 @@ saturday
 foggy
 90F
 100F
-today
+monday
 blizzard
 50F
 60F
@@ -6949,11 +6069,6 @@ saturday
 cloudy
 40F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 no traffic
 home
@@ -6989,36 +6104,7 @@ moderate traffic
 shopping center
 383 University Ave
 Town and Country
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 drizzle
 80F
 90F
@@ -7047,7 +6133,7 @@ saturday
 stormy
 30F
 40F
-today
+monday
 overcast
 60F
 80F
@@ -7076,7 +6162,7 @@ saturday
 clear skies
 30F
 50F
-today
+monday
 dry
 80F
 100F
@@ -7105,7 +6191,7 @@ saturday
 snow
 50F
 60F
-today
+monday
 cloudy
 20F
 30F
@@ -7134,7 +6220,7 @@ saturday
 drizzle
 70F
 80F
-today
+monday
 stormy
 80F
 90F
@@ -7163,7 +6249,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 overcast
 60F
 70F
@@ -7192,7 +6278,7 @@ saturday
 stormy
 20F
 30F
-today
+monday
 drizzle
 20F
 30F
@@ -7221,36 +6307,7 @@ saturday
 cloudy
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 misty
 30F
 40F
@@ -7279,7 +6336,7 @@ saturday
 hot
 90F
 100F
-today
+monday
 overcast
 50F
 60F
@@ -7308,7 +6365,7 @@ saturday
 foggy
 60F
 80F
-today
+monday
 foggy
 80F
 90F
@@ -7337,7 +6394,7 @@ saturday
 dry
 60F
 70F
-today
+monday
 foggy
 90F
 100F
@@ -7366,7 +6423,7 @@ saturday
 drizzle
 80F
 90F
-today
+monday
 clear skies
 60F
 70F
@@ -7395,7 +6452,7 @@ saturday
 drizzle
 60F
 80F
-today
+monday
 dry
 30F
 50F
@@ -7424,7 +6481,7 @@ saturday
 stormy
 90F
 100F
-today
+monday
 rain
 30F
 50F
@@ -7453,36 +6510,7 @@ saturday
 foggy
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 60F
 80F
@@ -7511,7 +6539,7 @@ saturday
 drizzle
 40F
 60F
-today
+monday
 raining
 90F
 100F
@@ -7540,7 +6568,7 @@ saturday
 hail
 70F
 80F
-today
+monday
 cloudy
 60F
 70F
@@ -7569,7 +6597,7 @@ saturday
 raining
 70F
 90F
-today
+monday
 snow
 60F
 80F
@@ -7598,7 +6626,7 @@ saturday
 hot
 70F
 90F
-today
+monday
 raining
 30F
 40F
@@ -7627,7 +6655,7 @@ saturday
 humid
 80F
 90F
-today
+monday
 drizzle
 50F
 70F
@@ -7656,7 +6684,7 @@ saturday
 cloudy
 30F
 50F
-today
+monday
 stormy
 70F
 80F
@@ -7685,11 +6713,6 @@ saturday
 warm
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 car collision nearby
 pizza restaurant
@@ -7730,36 +6753,7 @@ no traffic
 friends house
 347 Alta Mesa Ave
 jills house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dew
 30F
 50F
@@ -7788,7 +6782,7 @@ saturday
 misty
 60F
 70F
-today
+monday
 misty
 90F
 100F
@@ -7817,7 +6811,7 @@ saturday
 dew
 40F
 50F
-today
+monday
 foggy
 50F
 60F
@@ -7846,7 +6840,7 @@ saturday
 hot
 70F
 90F
-today
+monday
 drizzle
 70F
 80F
@@ -7875,7 +6869,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 hail
 80F
 100F
@@ -7904,7 +6898,7 @@ saturday
 dew
 90F
 100F
-today
+monday
 rain
 80F
 90F
@@ -7933,7 +6927,7 @@ saturday
 dry
 60F
 80F
-today
+monday
 dew
 50F
 70F
@@ -7962,12 +6956,6 @@ saturday
 misty
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 11 am
@@ -8004,36 +6992,7 @@ discuss the company picnic
 friday
 sales team
 meeting
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 30F
 50F
@@ -8062,7 +7021,7 @@ saturday
 rain
 20F
 30F
-today
+monday
 drizzle
 60F
 80F
@@ -8091,7 +7050,7 @@ saturday
 drizzle
 60F
 70F
-today
+monday
 dry
 20F
 40F
@@ -8120,7 +7079,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 dry
 60F
 80F
@@ -8149,7 +7108,7 @@ saturday
 raining
 20F
 30F
-today
+monday
 cloudy
 80F
 90F
@@ -8178,7 +7137,7 @@ saturday
 windy
 40F
 50F
-today
+monday
 humid
 70F
 90F
@@ -8207,7 +7166,7 @@ saturday
 frost
 50F
 60F
-today
+monday
 windy
 60F
 80F
@@ -8236,11 +7195,6 @@ saturday
 rain
 60F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 moderate traffic
 pizza restaurant
@@ -8276,11 +7230,6 @@ heavy traffic
 rest stop
 465 Arcadia Pl
 Four Seasons
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 moderate traffic
 shopping center
@@ -8321,36 +7270,7 @@ car collision nearby
 certain address
 5672 barringer street
 5672 barringer street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 30F
 50F
@@ -8379,7 +7299,7 @@ saturday
 raining
 90F
 100F
-today
+monday
 cloudy
 70F
 80F
@@ -8408,7 +7328,7 @@ saturday
 raining
 70F
 90F
-today
+monday
 overcast
 50F
 60F
@@ -8437,7 +7357,7 @@ saturday
 stormy
 80F
 90F
-today
+monday
 snow
 30F
 50F
@@ -8466,7 +7386,7 @@ saturday
 snow
 50F
 70F
-today
+monday
 misty
 20F
 30F
@@ -8495,7 +7415,7 @@ saturday
 dry
 40F
 60F
-today
+monday
 windy
 30F
 50F
@@ -8524,7 +7444,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 humid
 70F
 90F
@@ -8553,36 +7473,7 @@ saturday
 rain
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 90F
 100F
@@ -8611,7 +7502,7 @@ saturday
 cloudy
 90F
 100F
-today
+monday
 frost
 40F
 60F
@@ -8640,7 +7531,7 @@ saturday
 stormy
 80F
 100F
-today
+monday
 clear skies
 60F
 80F
@@ -8669,7 +7560,7 @@ saturday
 blizzard
 20F
 40F
-today
+monday
 clear skies
 40F
 60F
@@ -8698,7 +7589,7 @@ saturday
 rain
 50F
 60F
-today
+monday
 raining
 60F
 70F
@@ -8727,7 +7618,7 @@ saturday
 rain
 80F
 90F
-today
+monday
 overcast
 50F
 70F
@@ -8756,7 +7647,7 @@ saturday
 rain
 80F
 100F
-today
+monday
 overcast
 20F
 40F
@@ -8785,36 +7676,7 @@ saturday
 frost
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 70F
 80F
@@ -8843,7 +7705,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 hot
 70F
 90F
@@ -8872,7 +7734,7 @@ saturday
 raining
 40F
 60F
-today
+monday
 clear skies
 60F
 70F
@@ -8901,7 +7763,7 @@ saturday
 raining
 50F
 70F
-today
+monday
 windy
 30F
 50F
@@ -8930,7 +7792,7 @@ saturday
 dew
 60F
 70F
-today
+monday
 dew
 90F
 100F
@@ -8959,7 +7821,7 @@ saturday
 rain
 60F
 70F
-today
+monday
 cloudy
 50F
 60F
@@ -8988,7 +7850,7 @@ saturday
 cloudy
 60F
 70F
-today
+monday
 hail
 90F
 100F
@@ -9017,11 +7879,6 @@ saturday
 hail
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 moderate traffic
 coffee or tea place
@@ -9057,11 +7914,6 @@ no traffic
 coffee or tea place
 436 Alger Dr
 Palo Alto Cafe
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 moderate traffic
 pizza restaurant
@@ -9097,36 +7949,7 @@ moderate traffic
 rest stop
 753 University Ave
 Comfort Inn
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dew
 40F
 50F
@@ -9155,7 +7978,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 dry
 70F
 80F
@@ -9184,7 +8007,7 @@ saturday
 dew
 50F
 60F
-today
+monday
 raining
 80F
 90F
@@ -9213,7 +8036,7 @@ saturday
 foggy
 90F
 100F
-today
+monday
 windy
 30F
 40F
@@ -9242,7 +8065,7 @@ saturday
 cloudy
 60F
 70F
-today
+monday
 rain
 40F
 50F
@@ -9271,7 +8094,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 drizzle
 80F
 90F
@@ -9300,7 +8123,7 @@ saturday
 frost
 40F
 50F
-today
+monday
 clear skies
 40F
 60F
@@ -9329,36 +8152,7 @@ saturday
 dew
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 drizzle
 40F
 60F
@@ -9387,7 +8181,7 @@ saturday
 foggy
 90F
 100F
-today
+monday
 dew
 80F
 100F
@@ -9416,7 +8210,7 @@ saturday
 rain
 60F
 80F
-today
+monday
 warm
 80F
 100F
@@ -9445,7 +8239,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 raining
 70F
 90F
@@ -9474,7 +8268,7 @@ saturday
 drizzle
 80F
 100F
-today
+monday
 windy
 70F
 90F
@@ -9503,7 +8297,7 @@ saturday
 drizzle
 40F
 50F
-today
+monday
 snow
 30F
 50F
@@ -9532,7 +8326,7 @@ saturday
 rain
 60F
 70F
-today
+monday
 cloudy
 30F
 40F
@@ -9561,11 +8355,6 @@ saturday
 rain
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 no traffic
 shopping center
@@ -9601,36 +8390,7 @@ no traffic
 coffee or tea place
 792 Bedoin Street
 Starbucks
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 warm
 90F
 100F
@@ -9659,7 +8419,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 overcast
 20F
 30F
@@ -9688,7 +8448,7 @@ saturday
 foggy
 70F
 90F
-today
+monday
 dry
 40F
 50F
@@ -9717,7 +8477,7 @@ saturday
 cloudy
 70F
 90F
-today
+monday
 windy
 60F
 80F
@@ -9746,7 +8506,7 @@ saturday
 foggy
 20F
 30F
-today
+monday
 raining
 70F
 90F
@@ -9775,7 +8535,7 @@ saturday
 snow
 30F
 50F
-today
+monday
 snow
 70F
 90F
@@ -9804,7 +8564,7 @@ saturday
 frost
 50F
 60F
-today
+monday
 dry
 50F
 60F
@@ -9833,11 +8593,6 @@ saturday
 blizzard
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 heavy traffic
 chinese restaurant
@@ -9878,12 +8633,6 @@ heavy traffic
 friends house
 347 Alta Mesa Ave
 jills house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 100 conference room
 discuss the company picnic
 10 am
@@ -9920,36 +8669,7 @@ swimming activity
 wednesday
 -
 doctor appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 humid
 80F
 90F
@@ -9978,7 +8698,7 @@ saturday
 clear skies
 20F
 30F
-today
+monday
 snow
 80F
 90F
@@ -10007,7 +8727,7 @@ saturday
 rain
 50F
 60F
-today
+monday
 dry
 90F
 100F
@@ -10036,7 +8756,7 @@ saturday
 foggy
 20F
 40F
-today
+monday
 dry
 80F
 90F
@@ -10065,7 +8785,7 @@ saturday
 humid
 90F
 100F
-today
+monday
 foggy
 40F
 60F
@@ -10094,7 +8814,7 @@ saturday
 overcast
 20F
 40F
-today
+monday
 foggy
 20F
 30F
@@ -10123,7 +8843,7 @@ saturday
 dew
 40F
 60F
-today
+monday
 stormy
 80F
 90F
@@ -10152,11 +8872,6 @@ saturday
 raining
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 road block nearby
 parking garage
@@ -10197,36 +8912,7 @@ heavy traffic
 certain address
 5677 southwest 4th street
 5677 southwest 4th street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 blizzard
 30F
 50F
@@ -10255,7 +8941,7 @@ saturday
 foggy
 70F
 90F
-today
+monday
 cloudy
 30F
 40F
@@ -10284,7 +8970,7 @@ saturday
 windy
 90F
 100F
-today
+monday
 cloudy
 30F
 50F
@@ -10313,7 +8999,7 @@ saturday
 snow
 70F
 90F
-today
+monday
 snow
 30F
 40F
@@ -10342,7 +9028,7 @@ saturday
 windy
 20F
 30F
-today
+monday
 clear skies
 90F
 100F
@@ -10371,7 +9057,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 windy
 40F
 60F
@@ -10400,7 +9086,7 @@ saturday
 clear skies
 80F
 90F
-today
+monday
 windy
 70F
 80F
@@ -10429,12 +9115,6 @@ saturday
 snow
 20F
 30F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 1pm
@@ -10483,11 +9163,6 @@ yoga activity
 friday
 Jeff
 football activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 heavy traffic
 shopping center
@@ -10528,36 +9203,7 @@ car collision nearby
 friends house
 347 Alta Mesa Ave
 jills house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 20F
 40F
@@ -10586,7 +9232,7 @@ saturday
 windy
 50F
 70F
-today
+monday
 foggy
 50F
 70F
@@ -10615,7 +9261,7 @@ saturday
 raining
 50F
 60F
-today
+monday
 dry
 80F
 100F
@@ -10644,7 +9290,7 @@ saturday
 foggy
 20F
 40F
-today
+monday
 foggy
 50F
 60F
@@ -10673,7 +9319,7 @@ saturday
 raining
 70F
 80F
-today
+monday
 cloudy
 90F
 100F
@@ -10702,7 +9348,7 @@ saturday
 overcast
 90F
 100F
-today
+monday
 humid
 60F
 80F
@@ -10731,7 +9377,7 @@ saturday
 drizzle
 90F
 100F
-today
+monday
 overcast
 60F
 70F
@@ -10760,12 +9406,6 @@ saturday
 foggy
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 conference room 50
 discuss the merger
 10 am
@@ -10802,12 +9442,6 @@ doctor appointment
 monday
 -
 yoga activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 1 pm
@@ -10844,11 +9478,6 @@ doctor appointment
 monday
 -
 tennis activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 Cafe Venetia
 4 miles
 no traffic
@@ -10884,11 +9513,6 @@ jills house
 heavy traffic
 friends house
 347 Alta Mesa Ave
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 no traffic
 chinese restaurant
@@ -10924,36 +9548,7 @@ moderate traffic
 grocery store
 408 University Ave
 Trader Joes
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 warm
 70F
 80F
@@ -10982,7 +9577,7 @@ saturday
 rain
 60F
 80F
-today
+monday
 warm
 70F
 80F
@@ -11011,7 +9606,7 @@ saturday
 raining
 20F
 40F
-today
+monday
 cloudy
 40F
 50F
@@ -11040,7 +9635,7 @@ saturday
 windy
 40F
 50F
-today
+monday
 drizzle
 90F
 100F
@@ -11069,7 +9664,7 @@ saturday
 cloudy
 50F
 60F
-today
+monday
 cloudy
 30F
 40F
@@ -11098,7 +9693,7 @@ saturday
 rain
 60F
 70F
-today
+monday
 rain
 60F
 80F
@@ -11127,7 +9722,7 @@ saturday
 snow
 70F
 90F
-today
+monday
 dry
 90F
 100F
@@ -11156,11 +9751,6 @@ saturday
 clear skies
 30F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 moderate traffic
 rest stop
@@ -11196,11 +9786,6 @@ moderate traffic
 home
 56 cadwell street
 home
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 heavy traffic
 certain address
@@ -11241,11 +9826,6 @@ road block nearby
 pizza restaurant
 704 El Camino Real
 Pizza Hut
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 moderate traffic
 grocery store
@@ -11281,12 +9861,6 @@ heavy traffic
 shopping center
 383 University Ave
 Town and Country
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 11 am
@@ -11323,36 +9897,7 @@ lab appointment
 wednesday
 -
 optometrist appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 drizzle
 80F
 90F
@@ -11381,7 +9926,7 @@ saturday
 rain
 70F
 80F
-today
+monday
 drizzle
 80F
 100F
@@ -11410,7 +9955,7 @@ saturday
 foggy
 30F
 50F
-today
+monday
 warm
 80F
 100F
@@ -11439,7 +9984,7 @@ saturday
 dry
 20F
 30F
-today
+monday
 windy
 60F
 80F
@@ -11468,7 +10013,7 @@ saturday
 foggy
 70F
 90F
-today
+monday
 windy
 90F
 100F
@@ -11497,7 +10042,7 @@ saturday
 dry
 30F
 50F
-today
+monday
 overcast
 60F
 70F
@@ -11526,7 +10071,7 @@ saturday
 windy
 70F
 80F
-today
+monday
 dry
 90F
 100F
@@ -11555,12 +10100,6 @@ saturday
 drizzle
 20F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 100 conference room
 go over budget
 10am
@@ -11609,11 +10148,6 @@ dentist appointment
 the 8th
 Jeff
 yoga activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 heavy traffic
 shopping center
@@ -11654,18 +10188,6 @@ no traffic
 home
 5671 barringer street
 home
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 10am
@@ -11714,11 +10236,6 @@ discuss the company picnic
 the 12th
 boss
 meeting
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 7 miles
 heavy traffic
 grocery store
@@ -11759,12 +10276,6 @@ moderate traffic
 grocery store
 408 University Ave
 Trader Joes
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 10am
@@ -11801,36 +10312,7 @@ doctor appointment
 saturday
 mother
 dinner
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 drizzle
 20F
 30F
@@ -11859,7 +10341,7 @@ saturday
 cloudy
 80F
 90F
-today
+monday
 cloudy
 20F
 30F
@@ -11888,7 +10370,7 @@ saturday
 cloudy
 60F
 80F
-today
+monday
 foggy
 50F
 70F
@@ -11917,7 +10399,7 @@ saturday
 drizzle
 40F
 60F
-today
+monday
 clear skies
 60F
 80F
@@ -11946,7 +10428,7 @@ saturday
 blizzard
 20F
 40F
-today
+monday
 overcast
 70F
 80F
@@ -11975,7 +10457,7 @@ saturday
 raining
 50F
 60F
-today
+monday
 drizzle
 60F
 80F
@@ -12004,7 +10486,7 @@ saturday
 dry
 70F
 80F
-today
+monday
 snow
 20F
 40F
@@ -12033,11 +10515,6 @@ saturday
 snow
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 jills house
 4 miles
 heavy traffic
@@ -12073,11 +10550,6 @@ Mandarin Roots
 moderate traffic
 chinese restaurant
 271 Springer Street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 moderate traffic
 chinese restaurant
@@ -12113,36 +10585,7 @@ moderate traffic
 certain address
 5672 barringer street
 5672 barringer street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 30F
 50F
@@ -12171,7 +10614,7 @@ saturday
 frost
 40F
 60F
-today
+monday
 overcast
 30F
 40F
@@ -12200,7 +10643,7 @@ saturday
 misty
 90F
 100F
-today
+monday
 hail
 40F
 60F
@@ -12229,7 +10672,7 @@ saturday
 hail
 80F
 90F
-today
+monday
 windy
 90F
 100F
@@ -12258,7 +10701,7 @@ saturday
 cloudy
 90F
 100F
-today
+monday
 cloudy
 50F
 70F
@@ -12287,7 +10730,7 @@ saturday
 raining
 20F
 30F
-today
+monday
 windy
 90F
 100F
@@ -12316,7 +10759,7 @@ saturday
 rain
 60F
 70F
-today
+monday
 cloudy
 60F
 70F
@@ -12345,36 +10788,7 @@ saturday
 clear skies
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 30F
 50F
@@ -12403,7 +10817,7 @@ saturday
 foggy
 30F
 50F
-today
+monday
 raining
 70F
 80F
@@ -12432,7 +10846,7 @@ saturday
 hail
 50F
 70F
-today
+monday
 clear skies
 30F
 50F
@@ -12461,7 +10875,7 @@ saturday
 hail
 80F
 100F
-today
+monday
 dry
 40F
 50F
@@ -12490,7 +10904,7 @@ saturday
 overcast
 20F
 40F
-today
+monday
 hot
 90F
 100F
@@ -12519,7 +10933,7 @@ saturday
 snow
 50F
 60F
-today
+monday
 dew
 80F
 90F
@@ -12548,7 +10962,7 @@ saturday
 rain
 90F
 100F
-today
+monday
 cloudy
 20F
 40F
@@ -12577,18 +10991,6 @@ saturday
 dry
 20F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 conference room 100
 go over quarterly report
 1pm
@@ -12637,11 +11039,6 @@ discuss the company picnic
 monday
 vice president
 meeting
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 no traffic
 grocery store
@@ -12677,11 +11074,6 @@ no traffic
 hospital
 214 El Camino Real
 Stanford Express Care
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 moderate traffic
 grocery store
@@ -12722,11 +11114,6 @@ moderate traffic
 coffee or tea place
 145 Amherst St
 Teavana
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 no traffic
 home
@@ -12767,18 +11154,6 @@ road block nearby
 shopping center
 383 University Ave
 Town and Country
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 conference room 50
 sign the NDA
 2pm
@@ -12827,11 +11202,6 @@ go over budget
 the 10th
 infrastructure team
 meeting
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 no traffic
 rest stop
@@ -12872,36 +11242,7 @@ car collision nearby
 parking garage
 481 Amaranta Ave
 Palo Alto Garage R
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 40F
 50F
@@ -12930,7 +11271,7 @@ saturday
 blizzard
 30F
 40F
-today
+monday
 frost
 30F
 50F
@@ -12959,7 +11300,7 @@ saturday
 misty
 20F
 30F
-today
+monday
 blizzard
 40F
 50F
@@ -12988,7 +11329,7 @@ saturday
 misty
 40F
 50F
-today
+monday
 dry
 30F
 40F
@@ -13017,7 +11358,7 @@ saturday
 clear skies
 40F
 50F
-today
+monday
 stormy
 60F
 80F
@@ -13046,7 +11387,7 @@ saturday
 frost
 20F
 40F
-today
+monday
 dew
 20F
 40F
@@ -13075,7 +11416,7 @@ saturday
 foggy
 40F
 50F
-today
+monday
 warm
 80F
 100F
@@ -13104,11 +11445,6 @@ saturday
 frost
 20F
 30F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 heavy traffic
 chinese restaurant
@@ -13144,36 +11480,7 @@ heavy traffic
 coffee or tea place
 394 Van Ness Ave
 Coupa
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 misty
 80F
 90F
@@ -13202,7 +11509,7 @@ saturday
 drizzle
 50F
 60F
-today
+monday
 snow
 70F
 90F
@@ -13231,7 +11538,7 @@ saturday
 misty
 80F
 90F
-today
+monday
 hot
 70F
 80F
@@ -13260,7 +11567,7 @@ saturday
 foggy
 60F
 80F
-today
+monday
 windy
 20F
 40F
@@ -13289,7 +11596,7 @@ saturday
 hot
 60F
 70F
-today
+monday
 drizzle
 30F
 50F
@@ -13318,7 +11625,7 @@ saturday
 clear skies
 30F
 50F
-today
+monday
 hail
 30F
 50F
@@ -13347,7 +11654,7 @@ saturday
 drizzle
 30F
 40F
-today
+monday
 rain
 30F
 50F
@@ -13376,12 +11683,6 @@ saturday
 cloudy
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 5pm
@@ -13430,36 +11731,7 @@ dentist appointment
 the 4th
 sister
 lab appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 windy
 50F
 60F
@@ -13488,7 +11760,7 @@ saturday
 stormy
 60F
 80F
-today
+monday
 stormy
 90F
 100F
@@ -13517,7 +11789,7 @@ saturday
 overcast
 60F
 80F
-today
+monday
 hail
 50F
 70F
@@ -13546,7 +11818,7 @@ saturday
 warm
 80F
 100F
-today
+monday
 windy
 80F
 90F
@@ -13575,7 +11847,7 @@ saturday
 foggy
 60F
 80F
-today
+monday
 misty
 90F
 100F
@@ -13604,7 +11876,7 @@ saturday
 overcast
 80F
 90F
-today
+monday
 foggy
 40F
 60F
@@ -13633,7 +11905,7 @@ saturday
 snow
 40F
 50F
-today
+monday
 raining
 40F
 60F
@@ -13662,18 +11934,6 @@ saturday
 clear skies
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2pm
@@ -13722,36 +11982,7 @@ sign the NDA
 the 17th
 management
 conference
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 80F
 100F
@@ -13780,7 +12011,7 @@ saturday
 overcast
 60F
 80F
-today
+monday
 hot
 90F
 100F
@@ -13809,7 +12040,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 overcast
 40F
 60F
@@ -13838,7 +12069,7 @@ saturday
 foggy
 70F
 90F
-today
+monday
 overcast
 40F
 60F
@@ -13867,7 +12098,7 @@ saturday
 foggy
 60F
 70F
-today
+monday
 rain
 60F
 80F
@@ -13896,7 +12127,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 raining
 80F
 90F
@@ -13925,7 +12156,7 @@ saturday
 foggy
 30F
 40F
-today
+monday
 warm
 40F
 60F
@@ -13954,36 +12185,7 @@ saturday
 warm
 60F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 rain
 50F
 60F
@@ -14012,7 +12214,7 @@ saturday
 hail
 80F
 100F
-today
+monday
 snow
 30F
 40F
@@ -14041,7 +12243,7 @@ saturday
 foggy
 70F
 80F
-today
+monday
 rain
 20F
 30F
@@ -14070,7 +12272,7 @@ saturday
 raining
 70F
 80F
-today
+monday
 clear skies
 50F
 70F
@@ -14099,7 +12301,7 @@ saturday
 drizzle
 50F
 70F
-today
+monday
 misty
 90F
 100F
@@ -14128,7 +12330,7 @@ saturday
 misty
 40F
 50F
-today
+monday
 misty
 40F
 50F
@@ -14157,7 +12359,7 @@ saturday
 cloudy
 30F
 40F
-today
+monday
 cloudy
 30F
 40F
@@ -14186,11 +12388,6 @@ saturday
 drizzle
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 moderate traffic
 friends house
@@ -14226,11 +12423,6 @@ moderate traffic
 hospital
 611 Ames Ave
 Palo Alto Medical Foundation
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 moderate traffic
 pizza restaurant
@@ -14266,12 +12458,6 @@ no traffic
 certain address
 5677 southwest 4th street
 5677 southwest 4th street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 1 pm
@@ -14308,24 +12494,6 @@ lab appointment
 friday
 -
 medicine
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 5pm
@@ -14374,18 +12542,6 @@ lab appointment
 monday
 brother
 lab appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 8pm
@@ -14434,11 +12590,6 @@ dentist appointment
 the 7th
 brother
 yoga activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 heavy traffic
 coffee or tea place
@@ -14474,11 +12625,6 @@ moderate traffic
 certain address
 5672 barringer street
 5672 barringer street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 no traffic
 home
@@ -14519,36 +12665,7 @@ no traffic
 coffee or tea place
 145 Amherst St
 Teavana
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 frost
 20F
 40F
@@ -14577,7 +12694,7 @@ saturday
 overcast
 40F
 50F
-today
+monday
 hail
 60F
 70F
@@ -14606,7 +12723,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 dry
 30F
 40F
@@ -14635,7 +12752,7 @@ saturday
 cloudy
 60F
 70F
-today
+monday
 raining
 30F
 40F
@@ -14664,7 +12781,7 @@ saturday
 misty
 50F
 60F
-today
+monday
 dew
 30F
 50F
@@ -14693,7 +12810,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 rain
 50F
 70F
@@ -14722,7 +12839,7 @@ saturday
 drizzle
 90F
 100F
-today
+monday
 frost
 40F
 50F
@@ -14751,12 +12868,6 @@ saturday
 drizzle
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 conference room 102
 discuss dress code
 11am
@@ -14793,11 +12904,6 @@ yoga activity
 the 8th
 Martha
 swimming activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 Stanford Childrens Health
 5 miles
 heavy traffic
@@ -14833,12 +12939,6 @@ Four Seasons
 heavy traffic
 rest stop
 465 Arcadia Pl
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 11 am
@@ -14875,11 +12975,6 @@ medicine
 monday
 -
 swimming activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 car collision nearby
 chinese restaurant
@@ -14920,12 +13015,6 @@ moderate traffic
 shopping center
 773 Alger Dr
 Stanford Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2 pm
@@ -14962,11 +13051,6 @@ conference
 thursday
 -
 tennis activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 Stanford Childrens Health
 5 miles
 heavy traffic
@@ -15002,11 +13086,6 @@ coffee or tea place
 heavy traffic
 certain address
 5672 barringer street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 heavy traffic
 grocery store
@@ -15047,36 +13126,7 @@ moderate traffic
 coffee or tea place
 145 Amherst St
 Teavana
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 overcast
 80F
 100F
@@ -15105,7 +13155,7 @@ saturday
 stormy
 60F
 80F
-today
+monday
 rain
 40F
 60F
@@ -15134,7 +13184,7 @@ saturday
 raining
 60F
 80F
-today
+monday
 dry
 60F
 70F
@@ -15163,7 +13213,7 @@ saturday
 humid
 80F
 100F
-today
+monday
 misty
 30F
 50F
@@ -15192,7 +13242,7 @@ saturday
 rain
 20F
 30F
-today
+monday
 frost
 30F
 40F
@@ -15221,7 +13271,7 @@ saturday
 dry
 30F
 40F
-today
+monday
 hail
 90F
 100F
@@ -15250,7 +13300,7 @@ saturday
 rain
 60F
 80F
-today
+monday
 dry
 20F
 40F
@@ -15279,12 +13329,6 @@ saturday
 stormy
 40F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 5pm
@@ -15333,12 +13377,6 @@ discuss dress code
 monday
 executive team
 meeting
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 100 conference room
 go over budget
 2 pm
@@ -15375,36 +13413,7 @@ discuss the merger
 friday
 infrastructure team
 conference
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 warm
 90F
 100F
@@ -15433,7 +13442,7 @@ saturday
 foggy
 30F
 40F
-today
+monday
 rain
 80F
 90F
@@ -15462,7 +13471,7 @@ saturday
 clear skies
 40F
 60F
-today
+monday
 raining
 90F
 100F
@@ -15491,7 +13500,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 warm
 80F
 100F
@@ -15520,7 +13529,7 @@ saturday
 windy
 70F
 80F
-today
+monday
 warm
 30F
 40F
@@ -15549,7 +13558,7 @@ saturday
 foggy
 60F
 80F
-today
+monday
 warm
 70F
 90F
@@ -15578,7 +13587,7 @@ saturday
 foggy
 30F
 40F
-today
+monday
 windy
 60F
 70F
@@ -15607,11 +13616,6 @@ saturday
 warm
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 road block nearby
 pizza restaurant
@@ -15652,11 +13656,6 @@ road block nearby
 friends house
 580 Van Ness Ave
 toms house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 moderate traffic
 shopping center
@@ -15692,36 +13691,7 @@ heavy traffic
 gas station
 200 Alester Ave
 Valero
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 70F
 90F
@@ -15750,7 +13720,7 @@ saturday
 foggy
 50F
 60F
-today
+monday
 clear skies
 40F
 60F
@@ -15779,7 +13749,7 @@ saturday
 stormy
 30F
 40F
-today
+monday
 misty
 50F
 70F
@@ -15808,7 +13778,7 @@ saturday
 blizzard
 20F
 40F
-today
+monday
 windy
 40F
 60F
@@ -15837,7 +13807,7 @@ saturday
 windy
 50F
 70F
-today
+monday
 rain
 80F
 90F
@@ -15866,7 +13836,7 @@ saturday
 stormy
 40F
 50F
-today
+monday
 rain
 20F
 40F
@@ -15895,7 +13865,7 @@ saturday
 overcast
 20F
 30F
-today
+monday
 cloudy
 60F
 70F
@@ -15924,11 +13894,6 @@ saturday
 cloudy
 40F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 heavy traffic
 shopping center
@@ -15964,11 +13929,6 @@ heavy traffic
 shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 no traffic
 friends house
@@ -16004,11 +13964,6 @@ no traffic
 chinese restaurant
 669 El Camino Real
 P.F. Changs
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 moderate traffic
 friends house
@@ -16044,36 +13999,7 @@ no traffic
 shopping center
 338 Alester Ave
 Midtown Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 windy
 40F
 50F
@@ -16102,7 +14028,7 @@ saturday
 frost
 20F
 30F
-today
+monday
 rain
 40F
 60F
@@ -16131,7 +14057,7 @@ saturday
 rain
 70F
 90F
-today
+monday
 misty
 50F
 60F
@@ -16160,7 +14086,7 @@ saturday
 dry
 50F
 70F
-today
+monday
 misty
 60F
 70F
@@ -16189,7 +14115,7 @@ saturday
 cloudy
 80F
 90F
-today
+monday
 frost
 30F
 40F
@@ -16218,7 +14144,7 @@ saturday
 drizzle
 30F
 50F
-today
+monday
 raining
 30F
 40F
@@ -16247,7 +14173,7 @@ saturday
 snow
 70F
 90F
-today
+monday
 raining
 90F
 100F
@@ -16276,11 +14202,6 @@ saturday
 overcast
 20F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 car collision nearby
 grocery store
@@ -16321,11 +14242,6 @@ moderate traffic
 friends house
 580 Van Ness Ave
 toms house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 heavy traffic
 grocery store
@@ -16361,11 +14277,6 @@ heavy traffic
 certain address
 5672 barringer street
 5672 barringer street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 road block nearby
 chinese restaurant
@@ -16406,36 +14317,7 @@ car collision nearby
 rest stop
 753 University Ave
 Comfort Inn
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 60F
 80F
@@ -16464,7 +14346,7 @@ saturday
 drizzle
 30F
 40F
-today
+monday
 clear skies
 70F
 80F
@@ -16493,7 +14375,7 @@ saturday
 humid
 80F
 100F
-today
+monday
 rain
 50F
 60F
@@ -16522,7 +14404,7 @@ saturday
 drizzle
 70F
 90F
-today
+monday
 humid
 90F
 100F
@@ -16551,7 +14433,7 @@ saturday
 raining
 60F
 70F
-today
+monday
 dry
 40F
 50F
@@ -16580,7 +14462,7 @@ saturday
 snow
 80F
 100F
-today
+monday
 raining
 90F
 100F
@@ -16609,7 +14491,7 @@ saturday
 foggy
 20F
 40F
-today
+monday
 humid
 60F
 70F
@@ -16638,12 +14520,6 @@ saturday
 stormy
 20F
 30F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 3pm
@@ -16692,36 +14568,7 @@ dinner
 the 8th
 Jon
 tennis activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 snow
 30F
 40F
@@ -16750,7 +14597,7 @@ saturday
 windy
 90F
 100F
-today
+monday
 dry
 50F
 60F
@@ -16779,7 +14626,7 @@ saturday
 clear skies
 20F
 30F
-today
+monday
 hot
 70F
 80F
@@ -16808,7 +14655,7 @@ saturday
 rain
 20F
 30F
-today
+monday
 rain
 80F
 100F
@@ -16837,7 +14684,7 @@ saturday
 cloudy
 40F
 60F
-today
+monday
 clear skies
 90F
 100F
@@ -16866,7 +14713,7 @@ saturday
 drizzle
 20F
 40F
-today
+monday
 humid
 60F
 80F
@@ -16895,7 +14742,7 @@ saturday
 snow
 20F
 40F
-today
+monday
 warm
 90F
 100F
@@ -16924,11 +14771,6 @@ saturday
 clear skies
 20F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 moderate traffic
 certain address
@@ -16964,36 +14806,7 @@ moderate traffic
 parking garage
 550 Alester Ave
 Dish Parking
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 snow
 20F
 40F
@@ -17022,7 +14835,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 overcast
 70F
 80F
@@ -17051,7 +14864,7 @@ saturday
 drizzle
 70F
 80F
-today
+monday
 dry
 30F
 50F
@@ -17080,7 +14893,7 @@ saturday
 hot
 80F
 90F
-today
+monday
 drizzle
 40F
 50F
@@ -17109,7 +14922,7 @@ saturday
 raining
 90F
 100F
-today
+monday
 overcast
 70F
 90F
@@ -17138,7 +14951,7 @@ saturday
 misty
 80F
 100F
-today
+monday
 humid
 60F
 70F
@@ -17167,7 +14980,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 misty
 40F
 50F
@@ -17196,11 +15009,6 @@ saturday
 clear skies
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 moderate traffic
 shopping center
@@ -17236,11 +15044,6 @@ heavy traffic
 pizza restaurant
 113 Anton Ct
 Round Table
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 moderate traffic
 parking garage
@@ -17276,11 +15079,6 @@ moderate traffic
 home
 5671 barringer street
 home
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 moderate traffic
 parking garage
@@ -17316,36 +15114,7 @@ no traffic
 pizza restaurant
 915 Arbol Dr
 Pizza Chicago
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 50F
 70F
@@ -17374,7 +15143,7 @@ saturday
 foggy
 60F
 80F
-today
+monday
 foggy
 40F
 50F
@@ -17403,7 +15172,7 @@ saturday
 dry
 50F
 60F
-today
+monday
 foggy
 30F
 40F
@@ -17432,7 +15201,7 @@ saturday
 stormy
 60F
 80F
-today
+monday
 stormy
 80F
 90F
@@ -17461,7 +15230,7 @@ saturday
 overcast
 80F
 100F
-today
+monday
 blizzard
 40F
 50F
@@ -17490,7 +15259,7 @@ saturday
 dry
 30F
 50F
-today
+monday
 frost
 50F
 60F
@@ -17519,7 +15288,7 @@ saturday
 windy
 30F
 50F
-today
+monday
 clear skies
 30F
 40F
@@ -17548,11 +15317,6 @@ saturday
 cloudy
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 moderate traffic
 coffee or tea place
@@ -17588,11 +15352,6 @@ no traffic
 rest stop
 465 Arcadia Pl
 Four Seasons
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 moderate traffic
 parking garage
@@ -17633,36 +15392,7 @@ moderate traffic
 shopping center
 338 Alester Ave
 Midtown Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 90F
 100F
@@ -17691,7 +15421,7 @@ saturday
 misty
 70F
 90F
-today
+monday
 blizzard
 20F
 30F
@@ -17720,7 +15450,7 @@ saturday
 overcast
 90F
 100F
-today
+monday
 dew
 20F
 30F
@@ -17749,7 +15479,7 @@ saturday
 drizzle
 40F
 50F
-today
+monday
 stormy
 70F
 80F
@@ -17778,7 +15508,7 @@ saturday
 warm
 90F
 100F
-today
+monday
 clear skies
 70F
 90F
@@ -17807,7 +15537,7 @@ saturday
 rain
 70F
 90F
-today
+monday
 snow
 80F
 100F
@@ -17836,7 +15566,7 @@ saturday
 windy
 50F
 70F
-today
+monday
 dew
 30F
 50F
@@ -17865,12 +15595,6 @@ saturday
 clear skies
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 100 conference room
 discuss dress code
 7pm
@@ -17919,36 +15643,7 @@ swimming activity
 the 13th
 Alex
 tennis activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 40F
 50F
@@ -17977,7 +15672,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 warm
 60F
 80F
@@ -18006,7 +15701,7 @@ saturday
 frost
 30F
 40F
-today
+monday
 hot
 70F
 90F
@@ -18035,7 +15730,7 @@ saturday
 cloudy
 70F
 80F
-today
+monday
 windy
 60F
 70F
@@ -18064,7 +15759,7 @@ saturday
 cloudy
 40F
 60F
-today
+monday
 rain
 90F
 100F
@@ -18093,7 +15788,7 @@ saturday
 cloudy
 80F
 100F
-today
+monday
 hail
 30F
 50F
@@ -18122,7 +15817,7 @@ saturday
 drizzle
 60F
 70F
-today
+monday
 windy
 70F
 80F
@@ -18151,12 +15846,6 @@ saturday
 blizzard
 20F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 conference room 100
 go over budget
 11 am
@@ -18193,36 +15882,7 @@ optometrist appointment
 wednesday
 -
 lab appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 drizzle
 30F
 40F
@@ -18251,7 +15911,7 @@ saturday
 snow
 30F
 50F
-today
+monday
 stormy
 80F
 100F
@@ -18280,7 +15940,7 @@ saturday
 foggy
 80F
 90F
-today
+monday
 warm
 60F
 80F
@@ -18309,7 +15969,7 @@ saturday
 dry
 60F
 80F
-today
+monday
 stormy
 70F
 90F
@@ -18338,7 +15998,7 @@ saturday
 frost
 30F
 40F
-today
+monday
 clear skies
 30F
 40F
@@ -18367,7 +16027,7 @@ saturday
 dry
 60F
 70F
-today
+monday
 hail
 20F
 40F
@@ -18396,7 +16056,7 @@ saturday
 dry
 50F
 60F
-today
+monday
 foggy
 80F
 90F
@@ -18425,12 +16085,6 @@ saturday
 snow
 30F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 11 am
@@ -18467,12 +16121,6 @@ dentist appointment
 wednesday
 -
 doctor appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 conference room 102
 go over budget
 7 pm
@@ -18509,36 +16157,7 @@ dinner
 wednesday
 -
 swimming activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 hot
 70F
 90F
@@ -18567,7 +16186,7 @@ saturday
 snow
 70F
 80F
-today
+monday
 foggy
 90F
 100F
@@ -18596,7 +16215,7 @@ saturday
 foggy
 30F
 40F
-today
+monday
 cloudy
 30F
 40F
@@ -18625,7 +16244,7 @@ saturday
 cloudy
 30F
 40F
-today
+monday
 clear skies
 90F
 100F
@@ -18654,7 +16273,7 @@ saturday
 snow
 80F
 100F
-today
+monday
 overcast
 30F
 40F
@@ -18683,7 +16302,7 @@ saturday
 warm
 30F
 40F
-today
+monday
 snow
 90F
 100F
@@ -18712,7 +16331,7 @@ saturday
 snow
 60F
 70F
-today
+monday
 warm
 70F
 80F
@@ -18741,11 +16360,6 @@ saturday
 snow
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 heavy traffic
 certain address
@@ -18781,11 +16395,6 @@ moderate traffic
 coffee or tea place
 583 Alester Ave
 Philz
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 car collision nearby
 parking garage
@@ -18826,11 +16435,6 @@ road block nearby
 rest stop
 329 El Camino Real
 The Westin
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 car collision nearby
 chinese restaurant
@@ -18871,11 +16475,6 @@ heavy traffic
 pizza restaurant
 704 El Camino Real
 Pizza Hut
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 no traffic
 coffee or tea place
@@ -18916,11 +16515,6 @@ moderate traffic
 gas station
 91 El Camino Real
 76
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 moderate traffic
 certain address
@@ -18961,36 +16555,7 @@ moderate traffic
 hospital
 899 Ames Ct
 Stanford Childrens Health
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 frost
 20F
 30F
@@ -19019,7 +16584,7 @@ saturday
 drizzle
 20F
 30F
-today
+monday
 rain
 60F
 80F
@@ -19048,7 +16613,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 foggy
 40F
 50F
@@ -19077,7 +16642,7 @@ saturday
 frost
 40F
 60F
-today
+monday
 snow
 70F
 90F
@@ -19106,7 +16671,7 @@ saturday
 clear skies
 20F
 30F
-today
+monday
 cloudy
 40F
 60F
@@ -19135,7 +16700,7 @@ saturday
 dry
 70F
 80F
-today
+monday
 snow
 40F
 50F
@@ -19164,7 +16729,7 @@ saturday
 raining
 80F
 100F
-today
+monday
 rain
 50F
 70F
@@ -19193,36 +16758,7 @@ saturday
 rain
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 50F
 70F
@@ -19251,7 +16787,7 @@ saturday
 hail
 20F
 30F
-today
+monday
 foggy
 50F
 60F
@@ -19280,7 +16816,7 @@ saturday
 raining
 20F
 30F
-today
+monday
 hail
 60F
 70F
@@ -19309,7 +16845,7 @@ saturday
 raining
 60F
 70F
-today
+monday
 foggy
 60F
 70F
@@ -19338,7 +16874,7 @@ saturday
 foggy
 70F
 80F
-today
+monday
 foggy
 60F
 70F
@@ -19367,7 +16903,7 @@ saturday
 windy
 60F
 80F
-today
+monday
 overcast
 60F
 70F
@@ -19396,7 +16932,7 @@ saturday
 blizzard
 30F
 50F
-today
+monday
 dry
 40F
 50F
@@ -19425,11 +16961,6 @@ saturday
 dry
 90F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 road block nearby
 grocery store
@@ -19470,11 +17001,6 @@ car collision nearby
 coffee or tea place
 9981 Archuleta Ave
 Peets Coffee
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 heavy traffic
 coffee or tea place
@@ -19510,36 +17036,7 @@ no traffic
 parking garage
 880 Ames Ct
 Webster Garage
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 40F
 60F
@@ -19568,7 +17065,7 @@ saturday
 foggy
 70F
 80F
-today
+monday
 rain
 20F
 40F
@@ -19597,7 +17094,7 @@ saturday
 cloudy
 50F
 70F
-today
+monday
 foggy
 40F
 50F
@@ -19626,7 +17123,7 @@ saturday
 foggy
 70F
 90F
-today
+monday
 windy
 20F
 30F
@@ -19655,7 +17152,7 @@ saturday
 raining
 80F
 90F
-today
+monday
 clear skies
 80F
 100F
@@ -19684,7 +17181,7 @@ saturday
 humid
 60F
 80F
-today
+monday
 warm
 80F
 100F
@@ -19713,7 +17210,7 @@ saturday
 snow
 80F
 100F
-today
+monday
 foggy
 50F
 70F
@@ -19742,11 +17239,6 @@ saturday
 overcast
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 moderate traffic
 chinese restaurant
@@ -19787,12 +17279,6 @@ car collision nearby
 chinese restaurant
 593 Arrowhead Way
 Chef Chu's
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 1pm
@@ -19841,11 +17327,6 @@ lab appointment
 wednesday
 sister
 dentist appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 car collision nearby
 chinese restaurant
@@ -19886,11 +17367,6 @@ heavy traffic
 parking garage
 550 Alester Ave
 Dish Parking
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 heavy traffic
 parking garage
@@ -19931,18 +17407,6 @@ no traffic
 chinese restaurant
 113 Arbol Dr
 Jing Jing
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 conference room 50
 discuss the merger
 4pm
@@ -19991,11 +17455,6 @@ discuss dress code
 thursday
 vice president
 conference
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 heavy traffic
 home
@@ -20031,11 +17490,6 @@ no traffic
 chinese restaurant
 593 Arrowhead Way
 Chef Chu's
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 moderate traffic
 hospital
@@ -20071,36 +17525,7 @@ no traffic
 parking garage
 481 Amaranta Ave
 Palo Alto Garage R
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 60F
 70F
@@ -20129,7 +17554,7 @@ saturday
 stormy
 70F
 80F
-today
+monday
 dry
 80F
 100F
@@ -20158,7 +17583,7 @@ saturday
 overcast
 40F
 50F
-today
+monday
 dry
 80F
 90F
@@ -20187,7 +17612,7 @@ saturday
 frost
 40F
 50F
-today
+monday
 cloudy
 60F
 70F
@@ -20216,7 +17641,7 @@ saturday
 snow
 80F
 100F
-today
+monday
 windy
 20F
 30F
@@ -20245,7 +17670,7 @@ saturday
 blizzard
 40F
 50F
-today
+monday
 drizzle
 70F
 90F
@@ -20274,7 +17699,7 @@ saturday
 dry
 40F
 60F
-today
+monday
 clear skies
 80F
 100F
@@ -20303,36 +17728,7 @@ saturday
 blizzard
 20F
 30F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 humid
 90F
 100F
@@ -20361,7 +17757,7 @@ saturday
 rain
 80F
 100F
-today
+monday
 dew
 70F
 80F
@@ -20390,7 +17786,7 @@ saturday
 clear skies
 70F
 90F
-today
+monday
 dry
 80F
 100F
@@ -20419,7 +17815,7 @@ saturday
 rain
 40F
 50F
-today
+monday
 snow
 90F
 100F
@@ -20448,7 +17844,7 @@ saturday
 frost
 20F
 30F
-today
+monday
 humid
 60F
 80F
@@ -20477,7 +17873,7 @@ saturday
 humid
 90F
 100F
-today
+monday
 dry
 70F
 80F
@@ -20506,7 +17902,7 @@ saturday
 rain
 70F
 90F
-today
+monday
 humid
 80F
 100F
@@ -20535,36 +17931,7 @@ saturday
 raining
 40F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 60F
 80F
@@ -20593,7 +17960,7 @@ saturday
 cloudy
 40F
 60F
-today
+monday
 foggy
 60F
 70F
@@ -20622,7 +17989,7 @@ saturday
 windy
 50F
 70F
-today
+monday
 raining
 60F
 70F
@@ -20651,7 +18018,7 @@ saturday
 snow
 30F
 40F
-today
+monday
 misty
 50F
 60F
@@ -20680,7 +18047,7 @@ saturday
 clear skies
 60F
 80F
-today
+monday
 clear skies
 70F
 80F
@@ -20709,7 +18076,7 @@ saturday
 stormy
 30F
 40F
-today
+monday
 foggy
 80F
 100F
@@ -20738,7 +18105,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 hot
 90F
 100F
@@ -20767,36 +18134,7 @@ saturday
 misty
 20F
 30F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 20F
 40F
@@ -20825,7 +18163,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 humid
 60F
 70F
@@ -20854,7 +18192,7 @@ saturday
 clear skies
 30F
 40F
-today
+monday
 foggy
 90F
 100F
@@ -20883,7 +18221,7 @@ saturday
 overcast
 60F
 80F
-today
+monday
 stormy
 70F
 80F
@@ -20912,7 +18250,7 @@ saturday
 frost
 20F
 30F
-today
+monday
 rain
 60F
 80F
@@ -20941,7 +18279,7 @@ saturday
 rain
 80F
 90F
-today
+monday
 rain
 90F
 100F
@@ -20970,7 +18308,7 @@ saturday
 frost
 20F
 30F
-today
+monday
 stormy
 40F
 60F
@@ -20999,36 +18337,7 @@ saturday
 dry
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dew
 60F
 70F
@@ -21057,7 +18366,7 @@ saturday
 windy
 40F
 50F
-today
+monday
 foggy
 20F
 40F
@@ -21086,7 +18395,7 @@ saturday
 drizzle
 60F
 70F
-today
+monday
 dry
 40F
 60F
@@ -21115,7 +18424,7 @@ saturday
 dew
 30F
 50F
-today
+monday
 foggy
 80F
 100F
@@ -21144,7 +18453,7 @@ saturday
 dry
 60F
 80F
-today
+monday
 stormy
 20F
 30F
@@ -21173,7 +18482,7 @@ saturday
 drizzle
 50F
 70F
-today
+monday
 overcast
 70F
 80F
@@ -21202,7 +18511,7 @@ saturday
 stormy
 70F
 90F
-today
+monday
 stormy
 20F
 40F
@@ -21231,36 +18540,7 @@ saturday
 stormy
 70F
 90F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 30F
 40F
@@ -21289,7 +18569,7 @@ saturday
 hot
 80F
 90F
-today
+monday
 rain
 40F
 50F
@@ -21318,7 +18598,7 @@ saturday
 stormy
 60F
 70F
-today
+monday
 overcast
 80F
 100F
@@ -21347,7 +18627,7 @@ saturday
 hail
 60F
 80F
-today
+monday
 drizzle
 40F
 50F
@@ -21376,7 +18656,7 @@ saturday
 rain
 20F
 40F
-today
+monday
 clear skies
 60F
 70F
@@ -21405,7 +18685,7 @@ saturday
 cloudy
 90F
 100F
-today
+monday
 raining
 70F
 80F
@@ -21434,7 +18714,7 @@ saturday
 clear skies
 70F
 80F
-today
+monday
 clear skies
 70F
 90F
@@ -21463,12 +18743,6 @@ saturday
 stormy
 80F
 90F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 11 am
@@ -21505,36 +18779,7 @@ doctor appointment
 wednesday
 -
 optometrist appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 hot
 70F
 90F
@@ -21563,7 +18808,7 @@ saturday
 dew
 90F
 100F
-today
+monday
 clear skies
 60F
 70F
@@ -21592,7 +18837,7 @@ saturday
 stormy
 40F
 60F
-today
+monday
 overcast
 80F
 100F
@@ -21621,7 +18866,7 @@ saturday
 clear skies
 50F
 70F
-today
+monday
 clear skies
 30F
 50F
@@ -21650,7 +18895,7 @@ saturday
 clear skies
 60F
 80F
-today
+monday
 dew
 40F
 60F
@@ -21679,7 +18924,7 @@ saturday
 stormy
 20F
 30F
-today
+monday
 hail
 40F
 60F
@@ -21708,7 +18953,7 @@ saturday
 clear skies
 20F
 30F
-today
+monday
 rain
 70F
 90F
@@ -21737,11 +18982,6 @@ saturday
 humid
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 heavy traffic
 grocery store
@@ -21777,18 +19017,6 @@ heavy traffic
 rest stop
 657 Ames Ave
 The Clement Hotel
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 3pm
@@ -21837,36 +19065,7 @@ conference
 the 11th
 Tom
 taking medicine
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 80F
 90F
@@ -21895,7 +19094,7 @@ saturday
 cloudy
 40F
 50F
-today
+monday
 drizzle
 70F
 80F
@@ -21924,7 +19123,7 @@ saturday
 hot
 60F
 80F
-today
+monday
 blizzard
 50F
 60F
@@ -21953,7 +19152,7 @@ saturday
 windy
 50F
 70F
-today
+monday
 warm
 60F
 70F
@@ -21982,7 +19181,7 @@ saturday
 snow
 40F
 60F
-today
+monday
 cloudy
 90F
 100F
@@ -22011,7 +19210,7 @@ saturday
 stormy
 20F
 30F
-today
+monday
 stormy
 30F
 50F
@@ -22040,7 +19239,7 @@ saturday
 cloudy
 60F
 70F
-today
+monday
 cloudy
 60F
 70F
@@ -22069,11 +19268,6 @@ saturday
 snow
 80F
 90F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 moderate traffic
 grocery store
@@ -22109,36 +19303,7 @@ heavy traffic
 pizza restaurant
 776 Arastradero Rd
 Dominos
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 hot
 80F
 100F
@@ -22167,7 +19332,7 @@ saturday
 clear skies
 50F
 60F
-today
+monday
 foggy
 50F
 60F
@@ -22196,7 +19361,7 @@ saturday
 foggy
 60F
 80F
-today
+monday
 clear skies
 30F
 50F
@@ -22225,7 +19390,7 @@ saturday
 raining
 40F
 60F
-today
+monday
 rain
 70F
 90F
@@ -22254,7 +19419,7 @@ saturday
 stormy
 80F
 90F
-today
+monday
 stormy
 30F
 50F
@@ -22283,7 +19448,7 @@ saturday
 dry
 50F
 70F
-today
+monday
 humid
 60F
 70F
@@ -22312,7 +19477,7 @@ saturday
 overcast
 50F
 70F
-today
+monday
 rain
 90F
 100F
@@ -22341,12 +19506,6 @@ saturday
 drizzle
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2pm
@@ -22395,36 +19554,7 @@ dentist appointment
 the 13th
 Martha
 dinner
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 90F
 100F
@@ -22453,7 +19583,7 @@ saturday
 humid
 80F
 90F
-today
+monday
 rain
 80F
 100F
@@ -22482,7 +19612,7 @@ saturday
 foggy
 90F
 100F
-today
+monday
 hail
 30F
 40F
@@ -22511,7 +19641,7 @@ saturday
 foggy
 70F
 90F
-today
+monday
 dew
 90F
 100F
@@ -22540,7 +19670,7 @@ saturday
 windy
 70F
 80F
-today
+monday
 rain
 40F
 50F
@@ -22569,7 +19699,7 @@ saturday
 windy
 80F
 90F
-today
+monday
 frost
 30F
 40F
@@ -22598,7 +19728,7 @@ saturday
 windy
 40F
 60F
-today
+monday
 clear skies
 80F
 90F
@@ -22627,36 +19757,7 @@ saturday
 foggy
 30F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 80F
 100F
@@ -22685,7 +19786,7 @@ saturday
 snow
 90F
 100F
-today
+monday
 overcast
 60F
 80F
@@ -22714,7 +19815,7 @@ saturday
 rain
 80F
 100F
-today
+monday
 foggy
 60F
 70F
@@ -22743,7 +19844,7 @@ saturday
 clear skies
 80F
 100F
-today
+monday
 overcast
 90F
 100F
@@ -22772,7 +19873,7 @@ saturday
 cloudy
 40F
 60F
-today
+monday
 hot
 90F
 100F
@@ -22801,7 +19902,7 @@ saturday
 foggy
 70F
 90F
-today
+monday
 snow
 90F
 100F
@@ -22830,7 +19931,7 @@ saturday
 rain
 70F
 80F
-today
+monday
 snow
 80F
 90F
@@ -22859,36 +19960,7 @@ saturday
 clear skies
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dry
 60F
 70F
@@ -22917,7 +19989,7 @@ saturday
 dry
 80F
 90F
-today
+monday
 raining
 90F
 100F
@@ -22946,7 +20018,7 @@ saturday
 drizzle
 70F
 90F
-today
+monday
 hail
 60F
 80F
@@ -22975,7 +20047,7 @@ saturday
 dry
 80F
 90F
-today
+monday
 stormy
 40F
 50F
@@ -23004,7 +20076,7 @@ saturday
 humid
 60F
 80F
-today
+monday
 clear skies
 20F
 40F
@@ -23033,7 +20105,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 warm
 50F
 70F
@@ -23062,7 +20134,7 @@ saturday
 rain
 30F
 40F
-today
+monday
 hail
 90F
 100F
@@ -23091,11 +20163,6 @@ saturday
 hail
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 no traffic
 chinese restaurant
@@ -23131,36 +20198,7 @@ moderate traffic
 friends house
 347 Alta Mesa Ave
 jills house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 windy
 50F
 70F
@@ -23189,7 +20227,7 @@ saturday
 clear skies
 30F
 40F
-today
+monday
 stormy
 70F
 80F
@@ -23218,7 +20256,7 @@ saturday
 rain
 30F
 40F
-today
+monday
 stormy
 80F
 100F
@@ -23247,7 +20285,7 @@ saturday
 dry
 20F
 30F
-today
+monday
 dry
 60F
 70F
@@ -23276,7 +20314,7 @@ saturday
 clear skies
 70F
 80F
-today
+monday
 dry
 40F
 50F
@@ -23305,7 +20343,7 @@ saturday
 rain
 80F
 90F
-today
+monday
 drizzle
 30F
 50F
@@ -23334,7 +20372,7 @@ saturday
 overcast
 80F
 100F
-today
+monday
 overcast
 50F
 70F
@@ -23363,11 +20401,6 @@ saturday
 raining
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 car collision nearby
 pizza restaurant
@@ -23408,36 +20441,7 @@ moderate traffic
 chinese restaurant
 669 El Camino Real
 P.F. Changs
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 windy
 20F
 40F
@@ -23466,7 +20470,7 @@ saturday
 dry
 70F
 90F
-today
+monday
 clear skies
 50F
 70F
@@ -23495,7 +20499,7 @@ saturday
 warm
 90F
 100F
-today
+monday
 foggy
 20F
 30F
@@ -23524,7 +20528,7 @@ saturday
 raining
 40F
 60F
-today
+monday
 windy
 40F
 50F
@@ -23553,7 +20557,7 @@ saturday
 dry
 60F
 70F
-today
+monday
 raining
 20F
 40F
@@ -23582,7 +20586,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 clear skies
 50F
 60F
@@ -23611,7 +20615,7 @@ saturday
 rain
 60F
 70F
-today
+monday
 blizzard
 50F
 60F
@@ -23640,12 +20644,6 @@ saturday
 frost
 20F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2 pm
@@ -23682,36 +20680,7 @@ discuss the merger
 friday
 infrastructure team
 conference
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 misty
 60F
 70F
@@ -23740,7 +20709,7 @@ saturday
 drizzle
 60F
 70F
-today
+monday
 misty
 30F
 40F
@@ -23769,7 +20738,7 @@ saturday
 dry
 30F
 40F
-today
+monday
 rain
 30F
 50F
@@ -23798,7 +20767,7 @@ saturday
 overcast
 60F
 80F
-today
+monday
 drizzle
 80F
 90F
@@ -23827,7 +20796,7 @@ saturday
 snow
 40F
 60F
-today
+monday
 foggy
 60F
 70F
@@ -23856,7 +20825,7 @@ saturday
 dry
 60F
 80F
-today
+monday
 blizzard
 40F
 50F
@@ -23885,7 +20854,7 @@ saturday
 hail
 70F
 90F
-today
+monday
 dry
 80F
 90F
@@ -23914,11 +20883,6 @@ saturday
 cloudy
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 heavy traffic
 rest stop
@@ -23954,11 +20918,6 @@ no traffic
 shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 heavy traffic
 coffee or tea place
@@ -23999,36 +20958,7 @@ moderate traffic
 coffee or tea place
 145 Amherst St
 Teavana
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 overcast
 30F
 40F
@@ -24057,7 +20987,7 @@ saturday
 windy
 70F
 80F
-today
+monday
 cloudy
 60F
 80F
@@ -24086,7 +21016,7 @@ saturday
 cloudy
 30F
 40F
-today
+monday
 clear skies
 90F
 100F
@@ -24115,7 +21045,7 @@ saturday
 raining
 70F
 90F
-today
+monday
 clear skies
 90F
 100F
@@ -24144,7 +21074,7 @@ saturday
 rain
 70F
 80F
-today
+monday
 windy
 40F
 60F
@@ -24173,7 +21103,7 @@ saturday
 foggy
 90F
 100F
-today
+monday
 hot
 60F
 80F
@@ -24202,7 +21132,7 @@ saturday
 windy
 30F
 40F
-today
+monday
 hot
 30F
 40F
@@ -24231,11 +21161,6 @@ saturday
 warm
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 moderate traffic
 grocery store
@@ -24271,11 +21196,6 @@ no traffic
 grocery store
 638 Amherst St
 Sigona Farmers Market
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 moderate traffic
 certain address
@@ -24311,36 +21231,7 @@ heavy traffic
 parking garage
 880 Ames Ct
 Webster Garage
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 stormy
 80F
 90F
@@ -24369,7 +21260,7 @@ saturday
 overcast
 80F
 100F
-today
+monday
 rain
 30F
 50F
@@ -24398,7 +21289,7 @@ saturday
 misty
 60F
 80F
-today
+monday
 drizzle
 40F
 60F
@@ -24427,7 +21318,7 @@ saturday
 misty
 90F
 100F
-today
+monday
 misty
 20F
 40F
@@ -24456,7 +21347,7 @@ saturday
 clear skies
 70F
 80F
-today
+monday
 blizzard
 20F
 40F
@@ -24485,7 +21376,7 @@ saturday
 clear skies
 60F
 70F
-today
+monday
 rain
 80F
 100F
@@ -24514,7 +21405,7 @@ saturday
 windy
 30F
 40F
-today
+monday
 dry
 90F
 100F
@@ -24543,11 +21434,6 @@ saturday
 raining
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 no traffic
 shopping center
@@ -24588,36 +21474,7 @@ moderate traffic
 pizza restaurant
 113 Anton Ct
 Round Table
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 60F
 80F
@@ -24646,7 +21503,7 @@ saturday
 drizzle
 20F
 30F
-today
+monday
 drizzle
 60F
 70F
@@ -24675,7 +21532,7 @@ saturday
 warm
 70F
 80F
-today
+monday
 overcast
 40F
 50F
@@ -24704,7 +21561,7 @@ saturday
 raining
 50F
 60F
-today
+monday
 drizzle
 40F
 60F
@@ -24733,7 +21590,7 @@ saturday
 overcast
 20F
 40F
-today
+monday
 stormy
 40F
 50F
@@ -24762,7 +21619,7 @@ saturday
 foggy
 90F
 100F
-today
+monday
 hail
 50F
 60F
@@ -24791,7 +21648,7 @@ saturday
 overcast
 20F
 30F
-today
+monday
 hail
 40F
 50F
@@ -24820,11 +21677,6 @@ saturday
 overcast
 70F
 90F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 heavy traffic
 hospital
@@ -24860,36 +21712,7 @@ no traffic
 pizza restaurant
 704 El Camino Real
 Pizza Hut
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dry
 70F
 90F
@@ -24918,7 +21741,7 @@ saturday
 hail
 40F
 50F
-today
+monday
 drizzle
 90F
 100F
@@ -24947,7 +21770,7 @@ saturday
 hail
 30F
 40F
-today
+monday
 foggy
 20F
 40F
@@ -24976,7 +21799,7 @@ saturday
 windy
 60F
 80F
-today
+monday
 clear skies
 50F
 70F
@@ -25005,7 +21828,7 @@ saturday
 stormy
 80F
 100F
-today
+monday
 snow
 80F
 100F
@@ -25034,7 +21857,7 @@ saturday
 drizzle
 70F
 80F
-today
+monday
 drizzle
 80F
 100F
@@ -25063,7 +21886,7 @@ saturday
 hot
 60F
 70F
-today
+monday
 windy
 90F
 100F
@@ -25092,11 +21915,6 @@ saturday
 foggy
 50F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 6 miles
 car collision nearby
 coffee or tea place
@@ -25137,11 +21955,6 @@ heavy traffic
 grocery store
 452 Arcadia Pl
 Safeway
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 heavy traffic
 home
@@ -25177,36 +21990,7 @@ no traffic
 grocery store
 452 Arcadia Pl
 Safeway
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 30F
 50F
@@ -25235,7 +22019,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 raining
 20F
 40F
@@ -25264,7 +22048,7 @@ saturday
 drizzle
 70F
 90F
-today
+monday
 frost
 40F
 60F
@@ -25293,7 +22077,7 @@ saturday
 overcast
 60F
 80F
-today
+monday
 dew
 20F
 40F
@@ -25322,7 +22106,7 @@ saturday
 warm
 60F
 80F
-today
+monday
 clear skies
 60F
 70F
@@ -25351,7 +22135,7 @@ saturday
 frost
 40F
 50F
-today
+monday
 raining
 50F
 70F
@@ -25380,7 +22164,7 @@ saturday
 misty
 30F
 40F
-today
+monday
 rain
 70F
 80F
@@ -25409,36 +22193,7 @@ saturday
 raining
 50F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 hot
 90F
 100F
@@ -25467,7 +22222,7 @@ saturday
 hot
 50F
 70F
-today
+monday
 clear skies
 50F
 60F
@@ -25496,7 +22251,7 @@ saturday
 snow
 60F
 80F
-today
+monday
 dry
 40F
 60F
@@ -25525,7 +22280,7 @@ saturday
 drizzle
 20F
 40F
-today
+monday
 windy
 50F
 60F
@@ -25554,7 +22309,7 @@ saturday
 dry
 50F
 70F
-today
+monday
 warm
 60F
 70F
@@ -25583,7 +22338,7 @@ saturday
 dry
 30F
 50F
-today
+monday
 raining
 80F
 100F
@@ -25612,7 +22367,7 @@ saturday
 foggy
 50F
 60F
-today
+monday
 overcast
 60F
 70F
@@ -25641,11 +22396,6 @@ saturday
 raining
 50F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 heavy traffic
 chinese restaurant
@@ -25681,36 +22431,7 @@ moderate traffic
 friends house
 347 Alta Mesa Ave
 jills house
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 windy
 20F
 30F
@@ -25739,7 +22460,7 @@ saturday
 windy
 90F
 100F
-today
+monday
 foggy
 70F
 90F
@@ -25768,7 +22489,7 @@ saturday
 overcast
 90F
 100F
-today
+monday
 warm
 70F
 80F
@@ -25797,7 +22518,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 dry
 50F
 60F
@@ -25826,7 +22547,7 @@ saturday
 blizzard
 20F
 40F
-today
+monday
 foggy
 50F
 60F
@@ -25855,7 +22576,7 @@ saturday
 foggy
 50F
 70F
-today
+monday
 foggy
 50F
 70F
@@ -25884,7 +22605,7 @@ saturday
 blizzard
 20F
 30F
-today
+monday
 clear skies
 50F
 60F
@@ -25913,36 +22634,7 @@ saturday
 cloudy
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 clear skies
 70F
 90F
@@ -25971,7 +22663,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 misty
 70F
 80F
@@ -26000,7 +22692,7 @@ saturday
 snow
 30F
 40F
-today
+monday
 windy
 70F
 90F
@@ -26029,7 +22721,7 @@ saturday
 clear skies
 50F
 60F
-today
+monday
 overcast
 90F
 100F
@@ -26058,7 +22750,7 @@ saturday
 misty
 20F
 30F
-today
+monday
 drizzle
 70F
 90F
@@ -26087,7 +22779,7 @@ saturday
 snow
 40F
 60F
-today
+monday
 dew
 90F
 100F
@@ -26116,7 +22808,7 @@ saturday
 hail
 80F
 100F
-today
+monday
 misty
 30F
 40F
@@ -26145,11 +22837,6 @@ saturday
 warm
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 road block nearby
 rest stop
@@ -26190,36 +22877,7 @@ moderate traffic
 certain address
 5677 southwest 4th street
 5677 southwest 4th street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 overcast
 60F
 70F
@@ -26248,7 +22906,7 @@ saturday
 blizzard
 40F
 60F
-today
+monday
 cloudy
 60F
 70F
@@ -26277,7 +22935,7 @@ saturday
 overcast
 80F
 100F
-today
+monday
 cloudy
 20F
 30F
@@ -26306,7 +22964,7 @@ saturday
 rain
 60F
 80F
-today
+monday
 hail
 50F
 60F
@@ -26335,7 +22993,7 @@ saturday
 misty
 30F
 40F
-today
+monday
 frost
 50F
 60F
@@ -26364,7 +23022,7 @@ saturday
 misty
 40F
 60F
-today
+monday
 snow
 90F
 100F
@@ -26393,7 +23051,7 @@ saturday
 cloudy
 40F
 60F
-today
+monday
 cloudy
 40F
 50F
@@ -26422,11 +23080,6 @@ saturday
 dry
 80F
 100F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 2 miles
 road block nearby
 gas station
@@ -26467,11 +23120,6 @@ car collision nearby
 pizza restaurant
 528 Anton Ct
 Pizza My Heart
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 road block nearby
 shopping center
@@ -26512,36 +23160,7 @@ road block nearby
 grocery store
 408 University Ave
 Trader Joes
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 60F
 70F
@@ -26570,7 +23189,7 @@ saturday
 clear skies
 70F
 90F
-today
+monday
 rain
 70F
 90F
@@ -26599,7 +23218,7 @@ saturday
 snow
 80F
 90F
-today
+monday
 hot
 60F
 70F
@@ -26628,7 +23247,7 @@ saturday
 frost
 50F
 60F
-today
+monday
 rain
 50F
 60F
@@ -26657,7 +23276,7 @@ saturday
 windy
 20F
 30F
-today
+monday
 windy
 60F
 80F
@@ -26686,7 +23305,7 @@ saturday
 warm
 60F
 70F
-today
+monday
 frost
 30F
 40F
@@ -26715,7 +23334,7 @@ saturday
 cloudy
 70F
 80F
-today
+monday
 raining
 40F
 50F
@@ -26744,12 +23363,6 @@ saturday
 overcast
 70F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 2 pm
@@ -26786,36 +23399,7 @@ doctor appointment
 wednesday
 -
 lab appointment
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 raining
 30F
 50F
@@ -26844,7 +23428,7 @@ saturday
 overcast
 20F
 40F
-today
+monday
 overcast
 70F
 90F
@@ -26873,7 +23457,7 @@ saturday
 clear skies
 80F
 100F
-today
+monday
 blizzard
 20F
 30F
@@ -26902,7 +23486,7 @@ saturday
 foggy
 60F
 80F
-today
+monday
 windy
 50F
 60F
@@ -26931,7 +23515,7 @@ saturday
 raining
 70F
 90F
-today
+monday
 dry
 40F
 60F
@@ -26960,7 +23544,7 @@ saturday
 drizzle
 80F
 90F
-today
+monday
 blizzard
 30F
 40F
@@ -26989,7 +23573,7 @@ saturday
 misty
 70F
 90F
-today
+monday
 clear skies
 30F
 40F
@@ -27018,12 +23602,6 @@ saturday
 misty
 50F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 100 conference room
 sign the NDA
 10am
@@ -27072,36 +23650,7 @@ yoga activity
 the 11th
 Alex
 football activity
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 80F
 100F
@@ -27130,7 +23679,7 @@ saturday
 hot
 60F
 70F
-today
+monday
 snow
 90F
 100F
@@ -27159,7 +23708,7 @@ saturday
 rain
 60F
 80F
-today
+monday
 foggy
 60F
 80F
@@ -27188,7 +23737,7 @@ saturday
 clear skies
 70F
 80F
-today
+monday
 overcast
 70F
 90F
@@ -27217,7 +23766,7 @@ saturday
 clear skies
 80F
 90F
-today
+monday
 overcast
 40F
 60F
@@ -27246,7 +23795,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 overcast
 40F
 60F
@@ -27275,7 +23824,7 @@ saturday
 cloudy
 90F
 100F
-today
+monday
 warm
 30F
 40F
@@ -27304,11 +23853,6 @@ saturday
 clear skies
 40F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 moderate traffic
 certain address
@@ -27344,36 +23888,7 @@ moderate traffic
 shopping center
 383 University Ave
 Town and Country
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 foggy
 70F
 80F
@@ -27402,7 +23917,7 @@ saturday
 clear skies
 50F
 70F
-today
+monday
 windy
 90F
 100F
@@ -27431,7 +23946,7 @@ saturday
 foggy
 30F
 40F
-today
+monday
 drizzle
 90F
 100F
@@ -27460,7 +23975,7 @@ saturday
 cloudy
 30F
 40F
-today
+monday
 raining
 80F
 100F
@@ -27489,7 +24004,7 @@ saturday
 dry
 20F
 40F
-today
+monday
 rain
 90F
 100F
@@ -27518,7 +24033,7 @@ saturday
 humid
 80F
 100F
-today
+monday
 rain
 30F
 50F
@@ -27547,7 +24062,7 @@ saturday
 dry
 90F
 100F
-today
+monday
 windy
 30F
 40F
@@ -27576,11 +24091,6 @@ saturday
 dry
 60F
 80F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 no traffic
 parking garage
@@ -27616,36 +24126,7 @@ no traffic
 shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 cloudy
 80F
 100F
@@ -27674,7 +24155,7 @@ saturday
 foggy
 40F
 60F
-today
+monday
 hot
 60F
 70F
@@ -27703,7 +24184,7 @@ saturday
 foggy
 30F
 40F
-today
+monday
 snow
 90F
 100F
@@ -27732,7 +24213,7 @@ saturday
 foggy
 80F
 90F
-today
+monday
 overcast
 90F
 100F
@@ -27761,7 +24242,7 @@ saturday
 snow
 30F
 40F
-today
+monday
 windy
 90F
 100F
@@ -27790,7 +24271,7 @@ saturday
 rain
 30F
 40F
-today
+monday
 hot
 70F
 90F
@@ -27819,7 +24300,7 @@ saturday
 warm
 70F
 80F
-today
+monday
 raining
 30F
 40F
@@ -27848,36 +24329,7 @@ saturday
 snow
 60F
 70F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 drizzle
 40F
 50F
@@ -27906,7 +24358,7 @@ saturday
 clear skies
 30F
 50F
-today
+monday
 overcast
 40F
 50F
@@ -27935,7 +24387,7 @@ saturday
 clear skies
 50F
 60F
-today
+monday
 foggy
 60F
 80F
@@ -27964,7 +24416,7 @@ saturday
 warm
 80F
 90F
-today
+monday
 frost
 30F
 40F
@@ -27993,7 +24445,7 @@ saturday
 foggy
 70F
 80F
-today
+monday
 rain
 50F
 70F
@@ -28022,7 +24474,7 @@ saturday
 clear skies
 90F
 100F
-today
+monday
 rain
 90F
 100F
@@ -28051,7 +24503,7 @@ saturday
 windy
 50F
 60F
-today
+monday
 snow
 70F
 90F
@@ -28080,11 +24532,6 @@ saturday
 blizzard
 50F
 60F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 4 miles
 car collision nearby
 friends house
@@ -28125,36 +24572,7 @@ no traffic
 shopping center
 434 Arastradero Rd
 Ravenswood Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 dry
 70F
 80F
@@ -28183,7 +24601,7 @@ saturday
 drizzle
 80F
 90F
-today
+monday
 cloudy
 30F
 40F
@@ -28212,7 +24630,7 @@ saturday
 raining
 50F
 70F
-today
+monday
 warm
 80F
 100F
@@ -28241,7 +24659,7 @@ saturday
 foggy
 60F
 70F
-today
+monday
 humid
 90F
 100F
@@ -28270,7 +24688,7 @@ saturday
 frost
 40F
 60F
-today
+monday
 foggy
 50F
 60F
@@ -28299,7 +24717,7 @@ saturday
 humid
 50F
 70F
-today
+monday
 hail
 20F
 40F
@@ -28328,7 +24746,7 @@ saturday
 hot
 60F
 80F
-today
+monday
 dry
 50F
 60F
@@ -28357,36 +24775,7 @@ saturday
 overcast
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 windy
 20F
 40F
@@ -28415,7 +24804,7 @@ saturday
 clear skies
 40F
 60F
-today
+monday
 drizzle
 30F
 40F
@@ -28444,7 +24833,7 @@ saturday
 cloudy
 40F
 50F
-today
+monday
 dry
 40F
 50F
@@ -28473,7 +24862,7 @@ saturday
 rain
 30F
 40F
-today
+monday
 snow
 20F
 30F
@@ -28502,7 +24891,7 @@ saturday
 snow
 80F
 90F
-today
+monday
 stormy
 70F
 80F
@@ -28531,7 +24920,7 @@ saturday
 blizzard
 20F
 40F
-today
+monday
 dry
 50F
 60F
@@ -28560,7 +24949,7 @@ saturday
 windy
 30F
 40F
-today
+monday
 drizzle
 90F
 100F
@@ -28589,11 +24978,6 @@ saturday
 raining
 40F
 50F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 5 miles
 car collision nearby
 certain address
@@ -28634,12 +25018,6 @@ no traffic
 shopping center
 773 Alger Dr
 Stanford Shopping Center
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 7 pm
@@ -28676,36 +25054,7 @@ discuss the company picnic
 tuesday
 HR
 meeting
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 rain
 80F
 100F
@@ -28734,7 +25083,7 @@ saturday
 warm
 30F
 40F
-today
+monday
 windy
 40F
 60F
@@ -28763,7 +25112,7 @@ saturday
 overcast
 90F
 100F
-today
+monday
 overcast
 60F
 70F
@@ -28792,7 +25141,7 @@ saturday
 clear skies
 70F
 90F
-today
+monday
 hot
 40F
 60F
@@ -28821,7 +25170,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 windy
 60F
 70F
@@ -28850,7 +25199,7 @@ saturday
 foggy
 40F
 60F
-today
+monday
 hot
 60F
 70F
@@ -28879,7 +25228,7 @@ saturday
 overcast
 30F
 40F
-today
+monday
 raining
 80F
 100F
@@ -28908,11 +25257,6 @@ saturday
 overcast
 30F
 40F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 heavy traffic
 coffee or tea place
@@ -28953,11 +25297,6 @@ moderate traffic
 certain address
 5677 springer street
 5677 springer street
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 3 miles
 car collision nearby
 shopping center
@@ -28998,11 +25337,6 @@ heavy traffic
 coffee or tea place
 792 Bedoin Street
 Starbucks
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 1 miles
 no traffic
 chinese restaurant
@@ -29038,36 +25372,7 @@ heavy traffic
 parking garage
 481 Amaranta Ave
 Palo Alto Garage R
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-today
+monday
 snow
 50F
 70F
@@ -29096,7 +25401,7 @@ saturday
 hail
 60F
 80F
-today
+monday
 misty
 90F
 100F
@@ -29125,7 +25430,7 @@ saturday
 rain
 20F
 30F
-today
+monday
 drizzle
 60F
 80F
@@ -29154,7 +25459,7 @@ saturday
 snow
 40F
 50F
-today
+monday
 misty
 70F
 90F
@@ -29183,7 +25488,7 @@ saturday
 rain
 30F
 50F
-today
+monday
 cloudy
 40F
 50F
@@ -29212,7 +25517,7 @@ saturday
 dew
 60F
 80F
-today
+monday
 dew
 30F
 50F
@@ -29241,7 +25546,7 @@ saturday
 blizzard
 30F
 40F
-today
+monday
 dew
 80F
 90F
@@ -29270,12 +25575,6 @@ saturday
 foggy
 70F
 90F
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
-DUMMYVAL
 -
 -
 10am

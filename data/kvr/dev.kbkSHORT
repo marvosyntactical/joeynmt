@@ -1,278 +1,517 @@
-san francisco <pad> monday today date
-san francisco <pad> monday today weather
-san francisco <pad> monday today temperature low
-san francisco <pad> monday today temperature high
-san francisco <pad> tuesday date
-san francisco <pad> tuesday weather
-san francisco <pad> tuesday temperature low
-san francisco <pad> tuesday temperature high
-san francisco <pad> friday date
-san francisco <pad> friday weather
-san francisco <pad> friday temperature low
-san francisco <pad> friday temperature high
-san francisco <pad> wednesday date
-san francisco <pad> wednesday weather
-san francisco <pad> wednesday temperature low
-san francisco <pad> wednesday temperature high
-san francisco <pad> thursday date
-san francisco <pad> thursday weather
-san francisco <pad> thursday temperature low
-san francisco <pad> thursday temperature high
-san francisco <pad> sunday date
-san francisco <pad> sunday weather
-san francisco <pad> sunday temperature low
-san francisco <pad> sunday temperature high
-san francisco <pad> location
-san francisco <pad> saturday date
-san francisco <pad> saturday weather
-san francisco <pad> saturday temperature low
-san francisco <pad> saturday temperature high
-atherton <pad> monday today date
-atherton <pad> monday today weather
-atherton <pad> monday today temperature low
-atherton <pad> monday today temperature high
-atherton <pad> tuesday date
-atherton <pad> tuesday weather
-atherton <pad> tuesday temperature low
-atherton <pad> tuesday temperature high
-atherton <pad> friday date
-atherton <pad> friday weather
-atherton <pad> friday temperature low
-atherton <pad> friday temperature high
-atherton <pad> wednesday date
-atherton <pad> wednesday weather
-atherton <pad> wednesday temperature low
-atherton <pad> wednesday temperature high
-atherton <pad> thursday date
-atherton <pad> thursday weather
-atherton <pad> thursday temperature low
-atherton <pad> thursday temperature high
-atherton <pad> sunday date
-atherton <pad> sunday weather
-atherton <pad> sunday temperature low
-atherton <pad> sunday temperature high
-atherton <pad> location
-atherton <pad> saturday date
-atherton <pad> saturday weather
-atherton <pad> saturday temperature low
-atherton <pad> saturday temperature high
-menlo park <pad> monday today date
-menlo park <pad> monday today weather
-menlo park <pad> monday today temperature low
-menlo park <pad> monday today temperature high
-menlo park <pad> tuesday date
-menlo park <pad> tuesday weather
-menlo park <pad> tuesday temperature low
-menlo park <pad> tuesday temperature high
-menlo park <pad> friday date
-menlo park <pad> friday weather
-menlo park <pad> friday temperature low
-menlo park <pad> friday temperature high
-menlo park <pad> wednesday date
-menlo park <pad> wednesday weather
-menlo park <pad> wednesday temperature low
-menlo park <pad> wednesday temperature high
-menlo park <pad> thursday date
-menlo park <pad> thursday weather
-menlo park <pad> thursday temperature low
-menlo park <pad> thursday temperature high
-menlo park <pad> sunday date
-menlo park <pad> sunday weather
-menlo park <pad> sunday temperature low
-menlo park <pad> sunday temperature high
-menlo park <pad> location
-menlo park <pad> saturday date
-menlo park <pad> saturday weather
-menlo park <pad> saturday temperature low
-menlo park <pad> saturday temperature high
-danville <pad> monday today date
-danville <pad> monday today weather
-danville <pad> monday today temperature low
-danville <pad> monday today temperature high
-danville <pad> tuesday date
-danville <pad> tuesday weather
-danville <pad> tuesday temperature low
-danville <pad> tuesday temperature high
-danville <pad> friday date
-danville <pad> friday weather
-danville <pad> friday temperature low
-danville <pad> friday temperature high
-danville <pad> wednesday date
-danville <pad> wednesday weather
-danville <pad> wednesday temperature low
-danville <pad> wednesday temperature high
-danville <pad> thursday date
-danville <pad> thursday weather
-danville <pad> thursday temperature low
-danville <pad> thursday temperature high
-danville <pad> sunday date
-danville <pad> sunday weather
-danville <pad> sunday temperature low
-danville <pad> sunday temperature high
-danville <pad> location
-danville <pad> saturday date
-danville <pad> saturday weather
-danville <pad> saturday temperature low
-danville <pad> saturday temperature high
-new york <pad> monday today date
-new york <pad> monday today weather
-new york <pad> monday today temperature low
-new york <pad> monday today temperature high
-new york <pad> tuesday date
-new york <pad> tuesday weather
-new york <pad> tuesday temperature low
-new york <pad> tuesday temperature high
-new york <pad> friday date
-new york <pad> friday weather
-new york <pad> friday temperature low
-new york <pad> friday temperature high
-new york <pad> wednesday date
-new york <pad> wednesday weather
-new york <pad> wednesday temperature low
-new york <pad> wednesday temperature high
-new york <pad> thursday date
-new york <pad> thursday weather
-new york <pad> thursday temperature low
-new york <pad> thursday temperature high
-new york <pad> sunday date
-new york <pad> sunday weather
-new york <pad> sunday temperature low
-new york <pad> sunday temperature high
-new york <pad> location
-new york <pad> saturday date
-new york <pad> saturday weather
-new york <pad> saturday temperature low
-new york <pad> saturday temperature high
-brentwood <pad> monday today date
-brentwood <pad> monday today weather
-brentwood <pad> monday today temperature low
-brentwood <pad> monday today temperature high
-brentwood <pad> tuesday date
-brentwood <pad> tuesday weather
-brentwood <pad> tuesday temperature low
-brentwood <pad> tuesday temperature high
-brentwood <pad> friday date
-brentwood <pad> friday weather
-brentwood <pad> friday temperature low
-brentwood <pad> friday temperature high
-brentwood <pad> wednesday date
-brentwood <pad> wednesday weather
-brentwood <pad> wednesday temperature low
-brentwood <pad> wednesday temperature high
-brentwood <pad> thursday date
-brentwood <pad> thursday weather
-brentwood <pad> thursday temperature low
-brentwood <pad> thursday temperature high
-brentwood <pad> sunday date
-brentwood <pad> sunday weather
-brentwood <pad> sunday temperature low
-brentwood <pad> sunday temperature high
-brentwood <pad> location
-brentwood <pad> saturday date
-brentwood <pad> saturday weather
-brentwood <pad> saturday temperature low
-brentwood <pad> saturday temperature high
-manhattan <pad> monday today date
-manhattan <pad> monday today weather
-manhattan <pad> monday today temperature low
-manhattan <pad> monday today temperature high
-manhattan <pad> tuesday date
-manhattan <pad> tuesday weather
-manhattan <pad> tuesday temperature low
-manhattan <pad> tuesday temperature high
-manhattan <pad> friday date
-manhattan <pad> friday weather
-manhattan <pad> friday temperature low
-manhattan <pad> friday temperature high
-manhattan <pad> wednesday date
-manhattan <pad> wednesday weather
-manhattan <pad> wednesday temperature low
-manhattan <pad> wednesday temperature high
-manhattan <pad> thursday date
-manhattan <pad> thursday weather
-manhattan <pad> thursday temperature low
-manhattan <pad> thursday temperature high
-manhattan <pad> sunday date
-manhattan <pad> sunday weather
-manhattan <pad> sunday temperature low
-manhattan <pad> sunday temperature high
-manhattan <pad> location
-manhattan <pad> saturday date
-manhattan <pad> saturday weather
-manhattan <pad> saturday temperature low
-manhattan <pad> saturday temperature high
-grocery store Sigona Farmers Market <pad> distance
-grocery store Sigona Farmers Market <pad> traffic_info
-grocery store Sigona Farmers Market <pad> poi_type
-grocery store Sigona Farmers Market <pad> address
-grocery store Sigona Farmers Market <pad> poi
-coffee or tea place Cafe Venetia <pad> distance
-coffee or tea place Cafe Venetia <pad> traffic_info
-coffee or tea place Cafe Venetia <pad> poi_type
-coffee or tea place Cafe Venetia <pad> address
-coffee or tea place Cafe Venetia <pad> poi
-certain address 5672 barringer street <pad> distance
-certain address 5672 barringer street <pad> traffic_info
-certain address 5672 barringer street <pad> poi_type
-certain address 5672 barringer street <pad> address
-certain address 5672 barringer street <pad> poi
-gas station Valero <pad> distance
-gas station Valero <pad> traffic_info
-gas station Valero <pad> poi_type
-gas station Valero <pad> address
-gas station Valero <pad> poi
-hospital Stanford Childrens Health <pad> distance
-hospital Stanford Childrens Health <pad> traffic_info
-hospital Stanford Childrens Health <pad> poi_type
-hospital Stanford Childrens Health <pad> address
-hospital Stanford Childrens Health <pad> poi
-parking garage Palo Alto Garage R <pad> distance
-parking garage Palo Alto Garage R <pad> traffic_info
-parking garage Palo Alto Garage R <pad> poi_type
-parking garage Palo Alto Garage R <pad> address
-parking garage Palo Alto Garage R <pad> poi
-coffee or tea place Teavana <pad> distance
-coffee or tea place Teavana <pad> traffic_info
-coffee or tea place Teavana <pad> poi_type
-coffee or tea place Teavana <pad> address
-coffee or tea place Teavana <pad> poi
-grocery store Willows Market <pad> distance
-grocery store Willows Market <pad> traffic_info
-grocery store Willows Market <pad> poi_type
-grocery store Willows Market <pad> address
-grocery store Willows Market <pad> poi
-grocery store Trader Joes <pad> poi
-grocery store Trader Joes <pad> distance
-grocery store Trader Joes <pad> traffic_info
-grocery store Trader Joes <pad> poi_type
-grocery store Trader Joes <pad> address
-gas station Valero <pad> poi
-gas station Valero <pad> distance
-gas station Valero <pad> traffic_info
-gas station Valero <pad> poi_type
-gas station Valero <pad> address
-certain address 5677 springer street <pad> poi
-certain address 5677 springer street <pad> distance
-certain address 5677 springer street <pad> traffic_info
-certain address 5677 springer street <pad> poi_type
-certain address 5677 springer street <pad> address
-coffee or tea place Coupa <pad> poi
-coffee or tea place Coupa <pad> distance
-coffee or tea place Coupa <pad> traffic_info
-coffee or tea place Coupa <pad> poi_type
-coffee or tea place Coupa <pad> address
-shopping center Midtown Shopping Center <pad> poi
-shopping center Midtown Shopping Center <pad> distance
-shopping center Midtown Shopping Center <pad> traffic_info
-shopping center Midtown Shopping Center <pad> poi_type
-shopping center Midtown Shopping Center <pad> address
-rest stop Hotel Keen <pad> poi
-rest stop Hotel Keen <pad> distance
-rest stop Hotel Keen <pad> traffic_info
-rest stop Hotel Keen <pad> poi_type
-rest stop Hotel Keen <pad> address
-hospital Stanford Express Care <pad> poi
-hospital Stanford Express Care <pad> distance
-hospital Stanford Express Care <pad> traffic_info
-hospital Stanford Express Care <pad> poi_type
-hospital Stanford Express Care <pad> address
+san francisco today  <pad> monday_date
+san francisco today  <pad> monday_weather
+san francisco today  <pad> monday_temperature_low
+san francisco today  <pad> monday_temperature_high
+san francisco today  <pad> tuesday_date
+san francisco today  <pad> tuesday_weather
+san francisco today  <pad> tuesday_temperature_low
+san francisco today  <pad> tuesday_temperature_high
+san francisco today  <pad> friday_date
+san francisco today  <pad> friday_weather
+san francisco today  <pad> friday_temperature_low
+san francisco today  <pad> friday_temperature_high
+san francisco today  <pad> wednesday_date
+san francisco today  <pad> wednesday_weather
+san francisco today  <pad> wednesday_temperature_low
+san francisco today  <pad> wednesday_temperature_high
+san francisco today  <pad> thursday_date
+san francisco today  <pad> thursday_weather
+san francisco today  <pad> thursday_temperature_low
+san francisco today  <pad> thursday_temperature_high
+san francisco today  <pad> sunday_date
+san francisco today  <pad> sunday_weather
+san francisco today  <pad> sunday_temperature_low
+san francisco today  <pad> sunday_temperature_high
+san francisco today  <pad> location
+san francisco today  <pad> saturday_date
+san francisco today  <pad> saturday_weather
+san francisco today  <pad> saturday_temperature_low
+san francisco today  <pad> saturday_temperature_high
+atherton today  <pad> monday_date
+atherton today  <pad> monday_weather
+atherton today  <pad> monday_temperature_low
+atherton today  <pad> monday_temperature_high
+atherton today  <pad> tuesday_date
+atherton today  <pad> tuesday_weather
+atherton today  <pad> tuesday_temperature_low
+atherton today  <pad> tuesday_temperature_high
+atherton today  <pad> friday_date
+atherton today  <pad> friday_weather
+atherton today  <pad> friday_temperature_low
+atherton today  <pad> friday_temperature_high
+atherton today  <pad> wednesday_date
+atherton today  <pad> wednesday_weather
+atherton today  <pad> wednesday_temperature_low
+atherton today  <pad> wednesday_temperature_high
+atherton today  <pad> thursday_date
+atherton today  <pad> thursday_weather
+atherton today  <pad> thursday_temperature_low
+atherton today  <pad> thursday_temperature_high
+atherton today  <pad> sunday_date
+atherton today  <pad> sunday_weather
+atherton today  <pad> sunday_temperature_low
+atherton today  <pad> sunday_temperature_high
+atherton today  <pad> location
+atherton today  <pad> saturday_date
+atherton today  <pad> saturday_weather
+atherton today  <pad> saturday_temperature_low
+atherton today  <pad> saturday_temperature_high
+menlo park today  <pad> monday_date
+menlo park today  <pad> monday_weather
+menlo park today  <pad> monday_temperature_low
+menlo park today  <pad> monday_temperature_high
+menlo park today  <pad> tuesday_date
+menlo park today  <pad> tuesday_weather
+menlo park today  <pad> tuesday_temperature_low
+menlo park today  <pad> tuesday_temperature_high
+menlo park today  <pad> friday_date
+menlo park today  <pad> friday_weather
+menlo park today  <pad> friday_temperature_low
+menlo park today  <pad> friday_temperature_high
+menlo park today  <pad> wednesday_date
+menlo park today  <pad> wednesday_weather
+menlo park today  <pad> wednesday_temperature_low
+menlo park today  <pad> wednesday_temperature_high
+menlo park today  <pad> thursday_date
+menlo park today  <pad> thursday_weather
+menlo park today  <pad> thursday_temperature_low
+menlo park today  <pad> thursday_temperature_high
+menlo park today  <pad> sunday_date
+menlo park today  <pad> sunday_weather
+menlo park today  <pad> sunday_temperature_low
+menlo park today  <pad> sunday_temperature_high
+menlo park today  <pad> location
+menlo park today  <pad> saturday_date
+menlo park today  <pad> saturday_weather
+menlo park today  <pad> saturday_temperature_low
+menlo park today  <pad> saturday_temperature_high
+danville today  <pad> monday_date
+danville today  <pad> monday_weather
+danville today  <pad> monday_temperature_low
+danville today  <pad> monday_temperature_high
+danville today  <pad> tuesday_date
+danville today  <pad> tuesday_weather
+danville today  <pad> tuesday_temperature_low
+danville today  <pad> tuesday_temperature_high
+danville today  <pad> friday_date
+danville today  <pad> friday_weather
+danville today  <pad> friday_temperature_low
+danville today  <pad> friday_temperature_high
+danville today  <pad> wednesday_date
+danville today  <pad> wednesday_weather
+danville today  <pad> wednesday_temperature_low
+danville today  <pad> wednesday_temperature_high
+danville today  <pad> thursday_date
+danville today  <pad> thursday_weather
+danville today  <pad> thursday_temperature_low
+danville today  <pad> thursday_temperature_high
+danville today  <pad> sunday_date
+danville today  <pad> sunday_weather
+danville today  <pad> sunday_temperature_low
+danville today  <pad> sunday_temperature_high
+danville today  <pad> location
+danville today  <pad> saturday_date
+danville today  <pad> saturday_weather
+danville today  <pad> saturday_temperature_low
+danville today  <pad> saturday_temperature_high
+new york today  <pad> monday_date
+new york today  <pad> monday_weather
+new york today  <pad> monday_temperature_low
+new york today  <pad> monday_temperature_high
+new york today  <pad> tuesday_date
+new york today  <pad> tuesday_weather
+new york today  <pad> tuesday_temperature_low
+new york today  <pad> tuesday_temperature_high
+new york today  <pad> friday_date
+new york today  <pad> friday_weather
+new york today  <pad> friday_temperature_low
+new york today  <pad> friday_temperature_high
+new york today  <pad> wednesday_date
+new york today  <pad> wednesday_weather
+new york today  <pad> wednesday_temperature_low
+new york today  <pad> wednesday_temperature_high
+new york today  <pad> thursday_date
+new york today  <pad> thursday_weather
+new york today  <pad> thursday_temperature_low
+new york today  <pad> thursday_temperature_high
+new york today  <pad> sunday_date
+new york today  <pad> sunday_weather
+new york today  <pad> sunday_temperature_low
+new york today  <pad> sunday_temperature_high
+new york today  <pad> location
+new york today  <pad> saturday_date
+new york today  <pad> saturday_weather
+new york today  <pad> saturday_temperature_low
+new york today  <pad> saturday_temperature_high
+brentwood today  <pad> monday_date
+brentwood today  <pad> monday_weather
+brentwood today  <pad> monday_temperature_low
+brentwood today  <pad> monday_temperature_high
+brentwood today  <pad> tuesday_date
+brentwood today  <pad> tuesday_weather
+brentwood today  <pad> tuesday_temperature_low
+brentwood today  <pad> tuesday_temperature_high
+brentwood today  <pad> friday_date
+brentwood today  <pad> friday_weather
+brentwood today  <pad> friday_temperature_low
+brentwood today  <pad> friday_temperature_high
+brentwood today  <pad> wednesday_date
+brentwood today  <pad> wednesday_weather
+brentwood today  <pad> wednesday_temperature_low
+brentwood today  <pad> wednesday_temperature_high
+brentwood today  <pad> thursday_date
+brentwood today  <pad> thursday_weather
+brentwood today  <pad> thursday_temperature_low
+brentwood today  <pad> thursday_temperature_high
+brentwood today  <pad> sunday_date
+brentwood today  <pad> sunday_weather
+brentwood today  <pad> sunday_temperature_low
+brentwood today  <pad> sunday_temperature_high
+brentwood today  <pad> location
+brentwood today  <pad> saturday_date
+brentwood today  <pad> saturday_weather
+brentwood today  <pad> saturday_temperature_low
+brentwood today  <pad> saturday_temperature_high
+manhattan today  <pad> monday_date
+manhattan today  <pad> monday_weather
+manhattan today  <pad> monday_temperature_low
+manhattan today  <pad> monday_temperature_high
+manhattan today  <pad> tuesday_date
+manhattan today  <pad> tuesday_weather
+manhattan today  <pad> tuesday_temperature_low
+manhattan today  <pad> tuesday_temperature_high
+manhattan today  <pad> friday_date
+manhattan today  <pad> friday_weather
+manhattan today  <pad> friday_temperature_low
+manhattan today  <pad> friday_temperature_high
+manhattan today  <pad> wednesday_date
+manhattan today  <pad> wednesday_weather
+manhattan today  <pad> wednesday_temperature_low
+manhattan today  <pad> wednesday_temperature_high
+manhattan today  <pad> thursday_date
+manhattan today  <pad> thursday_weather
+manhattan today  <pad> thursday_temperature_low
+manhattan today  <pad> thursday_temperature_high
+manhattan today  <pad> sunday_date
+manhattan today  <pad> sunday_weather
+manhattan today  <pad> sunday_temperature_low
+manhattan today  <pad> sunday_temperature_high
+manhattan today  <pad> location
+manhattan today  <pad> saturday_date
+manhattan today  <pad> saturday_weather
+manhattan today  <pad> saturday_temperature_low
+manhattan today  <pad> saturday_temperature_high
+Sigona Farmers Market <pad> distance
+Sigona Farmers Market <pad> traffic_info
+Sigona Farmers Market <pad> poi_type
+Sigona Farmers Market <pad> address
+Sigona Farmers Market <pad> poi
+Cafe Venetia <pad> distance
+Cafe Venetia <pad> traffic_info
+Cafe Venetia <pad> poi_type
+Cafe Venetia <pad> address
+Cafe Venetia <pad> poi
+5672 barringer street <pad> distance
+5672 barringer street <pad> traffic_info
+5672 barringer street <pad> poi_type
+5672 barringer street <pad> address
+5672 barringer street <pad> poi
+Valero <pad> distance
+Valero <pad> traffic_info
+Valero <pad> poi_type
+Valero <pad> address
+Valero <pad> poi
+Stanford Childrens Health <pad> distance
+Stanford Childrens Health <pad> traffic_info
+Stanford Childrens Health <pad> poi_type
+Stanford Childrens Health <pad> address
+Stanford Childrens Health <pad> poi
+Palo Alto Garage R <pad> distance
+Palo Alto Garage R <pad> traffic_info
+Palo Alto Garage R <pad> poi_type
+Palo Alto Garage R <pad> address
+Palo Alto Garage R <pad> poi
+Teavana <pad> distance
+Teavana <pad> traffic_info
+Teavana <pad> poi_type
+Teavana <pad> address
+Teavana <pad> poi
+Willows Market <pad> distance
+Willows Market <pad> traffic_info
+Willows Market <pad> poi_type
+Willows Market <pad> address
+Willows Market <pad> poi
+Trader Joes <pad> poi
+Trader Joes <pad> distance
+Trader Joes <pad> traffic_info
+Trader Joes <pad> poi_type
+Trader Joes <pad> address
+Valero <pad> poi
+Valero <pad> distance
+Valero <pad> traffic_info
+Valero <pad> poi_type
+Valero <pad> address
+5677 springer street <pad> poi
+5677 springer street <pad> distance
+5677 springer street <pad> traffic_info
+5677 springer street <pad> poi_type
+5677 springer street <pad> address
+Coupa <pad> poi
+Coupa <pad> distance
+Coupa <pad> traffic_info
+Coupa <pad> poi_type
+Coupa <pad> address
+Midtown Shopping Center <pad> poi
+Midtown Shopping Center <pad> distance
+Midtown Shopping Center <pad> traffic_info
+Midtown Shopping Center <pad> poi_type
+Midtown Shopping Center <pad> address
+Hotel Keen <pad> poi
+Hotel Keen <pad> distance
+Hotel Keen <pad> traffic_info
+Hotel Keen <pad> poi_type
+Hotel Keen <pad> address
+Stanford Express Care <pad> poi
+Stanford Express Care <pad> distance
+Stanford Express Care <pad> traffic_info
+Stanford Express Care <pad> poi_type
+Stanford Express Care <pad> address
+tennis activity <pad> room
+tennis activity <pad> agenda
+tennis activity <pad> time
+tennis activity <pad> date
+tennis activity <pad> party
+tennis activity <pad> event
+meeting <pad> room
+meeting <pad> agenda
+meeting <pad> time
+meeting <pad> date
+meeting <pad> party
+meeting <pad> event
+dentist <pad> room
+dentist <pad> agenda
+dentist <pad> time
+dentist <pad> date
+dentist <pad> party
+dentist <pad> event
+dinner <pad> room
+dinner <pad> agenda
+dinner <pad> time
+dinner <pad> date
+dinner <pad> party
+dinner <pad> event
+football activity <pad> room
+football activity <pad> agenda
+football activity <pad> time
+football activity <pad> date
+football activity <pad> party
+football activity <pad> event
+medicine <pad> room
+medicine <pad> agenda
+medicine <pad> time
+medicine <pad> date
+medicine <pad> party
+medicine <pad> event
+san francisco today  <pad> monday_date
+san francisco today  <pad> monday_weather
+san francisco today  <pad> monday_temperature_low
+san francisco today  <pad> monday_temperature_high
+san francisco today  <pad> tuesday_date
+san francisco today  <pad> tuesday_weather
+san francisco today  <pad> tuesday_temperature_low
+san francisco today  <pad> tuesday_temperature_high
+san francisco today  <pad> friday_date
+san francisco today  <pad> friday_weather
+san francisco today  <pad> friday_temperature_low
+san francisco today  <pad> friday_temperature_high
+san francisco today  <pad> wednesday_date
+san francisco today  <pad> wednesday_weather
+san francisco today  <pad> wednesday_temperature_low
+san francisco today  <pad> wednesday_temperature_high
+san francisco today  <pad> thursday_date
+san francisco today  <pad> thursday_weather
+san francisco today  <pad> thursday_temperature_low
+san francisco today  <pad> thursday_temperature_high
+san francisco today  <pad> sunday_date
+san francisco today  <pad> sunday_weather
+san francisco today  <pad> sunday_temperature_low
+san francisco today  <pad> sunday_temperature_high
+san francisco today  <pad> location
+san francisco today  <pad> saturday_date
+san francisco today  <pad> saturday_weather
+san francisco today  <pad> saturday_temperature_low
+san francisco today  <pad> saturday_temperature_high
+grand rapids today  <pad> monday_date
+grand rapids today  <pad> monday_weather
+grand rapids today  <pad> monday_temperature_low
+grand rapids today  <pad> monday_temperature_high
+grand rapids today  <pad> tuesday_date
+grand rapids today  <pad> tuesday_weather
+grand rapids today  <pad> tuesday_temperature_low
+grand rapids today  <pad> tuesday_temperature_high
+grand rapids today  <pad> friday_date
+grand rapids today  <pad> friday_weather
+grand rapids today  <pad> friday_temperature_low
+grand rapids today  <pad> friday_temperature_high
+grand rapids today  <pad> wednesday_date
+grand rapids today  <pad> wednesday_weather
+grand rapids today  <pad> wednesday_temperature_low
+grand rapids today  <pad> wednesday_temperature_high
+grand rapids today  <pad> thursday_date
+grand rapids today  <pad> thursday_weather
+grand rapids today  <pad> thursday_temperature_low
+grand rapids today  <pad> thursday_temperature_high
+grand rapids today  <pad> sunday_date
+grand rapids today  <pad> sunday_weather
+grand rapids today  <pad> sunday_temperature_low
+grand rapids today  <pad> sunday_temperature_high
+grand rapids today  <pad> location
+grand rapids today  <pad> saturday_date
+grand rapids today  <pad> saturday_weather
+grand rapids today  <pad> saturday_temperature_low
+grand rapids today  <pad> saturday_temperature_high
+alhambra today  <pad> monday_date
+alhambra today  <pad> monday_weather
+alhambra today  <pad> monday_temperature_low
+alhambra today  <pad> monday_temperature_high
+alhambra today  <pad> tuesday_date
+alhambra today  <pad> tuesday_weather
+alhambra today  <pad> tuesday_temperature_low
+alhambra today  <pad> tuesday_temperature_high
+alhambra today  <pad> friday_date
+alhambra today  <pad> friday_weather
+alhambra today  <pad> friday_temperature_low
+alhambra today  <pad> friday_temperature_high
+alhambra today  <pad> wednesday_date
+alhambra today  <pad> wednesday_weather
+alhambra today  <pad> wednesday_temperature_low
+alhambra today  <pad> wednesday_temperature_high
+alhambra today  <pad> thursday_date
+alhambra today  <pad> thursday_weather
+alhambra today  <pad> thursday_temperature_low
+alhambra today  <pad> thursday_temperature_high
+alhambra today  <pad> sunday_date
+alhambra today  <pad> sunday_weather
+alhambra today  <pad> sunday_temperature_low
+alhambra today  <pad> sunday_temperature_high
+alhambra today  <pad> location
+alhambra today  <pad> saturday_date
+alhambra today  <pad> saturday_weather
+alhambra today  <pad> saturday_temperature_low
+alhambra today  <pad> saturday_temperature_high
+boston today  <pad> monday_date
+boston today  <pad> monday_weather
+boston today  <pad> monday_temperature_low
+boston today  <pad> monday_temperature_high
+boston today  <pad> tuesday_date
+boston today  <pad> tuesday_weather
+boston today  <pad> tuesday_temperature_low
+boston today  <pad> tuesday_temperature_high
+boston today  <pad> friday_date
+boston today  <pad> friday_weather
+boston today  <pad> friday_temperature_low
+boston today  <pad> friday_temperature_high
+boston today  <pad> wednesday_date
+boston today  <pad> wednesday_weather
+boston today  <pad> wednesday_temperature_low
+boston today  <pad> wednesday_temperature_high
+boston today  <pad> thursday_date
+boston today  <pad> thursday_weather
+boston today  <pad> thursday_temperature_low
+boston today  <pad> thursday_temperature_high
+boston today  <pad> sunday_date
+boston today  <pad> sunday_weather
+boston today  <pad> sunday_temperature_low
+boston today  <pad> sunday_temperature_high
+boston today  <pad> location
+boston today  <pad> saturday_date
+boston today  <pad> saturday_weather
+boston today  <pad> saturday_temperature_low
+boston today  <pad> saturday_temperature_high
+oakland today  <pad> monday_date
+oakland today  <pad> monday_weather
+oakland today  <pad> monday_temperature_low
+oakland today  <pad> monday_temperature_high
+oakland today  <pad> tuesday_date
+oakland today  <pad> tuesday_weather
+oakland today  <pad> tuesday_temperature_low
+oakland today  <pad> tuesday_temperature_high
+oakland today  <pad> friday_date
+oakland today  <pad> friday_weather
+oakland today  <pad> friday_temperature_low
+oakland today  <pad> friday_temperature_high
+oakland today  <pad> wednesday_date
+oakland today  <pad> wednesday_weather
+oakland today  <pad> wednesday_temperature_low
+oakland today  <pad> wednesday_temperature_high
+oakland today  <pad> thursday_date
+oakland today  <pad> thursday_weather
+oakland today  <pad> thursday_temperature_low
+oakland today  <pad> thursday_temperature_high
+oakland today  <pad> sunday_date
+oakland today  <pad> sunday_weather
+oakland today  <pad> sunday_temperature_low
+oakland today  <pad> sunday_temperature_high
+oakland today  <pad> location
+oakland today  <pad> saturday_date
+oakland today  <pad> saturday_weather
+oakland today  <pad> saturday_temperature_low
+oakland today  <pad> saturday_temperature_high
+downtown chicago today  <pad> monday_date
+downtown chicago today  <pad> monday_weather
+downtown chicago today  <pad> monday_temperature_low
+downtown chicago today  <pad> monday_temperature_high
+downtown chicago today  <pad> tuesday_date
+downtown chicago today  <pad> tuesday_weather
+downtown chicago today  <pad> tuesday_temperature_low
+downtown chicago today  <pad> tuesday_temperature_high
+downtown chicago today  <pad> friday_date
+downtown chicago today  <pad> friday_weather
+downtown chicago today  <pad> friday_temperature_low
+downtown chicago today  <pad> friday_temperature_high
+downtown chicago today  <pad> wednesday_date
+downtown chicago today  <pad> wednesday_weather
+downtown chicago today  <pad> wednesday_temperature_low
+downtown chicago today  <pad> wednesday_temperature_high
+downtown chicago today  <pad> thursday_date
+downtown chicago today  <pad> thursday_weather
+downtown chicago today  <pad> thursday_temperature_low
+downtown chicago today  <pad> thursday_temperature_high
+downtown chicago today  <pad> sunday_date
+downtown chicago today  <pad> sunday_weather
+downtown chicago today  <pad> sunday_temperature_low
+downtown chicago today  <pad> sunday_temperature_high
+downtown chicago today  <pad> location
+downtown chicago today  <pad> saturday_date
+downtown chicago today  <pad> saturday_weather
+downtown chicago today  <pad> saturday_temperature_low
+downtown chicago today  <pad> saturday_temperature_high
+san mateo today  <pad> monday_date
+san mateo today  <pad> monday_weather
+san mateo today  <pad> monday_temperature_low
+san mateo today  <pad> monday_temperature_high
+san mateo today  <pad> tuesday_date
+san mateo today  <pad> tuesday_weather
+san mateo today  <pad> tuesday_temperature_low
+san mateo today  <pad> tuesday_temperature_high
+san mateo today  <pad> friday_date
+san mateo today  <pad> friday_weather
+san mateo today  <pad> friday_temperature_low
+san mateo today  <pad> friday_temperature_high
+san mateo today  <pad> wednesday_date
+san mateo today  <pad> wednesday_weather
+san mateo today  <pad> wednesday_temperature_low
+san mateo today  <pad> wednesday_temperature_high
+san mateo today  <pad> thursday_date
+san mateo today  <pad> thursday_weather
+san mateo today  <pad> thursday_temperature_low
+san mateo today  <pad> thursday_temperature_high
+san mateo today  <pad> sunday_date
+san mateo today  <pad> sunday_weather
+san mateo today  <pad> sunday_temperature_low
+san mateo today  <pad> sunday_temperature_high
+san mateo today  <pad> location
+san mateo today  <pad> saturday_date
+san mateo today  <pad> saturday_weather
+san mateo today  <pad> saturday_temperature_low
+san mateo today  <pad> saturday_temperature_high

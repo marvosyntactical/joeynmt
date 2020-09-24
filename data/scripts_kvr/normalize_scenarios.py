@@ -201,8 +201,8 @@ def main(args):
     # according to 
     # * dev.lkp 
 
-    lengths = "len"+EXT
-    save_lengths = filestamm + "." + lengths
+    lengths_ext = "len"+EXT
+    save_lengths = filestamm + "." + lengths_ext
     with open(directory+save_lengths, "w") as l:
         l.writelines(lens)
 
