@@ -169,10 +169,10 @@ def build_scheduled_sampling(config: dict):
 
     if "teacher_force" in config.keys():
         if config.get("teacher_force") == True:
-            sched_sampl_type = lambda i: 1
+            scheduled_sampling = lambda i: 1
         else:
             assert not config.get("teacher_force")
-            sched_sampl_type = lambda i: 0
+            scheduled_sampling = lambda i: 0
         return scheduled_sampling
 
     sched_sampl_type = str(config.get("sched_sampl_type", "linear"))
