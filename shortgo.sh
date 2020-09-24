@@ -2,4 +2,4 @@
 
 name=$1
 
-bash slurmgo.sh $name 0-08:00:00 128000 gpushort
+bash studentsgo.sh $name 0-08:00:00 128000 gpushort

@@ -7,7 +7,7 @@
 # script call signature:
 
 name=$1
-duration=${2:-"0-12:00:00"} # duration should have syntax 2-12:15:59
+duration=${2:-"3-00:00:00"} # duration should have syntax 2-12:15:59
 memory=${3:-"128000"}
 partition=${4:-"students"}
 
@@ -19,7 +19,7 @@ echo
 
 
 #paths
-cfg_path=configs/kvr/
+cfg_path=configs/kvr/grid/
 sbatch_path=sbatch/
 model_path=models/
 
@@ -85,7 +85,7 @@ sed -i "s/model_dir: [^#]*#/model_dir: \"${model_path_no_slash}\/${model_dir}\" 
 sbatch="$sbatch_path$name$sbatch_ext"
 echo "creating sbatch $sbatch:"
 
-template="${sbatch_path}template$sbatch_ext"
+template="${sbatch_path}gridtemplate$sbatch_ext"
 cp -rp "$template" "$sbatch"
 
 #replace all occurences of JOBNAME with name
@@ -101,7 +101,13 @@ echo "--------------------------------------------------------------------------
 cat $sbatch
 echo "---------------------------------------------------------------------------"
 echo 
+echo "     Execute this? [Y/n]"
+read input
 
+if [ $input = n ]; then
+	echo "Alright, never mind then. :/"
+	exit 1
+fi 
 
 # execute sbatch:
 sbatch $sbatch
