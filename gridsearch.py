@@ -4,8 +4,8 @@ from collections import OrderedDict
 from subprocess import Popen, check_output
 import time
 
-partitions = ["students","gpulong" ] # order == priority
-jobbers = {0:"studentsgo",1: "longgo"} # sbatch creator for each partition
+partitions = ["students", "gpulong"] # order == priority
+jobbers = {0:"studentsgo", 1: "longgo"} # sbatch creator for each partition
 
 me = check_output(["whoami"])[:-1] # only worx when nobody else has koss in their name <3
 shellext = ".sh"
@@ -16,9 +16,10 @@ shellext = ".sh"
 def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,4], update=60):
     """ waits until my squeue has a place"""
 
-    time.sleep(update)
 
     while True:
+
+        time.sleep(update)
 
         partition_with_slot = -1
 
@@ -28,8 +29,8 @@ def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,4], upd
             # check if partition is empty enough
             allowed_num_jobs_here = my_jobs_per_partition[i]
 
-            part_sq = [job for job in sq if len(job.split()) > 5 and part==job.split()[1]]
-            my_part_sq = [job for job in part_sq if len(job.split()) > 5 and me==job.split()[3]] # relies on job name not having whitespace ! FIXME
+            part_sq = [ job for job in sq if len(job.split()) > 5 and part in job.split()[1] ]
+            my_part_sq = [ job for job in part_sq if len(job.split()) > 5 and me in job.split()[3] ] # relies on job name not having whitespace ! FIXME
             
             if len(my_part_sq) < allowed_num_jobs_here:
                 partition_with_slot = i
@@ -38,11 +39,6 @@ def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,4], upd
         if partition_with_slot != -1:
             return partition_with_slot
             
-
-
-
-
-
 
 
 def main(args):

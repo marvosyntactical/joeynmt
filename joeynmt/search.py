@@ -646,7 +646,6 @@ def beam_search(
                     print(e)
                     exit(1)
 
-
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)
         encoder_output = encoder_output.index_select(0, select_indices)
@@ -664,19 +663,23 @@ def beam_search(
                 # for GRUs, states are single tensors
                 hidden = hidden.index_select(1, select_indices)
 
-
         if att_vectors is not None:
+
             att_vectors = att_vectors.index_select(0, select_indices)
+
         if knowledgebase is not None:
+
             kb_values = kb_values.index_select(0, select_indices)
+
             if isinstance(kb_keys, tuple):
                 kb_keys = tuple([key_dim.index_select(0, select_indices) for key_dim in kb_keys])
             else:
                 kb_keys = kb_keys.index_select(0, select_indices)
-            util_dims_cache = [utils.index_select(0, select_indices) for utils in util_dims_cache if utils is not None]
-            kb_feed_hidden_cache = [hidden.index_select(1, select_indices) for hidden in kb_feed_hidden_cache if hidden is not None]
 
-
+            if util_dims_cache is not None:
+                util_dims_cache = [utils.index_select(0, select_indices) for utils in util_dims_cache if utils is not None]
+            if kb_feed_hidden_cache is not None:
+                kb_feed_hidden_cache = [hidden.index_select(1, select_indices) for hidden in kb_feed_hidden_cache if hidden is not None]
 
     def pad_and_stack_hyps(hyps, pad_value):
         filled = np.ones((len(hyps), max([h.shape[0] for h in hyps])),

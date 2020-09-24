@@ -6,10 +6,6 @@
 # _OPEN ISSUES_
 
 
-
-
-
-
 ### 11.09. canonization levels
 
 * 5 pm 
