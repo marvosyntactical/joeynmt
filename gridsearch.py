@@ -34,7 +34,7 @@ def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,4], upd
             part_sq = [ job for job in sq if len(job.split()) > 5 and part in job.split()[1] ]
             my_part_sq = [ job for job in part_sq if len(job.split()) > 5 and me in job.split()[3] ] # relies on job name not having whitespace ! FIXME
 
-            input(part_sq, my_part_sq)
+            input((part_sq, my_part_sq))
             
             if len(my_part_sq) < allowed_num_jobs_here:
                 partition_with_slot = i
