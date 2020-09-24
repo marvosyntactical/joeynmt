@@ -50,13 +50,14 @@ These hyperparams are all orthogonal:
 * eric et al replication: RNN, 1 hop, no kb input feeding, autoregressive, @meeting\_time level, kb dim 1  
 * metric reporting: raw, canonized
 
-====== GRID SEARCH OVER THIS SHIT ======
-* 3 architecture: RNN , rnnTF , tfTF
+====== GRID SEARCH OVER THESE ======
 * 3 multihops: 1 , 2 , 3
 * 3 kb input feeding: False, ff, rnn
-* 2 teacher\_force: yes, no
-====== END GRID SEARCH OVER THIS SHIT ======
-108 x 8 x 0.5  = 432 stunden = 18 tage 
+* 2 teacher\_force: no, yes
+* 3 architecture: RNN , rnnTF , tfTF
+====== END GRID SEARCH OVER THESE ======
+
+3 x 3 x 2 x 3 x 8 x 0.5  = 216 stunden = 10 tage 
 
 * 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
 * 2 scheduled sampling: invsigmoid, linear
@@ -64,6 +65,7 @@ These hyperparams are all orthogonal:
 * 3 kb encoding: 1D, 2D, positional
 * 2 kb embedding: source,  separate
 * 2 copy\_from\_source: True, False
+* 2 kb key rep: with values, without values
 
 
 

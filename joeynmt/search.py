@@ -673,8 +673,8 @@ def beam_search(
                 kb_keys = tuple([key_dim.index_select(0, select_indices) for key_dim in kb_keys])
             else:
                 kb_keys = kb_keys.index_select(0, select_indices)
-            util_dims_cache = [utils.index_select(0, select_indices) for utils in util_dims_cache]
-            kb_feed_hidden_cache = [hidden.index_select(1, select_indices) for hidden in kb_feed_hidden_cache]
+            util_dims_cache = [utils.index_select(0, select_indices) for utils in util_dims_cache if utils is not None]
+            kb_feed_hidden_cache = [hidden.index_select(1, select_indices) for hidden in kb_feed_hidden_cache if hidden is not None]
 
 
 

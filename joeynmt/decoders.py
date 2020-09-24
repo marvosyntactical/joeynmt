@@ -1424,6 +1424,8 @@ class Generator(Gen):
                 kb_values = kb_values.unsqueeze(1).repeat((1, _unroll, 1))
             except:
                 print(kb_values.shape)
+                print("<3")
+                exit(1)
 
             B = torch.arange(_batch).unsqueeze(1).unsqueeze(1)
             U = torch.arange(_unroll).unsqueeze(1).unsqueeze(0)
