@@ -98,19 +98,21 @@ def recurrent_greedy(
     {[t.shape if isinstance(t, torch.Tensor) else [t_dim.shape for t_dim in t] for t in knowledgebase]}")
 
     if knowledgebase != None:
-        # knowledgebase is (kb_keys, kb_values) (see model.run_batch)
+        # knowledgebase is (kb_keys, kb_values, kb_values_embed, kb_mask) (see model.run_batch)
 
-        # kept as Tuple since dynamic typing easily allows shoving more objects into this
+        # kept as tuple since dynamic typing easily allows shoving more objects into this
         # so I dont have to rewrite tons of function signatures 
 
         kb_keys = knowledgebase[0]
         kb_values = knowledgebase[1]
-        kb_mask = knowledgebase[2]
-        utils_dims_cache = None # equivalent of prev_att_vector but for each KB dim
+        kb_mask = knowledgebase[-1]
+
+        kb_hidden_dims_cache = None # equivalent of prev_att_vector but for each KB dim
         kb_feed_hidden_cache = None  # equivalent of hidden but for each kvr module
 
         kb_att_scores = []
         all_log_probs = []
+
     else:
         kb_keys = kb_values = kb_mask = None
         stacked_log_probs = None
@@ -118,7 +120,7 @@ def recurrent_greedy(
     # pylint: disable=unused-variable
     for t in range(max_output_length):
         # decode one single step
-        hidden, att_probs, prev_att_vector, kb_att_probs, utils_dims_cache, kb_feed_hidden_cache = decoder(
+        hidden, att_probs, prev_att_vector, kb_att_probs, kb_hidden_dims_cache, kb_feed_hidden_cache = decoder(
             encoder_output=encoder_output,
             encoder_hidden=encoder_hidden,
             src_mask=src_mask,
@@ -128,12 +130,13 @@ def recurrent_greedy(
             unroll_steps=1,
             kb_keys=kb_keys,
             kb_mask=kb_mask,
-            utils_dims_cache=utils_dims_cache,
-            kb_feed_hidden_cache=kb_feed_hidden_cache)
+            kb_hidden_dims_cache=kb_hidden_dims_cache,
+            kb_feed_hidden_cache=kb_feed_hidden_cache
+        )
 
         log_probs = generator(prev_att_vector, kb_values=kb_values, kb_probs=kb_att_probs)
 
-        # logits: batch x time=1 x vocab
+        # log_probs: batch x time=1 x vocab
         # greedy decoding: choose arg max over vocabulary in each step
         next_word = torch.argmax(log_probs, dim=-1)  # batch x time=1
         # NOTE:              ^ find idx over ordered vocab embeddings 
@@ -222,7 +225,7 @@ def transformer_greedy(
     ys = encoder_output.new_full([batch_size, 1], bos_index, dtype=torch.long)
     # batch x max_output_length
 
-    utils_dims_cache, kb_feed_hidden_cache = None, None
+    kb_hidden_dims_cache, kb_feed_hidden_cache = None, None
 
     # a subsequent mask is intersected with this in decoder forward pass
     trg_mask = src_mask.new_ones([1, 1, 1])
@@ -231,7 +234,7 @@ def transformer_greedy(
 
         trg_embed = embed(ys)  # embed the BOS-symbol
 
-        _ , _, out, kb_scores, utils_dims_cache, kb_feed_hidden_cache = decoder(
+        _ , _, out, kb_scores, kb_hidden_dims_cache, kb_feed_hidden_cache = decoder(
             trg_embed=trg_embed,
             encoder_output=encoder_output,
             encoder_hidden=None,
@@ -240,9 +243,9 @@ def transformer_greedy(
             hidden=None,
             trg_mask=trg_mask,
             kb_keys=knowledgebase[0],
-            kb_values=knowledgebase[1],
-            kb_mask=knowledgebase[2],
-            utils_dims_cache=utils_dims_cache,
+            kb_values_embed=knowledgebase[2],
+            kb_mask=knowledgebase[-1],
+            kb_hidden_dims_cache=kb_hidden_dims_cache,
             kb_feed_hidden_cache=kb_feed_hidden_cache
         )
 
@@ -377,6 +380,7 @@ def beam_search(
     hypotheses = [[] for _ in range(batch_size)]
 
     results = {}
+
     results["predictions"] = [[] for _ in range(batch_size)]
     results["scores"] = [[] for _ in range(batch_size)]
     results["att_scores"] = [[] for _ in range(batch_size)]
@@ -385,7 +389,7 @@ def beam_search(
     # kb task: also tile kb tensors along batch dimension as done with other inputs above
     if knowledgebase != None:
         kb_values = tile(knowledgebase[1], size, dim=0)
-        kb_mask = tile(knowledgebase[2], size, dim=0)
+        kb_mask = tile(knowledgebase[-1], size, dim=0)
 
         kb_size = kb_values.size(1)
         kb_keys = knowledgebase[0]
@@ -394,11 +398,10 @@ def beam_search(
         else:
             kb_keys = tile(kb_keys, size, dim=0)
 
-        att_alive = torch.Tensor( # batch*k x src x time
+        att_alive = torch.Tensor( # batch * k x src x time
             [[[] for _ in range(encoder_output.size(1))] for _ in range(batch_size * size)]
         ).to(dtype=torch.float32, device=encoder_output.device)
         
-        # print(f"att_alive.shape: {att_alive.shape}")
         
         kb_att_alive = torch.Tensor( # batch*k x KB x time
             [[[] for _ in range(kb_size)] for _ in range(batch_size * size)]
@@ -453,16 +456,16 @@ def beam_search(
         # generator applies output layer, biases towards KB values, then applies log_softmax
         log_probs = generator(att_vectors, kb_values=kb_values, kb_probs=kb_scores)
 
-        # hidden = ?? x batch*k x dec hidden       #FIXME why 3 ??????
-        # att_scores = batch*k x 1 x src_len       #TODO Find correct beam in dim 0 at every timestep.
+        # hidden = ?? x batch*k x dec hidden        #FIXME why 3 ??????
+        # att_scores = batch*k x 1 x src_len        #TODO  Find correct beam in dim 0 at every timestep.
         # att_vectors = batch*k x 1 x dec hidden
-        # kb_scores = batch*k x 1 x KB              #TODO find correct beam in dim 0 at every timestep
+        # kb_scores = batch*k x 1 x KB              #TODO  find correct beam in dim 0 at every timestep
         # log_probs = batch*k x 1 x trg_voc
 
         # For the Transformer we made predictions for all time steps up to
         # this point, so we only want to know about the last time step.
         if transformer:
-            logits = logits[:, -1]  # keep only the last time step
+            log_probs = log_probs[:, -1]  # keep only the last time step
             hidden = None           # we don't need to keep it for transformer
 
         # batch * k x trg_vocab
@@ -497,7 +500,6 @@ def beam_search(
             + beam_offset[:topk_beam_index.size(0)].unsqueeze(1))
         select_indices = batch_index.view(-1) # batch * k 
 
-        print(alive_seq.shape)
 
         # append latest prediction
         alive_seq = torch.cat(
@@ -505,25 +507,25 @@ def beam_search(
              topk_ids.view(-1, 1)], -1)  # batch_size*k x hyp_len
 
         if knowledgebase is not None:
-            print(f"select_indices: {select_indices}")
-            print(f"select_indices: {select_indices.shape}")
-            print(f"step: {step}")
-            print(f"att_alive.shape: {att_alive.shape}")
-            print(f"encoder steps: {encoder_output.size(1)}")
-            print(att_alive.index_select(0,select_indices).shape)
-            print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
-            print(f"kb_att_alive.shape: {kb_att_alive.shape}")
-            print(f"kb_size: {kb_size}")
-            print(kb_att_alive.index_select(0,select_indices).shape)
-            print(kb_scores.transpose(1,2).index_select(0,select_indices).shape)
+            # print(f"step: {step}")
+            # print(f"att_alive.shape: {att_alive.shape}")
+            # print(f"encoder steps: {encoder_output.size(1)}")
+            # print(att_alive.index_select(0,select_indices).shape)
+            # print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
+            # print(f"kb_att_alive.shape: {kb_att_alive.shape}")
+            # print(f"kb_size: {kb_size}")
+            # print(kb_att_alive.index_select(0,select_indices).shape)
+            # print(kb_scores.transpose(1,2).index_select(0,select_indices).shape)
 
-            att_alive = torch.cat( # batch*k x src len x time
-                [
-                    att_alive.index_select(0,select_indices),
-                    att_scores.transpose(1,2).index_select(0,select_indices)
-                ],
-            -1 ) 
-            kb_att_alive = torch.cat( # batch*k x KB x time
+            if att_scores is not None:
+                att_alive = torch.cat( # batch * k x src len x time
+                    [
+                        att_alive.index_select(0, select_indices),
+                        att_scores.transpose(1, 2).index_select(0, select_indices)
+                    ],
+                -1 ) 
+
+            kb_att_alive = torch.cat( # batch * k x KB x time
                 [
                     kb_att_alive.index_select(0, select_indices),
                     kb_scores.transpose(1,2).index_select(0,select_indices)
@@ -561,8 +563,14 @@ def beam_search(
                         predictions[i, j, 1:])  # ignore start_token
                     )
                     if knowledgebase is not None:
+
                         # batch x k x src len x time 
-                        attentions = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) 
+                        if 0 not in att_alive.shape:
+                            # at least one attention matrix has been inserted
+                            attentions = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) 
+                        else:
+                            attentions = None
+
                         # batch x k x KB x time 
                         kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
 
@@ -575,6 +583,7 @@ def beam_search(
 
                 # if the batch reached the end, save the n_best hypotheses
                 if end_condition[i]:
+
                     # which beam is best?
                     best_hyps_descending = sorted(
                         hypotheses[b], key=lambda x: x[0], reverse=True)
@@ -583,6 +592,7 @@ def beam_search(
                     print(dbg.shape, dbg[0])
 
                     if knowledgebase is not None:
+
                         print(hypotheses[b][0],type(hypotheses[b][0]))
 
                         scores, hyps = zip(*hypotheses[b])
@@ -634,17 +644,12 @@ def beam_search(
                 # to
                 # batch * k x time x src
 
-                try:
+                if 0 in att_alive.shape:
                     att_alive = att_alive.index_select(0, non_finished) \
                         .view(-1, attentions.size(-1), attentions.size(-2))
 
-                    kb_att_alive = kb_att_alive.index_select(0, non_finished) \
-                        .view(-1, attentions.size(-1), attentions.size(-2))
-                except RuntimeError as e:
-                    assert False, (att_alive.shape, attentions.shape)
-
-                    print(e)
-                    exit(1)
+                kb_att_alive = kb_att_alive.index_select(0, non_finished) \
+                    .view(-1, attentions.size(-1), attentions.size(-2))
 
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)

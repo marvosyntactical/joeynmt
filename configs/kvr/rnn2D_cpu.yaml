@@ -77,6 +77,7 @@ model:                               # specify your model architecture here
     copy_from_source: True           # whether to create KBs from source as backup when KB empty
     kb_input_feeding: True
     kb_feed_rnn: True
+    same_module_for_all_hops: False
     
 
 

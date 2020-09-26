@@ -15,7 +15,6 @@ import torch.nn as nn
 from torch import Tensor, cat, FloatTensor, arange, argmax, float32
 import torch.nn.functional as F
 
-
 from joeynmt.initialization import initialize_model
 from joeynmt.embeddings import Embeddings
 from joeynmt.encoders import Encoder, RecurrentEncoder, TransformerEncoder
@@ -106,7 +105,7 @@ class Model(nn.Module):
     # pylint: disable=arguments-differ
     def forward(self, src: Tensor, trg_input: Tensor, src_mask: Tensor,
                 src_lengths: Tensor, trg_mask: Tensor = None, kb_keys: Tensor = None,
-                kb_mask = None, kb_values=None) -> (Tensor, Tensor, Tensor, Tensor, Tensor):
+                kb_mask = None, kb_values_embed=None) -> (Tensor, Tensor, Tensor, Tensor, Tensor):
         """
         First encodes the source sentence.
         Then produces the target one word at a time.
@@ -130,7 +129,7 @@ class Model(nn.Module):
                            trg_mask=trg_mask,
                            kb_keys=kb_keys,
                            kb_mask=kb_mask,
-                           kb_values=kb_values)
+                           kb_values_embed=kb_values_embed)
 
     def encode(self, src: Tensor, src_length: Tensor, src_mask: Tensor) \
         -> (Tensor, Tensor):
@@ -148,7 +147,7 @@ class Model(nn.Module):
                src_mask: Tensor, trg_input: Tensor,
                unroll_steps: int, decoder_hidden: Tensor = None,
                trg_mask: Tensor = None, kb_keys: Tensor = None,
-               kb_mask: Tensor=None, kb_values = None) \
+               kb_mask: Tensor=None, kb_values_embed = None) \
         -> (Tensor, Tensor, Tensor, Tensor):
         """
         Decode, given an encoded source sentence.
@@ -172,7 +171,7 @@ class Model(nn.Module):
                         kb_keys=kb_keys,
                         k_hops=self.k_hops,
                         kb_mask=kb_mask,
-                        kb_values=kb_values)
+                        kb_values_embed=kb_values_embed)
 
     def get_loss_for_batch(self, batch: Batch, loss_function: nn.Module,
     max_output_length: int = None, e_i: float = 1., greedy_threshold: float = 0.9) -> Tensor:
@@ -197,7 +196,7 @@ class Model(nn.Module):
         trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
 
         if hasattr(batch, "kbsrc"):
-            kb_keys, kb_values, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
+            kb_keys, kb_values, kb_values_embed, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
         else:
             kb_keys = None
         
@@ -234,7 +233,7 @@ class Model(nn.Module):
                             decoder=self.decoder, 
                             generator=self.generator,
                             max_output_length=trg.size(-1),
-                            knowledgebase = (kb_keys, kb_values, kb_mask),
+                            knowledgebase = (kb_keys, kb_values, kb_values_embed, kb_mask),
                             trg_input=trg_input,
                             e_i=e_i,
                             )
@@ -244,7 +243,7 @@ class Model(nn.Module):
                     hidden, att_probs, out, kb_probs, _, _ = self.forward(
                         src=batch.src, trg_input=trg_input,
                         src_mask=batch.src_mask, src_lengths=batch.src_lengths,
-                        trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask, kb_values=kb_values)
+                        trg_mask=trg_mask, kb_keys=kb_keys, kb_mask=kb_mask, kb_values_embed=kb_values_embed)
 
         else: # vanilla, not kb task
             if not do_teacher_force:
@@ -302,11 +301,11 @@ class Model(nn.Module):
 
         if hasattr(batch, "kbsrc"):
             # B x KB x EMB; B x KB; B x KB
-            kb_keys, kb_values, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
+            kb_keys, kb_values, kb_values_embed, kb_trv, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
             if kb_keys is None:
                 knowledgebase = None
             else:
-                knowledgebase = (kb_keys, kb_values, kb_mask)
+                knowledgebase = (kb_keys, kb_values, kb_values_embed, kb_mask)
         else:
             knowledgebase = None
 
@@ -320,13 +319,6 @@ class Model(nn.Module):
                     max_output_length=max_output_length,
                     knowledgebase = knowledgebase)
             # batch, time, max_src_length
-            """ # TODO FIXME BUG
-            assert not stacked_kb_att_scores.shape[-1] == 5, (
-                ("kbsrc:", self.src_vocab.arrays_to_sentences(batch.kbsrc)),"\n",
-                ("kbtrg:", self.trg_vocab.arrays_to_sentences(knowledgebase[1])),"\n",
-                ("kbtrv:", self.trv_vocab.arrays_to_sentences(kb_trv))
-            )
-            """
         else:  # beam size
             stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
                     beam_search(
@@ -392,7 +384,9 @@ class Model(nn.Module):
 
         if self.embed_vals_for_tf_decoder:
             # embed kb values for transformer style transformer implementation (with multihead KB att instead of RNN stuff)
-            kb_values = self.trg_embed(kb_values)
+            kb_values_embed = self.trg_embed(kb_values)
+        else:
+            kb_values_embed = None
 
         # (also add batch dim to keys below)
 
@@ -554,12 +548,10 @@ class Model(nn.Module):
 
                 shape_check_keys = kb_keys
         
+        assert len(kb_values.shape) == 2, kb_values.shape
 
-        if not self.embed_vals_for_tf_decoder:
-            assert len(kb_values.shape) == 2, kb_values.shape
-        else:
-            assert len(kb_values.shape) == 3, kb_values.shape
-
+        if self.embed_vals_for_tf_decoder:
+            assert len(kb_values_embed.shape) == 3, kb_values_embed.shape
         
         assert_msg = (shape_check_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
 
@@ -573,11 +565,14 @@ class Model(nn.Module):
         if type(self.decoder) == TransformerDecoder:
             kb_mask = kb_mask.to(float32) 
         
+        input(f"{kb_mask.shape} is kb mask shape")
+        
+        assert len(kb_mask.shape) == 2, kb_mask.shape
+        
         # FIXME this should hopefully trigger at some point for partially assigned scheduling dialogues
         # assert (kb_mask==0.).all(), kb_mask 
 
-
-        return kb_keys, kb_values, kb_true_vals, kb_mask
+        return kb_keys, kb_values, kb_values_embed, kb_true_vals, kb_mask
 
 
 
@@ -805,6 +800,7 @@ def build_model(cfg: dict = None,
     # retrieve kb task info
     kb_task = bool(cfg.get("kb", False))
     k_hops = int(cfg.get("k_hops", 1)) # k number of kvr attention layers in decoder (eric et al/default: 1)
+    same_module_for_all_hops = bool(cfg.get("same_module_for_all_hops", False))
     do_postproc = bool(cfg.get("do_postproc", True))
     copy_from_source = bool(cfg.get("copy_from_source", True))
     canonization_func = canonizer(copy_from_source=copy_from_source) 
@@ -824,12 +820,13 @@ def build_model(cfg: dict = None,
     assert cfg["decoder"]["hidden_size"]
     dec_dropout = cfg["decoder"].get("dropout", 0.)
     dec_emb_dropout = cfg["decoder"]["embeddings"].get("dropout", dec_dropout)
+
     if cfg["decoder"].get("type", "recurrent") == "transformer":
-        if False:
+        if tfstyletf:
             decoder = TransformerDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
-                kb_task=kb_task,kb_key_emb_size=kbsrc_embed.embedding_dim
+                kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim
                 )
         else:
             decoder = TransformerKBrnnDecoder(
@@ -845,8 +842,11 @@ def build_model(cfg: dict = None,
         else:
             decoder = KeyValRetRNNDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, k_hops=k_hops, kb_max=kb_max_dims,
-                kb_key_emb_size=kbsrc_embed.embedding_dim, kb_input_feeding=kb_input_feeding, kb_feed_rnn=kb_feed_rnn)
+                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout, 
+                k_hops=k_hops, kb_max=kb_max_dims,
+                same_module_for_all_hops=same_module_for_all_hops,
+                kb_key_emb_size=kbsrc_embed.embedding_dim, 
+                kb_input_feeding=kb_input_feeding, kb_feed_rnn=kb_feed_rnn)
     
     # specify generator which is mostly just the output layer
     generator = Generator(
@@ -854,7 +854,8 @@ def build_model(cfg: dict = None,
         vocab_size=len(trg_vocab)
     )
 
-    model = Model(encoder=encoder, decoder=decoder, generator=generator,
+    model = Model(
+                  encoder=encoder, decoder=decoder, generator=generator,
                   src_embed=src_embed, trg_embed=trg_embed,
                   src_vocab=src_vocab, trg_vocab=trg_vocab,\
                   kb_key_embed=kbsrc_embed,\
@@ -863,7 +864,8 @@ def build_model(cfg: dict = None,
                   do_postproc=do_postproc,
                   canonize=canonization_func, 
                   kb_att_dims=len(kb_max_dims),
-                  posEncKBkeys=posEncKBkeys)
+                  posEncKBkeys=posEncKBkeys
+                  )
 
     # tie softmax layer with trg embeddings
     if cfg.get("tied_softmax", False):

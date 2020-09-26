@@ -84,16 +84,17 @@ nNMT/OpenNMT-py
 
         # get context vector (select values with attention) 
         # and reshape back to [B, M, D]
+
         context = attention @ v
         context = context.transpose(1, 2).contiguous().view(
-            batch_size, -1, num_heads * head_size)
+            batch_size, -1, num_heads * head_size
+        )
 
         output = self.output_layer(context)
 
         return output 
 
 
-############################################# UNUSED
 # pylint: disable=arguments-differ
 class MultiHeadedKbAttention(MultiHeadedAttention):
     """
@@ -101,44 +102,62 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
     """
 
-    def forward(self, k: Tensor, q: Tensor):
+    def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
         """
         Computes multi-headed KB attention.
 
         :param k: keys   [B, M, D] with M being the sentence length (Max)
+        :param v: values [B, M, D] values
         :param q: query  [B, M, D]
         :return:
         """
         batch_size = k.size(0)
         num_heads = self.num_heads
         head_size = self.head_size
-
+ 
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
+        v = self.v_layer(v)
         q = self.q_layer(q)
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x kb        x head_size
+        # using num_heads * head_size == size
+        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
+        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
         q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
-        # compute scores
-        q = q / math.sqrt(head_size)
+        # scale query because it helps, no idea why 
+        q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
-        scores = torch.matmul(q, k.transpose(2, 3))
+        # compute scores
+        scores = q @ k.transpose(2, 3)
 
-        # apply attention dropout
+        # apply the mask (if we have one)
+        # we add a dimension for the heads to it below: [B, 1, 1, M]
+        if mask is not None:
+            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
+
+        # apply attention dropout and compute context vectors.
         attention = self.softmax(scores)
-        attention = self.dropout(attention) # batch x num_heads x query_len x KB
+        attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
 
-        u_k = torch.sum(attention, dim=1) # TODO FIXME find better way than summing 
+
+        # get context vector (select values with attention) 
+        # and reshape back to [B, M, D]
+
+        assert False, (attention.shape, v.shape)
+        context = attention @ v
+        context = context.transpose(1, 2).contiguous().view(
+            batch_size, -1, num_heads * head_size
+        )
+
+        output = self.output_layer(context)
 
         # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
         # utilities at attention hop (=transf layer) number k
-        
         # B x M x KB
-        return u_k
-############################################# UNUSED
+        return output
 
 
 
@@ -178,6 +197,15 @@ class PositionalEncoding(nn.Module):
     In forward pass, this adds he position-encodings to the
     input for as many time step s as necessary.
 
+                
+            # KVR attention
+            h2 = self.kb_trg_att(kb_keys, kb_values_embed, query_k) # TODO find out if I have to apply src_mask here too
+            assert False, h2.shape
+
+        # final position-wise feed-forward layer
+        o = self.feed_forward(h2)
+        
+        return o
     Implementation based on OpenNMT-py.
     https://github.com/OpenNMT/OpenNMT-py
     """
@@ -299,12 +327,15 @@ class TransformerDecoderLayer(nn.Module):
         self.x_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.dec_layer_norm = nn.LayerNorm(size, eps=1e-6)
 
-        self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
-        self.kb_max = kb_max
 
         self.tfstyletf = tfstyletf 
         if kb_task :
-            self.kb_trg_att = MultiHeadedAttention(num_heads, size, dropout=dropout)
+            self.kb_trg_att = MultiHeadedKbAttention(num_heads, size, dropout=dropout)
+            self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
+            self.kb_max = kb_max
+
+            if self.tfstyletf:
+                self.multihop_feeding = nn.Linear(size + self.kb_max, size, bias=False)
 
         self.dropout = nn.Dropout(dropout)
 
@@ -315,8 +346,10 @@ class TransformerDecoderLayer(nn.Module):
                 kb_keys: Tensor = None, # determine if just kb keys are enough
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
+                kb_values_embed: Tensor = None,
                 prev_utilities: Tensor = None,
-                kb_vals_embed: Tensor = None,) -> Tensor:
+                kb_mask: Tensor = None,
+                ) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
         :param x: inputs
@@ -325,6 +358,7 @@ class TransformerDecoderLayer(nn.Module):
         :param trg_mask: target mask (so as to not condition on future steps)
         :param kb_keys: knowledgebase keys: B x KB_MAX x TRG_EMB
         :param prev_utilities: B x M x KB_MAX previous kb entry utilities for kb att input feeding
+        :param kb_mask: bruh
         :return: output tensor
         """
         # decoder/target self-attention
@@ -338,15 +372,28 @@ class TransformerDecoderLayer(nn.Module):
 
         h2 = self.dropout(h2) + h1
 
-        if self.tfstyletf and kb_keys is not None and kb_vals_embed is not None:
+        if self.tfstyletf and kb_keys is not None and kb_values_embed is not None:
 
             # kb attention uses hidden state after src_trg_att as query
             h2_norm = self.kb_layer_norm(h2) # dims not changed
 
+            if prev_utilities is not None:
+
+                KVRfeedInput = torch.cat([prev_utilities, h2_norm], dim=-1) # batch x 1 x kb_max + hidden
+                query_k = self.multihop_feeding(KVRfeedInput) # batch x 1 x hidden
+
+            else:
+
+                query_k = h2_norm
+                
             # KVR attention
-            h2 = self.kb_trg_att(kb_keys, kb_vals_embed, h2_norm) # TODO find out if I have to apply src_mask here too
+            u_k = self.kb_trg_att(kb_keys, kb_values_embed, query_k, mask=kb_mask) # TODO find out if I have to apply src_mask here too
+            assert False, u_k.shape
+        else:
+            u_k = None
+
 
         # final position-wise feed-forward layer
         o = self.feed_forward(h2)
         
-        return o
+        return o, u_k

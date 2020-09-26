@@ -6,6 +6,16 @@
 # _OPEN ISSUES_
 
 
+### 26.09. idea for multihop 
+
+* layerwise weight tying as in weston et al: next module is same module 
+* pass hidden state to next module instead of utilities:
+* batch x kb\_curr\_dim x hidden instead of batch x 1 x kb
+* *TODO* test: can I still mask between hops???? should annihilate everything?
+* *TODO* test: is the aggregate kb hidden tensor better outside or inside the loop ?
+
+
+
 ### 11.09. canonization levels
 
 * 5 pm 
@@ -20,24 +30,20 @@
 ### 21.09. questions for eric et al
 
 * did you do autoregressive training?
+* canon level
 
 ### 21.09. grid search preparations
 
 *TODO*
 Code:
-* correct entity F1 reporting
-* correct positional encoding from 10000 to 100
-* correct 2D KBs *TODO PRIORITY*
-* add separate lookup table encoding
-* implement multiheaded KVR attention for transformer
-* write gridsearch script
-* what happens with k\_hops = 2 and feeding = False? dont I need previous utilities?
-* fix transformer encoder???
 
+* correct entity F1 reporting
+* implement multiheaded KVR attention for transformer
+* what happens with k\_hops == 2 and input\_feeding == False? dont I need previous utilities?
+* fix transformer encoder???
 
 Test runs:
 * 2D KB plotting 
-
 
 ### 09.09. grid search hyperparams
 
@@ -50,19 +56,19 @@ These hyperparams are all orthogonal:
 * 3 multihops: 1 , 2 , 3
 * 3 kb input feeding: False, ff, rnn
 * 2 teacher\_force: no, yes
-* 3 architecture: RNN , rnnTF , tfTF
+* 2 architecture: RNN , rnnTF
 ====== END GRID SEARCH OVER THESE ======
 
-3 x 3 x 2 x 3 x 8 x 0.5  = 216 stunden = 10 tage 
+3 x 3 x 2 x 2 x 12 x 1/6  = 72 stunden = 3 tage 
 
 * 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
 * 2 scheduled sampling: invsigmoid, linear
+* 2 tftf, rnntf
 
 * 3 kb encoding: 1D, 2D, positional
 * 2 kb embedding: source,  separate
 * 2 copy\_from\_source: True, False
 * 2 kb key rep: with values, without values
-
 
 
 ### Empty scheduling KBs:
@@ -78,7 +84,7 @@ These hyperparams are all orthogonal:
 ### 31.08.20 stuff to add to config
 
 * copy from source? bool✔️
-* knowledgebase encoding: "2d"✔️, "positional" XXX
+* knowledgebase encoding: "2d"✔️, "positional" ✔️
 * separate KB embedding table ✔️
 
 ### 29.08.20 plotting issues
@@ -104,8 +110,6 @@ Architecture
 Dataset
 Experiments
 Conclusion
-
-
 
 ---
 
