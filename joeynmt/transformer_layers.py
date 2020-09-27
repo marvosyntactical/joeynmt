@@ -9,75 +9,6 @@ from joeynmt.attention import KeyValRetAtt
 
 
 
-# pylint: disable=arguments-differ
-class MultiHeadedLinearAttention(MultiHeadedAttention):
-    """
-    Multi-Head Linear Attention module ( https://arxiv.org/abs/2006.16236 )
-    """
-
-    def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
-        """
-        Computes multi-headed KB attention.
-
-        :param k: keys   [B, M, D] with M being the sentence length (Max)
-        :param v: values [B, M, D] values
-        :param q: query  [B, M, D]
-        :return:
-        """
-        batch_size = k.size(0)
-        num_heads = self.num_heads
-        head_size = self.head_size
- 
-        # project the queries (q), keys (k), and values (v)
-        k = self.k_layer(k)
-        v = self.v_layer(v)
-        q = self.q_layer(q)
-
-        # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        # using num_heads * head_size == size
-        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
-        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
-        q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
-
-        assert False, v.shape
-
-        # scale query because it helps, no idea why 
-        q = q / math.sqrt(self.head_size)
-
-        # batch x num_heads x query_len x key_len
-        # compute scores
-        scores = q @ k.transpose(2, 3)
-
-        # apply the mask (if we have one)
-        # we add a dimension for the heads to it below: [B, 1, 1, M]
-        if mask is not None:
-            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
-
-        # apply attention dropout and compute context vectors.
-        attention = self.softmax(scores)
-        attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
-
-        # get context vector (select values with attention) 
-        # and reshape back to [B, M, D]
-
-        context = attention @ v
-        context = context.transpose(1, 2).contiguous().view(
-            batch_size, -1, num_heads * head_size
-        )
-
-        output = self.output_layer(context)
-
-        # output: B x M x D
-        # attention heads: B x N x M x KB
-        # summed attention heads: B x M x KB
-        # v: B x N x KB x H
-
-        # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
-        # utilities at attention hop (=transf layer) number k
-        # B x M x KB
-        return output
-
-
 
 
 # pylint: disable=arguments-differ
@@ -231,6 +162,98 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         # attention heads: B x N x M x KB
         # summed attention heads: B x M x KB
         # v: B x N x KB x H
+
+        assert False, [t.shape for t in 
+            [output, attention, v]
+            ]
+
+        # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
+        # utilities at attention hop (=transf layer) number k
+        # B x M x KB
+        return output
+
+
+# pylint: disable=arguments-differ
+class MultiHeadedLinearAttention(MultiHeadedAttention):
+    """
+    Multi-Headed Linear Attention module ( https://arxiv.org/abs/2006.16236 )
+    """
+    def __init__(self, num_heads: int, size: int, dropout: float = 0.1):
+        """
+        Create a multi-headed attention layer.
+        :param num_heads: the number of heads
+        :param size: model size (must be divisible by num_heads)
+        :param dropout: probability of dropping a unit
+        """
+        super(MultiHeadedAttention, self).__init__()
+
+        assert size % num_heads == 0, (size, num_heads)
+
+        self.head_size = head_size = size // num_heads
+        self.model_size = size
+        self.num_heads = num_heads
+
+        self.k_layer = nn.Linear(size,size)
+        self.v_layer = nn.Linear(size,size)
+        self.q_layer = nn.Linear(size,size)
+
+        self.output_layer = nn.Linear(size, size)
+        self.softmax = nn.Softmax(dim=-1)
+        self.dropout = nn.Dropout(dropout)
+        
+        # linear feature map, choice is yours
+        self.KernelModule = nn.ELU()
+        self.kernel = lambda x: self.KernelModule(x) + 1
+
+    def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
+        """
+        Computes multi-headed KB attention.
+
+        :param k: keys   [B, M, D] with M being the sentence length (Max)
+        :param v: values [B, M, D] values
+        :param q: query  [B, M, D]
+        :return:
+        """
+        batch_size = k.size(0)
+        num_heads = self.num_heads
+        head_size = self.head_size
+ 
+        # project the queries (q), keys (k), and values (v)
+        k = self.k_layer(k)
+        v = self.v_layer(v)
+        q = self.q_layer(q)
+
+        # reshape q, k, v for our computation to [batch_size, num_heads, ..]
+        # using num_heads * head_size == size
+        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
+        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
+        q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+
+        # scale query because it helps, no idea why 
+        q = q / math.sqrt(self.head_size)
+
+        # batch x num_heads x query_len x key_len
+        # compute scores
+        scores = q @ k.transpose(2, 3)
+
+        # apply the mask (if we have one)
+        # we add a dimension for the heads to it below: [B, 1, 1, M]
+        if mask is not None:
+            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
+
+        # apply attention dropout and compute context vectors.
+        attention = self.softmax(scores)
+        attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
+
+        # get context vector (select values with attention) 
+        # and reshape back to [B, M, D]
+
+        context = attention @ v
+        context = context.transpose(1, 2).contiguous().view(
+            batch_size, -1, num_heads * head_size
+        )
+
+        output = self.output_layer(context)
 
         # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
         # utilities at attention hop (=transf layer) number k

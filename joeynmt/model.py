@@ -512,26 +512,18 @@ class Model(nn.Module):
                 # make sure none of the dims is 1 if KB can be decomposed
 
                 # FIXME should check this: sometimes one dimension is just 1 and the other has all the info
-                """
-                assert kb_size == 1 or 1 not in [key_dim.shape[1] for key_dim in kb_keys],\
-                    ([key_dim.shape[1] for key_dim in kb_keys], dim_sizes, block_sizes, steps, kb_size, \
-                        [self.src_vocab.arrays_to_sentences(entries) for entries in kb_dim_entries])
-                """
 
             else:
                 # normal (1D) mode 
                 # option for positonal encoding here
 
-
                 # NOTE: values dont need to be embedded! they are only used for indexing
                 kb_keys = self.kbsrc_embed(kb_keys)
-
 
                 if posEnc:
                     # positional encoding needs this format:
                     # ``(seq_len, batch_size, self.dim)`` (batch size is KB size here)
                     kb_keys = self.posEnc(kb_keys.transpose(0,1)).transpose(0,1)
-
 
                 kb_keys = kb_keys.sum(dim=1) # sum embeddings of subj, rel (pad is all 0 in embedding!)
             
