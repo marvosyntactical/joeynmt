@@ -748,7 +748,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             - hidden: new hidden state with shape (batch_size, 1, hidden_size),
             - att_probs: attention probabilities (batch_size, 1, src_len)
         """
-        timer = Timer()
 
         # shape checks
         self._check_shapes_input_forward_step(prev_embed=prev_embed,
@@ -766,8 +765,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         rnn_input = self.emb_dropout(rnn_input)
 
         # rnn_input: batch x 1 x emb+2*enc_size
-        with timer(f"rnn={type(self.rnn)}, {self.num_layers} layered forward step"):
-            _, hidden = self.rnn(rnn_input, hidden)
+        _, hidden = self.rnn(rnn_input, hidden)
         # hidden: num_layers x batch x hidden
         # provided exactly as is on next step
 
@@ -780,9 +778,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # compute context vector using attention mechanism
         # only use last layer for attention mechanism
         # key projections are pre-computed
-        with timer(f"calculating normal bahdanau attention"):
-            context, att_probs = self.attention(
-                query=query, values=encoder_output, mask=src_mask)
+        context, att_probs = self.attention(
+            query=query, values=encoder_output, mask=src_mask)
             
         ### -------------------- start KVR attention -------------------- ###
         
@@ -793,7 +790,10 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         batch_size = att_probs.size(0)
         if kb_hidden_dims_cache == None:
             # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
-            kb_hidden_dims_cache = [torch.zeros(query.size(0), self.curr_kb_sizes[i], query.size(-1)) for i in range(self.kb_dims)] 
+            kb_hidden_dims_cache = [
+                                    torch.zeros(query.size(0), self.curr_kb_sizes[i], query.size(-1)).to(device=query.device)
+                                    for i in range(self.kb_dims)
+                                   ] 
 
         if kb_feed_hidden_cache == None:
             assert isinstance(hidden, tuple), f"TODO remove this assertion if decoder rnn is GRU; self.rnn={type(self.rnn)}"
@@ -804,10 +804,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # multiple attention hops
 
-        with timer(f"doing one step of attention with {self.k_hops} hops and {self.kb_dims} dimensions "):
-            u_t, kb_hidden_dims_cache, kb_feed_hidden_cache = self._add_kb_utilities_for_step(
-                kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
-            )
+        u_t, kb_hidden_dims_cache, kb_feed_hidden_cache = self._add_kb_utilities_for_step(
+            kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
+        )
 
         # u_t = batch x 1 x kb_total
 
@@ -1082,11 +1081,13 @@ class TransformerDecoder(Decoder):
         self.curr_kb_size = None
 
         # create num_layers decoder layers and put them in a list
-        self.layers = nn.ModuleList([TransformerDecoderLayer(
+        self.layers = nn.ModuleList([
+            TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
                 dropout=dropout, kb_task=kb_task, 
-                kb_max=self.kb_max, tfstyletf=True) for _ in range(num_layers)],
-                )
+                kb_max=self.kb_max, tfstyletf=True)\
+                     for _ in range(num_layers)
+                     ])
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -1132,15 +1133,15 @@ class TransformerDecoder(Decoder):
         # TODO pad keys?
 
         # k fwd pass thru k layers (with k x KVR Multihop Attention)
-        u_k = None # knowledgebase utilities at time step k
+        kb_hidden = None # knowledgebase utilities at time step k
         for layer in self.layers:
-            x, u_k = layer(
+            x, kb_hidden = layer(
                            x=x, memory=encoder_output, 
                            kb_keys=kb_keys, kb_values_embed=kb_values_embed,
-                           src_mask=src_mask, trg_mask=trg_mask, prev_utilities=u_k
+                           src_mask=src_mask, trg_mask=trg_mask, prev_kb_hidden=kb_hidden
                            )
 
-        kb_probs = u_k[: ,: ,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
+        kb_probs = kb_hidden[: ,: ,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries
 
         x = self.layer_norm(x)
 
@@ -1535,7 +1536,8 @@ def add_kb_utilities_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
                     prev_kb_hidden = hidden_dims_cache[dim], 
                     prev_kb_feed_hidden = kb_feed_hidden_cache[idx],
                 )
-            except:
+            except Exception as e:
+                print(e)
                 assert False, \
                     [t.shape for t in [hidden_dims_cache[dim], kvr_attentions[idx].proj_keys]]
             
@@ -1564,10 +1566,8 @@ def add_kb_utilities_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
 
             # this leads to same entry arrangement as in the paper again 
             # FIXME does it?
-            try:
-                hidden_kb_t += hidden_n_blocked_tiled
-            except:
-                assert False, (dim, dims_before, dims_after, hidden_n.shape)
+
+            hidden_kb_t += hidden_n_blocked_tiled
 
     # this is done for consistency in the loop and to make the singleton dimension the unroll steps dim
     # to concatenate 1..t...T together and get the same shape as outputs
