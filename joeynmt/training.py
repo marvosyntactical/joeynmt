@@ -9,6 +9,7 @@ import time
 import shutil
 from typing import List, Tuple
 import os
+os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 import queue
 
 import numpy as np

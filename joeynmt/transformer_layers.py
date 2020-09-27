@@ -7,6 +7,79 @@ from torch import Tensor
 from joeynmt.attention import KeyValRetAtt
 
 
+
+
+# pylint: disable=arguments-differ
+class MultiHeadedLinearAttention(MultiHeadedAttention):
+    """
+    Multi-Head Linear Attention module ( https://arxiv.org/abs/2006.16236 )
+    """
+
+    def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
+        """
+        Computes multi-headed KB attention.
+
+        :param k: keys   [B, M, D] with M being the sentence length (Max)
+        :param v: values [B, M, D] values
+        :param q: query  [B, M, D]
+        :return:
+        """
+        batch_size = k.size(0)
+        num_heads = self.num_heads
+        head_size = self.head_size
+ 
+        # project the queries (q), keys (k), and values (v)
+        k = self.k_layer(k)
+        v = self.v_layer(v)
+        q = self.q_layer(q)
+
+        # reshape q, k, v for our computation to [batch_size, num_heads, ..]
+        # using num_heads * head_size == size
+        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
+        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
+        q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+
+        assert False, v.shape
+
+        # scale query because it helps, no idea why 
+        q = q / math.sqrt(self.head_size)
+
+        # batch x num_heads x query_len x key_len
+        # compute scores
+        scores = q @ k.transpose(2, 3)
+
+        # apply the mask (if we have one)
+        # we add a dimension for the heads to it below: [B, 1, 1, M]
+        if mask is not None:
+            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
+
+        # apply attention dropout and compute context vectors.
+        attention = self.softmax(scores)
+        attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
+
+        # get context vector (select values with attention) 
+        # and reshape back to [B, M, D]
+
+        context = attention @ v
+        context = context.transpose(1, 2).contiguous().view(
+            batch_size, -1, num_heads * head_size
+        )
+
+        output = self.output_layer(context)
+
+        # output: B x M x D
+        # attention heads: B x N x M x KB
+        # summed attention heads: B x M x KB
+        # v: B x N x KB x H
+
+        # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
+        # utilities at attention hop (=transf layer) number k
+        # B x M x KB
+        return output
+
+
+
+
 # pylint: disable=arguments-differ
 class MultiHeadedAttention(nn.Module):
     """
@@ -126,6 +199,8 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
         q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
+        assert False, v.shape
+
         # scale query because it helps, no idea why 
         q = q / math.sqrt(self.head_size)
 
@@ -142,17 +217,20 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         attention = self.softmax(scores)
         attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
 
-
         # get context vector (select values with attention) 
         # and reshape back to [B, M, D]
 
-        assert False, (attention.shape, v.shape)
         context = attention @ v
         context = context.transpose(1, 2).contiguous().view(
             batch_size, -1, num_heads * head_size
         )
 
         output = self.output_layer(context)
+
+        # output: B x M x D
+        # attention heads: B x N x M x KB
+        # summed attention heads: B x M x KB
+        # v: B x N x KB x H
 
         # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
         # utilities at attention hop (=transf layer) number k
@@ -347,7 +425,7 @@ class TransformerDecoderLayer(nn.Module):
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
                 kb_values_embed: Tensor = None,
-                prev_utilities: Tensor = None,
+                prev_kb_hidden: Tensor = None,
                 kb_mask: Tensor = None,
                 ) -> Tensor:
         """
@@ -372,17 +450,22 @@ class TransformerDecoderLayer(nn.Module):
 
         h2 = self.dropout(h2) + h1
 
-        if self.tfstyletf and kb_keys is not None and kb_values_embed is not None:
+        if self.tfstyletf and kb_keys is not None:
+            assert kb_values_embed is not None
 
             # kb attention uses hidden state after src_trg_att as query
             h2_norm = self.kb_layer_norm(h2) # dims not changed
 
-            if prev_utilities is not None:
+            if prev_kb_hidden is not None:
+                assert False, [t.shape for t in [prev_kb_hidden, h2_norm]]
+                # TODO add query + memory (h2_norm + prev_kb_hidden)
 
-                KVRfeedInput = torch.cat([prev_utilities, h2_norm], dim=-1) # batch x 1 x kb_max + hidden
-                query_k = self.multihop_feeding(KVRfeedInput) # batch x 1 x hidden
+                kvrFeedInput = torch.cat([prev_kb_hidden, h2_norm], dim=-1) # batch x 1 x kb_max + hidden
+                query_k = self.multihop_feeding(kvrFeedInput) # batch x 1 x hidden
 
             else:
+                # TODO init with 0s
+        
 
                 query_k = h2_norm
                 

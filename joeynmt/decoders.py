@@ -1137,8 +1137,9 @@ class TransformerDecoder(Decoder):
         for layer in self.layers:
             x, kb_hidden = layer(
                            x=x, memory=encoder_output, 
+                           src_mask=src_mask, trg_mask=trg_mask, 
                            kb_keys=kb_keys, kb_values_embed=kb_values_embed,
-                           src_mask=src_mask, trg_mask=trg_mask, prev_kb_hidden=kb_hidden
+                           prev_kb_hidden=kb_hidden
                            )
 
         kb_probs = kb_hidden[: ,: ,:self.curr_kb_size] # recover only attention values for non pad knowledgebase entries

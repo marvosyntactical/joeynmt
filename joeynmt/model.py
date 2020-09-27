@@ -95,10 +95,6 @@ class Model(nn.Module):
                 decoder_hidden_size = self.decoder._hidden_size
 
             self.posEnc = PositionalEncoding(decoder_hidden_size,e=2) # must be hidden size of attention mechanism actually FIXME (they the same tho atm)
-        if isinstance(self.decoder, TransformerKBrnnDecoder):
-            self.embed_vals_for_tf_decoder = True
-        else:
-            self.embed_vals_for_tf_decoder = False
         self.Timer = Timer()
 
 
@@ -382,11 +378,8 @@ class Model(nn.Module):
         kb_true_vals.unsqueeze_(0)
         kb_true_vals = kb_true_vals.repeat((batch.trg.shape[0], 1)).contiguous() # batch x kb
 
-        if self.embed_vals_for_tf_decoder:
-            # embed kb values for transformer style transformer implementation (with multihead KB att instead of RNN stuff)
-            kb_values_embed = self.trg_embed(kb_values)
-        else:
-            kb_values_embed = None
+        # embed kb values for transformer style transformer implementation (with multihead KB att instead of RNN stuff)
+        kb_values_embed = self.trg_embed(kb_values)
 
         # (also add batch dim to keys below)
 
@@ -550,8 +543,7 @@ class Model(nn.Module):
         
         assert len(kb_values.shape) == 2, kb_values.shape
 
-        if self.embed_vals_for_tf_decoder:
-            assert len(kb_values_embed.shape) == 3, kb_values_embed.shape
+        assert len(kb_values_embed.shape) == 3, kb_values_embed.shape
         
         assert_msg = (shape_check_keys.shape, kb_values.shape, kb_true_vals.shape, kb_true_vals)
 
