@@ -242,9 +242,9 @@ class KeyValRetAtt(AttentionMechanism):
         afterW1 = torch.tanh(proj_query_memory_keys)
         kb_hidden = torch.tanh(self.W2(afterW1))
 
-        if kb_feed_hidden is not None:
+        if kb_feed_hidden is not None and self.feed_rnn:
             assert kb_feed_hidden.shape[0] == self.num_feed_layers, \
-                (kb_feed_hidden.shape, query.shape, prev_kb_hidden)
+                (kb_feed_hidden.shape, query.shape, prev_kb_hidden.shape)
 
         return kb_hidden, kb_feed_hidden
 
