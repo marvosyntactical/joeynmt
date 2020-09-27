@@ -565,8 +565,6 @@ class Model(nn.Module):
         if type(self.decoder) == TransformerDecoder:
             kb_mask = kb_mask.to(float32) 
         
-        input(f"{kb_mask.shape} is kb mask shape")
-        
         assert len(kb_mask.shape) == 2, kb_mask.shape
         
         # FIXME this should hopefully trigger at some point for partially assigned scheduling dialogues

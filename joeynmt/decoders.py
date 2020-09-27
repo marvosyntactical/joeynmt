@@ -1553,7 +1553,7 @@ def add_kb_utilities_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
             ### insert local hiddens into global hidden in appropriate places ###
 
             # repeat as often as the product of dims before this dim
-            # torch.Tensor.repeat repeats with count_{dim}=3 entries like so:
+            # torch.Tensor.repeat with count_{dim}=3 repeats dim's entries like so:
             # [1,2,3] => [1,2,3,1,2,3,1,2,3]
             hidden_n_blocked = hidden_n.repeat(1, dims_before[dim], 1)
 
@@ -1568,10 +1568,9 @@ def add_kb_utilities_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
                 hidden_kb_t += hidden_n_blocked_tiled
             except:
                 assert False, (dim, dims_before, dims_after, hidden_n.shape)
-        
+
     # this is done for consistency in the loop and to make the singleton dimension the unroll steps dim
-    # to concatenate 1..t...T together and get the same shape
-    # as outputs
+    # to concatenate 1..t...T together and get the same shape as outputs
 
     # only apply energy layer after multihop fwd pass
 
@@ -1581,12 +1580,14 @@ def add_kb_utilities_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
     # u_t = batch x 1 x product(kb_max)=kb_total
     u_t = u_t.squeeze(2).unsqueeze(1)
 
-    
     # FIXME move inside hop loop?
     if kb_mask is not None:
         # mask entries that arent actually assigned (happens in scheduling)
-        hidden_n_blocked_tiled = torch.where(
-            ~kb_mask, hidden_n_blocked_tiled, torch.zeros_like(hidden_n_blocked_tiled)
-        )
+        try:
+            u_t = torch.where(
+                ~kb_mask.unsqueeze(1), u_t, torch.zeros_like(u_t)
+            )
+        except:
+            assert False, [t.shape for t in [kb_mask, hidden_n_blocked_tiled]]
 
     return u_t, hidden_dims_cache, kb_feed_hidden_cache

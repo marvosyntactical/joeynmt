@@ -12,7 +12,8 @@
 * pass hidden state to next module instead of utilities:
 * batch x kb\_curr\_dim x hidden instead of batch x 1 x kb
 * *TODO* test: can I still mask between hops???? should annihilate everything?
-* *TODO* test: is the aggregate kb hidden tensor better outside or inside the loop ?
+* *TODO* test: is the aggregate kb hidden tensor better outside or inside the loop?
+
 
 
 
