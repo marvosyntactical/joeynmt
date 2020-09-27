@@ -790,10 +790,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         batch_size = att_probs.size(0)
         if kb_hidden_dims_cache == None:
             # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
-            kb_hidden_dims_cache = [
-                                    torch.zeros(query.size(0), self.curr_kb_sizes[i], query.size(-1)).to(device=query.device)
-                                    for i in range(self.kb_dims)
-                                   ] 
+            with torch.no_grad():
+                kb_hidden_dims_cache = [
+                    torch.zeros(query.size(0), self.curr_kb_sizes[i], query.size(-1)).to(device=query.device)
+                    for i in range(self.kb_dims)
+                ] 
 
         if kb_feed_hidden_cache == None:
             assert isinstance(hidden, tuple), f"TODO remove this assertion if decoder rnn is GRU; self.rnn={type(self.rnn)}"
@@ -1357,9 +1358,10 @@ class TransformerKBrnnDecoder(TransformerDecoder):
             if kb_feed_hidden_cache == None:
 
                 # if not present initialize with last stage of first timestep of x
-                kb_feed_hidden_cache = torch.zeros(
-                    self.kb_dims * self.k_hops, self.kb_layers, x.size(0), self._hidden_size
-                ).to(dtype=kb_keys[0].dtype, device=kb_keys[0].device)
+                with torch.no_grad():
+                    kb_feed_hidden_cache = torch.zeros(
+                        self.kb_dims * self.k_hops, self.kb_layers, x.size(0), self._hidden_size
+                    ).to(dtype=kb_keys[0].dtype, device=kb_keys[0].device)
 
             # Recurrent unroll of KB attentions
             for t in range(x.size(1)):
@@ -1516,8 +1518,9 @@ def add_kb_utilities_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
     :param dims_after:
     """
 
-    # batch x kb_total x hidden
-    hidden_kb_t = torch.zeros(query.size(0), curr_kb_total, kvr_attentions[0].key_layer.weight.shape[0]).to(query.device)
+    with torch.no_grad():
+        # batch x kb_total x hidden
+        hidden_kb_t = torch.zeros(query.size(0), curr_kb_total, kvr_attentions[0].key_layer.weight.shape[0]).to(query.device)
 
     # multiple attention hops
     for j in range(k_hops): # self.k_hops == 1 <=> Eric et al version

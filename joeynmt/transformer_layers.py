@@ -124,13 +124,12 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         v = self.v_layer(v)
         q = self.q_layer(q)
 
-        # reshape q, k, v for our computation to [batch_size, num_heads, ..]
+        # reshape q, k, v for our computation to [batch_size, num_heads, ..., head_size]
         # using num_heads * head_size == size
         k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
         v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
         q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
-        assert False, v.shape
 
         # scale query because it helps, no idea why 
         q = q / math.sqrt(self.head_size)
@@ -146,25 +145,32 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
         # apply attention dropout and compute context vectors.
         attention = self.softmax(scores)
-        attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
+        attention = self.dropout(attention) # batch x num_h x M (query) x KB (key)
 
         # get context vector (select values with attention) 
         # and reshape back to [B, M, D]
 
-        context = attention @ v
-        context = context.transpose(1, 2).contiguous().view(
-            batch_size, -1, num_heads * head_size
-        )
 
-        output = self.output_layer(context)
+
+        # query: B x M x D
+        # => 
+        # proj_query: B x M x 1 x D
+        # keys: B x M x KB x D 
+        # 
+
+        # summed attention : B x M x KB
+        # attention : B x n x M x KB
+        # v: B x n x KB x D/n
 
         # output: B x M x D
-        # attention heads: B x N x M x KB
-        # summed attention heads: B x M x KB
-        # v: B x N x KB x H
+        #
+        # but i want: 
+        # output = B x M x KB x D
+        # and after last layer:  
+        # utilities = B x M x KB = energy_layer(output)
 
         assert False, [t.shape for t in 
-            [output, attention, v]
+            [attention, v]
             ]
 
         # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
