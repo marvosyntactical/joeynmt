@@ -629,6 +629,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                 for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module
                                 )
         self.kb_energy_layer = nn.Linear(hidden_size, 1, bias=False)
+        self.kb_activation = nn.Tanh()
         self.kb_input_feeding = kb_input_feeding
 
     def _add_kb_probs_for_step(self, kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
@@ -636,7 +637,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 kb_hidden_dims_cache, kb_feed_hidden_cache, query,
                 self.kvr_attention, self.curr_kb_total, 
                 self.k_hops, self.kb_dims, self.curr_dims_before, 
-                self.curr_dims_after, self.kb_energy_layer, kb_mask=kb_mask
+                self.curr_dims_after, self.kb_energy_layer, self.kb_activation, kb_mask=kb_mask
         )
     
     def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
@@ -1501,7 +1502,7 @@ def reshape_kb_mask_to_keys_size(kb_mask, kb_keys, kb_total):
 
 def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query, 
                                 kvr_attentions, curr_kb_total, k_hops, kb_dims, 
-                                dims_before, dims_after, energy_layer,
+                                dims_before, dims_after, energy_layer, activation,
                                 kb_mask=None):
     """
     Do one time step of kb attention (with k hops and n dimensions). 
@@ -1522,7 +1523,7 @@ def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
 
     with torch.no_grad():
         # batch x kb_total x hidden
-        hidden_kb_t = torch.zeros(query.size(0), curr_kb_total, kvr_attentions[0].key_layer.weight.shape[0]).to(query.device)
+        hidden_kb_t = query.new_zeros(query.size(0), curr_kb_total, kvr_attentions[0].key_layer.weight.shape[0])
 
     # multiple attention hops
     for j in range(k_hops): # self.k_hops == 1 <=> Eric et al version
@@ -1581,7 +1582,7 @@ def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
     # only apply energy layer after multihop fwd pass
 
     # u_t: batch x kb_total x 1
-    u_t = energy_layer(hidden_kb_t)
+    u_t = energy_layer(activation(hidden_kb_t))
 
     # u_t = batch x 1 x product(kb_max)=kb_total
     u_t = u_t.squeeze(2).unsqueeze(1)
@@ -1591,7 +1592,7 @@ def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
         # mask entries that arent actually assigned (happens in scheduling)
         try:
             u_t = torch.where(
-                ~kb_mask.unsqueeze(1), u_t, torch.zeros_like(u_t)
+                ~kb_mask.unsqueeze(1), u_t, u_t.new_zeros(u_t.shape) 
             )
         except:
             assert False, [t.shape for t in [kb_mask, hidden_n_blocked_tiled]]
