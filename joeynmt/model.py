@@ -198,7 +198,6 @@ class Model(nn.Module):
         
         log_probs = None
 
-        # pylint: disable=unused-variable
         if kb_keys is not None: # kb task
             assert batch.kbsrc != None, batch.kbsrc
 
@@ -444,7 +443,6 @@ class Model(nn.Module):
                     i = step = 1
                     found_second_entry = False
                     block_flag, step_flag = False, False
-                    # assert False, self.trv_vocab.arrays_to_sentences(batch.kbtrv) 
                     first_entry = kb_dim_embed[i] 
 
                     # find out if first entry is repeated

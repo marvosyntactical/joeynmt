@@ -97,15 +97,14 @@ def recurrent_greedy(
     print(f"in search.recurrent_greedy; knowledgebase is \
     {[t.shape if isinstance(t, torch.Tensor) else [t_dim.shape for t_dim in t] for t in knowledgebase]}")
 
+
     if knowledgebase != None:
         # knowledgebase is (kb_keys, kb_values, kb_values_embed, kb_mask) (see model.run_batch)
 
         # kept as tuple since dynamic typing easily allows shoving more objects into this
         # so I dont have to rewrite tons of function signatures 
 
-        kb_keys = knowledgebase[0]
-        kb_values = knowledgebase[1]
-        kb_mask = knowledgebase[-1]
+        kb_keys, kb_values, kb_values_embed, kb_mask = knowledgebase
 
         kb_hidden_dims_cache = None # equivalent of prev_att_vector but for each KB dim
         kb_feed_hidden_cache = None  # equivalent of hidden but for each kvr module
@@ -114,7 +113,7 @@ def recurrent_greedy(
         all_log_probs = []
 
     else:
-        kb_keys = kb_values = kb_mask = None
+        kb_keys = kb_values = kb_values_embed = kb_mask = None
         stacked_log_probs = None
 
     # pylint: disable=unused-variable
@@ -130,6 +129,7 @@ def recurrent_greedy(
             unroll_steps=1,
             kb_keys=kb_keys,
             kb_mask=kb_mask,
+            kb_values_embed=kb_values_embed,
             kb_hidden_dims_cache=kb_hidden_dims_cache,
             kb_feed_hidden_cache=kb_feed_hidden_cache
         )
@@ -390,9 +390,11 @@ def beam_search(
     if knowledgebase != None:
         kb_values = tile(knowledgebase[1], size, dim=0)
         kb_mask = tile(knowledgebase[-1], size, dim=0)
+        kb_values_embed = tile(knowledgebase[2], size, dim=0)
 
         kb_size = kb_values.size(1)
         kb_keys = knowledgebase[0]
+
         if isinstance(kb_keys, tuple):
             kb_keys = tuple([tile(key_dim, size, dim=0) for key_dim in kb_keys])
         else:
@@ -401,7 +403,6 @@ def beam_search(
         att_alive = torch.Tensor( # batch * k x src x time
             [[[] for _ in range(encoder_output.size(1))] for _ in range(batch_size * size)]
         ).to(dtype=torch.float32, device=encoder_output.device)
-        
         
         kb_att_alive = torch.Tensor( # batch*k x KB x time
             [[[] for _ in range(kb_size)] for _ in range(batch_size * size)]
@@ -449,6 +450,7 @@ def beam_search(
             trg_mask=trg_mask, # subsequent mask for Transformer only
             kb_keys=kb_keys, # None by default 
             kb_mask=kb_mask,
+            kb_values_embed=kb_values_embed,
             util_dims_cache=util_dims_cache,
             kb_feed_hidden_cache=kb_feed_hidden_cache
         )
@@ -574,9 +576,10 @@ def beam_search(
                         # batch x k x KB x time 
                         kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
 
-                        stacked_attention_scores[b].append(
-                            attentions[i,j].cpu().numpy()
-                        )
+                        if attentions is not None:
+                            stacked_attention_scores[b].append(
+                                attentions[i,j].cpu().numpy()
+                            )
                         stacked_kb_att_scores[b].append(
                             kb_attentions[i,j].cpu().numpy()
                         )
@@ -610,7 +613,10 @@ def beam_search(
                         stck_kb_att_np = np.array(stacked_kb_att_scores[b])
 
 
-                        best_atts_d_ = stck_att_np[best_hyps_idx] 
+                        if len(stck_att_np):
+                            best_atts_d_ = stck_att_np[best_hyps_idx] 
+                        else:
+                            best_atts_d_ = None
                         best_kb_atts_d_ = stck_kb_att_np[best_hyps_idx]
                     
                     # TODO replace best_hyps_descending with best_hyps_d_ FIXME XXX (after cluster beam test)
@@ -621,7 +627,8 @@ def beam_search(
                         results["predictions"][b].append(pred)
 
                         if knowledgebase is not None:
-                            results["att_scores"][b].append(best_atts_d_[n])
+                            if best_atts_d_ is not None:
+                                results["att_scores"][b].append(best_atts_d_[n])
                             results["kb_att_scores"][b].append(best_kb_atts_d_[n])
                         
             # if all sentences are translated, no need to go further
@@ -644,7 +651,7 @@ def beam_search(
                 # to
                 # batch * k x time x src
 
-                if 0 in att_alive.shape:
+                if 0 not in att_alive.shape:
                     att_alive = att_alive.index_select(0, non_finished) \
                         .view(-1, attentions.size(-1), attentions.size(-2))
 
@@ -707,10 +714,13 @@ def beam_search(
         # TODO FIXME confirm this implementation
 
         # stacked_attention_scores: batch x max output len x src len
-        stacked_attention_scores = np.stack([
-            # select attentions of top (0) beam
-            atts[0].T for atts in results["att_scores"]
-            ], axis=0)
+        if len(results["att_scores"][0]):
+            stacked_attention_scores = np.stack([
+                # select attentions of top (0) beam
+                atts[0].T for atts in results["att_scores"]
+                ], axis=0)
+        else:
+            stacked_attention_scores = None
 
         # stacked_kb_att_scores: batch x max output len x kb
         stacked_kb_att_scores = np.stack([

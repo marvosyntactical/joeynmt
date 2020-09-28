@@ -55,8 +55,8 @@ nNMT/OpenNMT-py
         :return:
         """
         batch_size = k.size(0)
-        num_heads = self.num_heads
         head_size = self.head_size
+        num_heads = self.num_heads
 
  
         # project the queries (q), keys (k), and values (v)
@@ -106,6 +106,30 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
     """
 
+    def __init__(self, num_heads: int, size: int, dropout: float = 0.1, kb_max: int = 256):
+        """
+        Create a multi-headed attention layer.
+        :param num_heads: the number of heads
+        :param size: model size (must be divisible by num_heads)
+        :param dropout: probability of dropping a unit
+        """
+        super(MultiHeadedAttention, self).__init__()
+
+        assert size % num_heads == 0, (size, num_heads)
+
+        self.head_size = head_size = size // num_heads
+        self.model_size = size
+        self.num_heads = num_heads
+
+        self.k_layer = nn.Linear(size,size)
+        self.v_layer = nn.Linear(size,size)
+        self.q_layer = nn.Linear(size,size)
+
+        self.output_layer = nn.Linear(size, size)
+        self.softmax = nn.Softmax(dim=-1)
+        self.dropout = nn.Dropout(dropout)
+
+
     def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
         """
         Computes multi-headed KB attention.
@@ -130,7 +154,6 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
         q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
 
-
         # scale query because it helps, no idea why 
         q = q / math.sqrt(self.head_size)
 
@@ -147,36 +170,33 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
         attention = self.softmax(scores)
         attention = self.dropout(attention) # batch x num_h x M (query) x KB (key)
 
+        context = attention @ v 
+        # context: B x n x M x h => B x M x D
+        context = context.transpose(1, 2).contiguous().view(
+            batch_size, -1, num_heads * head_size
+        )
+
+        # output: B x M x D
+        output = self.output_layer(context)
+
         # get context vector (select values with attention) 
         # and reshape back to [B, M, D]
-
-
 
         # query: B x M x D
         # => 
         # proj_query: B x M x 1 x D
         # keys: B x M x KB x D 
-        # 
 
-        # summed attention : B x M x KB
+        # output:
+        # feed into next layer along with query
+
         # attention : B x n x M x KB
-        # v: B x n x KB x D/n
-
-        # output: B x M x D
-        #
-        # but i want: 
-        # output = B x M x KB x D
         # and after last layer:  
-        # utilities = B x M x KB = energy_layer(output)
+        # kb_probs = B x M x KB = energy_layer(attention)
 
-        assert False, [t.shape for t in 
-            [attention, v]
-            ]
-
-        # u_k in analogy to u_t_k in joeynmt.attention. kb attention:
-        # utilities at attention hop (=transf layer) number k
-        # B x M x KB
-        return output
+        # B x M x KB; B x n x M x KB
+        return output, attention
+    
 
 
 # pylint: disable=arguments-differ
@@ -482,30 +502,22 @@ class TransformerDecoderLayer(nn.Module):
         if self.tfstyletf and kb_keys is not None:
             assert kb_values_embed is not None
 
-            # kb attention uses hidden state after src_trg_att as query
-            h2_norm = self.kb_layer_norm(h2) # dims not changed
+            h2_norm = self.kb_layer_norm(h2)
 
-            if prev_kb_hidden is not None:
-                assert False, [t.shape for t in [prev_kb_hidden, h2_norm]]
-                # TODO add query + memory (h2_norm + prev_kb_hidden)
+            # feed this query at kth hop
+            query_k = h2_norm + prev_kb_hidden 
 
-                kvrFeedInput = torch.cat([prev_kb_hidden, h2_norm], dim=-1) # batch x 1 x kb_max + hidden
-                query_k = self.multihop_feeding(kvrFeedInput) # batch x 1 x hidden
-
-            else:
-                # TODO init with 0s
-        
-
-                query_k = h2_norm
-                
             # KVR attention
-            u_k = self.kb_trg_att(kb_keys, kb_values_embed, query_k, mask=kb_mask) # TODO find out if I have to apply src_mask here too
-            assert False, u_k.shape
-        else:
-            u_k = None
+            kb_hidden, kb_att = self.kb_trg_att(kb_keys, kb_values_embed, query_k, mask=kb_mask) # TODO find out if I have to apply src_mask here too
 
+            # TODO is there a different way to update the main hidden state
+            # with transformer info without completely trashing it?
+            h2 = self.dropout(kb_hidden) + h2
+
+        else:
+            kb_hidden, kb_att = None, None
 
         # final position-wise feed-forward layer
         o = self.feed_forward(h2)
         
-        return o, u_k
+        return o, kb_hidden, kb_att
