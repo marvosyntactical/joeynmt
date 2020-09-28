@@ -45,7 +45,7 @@ training:
     batch_type: "token"
     early_stopping_metric: "eval_metric"
     epochs: 100
-    validation_freq: 800
+    validation_freq: 800 #
     logging_freq: 100
     eval_metric: "bleu"
     model_dir: "models/tf"
@@ -65,7 +65,7 @@ model:
     do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
     kb_max_dims: [256]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al)
     copy_from_source: True
-    kb_input_feeding: True
+    kb_input_feeding: False
     kb_feed_rnn: True
     tfstyletf: True 
 

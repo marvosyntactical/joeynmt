@@ -33,8 +33,6 @@ def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,4], upd
 
             part_sq = [ job for job in sq if len(job.split()) > 5 and part in job.split()[1] ]
             my_part_sq = [ job for job in part_sq if len(job.split()) > 5 and me in job.split()[3] ] # relies on job name not having whitespace ! FIXME
-
-            input((part_sq, my_part_sq))
             
             if len(my_part_sq) < allowed_num_jobs_here:
                 partition_with_slot = i
@@ -52,7 +50,6 @@ def main(args):
     })
 
     architectures = ["rnn", "tf"] # remember to add if case for tfstyletf
-    tfvanillastyles = [False, True]
     init = "GridInit"
     path = "configs/kvr/grid/"
     ext  = ".yaml"
@@ -60,40 +57,11 @@ def main(args):
 
     for architecture in architectures:
 
-        arch_config = path+architecture+init+ext
+        arch_config = path + architecture + init + ext
 
         for j in search_space["k_hops"]:
             for no_yes in search_space["kb_input_feeding"]:
                 for false_tru in search_space["teacher_force"]:
-
-                    if architecture == "tf":
-                        for rnn_vanil in tfvanillastyles:
-
-                            gridcombo = architecture+str(j)+str(int(no_yes))+str(int(false_tru))+str(int(rnn_vanil))
-
-                            new_cfg = path+gridcombo+ext
-
-                            existing_models = str(check_output(["ls", models])).split("\\n")
-                            skip_job = False
-                            for model in existing_models:
-                                if gridcombo in model:
-                                    skip_job = True
-                                    break
-
-                            if skip_job: continue
-                                    
-                            free_partition = wait_for_green_light()
-
-
-                            Popen( [f"cp {arch_config} {new_cfg}"], shell=True).wait()
-                            assert os.path.isfile(new_cfg), os.listdir(path)
-                            for key, value in zip(list(search_space.keys())+["tfstyletf"], [j, no_yes, false_tru, rnn_vanil]):
-
-                                param_regex_replace = "s/{key}: [^#]*#/{key}: {value} #/g"
-                                Popen(["sed -i", param_regex_replace,  new_cfg],shell=True).wait()
-                            # start job
-                            Popen(f"./{jobbers[free_partition]+shellext} {gridcombo}", shell=True).wait()
-                    else:
 
                         gridcombo = architecture+str(j)+str(int(no_yes))+str(int(false_tru))
                         new_cfg = path+gridcombo+ext

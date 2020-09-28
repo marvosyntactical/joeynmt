@@ -3,15 +3,15 @@ name: "rnnGridInit"
 # This configuration serves the purpose of documenting and explaining the kb settings, *NOT* as an example for good hyperparamter settings.
 
 data: # specify your data here
-    src: "usr"                             # src language: expected suffix of train files, e.g. "train.de"
-    trg: "carno"                           # trg language
+src: "usr"                                 # src language: expected suffix of train files, e.g. "train.de" # KVR: always use this
+    trg: "carno"                           # trg language # KVR: file extension for canonized target data: train on this
     kb_task: "YES"                         # KVR: assigned and boolean val of True if KVR task performed 
     kb_src: "kbkNODEFAULT"                 # KVR: kb keys (subj pad rel) extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_trg: "kbcNODEFAULT"                 # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_lkp: "lkp"                          # KVR: kb association lkp file ext
     kb_len: "lenNODEFAULT"                 # KVR: kb lengths file ext
     kb_truvals: "trvNODEFAULT"             # KVR: file extension for truvals
-    trutrg: "car"                          # KVR: file extension for uncanonized target data
+    trutrg: "carno"                        # KVR: file extension for uncanonized target data: validate/test on this
     global.trv: "global.trvNODEFAULT"      # KVR: concatenation of train/dev/test trv files for lookup vocab building
     
     train: "data/kvr/train"                # training data
@@ -47,13 +47,13 @@ training:                                  # specify training details here
     batch_multiplier: 10                   # increase the effective batch size with values >1 to batch_multiplier*batch_size without increasing memory consumption by making updates only every batch_multiplier batches
     scheduling: "plateau"                  # learning rate scheduling, optional, if not specified stays constant, options: "plateau", "exponential", "decaying", "noam" (for Transformer)
     patience: 5                            # specific to plateau scheduler: wait for this many validations without improvement before decreasing the learning rate
-    decrease_factor: 0.9                   # specific to plateau & exponential scheduler: decrease the learning rate by this factor
+    decrease_factor: 0.95                  # specific to plateau & exponential scheduler: decrease the learning rate by this factor
     epochs: 1000                           # train for this many epochs
-    validation_freq: 500                   # validate after this many updates (number of mini-batches), default: 1000
+    validation_freq: 800 # validate after this many updates (number of mini-batches), default: 1000
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "eval_metric"   # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/103_rnn200_24-09" # directory where models and validation results are stored, required
+    model_dir: "models/142_defcheat_28-09" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
@@ -61,7 +61,8 @@ training:                                  # specify training details here
     print_valid_sents: [0,1,2,3,297,298,299,307,308,309,310,311,312,313,314,315,400,401,402,403,404,405,406,407,408,409,410,500,501,502,550,551,553]    # print these validation sentences during each validation run, default: [0, 1, 2]
     keep_last_ckpts: 5                     # keep this many of the latest checkpoints, if -1: all of them, default: 5
     label_smoothing: 0.0                   # label smoothing: reference tokens will have 1-label_smoothing probability instead of 1, rest of probability mass is uniformly distributed over the rest of the vocabulary, default: 0.0 (off)
-    teacher_force: False #
+
+    teacher_force: True #
 
     # sched_sampl_type: "linear"             # scheduled sampling type, must be one of linear(default) or exponential or invsigmoid
     # sched_sampl_k: 1.                      # k value for sched sampl, cf. https://arxiv.org/abs/1506.03099 Section 2.4
@@ -71,7 +72,7 @@ training:                                  # specify training details here
 model:                                     # specify your model architecture here
     kb: True                               # kb decoder used or not?
     k_hops: 1                              # num of kvr att layers
-    do_postproc: True                      # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
+    do_postproc: False                     # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
     kb_max_dims: [256]                     # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256,] for flat KB (eric et al) (length of list specifies num dimensions) 
     copy_from_source: False                # whether to create KBs from source as backup when KB empty 
     kb_input_feeding: False  #

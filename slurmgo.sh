@@ -102,11 +102,14 @@ cat $sbatch
 echo "---------------------------------------------------------------------------"
 echo 
 
-
 # execute sbatch:
-sbatch $sbatch
+jobnum=$(sbatch $sbatch | awk 'NF>1{print $NF}')
+jobinfo=$(squeue | grep $jobnum)
+
 echo
-squeue
+echo "Started Job number $jobnum"
+echo
+echo "$jobinfo"
 echo
 echo model can be found under $model_path$model_dir
 
