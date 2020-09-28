@@ -429,6 +429,7 @@ class TransformerDecoderLayer(nn.Module):
                  kb_task: bool = False,
                  kb_max: int = 256,
                  tfstyletf: bool = False,
+                 feed_kb_hidden: bool = False,
     ):
         """
         Represents a single Transformer decoder layer.
@@ -460,6 +461,7 @@ class TransformerDecoderLayer(nn.Module):
             self.kb_trg_att = MultiHeadedKbAttention(num_heads, size, dropout=dropout)
             self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
             self.kb_max = kb_max
+            self.feed_kb_hidden = feed_kb_hidden
 
             if self.tfstyletf:
                 self.multihop_feeding = nn.Linear(size + self.kb_max, size, bias=False)
@@ -500,12 +502,16 @@ class TransformerDecoderLayer(nn.Module):
         h2 = self.dropout(h2) + h1
 
         if self.tfstyletf and kb_keys is not None:
+
             assert kb_values_embed is not None
 
             h2_norm = self.kb_layer_norm(h2)
 
-            # feed this query at kth hop
-            query_k = h2_norm + prev_kb_hidden 
+            if self.feed_kb_hidden:
+                # feed this query at kth hop
+                query_k = h2_norm + prev_kb_hidden 
+            else:
+                query_k = h2_norm
 
             # KVR attention
             kb_hidden, kb_att = self.kb_trg_att(kb_keys, kb_values_embed, query_k, mask=kb_mask) # TODO find out if I have to apply src_mask here too

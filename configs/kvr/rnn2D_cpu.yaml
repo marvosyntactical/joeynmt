@@ -76,7 +76,7 @@ model:                               # specify your model architecture here
     kb_max_dims: [16, 32]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256,] for flat KB (eric et al) (length of list specifies num dimensions)
     copy_from_source: True           # whether to create KBs from source as backup when KB empty
     kb_input_feeding: True
-    kb_feed_rnn: True
+    kb_feed_rnn: False
     same_module_for_all_hops: False
     
 

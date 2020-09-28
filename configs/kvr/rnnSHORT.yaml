@@ -76,9 +76,9 @@ training:                           # specify training details here
 
 model:                              # specify your model architecture here
     kb: True                        # kb decoder used or not?
-    k_hops: 1                       # num of kvr att layers
+    k_hops: 2                       # num of kvr att layers
     do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
-    kb_max_dims: [16, 32]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al)
+    kb_max_dims: [16,32]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al)
     copy_from_source: True           # whether to create KBs from source as backup when KB empty
     kb_input_feeding: True
     kb_feed_rnn: False 

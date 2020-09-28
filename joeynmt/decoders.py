@@ -629,7 +629,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                 for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module
                                 )
         self.kb_energy_layer = nn.Linear(hidden_size, 1, bias=False)
-        self.kb_activation = nn.Tanh()
         self.kb_input_feeding = kb_input_feeding
 
     def _add_kb_probs_for_step(self, kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
@@ -637,7 +636,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                 kb_hidden_dims_cache, kb_feed_hidden_cache, query,
                 self.kvr_attention, self.curr_kb_total, 
                 self.k_hops, self.kb_dims, self.curr_dims_before, 
-                self.curr_dims_after, self.kb_energy_layer, self.kb_activation, kb_mask=kb_mask
+                self.curr_dims_after, self.kb_energy_layer, kb_mask=kb_mask
         )
     
     def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
@@ -775,12 +774,15 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             query = hidden[0][-1].unsqueeze(1)
         else: # for grus, states are just a tensor
             query = hidden[-1].unsqueeze(1)  # [#layers, B, D] -> [B, 1, D]
+
+        timer = Timer()
         
         # compute context vector using attention mechanism
         # only use last layer for attention mechanism
         # key projections are pre-computed
-        context, att_probs = self.attention(
-            query=query, values=encoder_output, mask=src_mask)
+        with timer(f"calculate bahdanau attention for one step"):
+            context, att_probs = self.attention(
+                query=query, values=encoder_output, mask=src_mask)
             
         ### -------------------- start KVR attention -------------------- ###
         
@@ -806,9 +808,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # multiple attention hops
 
-        u_t, kb_hidden_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
-            kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
-        )
+        with timer(f"add kb utilities for one step with {self.k_hops} hops and {self.kb_dims} dims"):
+            u_t, kb_hidden_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
+                kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
+            )
+        input()
 
         # u_t = batch x 1 x kb_total
 
@@ -1502,7 +1506,7 @@ def reshape_kb_mask_to_keys_size(kb_mask, kb_keys, kb_total):
 
 def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query, 
                                 kvr_attentions, curr_kb_total, k_hops, kb_dims, 
-                                dims_before, dims_after, energy_layer, activation,
+                                dims_before, dims_after, energy_layer, 
                                 kb_mask=None):
     """
     Do one time step of kb attention (with k hops and n dimensions). 
@@ -1582,7 +1586,7 @@ def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
     # only apply energy layer after multihop fwd pass
 
     # u_t: batch x kb_total x 1
-    u_t = energy_layer(activation(hidden_kb_t))
+    u_t = energy_layer(hidden_kb_t)
 
     # u_t = batch x 1 x product(kb_max)=kb_total
     u_t = u_t.squeeze(2).unsqueeze(1)
