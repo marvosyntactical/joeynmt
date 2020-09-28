@@ -15,8 +15,6 @@
 * *TODO* test: is the aggregate kb hidden tensor better outside or inside the loop?
 
 
-
-
 ### 11.09. canonization levels
 
 * 5 pm 
@@ -62,7 +60,7 @@ These hyperparams are all orthogonal:
 
 3 x 3 x 2 x 2 x 12 x 1/6  = 72 stunden = 3 tage 
 
-* 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
+* 3 training data level: @time, @meeting\_time *TODO*, 3 pm 
 * 2 scheduled sampling: invsigmoid, linear
 * 2 tftf, rnntf
 
@@ -141,7 +139,10 @@ Conclusion
 ### 26.08.20 scalability *TODO*
 
 * calculate/profile attention runtime
-* mix domain KBs together (refactor preproc scripts first...)
+=> linear in hops
+=> linear in dims
+=> same as bahdanau
+* mix in-domain KBs together (refactor preproc scripts first...)
 
 ---
 
@@ -154,10 +155,8 @@ just jam all info into the key representation, and determine what
 is subject and what is relation via 
 PositionalEncoding (make keys fixed size and add some exp+trig trickery)
 
-
 * in preproc, create copies of kb with all infos in the keys (in same order everytime)
 * if config["kbattencoding"] == "positional", pipe kb keys thru transformer\_layers.positional\_encoding 
-
 
 Another encoding idea:
 Make attention 2-headed, one head for subject (sum of all attribute embeddings);
@@ -187,9 +186,9 @@ Dataset stuff to report/issues:
 KBs unambiguous as designed; not like real world => experiment
 
 Metrics stuff :
-* include phi coefficient with TN in metrics / validation *TODO* !!!!
+* include phi coefficient with TN in metrics / validation 
 * ablation study with bleu without "Youre welcome", "Have a nice day", "How can I help you today?" etc etc
-beam search should work now ✔️ 
+* beam search should work now ✔️ 
 
 
 
