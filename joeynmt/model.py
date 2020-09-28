@@ -806,13 +806,15 @@ def build_model(cfg: dict = None,
             decoder = TransformerDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
-                kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim
+                kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim,
+                feed_kb_hidden=kb_input_feeding
                 )
         else:
             decoder = TransformerKBrnnDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
-                kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim
+                kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim,
+                feed_kb_hidden=kb_input_feeding
                 )
     else:
         if not kb_task:

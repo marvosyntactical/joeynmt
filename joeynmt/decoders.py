@@ -812,7 +812,6 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             u_t, kb_hidden_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
                 kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
             )
-        input()
 
         # u_t = batch x 1 x kb_total
 
@@ -1052,6 +1051,8 @@ class TransformerDecoder(Decoder):
                  vocab_size: int = 1,
                  freeze: bool = False,
                  kb_task: bool=False,
+
+                 feed_kb_hidden: bool = False,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -1080,7 +1081,8 @@ class TransformerDecoder(Decoder):
             TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
                 dropout=dropout, kb_task=kb_task, 
-                tfstyletf=True)\
+                tfstyletf=True,
+                feed_kb_hidden=feed_kb_hidden)\
                      for _ in range(num_layers)
                      ])
 
