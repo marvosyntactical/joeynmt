@@ -11,6 +11,7 @@
 * unk from copying *DONE*
 * bad performance *TEST*
 * try: feed utilities; actually use feeding layer, aggregate vector in kth hop?
+* try: feed all utilities
 * compare with default version
 
 

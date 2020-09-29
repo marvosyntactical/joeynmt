@@ -509,6 +509,7 @@ class TransformerDecoderLayer(nn.Module):
 
             if self.feed_kb_hidden:
                 # feed this query at kth hop
+                # TODO find better ways than summing
                 query_k = h2_norm + prev_kb_hidden 
             else:
                 query_k = h2_norm
@@ -518,7 +519,7 @@ class TransformerDecoderLayer(nn.Module):
 
             # TODO is there a different way to update the main hidden state
             # with transformer info without completely trashing it?
-            h2 = self.dropout(kb_hidden) + h2
+            # h2 = self.dropout(kb_hidden) + h2
 
         else:
             kb_hidden, kb_att = None, None
