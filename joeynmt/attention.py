@@ -3,10 +3,13 @@
 Attention modules
 """
 
+from typing import Iterable, Union, List
+
 import torch
 from torch import Tensor
 import torch.nn as nn
 import torch.nn.functional as F
+from joeynmt.helpers import product
 
 
 
@@ -138,7 +141,8 @@ class KeyValRetAtt(AttentionMechanism):
     """
 
     def __init__(self, hidden_size=1, key_size=1, query_size=1,
-                kb_max=256, feed_rnn=True, num_layers=2, dropout=0.,
+                feed_rnn=True, num_layers=2, dropout=0.,
+                kb_max: Iterable = [256], dim=0, multihead_feed=False,
                 pad_keys=False):
         """
         Creates key value retrieval attention mechanism.
@@ -161,8 +165,11 @@ class KeyValRetAtt(AttentionMechanism):
         self.proj_keys = None   # to store projected keys
         self.proj_query = None  # projected query
        
-        # uniformize kb dimension to kb_max as its used in multihop_feeding (see decoders)
-        self.kb_max = kb_max # atm weather kb are max at 203
+        # uniformize kb dimension to kb_total as its used in multihop_feeding (see decoders)
+        self.kb_max = kb_max # e.g [256], [16,32]
+        assert isinstance(self.kb_max, Iterable)
+        self.dim = dim # index to kb_max; the dim index for this module
+        self.kb_total = self.kb_max[self.dim] # atm weather kb are max at 203
         self.pad_keys = pad_keys # whether to pad keys
         self.curr_kb_size = None # this is set during self.compute_proj_keys
 
@@ -170,24 +177,51 @@ class KeyValRetAtt(AttentionMechanism):
         self.num_feed_layers = num_layers
         self.activation = nn.Tanh()
 
+        self.multihead_feed = multihead_feed
+        if self.multihead_feed:
+            self.head_size = int(hidden_size//len(self.kb_max))
+            assert hidden_size % self.head_size == 0, \
+            f"hidden dimension {hidden_size} must be divisible by number of dimensions = {len(self.kb_max)}"
+
         # module to feed back concatenated query and previous kb hidden at hops k > 1
         # either parameterized by GRU or feed forward NN
         # (GRU remembers stuff from last decoding step, linear one from last hop of different head (but corresponding dim)
 
+        memory_input_dim = 2*hidden_size if self.multihead_feed == True else self.kb_total+hidden_size
         if self.feed_rnn == True:
+
+            # extend input dimension by KB total dimension (e.g. 512, 256)? 
+            # dont do this if we have a multihead feeding network before this one 
             self.memory_network = nn.GRU(   
-                                            hidden_size+self.kb_max, hidden_size, # hidden size must be == decoder hidden size
+                                            memory_input_dim, hidden_size, # hidden size must be == decoder hidden size
                                             self.num_feed_layers, batch_first=True, 
                                             dropout=dropout if num_layers > 1 else 0.
                                         )
         else:
+
             # feeds kb_hidden from previous hop's att module or from the last hop on previous step
             # 2 linear layers ?
-            self.linear_multihop_feeding_1 = nn.Linear(hidden_size+self.kb_max, hidden_size, bias=False)
+            self.linear_multihop_feeding_1 = nn.Linear(memory_input_dim, hidden_size, bias=False)
             self.memory_network = lambda query, _: (None, self.linear_multihop_feeding_1((query)))
 
+        if self.multihead_feed == True:
+
+            assert self.feed_rnn == False, NotImplementedError(f"too time costly to have multiple gru feeders")
+
+            # prepend stack of multiple feeding modules before memory network in fwd
+
+            self.feeding_input_network = nn.ModuleList(
+                [nn.Linear(self.kb_max[i], self.head_size) for i in range(self.dim)]
+            )
+            # [B x 1 x kb_max[i]] x n  => B x 1 x head_size * n = B x 1 x H
+            self.multihead_network = lambda prev_kb_utils_iterable: \
+                    self.activation(
+                        torch.cat([self.feeding_input_network[i](u) for i,u in enumerate(prev_kb_utils_iterable)],dim=-1)
+            )
+
+
     #pylint: disable=arguments-differ
-    def forward(self, query: Tensor = None, prev_kb_utilities = None, prev_kb_feed_hidden = None):
+    def forward(self, query: Tensor = None, prev_kb_utilities: Union[Tensor, List[Tensor]] = None, prev_kb_feed_hidden = None):
         """
         Bahdanau MLP attention forward pass.
 
@@ -203,11 +237,9 @@ class KeyValRetAtt(AttentionMechanism):
         assert self.proj_keys is not None,\
             f"projection keys have to get pre-computed/assigned in dec.fwd before dec.fwd_step"
         
-
         # variable names refer to eric et al (2017) notation,
         # (see https://arxiv.org/abs/1705.05414)
         # with k added for k_th multihop pass
-
 
         # feed sum of 
         # previously computed kvr module's hidden and decoder hidden
@@ -216,12 +248,13 @@ class KeyValRetAtt(AttentionMechanism):
         # GRU kb_feed_hidden: num_layers x batch x hidden 
         # linear kb_feed_hidden: batch x 1 x hidden
 
-        try:
-            feed_input = torch.cat([prev_kb_utilities, query], dim=-1)
-        except Exception as e:
-            print(e)
-            assert False, [t.shape for t in [prev_kb_utilities, query]]
+        if self.multihead_feed:
+            # concatenation of projection of util list onto n heads
+            projected_u = self.multihead_network(prev_kb_utilities)
+        else:
+            projected_u = prev_kb_utilities 
 
+        feed_input = torch.cat([projected_u, query], dim=-1)
         _, kb_feed_hidden = self.memory_network(feed_input, prev_kb_feed_hidden) 
 
         # query_feed_hidden: batch x KB x hidden
@@ -243,10 +276,10 @@ class KeyValRetAtt(AttentionMechanism):
         # Calculate kb hidden for decoding step t and multihop pass j and dimension n: kb_hidden_t_j_n
 
         # proj_query: batch x 1 x hidden
-        # proj_keys: batch x kb_max x hidden
+        # proj_keys: batch x kb_total x hidden
         proj_query_memory_keys = query + self.proj_keys
-        # proj_query_memory_keys: batch x kb_max x hidden
-        # ('+' repeats query required number of times (kb_max) along dim 1)
+        # proj_query_memory_keys: batch x kb_total x hidden
+        # ('+' repeats query required number of times (kb_total) along dim 1)
 
         # (https://arxiv.org/abs/1705.05414 : equation 2)
         afterW1 = self.activation(proj_query_memory_keys)
@@ -264,7 +297,7 @@ class KeyValRetAtt(AttentionMechanism):
         # u_t: batch x kb_total x 1
         u_t = self.energy_layer(afterW2)
 
-        # u_t = batch x 1 x product(kb_max)=kb_total
+        # u_t = batch x 1 x product(kb_total)=kb_total
         u_t = u_t.squeeze(2).unsqueeze(1)
 
         return u_t, kb_feed_hidden
@@ -282,7 +315,7 @@ class KeyValRetAtt(AttentionMechanism):
         if self.pad_keys:
             keys = self.pad_kb_keys(keys)
 
-        self.proj_keys = self.key_layer(keys) # B x kb_max x hidden
+        self.proj_keys = self.key_layer(keys) # B x kb_total x hidden
 
     def pad_kb_keys(self, kb_keys: Tensor) -> Tensor:
         """
@@ -300,8 +333,8 @@ class KeyValRetAtt(AttentionMechanism):
         # calculated at start of decoder.forward;
         # retrieved during decoder.forward_step to recover actual kb size
 
-        padding = self.kb_max - self.curr_kb_size
-        assert padding >= 0, f"kb dim of keys {kb_keys.shape} appears to be larger than self.kb_max={self.kb_max} => increase self.kb_max"
+        padding = self.kb_max[self.dim] - self.curr_kb_size
+        assert padding >= 0, f"kb dim of keys {kb_keys.shape} appears to be larger than self.kb_total={self.kb_total} => increase self.kb_total"
 
         keys_pad = torch.zeros(kb_keys.shape[0], padding, kb_keys.shape[2]).to(device=kb_keys.device)
         return torch.cat([kb_keys,keys_pad], dim=1)

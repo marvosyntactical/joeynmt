@@ -11,7 +11,33 @@
 * unk from copying *DONE*
 * bad performance *TEST*
 * try: feed utilities; actually use feeding layer, aggregate vector in kth hop?
-* try: feed all utilities
+* try: feed all utilities:
+prevKbUtilities: [prevKbUtilities-1, ..., prevKbUtilities-n]
+
+"Where's the nearest cafe?"
+hop 1:
+feeding: None
+
+
+subjects:
+=> cafe-a-name <> 3 miles, cafe-b-name <> 5 miles
+relations:
+=> address 
+
+=> utility vector high scores: cafe-a-address, cafe-b-address
+
+hop 2:
+feeding: module list of n nn.Linear(kb\_max[i], hidden/n) => concatenate and feed
+
+subjects:
+=> cafe-a-name <> 3 miles, cafe-b-name <> 5 miles
+relations:
+=> name
+
+=> utility vector high scores: cafe-a-name
+
+
+
 * compare with default version
 
 

@@ -481,6 +481,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  kb_input_feeding: bool = True,
                  kb_feed_rnn: bool = True,
                  same_module_for_all_hops: bool = False,
+                 kb_multihead_feed: bool = False,
                  **kwargs) -> None:
         """
         Create a recurrent decoder with attention and key value attention over a knowledgebase.
@@ -621,7 +622,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                 KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
                                             key_size=kb_key_emb_size, 
                                             query_size=hidden_size, # queried with decoder hidden
-                                            kb_max=self.kb_max[i%self.kb_dims], # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
+                                            kb_max=self.kb_max, # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
+                                            dim=i%self.kb_dims,
                                             feed_rnn=self.kb_feed_rnn,
                                             num_layers=num_layers,
                                             dropout=dropout,
@@ -630,13 +632,14 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                 for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module
                                 )
         self.kb_input_feeding = kb_input_feeding
+        self.kb_multihead_feed = bool(kb_multihead_feed)
 
     def _add_kb_probs_for_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
         return add_kb_probs_for_step(
                 kb_utils_dims_cache, kb_feed_hidden_cache, query,
                 self.kvr_attention, 
                 self.k_hops, self.kb_dims, self.curr_dims_before, self.curr_dims_after,
-                self.curr_kb_total, self.curr_kb_sizes, kb_mask=kb_mask
+                self.curr_kb_total, self.curr_kb_sizes, self.kb_multihead_feed, kb_mask=kb_mask
         )
     
     def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
@@ -1506,7 +1509,7 @@ def reshape_kb_mask_to_keys_size(kb_mask, kb_keys, kb_total):
 def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query, 
                                 kvr_attentions, k_hops, kb_dims, 
                                 dims_before, dims_after, curr_kb_total, curr_kb_sizes,
-                                kb_mask=None):
+                                multihead_feed, kb_mask=None):
     """
     Do one time step of kb attention (with k hops and n dimensions). 
     TODO move to helpers
@@ -1539,16 +1542,20 @@ def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query,
                 (query.size(0), 1, curr_kb_total)
             )
 
+        utils_cache_update = [None] * kb_dims
+
         for dim in range(kb_dims): # self.kb_dims == 1 <=> Eric et al version
 
             idx = j * kb_dims + dim
+
+            prev_u = utils_dims_cache[dim] if not multihead_feed else utils_dims_cache
 
             # u_t_j_m = b x kb_curr[dim] x hidden 
 
             try:
                 u_t_j_m, feed_hidden_j_m = kvr_attentions[idx](
                     query = query, 
-                    prev_kb_utilities = utils_dims_cache[dim], 
+                    prev_kb_utilities = prev_u, 
                     prev_kb_feed_hidden = kb_feed_hidden_cache[idx],
                 )
             except Exception as e:
@@ -1559,7 +1566,7 @@ def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query,
 
             # u_t_j_m = b x kb_max[dim] x hidden
             # cache this for same dim on next hop
-            utils_dims_cache[dim] = u_t_j_m # .unsqueeze(0) # FIXME find out if unsqueeze is needed for beam search stack
+            utils_cache_update[dim] = u_t_j_m # .unsqueeze(0) # FIXME find out if unsqueeze is needed for beam search stack
 
             if feed_hidden_j_m is not None:
                 # feed_u_t_j_m_j = n_layers x b x hidden
@@ -1583,6 +1590,8 @@ def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query,
             # this leads to same entry arrangement as in the paper again 
 
             u_t_k += u_t_j_m_blocked_tiled
+        # only update after dimension loop for the multihop feeding case (want to retrieve utilities of *last* hop within dim loop)
+        utils_dims_cache = utils_cache_update
 
     if kb_mask is not None:
         # mask entries that arent actually assigned (happens in scheduling)

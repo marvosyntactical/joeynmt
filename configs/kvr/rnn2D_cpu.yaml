@@ -78,6 +78,7 @@ model:                               # specify your model architecture here
     kb_input_feeding: True
     kb_feed_rnn: False
     same_module_for_all_hops: False
+    kb_multihead_feed: False
     
 
 

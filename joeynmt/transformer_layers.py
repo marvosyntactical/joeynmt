@@ -227,6 +227,7 @@ class MultiHeadedLinearAttention(MultiHeadedAttention):
         self.softmax = nn.Softmax(dim=-1)
         self.dropout = nn.Dropout(dropout)
         
+        # TODO
         # linear feature map, choice is yours
         self.KernelModule = nn.ELU()
         self.kernel = lambda x: self.KernelModule(x) + 1
