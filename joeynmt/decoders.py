@@ -1548,6 +1548,8 @@ def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query,
 
             idx = j * kb_dims + dim
 
+            assert False, multihead_feed
+
             prev_u = utils_dims_cache[dim] if not multihead_feed else utils_dims_cache
 
             # u_t_j_m = b x kb_curr[dim] x hidden 

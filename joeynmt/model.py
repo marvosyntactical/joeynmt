@@ -786,6 +786,7 @@ def build_model(cfg: dict = None,
     canonization_func = canonizer(copy_from_source=copy_from_source) 
     kb_input_feeding = bool(cfg.get("kb_input_feeding", True))
     kb_feed_rnn = bool(cfg.get("kb_feed_rnn", True))
+    kb_multihead_feed = bool(cfg.get("kb_multihead_feed", False))
 
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
     if hasattr(kb_max_dims, "__iter__"):
@@ -828,7 +829,9 @@ def build_model(cfg: dict = None,
                 k_hops=k_hops, kb_max=kb_max_dims,
                 same_module_for_all_hops=same_module_for_all_hops,
                 kb_key_emb_size=kbsrc_embed.embedding_dim, 
-                kb_input_feeding=kb_input_feeding, kb_feed_rnn=kb_feed_rnn)
+                kb_input_feeding=kb_input_feeding, 
+                kb_feed_rnn=kb_feed_rnn,
+                kb_multihead_feed=kb_multihead_feed)
     
     # specify generator which is mostly just the output layer
     generator = Generator(
