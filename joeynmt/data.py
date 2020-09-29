@@ -550,7 +550,7 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
         fields=list(kbtrv_fields.items())
     ) for rel, val in rels_vals.items() if not trg_voc.is_unk(rel)] # FIXME replace 'False' by this to get it on the fly creation again
 
-    # input(f"in on the fly creation: {[ex.kbtrv for ex in on_the_fly_kbtrv]}")
+    input(f"in on the fly creation: {[ex.kbtrv for ex in on_the_fly_kbtrv]}")
 
     return on_the_fly_kb, on_the_fly_kbtrv
 
@@ -602,8 +602,8 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
                 minibatch.kb = dummy_kb
                 minibatch.kbtrv = dummy_kbtrv
                 
-
-        assert len(minibatch.kb) == len(minibatch.kbtrv), (len(minibatch.kb),len(minibatch.kbtrv)) 
+        assert len(minibatch.kb) == len(minibatch.kbtrv), \
+            ([x.kbsrc for x in minibatch.kb],[x.kbtrv for x in minibatch.kbtrv])
 
         minibatch.append(ex)
         if canon_data is not None:

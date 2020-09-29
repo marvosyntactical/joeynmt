@@ -326,14 +326,14 @@ class PositionalEncoding(nn.Module):
     input for as many time step s as necessary.
 
                 
-            # KVR attention
-            h2 = self.kb_trg_att(kb_keys, kb_values_embed, query_k) # TODO find out if I have to apply src_mask here too
-            assert False, h2.shape
+    # KVR attention
+    h2 = self.kb_trg_att(kb_keys, kb_values_embed, query_k) # TODO find out if I have to apply src_mask here too
+    assert False, h2.shape
 
-        # final position-wise feed-forward layer
-        o = self.feed_forward(h2)
-        
-        return o
+    # final position-wise feed-forward layer
+    o = self.feed_forward(h2)
+    
+    return o
     Implementation based on OpenNMT-py.
     https://github.com/OpenNMT/OpenNMT-py
     """
@@ -456,7 +456,6 @@ class TransformerDecoderLayer(nn.Module):
         self.x_layer_norm = nn.LayerNorm(size, eps=1e-6)
         self.dec_layer_norm = nn.LayerNorm(size, eps=1e-6)
 
-
         self.tfstyletf = tfstyletf 
         if kb_task :
             self.kb_trg_att = MultiHeadedKbAttention(num_heads, size, dropout=dropout)
@@ -465,8 +464,21 @@ class TransformerDecoderLayer(nn.Module):
             self.feed_kb_hidden = feed_kb_hidden
 
             if self.tfstyletf:
-                self.multihop_feeding = nn.Linear(size + self.kb_max, size, bias=False)
+                # convert query and kb hidden memory into lower dimensional representation
+                assert size % 2 == 0, size
+                feeding_head_size = int(size//2)
 
+                self.multihop_feeding_query = nn.Linear(size, feeding_head_size, bias=False)
+                self.multihop_feeding_kb_h = nn.Linear(size, feeding_head_size, bias=False)
+                self.activation = nn.Tanh()
+                self.kb_feed_forward = PositionwiseFeedForward(size, ff_size=ff_size)
+
+                self.multihop_feed = lambda kb_hidden, query: \
+                    self.kb_feed_forward(
+                    self.activation(\
+                        torch.cat(
+                    [self.multihop_feeding_kb_h(kb_hidden), self.multihop_feeding_query(query)],
+                dim=-1)))
         self.dropout = nn.Dropout(dropout)
 
     # pylint: disable=arguments-differ
@@ -510,9 +522,9 @@ class TransformerDecoderLayer(nn.Module):
 
             if self.feed_kb_hidden:
                 # feed this query at kth hop
-                # TODO find better ways than summing
-                query_k = h2_norm + prev_kb_hidden 
+                query_k = self.multihop_feed(prev_kb_hidden, h2_norm)
             else:
+                # FIXME without kb input feeding, only the last kb attentions are ever used
                 query_k = h2_norm
 
             # KVR attention

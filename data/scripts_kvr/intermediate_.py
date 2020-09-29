@@ -177,9 +177,10 @@ def intermediate(
     cache_trg = trg
     seq_offset = (seq_idx*2)+int(cache_trg)
     seq_offset_cache = seq_offset
+
     while seq_offset < len(raw_seqs):
         look_at_seq = (seq_offset//2)
-        # # input((seq_idx, seq_offset, look_at_seq))
+        # input((seq_idx, seq_offset, look_at_seq))
 
         raw_seq = seqs_raw_separated[seq_offset]
         raw_seq_start_idx = seqs_separated_start_indices[seq_offset]
@@ -278,7 +279,8 @@ def intermediate(
             elif domain == "weather":
                 # TODO run some kind of dependency parse to match attributes with subjects
                 print(("\n"*4)+("\n"*4)+"WEATHER DOMAIN OMG WHATWEDO"+"\n"*4)
-                # input((can_seq, can_seq_of_interest))
+                input((can_seq, can_seq_of_interest))
+
             else:
                 assert domain == "traffic"
 
@@ -297,25 +299,15 @@ def intermediate(
                 compare_subjects = dict()
 
                 for subj in subj_indices_local:
-                    subject_mapping[subj] = global_offsets[seq_offset]+subj # set subject mapping to self FIXME set value to global subject
+                    subject_mapping[subj] = global_offsets[seq_offset]+subj # set local subject mapping to its own global subj index
                     can_subj = can_seq[subj]
 
                     subj_raw_list = rels_vals[can_subj][subj] # TODO should probably unit test if this is in ents.values()
                     candidate_subj = " ".join(subj_raw_list)
                     compare_subjects[subj] = candidate_subj
 
-
                 # TODO do MED match with poi_name_list; could be multiple in case of home_1, home_2 etc
                 # => immediately try to match with attributes
-
-                for entity in entity_indices_local_of_interest:
-                    can_ent = can_seq[entity]
-                    if "address" in can_ent: 
-                        address_raw_list = rels_vals_per_seq[seq_idx][can_ent][entity]
-                        address = " ".join(address_raw_list)
-                        proper_address_idx = lowest_med_match(address, poi_address_list)
-                        subj = pois_by_address[poi_address_list[proper_address_idx]]
-                        subject_mapping[entity] = global_offsets[seq_offset]+subj # hooray
                         
         # first do descending from seq of interest; when hit 0 go back
         if seq_offset == 0: 
@@ -349,7 +341,6 @@ def intermediate(
 
         subj = global_subj-global_offsets[subj_seq] # index in its local sequence
 
-
         subj_canon = can_seqs[global_subj] # poi_type
         
         subj_raw_list = rels_vals_per_seq[subj_seq][subj_canon][subj] # TODO should probably unit test if this is in ents.values()
@@ -360,13 +351,15 @@ def intermediate(
         subject_prefixes[local_ent] = at_subj_raw_joined_ 
     
     if kb is not None:
+        # try to do a lookup directly in the KB
+    
         subject_dict = dict() # subject dict with local enitity index: ["dish", "parking"]
-        for label_type in rels_vals:
-            dict_for_label_type = rels_vals[label_type]
-            for instance in dict_for_label_type:
-                joined_instance = " ".join(dict_for_label_type[instance])
+        for label_coarse in rels_vals:
+            dict_for_label_coarse = rels_vals[label_coarse]
+            for instance in dict_for_label_coarse:
+                joined_instance = " ".join(dict_for_label_coarse[instance])
 
-                label_without_at = label_type if not label_type.startswith("@") else label_type[1:]
+                label_without_at = label_coarse if not label_coarse.startswith("@") else label_coarse[1:]
 
                 if label_without_at == "poi_name":
                     label_without_at = "poi"
@@ -375,14 +368,19 @@ def intermediate(
                 if label_without_at == "poi_distance":
                     label_without_at = "distance"
 
-                
                 closest_entry_idx = lowest_med_match(joined_instance, kb.keys())
                 probable_intermediate_label = list(kb.keys())[closest_entry_idx]
                 probable_intermediate_label_list = kb[probable_intermediate_label]
 
-                assert False, (label_type, probable_intermediate_label_list)
-                # input(f"compare surface form {joined_instance} with probable subj {probable_subj} \
-                #     \n\n and dict \n {scenario_entry_list[closest_entry_idx]}")
+                assert False, (joined_instance, label_coarse, probable_intermediate_label_list)
+
+                # decide on probable subject
+
+
+                # TODO
+                # find probable subj among intermediate labels
+                # cant i just pick one of the labels?
+                # why cant i have the subject itself in the list?
                 subject_dict[instance] = probable_subj.lower()
 
 
@@ -594,8 +592,8 @@ def main(args):
                 trv_scenario = trvs_list[begin_scenario:end_scenario]
                 val_scenario = vals_list[begin_scenario:end_scenario]
 
-
                 KB = dict() # {"poi_name": {5: ["dish", "parking"], i: ["surface", "entity"]}, "poi_type": ...}
+                # dict of true values => list of contenders
                 for i, (trv, val) in enumerate(zip(trv_scenario, val_scenario)):
 
                     if trv not in KB.keys():

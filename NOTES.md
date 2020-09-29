@@ -43,7 +43,7 @@ relations:
 
 ### 26.09. idea for multihop 
 
-* layerwise weight tying as in weston et al: next module is same module 
+* layerwise weight tying as in weston et al: next module is same module *DONE*
 * pass hidden state to next module instead of utilities:
 * batch x kb\_curr\_dim x hidden instead of batch x 1 x kb
 * *TODO* test: can I still mask between hops???? should annihilate everything?

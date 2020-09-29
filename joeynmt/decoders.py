@@ -1185,6 +1185,8 @@ class TransformerKBrnnDecoder(TransformerDecoder):
                  k_hops: int = 1,
                  kb_input_feeding: bool = True,
                  kb_feed_rnn: bool = True,
+                 same_module_for_all_hops: bool = False,
+                 kb_multihead_feed: bool = False,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -1258,18 +1260,33 @@ class TransformerKBrnnDecoder(TransformerDecoder):
             self.kb_feed_rnn = kb_feed_rnn # bool of whether to use LSTM (True) or feed forward network (False) for input feeding (LSTM remembers everything)
             self.kb_layers = int(num_layers//2)
 
+            # if yes, use only one att module (per dim) for all hops 
+            # and feed its output into itself 
+            self.same_module_for_all_hops = same_module_for_all_hops
+            if self.same_module_for_all_hops:
+                _k_hops = 1
+                _k_hops_same_module = self.k_hops 
+            else:
+                _k_hops = self.k_hops
+                _k_hops_same_module = 1 
+                
             # list of [kvr for dim 0, kvr for dim 1] * k_hops
             self.kvr_attention = nn.ModuleList([
-                                    KeyValRetAtt(hidden_size=self._hidden_size, # use same hidden size as decoder
-                                                key_size=kb_key_emb_size, 
-                                                query_size=hidden_size, # queried with decoder hidden
-                                                kb_max=self.kb_max[i % self.kb_dims], # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
-                                                feed_rnn=self.kb_feed_rnn,
-                                                num_layers=self.kb_layers,
-                                                dropout=dropout
-                                                )
-                                    for i in range(self.k_hops * self.kb_dims)])
-            self.kb_input_feeding = kb_input_feeding
+                                    KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
+                                            key_size=kb_key_emb_size, 
+                                            query_size=hidden_size, # queried with decoder hidden
+                                            kb_max=self.kb_max, # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
+                                            dim=i%self.kb_dims,
+                                            feed_rnn=self.kb_feed_rnn,
+                                            num_layers=num_layers,
+                                            dropout=dropout,
+                                            pad_keys=True
+                                            )
+                                for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module
+                                )
+        self.kb_input_feeding = kb_input_feeding
+        self.kb_multihead_feed = bool(kb_multihead_feed)
+
         if freeze:
             freeze_params(self)
 
@@ -1281,10 +1298,8 @@ class TransformerKBrnnDecoder(TransformerDecoder):
                 self.dims_after, kb_mask=kb_mask
         )
     
-
     def _init_proj_keys(self, kb_keys):
         return init_proj_keys(self.kvr_attention, self.kb_dims, self.k_hops, kb_keys)
-
 
     def forward(self,
                 trg_embed: Tensor = None,
