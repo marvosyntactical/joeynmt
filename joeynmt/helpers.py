@@ -398,12 +398,13 @@ class Timer(object):
         super(object, self).__init__(*args, **kwargs)
 
     @contextmanager
-    def __call__(self, activity, x=True):
+    def __call__(self, activity, x=True, p=True):
         t = time.time()
         if x: yield
         else: yield None
         dt = time.time()-t
-        print(f"Time spent on {str(activity)}: {str(dt)}")
+        if p:
+            print(f"Time spent on {str(activity)}: {str(dt)}")
 
 def split_tensor_on_pads(tensor, pad_val):
     # ["cafe", "central", "<PAD>", "distance", "<PAD>", "<PAD>"]

@@ -624,19 +624,19 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                             kb_max=self.kb_max[i%self.kb_dims], # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
                                             feed_rnn=self.kb_feed_rnn,
                                             num_layers=num_layers,
-                                            dropout=dropout
+                                            dropout=dropout,
+                                            pad_keys=True
                                             )
                                 for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module
                                 )
-        self.kb_energy_layer = nn.Linear(hidden_size, 1, bias=False)
         self.kb_input_feeding = kb_input_feeding
 
-    def _add_kb_probs_for_step(self, kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
+    def _add_kb_probs_for_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
         return add_kb_probs_for_step(
-                kb_hidden_dims_cache, kb_feed_hidden_cache, query,
-                self.kvr_attention, self.curr_kb_total, 
-                self.k_hops, self.kb_dims, self.curr_dims_before, 
-                self.curr_dims_after, self.kb_energy_layer, kb_mask=kb_mask
+                kb_utils_dims_cache, kb_feed_hidden_cache, query,
+                self.kvr_attention, 
+                self.k_hops, self.kb_dims, self.curr_dims_before, self.curr_dims_after,
+                self.curr_kb_total, self.curr_kb_sizes, kb_mask=kb_mask
         )
     
     def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
@@ -721,7 +721,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                       src_mask: Tensor,
                       hidden: Tensor,
                       kb_mask: Tensor = None,
-                      kb_hidden_dims_cache: List[Union[Tensor, None]] = None,
+                      kb_utils_dims_cache: List[Union[Tensor, None]] = None,
                       kb_feed_hidden_cache: List[Union[Tensor, None]] = None) -> (Tensor, Tensor, Tensor):
         """
         Perform a single decoder step (1 token).
@@ -741,7 +741,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         :param hidden: previous hidden state,
             shape (num_layers, batch_size, hidden_size)
         :param kb_mask: mask to prevent unassigned KB entries from being given score (happens in scheduling)
-        :parma kb_hidden_dims_cache: provided if kb input feeding is true, else None
+        :parma kb_utils_dims_cache: provided if kb input feeding is true, else None
         :parma kb_feed_hidden_cache: provided if kb input feeding is true, else None
         :return:
             - att_vector: new attention vector (batch_size, 1, hidden_size),
@@ -776,14 +776,14 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             query = hidden[-1].unsqueeze(1)  # [#layers, B, D] -> [B, 1, D]
 
         timer = Timer()
-        
+
         # compute context vector using attention mechanism
         # only use last layer for attention mechanism
         # key projections are pre-computed
-        with timer(f"calculate bahdanau attention for one step"):
+        with timer(f"calculate bahdanau attention for one step", p=False):
             context, att_probs = self.attention(
                 query=query, values=encoder_output, mask=src_mask)
-            
+        
         ### -------------------- start KVR attention -------------------- ###
         
         # terminology:
@@ -791,15 +791,16 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # initialize caches
         batch_size = att_probs.size(0)
-        if kb_hidden_dims_cache == None:
+        if kb_utils_dims_cache == None:
             # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
             with torch.no_grad():
-                kb_hidden_dims_cache = [
-                    query.new_zeros(query.size(0), self.curr_kb_sizes[i], query.size(-1)).to(device=query.device)
+                kb_utils_dims_cache = [
+                    query.new_zeros((query.size(0), 1, self.kb_max[i])).to(device=query.device)
                     for i in range(self.kb_dims)
                 ] 
 
         if kb_feed_hidden_cache == None:
+            # cache of initial hidden states for feeding GRU
             assert isinstance(hidden, tuple), f"TODO remove this assertion if decoder rnn is GRU; self.rnn={type(self.rnn)}"
             if self.kb_feed_rnn:
                 kb_feed_hidden_cache = [hidden[0]] * (self.kb_dims * self.k_hops)
@@ -808,9 +809,9 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
 
         # multiple attention hops
 
-        with timer(f"add kb utilities for one step with {self.k_hops} hops and {self.kb_dims} dims"):
-            u_t, kb_hidden_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
-                kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
+        with timer(f"add kb utilities for one step with {self.k_hops} hops and {self.kb_dims} dims", p=False):
+            u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
+                kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
             )
 
         # u_t = batch x 1 x kb_total
@@ -827,7 +828,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         att_vector = torch.tanh(self.att_vector_layer(att_vector_input))
 
         # output: batch x 1 x hidden_size
-        return att_vector, hidden, att_probs, u_t, kb_hidden_dims_cache, kb_feed_hidden_cache
+        return att_vector, hidden, att_probs, u_t, kb_utils_dims_cache, kb_feed_hidden_cache
 
     def forward(self,
                 trg_embed: Tensor,
@@ -960,7 +961,7 @@ neural transformer why no nonlinearities
                 src_mask=src_mask,
                 hidden=hidden,
                 kb_mask=kb_mask,
-                kb_hidden_dims_cache=prev_kb_utils,
+                kb_utils_dims_cache=prev_kb_utils,
                 kb_feed_hidden_cache=prev_kb_feed_hiddens)
                 
             if not self.kb_input_feeding:
@@ -1051,7 +1052,6 @@ class TransformerDecoder(Decoder):
                  vocab_size: int = 1,
                  freeze: bool = False,
                  kb_task: bool=False,
-
                  feed_kb_hidden: bool = False,
                  **kwargs):
         """
@@ -1081,10 +1081,8 @@ class TransformerDecoder(Decoder):
             TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
                 dropout=dropout, kb_task=kb_task, 
-                tfstyletf=True,
-                feed_kb_hidden=feed_kb_hidden)\
-                     for _ in range(num_layers)
-                     ])
+                tfstyletf=True, feed_kb_hidden=feed_kb_hidden)
+                     for _ in range(num_layers)])
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -1147,6 +1145,7 @@ class TransformerDecoder(Decoder):
         x = self.layer_norm(x)
 
         if kb_keys is not None:
+
             # fuse the heads of last kb attentions using energy layer
             # kb_att = B x num_h x M x KB
             kb_probs = self.kb_energy_layer(kb_att.transpose(1,3)) # B x KB x M x 1
@@ -1206,8 +1205,7 @@ class TransformerKBrnnDecoder(TransformerDecoder):
         # create num_layers decoder layers and put them in a list
         self.layers = nn.ModuleList([TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
-                dropout=dropout, tfstyletf=False) for _ in range(num_layers)],
-                )
+                dropout=dropout, tfstyletf=False) for _ in range(num_layers)])
 
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -1268,17 +1266,16 @@ class TransformerKBrnnDecoder(TransformerDecoder):
                                                 dropout=dropout
                                                 )
                                     for i in range(self.k_hops * self.kb_dims)])
-            self.kb_energy_layer = nn.Linear(self._hidden_size, 1, bias=False)
             self.kb_input_feeding = kb_input_feeding
         if freeze:
             freeze_params(self)
 
-    def _add_kb_probs_for_step(self, kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
+    def _add_kb_probs_for_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
         return add_kb_probs_for_step(
-                kb_hidden_dims_cache, kb_feed_hidden_cache, query,
-                self.kvr_attention, self.kb_total, 
+                kb_utils_dims_cache, kb_feed_hidden_cache, query,
+                self.kvr_attention, 
                 self.k_hops, self.kb_dims, self.dims_before, 
-                self.dims_after, self.kb_energy_layer, kb_mask=kb_mask
+                self.dims_after, kb_mask=kb_mask
         )
     
 
@@ -1296,7 +1293,7 @@ class TransformerKBrnnDecoder(TransformerDecoder):
                 trg_mask: Tensor = None,
                 kb_keys: Union[Tensor, Tuple] = None,
                 kb_mask: Tensor = None,
-                kb_hidden_dims_cache: List[Union[Tensor, None]] = None,
+                kb_utils_dims_cache: List[Union[Tensor, None]] = None,
                 kb_feed_hidden_cache: List[Union[Tensor,None]] = None,
                 **kwargs):
         """
@@ -1345,22 +1342,22 @@ class TransformerKBrnnDecoder(TransformerDecoder):
             ### setup utility caches for access to different utilities and hiddens of t-1 and aggregate utilities
 
             u = []
-            if kb_hidden_dims_cache == None:
+            if kb_utils_dims_cache == None:
 
                 # FIXME do this with torch cat right away TODO
-                kb_hidden_dims_cache = [None for _ in range(self.kb_dims)] # cache for attention hiddens for each dim to access hidden of corresponding head of previous hop
+                kb_utils_dims_cache = [None for _ in range(self.kb_dims)] # cache for attention hiddens for each dim to access hidden of corresponding head of previous hop
 
-            elif type(kb_hidden_dims_cache) == list:
+            elif type(kb_utils_dims_cache) == list:
 
                 # cache comes from prior decoding steps during search, this is second step; utils dims cache should be inited
-                assert None not in kb_hidden_dims_cache, kb_hidden_dims_cache
+                assert None not in kb_utils_dims_cache, kb_utils_dims_cache
                 # FIXME 
-                assert set([(t.size(0) == 1 and len(t.shape) == 4) for t in kb_hidden_dims_cache]) == {True}, \
-                    [t.shape for t in kb_hidden_dims_cache]
-                kb_hidden_dims_cache = torch.cat(kb_hidden_dims_cache, dim=0)
+                assert set([(t.size(0) == 1 and len(t.shape) == 4) for t in kb_utils_dims_cache]) == {True}, \
+                    [t.shape for t in kb_utils_dims_cache]
+                kb_utils_dims_cache = torch.cat(kb_utils_dims_cache, dim=0)
 
             else:
-                # kb_hidden_dims_cache is already catted (this is third step onwards)
+                # kb_utils_dims_cache is already catted (this is third step onwards)
                 pass
 
             if kb_feed_hidden_cache == None:
@@ -1377,8 +1374,8 @@ class TransformerKBrnnDecoder(TransformerDecoder):
                 query = x[:,t,:].clone().unsqueeze(1)
 
                 # get u_t and update dimension-wise utility caches and module wise hidden caches
-                u_t, kb_hidden_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
-                    kb_hidden_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
+                u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
+                    kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
                     )
                 u += [u_t]
 
@@ -1388,8 +1385,8 @@ class TransformerKBrnnDecoder(TransformerDecoder):
             kb_probs = None
         
         # decoder output signature is:
-        # return hidden, att_probs, att_vectors, kb_probs, kb_hidden_dims_cache, kb_feed_hidden_cache
-        return None, None, x, kb_probs, kb_hidden_dims_cache, kb_feed_hidden_cache
+        # return hidden, att_probs, att_vectors, kb_probs, kb_utils_dims_cache, kb_feed_hidden_cache
+        return None, None, x, kb_probs, kb_utils_dims_cache, kb_feed_hidden_cache
     
     def pad_kb_tensor(self, t: Tensor) -> Tensor:
         # pad kb tensor shaped like B x CURR_KB x TRG_EMB => B x KB_MAX x TRG_EMB
@@ -1506,9 +1503,9 @@ def reshape_kb_mask_to_keys_size(kb_mask, kb_keys, kb_total):
     ### end setup proj keys and mask dimensions
     return kb_mask
 
-def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query, 
-                                kvr_attentions, curr_kb_total, k_hops, kb_dims, 
-                                dims_before, dims_after, energy_layer, 
+def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query, 
+                                kvr_attentions, k_hops, kb_dims, 
+                                dims_before, dims_after, curr_kb_total, curr_kb_sizes,
                                 kb_mask=None):
     """
     Do one time step of kb attention (with k hops and n dimensions). 
@@ -1516,7 +1513,7 @@ def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
 
     modifies three lists in place:
     :param util_aggregator: list of utilitites that u_t of this step can be added to in place
-    :param kb_hidden_dims_cache: list of previous kb hiddens for each dimension
+    :param kb_utils_dims_cache: list of previous kb hiddens for each dimension
     :param kb_feed_hidden_cache: list of previous feeding LSTM hidden states or None
     :param query: query to all kvr attentions for that step (decoder hidden state or transformer output of corresponding step)
     :param kvr_attentions:
@@ -1527,9 +1524,7 @@ def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
     :param dims_after:
     """
 
-    with torch.no_grad():
-        # batch x kb_total x hidden
-        hidden_kb_t = query.new_zeros(query.size(0), curr_kb_total, kvr_attentions[0].key_layer.weight.shape[0])
+    # FIXME XXX TODO test: this worked better inside hop loop maybe?
 
     # multiple attention hops
     for j in range(k_hops): # self.k_hops == 1 <=> Eric et al version
@@ -1538,69 +1533,64 @@ def add_kb_probs_for_step(  hidden_dims_cache, kb_feed_hidden_cache, query,
         # e.g. KB total = subject x relation
         # or   KB total = city x weekday x weather attribute
 
+        with torch.no_grad():
+            # batch x kb_total x hidden
+            u_t_k = query.new_zeros(
+                (query.size(0), 1, curr_kb_total)
+            )
+
         for dim in range(kb_dims): # self.kb_dims == 1 <=> Eric et al version
 
             idx = j * kb_dims + dim
 
-            # hidden_n = b x kb_curr[dim] x hidden 
+            # u_t_j_m = b x kb_curr[dim] x hidden 
+
             try:
-                hidden_n, feed_hidden_n_j = kvr_attentions[idx](
+                u_t_j_m, feed_hidden_j_m = kvr_attentions[idx](
                     query = query, 
-                    prev_kb_hidden = hidden_dims_cache[dim], 
+                    prev_kb_utilities = utils_dims_cache[dim], 
                     prev_kb_feed_hidden = kb_feed_hidden_cache[idx],
                 )
             except Exception as e:
                 print(e)
-                assert False, \
-                    [t.shape for t in [hidden_dims_cache[dim], kvr_attentions[idx].proj_keys]]
+                assert False, [t.shape for t in [utils_dims_cache[dim]]]
             
             ### update caches ###
 
-            # hidden_n = b x kb_max[dim] x hidden
+            # u_t_j_m = b x kb_max[dim] x hidden
             # cache this for same dim on next hop
-            hidden_dims_cache[dim] = hidden_n # .unsqueeze(0) # FIXME find out if unsqueeze is needed for beam search stack
+            utils_dims_cache[dim] = u_t_j_m # .unsqueeze(0) # FIXME find out if unsqueeze is needed for beam search stack
 
-            if feed_hidden_n_j is not None:
-                # feed_hidden_n_j = n_layers x b x hidden
+            if feed_hidden_j_m is not None:
+                # feed_u_t_j_m_j = n_layers x b x hidden
                 # cache this for exact same kvr att module on next unroll step
-                kb_feed_hidden_cache[idx] = feed_hidden_n_j # .unsqueeze(0) 
+                kb_feed_hidden_cache[idx] = feed_hidden_j_m # .unsqueeze(0) 
 
             ### insert local hiddens into global hidden in appropriate places ###
+
+            u_t_j_m = u_t_j_m[:,:,:curr_kb_sizes[dim]]
 
             # repeat as often as the product of dims before this dim
             # torch.Tensor.repeat with count_{dim}=3 repeats dim's entries like so:
             # [1,2,3] => [1,2,3,1,2,3,1,2,3]
-            hidden_n_blocked = hidden_n.repeat(1, dims_before[dim], 1)
+            u_t_j_m_blocked = u_t_j_m.repeat(1, 1, dims_before[dim])
 
             # tile as often as the product of dims after this dim
             # JoeyNMT's tile comes from Open-NMT and with count=3 repeats entries along dim
             # [1,2,3] => [1,1,1,2,2,2,3,3,3]
-            hidden_n_blocked_tiled = tile(hidden_n_blocked, count=dims_after[dim], dim=1)
+            u_t_j_m_blocked_tiled = tile(u_t_j_m_blocked, count=dims_after[dim], dim=-1)
 
             # this leads to same entry arrangement as in the paper again 
-            # FIXME does it?
 
-            hidden_kb_t += hidden_n_blocked_tiled
+            u_t_k += u_t_j_m_blocked_tiled
 
-    # this is done for consistency in the loop and to make the singleton dimension the unroll steps dim
-    # to concatenate 1..t...T together and get the same shape as outputs
-
-    # only apply energy layer after multihop fwd pass
-
-    # u_t: batch x kb_total x 1
-    u_t = energy_layer(hidden_kb_t)
-
-    # u_t = batch x 1 x product(kb_max)=kb_total
-    u_t = u_t.squeeze(2).unsqueeze(1)
-
-    # FIXME move inside hop loop?
     if kb_mask is not None:
         # mask entries that arent actually assigned (happens in scheduling)
         try:
-            u_t = torch.where(
-                ~kb_mask.unsqueeze(1), u_t, u_t.new_zeros(u_t.shape) 
+            u_t_k = torch.where(
+                ~kb_mask.unsqueeze(1), u_t_k, u_t_k.new_zeros(u_t_k.shape) 
             )
         except:
-            assert False, [t.shape for t in [kb_mask, hidden_n_blocked_tiled]]
+            assert False, [t.shape for t in [kb_mask, u_t_j_m_blocked_tiled]]
 
-    return u_t, hidden_dims_cache, kb_feed_hidden_cache
+    return u_t_k, utils_dims_cache, kb_feed_hidden_cache

@@ -6,6 +6,14 @@
 # _OPEN ISSUES_
 
 
+### 28.09.30 current model issues:
+
+* unk from copying *DONE*
+* bad performance *TEST*
+* try: feed utilities; actually use feeding layer, aggregate vector in kth hop?
+* compare with default version
+
+
 ### 26.09. idea for multihop 
 
 * layerwise weight tying as in weston et al: next module is same module 

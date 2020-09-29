@@ -72,8 +72,6 @@ class Vocabulary:
         
         
 
-        
-
     def _from_list(self, tokens: List[str] = None) -> None:
         """
         Make vocabulary from list of tokens.

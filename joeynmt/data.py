@@ -11,6 +11,8 @@ from typing import Optional, List, Tuple
 from copy import deepcopy
 from pprint import pprint
 
+import numpy as np
+
 from torchtext.datasets import TranslationDataset
 from torchtext import data
 from torchtext.data import Dataset, Iterator, Field, Batch
@@ -21,6 +23,9 @@ from joeynmt.vocabulary import build_vocab, Vocabulary
 # FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
 from data.scripts_kvr.canonize import load_json, preprocess_entity_dict, canonize_sequence
 # joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
+
+
+
 
 def pkt_tokenize(s)-> List:
     s = s+" "
@@ -151,7 +156,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                     <= max_sent_length
                                     and len(vars(x)['trg'])
                                     <= max_sent_length)
-    
        
     if kb_task: #load train_kb and metadata
 
@@ -162,16 +166,19 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         trg_lang = trutrg
 
 
-        train_kb_truvals = MonoDataset(path=train_path,
-                                    ext=("."+kb_trv),
-                                    field=("kbtrv", trv_field),
-                                    filter_pred= lambda x:True
-                                    )
+        train_kb_truvals = MonoDataset(
+                                        path=train_path,
+                                        ext=("."+kb_trv),
+                                        field=("kbtrv", trv_field),
+                                        filter_pred= lambda x: True
+        )
 
-        train_kb = TranslationDataset(path=train_path,
+        train_kb = TranslationDataset(
+                                    path=train_path,
                                     exts=("." + kb_src, "." + kb_trg),
                                     fields=(("kbsrc", src_field), ("kbtrg", trg_field)),
-                                    filter_pred= lambda x: True)
+                                    filter_pred= lambda x: True
+        )
                                    
         with open(train_path+"."+kb_lkp, "r") as lkp:
             lookup = lkp.readlines()
@@ -285,6 +292,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         trv_vocab = deepcopy(trg_vocab)
         trv_vocab._from_file(trv_path)
+        trv_vocab._from_list(src_vocab.itos)
         
         assert trg_vocab.itos == trv_vocab.itos[:len(trg_vocab)]
 
@@ -429,10 +437,13 @@ class TorchBatchWithKB(Batch):
             
             for (name, field) in self.kb_truval_data.fields.items():
                 if field is not None:
-                    # truvals = [["@DUM"]]
-                    truvals = [getattr(x, name) for x in data.kbtrv]
-                    setattr(self, name, field.process(truvals, device=device))
-                    # assert False, (truvals, field.vocab.arrays_to_sentences(getattr(self, name)))
+                    truvals = [[s.lower() for s in getattr(x, name)] for x in data.kbtrv]
+                    preprocessed = field.preprocess(truvals)
+                    processed = field.process(preprocessed, device=device)
+                    setattr(self, name, processed)
+                    if len(truvals) <= 5: 
+                        print(f"matches for unk: \
+                            {[(unk[0], field.vocab.itos[lowest_med_match(unk[0], field.vocab.itos)]) for i, unk in enumerate(truvals) if processed[i,1] == 0]}")
 
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
@@ -538,6 +549,8 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
         [[" ".join(val)]], # FIXME hardcoded KB structure
         fields=list(kbtrv_fields.items())
     ) for rel, val in rels_vals.items() if not trg_voc.is_unk(rel)] # FIXME replace 'False' by this to get it on the fly creation again
+
+    # input(f"in on the fly creation: {[ex.kbtrv for ex in on_the_fly_kbtrv]}")
 
     return on_the_fly_kb, on_the_fly_kbtrv
 
@@ -670,12 +683,16 @@ class KB_Iterator(Iterator):
         """
         batch_size=1 #TODO remove batch_size specification /look at Iterator implementation of init to see if this does anything
         
-        super(KB_Iterator, self).__init__(dataset, batch_size, sort_key=None, device=None,\
-    batch_size_fn=None, train=True, repeat=False, shuffle=None, sort=None, sort_within_batch=None)
+        super(KB_Iterator, self).__init__(  
+                                            dataset, batch_size, sort_key=None, device=None,\
+                                            batch_size_fn=None, train=True, repeat=False, 
+                                            shuffle=None, sort=None, sort_within_batch=None
+                                         )
         self.kb_data = kb_dataset
         self.kb_lkp = kb_lkp
         self.kb_lens= kb_lens
         self.kb_truvals = kb_truvals
+        # input(f"trv_vocab: {kb_truvals.fields['kbtrv'].vocab.itos}")
         self.c = c_fn # canonization function to canonize source incase KB empty
         # FIXME find out how not to assign this TODO FIXME XXX this is big on optimization
         self.canon_dataset = canon_data # used as secondary canonized dataset in valid/test for loss calculation 
@@ -687,7 +704,7 @@ class KB_Iterator(Iterator):
         return self.canon_dataset
         
     def create_batches(self):
-        self.batches = batch_with_kb(self.data(), self.kb_data, self.kb_lkp, self.kb_lens,self.kb_truvals, c=self.c,canon_data=self.canon_data())
+        self.batches = batch_with_kb(self.data(), self.kb_data, self.kb_lkp, self.kb_lens, self.kb_truvals, c=self.c, canon_data=self.canon_data())
     
     def __iter__(self):
         while True:
@@ -706,7 +723,7 @@ class KB_Iterator(Iterator):
                         minibatch.reverse()
                     else:
                         minibatch.sort(key=self.sort_key, reverse=True)
-                batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.kb_truvals, self.device,self.canon_data())
+                batch = TorchBatchWithKB(minibatch, self.dataset, self.kb_data, self.kb_truvals, self.device, self.canon_data())
                 assert hasattr(batch, "kbsrc"), dir(batch)
                 assert hasattr(batch, "kbtrg"), dir(batch)
                 yield batch
@@ -790,3 +807,40 @@ def make_data_iter_kb(dataset: Dataset,
             repeat=False, train=False, sort=False, sort_within_batch=True,c_fn=canonize,canon_data=canon_data)
 
     return data_iter
+
+
+def med(a, b):
+    # calc minimum edit distance between strings a, b
+    m, n = len(a), len(b)
+    d = np.zeros((m,n))
+    
+    for i in range(m):
+        d[i,0] = i
+    for j in range(n):
+        d[0,j] = j
+    for j in range(n):
+        for i in range(m):
+            if a[i] == b[j]:
+                substitutionCost = 0
+            else:
+                substitutionCost = 1
+            d[i,j] = min(d[i-1,j]+1, # del
+                        d[i,j-1]+1, # ins
+                        d[i-1,j-1]+substitutionCost # sub
+            )
+    return d[m-1,n-1]
+
+
+def lowest_med_match(query, keys):
+    query = query.lower()
+    keys = [key.lower() for key in keys]
+    scores = [med(query,key) for key in keys]
+
+    # best is argmin of scores
+
+    # sorts ascending
+    sort_by_scores = sorted(list(zip(scores,range(len(keys)))), key=lambda score_and_key: score_and_key[0])
+
+    best_idx = sort_by_scores[0][1]
+    return best_idx
+

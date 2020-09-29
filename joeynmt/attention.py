@@ -154,6 +154,7 @@ class KeyValRetAtt(AttentionMechanism):
         # Weights
         self.key_layer = nn.Linear(key_size, hidden_size, bias=False) # key part of W_1 in eric et al
         self.query_layer = nn.Linear(query_size, hidden_size, bias=False) # query part of W_1 in eric et al
+        self.energy_layer = nn.Linear(hidden_size, 1, bias=False)
 
         self.W2 = nn.Linear(hidden_size, hidden_size, bias=False) # W_2 in eric et al
 
@@ -167,6 +168,7 @@ class KeyValRetAtt(AttentionMechanism):
 
         self.feed_rnn = feed_rnn
         self.num_feed_layers = num_layers
+        self.activation = nn.Tanh()
 
         # module to feed back concatenated query and previous kb hidden at hops k > 1
         # either parameterized by GRU or feed forward NN
@@ -174,26 +176,24 @@ class KeyValRetAtt(AttentionMechanism):
 
         if self.feed_rnn == True:
             self.memory_network = nn.GRU(   
-                                            hidden_size, hidden_size, # hidden size must be == decoder hidden size
+                                            hidden_size+self.kb_max, hidden_size, # hidden size must be == decoder hidden size
                                             self.num_feed_layers, batch_first=True, 
                                             dropout=dropout if num_layers > 1 else 0.
                                         )
         else:
             # feeds kb_hidden from previous hop's att module or from the last hop on previous step
-            # 2 linear layers
-            self.linear_multihop_feeding_1 = nn.Linear(hidden_size, hidden_size, bias=False)
-            self.linear_multihop_feeding_2 = nn.Linear(hidden_size, hidden_size, bias=False)
-            self.memory_network = lambda query, _: (None, \
-                self.linear_multihop_feeding_1(torch.tanh(self.linear_multihop_feeding_2(query))))
+            # 2 linear layers ?
+            self.linear_multihop_feeding_1 = nn.Linear(hidden_size+self.kb_max, hidden_size, bias=False)
+            self.memory_network = lambda query, _: (None, self.linear_multihop_feeding_1((query)))
 
     #pylint: disable=arguments-differ
-    def forward(self, query: Tensor = None, prev_kb_hidden = None, prev_kb_feed_hidden = None):
+    def forward(self, query: Tensor = None, prev_kb_utilities = None, prev_kb_feed_hidden = None):
         """
         Bahdanau MLP attention forward pass.
 
         :param query: the item (decoder state) to compare with the keys/memory,
             shape (batch_size, 1, decoder.hidden_size)
-        :param prev_kb_hidden: if not None, pass concatenation of query and this thru self.memory_network
+        :param prev_kb_utilities: if not None, pass concatenation of query and this thru self.memory_network
         :param prev_kb_feed_hidden: if self.memory_network is GRU, this is its previous hidden state; or the first decoder hidden state (first query)
         :return: context vector of shape (batch_size, 1, value_size),
             attention probabilities of shape (batch_size, 1, src_length)
@@ -203,50 +203,71 @@ class KeyValRetAtt(AttentionMechanism):
         assert self.proj_keys is not None,\
             f"projection keys have to get pre-computed/assigned in dec.fwd before dec.fwd_step"
         
-        # successive att hop (k > 1 in loop), 
+
+        # variable names refer to eric et al (2017) notation,
+        # (see https://arxiv.org/abs/1705.05414)
+        # with k added for k_th multihop pass
+
+
         # feed sum of 
-        # previously computed kvr module's hidden and query 
+        # previously computed kvr module's hidden and decoder hidden
         # back into new query
 
-        # GRU prev_kb_feed_hidden: num_layers x batch x hidden
-        _, kb_feed_hidden = self.memory_network(prev_kb_hidden, prev_kb_feed_hidden) # num_layers x batch x hidden
+        # GRU kb_feed_hidden: num_layers x batch x hidden 
+        # linear kb_feed_hidden: batch x 1 x hidden
 
+        try:
+            feed_input = torch.cat([prev_kb_utilities, query], dim=-1)
+        except Exception as e:
+            print(e)
+            assert False, [t.shape for t in [prev_kb_utilities, query]]
+
+        _, kb_feed_hidden = self.memory_network(feed_input, prev_kb_feed_hidden) 
+
+        # query_feed_hidden: batch x KB x hidden
         if self.feed_rnn:
             query_feed_hidden = kb_feed_hidden[-1].unsqueeze(1) # take last layer of hidden
         else:
             query_feed_hidden = kb_feed_hidden
 
-        # assert False, [t.shape for t in [prev_kb_hidden , query, kb_feed_hidden, self.proj_keys]]
-            
-        # variable names refer to eric et al (2017) notation,
-        # (see https://arxiv.org/abs/1705.05414)
-        # with k added for k_th multihop pass
+        
 
         # We first project the query (the decoder state).
         # The projected keys (the knowledgebase entry sums) were already pre-computed.
-        self.compute_proj_query(query) 
+        self.compute_proj_query(query_feed_hidden) 
         # => self.proj_query = batch x 1 x hidden
 
-        # add kb feed hidden if it exists
         # TODO find out if projecting like this is correct
+        # add kb feed hidden if it exists
 
         # Calculate kb hidden for decoding step t and multihop pass j and dimension n: kb_hidden_t_j_n
 
         # proj_query: batch x 1 x hidden
         # proj_keys: batch x kb_max x hidden
-        proj_query_memory_keys = self.proj_query + query_feed_hidden + self.proj_keys
+        proj_query_memory_keys = query + self.proj_keys
         # proj_query_memory_keys: batch x kb_max x hidden
         # ('+' repeats query required number of times (kb_max) along dim 1)
 
         # (https://arxiv.org/abs/1705.05414 : equation 2)
-        afterW1 = torch.tanh(proj_query_memory_keys)
-        kb_hidden = torch.tanh(self.W2(afterW1))
+        afterW1 = self.activation(proj_query_memory_keys)
+        afterW2 = self.activation(self.W2(afterW1))
 
-        if kb_feed_hidden is not None and self.feed_rnn:
+        if self.feed_rnn and kb_feed_hidden is not None:
             assert kb_feed_hidden.shape[0] == self.num_feed_layers, \
-                (kb_feed_hidden.shape, query.shape, prev_kb_hidden.shape)
+                (kb_feed_hidden.shape, query.shape, prev_kb_utilities.shape)
 
-        return kb_hidden, kb_feed_hidden
+        # this is done for consistency in the loop and to make the singleton dimension the unroll steps dim
+        # to concatenate 1..t...T together and get the same shape as outputs
+
+        # only apply energy layer after multihop fwd pass
+
+        # u_t: batch x kb_total x 1
+        u_t = self.energy_layer(afterW2)
+
+        # u_t = batch x 1 x product(kb_max)=kb_total
+        u_t = u_t.squeeze(2).unsqueeze(1)
+
+        return u_t, kb_feed_hidden
 
     def compute_proj_keys(self, keys: Tensor):
         """
