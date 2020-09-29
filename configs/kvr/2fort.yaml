@@ -48,7 +48,7 @@ training:
     validation_freq: 800 #
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/tf"
+    model_dir: "models/144_2fort_29-09" #
     overwrite: False
     shuffle: True
     use_cuda: True
