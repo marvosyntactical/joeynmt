@@ -43,10 +43,11 @@ relations:
 List of *TODOs BEFORE ADDING ANYTHING!*
 
 Code *TODO*:
-* correct entity F1 reporting
+* correct source copying cheez ******
 * implemented multiheaded KVR attention for transformer *TEST*
+* reimplement RNN transformer
+* correct entity F1 reporting
 * learning rate sampling
-* correct source copying cheez
 
 Bad performance:
 * run default eric et al version and modify code until back at 8.5 bleu:
@@ -63,7 +64,7 @@ Stuff takes longer:
 * pass hidden state to next module instead of utilities:
 * batch x kb\_curr\_dim x hidden instead of batch x 1 x kb
 * *TODO* test: can I still mask between hops???? should annihilate everything?
-* *TODO* test: is the aggregate kb hidden tensor better outside or inside the loop?
+* *TODO* test: is the aggregate kb hidden tensor better => inside to avoid overwriting
 
 ### 11.09. canonization levels
 

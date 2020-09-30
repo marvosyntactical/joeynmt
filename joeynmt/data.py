@@ -287,13 +287,22 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     if kb_task:
         # NOTE this vocab is hardcodedly built from the concatenation of train+dev+test trv files!
         trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
+        trv_ext = "."+kb_trv
+
+        trv_train_path = train_path+trv_ext
+        trv_dev_path = dev_path+trv_ext
+        trv_test_path = test_path+trv_ext
 
         assert os.path.isfile(trv_path)
 
         trv_vocab = deepcopy(trg_vocab)
         trv_vocab._from_file(trv_path)
         trv_vocab._from_list(src_vocab.itos)
-        
+
+        trv_vocab._from_file(trv_train_path)
+        trv_vocab._from_file(trv_dev_path)
+        trv_vocab._from_file(trv_test_path)
+
         assert trg_vocab.itos == trv_vocab.itos[:len(trg_vocab)]
 
         print(f"Added true value lines as tokens to trv_vocab of length={len(trv_vocab)}")
@@ -437,15 +446,18 @@ class TorchBatchWithKB(Batch):
             
             for (name, field) in self.kb_truval_data.fields.items():
                 if field is not None:
-                    truvals = [[s.lower() for s in getattr(x, name)] for x in data.kbtrv]
+                    truvals = [getattr(x,name) for x in data.kbtrv]
                     preprocessed = field.preprocess(truvals)
                     processed = field.process(preprocessed, device=device)
                     setattr(self, name, processed)
-                    """
                     if len(truvals) <= 5: 
-                        print(f"matches for unk: \
-                            {[(unk[0], field.vocab.itos[lowest_med_match(unk[0], field.vocab.itos)[0]]) for i, unk in enumerate(truvals) if processed[i,1] == 0]}")
-                    """
+                        input(f"matches for unk: \
+                            {[(unk[0], field.vocab.stoi[unk[0]]) for i, unk in enumerate(truvals) if processed[i,1] == 0]}")
+
+                        """
+                            print(f"matches for unk: \
+                                {[(unk[0], field.vocab.itos[lowest_med_match(unk[0], field.vocab.itos)[0]]) for i, unk in enumerate(truvals) if processed[i,1] == 0]}")
+                        """
 
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
@@ -525,7 +537,7 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
             if relation not in rels_vals.keys():
                 rels_vals[relation] = [raw]
             else: # entry already exists 
-                if canon_idx == prev_target: # multi word expression, e.g. 'the' '11th' => '@date'
+                if canon_idx == prev_target and rels_vals[relation][-1] != raw: # multi word expression, e.g. 'the' '11th' => '@date'
                     rels_vals[relation] += [raw]
                 else: # multiple occurrences of e.g. @date  how to handle this?? XXX
                     pass
@@ -560,7 +572,12 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
         fields=list(kbtrv_fields.items())
     ) for rel, val in rels_vals.items() if not trg_voc.is_unk(rel)] # FIXME replace 'False' by this to get it on the fly creation again
 
-    # input(f"in on the fly creation: {[ex.kbtrv for ex in on_the_fly_kbtrv]}")
+    """
+    try:
+        input(f"in on the fly creation: {[ex.kbtrv for ex in on_the_fly_kbtrv]}\n\tCancel (Ctrl+C) to see info\n\tEnter (Enter) to continue")
+    except KeyboardInterrupt as e:
+        input(f" rels_vals: {rels_vals}")
+    """
 
     return on_the_fly_kb, on_the_fly_kbtrv
 
