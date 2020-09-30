@@ -976,13 +976,12 @@ neural transformer why no nonlinearities
             att_probs.append(att_prob)
             kb_probs.append(u_t)
 
-        att_vectors = torch.cat(att_vectors, dim=1)
         # batch, unroll_steps, hidden_size
-        att_probs = torch.cat(att_probs, dim=1)
+        att_vectors = torch.cat(att_vectors, dim=1)
         # batch, unroll_steps, src_length
-
-        kb_probs = torch.cat(kb_probs, dim=1)
+        att_probs = torch.cat(att_probs, dim=1)
         # batch, unroll_steps, KB
+        kb_probs = torch.cat(kb_probs, dim=1)
 
         return hidden, att_probs, att_vectors, kb_probs, prev_kb_utils, prev_kb_feed_hiddens
 

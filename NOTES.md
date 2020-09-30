@@ -42,6 +42,12 @@ relations:
 
 List of *TODOs BEFORE ADDING ANYTHING!*
 
+Code *TODO*:
+* correct entity F1 reporting
+* implemented multiheaded KVR attention for transformer *TEST*
+* learning rate sampling
+* correct source copying cheez
+
 Bad performance:
 * run default eric et al version and modify code until back at 8.5 bleu:
 * basically get the default model to perform good again
@@ -51,11 +57,6 @@ Optimization:
 Stuff takes longer:
 * compare old runs' time with new ones'
 
-
-
-laaaleeeeluuuuu
-
-
 ### 26.09. idea for multihop 
 
 * layerwise weight tying as in weston et al: next module is same module *DONE*
@@ -63,7 +64,6 @@ laaaleeeeluuuuu
 * batch x kb\_curr\_dim x hidden instead of batch x 1 x kb
 * *TODO* test: can I still mask between hops???? should annihilate everything?
 * *TODO* test: is the aggregate kb hidden tensor better outside or inside the loop?
-
 
 ### 11.09. canonization levels
 
@@ -78,18 +78,10 @@ laaaleeeeluuuuu
 
 ### 21.09. questions for eric et al
 
-* did you do autoregressive training?
-* canon level
+* did you do autoregressive training? -> no
+* canon level -> intermediate
 
 ### 21.09. grid search preparations
-
-*TODO*
-Code:
-
-* correct entity F1 reporting
-* implement multiheaded KVR attention for transformer
-* what happens with k\_hops == 2 and input\_feeding == False? dont I need previous utilities?
-* fix transformer encoder???
 
 Test runs:
 * 2D KB plotting 

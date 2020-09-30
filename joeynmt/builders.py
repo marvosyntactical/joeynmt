@@ -6,6 +6,8 @@ from typing import Callable, Optional, Generator
 
 import math
 
+import random
+
 import torch
 from torch import nn
 from torch.optim.lr_scheduler import _LRScheduler, ReduceLROnPlateau, \
@@ -158,6 +160,10 @@ def build_scheduler(config: dict, optimizer: Optimizer, scheduler_mode: str,
             warmup = config.get("learning_rate_warmup", 4000)
             scheduler = NoamScheduler(hidden_size=hidden_size, factor=factor,
                                       warmup=warmup, optimizer=optimizer)
+        elif config["scheduling"].lower() == "sample":
+            max_lr = config.get("learning_rate", 1e-3)
+            min_lr = config.get("learning_rate_min", 1e-5)
+            scheduler = SampleScheduler(optimizer=optimizer, max_lr=max_lr, min_lr=min_lr)
 
             scheduler_step_at = "step"
     return scheduler, scheduler_step_at
@@ -206,6 +212,43 @@ def build_scheduled_sampling(config: dict):
     return scheduled_sampling
 
 
+
+class SampleScheduler:
+    """
+    scheduler = SampleScheduler(optimizer=optimizer, max_lr=max_lr, min_lr=min_lr)
+    """
+
+    def __init__(self, optimizer: torch.optim.Optimizer,
+                 max_lr=1e-3, min_lr=1e-5):
+        """
+        Warm-up, followed by learning rate decay.
+
+        :param hidden_size:
+        :param optimizer:
+        :param factor: decay factor
+        :param warmup: number of warmup steps
+        """
+        self.optimizer = optimizer
+        self._step = 0
+        self.learning_range = max_lr-min_lr
+        self.max_lr = max_lr
+        self.min_lr = min_lr
+
+    def step(self):
+        """Sample rate"""
+        self._step += 1
+        rate = self._compute_rate()
+        for p in self.optimizer.param_groups:
+            p['lr'] = rate
+        self._rate = rate
+    
+    def _compute_rate(self):
+        """Implement `lrate` above"""
+        return self.min_lr + random.random() * self.learning_range
+
+    # pylint: disable=no-self-use
+    def state_dict(self):
+        return None
 
 
 
