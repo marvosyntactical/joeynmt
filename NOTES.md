@@ -36,9 +36,11 @@ relations:
 
 => utility vector high scores: cafe-a-name
 
-
-
 * compare with default version
+
+### 30.09. problemz
+
+* 
 
 
 ### 26.09. idea for multihop 

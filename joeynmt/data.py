@@ -544,13 +544,18 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
         fields=list(kb_fields.items())
     ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] # FIXME replace 'False' by this to get on the fly creation again
 
+    # input({" ".join(v): lowest_med_match(" ".join(v), kbtrv_fields["kbtrv"].vocab.itos, return_idx=False, topk=5) for r, v in rels_vals.items()})
+
+    assert set([" ".join(val) in kbtrv_fields["kbtrv"].vocab.itos for val in rels_vals.values()]) == {True},\
+        []
+
     on_the_fly_kbtrv = [
         data.Example.fromlist(
         [[" ".join(val)]], # FIXME hardcoded KB structure
         fields=list(kbtrv_fields.items())
     ) for rel, val in rels_vals.items() if not trg_voc.is_unk(rel)] # FIXME replace 'False' by this to get it on the fly creation again
 
-    input(f"in on the fly creation: {[ex.kbtrv for ex in on_the_fly_kbtrv]}")
+    # input(f"in on the fly creation: {[ex.kbtrv for ex in on_the_fly_kbtrv]}")
 
     return on_the_fly_kb, on_the_fly_kbtrv
 
@@ -729,7 +734,6 @@ class KB_Iterator(Iterator):
                 yield batch
             if not self.repeat:
                 return
-
        
 class MonoDataset(Dataset):
     """Defines a dataset for machine translation without targets."""
@@ -794,8 +798,7 @@ def make_data_iter_kb(dataset: Dataset,
     :param c_fn: canonization function to create KB if KB empty
     :return: torchtext iterator
     """
-
-
+    
     if train: # TODO remove this option entirely?
         # optionally shuffle and sort during training
         data_iter = KB_Iterator(dataset, kb_data, kb_lkp, kb_lens, kb_truvals,\
@@ -807,7 +810,6 @@ def make_data_iter_kb(dataset: Dataset,
             repeat=False, train=False, sort=False, sort_within_batch=True,c_fn=canonize,canon_data=canon_data)
 
     return data_iter
-
 
 def med(a, b):
     # calc minimum edit distance between strings a, b
@@ -831,16 +833,25 @@ def med(a, b):
     return d[m-1,n-1]
 
 
-def lowest_med_match(query, keys):
+def lowest_med_match(query, keys, return_idx=True, topk=1, short_penalty=False):
     query = query.lower()
     keys = [key.lower() for key in keys]
     scores = [med(query,key) for key in keys]
+
+    if short_penalty:
+        scores = [score+len(query)-len(key) for score, key in zip(scores, keys) if len(query)-len(key) > 0 ]
 
     # best is argmin of scores
 
     # sorts ascending
     sort_by_scores = sorted(list(zip(scores,range(len(keys)))), key=lambda score_and_key: score_and_key[0])
 
-    best_idx = sort_by_scores[0][1]
-    return best_idx
+    topk -= 1 #start counting at 0
+
+    topk_scores_keys = [(score, key) for score, key in sort_by_scores[:topk]]
+
+    if return_idx:
+        return [top[1] for top in topk_scores_keys]
+    else:
+        return [keys[top[1]] for top in topk_scores_keys]
 
