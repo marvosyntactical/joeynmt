@@ -183,26 +183,28 @@ class KeyValRetAtt(AttentionMechanism):
             assert hidden_size % self.head_size == 0, \
             f"hidden dimension {hidden_size} must be divisible by number of dimensions = {len(self.kb_max)}"
 
-        # module to feed back concatenated query and previous kb hidden at hops k > 1
-        # either parameterized by GRU or feed forward NN
-        # (GRU remembers stuff from last decoding step, linear one from last hop of different head (but corresponding dim)
-
+        # extend input dimension by KB total dimension (e.g. 512, 256)? 
+        # or by hidden size multihead feeding network before the memory network
         memory_input_dim = 2*hidden_size if self.multihead_feed == True else self.kb_total+hidden_size
+
         if self.feed_rnn == True:
 
-            # extend input dimension by KB total dimension (e.g. 512, 256)? 
-            # dont do this if we have a multihead feeding network before this one 
+            # module to feed back concatenated query and previous kb hidden at hops k > 1
+            # either parameterized by GRU or feed forward NN
+            # (GRU remembers stuff from last decoding step, linear one from last hop of different head (but corresponding dim)
+
             self.memory_network = nn.GRU(   
                                             memory_input_dim, hidden_size, # hidden size must be == decoder hidden size
                                             self.num_feed_layers, batch_first=True, 
                                             dropout=dropout if num_layers > 1 else 0.
                                         )
         else:
-
             # feeds kb_hidden from previous hop's att module or from the last hop on previous step
             # 2 linear layers ?
+
             self.linear_multihop_feeding_1 = nn.Linear(memory_input_dim, hidden_size, bias=False)
             self.memory_network = lambda query, _: (None, self.linear_multihop_feeding_1((query)))
+
 
         if self.multihead_feed == True:
 
@@ -211,12 +213,14 @@ class KeyValRetAtt(AttentionMechanism):
             # prepend stack of multiple feeding modules before memory network in fwd
 
             self.feeding_input_network = nn.ModuleList(
-                [nn.Linear(self.kb_max[i], self.head_size) for i in range(self.dim)]
+                [nn.Linear(dim, self.head_size) for dim in self.kb_max]
             )
+
             # [B x 1 x kb_max[i]] x n  => B x 1 x head_size * n = B x 1 x H
+
             self.multihead_network = lambda prev_kb_utils_iterable: \
                     self.activation(
-                        torch.cat([self.feeding_input_network[i](u) for i,u in enumerate(prev_kb_utils_iterable)],dim=-1)
+                        torch.cat([self.feeding_input_network[i](u) for i, u in enumerate(prev_kb_utils_iterable)], dim=-1)
             )
 
 
@@ -252,7 +256,7 @@ class KeyValRetAtt(AttentionMechanism):
             # concatenation of projection of util list onto n heads
             projected_u = self.multihead_network(prev_kb_utilities)
         else:
-            projected_u = prev_kb_utilities 
+            projected_u = prev_kb_utilities
 
         feed_input = torch.cat([projected_u, query], dim=-1)
         _, kb_feed_hidden = self.memory_network(feed_input, prev_kb_feed_hidden) 

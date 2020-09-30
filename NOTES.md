@@ -40,7 +40,20 @@ relations:
 
 ### 30.09. problemz
 
-* 
+List of *TODOs BEFORE ADDING ANYTHING!*
+
+Bad performance:
+* run default eric et al version and modify code until back at 8.5 bleu:
+* basically get the default model to perform good again
+* validate every 500 again
+
+Optimization:
+Stuff takes longer:
+* compare old runs' time with new ones'
+
+
+
+laaaleeeeluuuuu
 
 
 ### 26.09. idea for multihop 

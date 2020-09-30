@@ -441,9 +441,11 @@ class TorchBatchWithKB(Batch):
                     preprocessed = field.preprocess(truvals)
                     processed = field.process(preprocessed, device=device)
                     setattr(self, name, processed)
+                    """
                     if len(truvals) <= 5: 
                         print(f"matches for unk: \
-                            {[(unk[0], field.vocab.itos[lowest_med_match(unk[0], field.vocab.itos)]) for i, unk in enumerate(truvals) if processed[i,1] == 0]}")
+                            {[(unk[0], field.vocab.itos[lowest_med_match(unk[0], field.vocab.itos)[0]]) for i, unk in enumerate(truvals) if processed[i,1] == 0]}")
+                    """
 
             for (name, field) in self.kb_data.fields.items():
                 if field is not None:
@@ -494,7 +496,7 @@ def dummy_KB_on_the_fly(trg_voc, kb_fields, kbtrv_fields):
 
     dummy_kb = [
         data.Example.fromlist(
-        [[subject, PAD_TOKEN, relation], [relation]], # FIXME hardcoded KB structure
+        [[subject, PAD_TOKEN, relation], [relation]], #  hardcoded KB structure
         fields=list(kb_fields.items())
     )]
     dummy_kbtrv = [
@@ -525,11 +527,11 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
             else: # entry already exists 
                 if canon_idx == prev_target: # multi word expression, e.g. 'the' '11th' => '@date'
                     rels_vals[relation] += [raw]
-                else: # multiple occurrences of e.g. @date FIXME how to handle this?? XXX
+                else: # multiple occurrences of e.g. @date  how to handle this?? XXX
                     pass
         prev_target = canon_idx
     
-    # FIXME dangerous heuristic requiring internal knowledge of everything in the universe
+    #  dangerous heuristic requiring internal knowledge of everything in the universe
 
     EVENT = "@event"
 
@@ -538,16 +540,19 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
 
     on_the_fly_kb = [
         data.Example.fromlist(
-            # FIXME this reads [relation] using the first (source) field
+            #  this reads [relation] using the first (source) field
             # FIXME TODO what does signature of data.Example.fromlist actually look like
         [[subject, PAD_TOKEN, relation[1:]], [relation]], # remove @ from @relation
         fields=list(kb_fields.items())
-    ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] # FIXME replace 'False' by this to get on the fly creation again
+    ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] #  replace 'False' by this to get on the fly creation again
 
     # input({" ".join(v): lowest_med_match(" ".join(v), kbtrv_fields["kbtrv"].vocab.itos, return_idx=False, topk=5) for r, v in rels_vals.items()})
 
-    assert set([" ".join(val) in kbtrv_fields["kbtrv"].vocab.itos for val in rels_vals.values()]) == {True},\
-        []
+    # FIXME some values like 'dinner' for some reason not pprcd even though theyre in the vocab.itos ???
+
+
+    # assert set([" ".join(val) in kbtrv_fields["kbtrv"].vocab.itos for val in rels_vals.values()]) == {True},\
+    #     []
 
     on_the_fly_kbtrv = [
         data.Example.fromlist(

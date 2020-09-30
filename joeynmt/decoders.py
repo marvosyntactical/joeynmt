@@ -617,6 +617,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             _k_hops = self.k_hops
             _k_hops_same_module = 1 
             
+        self.kb_multihead_feed = bool(kb_multihead_feed)
+
         # list of [kvr for dim 0, kvr for dim 1] * k_hops
         self.kvr_attention = nn.ModuleList([
                                 KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
@@ -627,12 +629,12 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                             feed_rnn=self.kb_feed_rnn,
                                             num_layers=num_layers,
                                             dropout=dropout,
-                                            pad_keys=True
+                                            pad_keys=True,
+                                            multihead_feed=self.kb_multihead_feed,
                                             )
                                 for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module
                                 )
         self.kb_input_feeding = kb_input_feeding
-        self.kb_multihead_feed = bool(kb_multihead_feed)
 
     def _add_kb_probs_for_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
         return add_kb_probs_for_step(
@@ -1567,15 +1569,11 @@ def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query,
 
             # u_t_j_m = b x kb_curr[dim] x hidden 
 
-            try:
-                u_t_j_m, feed_hidden_j_m = kvr_attentions[idx](
-                    query = query, 
-                    prev_kb_utilities = prev_u, 
-                    prev_kb_feed_hidden = kb_feed_hidden_cache[idx],
-                )
-            except Exception as e:
-                print(e)
-                assert False, [t.shape for t in [utils_dims_cache[dim]]]
+            u_t_j_m, feed_hidden_j_m = kvr_attentions[idx](
+                query = query, 
+                prev_kb_utilities = prev_u, 
+                prev_kb_feed_hidden = kb_feed_hidden_cache[idx],
+            )
             
             ### update caches ###
 
