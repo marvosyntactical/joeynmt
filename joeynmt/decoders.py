@@ -636,16 +636,13 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                 )
         self.kb_input_feeding = kb_input_feeding
 
-    def _add_kb_probs_for_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
-        return add_kb_probs_for_step(
+    def _kvr_att_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
+        return kvr_att_step(
                 kb_utils_dims_cache, kb_feed_hidden_cache, query,
                 self.kvr_attention, 
                 self.k_hops, self.kb_dims, self.curr_dims_before, self.curr_dims_after,
                 self.curr_kb_total, self.curr_kb_sizes, self.kb_multihead_feed, kb_mask=kb_mask
         )
-    
-    def _reshape_kb_mask_to_keys_size(self, kb_mask, kb_keys):
-        return reshape_kb_mask_to_keys_size(kb_mask, kb_keys, self.kb_total)
 
     def _init_proj_keys(self, kb_keys):
         return init_proj_keys(self.kvr_attention, self.kb_dims, self.k_hops, kb_keys)
@@ -800,22 +797,22 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
             with torch.no_grad():
                 kb_utils_dims_cache = [
-                    query.new_zeros((query.size(0), 1, self.kb_max[i])).to(device=query.device)
-                    for i in range(self.kb_dims)
+                    query.new_zeros((query.size(0), 1, dim)).to(device=query.device)
+                    for dim in self.kb_max 
                 ] 
 
         if kb_feed_hidden_cache == None:
             # cache of initial hidden states for feeding GRU
-            assert isinstance(hidden, tuple), f"TODO remove this assertion if decoder rnn is GRU; self.rnn={type(self.rnn)}"
             if self.kb_feed_rnn:
-                kb_feed_hidden_cache = [hidden[0]] * (self.kb_dims * self.k_hops)
+                init_kb_hidden = hidden[0] if isinstance(hidden, tuple) else hidden # GRU vs LSTM output types
+                kb_feed_hidden_cache = [init_kb_hidden] * (self.kb_dims * self.k_hops)
             else:
                 kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
 
         # multiple attention hops
 
         with timer(f"add kb utilities for one step with {self.k_hops} hops and {self.kb_dims} dims", p=False):
-            u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
+            u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._kvr_att_step(
                 kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
             )
 
@@ -1224,7 +1221,6 @@ class TransformerKBrnnDecoder(TransformerDecoder):
                 assert type(kb_max) == int, (kb_max, type(kb_max), "specify this differently in config plz")
                 kb_max = (kb_max,)
             self.kb_max = kb_max 
-            if len(self.kb_max) is not 1: raise NotImplementedError(f"{len(self.kb_max)} not implemented for transformer")
             self.kb_feed_rnn = kb_feed_rnn
 
             self.kb_layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
@@ -1258,8 +1254,10 @@ class TransformerKBrnnDecoder(TransformerDecoder):
             self.dims_after = [product(self.kb_max[:dim:-1]) for dim in range(self.kb_dims)]
             self.kb_total = product(self.kb_max)
 
-            self.kb_feed_rnn = kb_feed_rnn # bool of whether to use LSTM (True) or feed forward network (False) for input feeding (LSTM remembers everything)
-            self.kb_layers = int(num_layers//2)
+            assert len(self.dims_before) == len(self.dims_after) == self.kb_dims
+
+            self.kb_feed_rnn = bool(kb_feed_rnn) # bool of whether feed with GRU (True) or feed forward network (False) for input feeding (LSTM remembers everything)
+            self.kb_layers = int(num_layers//2) # half the GRU layers as tf layers if GRU
 
             # if yes, use only one att module (per dim) for all hops 
             # and feed its output into itself 
@@ -1270,33 +1268,38 @@ class TransformerKBrnnDecoder(TransformerDecoder):
             else:
                 _k_hops = self.k_hops
                 _k_hops_same_module = 1 
+
+            self.kb_input_feeding = kb_input_feeding
+            self.kb_multihead_feed = bool(kb_multihead_feed)
                 
             # list of [kvr for dim 0, kvr for dim 1] * k_hops
             self.kvr_attention = nn.ModuleList([
-                                    KeyValRetAtt(hidden_size=hidden_size, # use same hidden size as decoder
+                                KeyValRetAtt(
+                                            hidden_size=hidden_size, # use same hidden size as decoder
                                             key_size=kb_key_emb_size, 
                                             query_size=hidden_size, # queried with decoder hidden
                                             kb_max=self.kb_max, # maximum key size for the attention module for this KB dimension,e.g. subj = 10, rel = 5
                                             dim=i%self.kb_dims,
                                             feed_rnn=self.kb_feed_rnn,
-                                            num_layers=num_layers,
+                                            num_layers=self.kb_layers,
                                             dropout=dropout,
-                                            pad_keys=True
+                                            pad_keys=True,
+                                            multihead_feed=self.kb_multihead_feed,
                                             )
+
                                 for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module
                                 )
-        self.kb_input_feeding = kb_input_feeding
-        self.kb_multihead_feed = bool(kb_multihead_feed)
-
         if freeze:
             freeze_params(self)
 
-    def _add_kb_probs_for_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
-        return add_kb_probs_for_step(
+    def _kvr_att_step(self, kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=None):
+        return kvr_att_step(
                 kb_utils_dims_cache, kb_feed_hidden_cache, query,
                 self.kvr_attention, 
-                self.k_hops, self.kb_dims, self.dims_before, 
-                self.dims_after, kb_mask=kb_mask
+                self.k_hops, 
+                self.kb_dims, self.curr_dims_before, self.curr_dims_after,
+                self.curr_kb_total, self.curr_kb_sizes,
+                self.kb_multihead_feed, kb_mask=kb_mask
         )
     
     def _init_proj_keys(self, kb_keys):
@@ -1339,61 +1342,63 @@ class TransformerKBrnnDecoder(TransformerDecoder):
             trg_embed.size(1)).type_as(trg_mask)
 
         for i, layer in enumerate(self.layers):
-            x = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
+            x, _, _ = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
 
         x = self.layer_norm(x)
 
         # Multiheaded KVR Attention fwd pass
         if kb_keys is not None:
             
-            ### setup proj keys and mask dimensions
+            ### setup proj keys and current KB dimensions
             if not isinstance(kb_keys, tuple): 
                 assert self.kb_dims == 1, (self.kb_dims, kb_keys)
                 kb_keys = (kb_keys,)
 
             self._init_proj_keys(kb_keys)
 
-            if kb_mask is not None:
-                # reshape_kb_mask(kb_mask, kb_keys, kb_total):
-                kb_mask = self._reshape_kb_mask_to_keys_size(kb_mask, kb_keys)
-            ### end setup proj keys and mask dimensions
+            self.curr_kb_sizes = [self.kvr_attention[dim].curr_kb_size for dim in range(self.kb_dims)]
+            self.curr_dims_before = [product(self.curr_kb_sizes[:dim]) for dim in range(self.kb_dims)]
+            self.curr_dims_after = [product(self.curr_kb_sizes[:dim:-1]) for dim in range(self.kb_dims)]
+            self.curr_kb_total = product(self.curr_kb_sizes)
 
-            ### setup utility caches for access to different utilities and hiddens of t-1 and aggregate utilities
+            ### end setup proj keys and current KB dimensions
 
+            batch_size = x.size(0)
+
+            ### setup caches for access to different utilities and hiddens of t-1 and aggregate utilities
             u = []
             if kb_utils_dims_cache == None:
 
-                # FIXME do this with torch cat right away TODO
-                kb_utils_dims_cache = [None for _ in range(self.kb_dims)] # cache for attention hiddens for each dim to access hidden of corresponding head of previous hop
-
-            elif type(kb_utils_dims_cache) == list:
-
-                # cache comes from prior decoding steps during search, this is second step; utils dims cache should be inited
-                assert None not in kb_utils_dims_cache, kb_utils_dims_cache
-                # FIXME 
-                assert set([(t.size(0) == 1 and len(t.shape) == 4) for t in kb_utils_dims_cache]) == {True}, \
-                    [t.shape for t in kb_utils_dims_cache]
-                kb_utils_dims_cache = torch.cat(kb_utils_dims_cache, dim=0)
-
-            else:
-                # kb_utils_dims_cache is already catted (this is third step onwards)
-                pass
+                with torch.no_grad():
+                    # initialize with maximum length allowed for each dimension;
+                    # curb in add_kb_util... procedure
+                    kb_utils_dims_cache = [
+                        x.new_zeros((batch_size, 1, dim)).to(device=x.device) # ".to" probably unnecessary
+                        for dim in self.kb_max
+                    ] 
 
             if kb_feed_hidden_cache == None:
 
-                # if not present initialize with last stage of first timestep of x
-                with torch.no_grad():
-                    kb_feed_hidden_cache = torch.zeros(
-                        self.kb_dims * self.k_hops, self.kb_layers, x.size(0), self._hidden_size
-                    ).to(dtype=kb_keys[0].dtype, device=kb_keys[0].device)
+                # if not present initialize with first timestep of encoder_output
+                if self.kb_feed_rnn:
+                    with torch.no_grad():
+                        kb_feed_hidden_cache = [
+                            encoder_output.new_zeros(self.kb_layers, batch_size, self._hidden_size)
+                        ] * (self.kb_dims * self.k_hops)
+                else:
+                    kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
+
+
+
+            ### end setup caches 
 
             # Recurrent unroll of KB attentions
             for t in range(x.size(1)):
 
-                query = x[:,t,:].clone().unsqueeze(1)
+                query = x[:,t,:].unsqueeze(1).clone()
 
                 # get u_t and update dimension-wise utility caches and module wise hidden caches
-                u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._add_kb_probs_for_step(
+                u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._kvr_att_step(
                     kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
                     )
                 u += [u_t]
@@ -1522,7 +1527,7 @@ def reshape_kb_mask_to_keys_size(kb_mask, kb_keys, kb_total):
     ### end setup proj keys and mask dimensions
     return kb_mask
 
-def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query, 
+def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query, 
                                 kvr_attentions, k_hops, kb_dims, 
                                 dims_before, dims_after, curr_kb_total, curr_kb_sizes,
                                 multihead_feed, kb_mask=None):
@@ -1612,6 +1617,7 @@ def add_kb_probs_for_step(  utils_dims_cache, kb_feed_hidden_cache, query,
                 ~kb_mask.unsqueeze(1), u_t_k, u_t_k.new_zeros(u_t_k.shape) 
             )
         except:
-            assert False, [t.shape for t in [kb_mask, u_t_j_m_blocked_tiled]]
+            assert False, ([t.shape for t in [kb_mask, u_t_j_m_blocked_tiled]],\
+            dims_before, dims_after, dim)
 
     return u_t_k, utils_dims_cache, kb_feed_hidden_cache

@@ -504,7 +504,10 @@ class TransformerDecoderLayer(nn.Module):
         :return: output tensor
         """
         # decoder/target self-attention
-        x_norm = self.x_layer_norm(x)
+        try:
+            x_norm = self.x_layer_norm(x)
+        except Exception:
+            assert False, [t for t in x]
         h1 = self.trg_trg_att(x_norm, x_norm, x_norm, mask=trg_mask)
         h1 = self.dropout(h1) + x
 

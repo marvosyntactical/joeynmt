@@ -43,11 +43,10 @@ relations:
 List of *TODOs BEFORE ADDING ANYTHING!*
 
 Code *TODO*:
-* correct source copying cheez ******
 * implemented multiheaded KVR attention for transformer *TEST*
 * reimplement RNN transformer
 * correct entity F1 reporting
-* learning rate sampling
+* fix plotting
 
 Bad performance:
 * run default eric et al version and modify code until back at 8.5 bleu:

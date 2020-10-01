@@ -66,9 +66,8 @@ model:
     kb_max_dims: [16,32]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al)
     copy_from_source: True
     kb_input_feeding: True
-    kb_feed_rnn: True
+    kb_feed_rnn: False
     tfstyletf: False
-
 
     initializer: "xavier"
     embed_initializer: "xavier"

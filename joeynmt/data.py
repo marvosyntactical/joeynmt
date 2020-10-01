@@ -286,17 +286,22 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     if kb_task:
         # NOTE this vocab is hardcodedly built from the concatenation of train+dev+test trv files!
-        trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
+        # trv_path = train_path[:len(train_path)-train_path[::-1].find("/")]+global_trv
+        # assert os.path.isfile(trv_path)
+
         trv_ext = "."+kb_trv
 
         trv_train_path = train_path+trv_ext
         trv_dev_path = dev_path+trv_ext
         trv_test_path = test_path+trv_ext
 
-        assert os.path.isfile(trv_path)
+        assert os.path.isfile(trv_train_path)
 
+        # try to make vocabulary exactly as large as needed
+
+        # trv_vocab._from_file(trv_path)
         trv_vocab = deepcopy(trg_vocab)
-        trv_vocab._from_file(trv_path)
+        # FIXME only add this for source copying?
         trv_vocab._from_list(src_vocab.itos)
 
         trv_vocab._from_file(trv_train_path)
@@ -451,7 +456,7 @@ class TorchBatchWithKB(Batch):
                     processed = field.process(preprocessed, device=device)
                     setattr(self, name, processed)
                     if len(truvals) <= 5: 
-                        input(f"matches for unk: \
+                        print(f"matches for unk: \
                             {[(unk[0], field.vocab.stoi[unk[0]]) for i, unk in enumerate(truvals) if processed[i,1] == 0]}")
 
                         """

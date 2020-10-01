@@ -312,7 +312,7 @@ class Model(nn.Module):
                     src_mask=batch.src_mask, embed=self.trg_embed,
                     bos_index=self.bos_index, decoder=self.decoder, generator=self.generator,
                     max_output_length=max_output_length,
-                    knowledgebase = knowledgebase)
+                knowledgebase = knowledgebase)
             # batch, time, max_src_length
         else:  # beam size
             stacked_output, stacked_attention_scores, stacked_kb_att_scores = \
@@ -813,10 +813,16 @@ def build_model(cfg: dict = None,
         else:
             decoder = TransformerKBrnnDecoder(
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
-                emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
-                kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim,
-                feed_kb_hidden=kb_input_feeding
-                )
+                emb_size=trg_embed.embedding_dim, 
+                emb_dropout=dec_emb_dropout,
+                kb_task=kb_task, 
+                k_hops=k_hops, 
+                kb_max=kb_max_dims,
+                same_module_for_all_hops=same_module_for_all_hops,
+                kb_key_emb_size=kbsrc_embed.embedding_dim,
+                kb_input_feeding=kb_input_feeding, 
+                kb_feed_rnn=kb_feed_rnn,
+                kb_multihead_feed=kb_multihead_feed)
     else:
         if not kb_task:
             decoder = RecurrentDecoder(
