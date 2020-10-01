@@ -1367,9 +1367,11 @@ class TransformerKBrnnDecoder(TransformerDecoder):
 
             ### setup caches for access to different utilities and hiddens of t-1 and aggregate utilities
             u = []
-            if kb_utils_dims_cache == None:
+            with torch.no_grad():
+                # dectivate autograd before creating zero tensors to avoid
+                # invoking the wrath of cuda-thulhu
+                if kb_utils_dims_cache == None:
 
-                with torch.no_grad():
                     # initialize with maximum length allowed for each dimension;
                     # curb in add_kb_util... procedure
                     kb_utils_dims_cache = [
@@ -1377,16 +1379,15 @@ class TransformerKBrnnDecoder(TransformerDecoder):
                         for dim in self.kb_max
                     ] 
 
-            if kb_feed_hidden_cache == None:
+                if kb_feed_hidden_cache == None:
 
-                # if not present initialize with first timestep of encoder_output
-                if self.kb_feed_rnn:
-                    with torch.no_grad():
+                    # if not present initialize with first timestep of encoder_output
+                    if self.kb_feed_rnn:
                         kb_feed_hidden_cache = [
                             encoder_output.new_zeros(self.kb_layers, batch_size, self._hidden_size)
                         ] * (self.kb_dims * self.k_hops)
-                else:
-                    kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
+                    else:
+                        kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
 
 
 

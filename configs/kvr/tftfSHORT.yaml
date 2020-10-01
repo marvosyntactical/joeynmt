@@ -63,11 +63,11 @@ model:
     kb: True                        # kb decoder used or not?
     k_hops: 1                       # num of kvr att layers
     do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
-    kb_max_dims: [256]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al)
+    kb_max_dims: [256]            # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al) 
     copy_from_source: True
-    kb_input_feeding: True
-    kb_feed_rnn: True
-    tfstyletf: True 
+    kb_input_feeding: True # relevant for both tfstyletf True or False
+    tfstyletf: True  # if transformer decoder: implement multihead transf style KB attention? else use bahdanau style att unroll
+    kb_feed_rnn: False # irrelevant for tfstyletf == True
 
 
     initializer: "xavier"

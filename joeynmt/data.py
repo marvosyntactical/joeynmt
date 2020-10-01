@@ -301,6 +301,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         # trv_vocab._from_file(trv_path)
         trv_vocab = deepcopy(trg_vocab)
+        assert "scheduled" in trv_vocab.itos
         # FIXME only add this for source copying?
         trv_vocab._from_list(src_vocab.itos)
 

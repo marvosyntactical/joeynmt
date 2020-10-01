@@ -244,10 +244,11 @@ class Model(nn.Module):
             if not do_teacher_force:
                 raise NotImplementedError("scheduled sampling only works for KB task atm")
 
-            hidden, att_probs, out, _, _, _= self.forward(
+            hidden, att_probs, out, kb_probs, _, _ = self.forward(
                 src=batch.src, trg_input=trg_input,
                 src_mask=batch.src_mask, src_lengths=batch.src_lengths,
                 trg_mask=trg_mask)
+            kb_values = None
 
         if log_probs is None:
             # same generator fwd pass for KB task and no KB task if teacher forcing
@@ -783,7 +784,7 @@ def build_model(cfg: dict = None,
     same_module_for_all_hops = bool(cfg.get("same_module_for_all_hops", False))
     do_postproc = bool(cfg.get("do_postproc", True))
     copy_from_source = bool(cfg.get("copy_from_source", True))
-    canonization_func = canonizer(copy_from_source=copy_from_source) 
+    canonization_func = None if canonizer is None else canonizer(copy_from_source=copy_from_source) 
     kb_input_feeding = bool(cfg.get("kb_input_feeding", True))
     kb_feed_rnn = bool(cfg.get("kb_feed_rnn", True))
     kb_multihead_feed = bool(cfg.get("kb_multihead_feed", False))

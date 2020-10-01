@@ -470,7 +470,7 @@ class TransformerDecoderLayer(nn.Module):
 
                 self.multihop_feeding_query = nn.Linear(size, feeding_head_size, bias=False)
                 self.multihop_feeding_kb_h = nn.Linear(size, feeding_head_size, bias=False)
-                self.activation = nn.Tanh()
+                self.activation = nn.ReLU()
                 self.kb_feed_forward = PositionwiseFeedForward(size, ff_size=ff_size)
 
                 self.multihop_feed = lambda kb_hidden, query: \

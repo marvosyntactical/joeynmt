@@ -43,7 +43,7 @@ relations:
 List of *TODOs BEFORE ADDING ANYTHING!*
 
 Code *TODO*:
-* implemented multiheaded KVR attention for transformer *TEST*
+* recheck tfstyletf: empty hyps=> sumting wong
 * reimplement RNN transformer
 * correct entity F1 reporting
 * fix plotting
