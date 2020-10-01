@@ -1217,39 +1217,34 @@ class TransformerDecoder(Decoder):
         x = self.pe(trg_embed) # add position encoding to word embedding
         x = self.emb_dropout(x)
 
-        if self.kb_task:
-            # k fwd pass thru k layers (with k x KVR Multihop Attention)
-            with torch.no_grad():
-                kb_output = x.new_zeros(x.shape)
-                # knowledgebase feeding hiddens at time step k
-                if self.feed_in_rnn is not None:
-                    kb_feed_in_hidden = x.new_zeros(self.kb_layers, x.size(1), self._hidden_size)
-                else:
-                    kb_feed_in_hidden = None
-                if self.feed_out_nn is not None:
-                    kb_feed_out_hidden = x.new_zeros(x.shape)
-                else:
-                    kb_feed_out_hidden = None
+        # k fwd pass thru k layers (with k x KVR Multihop Attention)
+        with torch.no_grad():
+            kb_output = x.new_zeros(x.shape)
+            # knowledgebase feeding hiddens at time step k
+            if self.feed_in_rnn is not None:
+                kb_feed_in_hidden = x.new_zeros(self.kb_layers, x.size(1), self._hidden_size)
+            else:
+                kb_feed_in_hidden = None
+            if self.feed_out_nn is not None:
+                kb_feed_out_hidden = x.new_zeros(x.shape)
+            else:
+                kb_feed_out_hidden = None
 
         timer = Timer()
-        with timer(f"transformer unroll of {len(self.layers)} layers with \
-            kb feed in: {self.feed_in_rnn is not None}; \
-            kb feed out: {self.feed_out_nn is not None}; \
-                "):
-            for k, layer in enumerate(self.layers):
-                x, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden = layer(
-                            x=x, 
-                            memory=encoder_output, 
-                            src_mask=src_mask, 
-                            trg_mask=trg_mask, 
-                            kb_keys=kb_keys, 
-                            kb_values_embed=kb_values_embed,
-                            prev_kb_output=kb_output,
-                            kb_feed_in=self.feed_in_rnn,
-                            kb_feed_in_hidden=kb_feed_in_hidden,
-                            kb_feed_out=self.feed_out_nn,
-                            kb_feed_out_hidden=kb_feed_out_hidden,
-                            )
+        for k, layer in enumerate(self.layers):
+            x, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden = layer(
+                        x=x, 
+                        memory=encoder_output, 
+                        src_mask=src_mask, 
+                        trg_mask=trg_mask, 
+                        kb_keys=kb_keys, 
+                        kb_values_embed=kb_values_embed,
+                        prev_kb_output=kb_output,
+                        kb_feed_in=self.feed_in_rnn,
+                        kb_feed_in_hidden=kb_feed_in_hidden,
+                        kb_feed_out=self.feed_out_nn,
+                        kb_feed_out_hidden=kb_feed_out_hidden,
+                        )
         
         x = self.layer_norm(x)
 
