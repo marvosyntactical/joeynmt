@@ -68,6 +68,9 @@ model:
     kb_input_feeding: True # relevant for both tfstyletf True or False
     tfstyletf: True  # if transformer decoder: implement multihead transf style KB attention? else use bahdanau style att unroll
     kb_feed_rnn: False # irrelevant for tfstyletf == True
+    infeedkb: False
+    outfeedkb: True
+    add_kb_biases_to_output: False
 
 
     initializer: "xavier"

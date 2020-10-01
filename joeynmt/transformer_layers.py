@@ -430,7 +430,6 @@ class TransformerDecoderLayer(nn.Module):
                  kb_task: bool = False,
                  kb_max: int = 256,
                  tfstyletf: bool = False,
-                 feed_kb_hidden: bool = False,
     ):
         """
         Represents a single Transformer decoder layer.
@@ -461,24 +460,15 @@ class TransformerDecoderLayer(nn.Module):
             self.kb_trg_att = MultiHeadedKbAttention(num_heads, size, dropout=dropout)
             self.kb_layer_norm = nn.LayerNorm(size, eps=1e-6)
             self.kb_max = kb_max
-            self.feed_kb_hidden = feed_kb_hidden
 
-            if self.tfstyletf:
-                # convert query and kb hidden memory into lower dimensional representation
-                assert size % 2 == 0, size
-                feeding_head_size = int(size//2)
+            # convert query and kb hidden memory into lower dimensional representation
 
-                self.multihop_feeding_query = nn.Linear(size, feeding_head_size, bias=False)
-                self.multihop_feeding_kb_h = nn.Linear(size, feeding_head_size, bias=False)
-                self.activation = nn.ReLU()
-                self.kb_feed_forward = PositionwiseFeedForward(size, ff_size=ff_size)
+            # feed in or out of the knowledgebase attention:
+            # in feeding: feed the output of previous kb att into the next one
+            # out feeding: feed the output of kb att back into main hidden state
+            # both feedings are done using two linear layers projecting 
+            # the dimension onto half of it and concatenating
 
-                self.multihop_feed = lambda kb_hidden, query: \
-                    self.kb_feed_forward(
-                    self.activation(\
-                        torch.cat(
-                    [self.multihop_feeding_kb_h(kb_hidden), self.multihop_feeding_query(query)],
-                dim=-1)))
         self.dropout = nn.Dropout(dropout)
 
     # pylint: disable=arguments-differ
@@ -489,8 +479,12 @@ class TransformerDecoderLayer(nn.Module):
                 src_mask: Tensor = None,
                 trg_mask: Tensor = None,
                 kb_values_embed: Tensor = None,
-                prev_kb_hidden: Tensor = None,
                 kb_mask: Tensor = None,
+                prev_kb_output: Tensor = None,
+                kb_feed_in: nn.Module = None,
+                kb_feed_out: nn.Module = None,
+                kb_feed_in_hidden: nn.Module = None,
+                kb_feed_out_hidden: nn.Module = None,
                 ) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
@@ -499,15 +493,13 @@ class TransformerDecoderLayer(nn.Module):
         :param src_mask: source mask
         :param trg_mask: target mask (so as to not condition on future steps)
         :param kb_keys: knowledgebase keys: B x KB_MAX x TRG_EMB
-        :param prev_utilities: B x M x KB_MAX previous kb entry utilities for kb att input feeding
-        :param kb_mask: bruh
+        :param kb_mask: used to mask non present entries as in scheduling
+        :param kb_feed_in: callable (e.g. LSTM) to feed prev kb hidden (from last layer) into current K
+        :param kb_feed_out: callable (e.g. LSTM) to feed kb hidden back into main transformer hidden (h2)
         :return: output tensor
         """
         # decoder/target self-attention
-        try:
-            x_norm = self.x_layer_norm(x)
-        except Exception:
-            assert False, [t for t in x]
+        x_norm = self.x_layer_norm(x)
         h1 = self.trg_trg_att(x_norm, x_norm, x_norm, mask=trg_mask)
         h1 = self.dropout(h1) + x
 
@@ -523,24 +515,33 @@ class TransformerDecoderLayer(nn.Module):
 
             h2_norm = self.kb_layer_norm(h2)
 
-            if self.feed_kb_hidden:
-                # feed this query at kth hop
-                query_k = self.multihop_feed(prev_kb_hidden, h2_norm)
+            if kb_feed_in is not None:
+                assert kb_feed_in_hidden is not None
+                # feed this query at kth hop using RNN (GRU)
+                _, query_k = kb_feed_in(prev_kb_output, kb_feed_in_hidden)
             else:
-                # FIXME without kb input feeding, only the last kb attentions are ever used
+                # NOTE without kb input feeding, only the last kb attentions are ever used
                 query_k = h2_norm
 
             # KVR attention
-            kb_hidden, kb_att = self.kb_trg_att(kb_keys, kb_values_embed, query_k, mask=kb_mask) # TODO find out if I have to apply src_mask here too
+            kb_output, kb_att = self.kb_trg_att(kb_keys, kb_values_embed, query_k, mask=kb_mask) # TODO find out if I have to apply src_mask here too
 
-            # TODO is there a different way to update the main hidden state
-            # with transformer info without completely trashing it?
-            # h2 = self.dropout(kb_hidden) + h2
+            # TODO 
+            # reasoning because of empty/spammy hypotheses:
+            # need to somehow update main hidden state with kb info during fwd pass
+            # before generator so the n layers are always up to date 
+            # with the knowledgebase info and dont get surprised in generator
+            # => use one RNN for all layers that learns how to rewrite the 
+            # hidden state well
+
+            if kb_feed_out is not None:
+
+                kb_feed_out_hidden, h2 = kb_feed_out(kb_output, kb_feed_out_hidden, h2_norm)
 
         else:
-            kb_hidden, kb_att = None, None
+            kb_output, kb_att = None, None
 
         # final position-wise feed-forward layer
         o = self.feed_forward(h2)
         
-        return o, kb_hidden, kb_att
+        return o, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden

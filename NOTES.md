@@ -38,13 +38,20 @@ relations:
 
 * compare with default version
 
+### 01.10. tftf approaches
+
+* output feeding: feed KVRatt output back into main loop
+* input feeding: feed last kb hidden state back into next KVRatt query
+* output layer bias: make optional because output feeding already updates transformer
+
 ### 30.09. problemz
 
 List of *TODOs BEFORE ADDING ANYTHING!*
 
 Code *TODO*:
-* recheck tfstyletf: empty hyps=> sumting wong
+* recheck tfstyletf: empty hyps => sumting wong
 * reimplement RNN transformer
+* try autoregressive transformer
 * correct entity F1 reporting
 * fix plotting
 

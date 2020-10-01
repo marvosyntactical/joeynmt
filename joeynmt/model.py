@@ -221,7 +221,8 @@ class Model(nn.Module):
 
                     print(f"in model.glfb; kb_keys are {kb_keys}")
                     stacked_output, stacked_attention_scores, stacked_kb_att_scores, log_probs = greedy(
-                            encoder_hidden=encoder_hidden, encoder_output=encoder_output,
+                            encoder_hidden=encoder_hidden, 
+                            encoder_output=encoder_output,
                             src_mask=batch.src_mask,
                             embed=self.trg_embed,
                             bos_index=self.bos_index,
@@ -788,15 +789,19 @@ def build_model(cfg: dict = None,
     kb_input_feeding = bool(cfg.get("kb_input_feeding", True))
     kb_feed_rnn = bool(cfg.get("kb_feed_rnn", True))
     kb_multihead_feed = bool(cfg.get("kb_multihead_feed", False))
-
+    posEncKBkeys = cfg.get("posEncdKBkeys", False)
+    tfstyletf = cfg.get("tfstyletf", False)
+    infeedkb = bool(cfg.get("infeedkb", False))
+    outfeedkb = bool(cfg.get("outfeedkb", False))
+    add_kb_biases_to_output = bool(cfg.get("add_kb_biases_to_output", False))
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
+
     if hasattr(kb_max_dims, "__iter__"):
         kb_max_dims = tuple(kb_max_dims)
     else:
         assert type(kb_max_dims) == int, kb_max_dims
         kb_max_dims = (kb_max_dims,)
-    posEncKBkeys = cfg.get("posEncdKBkeys", False)
-    tfstyletf = cfg.get("tfstyletf", False)
+
 
 
     assert cfg["decoder"]["hidden_size"]
@@ -809,7 +814,7 @@ def build_model(cfg: dict = None,
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
                 kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim,
-                feed_kb_hidden=kb_input_feeding
+                feed_kb_hidden=kb_input_feeding, infeedkb=infeedkb, outfeedkb=outfeedkb
                 )
         else:
             decoder = TransformerKBrnnDecoder(
@@ -843,7 +848,8 @@ def build_model(cfg: dict = None,
     # specify generator which is mostly just the output layer
     generator = Generator(
         dec_hidden_size=cfg["decoder"]["hidden_size"],
-        vocab_size=len(trg_vocab)
+        vocab_size=len(trg_vocab),
+        add_kb_biases_to_output=add_kb_biases_to_output
     )
 
     model = Model(

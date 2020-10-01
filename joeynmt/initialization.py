@@ -139,7 +139,7 @@ def initialize_model(model: nn.Module, cfg: dict, src_padding_idx: int,
 
             elif len(p.size()) > 1:
 
-                # RNNs combine multiple matrices is one, which messes up
+                # RNNs combine multiple matrices in one, which messes up
                 # xavier initialization
                 if init == "xavier" and "rnn" in name:
                     n = 1
