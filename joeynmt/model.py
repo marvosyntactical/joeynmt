@@ -337,6 +337,10 @@ class Model(nn.Module):
                 # assert kb_values.shape[1] == 1, kb_values.shape
                 stacked_output = self.postprocess_batch_hypotheses(stacked_output, stacked_kb_att_scores, kb_values, kb_trv)
 
+            print(f"proc_batch: Hypotheses: {self.trv_vocab.arrays_to_sentences(stacked_output)}")
+        else:
+            print(f"proc_batch: Hypotheses: {self.trg_vocab.arrays_to_sentences(stacked_output)}")
+
         return stacked_output, stacked_attention_scores, stacked_kb_att_scores
         
     def preprocess_batch_kb(self, batch: Batch_with_KB, detailed_debug=True, kbattdims=1, posEnc=False) -> \
@@ -793,7 +797,7 @@ def build_model(cfg: dict = None,
     tfstyletf = cfg.get("tfstyletf", True)
     infeedkb = bool(cfg.get("infeedkb", False))
     outfeedkb = bool(cfg.get("outfeedkb", False))
-    add_kb_biases_to_output = bool(cfg.get("add_kb_biases_to_output", False))
+    add_kb_biases_to_output = bool(cfg.get("add_kb_biases_to_output", True))
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
 
     if hasattr(kb_max_dims, "__iter__"):

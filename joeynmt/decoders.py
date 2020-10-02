@@ -22,11 +22,12 @@ from joeynmt.transformer_layers import PositionalEncoding, \
 
 
 class VariableCellLSTM(nn.Module):
-    def __init__(self, size, num_layers, dropout=.1, **kwargs):
+    def __init__(self, size, num_layers, dropout=.1, forget_bias=1., **kwargs):
         super(VariableCellLSTM, self).__init__()
         self.size = size
         self.num_layers = num_layers
         self.dropout = dropout
+        self.forget_bias = float(forget_bias)
 
         num_inbetween_layers = max(0, self.num_layers-2)
 
@@ -36,6 +37,10 @@ class VariableCellLSTM(nn.Module):
             *(nn.Linear(size,size),nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers+1), 
             nn.Linear(size,size),nn.Sigmoid(), nn.Dropout(self.dropout)
         )
+
+        with torch.no_grad():
+            # bias last linear layer of forget gate
+            self.forget[-3].weight += self.forget_bias
 
         self.adding_residual_normalizer = nn.Sequential(
             nn.Linear(2*size,size),nn.ReLU(), nn.Dropout(self.dropout),
@@ -56,9 +61,6 @@ class VariableCellLSTM(nn.Module):
             *(nn.Linear(size,size), nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers+1), 
             nn.Linear(size,size), nn.Sigmoid(), nn.Dropout(self.dropout)
         )
- 
-
-
 
     def forward(self, x, hidden, cell):
         """
@@ -67,15 +69,17 @@ class VariableCellLSTM(nn.Module):
         """
         assert x.shape == cell.shape, [t.shape for t in [x,cell]]
 
-        info = torch.cat([x,hidden], dim=-1)
+        info = torch.cat([x, hidden], dim=-1)
         
         cleared_cell = self.forget(info) * cell
+
         new_info = self.adding_residual_normalizer(info) * self.add_net(info)
         new_info_weighted = new_info * self.add_energy_net(cell)
 
+        # updated transformer hidden
         updated_cell = cell + new_info_weighted
         # finally updated this module's hidden for next call
-        updated_hidden = self.weight_cell_input_to_hidden(info)*self.tanh(updated_cell)
+        updated_hidden = self.weight_cell_input_to_hidden(info) * self.tanh(updated_cell)
 
         return updated_hidden, updated_cell
 
@@ -1163,6 +1167,7 @@ class TransformerDecoder(Decoder):
                                     self.kb_layers, batch_first=True, 
                                     dropout=dropout if num_layers > 1 else 0.
             )
+
         else:
             self.feed_in_rnn = None
 
@@ -1216,6 +1221,9 @@ class TransformerDecoder(Decoder):
 
         x = self.pe(trg_embed) # add position encoding to word embedding
         x = self.emb_dropout(x)
+
+        trg_mask = trg_mask & subsequent_mask(
+            trg_embed.size(1)).type_as(trg_mask)
 
         # k fwd pass thru k layers (with k x KVR Multihop Attention)
         with torch.no_grad():

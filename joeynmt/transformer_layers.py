@@ -7,18 +7,12 @@ from torch import Tensor
 from joeynmt.attention import KeyValRetAtt
 
 
-
-
-
-
 # pylint: disable=arguments-differ
 class MultiHeadedAttention(nn.Module):
     """
     Multi-Head Attention module from "Attention is All You Need"
-
     Implementation modified from OpenNMT-py.
-    https://github.com/Opeclass MultiHeadedAttention(nn.Module):
-nNMT/OpenNMT-py
+    https://github.com/OpenNMT/OpenNMT-py
     """
 
     def __init__(self, num_heads: int, size: int, dropout: float = 0.1):
@@ -30,24 +24,23 @@ nNMT/OpenNMT-py
         """
         super(MultiHeadedAttention, self).__init__()
 
-        assert size % num_heads == 0, (size, num_heads)
+        assert size % num_heads == 0
 
         self.head_size = head_size = size // num_heads
         self.model_size = size
         self.num_heads = num_heads
 
-        self.k_layer = nn.Linear(size,size)
-        self.v_layer = nn.Linear(size,size)
-        self.q_layer = nn.Linear(size,size)
+        self.k_layer = nn.Linear(size, num_heads * head_size)
+        self.v_layer = nn.Linear(size, num_heads * head_size)
+        self.q_layer = nn.Linear(size, num_heads * head_size)
 
         self.output_layer = nn.Linear(size, size)
         self.softmax = nn.Softmax(dim=-1)
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
-        """   
+        """
         Computes multi-headed attention.
-
         :param k: keys   [B, M, D] with M being the sentence length.
         :param v: values [B, M, D]
         :param q: query  [B, M, D]
@@ -55,27 +48,23 @@ nNMT/OpenNMT-py
         :return:
         """
         batch_size = k.size(0)
-        head_size = self.head_size
         num_heads = self.num_heads
 
- 
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
         v = self.v_layer(v)
         q = self.q_layer(q)
 
         # reshape q, k, v for our computation to [batch_size, num_heads, ..]
-        # using num_heads * head_size == size
-        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
-        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
-        q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        v = v.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
 
-        # scale query because it helps, no idea why 
+        # compute scores
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
-        # compute scores
-        scores = q @ k.transpose(2, 3)
+        scores = torch.matmul(q, k.transpose(2, 3))
 
         # apply the mask (if we have one)
         # we add a dimension for the heads to it below: [B, 1, 1, M]
@@ -84,82 +73,54 @@ nNMT/OpenNMT-py
 
         # apply attention dropout and compute context vectors.
         attention = self.softmax(scores)
-        attention = self.dropout(attention) # batch x num_h x M (query) x M (key)
+        attention = self.dropout(attention)
 
-        # get context vector (select values with attention) 
-        # and reshape back to [B, M, D]
-
-        context = attention @ v
+        # get context vector (select values with attention) and reshape
+        # back to [B, M, D]
+        context = torch.matmul(attention, v)
         context = context.transpose(1, 2).contiguous().view(
-            batch_size, -1, num_heads * head_size
-        )
+            batch_size, -1, num_heads * self.head_size)
 
         output = self.output_layer(context)
 
-        return output 
+        return output
 
 
 # pylint: disable=arguments-differ
 class MultiHeadedKbAttention(MultiHeadedAttention):
     """
-    Multi-Head Kb Attention module similar to "Eric et al.'s" which used bahdanau attention
-
+    Multi-Head Attention module from "Attention is All You Need"
+    Implementation modified from OpenNMT-py.
+    https://github.com/OpenNMT/OpenNMT-py
     """
-
-    def __init__(self, num_heads: int, size: int, dropout: float = 0.1, kb_max: int = 256):
-        """
-        Create a multi-headed attention layer.
-        :param num_heads: the number of heads
-        :param size: model size (must be divisible by num_heads)
-        :param dropout: probability of dropping a unit
-        """
-        super(MultiHeadedAttention, self).__init__()
-
-        assert size % num_heads == 0, (size, num_heads)
-
-        self.head_size = head_size = size // num_heads
-        self.model_size = size
-        self.num_heads = num_heads
-
-        self.k_layer = nn.Linear(size,size)
-        self.v_layer = nn.Linear(size,size)
-        self.q_layer = nn.Linear(size,size)
-
-        self.output_layer = nn.Linear(size, size)
-        self.softmax = nn.Softmax(dim=-1)
-        self.dropout = nn.Dropout(dropout)
-
 
     def forward(self, k: Tensor, v: Tensor, q: Tensor, mask: Tensor = None):
         """
-        Computes multi-headed KB attention.
-
-        :param k: keys   [B, M, D] with M being the sentence length (Max)
-        :param v: values [B, M, D] values
+        Computes multi-headed attention.
+        :param k: keys   [B, M, D] with M being the sentence length.
+        :param v: values [B, M, D]
         :param q: query  [B, M, D]
+        :param mask: optional mask [B, 1, M]
         :return:
         """
         batch_size = k.size(0)
         num_heads = self.num_heads
-        head_size = self.head_size
- 
+
         # project the queries (q), keys (k), and values (v)
         k = self.k_layer(k)
         v = self.v_layer(v)
         q = self.q_layer(q)
 
-        # reshape q, k, v for our computation to [batch_size, num_heads, ..., head_size]
-        # using num_heads * head_size == size
-        k = k.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x key_len   x head_size
-        v = v.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x val_len   x head_size
-        q = q.view(batch_size, -1, num_heads, head_size).transpose(1, 2) # batch x num_h x query_len x head_size
+        # reshape q, k, v for our computation to [batch_size, num_heads, ..]
+        k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        v = v.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
+        q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
 
-        # scale query because it helps, no idea why 
+        # compute scores
         q = q / math.sqrt(self.head_size)
 
         # batch x num_heads x query_len x key_len
-        # compute scores
-        scores = q @ k.transpose(2, 3)
+        scores = torch.matmul(q, k.transpose(2, 3))
 
         # apply the mask (if we have one)
         # we add a dimension for the heads to it below: [B, 1, 1, M]
@@ -168,35 +129,17 @@ class MultiHeadedKbAttention(MultiHeadedAttention):
 
         # apply attention dropout and compute context vectors.
         attention = self.softmax(scores)
-        attention = self.dropout(attention) # batch x num_h x M (query) x KB (key)
+        attention = self.dropout(attention)
 
-        context = attention @ v 
-        # context: B x n x M x h => B x M x D
+        # get context vector (select values with attention) and reshape
+        # back to [B, M, D]
+        context = torch.matmul(attention, v)
         context = context.transpose(1, 2).contiguous().view(
-            batch_size, -1, num_heads * head_size
-        )
+            batch_size, -1, num_heads * self.head_size)
 
-        # output: B x M x D
         output = self.output_layer(context)
 
-        # get context vector (select values with attention) 
-        # and reshape back to [B, M, D]
-
-        # query: B x M x D
-        # => 
-        # proj_query: B x M x 1 x D
-        # keys: B x M x KB x D 
-
-        # output:
-        # feed into next layer along with query
-
-        # attention : B x n x M x KB
-        # and after last layer:  
-        # kb_probs = B x M x KB = energy_layer(attention)
-
-        # B x M x KB; B x n x M x KB
         return output, attention
-    
 
 
 # pylint: disable=arguments-differ

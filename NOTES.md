@@ -49,9 +49,11 @@ relations:
 List of *TODOs BEFORE ADDING ANYTHING!*
 
 Code *TODO*:
-* recheck tfstyletf: empty hyps => sumting wong
-* reimplement RNN transformer
+* bias lstm forget gate
+* tfstyletf greedy search doesnt even work for vanilla
 * try autoregressive transformer
+
+* unknown tokens in trg\_vocab ??
 * correct entity F1 reporting
 * fix plotting
 
