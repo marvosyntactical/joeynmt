@@ -615,7 +615,6 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             # sum over last kb and all inbetween that and current one (excluding current)
             # sometimes a KB is skipped
             current += sum(kb_lens[last_corresponding_kb:corresponding_kb])
-
             
         print(ex.trg, kb_lens, corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
@@ -661,12 +660,21 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         print("batch_with_kb: current, kb_len, current+kb_len: ",current, kb_len,current+kb_len)
         print()
         print(f"corresponding_kb: {corresponding_kb}")
+        print()
+        print(f"example number: {i}")
+        print()
+        print(f"kb_lkp array neighborhood of 2 (center item is corresponding_kb=kb_lkp[{i}]): {[(ex,kb) for ex,kb in enumerate(kb_lkp)][i-2:i+3]}")
         """ # to see if previous kb is a match:
         print(f"previous minibatch was this long: {len(previous_kb)}")
         print(f"previous minibatch should have been:")
         pprint([(entry.kbsrc, entry.kbtrg, tru.kbtrv) for entry, tru in zip(previous_kb,previous_trv)], width=110)
         print()
         """
+        if 79 <= corresponding_kb <= 89:
+
+            input()
+
+            # breakpoint?? 
 
         # assert i+1 < 50, "<^ check out this line in data/kvr/{train|dev}.lkp, which says e.g. 24, then do 'head -n 24 {train|dev}.len | awk '{s+=$1} END {print s}'"
         """

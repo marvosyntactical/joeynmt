@@ -34,22 +34,21 @@ class VariableCellLSTM(nn.Module):
         # Modules as in LSTM; as per Chris Olah Blog Graphic, FLTR
         self.forget = nn.Sequential(
             nn.Linear(2*size,size),nn.ReLU(), nn.Dropout(self.dropout),
-            *(nn.Linear(size,size),nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers+1), 
+            *(nn.Linear(size,size),nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers), 
             nn.Linear(size,size),nn.Sigmoid(), nn.Dropout(self.dropout)
         )
-
         with torch.no_grad():
             # bias last linear layer of forget gate
             self.forget[-3].weight += self.forget_bias
 
         self.adding_residual_normalizer = nn.Sequential(
             nn.Linear(2*size,size),nn.ReLU(), nn.Dropout(self.dropout),
-            *(nn.Linear(size,size),nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers+1), 
+            *(nn.Linear(size,size),nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers), 
             nn.Linear(size,size),nn.Sigmoid(), nn.Dropout(self.dropout)
         )
         self.add_net = nn.Sequential(
             nn.Linear(2*size,size),nn.ReLU(), nn.Dropout(self.dropout),
-            *(nn.Linear(size,size), nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers+1), 
+            *(nn.Linear(size,size), nn.ReLU(), nn.Dropout(self.dropout))*(num_inbetween_layers), 
             nn.Linear(size,size), nn.Tanh(), nn.Dropout(self.dropout)
         )
         self.add_energy_net = nn.Linear(size, 1, bias=False) # learns scalar of how to add to main
@@ -1238,7 +1237,6 @@ class TransformerDecoder(Decoder):
             else:
                 kb_feed_out_hidden = None
 
-        timer = Timer()
         for k, layer in enumerate(self.layers):
             x, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden = layer(
                         x=x, 
@@ -1558,7 +1556,7 @@ class Generator(Gen):
         self._output_size = vocab_size
 
         self.output_layer = nn.Linear(self._hidden_size, self._output_size, bias=False)
-        self.add_kb_biases_to_output = add_kb_biases_to_output
+        self.add_kb_biases_to_output = bool(add_kb_biases_to_output)
 
     def forward(self, x, kb_values=None, kb_probs=None, **kwargs):
         # x := 
@@ -1721,12 +1719,8 @@ def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query,
 
     if kb_mask is not None:
         # mask entries that arent actually assigned (happens in scheduling)
-        try:
-            u_t_k = torch.where(
-                ~kb_mask.unsqueeze(1), u_t_k, u_t_k.new_zeros(u_t_k.shape) 
-            )
-        except:
-            assert False, ([t.shape for t in [kb_mask, u_t_j_m_blocked_tiled]],\
-            dims_before, dims_after, dim)
+        u_t_k = torch.where(
+            ~kb_mask.unsqueeze(1), u_t_k, u_t_k.new_zeros(u_t_k.shape) 
+        )
 
     return u_t_k, utils_dims_cache, kb_feed_hidden_cache

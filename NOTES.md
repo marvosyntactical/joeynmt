@@ -49,22 +49,25 @@ relations:
 List of *TODOs BEFORE ADDING ANYTHING!*
 
 Code *TODO*:
-* bias lstm forget gate
-* tfstyletf greedy search doesnt even work for vanilla
+* bias lstm forget gate => DONE 
+* tfstyletf greedy search doesnt even work for vanilla => DONE
 * try autoregressive transformer
 
-* unknown tokens in trg\_vocab ??
+* unknown tokens in trg\_vocab => DONE
 * correct entity F1 reporting
 * fix plotting
+
+KB mismatches...:
+* in train data: (weather) example 213 uses previous (calendar) KB 82
+lkp data seems all good though?? lkp line 213 says 83???
+* in dev data: (calendar) example 752 uses previous (traffic) KB 290
+lkp data seems all good though?? lkp line 752 says 291???
 
 Bad performance:
 * run default eric et al version and modify code until back at 8.5 bleu:
 * basically get the default model to perform good again
 * validate every 500 again
 
-Optimization:
-Stuff takes longer:
-* compare old runs' time with new ones'
 
 ### 26.09. idea for multihop 
 
