@@ -196,6 +196,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     src_vocab_file = data_cfg.get("src_vocab", None)
 
+    # NOTE unused
     trg_vocab_file = data_cfg.get("trg_vocab", None)
     trg_kb_vocab_file = data_cfg.get("trg_kb_vocab", None)
     trg_vocab_file = trg_vocab_file if not trg_kb_vocab_file else trg_kb_vocab_file # prefer to use joint trg_kb_vocab_file if specified
@@ -309,6 +310,9 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         trv_vocab._from_file(trv_dev_path)
         trv_vocab._from_file(trv_test_path)
 
+        # NOTE really important for model.postprocess: 
+        # trv_vocab must begin with trg_vocab
+        # to look up canonical tokens correctly
         assert trg_vocab.itos == trv_vocab.itos[:len(trg_vocab)]
 
         print(f"Added true value lines as tokens to trv_vocab of length={len(trv_vocab)}")

@@ -261,6 +261,8 @@ class Model(nn.Module):
 
         # compute batch loss
         batch_loss = loss_function(log_probs, trg)
+        # confirm trg is actually canonical:
+        # input(f"loss is calculated on these sequences: {self.trv_vocab.arrays_to_sentences(trg.cpu().numpy())}")
 
         with self.Timer("debugging: greedy hypothesis:"):
             mle_tokens = argmax(log_probs, dim=-1) # torch argmax
@@ -361,10 +363,10 @@ class Model(nn.Module):
 
         with self.Timer("converting arrays to sentences for current batch"):
 
-            idx = batch.src.shape[0]-1 #print last example
+            idx = batch.src.shape[0]-1 # print last example
 
             print(f"proc_batch: batch.src: {self.src_vocab.arrays_to_sentences(batch.src.cpu().numpy())[idx]}")
-            print(f"proc_batch: batch.trg: {self.trg_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
+            print(f"proc_batch: batch.trg: {self.trv_vocab.arrays_to_sentences(batch.trg.cpu().numpy())[idx]}")
             print(f"proc_batch: kbkeys: {self.src_vocab.arrays_to_sentences(kb_keys.cpu().numpy())}")
             print(f"proc_batch: kbvalues: {self.trg_vocab.arrays_to_sentences(kb_values[:,1].unsqueeze(1).cpu().numpy())}")
 
