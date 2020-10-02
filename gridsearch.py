@@ -11,8 +11,6 @@ me = check_output(["whoami"])[:-1].decode("utf-8") # only worx when nobody else 
 shellext = ".sh"
 
 
-
-
 def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,4], update=60):
     """ waits until my squeue has a place"""
 
@@ -74,7 +72,6 @@ def main(args):
                                 break
 
                         if skip_job: continue
-                                
 
                         free_partition = wait_for_green_light()
 

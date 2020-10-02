@@ -34,7 +34,7 @@ training:
     validation_freq: 1000
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/iwslt14_deen_bpe_transformer"
+    model_dir: "models/157_vtf_02-10" #
     overwrite: True 
     shuffle: True
     use_cuda: True
@@ -43,6 +43,9 @@ training:
     keep_last_ckpts: 5
 
 model:
+    kb: False
+    tfstyletf: True
+
     initializer: "xavier"
     embed_initializer: "xavier"
     embed_init_gain: 1.0

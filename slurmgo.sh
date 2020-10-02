@@ -1,4 +1,5 @@
 #!/bin/bash
+source ~/.bashrc	
 
 # call this script e.g. like so:
 # $ ./slurmgo.sh nameOfLatestConfig 0-06:00:00 64000 gpushort 
@@ -121,7 +122,10 @@ echo
 echo "                                   🛐"
 echo
 echo "==========================================================================="
+squeue | grep 'koss'
 echo
+undo="scancel $jobnum"
+echo " Type 'undo' to cancel this job $jobnum ..."
 
 
 
