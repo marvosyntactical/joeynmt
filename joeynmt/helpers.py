@@ -392,19 +392,71 @@ def symlink_update(target, link_name):
         else:
             raise e
 
-
 class Timer(object):
-    def __init__(self, *args, **kwargs):
-        super(object, self).__init__(*args, **kwargs)
+    def __init__(self, printout=True):
+        self.prefix = "log_"
+        self.act_prefix = "act_"
+        self.printout = bool(printout) # dont do this
+        self.activities = {} # logname: activity
+        self.log_dict = {} # logname: value
+        self.null = [0,0.] # default values
 
     @contextmanager
-    def __call__(self, activity, x=True, p=True):
+    def __call__(self, activity, exec=True, printhere=True, logname=None, **kwargs):
+
         t = time.time()
-        if x: yield
-        else: yield None
+        if exec: 
+            yield
+        else: 
+            yield None
         dt = time.time()-t
-        if p:
+
+        if self.printout and printhere:
+            # really avoid doing this on innermost calls because
+            # stdout files become terabytes big
             print(f"Time spent on {str(activity)}: {str(dt)}")
+        
+        if logname is not None:
+            assert type(logname) == str, logname
+
+            # set new attribute if not exists
+            if logname not in self.log_dict.keys():
+                self.log_dict[logname] = self.null
+                self.activities[logname] = activity
+            
+            # retrieve current n and running avg
+            curr_logname_vals = self.log_dict[logname]
+
+            # update attribute
+            n = curr_logname_vals[0]
+            # first entry tracks n
+            curr_logname_vals[0] += 1 
+            # second entry keeps track of running average
+            curr_logname_vals[1] = float((dt+n*curr_logname_vals[1])/(n+1)) 
+
+            # set logging attribute again
+            self.log_dict[logname] = curr_logname_vals
+    
+    def __repr__(self):
+        return f"<Timer object with logging fields={self.activities}>"
+    
+    def reset(self, logname=None):
+        """Reset values for specific logname if given or for ALL if None is given."""
+        if logname is not None:
+            self.log_dict[logname] = self.null
+        else:
+            for log, val in self.log_dict.items():
+                self.log_dict[log] = self.null
+
+    def __getitem__(self, logname):
+        return self.log_dict[logname]
+
+    def __set__(self, logname, value):
+        self.log_dict.__set__(logname, value)
+
+    def logAllParams(self):
+        return {activity: self[logname] for logname, activity in self.activities.items()}
+
 
 def split_tensor_on_pads(tensor, pad_val):
     # ["cafe", "central", "<PAD>", "distance", "<PAD>", "<PAD>"]

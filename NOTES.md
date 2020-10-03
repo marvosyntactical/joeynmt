@@ -6,7 +6,7 @@
 # _OPEN ISSUES_
 
 
-### 28.09.30 current model issues:
+### 28.09.30 motivation for multiple hops:
 
 * unk from copying *DONE*
 * bad performance *TEST*
@@ -17,7 +17,6 @@ prevKbUtilities: [prevKbUtilities-1, ..., prevKbUtilities-n]
 "Where's the nearest cafe?"
 hop 1:
 feeding: None
-
 
 subjects:
 => cafe-a-name <> 3 miles, cafe-b-name <> 5 miles
@@ -36,120 +35,88 @@ relations:
 
 => utility vector high scores: cafe-a-name
 
-* compare with default version
-
-### 01.10. tftf approaches
-
-* output feeding: feed KVRatt output back into main loop
-* input feeding: feed last kb hidden state back into next KVRatt query
-* output layer bias: make optional because output feeding already updates transformer
 
 ### 30.09. problemz
 
-List of *TODOs BEFORE ADDING ANYTHING!*
-
 Code *TODO*:
-* bias lstm forget gate => DONE 
-* tfstyletf greedy search doesnt even work for vanilla => DONE
-* try autoregressive transformer
-
-* unknown tokens in trg\_vocab => DONE
+* calculate/profile attention runtime
+* autoregressive transformer: implement fast version/try vanilla *TODO*
 * correct entity F1 reporting
-* fix plotting
+=> dont modify code and get trained "tflstm" model from cluster to debug
 
-KB mismatches...:
+Plotting: 
+* misalign: on the fly empty kb in first example of dev set has
+ - attention matrix: 128 x 5 # find out where this happens (put asserts in model run batch)
+ - remade on the fly kb: 128 x 2
+ - on the fly kb: 128 x 2
+* only empty KBs get plotted for transformer
+* 2 hop attentions arent plotted
+*TODO*
+
+KB mismatches:
 * in train data: (weather) example 213 uses previous (calendar) KB 82
 lkp data seems all good though?? lkp line 213 says 83???
 * in dev data: (calendar) example 752 uses previous (traffic) KB 290
 lkp data seems all good though?? lkp line 752 says 291???
+=> magically fixed? DONE?
 
-Bad performance:
-* run default eric et al version and modify code until back at 8.5 bleu:
-* basically get the default model to perform good again
-* validate every 500 again
+Grid search:
+* update main code with current grid params
+* fix sed issues: no replacements
+* add dry run option without queueing
+* add code for singular experiments
 
-
-### 26.09. idea for multihop 
-
-* layerwise weight tying as in weston et al: next module is same module *DONE*
-* pass hidden state to next module instead of utilities:
-* batch x kb\_curr\_dim x hidden instead of batch x 1 x kb
-* *TODO* test: can I still mask between hops???? should annihilate everything?
-* *TODO* test: is the aggregate kb hidden tensor better => inside to avoid overwriting
-
-### 11.09. canonization levels
-
-* 5 pm 
-* meeting\_time
-=> do linking on canonized source and target *TODO*
-* time
-
-### 10.09. ent f1 calc
-
-*TODO* fixme
-
-### 21.09. questions for eric et al
-
-* did you do autoregressive training? -> no
-* canon level -> intermediate
-
-### 21.09. grid search preparations
-
-Test runs:
-* 2D KB plotting 
 
 ### 09.09. grid search hyperparams
 
 These hyperparams are all orthogonal:
 
-* eric et al replication: RNN, 1 hop, no kb input feeding, autoregressive, @meeting\_time level, kb dim 1  
-* metric reporting: raw, canonized
+* eric et al replication: RNN, 1 hop, no kb input feeding, teacher force, @meeting\_time level, kb dim: 1, same module for all hops, 
 
+Architecture independent:
+* 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
+* 2 metric reporting: raw, canonized
+* 4 scheduled sampling: teacherforce, invsigmoid, linear, autoregressive
+
+---
+
+These only for bahdanau version (RNN):
+* 2 kb embedding: source, separate
+* 2 copy\_from\_source: True, False
+* 2 kb\_values\_in\_keys: False, True
+* 2 multihead feeding
+* 2 same module all hops
+* 2 architecture: rnn, transformer
+
+=> +6 runs
+
+These only for vaswani version (tfTF):
+* 2 in feeding: False, True
+* 2 out feeding with LSTM: False, True 
+* 2 bias output: False, True
+
+=> +3 runs
+
+---
+
+Multiply:
 ====== GRID SEARCH OVER THESE ======
 * 3 multihops: 1 , 2 , 3
 * 3 kb input feeding: False, ff, rnn
-* 2 teacher\_force: no, yes
-* 2 architecture: RNN , rnnTF
+* 3 encoding: 1D, 2D, positional
 ====== END GRID SEARCH OVER THESE ======
+Gridsearch Experimente: 27
 
-3 x 3 x 2 x 2 x 12 x 1/6  = 72 stunden = 3 tage 
+Add:
+9 runs einzelne params
+4 runs metric report für: ericEtAl vs mine, raw vs can
+3 runs sampling
+Einzelne Experimente: 16
 
-* 3 training data level: @time, @meeting\_time *TODO*, 3 pm 
-* 2 scheduled sampling: invsigmoid, linear
-* 2 tftf, rnntf
+Time:
+parameter * laufzeit * 1/zahl parallele runs * queue time 
+43 x 12 x 1/6 x 1.5 = 131 stunden = 5.5 tage 
 
-* 3 kb encoding: 1D, 2D, positional
-* 2 kb embedding: source,  separate
-* 2 copy\_from\_source: True, False
-* 2 kb key rep: with values, without values
-
-
-### Empty scheduling KBs:
-* no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
-* => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
-* (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
-* =>    "Make an entry for @event on @date at @time with my @party ."
-* =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
-* make these the knowledgebase, so they can be attended over
-✔️
-*TODO* TEST this
-
-### 31.08.20 stuff to add to config
-
-* copy from source? bool✔️
-* knowledgebase encoding: "2d"✔️, "positional" ✔️
-* separate KB embedding table ✔️
-
-### 29.08.20 plotting issues
-
-* made rShort, tShort commands for running short valid locally (r=Rnn, t=transf)
-*TODO* update .blablaSHORT data using NODEFAULT data
-* look at first kb there
-* misalign: on the fly empty kb in first example of dev set has
- - attention matrix: 128 x 5 # find out where this happens (put asserts in model run batch)
- - remade on the fly kb: 128 x 2
- - on the fly kb: 128 x 2
-*TODO*
 
 
 ### 26.08.20 start writing
@@ -166,11 +133,20 @@ Conclusion
 
 ---
 
+# Issues Archive
+
+## Old Issue
+
+## Old Issue
+
+## Old Issue
 ### 10.09.20 DUMMY entries vs deciding to copy from source
 
 * add copy from source option ✔️
 * if KB empty, dont use attention module✔️
 
+
+## Old Issue
 ### 08.09.20 Transformer
 
 * find a working vanilla implementation; Options:
@@ -181,16 +157,23 @@ Conclusion
 1.  multiple hops
 2.  multiple dimensions
 
----
 
+
+### 21.09. questions for eric et al
+
+* did you do autoregressive training? -> no
+* canon level -> intermediate
+
+
+
+## Old Issue
 ### 28.08.20 cheat version (bleu on canonized)
 
 * Canonization level: can meeting\_time level be achieved? need linked target data: how to map any 5 pm to meeting\_time or 20 Main Street to Pizza\_My\_Heart\_Address
-*TODO* link to pizza hut address level !!!!!
 
----
 
-### 26.08.20 scalability *TODO*
+
+### 26.08.20 scalability
 
 * calculate/profile attention runtime
 => linear in hops
@@ -198,7 +181,6 @@ Conclusion
 => same as bahdanau
 * mix in-domain KBs together (refactor preproc scripts first...)
 
----
 
 ### 26.08.20 enrich KB entry encoding *TODO*
 
@@ -226,8 +208,8 @@ Select key as combination of highest attended
 *TODO* look at results
 
 
----
 
+## Old Issue
 ### 26.08.20 artem questions *TODO*
 
 Architecture/implementation:
@@ -246,22 +228,41 @@ Metrics stuff :
 
 
 
+
+## Old Issue
+### 31.08.20 stuff to add to config
+
+* copy from source? bool✔️
+* knowledgebase encoding: "2d"✔️, "positional" ✔️
+* separate KB embedding table ✔️
+
+
+
+## Old Issue
 ### 31.08.20 recurrent multihop issues
 => seems to work okay, but kb attentions dont get plotted anymore
 *TODO*
 => is attention state actually saved from step to step as done by jason weston et al?
 
----
 
-# Issues Archive
+### Empty scheduling KBs:
+* no knowledgebase in half of scheduling dialogues => nothing to replace canonicals with
+* => in data.py, for minibatches with empty kb, just canonize source and add that as knowledgebase?
+* (e.g. "Make an entry for dinner on the 6th at 7 pm with my sister."
+* =>    "Make an entry for @event on @date at @time with my @party ."
+* =>    (dinner event dinner), (dinner date the 6th), (dinner time 7pm), (dinner party sister)
+* make these the knowledgebase, so they can be attended over
+✔️
 
 ## Old Issue
+### 26.09. idea for multihop 
 
-## Old Issue
+* layerwise weight tying as in weston et al: next module is same module *DONE*
+* pass hidden state to next module instead of utilities:
+* batch x kb\_curr\_dim x hidden instead of batch x 1 x kb
+* *TODO* test: can I still mask between hops???? should annihilate everything?
+* *TODO* test: is the aggregate kb hidden tensor better => inside to avoid overwriting
 
-## Old Issue
-
-## Old Issue
 
 ### 09.09. different embedding table for kb keys
 ✔️

@@ -163,6 +163,10 @@ class TrainManager:
             self.logger.info("Loading model from %s", model_load_path)
             self.init_from_checkpoint(model_load_path)
 
+        self.manage_decoder_timer = train_config.get("manage_decoder_timer", True)
+        if self.manage_decoder_timer:
+            self.decoder_timer = self.model.decoder.timer
+
     def _save_checkpoint(self) -> None:
         """
         Save the model's current parameters and the training state to a
@@ -330,6 +334,11 @@ class TrainManager:
 
                     # validate on the entire dev set
                     if self.steps % self.validation_freq == 0 and update:
+
+                        if self.manage_decoder_timer:
+                            self._log_decoder_timer_stats("train")
+                            self.decoder_timer.reset()
+
                         valid_start_time = time.time()
                         
                         valid_score, valid_loss, valid_ppl, valid_sources, \
@@ -355,6 +364,10 @@ class TrainManager:
                                 valid_data_canon=valid_data_canon,
                                 report_on_canonicals=self.report_entf1_on_canonicals
                             )
+
+                        if self.manage_decoder_timer:
+                            self._log_decoder_timer_stats("valid")
+                            self.decoder_timer.reset()
 
                         self.tb_writer.add_scalar("valid/valid_loss",
                                                 valid_loss, self.steps)
@@ -536,6 +549,18 @@ class TrainManager:
                     self.scheduled_sampling(self.minibatch_count),
                     valid_ent_f1, valid_ent_mcc,
                      "*" if new_best else ""))
+    
+    def _log_decoder_timer_stats(self, task):
+        """
+        Write decoder timer stats to log, for the given task.
+        """
+        assert hasattr(self, "decoder_timer"), f"to log decoder timer stats, make sure we have a timer"
+
+        stats = self.decoder_timer.logAllParams()
+        stats_lines = "".join([f"{activity}: n={n}, avg={avg}\n" for activity,(n,avg) in stats.items()])
+
+        self.logger.info("Decoder Timer Stats for task %s:", task)
+        self.logger.info("%s", stats_lines)
 
     def _log_parameters_list(self) -> None:
         """

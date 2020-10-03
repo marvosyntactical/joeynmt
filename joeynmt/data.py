@@ -670,11 +670,6 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         pprint([(entry.kbsrc, entry.kbtrg, tru.kbtrv) for entry, tru in zip(previous_kb,previous_trv)], width=110)
         print()
         """
-        if 79 <= corresponding_kb <= 89:
-
-            input()
-
-            # breakpoint?? 
 
         # assert i+1 < 50, "<^ check out this line in data/kvr/{train|dev}.lkp, which says e.g. 24, then do 'head -n 24 {train|dev}.len | awk '{s+=$1} END {print s}'"
         """

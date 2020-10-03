@@ -84,13 +84,10 @@ class VariableCellLSTM(nn.Module):
 
 
 
-
-
 # pylint: disable=abstract-method
 class Gen(nn.Module):
     """
     Base generator class
-    (used to be base decoder class before adding unifying generator at end)
     """
 
     @property
@@ -105,8 +102,7 @@ class Gen(nn.Module):
 # pylint: disable=abstract-method
 class Decoder(nn.Module):
     """
-    Base generator class
-    (used to be base decoder class before adding unifying generator at end)
+    Base decoder class
     """
 
     # decoder output signature is:
@@ -115,12 +111,18 @@ class Decoder(nn.Module):
     @property
     def output_size(self):
         """
-        Return the output size (NOT vocab size)
+        Return the output size (hidden, NOT vocab size)
 
         :return:
         """
         return self._output_size
 
+    def stats(self):
+        """
+        Return self.timer statistics
+        """
+        assert hasattr(self, "timer"), f"In this version of JoeyNMT, all Decoders must have self.timer Timer objects for logging"
+        return self.timer.logAllParams()
 
 
 # pylint: disable=arguments-differ,too-many-arguments
@@ -581,6 +583,8 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                     init_hidden=init_hidden, input_feeding=input_feeding, freeze=freeze,\
                         kwargs=kwargs)
 
+        self.timer = Timer(printout=False)
+
         self.emb_dropout = torch.nn.Dropout(p=emb_dropout, inplace=False)
         self.type = rnn_type
         self.hidden_dropout = torch.nn.Dropout(p=hidden_dropout, inplace=False)
@@ -856,27 +860,28 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         # terminology:
         # t: timestep, k: multihop, dim: KB dimension, u: utilities
 
-        # initialize caches
-        batch_size = att_probs.size(0)
-        if kb_utils_dims_cache == None:
-            # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
-            with torch.no_grad():
-                kb_utils_dims_cache = [
-                    query.new_zeros((query.size(0), 1, dim)).to(device=query.device)
-                    for dim in self.kb_max 
-                ] 
+        with self.timer("kbatt step", logname=f"kbatt step;k={self.k_hops},n={len(self.kb_max)},mhead={self.kb_multihead_feed},feedRNN={self.kb_feed_rnn}"):
 
-        if kb_feed_hidden_cache == None:
-            # cache of initial hidden states for feeding GRU
-            if self.kb_feed_rnn:
-                init_kb_hidden = hidden[0] if isinstance(hidden, tuple) else hidden # GRU vs LSTM output types
-                kb_feed_hidden_cache = [init_kb_hidden] * (self.kb_dims * self.k_hops)
-            else:
-                kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
+            # initialize caches
+            batch_size = att_probs.size(0)
+            if kb_utils_dims_cache == None:
+                # cache for attention heads for each dim to access previous utilities of corresponding head of previous hop
+                with torch.no_grad():
+                    kb_utils_dims_cache = [
+                        query.new_zeros((query.size(0), 1, dim)).to(device=query.device)
+                        for dim in self.kb_max 
+                    ] 
 
-        # multiple attention hops
+            if kb_feed_hidden_cache == None:
+                # cache of initial hidden states for feeding GRU
+                if self.kb_feed_rnn:
+                    init_kb_hidden = hidden[0] if isinstance(hidden, tuple) else hidden # GRU vs LSTM output types
+                    kb_feed_hidden_cache = [init_kb_hidden] * (self.kb_dims * self.k_hops)
+                else:
+                    kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
 
-        with timer(f"add kb utilities for one step with {self.k_hops} hops and {self.kb_dims} dims", p=False):
+            # multiple attention hops
+
             u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._kvr_att_step(
                 kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
             )
@@ -963,87 +968,88 @@ neural transformer why no nonlinearities
             - kb_probs: kb att probabilities
                 with shape (batch_size, unroll_steps, kb_size)
         """
-        # shape checks
-        self._check_shapes_input_forward(
-            trg_embed=trg_embed,
-            encoder_output=encoder_output,
-            encoder_hidden=encoder_hidden,
-            src_mask=src_mask,
-            hidden=hidden,
-            prev_att_vector=prev_att_vector)
-        
-
-        # initialize decoder hidden state from final encoder hidden state
-        if hidden is None:
-            hidden = self._init_hidden(encoder_hidden)
-
-        # pre-compute projected encoder outputs
-        # (the "keys" for the attention mechanism)
-        # this is only done for efficiency
-        if hasattr(self.attention, "compute_proj_keys"):
-            self.attention.compute_proj_keys(keys=encoder_output)
-        
-        if kb_keys is not None:
-
-            ### end setup proj keys and dimension reshape helper lists
-            if not isinstance(kb_keys, tuple): 
-                assert self.kb_dims == 1, (self.kb_dims, kb_keys)
-                kb_keys = (kb_keys,)
-
-            self._init_proj_keys(kb_keys) # sets curr_kb_size for each
-
-            self.curr_kb_sizes = [self.kvr_attention[dim].curr_kb_size for dim in range(self.kb_dims)]
-
-            self.curr_dims_before = [product(self.curr_kb_sizes[:dim]) for dim in range(self.kb_dims)]
-            self.curr_dims_after = [product(self.curr_kb_sizes[:dim:-1]) for dim in range(self.kb_dims)]
-            self.curr_kb_total = product(self.curr_kb_sizes)
-
-
-            ### end setup proj keys and dimension reshape helper lists
-
-        att_vectors = [] 
-        att_probs = []
-        kb_probs = []
-
-        batch_size = encoder_output.size(0)
-
-        if prev_att_vector is None:
-            with torch.no_grad():
-                prev_att_vector = encoder_output.new_zeros(
-                    [batch_size, 1, self.hidden_size]
-                    )
-
-        prev_kb_utils = None
-        prev_kb_feed_hiddens = None
-        # unroll the decoder RNN for `unroll_steps` steps
-
-        for i in range(unroll_steps):
-
-            prev_embed = trg_embed[:, i].unsqueeze(1)  # batch, 1, emb
-
-            prev_att_vector, hidden, att_prob, u_t, prev_kb_utils, prev_kb_feed_hiddens = self._forward_step(
-                prev_embed=prev_embed,
-                prev_att_vector=prev_att_vector,
+        with self.timer(f"fwd", logname="fwd"):
+            # shape checks
+            self._check_shapes_input_forward(
+                trg_embed=trg_embed,
                 encoder_output=encoder_output,
+                encoder_hidden=encoder_hidden,
                 src_mask=src_mask,
                 hidden=hidden,
-                kb_mask=kb_mask,
-                kb_utils_dims_cache=prev_kb_utils,
-                kb_feed_hidden_cache=prev_kb_feed_hiddens)
-                
-            if not self.kb_input_feeding:
-                prev_kb_utils = None
+                prev_att_vector=prev_att_vector)
+            
 
-            att_vectors.append(prev_att_vector)
-            att_probs.append(att_prob)
-            kb_probs.append(u_t)
+            # initialize decoder hidden state from final encoder hidden state
+            if hidden is None:
+                hidden = self._init_hidden(encoder_hidden)
 
-        # batch, unroll_steps, hidden_size
-        att_vectors = torch.cat(att_vectors, dim=1)
-        # batch, unroll_steps, src_length
-        att_probs = torch.cat(att_probs, dim=1)
-        # batch, unroll_steps, KB
-        kb_probs = torch.cat(kb_probs, dim=1)
+            # pre-compute projected encoder outputs
+            # (the "keys" for the attention mechanism)
+            # this is only done for efficiency
+            if hasattr(self.attention, "compute_proj_keys"):
+                self.attention.compute_proj_keys(keys=encoder_output)
+            
+            if kb_keys is not None:
+
+                ### end setup proj keys and dimension reshape helper lists
+                if not isinstance(kb_keys, tuple): 
+                    assert self.kb_dims == 1, (self.kb_dims, kb_keys)
+                    kb_keys = (kb_keys,)
+
+                self._init_proj_keys(kb_keys) # sets curr_kb_size for each
+
+                self.curr_kb_sizes = [self.kvr_attention[dim].curr_kb_size for dim in range(self.kb_dims)]
+
+                self.curr_dims_before = [product(self.curr_kb_sizes[:dim]) for dim in range(self.kb_dims)]
+                self.curr_dims_after = [product(self.curr_kb_sizes[:dim:-1]) for dim in range(self.kb_dims)]
+                self.curr_kb_total = product(self.curr_kb_sizes)
+
+
+                ### end setup proj keys and dimension reshape helper lists
+
+            att_vectors = [] 
+            att_probs = []
+            kb_probs = []
+
+            batch_size = encoder_output.size(0)
+
+            if prev_att_vector is None:
+                with torch.no_grad():
+                    prev_att_vector = encoder_output.new_zeros(
+                        [batch_size, 1, self.hidden_size]
+                        )
+
+            prev_kb_utils = None
+            prev_kb_feed_hiddens = None
+            # unroll the decoder RNN for `unroll_steps` steps
+
+            for i in range(unroll_steps):
+
+                prev_embed = trg_embed[:, i].unsqueeze(1)  # batch, 1, emb
+
+                prev_att_vector, hidden, att_prob, u_t, prev_kb_utils, prev_kb_feed_hiddens = self._forward_step(
+                    prev_embed=prev_embed,
+                    prev_att_vector=prev_att_vector,
+                    encoder_output=encoder_output,
+                    src_mask=src_mask,
+                    hidden=hidden,
+                    kb_mask=kb_mask,
+                    kb_utils_dims_cache=prev_kb_utils,
+                    kb_feed_hidden_cache=prev_kb_feed_hiddens)
+                    
+                if not self.kb_input_feeding:
+                    prev_kb_utils = None
+
+                att_vectors.append(prev_att_vector)
+                att_probs.append(att_prob)
+                kb_probs.append(u_t)
+
+            # batch, unroll_steps, hidden_size
+            att_vectors = torch.cat(att_vectors, dim=1)
+            # batch, unroll_steps, src_length
+            att_probs = torch.cat(att_probs, dim=1)
+            # batch, unroll_steps, KB
+            kb_probs = torch.cat(kb_probs, dim=1)
 
         return hidden, att_probs, att_vectors, kb_probs, prev_kb_utils, prev_kb_feed_hiddens
 
@@ -1137,6 +1143,8 @@ class TransformerDecoder(Decoder):
         """
         super(TransformerDecoder, self).__init__()
 
+        self.timer = Timer(printout=False)
+
         self._hidden_size = hidden_size
         self._output_size = hidden_size # FIXME see interface classes at top of this file: vocab layer moved to Generator
 
@@ -1215,55 +1223,57 @@ class TransformerDecoder(Decoder):
         :param kwargs:
         :return:
         """
+        with self.timer(f"fwd", logname=f"fwd"):
 
-        assert trg_mask is not None, "trg_mask required for Transformer"
+            assert trg_mask is not None, "trg_mask required for Transformer"
 
-        x = self.pe(trg_embed) # add position encoding to word embedding
-        x = self.emb_dropout(x)
+            x = self.pe(trg_embed) # add position encoding to word embedding
+            x = self.emb_dropout(x)
 
-        trg_mask = trg_mask & subsequent_mask(
-            trg_embed.size(1)).type_as(trg_mask)
+            trg_mask = trg_mask & subsequent_mask(
+                trg_embed.size(1)).type_as(trg_mask)
 
-        # k fwd pass thru k layers (with k x KVR Multihop Attention)
-        with torch.no_grad():
-            kb_output = x.new_zeros(x.shape)
-            # knowledgebase feeding hiddens at time step k
-            if self.feed_in_rnn is not None:
-                kb_feed_in_hidden = x.new_zeros(self.kb_layers, x.size(1), self._hidden_size)
+            # k fwd pass thru k layers (with k x KVR Multihop Attention)
+            with torch.no_grad():
+                kb_output = x.new_zeros(x.shape)
+                # knowledgebase feeding hiddens at time step k
+                if self.feed_in_rnn is not None:
+                    kb_feed_in_hidden = x.new_zeros(self.kb_layers, x.size(1), self._hidden_size)
+                else:
+                    kb_feed_in_hidden = None
+                if self.feed_out_nn is not None:
+                    kb_feed_out_hidden = x.new_zeros(x.shape)
+                else:
+                    kb_feed_out_hidden = None
+
+            with self.timer(f"main loop, num_l={len(self.layers)}, infeedkb={self.feed_in_rnn is not None}, outfeedkb={self.feed_out_nn is not None}", logname=f"main_loop"):
+                for k, layer in enumerate(self.layers):
+                    x, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden = layer(
+                                x=x, 
+                                memory=encoder_output, 
+                                src_mask=src_mask, 
+                                trg_mask=trg_mask, 
+                                kb_keys=kb_keys, 
+                                kb_values_embed=kb_values_embed,
+                                prev_kb_output=kb_output,
+                                kb_feed_in=self.feed_in_rnn,
+                                kb_feed_in_hidden=kb_feed_in_hidden,
+                                kb_feed_out=self.feed_out_nn,
+                                kb_feed_out_hidden=kb_feed_out_hidden,
+                                )
+            
+            x = self.layer_norm(x)
+
+            if self.kb_task :
+                assert kb_keys is not None
+
+                # fuse the heads of last kb attentions using energy layer
+                # kb_att = B x num_h x M x KB
+                kb_probs = self.kb_energy_layer(kb_att.transpose(1,3)) # B x KB x M x 1
+                kb_probs = kb_probs.transpose(1,2).squeeze(-1) # B x M x KB
+
             else:
-                kb_feed_in_hidden = None
-            if self.feed_out_nn is not None:
-                kb_feed_out_hidden = x.new_zeros(x.shape)
-            else:
-                kb_feed_out_hidden = None
-
-        for k, layer in enumerate(self.layers):
-            x, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden = layer(
-                        x=x, 
-                        memory=encoder_output, 
-                        src_mask=src_mask, 
-                        trg_mask=trg_mask, 
-                        kb_keys=kb_keys, 
-                        kb_values_embed=kb_values_embed,
-                        prev_kb_output=kb_output,
-                        kb_feed_in=self.feed_in_rnn,
-                        kb_feed_in_hidden=kb_feed_in_hidden,
-                        kb_feed_out=self.feed_out_nn,
-                        kb_feed_out_hidden=kb_feed_out_hidden,
-                        )
-        
-        x = self.layer_norm(x)
-
-        if self.kb_task :
-            assert kb_keys is not None
-
-            # fuse the heads of last kb attentions using energy layer
-            # kb_att = B x num_h x M x KB
-            kb_probs = self.kb_energy_layer(kb_att.transpose(1,3)) # B x KB x M x 1
-            kb_probs = kb_probs.transpose(1,2).squeeze(-1) # B x M x KB
-
-        else:
-            kb_probs = None
+                kb_probs = None
 
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs, hidden_cache, feed_cache
@@ -1311,6 +1321,11 @@ class TransformerKBrnnDecoder(TransformerDecoder):
         :param kwargs:
         """
         super(TransformerDecoder, self).__init__()
+
+        self.timer = Timer(printout=False)
+
+        self._hidden_size = hidden_size
+        self._output_size = hidden_size # FIXME see interface 
 
         self._hidden_size = hidden_size
         self._output_size = vocab_size
@@ -1442,81 +1457,84 @@ class TransformerKBrnnDecoder(TransformerDecoder):
         :param kwargs:
         :return:
         """
+        with self.timer("fwd", logname=f"fwd"):
 
-        assert trg_mask is not None, "trg_mask required for Transformer"
+            assert trg_mask is not None, "trg_mask required for Transformer"
 
-        x = self.pe(trg_embed)  # add position encoding to word embedding
-        x = self.emb_dropout(x)
+            x = self.pe(trg_embed)  # add position encoding to word embedding
+            x = self.emb_dropout(x)
 
-        trg_mask = trg_mask & subsequent_mask(
-            trg_embed.size(1)).type_as(trg_mask)
+            trg_mask = trg_mask & subsequent_mask(
+                trg_embed.size(1)).type_as(trg_mask)
 
-        for i, layer in enumerate(self.layers):
-            x, _, _ = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
+            with self.timer(f"main loop, num_l={len(self.layers)}", logname=f"main_loop"):
+                for i, layer in enumerate(self.layers):
+                    x, _, _ = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
 
-        x = self.layer_norm(x)
+            x = self.layer_norm(x)
 
-        # Multiheaded KVR Attention fwd pass
-        if kb_keys is not None:
-            
-            ### setup proj keys and current KB dimensions
-            if not isinstance(kb_keys, tuple): 
-                assert self.kb_dims == 1, (self.kb_dims, kb_keys)
-                kb_keys = (kb_keys,)
+            with self.timer(f"kbatt step;k={self.k_hops},n={len(self.kb_max)},mhead={self.kb_multihead_feed},feedRNN={self.kb_feed_rnn}", logname=f"kbatt_loop"):
+                # Multiheaded KVR Attention fwd pass
+                if kb_keys is not None:
+                    
+                    ### setup proj keys and current KB dimensions
+                    if not isinstance(kb_keys, tuple): 
+                        assert self.kb_dims == 1, (self.kb_dims, kb_keys)
+                        kb_keys = (kb_keys,)
 
-            self._init_proj_keys(kb_keys)
+                    self._init_proj_keys(kb_keys)
 
-            self.curr_kb_sizes = [self.kvr_attention[dim].curr_kb_size for dim in range(self.kb_dims)]
-            self.curr_dims_before = [product(self.curr_kb_sizes[:dim]) for dim in range(self.kb_dims)]
-            self.curr_dims_after = [product(self.curr_kb_sizes[:dim:-1]) for dim in range(self.kb_dims)]
-            self.curr_kb_total = product(self.curr_kb_sizes)
+                    self.curr_kb_sizes = [self.kvr_attention[dim].curr_kb_size for dim in range(self.kb_dims)]
+                    self.curr_dims_before = [product(self.curr_kb_sizes[:dim]) for dim in range(self.kb_dims)]
+                    self.curr_dims_after = [product(self.curr_kb_sizes[:dim:-1]) for dim in range(self.kb_dims)]
+                    self.curr_kb_total = product(self.curr_kb_sizes)
 
-            ### end setup proj keys and current KB dimensions
+                    ### end setup proj keys and current KB dimensions
 
-            batch_size = x.size(0)
+                    batch_size = x.size(0)
 
-            ### setup caches for access to different utilities and hiddens of t-1 and aggregate utilities
-            u = []
-            with torch.no_grad():
-                # dectivate autograd before creating zero tensors to avoid
-                # invoking the wrath of cuda-thulhu
-                if kb_utils_dims_cache == None:
+                    ### setup caches for access to different utilities and hiddens of t-1 and aggregate utilities
+                    u = []
+                    with torch.no_grad():
+                        # dectivate autograd before creating zero tensors to avoid
+                        # invoking the wrath of cuda-thulhu
+                        if kb_utils_dims_cache == None:
 
-                    # initialize with maximum length allowed for each dimension;
-                    # curb in add_kb_util... procedure
-                    kb_utils_dims_cache = [
-                        x.new_zeros((batch_size, 1, dim)).to(device=x.device) # ".to" probably unnecessary
-                        for dim in self.kb_max
-                    ] 
+                            # initialize with maximum length allowed for each dimension;
+                            # curb in add_kb_util... procedure
+                            kb_utils_dims_cache = [
+                                x.new_zeros((batch_size, 1, dim)).to(device=x.device) # ".to" probably unnecessary
+                                for dim in self.kb_max
+                            ] 
 
-                if kb_feed_hidden_cache == None:
+                        if kb_feed_hidden_cache == None:
 
-                    # if not present initialize with first timestep of encoder_output
-                    if self.kb_feed_rnn:
-                        kb_feed_hidden_cache = [
-                            encoder_output.new_zeros(self.kb_layers, batch_size, self._hidden_size)
-                        ] * (self.kb_dims * self.k_hops)
-                    else:
-                        kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
+                            # if not present initialize with first timestep of encoder_output
+                            if self.kb_feed_rnn:
+                                kb_feed_hidden_cache = [
+                                    encoder_output.new_zeros(self.kb_layers, batch_size, self._hidden_size)
+                                ] * (self.kb_dims * self.k_hops)
+                            else:
+                                kb_feed_hidden_cache = [None] * (self.kb_dims * self.k_hops)
 
-            ### end setup caches 
+                    ### end setup caches 
 
-            # Recurrent unroll of KB attentions
-            for t in range(x.size(1)):
+                    # Recurrent unroll of KB attentions
+                    for t in range(x.size(1)):
 
-                query = x[:,t,:].unsqueeze(1).clone()
+                        query = x[:,t,:].unsqueeze(1).clone()
 
-                # get u_t and update dimension-wise utility caches and module wise hidden caches
-                u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._kvr_att_step(
-                    kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
-                    )
-                u += [u_t]
+                        # get u_t and update dimension-wise utility caches and module wise hidden caches
+                        u_t, kb_utils_dims_cache, kb_feed_hidden_cache = self._kvr_att_step(
+                            kb_utils_dims_cache, kb_feed_hidden_cache, query, kb_mask=kb_mask
+                            )
+                        u += [u_t]
 
-            kb_probs = torch.cat(u, dim=1)
-            
-        else:
-            kb_probs = None
-        
+                    kb_probs = torch.cat(u, dim=1)
+                    
+                else:
+                    kb_probs = None
+                
         # decoder output signature is:
         # return hidden, att_probs, att_vectors, kb_probs, kb_utils_dims_cache, kb_feed_hidden_cache
         return None, None, x, kb_probs, kb_utils_dims_cache, kb_feed_hidden_cache
