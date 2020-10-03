@@ -846,14 +846,11 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
         else: # for grus, states are just a tensor
             query = hidden[-1].unsqueeze(1)  # [#layers, B, D] -> [B, 1, D]
 
-        timer = Timer()
 
-        # compute context vector using attention mechanism
         # only use last layer for attention mechanism
         # key projections are pre-computed
-        with timer(f"calculate bahdanau attention for one step", p=False):
-            context, att_probs = self.attention(
-                query=query, values=encoder_output, mask=src_mask)
+        context, att_probs = self.attention(
+            query=query, values=encoder_output, mask=src_mask)
         
         ### -------------------- start KVR attention -------------------- ###
         

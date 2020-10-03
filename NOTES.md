@@ -38,8 +38,8 @@ relations:
 
 ### 30.09. problemz
 
-Code *TODO*:
-* calculate/profile attention runtime
+Code:
+* calculate/profile attention runtime *DONE*
 * autoregressive transformer: implement fast version/try vanilla *TODO*
 * correct entity F1 reporting
 => dont modify code and get trained "tflstm" model from cluster to debug
@@ -114,10 +114,8 @@ Add:
 Einzelne Experimente: 16
 
 Time:
-parameter * laufzeit * 1/zahl parallele runs * queue time 
+parameter * laufzeit * 1/(zahl parallele runs) * queue time 
 43 x 12 x 1/6 x 1.5 = 131 stunden = 5.5 tage 
-
-
 
 ### 26.08.20 start writing
 
