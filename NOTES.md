@@ -35,6 +35,17 @@ relations:
 
 => utility vector high scores: cafe-a-name
 
+### 06.10. discussion
+
+* not in grid: TODO: rnn100x256x0 <= eric et al !!!!!!!!!
+* why is it october already?
+* where did my youth go?
+* multidim speed up => theoretical MxM complexity?
+* => try with luong attention?
+* transformer grid?
+* change after gridsearch: copy from source YES, ???
+
+
 
 ### 30.09. problemz
 
@@ -61,11 +72,11 @@ lkp data seems all good though?? lkp line 752 says 291???
 => magically fixed? DONE?
 
 Grid search:
+* add code for singular experiments *TODO*
+DONE:
 * update main code with current grid params
 * fix sed issues: no replacements
 * add dry run option without queueing
-* add code for singular experiments
-
 
 ### 09.09. grid search hyperparams
 
@@ -86,9 +97,10 @@ These only for bahdanau version (RNN):
 * 2 kb\_values\_in\_keys: False, True
 * 2 multihead feeding
 * 2 same module all hops
-* 2 architecture: rnn, transformer
+* 2 architecture: rnn, transformer (autoregressive 24 hours 256 GB ???)
+* 2 bidirectional: False, True
 
-=> +6 runs
+=> +7 runs
 
 These only for vaswani version (tfTF):
 * 2 in feeding: False, True
@@ -108,14 +120,14 @@ Multiply:
 Gridsearch Experimente: 27
 
 Add:
-9 runs einzelne params
-4 runs metric report für: ericEtAl vs mine, raw vs can
+10 runs einzelne params
+4 runs metric report für: ericEtAl vs bestGrid, raw vs can
 3 runs sampling
-Einzelne Experimente: 16
+Einzelne Experimente: 17
 
 Time:
 parameter * laufzeit * 1/(zahl parallele runs) * queue time 
-43 x 12 x 1/6 x 1.5 = 131 stunden = 5.5 tage 
+44 x 16 x 1/8 x 1.5 = 131 stunden = 5.5 tage 
 
 ### 26.08.20 start writing
 
@@ -143,7 +155,6 @@ Conclusion
 * add copy from source option ✔️
 * if KB empty, dont use attention module✔️
 
-
 ## Old Issue
 ### 08.09.20 Transformer
 
@@ -154,7 +165,6 @@ Conclusion
 * add other stuff:
 1.  multiple hops
 2.  multiple dimensions
-
 
 
 ### 21.09. questions for eric et al
@@ -170,7 +180,6 @@ Conclusion
 * Canonization level: can meeting\_time level be achieved? need linked target data: how to map any 5 pm to meeting\_time or 20 Main Street to Pizza\_My\_Heart\_Address
 
 
-
 ### 26.08.20 scalability
 
 * calculate/profile attention runtime
@@ -178,7 +187,6 @@ Conclusion
 => linear in dims
 => same as bahdanau
 * mix in-domain KBs together (refactor preproc scripts first...)
-
 
 ### 26.08.20 enrich KB entry encoding *TODO*
 

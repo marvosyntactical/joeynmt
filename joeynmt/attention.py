@@ -267,8 +267,6 @@ class KeyValRetAtt(AttentionMechanism):
         else:
             query_feed_hidden = kb_feed_hidden
 
-        
-
         # We first project the query (the decoder state).
         # The projected keys (the knowledgebase entry sums) were already pre-computed.
         self.compute_proj_query(query_feed_hidden) 
