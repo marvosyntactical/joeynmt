@@ -1701,7 +1701,7 @@ def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query,
                 prev_kb_feed_hidden = kb_feed_hidden_cache[idx],
             )
             
-            ### update caches ###
+            ### start update caches ###
 
             # u_t_j_m = b x kb_max[dim] x hidden
             # cache this for same dim on next hop
@@ -1711,6 +1711,8 @@ def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query,
                 # feed_u_t_j_m_j = n_layers x b x hidden
                 # cache this for exact same kvr att module on next unroll step
                 kb_feed_hidden_cache[idx] = feed_hidden_j_m # .unsqueeze(0) 
+            
+            ### end update caches ###
 
             ### insert local hiddens into global hidden in appropriate places ###
 
@@ -1726,9 +1728,8 @@ def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query,
             # [1,2,3] => [1,1,1,2,2,2,3,3,3]
             u_t_j_m_blocked_tiled = tile(u_t_j_m_blocked, count=dims_after[dim], dim=-1)
 
-            # this leads to same entry arrangement as in the paper again 
-
             u_t_k += u_t_j_m_blocked_tiled
+            ### end insert local hidden ###
         # only update after dimension loop for the multihop feeding case (want to retrieve utilities of *last* hop within dim loop)
         utils_dims_cache = utils_cache_update
 
