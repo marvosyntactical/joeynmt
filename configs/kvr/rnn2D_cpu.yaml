@@ -8,7 +8,7 @@ data: # specify your data here
     kb_task: "YES"                   # KVR: assigned and boolean val of True if KVR task performed 
     kb_src: "kbkNODEFAULT"                         # KVR: kb keys (subj pad rel) extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_trg: "kbcNODEFAULT"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
-    kb_lkp: "lkp"                       # KVR: kb association lkp file ext
+    kb_lkp: "lkpNODEFAULT"                       # KVR: kb association lkp file ext
     kb_len: "lenNODEFAULT"                       # KVR: kb lengths file ext
     kb_truvals: "trvNODEFAULT"                   # KVR: file extension for truvals
     trutrg: "car"                       # KVR: file extension for uncanonized target data

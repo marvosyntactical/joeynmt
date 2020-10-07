@@ -27,7 +27,7 @@ def main(args):
     splitpart = "dev" if args == 0 else args[0]
     EXT = "FINAL" if args == 0 or len(args) <= 1 else args[1]
     assert splitpart in ["dev", "train", "test"]
-    filename = "kvret_dev_public.json"
+    filename = f"kvret_{splitpart}_public.json"
 
 
     with open(directory+filename, "r") as f:
@@ -37,7 +37,7 @@ def main(args):
     scenarios=[]
 
     for idx, setting in enumerate(data):
-        continue_ = False
+        skip = False
         dialogue = setting["dialogue"]
         scenario = setting["scenario"]
         convo = []
@@ -45,15 +45,16 @@ def main(args):
         for turn in dialogue:
             utterance = turn["data"]["utterance"]
             if not utterance.strip():
-                continue_ = True # skip this dialogue; someone didnt answer
+                input("skip?: {}".format(dialogue))
+                skip = True # skip this dialogue; someone didnt answer
             convo.append(utterance)
             speaker = turn["turn"]
             #assert speaker != lastspeaker, utterance
             lastspeaker = speaker
-        if continue_:
-            continue
-        scenarios.append(scenario)
-        settings.append(convo)
+        if not skip:
+            scenarios.append(scenario)
+            settings.append(convo)
+        skip = False
 
     unanswered = ""
     scenario_lkp = ""
@@ -65,10 +66,18 @@ def main(args):
             unanswered+=elem[-1]+"\n"
             elem = elem[:-1]
 
+        if not elem:
+            # skip empty dialogue
+            continue
+
         nturns = len(elem)
         assert nturns%2==0
 
-        usr_part = historify_src(elem)
+        try:
+            usr_part = historify_src(elem)
+        except:
+            continue
+            assert False, (elem, idx, filename)
         car_part = "\n".join(
             [e for i,e in enumerate(elem) if i % 2 == 1]
             )+"\n"

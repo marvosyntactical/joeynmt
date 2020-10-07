@@ -656,6 +656,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         pprint([(entry.kbsrc, entry.kbtrg, tru.kbtrv) for entry, tru in zip(minibatch.kb,minibatch.kbtrv)], width=110)
         print()
         print(f"minibatch.src/trg: {(ex.src, ex.trg)}")
+        input()# FIXME removeme
         print()
         print("batch_with_kb: current, kb_len, current+kb_len: ",current, kb_len,current+kb_len)
         print()
