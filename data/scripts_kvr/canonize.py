@@ -256,8 +256,12 @@ def main(args):
     lower = True
     tok_fun = pkt_tokenize
 
-    with open(directory+filestub+target_ext, "r") as target:
-        gold_standard = target.readlines()
+    try:
+        with open(directory+filestub+target_ext, "r") as target:
+            gold_standard = target.readlines()
+    except FileNotFoundError as e:
+        assert False, args
+
     gold_standard = [seq[:-1] for seq in gold_standard]
     if lower:
         gold_standard = [seq.lower() for seq in gold_standard]
@@ -288,7 +292,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) >1:
+    if len(sys.argv) > 1:
         sys.exit(main(sys.argv[1:]))
     else:
         sys.exit(main(0))

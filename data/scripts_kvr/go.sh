@@ -1,8 +1,9 @@
 #!/bin/bash
 
-splitparts=( train dev test )
-scriptsInOrder=(parse_kvr_json normalize_scenarios split_normalized_scenarios kbcanonize)
 EXT=$1
+
+scriptsInOrder=(parse_kvr_json normalize_scenarios split_normalized_scenarios kbcanonize canonize)
+splitparts=( train dev "test" )
 
 for script in "${scriptsInOrder[@]}"
 do
