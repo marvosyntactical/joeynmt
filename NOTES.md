@@ -37,13 +37,13 @@ relations:
 
 ### 06.10. discussion
 
-* not in grid: TODO: rnn100x256x0 <= eric et al !!!!!!!!!
-* why is it october already?
-* where did my youth go?
-* multidim speed up => theoretical MxM complexity?
+* multidim speed up => theoretical mmul complexity? => n**2.3
 * => try with luong attention?
 * transformer grid?
 * change after gridsearch: copy from source YES, ???
+* what do I do with energy layer postproc heuristic thing during backprop? where comes loss signal from?
+* check matchup 
+* find fitting transformer
 
 
 

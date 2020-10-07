@@ -1,7 +1,7 @@
 #!/bin/bash
 
 splitparts=( train dev test )
-scriptsInOrder=(normalize_scenarios split_normalized_scenarios kbcanonize)
+scriptsInOrder=(parse_kvr_json normalize_scenarios split_normalized_scenarios kbcanonize)
 EXT=$1
 
 for script in "${scriptsInOrder[@]}"

@@ -13,6 +13,8 @@ def historify_src(utterances, even=True):
     #helper function to add the entire dialogue history as src
     parity = 0 if even else 1
 
+    assert set([bool(utt.strip()) == True for utt in utterances]) == {True}, utterances
+
     usr_part = ""
     for i, e in enumerate(utterances):
         if i%2==parity:
@@ -23,10 +25,9 @@ def main(args):
     #defaults:
     directory = "../kvr/"
     splitpart = "dev" if args == 0 else args[0]
-    filename = "kvret_dev_public.json" if args == 0 or len(args) <= 1 else args[1]
+    EXT = "FINAL" if args == 0 or len(args) <= 1 else args[1]
     assert splitpart in ["dev", "train", "test"]
-
-    EXT = "FINAL"
+    filename = "kvret_dev_public.json"
 
 
     with open(directory+filename, "r") as f:
@@ -36,17 +37,22 @@ def main(args):
     scenarios=[]
 
     for idx, setting in enumerate(data):
+        continue_ = False
         dialogue = setting["dialogue"]
         scenario = setting["scenario"]
         convo = []
-        scenarios.append(scenario)
         lastspeaker = "assistant"
         for turn in dialogue:
             utterance = turn["data"]["utterance"]
+            if not utterance.strip():
+                continue_ = True # skip this dialogue; someone didnt answer
             convo.append(utterance)
             speaker = turn["turn"]
             #assert speaker != lastspeaker, utterance
             lastspeaker = speaker
+        if continue_:
+            continue
+        scenarios.append(scenario)
         settings.append(convo)
 
     unanswered = ""
@@ -57,7 +63,7 @@ def main(args):
 
         if len(elem)%2==1:
             unanswered+=elem[-1]+"\n"
-            elem = elem[:-1] 
+            elem = elem[:-1]
 
         nturns = len(elem)
         assert nturns%2==0
@@ -70,7 +76,6 @@ def main(args):
 
         lines = lambda s: len(s.split("\n"))
         assert lines(usr_part) == lines(car_part) == lines(scenario_part), (usr_part, car_part, scenario_part)
-
 
         convo_usr += usr_part
         convo_car += car_part
@@ -97,7 +102,7 @@ def main(args):
     unanswered_file = splitpart+".noans"+EXT
 
     with open(directory+unanswered_file, "w") as unan:
-        unan.write(unanswered) #user thanks etc that were never answered
+        unan.write(unanswered) # user thanks etc that were never answered
 
     return 0
 

@@ -481,7 +481,6 @@ class TransformerDecoderLayer(nn.Module):
                 kb_feed_out_hidden, h2 = kb_feed_out(kb_output, kb_feed_out_hidden, h2_norm)
             else:
                 h2 = self.dropout(kb_output) + h2
-
         else:
             kb_output, kb_att = None, None
 

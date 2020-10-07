@@ -58,9 +58,6 @@ def normalize_weather(d, eric=False):
                 temp_low = temp_low.split()[-1] # just degree f
                 temp_high = temp_high.split()[-1] # just degree f
 
-                if weekday == today:
-                    subject += " today " #add "today" token to whichever day today is
-
                 normed_kb.append((subject,weekday+" date",weekday.split()[-1])) # 'monday' or 'today'
                 normed_kb.append((subject,weekday+" weather",weather_attribute))
                 normed_kb.append((subject,weekday+" temperature low",temp_low))
