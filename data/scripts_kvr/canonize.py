@@ -206,8 +206,16 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                 winning_candidate, lbl, upto = max(partial_matches, key=lambda tup: tup[-1])
                 if winning_candidate[0] in stopwords:
                     print(f"Warning: Omitting possible match {winning_candidate}; only matched with first token!")
-                    r += [token]
-                    indices += [len(r)-1]
+                    if len(winning_candidate)>1 and winning_candidate[1] == "collision":
+                        r += [lbl]
+                        matches += [(lbl, seq[len(r)-1+len(matches):len(r)-1+upto+len(matches)])]
+                        indices += [len(r)-1] * (upto)
+                        i += upto-1
+
+
+                    else:
+                        r += [token]
+                        indices += [len(r)-1]
                 else:
                     r += [lbl]
                     matches += [(lbl, seq[len(r)-1+len(matches):len(r)-1+upto+len(matches)])]
@@ -241,7 +249,9 @@ def main(args):
     else:
         filestub = args[0]
 
-    target_ext = ".car"
+    EXT = "FINAL" if args == 0 or len(args) <= 1 else args[1]
+
+    target_ext = ".car"+EXT
 
     lower = True
     tok_fun = pkt_tokenize
@@ -264,12 +274,11 @@ def main(args):
 
     entities = load_json() # entity path is default arg
     efficient_entities = preprocess_entity_dict(entities, lower=lower, tok_fun=tok_fun)
-    assert False, efficient_entities
 
     canonized_seqs = canonize_sequences(gold_standard, efficient_entities)
     output = [" ".join(out)+"\n" for out in canonized_seqs]
 
-    output_ext = ".carno"
+    output_ext = ".carno" + EXT
 
     with open(directory+filestub+output_ext, "w") as out:
         out.writelines(output)
