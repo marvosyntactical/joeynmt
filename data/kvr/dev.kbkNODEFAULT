@@ -18982,41 +18982,6 @@ alhambra <pad> saturday_date
 alhambra <pad> saturday_weather
 alhambra <pad> saturday_temperature_low
 alhambra <pad> saturday_temperature_high
-Sigona Farmers Market <pad> distance
-Sigona Farmers Market <pad> traffic_info
-Sigona Farmers Market <pad> poi_type
-Sigona Farmers Market <pad> address
-Sigona Farmers Market <pad> poi
-Whole Foods <pad> distance
-Whole Foods <pad> traffic_info
-Whole Foods <pad> poi_type
-Whole Foods <pad> address
-Whole Foods <pad> poi
-toms house <pad> distance
-toms house <pad> traffic_info
-toms house <pad> poi_type
-toms house <pad> address
-toms house <pad> poi
-Pizza Chicago <pad> distance
-Pizza Chicago <pad> traffic_info
-Pizza Chicago <pad> poi_type
-Pizza Chicago <pad> address
-Pizza Chicago <pad> poi
-Stanford Shopping Center <pad> distance
-Stanford Shopping Center <pad> traffic_info
-Stanford Shopping Center <pad> poi_type
-Stanford Shopping Center <pad> address
-Stanford Shopping Center <pad> poi
-Town and Country <pad> distance
-Town and Country <pad> traffic_info
-Town and Country <pad> poi_type
-Town and Country <pad> address
-Town and Country <pad> poi
-The Clement Hotel <pad> distance
-The Clement Hotel <pad> traffic_info
-The Clement Hotel <pad> poi_type
-The Clement Hotel <pad> address
-The Clement Hotel <pad> poi
 taking medicine <pad> room
 taking medicine <pad> agenda
 taking medicine <pad> time

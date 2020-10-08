@@ -18,8 +18,6 @@ do
 	done
 done
 
-python3 canonize.py
-
 cd ../kvr/
 
 cat train.trv$EXT dev.trv$EXT test.trv$EXT > global.tmp

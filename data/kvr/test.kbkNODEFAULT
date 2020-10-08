@@ -589,41 +589,6 @@ Coupa <pad> traffic_info
 Coupa <pad> poi_type
 Coupa <pad> address
 Coupa <pad> poi
-Teavana <pad> distance
-Teavana <pad> traffic_info
-Teavana <pad> poi_type
-Teavana <pad> address
-Teavana <pad> poi
-Trader Joes <pad> distance
-Trader Joes <pad> traffic_info
-Trader Joes <pad> poi_type
-Trader Joes <pad> address
-Trader Joes <pad> poi
-jills house <pad> distance
-jills house <pad> traffic_info
-jills house <pad> poi_type
-jills house <pad> address
-jills house <pad> poi
-Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic_info
-Stanford Express Care <pad> poi_type
-Stanford Express Care <pad> address
-Stanford Express Care <pad> poi
-5672 barringer street <pad> distance
-5672 barringer street <pad> traffic_info
-5672 barringer street <pad> poi_type
-5672 barringer street <pad> address
-5672 barringer street <pad> poi
-Stanford Oval Parking <pad> distance
-Stanford Oval Parking <pad> traffic_info
-Stanford Oval Parking <pad> poi_type
-Stanford Oval Parking <pad> address
-Stanford Oval Parking <pad> poi
-home <pad> distance
-home <pad> traffic_info
-home <pad> poi_type
-home <pad> address
-home <pad> poi
 alameda <pad> monday_date
 alameda <pad> monday_weather
 alameda <pad> monday_temperature_low
@@ -20799,41 +20764,6 @@ redwood city <pad> saturday_date
 redwood city <pad> saturday_weather
 redwood city <pad> saturday_temperature_low
 redwood city <pad> saturday_temperature_high
-Comfort Inn <pad> distance
-Comfort Inn <pad> traffic_info
-Comfort Inn <pad> poi_type
-Comfort Inn <pad> address
-Comfort Inn <pad> poi
-Stanford Express Care <pad> distance
-Stanford Express Care <pad> traffic_info
-Stanford Express Care <pad> poi_type
-Stanford Express Care <pad> address
-Stanford Express Care <pad> poi
-tai pan <pad> distance
-tai pan <pad> traffic_info
-tai pan <pad> poi_type
-tai pan <pad> address
-tai pan <pad> poi
-Starbucks <pad> distance
-Starbucks <pad> traffic_info
-Starbucks <pad> poi_type
-Starbucks <pad> address
-Starbucks <pad> poi
-Stanford Childrens Health <pad> distance
-Stanford Childrens Health <pad> traffic_info
-Stanford Childrens Health <pad> poi_type
-Stanford Childrens Health <pad> address
-Stanford Childrens Health <pad> poi
-Panda Express <pad> distance
-Panda Express <pad> traffic_info
-Panda Express <pad> poi_type
-Panda Express <pad> address
-Panda Express <pad> poi
-Trader Joes <pad> distance
-Trader Joes <pad> traffic_info
-Trader Joes <pad> poi_type
-Trader Joes <pad> address
-Trader Joes <pad> poi
 Safeway <pad> distance
 Safeway <pad> traffic_info
 Safeway <pad> poi_type

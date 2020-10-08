@@ -173,7 +173,8 @@ def main(args):
 
     eric = True # TODO add to args
 
-    filename = splitpart+".json"
+    # filename = splitpart+".json" # NOTE used to be called this dont call this!
+    filename = "scenarios_"+splitpart+"_"+EXT+".json"
     with open(directory+filename, "r") as scenarios:
         settings = json.load(scenarios)
 
@@ -184,7 +185,7 @@ def main(args):
     kb_list = ["::".join(t)+"\n" for t in normed_kbs_inner]
 
     #line formatted normalized kb
-    filestamm = filename.split(".")[0]
+    filestamm = splitpart 
     ext = "kb"+EXT
     save_as = filestamm+"."+ext
     with open(directory+save_as, "w") as o:
@@ -201,6 +202,7 @@ def main(args):
     lengths_ext = "len"+EXT
     save_lengths = filestamm + "." + lengths_ext
     with open(directory+save_lengths, "w") as l:
+        # assert False, (("lens: ", lens[117:124], directory+save_lengths))
         l.writelines(lens)
 
     return 0

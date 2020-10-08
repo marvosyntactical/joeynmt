@@ -558,7 +558,7 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
     EVENT = "@event"
 
     # try to get the raw token in the source that was replaced by '@event' as subject for the key
-    subject = " ".join(rels_vals.get(EVENT, []))
+    subject = rels_vals.get(EVENT, [])
 
     on_the_fly_kb = [
         data.Example.fromlist(

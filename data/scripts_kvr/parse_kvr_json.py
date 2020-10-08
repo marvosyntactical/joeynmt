@@ -3,7 +3,7 @@ import os
 import sys
 
 
-#usr_part = "\n".join([e for i,e in enumerate(elem) if i%2==0])+"\n"
+#usr_part = "\n".join([e for i,e in enumerate(utterances) if i%2==0])+"\n"
 
 global DOT_CHAR
 DOT_CHAR = "@DOT"
@@ -33,7 +33,7 @@ def main(args):
     with open(directory+filename, "r") as f:
         data= json.load(f)
 
-    settings=[]
+    dialogues=[]
     scenarios=[]
 
     for idx, setting in enumerate(data):
@@ -44,47 +44,60 @@ def main(args):
         lastspeaker = "assistant"
         for turn in dialogue:
             utterance = turn["data"]["utterance"]
-            if not utterance.strip():
-                input("skip?: {}".format(dialogue))
-                skip = True # skip this dialogue; someone didnt answer
             convo.append(utterance)
             speaker = turn["turn"]
             #assert speaker != lastspeaker, utterance
             lastspeaker = speaker
+            # if "which is cafe ven" in utterance.lower():
+            #     input("error? {} {}".format(convo, scenario))
+            if not utterance.strip():
+                input("skip?: {}".format(convo))
+                skip = True # skip this dialogue; someone didnt answer
         if not skip:
             scenarios.append(scenario)
-            settings.append(convo)
+            dialogues.append(convo)
         skip = False
 
     unanswered = ""
     scenario_lkp = ""
     convo_usr, convo_car = "", ""
 
-    for idx, elem in enumerate(settings):
+    for idx, utterances in enumerate(dialogues):
+        """
+        if idx == 119:
+            assert False, [utterances, scenarios[idx]]
+        """
 
-        if len(elem)%2==1:
-            unanswered+=elem[-1]+"\n"
-            elem = elem[:-1]
+        if len(utterances)%2==1:
+            input("unanswered? :  {}".format(utterances))
+            unanswered+=utterances[-1]+"\n"
+            utterances = utterances[:-1]
 
-        if not elem:
+        if not utterances:
             # skip empty dialogue
             continue
 
-        nturns = len(elem)
+        nturns = len(utterances)
         assert nturns%2==0
 
         try:
-            usr_part = historify_src(elem)
-        except:
-            continue
-            assert False, (elem, idx, filename)
+            usr_part = historify_src(utterances)
+        except Exception as e:
+            # continue
+            assert False, (e, utterances, idx, filename)
         car_part = "\n".join(
-            [e for i,e in enumerate(elem) if i % 2 == 1]
+            [e for i,e in enumerate(utterances) if i % 2 == 1]
             )+"\n"
-        scenario_part = (str(idx)+"\n")*(nturns//2)
+        scenario_part = (str(idx)+"\n")*(nturns//2) # NOTE
+        """
+        venetia_debug = list(set(["which is cafe ven" in utt.lower() for utt in utterances]))
+        if len(venetia_debug) == 2:
+            assert False, (utterances, scenario_part, idx, nturns)
+        """
 
         lines = lambda s: len(s.split("\n"))
-        assert lines(usr_part) == lines(car_part) == lines(scenario_part), (usr_part, car_part, scenario_part)
+        assert lines(usr_part) == lines(car_part) == lines(scenario_part), \
+                (usr_part, car_part, scenario_part)
 
         convo_usr += usr_part
         convo_car += car_part
