@@ -6,6 +6,7 @@ dist/*
 docs/build/*
 *__pycache__*
 models/*
+modelsgrid/*
 data/ner/*
 data/voc/*
 runs/*

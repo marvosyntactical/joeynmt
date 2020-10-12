@@ -7,7 +7,7 @@
 # script call signature:
 
 name=$1
-duration=${2:-"0-12:00:00"} # duration should have syntax 2-12:15:59
+duration=${2:-"0-16:00:00"} # duration should have syntax 2-12:15:59
 memory=${3:-"128000"}
 partition=${4:-"students"}
 
@@ -21,7 +21,7 @@ echo
 #paths
 cfg_path=configs/kvr/grid/
 sbatch_path=sbatch/
-model_path=models/
+model_path=models/grid/
 
 #extensions
 cfg_ext=".yaml"

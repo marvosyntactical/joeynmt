@@ -124,8 +124,6 @@ echo
 echo "==========================================================================="
 squeue | grep 'koss'
 echo
-undo="scancel $jobnum"
-echo " Type 'undo' to cancel this job $jobnum ..."
 
 
 

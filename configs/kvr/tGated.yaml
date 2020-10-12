@@ -1,19 +1,19 @@
 name: "kb-transformer-proper"
 
 data:
-    src: "usr"
-    trg: "carno"
+    src: "usrNODEFAULT"
+    trg: "carnoNODEFAULT"
 
     # kb start 
 
     kb_task: "YES"
     kb_src: "kbkNODEFAULT"
     kb_trg: "kbcNODEFAULT"
-    kb_lkp: "lkp"
+    kb_lkp: "lkpNODEFAULT"
     kb_len: "lenNODEFAULT"
     kb_truvals: "trvNODEFAULT"
     global.trv: "global.trvNODEFAULT"
-    trutrg: "car"
+    trutrg: "carNODEFAULT"
 
     # kb end
 
@@ -45,10 +45,10 @@ training:
     batch_type: "token"
     early_stopping_metric: "eval_metric"
     epochs: 100
-    validation_freq: 800
+    validation_freq: 500
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/157_tflstmfeedkbonly_02-10" #
+    model_dir: "models/175_tGated_11-10" #
     overwrite: False
     shuffle: True
     use_cuda: True
@@ -63,14 +63,15 @@ model:
     kb: True                        # kb decoder used or not?
     k_hops: 1                       # num of kvr att layers
     do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
-    kb_max_dims: [256]              # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al)
+    kb_max_dims: [256]              # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [200] for flat KB (eric et al)
     copy_from_source: True
     kb_input_feeding: True
     # kb_feed_rnn: True
     tfstyletf: True 
     infeedkb: False
-    outfeedkb: False
+    outfeedkb: True
     add_kb_biases_to_output: False
+    keep_last_ckpts: 3
 
 
     initializer: "xavier"
@@ -90,7 +91,7 @@ model:
             dropout: 0.0
         # typically ff_size = 4 x hidden_size
         hidden_size: 256
-        ff_size: 256
+        ff_size: 256 
         dropout: 0.12
     decoder:
         type: "transformer"

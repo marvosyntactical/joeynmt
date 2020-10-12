@@ -53,7 +53,7 @@ training:                                  # specify training details here
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/grid/thisWillBeReplaced" # directory where models and validation results are stored, required
+    model_dir: "modelsgrid/1_rnn310x256x0_11-10" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
@@ -70,14 +70,14 @@ training:                                  # specify training details here
 
 model:                                     # specify your model architecture here
     kb: True                               # kb decoder used or not?
-    k_hops: 1                              # num of kvr att layers
+    k_hops: 3 # num of kvr att layers
     do_postproc: True                      # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
     copy_from_source: True                # whether to create KBs from source as backup when KB empty 
     same_module_for_all_hops: True #
     kb_multihead_feed: False #
     posEncKBkeys: False #
     kb_max_dims: [256] #
-    kb_input_feeding: False #
+    kb_input_feeding: True #
     kb_feed_rnn: False #
 
     initializer: "xavier"                  # initializer for all trainable weights (xavier, zeros, normal, uniform)
