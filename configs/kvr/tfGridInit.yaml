@@ -98,7 +98,7 @@ model:                                     # specify your model architecture her
         num_layers: 6                      # stack this many layers of equal size, default: 1
         num_heads: 4
         freeze: False                      # if True, encoder parameters are not updated during training (does not include embedding parameters)
-        ff_size: 2048
+        ff_size: 1024
         dropout: 0.0
     decoder:
         type: "transformer"                # decoder type: "recurrent" for LSTM or GRU, or "transformer" for a Transformer
@@ -107,7 +107,7 @@ model:                                     # specify your model architecture her
             scale: True 
             dropout: 0.
         hidden_size: 512 
-        ff_size: 2048
+        ff_size: 1024
         dropout: 0.0
         num_layers: 6
         num_heads: 4

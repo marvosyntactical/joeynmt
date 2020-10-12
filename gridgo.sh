@@ -21,7 +21,7 @@ echo
 #paths
 cfg_path=configs/kvr/grid/
 sbatch_path=sbatch/
-model_path=models/
+model_path=models/grid/
 
 #extensions
 cfg_ext=".yaml"

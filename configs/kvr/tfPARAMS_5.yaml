@@ -1,19 +1,19 @@
 name: "kb-transformer-proper"
 
 data:
-    src: "usr"
-    trg: "carno"
+    src: "usrNODEFAULT"
+    trg: "carnoNODEFAULT"
 
     # kb start 
 
     kb_task: "YES"
     kb_src: "kbkNODEFAULT"
     kb_trg: "kbcNODEFAULT"
-    kb_lkp: "lkp"
+    kb_lkp: "lkpNODEFAULT"
     kb_len: "lenNODEFAULT"
     kb_truvals: "trvNODEFAULT"
     global.trv: "global.trvNODEFAULT"
-    trutrg: "car"
+    trutrg: "carNODEFAULT"
 
     # kb end
 
@@ -34,8 +34,8 @@ training:
     normalization: "tokens"
     adam_betas: [0.9, 0.999]
     scheduling: "sample"
-    patience: 5
-    decrease_factor: 0.7
+    # patience: 5
+    # decrease_factor: 0.7
     loss: "crossentropy"
     learning_rate: 0.001
     learning_rate_min: 0.0001
@@ -48,7 +48,7 @@ training:
     validation_freq: 800
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/157_tflstmfeedkbonly_02-10" #
+    model_dir: "models/173_tfPARAMS_5_09-10" #
     overwrite: False
     shuffle: True
     use_cuda: True
@@ -63,7 +63,7 @@ model:
     kb: True                        # kb decoder used or not?
     k_hops: 1                       # num of kvr att layers
     do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
-    kb_max_dims: [256]              # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [256] for flat KB (eric et al)
+    kb_max_dims: [256]              # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [200] for flat KB (eric et al)
     copy_from_source: True
     kb_input_feeding: True
     # kb_feed_rnn: True
@@ -85,22 +85,22 @@ model:
         num_layers: 6
         num_heads: 4
         embeddings:
-            embedding_dim: 256
+            embedding_dim: 200
             scale: True
             dropout: 0.0
         # typically ff_size = 4 x hidden_size
-        hidden_size: 256
-        ff_size: 256
+        hidden_size: 200
+        ff_size: 200
         dropout: 0.12
     decoder:
         type: "transformer"
         num_layers: 6
         num_heads: 4
         embeddings:
-            embedding_dim: 256
+            embedding_dim: 200
             scale: True
             dropout: 0.0
         # typically ff_size = 4 x hidden_size
-        hidden_size: 256
-        ff_size: 256 
+        hidden_size: 200
+        ff_size: 200 
         dropout: 0.12
