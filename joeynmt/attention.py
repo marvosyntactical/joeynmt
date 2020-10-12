@@ -183,9 +183,9 @@ class KeyValRetAtt(AttentionMechanism):
             assert hidden_size % self.head_size == 0, \
             f"hidden dimension {hidden_size} must be divisible by number of dimensions = {len(self.kb_max)}"
 
-        # extend input dimension by KB total dimension (e.g. 512, 256)? 
-        # or by hidden size multihead feeding network before the memory network
-        memory_input_dim = 2*hidden_size if self.multihead_feed == True else self.kb_total+hidden_size
+        # extend input dimension by KB total dimension (e.g. 512, 256)?  (no multihead feeding)
+        # or by hidden size  (multihead feeding network before the memory network)
+        memory_input_dim = 2 * hidden_size if self.multihead_feed == True else self.kb_total+hidden_size
 
         if self.feed_rnn == True:
 
@@ -204,7 +204,6 @@ class KeyValRetAtt(AttentionMechanism):
 
             self.linear_multihop_feeding_1 = nn.Linear(memory_input_dim, hidden_size, bias=False)
             self.memory_network = lambda query, _: (None, self.linear_multihop_feeding_1((query)))
-
 
         if self.multihead_feed == True:
 

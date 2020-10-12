@@ -559,19 +559,22 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
 
     # try to get the raw token in the source that was replaced by '@event' as subject for the key
     subject = rels_vals.get(EVENT, [])
+    if subject:
+        # if list is nonempty (subject found in source), 
+        # append <PAD> value to this list to separate from relation
+        subject += [PAD_TOKEN]
 
     on_the_fly_kb = [
         data.Example.fromlist(
             #  this reads [relation] using the first (source) field
             # FIXME TODO what does signature of data.Example.fromlist actually look like
-        [subject +[ PAD_TOKEN, relation[1:]], [relation]], # remove @ from @relation
+        [subject + [relation[1:]], [relation]], # remove @ from @relation
         fields=list(kb_fields.items())
     ) for relation, _ in rels_vals.items() if not trg_voc.is_unk(relation)] #  replace 'False' by this to get on the fly creation again
 
     # input({" ".join(v): lowest_med_match(" ".join(v), kbtrv_fields["kbtrv"].vocab.itos, return_idx=False, topk=5) for r, v in rels_vals.items()})
 
     # FIXME some values like 'dinner' for some reason not pprcd even though theyre in the vocab.itos ???
-
 
     # assert set([" ".join(val) in kbtrv_fields["kbtrv"].vocab.itos for val in rels_vals.values()]) == {True},\
     #     []

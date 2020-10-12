@@ -1239,7 +1239,7 @@ class TransformerDecoder(Decoder):
                 else:
                     kb_feed_in_hidden = None
                 if self.feed_out_nn is not None:
-                    kb_feed_out_hidden = x.new_zeros(x.shape)
+                    kb_feed_out_hidden = x.new_zeros(x.size())
                 else:
                     kb_feed_out_hidden = None
 

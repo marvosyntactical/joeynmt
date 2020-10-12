@@ -57,6 +57,9 @@ def main(args):
             scenarios.append(scenario)
             dialogues.append(convo)
         skip = False
+    for convo in dialogues:
+        for utt in convo:
+            assert "i need to locate a shop" not in utt.lower(), convo
 
     unanswered = ""
     scenario_lkp = ""
@@ -69,7 +72,7 @@ def main(args):
         """
 
         if len(utterances)%2==1:
-            input("unanswered? :  {}".format(utterances))
+            # input("unanswered? : {} {}".format(idx, utterances))
             unanswered+=utterances[-1]+"\n"
             utterances = utterances[:-1]
 
@@ -79,6 +82,7 @@ def main(args):
 
         nturns = len(utterances)
         assert nturns%2==0
+        assert nturns, utterances
 
         try:
             usr_part = historify_src(utterances)
@@ -88,7 +92,7 @@ def main(args):
         car_part = "\n".join(
             [e for i,e in enumerate(utterances) if i % 2 == 1]
             )+"\n"
-        scenario_part = (str(idx)+"\n")*(nturns//2) # NOTE
+        scenario_part = (str(idx)+"\n")*(nturns//2)
         """
         venetia_debug = list(set(["which is cafe ven" in utt.lower() for utt in utterances]))
         if len(venetia_debug) == 2:
@@ -102,6 +106,8 @@ def main(args):
         convo_usr += usr_part
         convo_car += car_part
         scenario_lkp += scenario_part
+
+    assert len(convo_usr.split("\n")) == len(convo_car.split("\n"))
 
     train_usr, train_car = splitpart+".usr"+EXT, splitpart+".car"+EXT
 
