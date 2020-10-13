@@ -302,7 +302,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         # trv_vocab._from_file(trv_path)
         trv_vocab = deepcopy(trg_vocab)
-        assert "scheduled" in trv_vocab.itos
+        # assert "scheduled" in trv_vocab.itos
         # FIXME only add this for source copying?
         trv_vocab._from_list(src_vocab.itos)
 
@@ -561,7 +561,7 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
     subject = rels_vals.get(EVENT, [])
     if not subject:
         # if list is empty (no subject found in source), 
-        # append <PAD> value to this list to separate from relation
+        # set dummy subject
         subject = ["dummySubj"]
     assert type(subject) == list, (type(subject), subject)
 
@@ -596,22 +596,32 @@ def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
     return on_the_fly_kb, on_the_fly_kbtrv
 
 
-def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data=None):
+def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data=None, max_chunk=64):
     # TODO document this hackiest of generators
     # minibatch.kb length, adds it to this attribute and yields
     # elements from data in chunks of conversations
+
+    # max_chunk is maximum batch size if KB is the same for more than that many examples
 
     minibatch = KB_minibatch()
     current = 0
     corresponding_kb = 0
     kb_len = 0
+    chunk = 0
 
     for i, ex in enumerate(data):
 
         last_corresponding_kb = corresponding_kb
-        corresponding_kb = kb_lkp[i]
+        try:
+            corresponding_kb = kb_lkp[i]
+        except:
+            assert False, kb_lkp
 
-        if corresponding_kb != last_corresponding_kb:
+        if chunk >= max_chunk:
+            yield minibatch
+            minibatch = KB_minibatch()
+
+        elif corresponding_kb != last_corresponding_kb:
 
             yield minibatch
             minibatch = KB_minibatch()
@@ -619,6 +629,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             # sum over last kb and all inbetween that and current one (excluding current)
             # sometimes a KB is skipped
             current += sum(kb_lens[last_corresponding_kb:corresponding_kb])
+            chunk = 0 # reset chunk batch size
             
         print(ex.trg, kb_lens, corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
@@ -641,6 +652,8 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
                 dummy_kb, dummy_kbtrv = dummy_KB_on_the_fly(data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields)
                 minibatch.kb = dummy_kb
                 minibatch.kbtrv = dummy_kbtrv
+
+        chunk += 1
                 
         assert len(minibatch.kb) == len(minibatch.kbtrv), \
             ([x.kbsrc for x in minibatch.kb],[x.kbtrv for x in minibatch.kbtrv])

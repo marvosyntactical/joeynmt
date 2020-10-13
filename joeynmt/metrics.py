@@ -143,7 +143,7 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
             # Filter out tokens that werent changed (noncanonical)
             try:
                 canonical_entities, surface_entities = list(zip(*[(c,t) for c,t in zip(canons,entities) if c!=t]))
-            except ValueError:
+            except ValueError: # no entities
                 canonical_entities, surface_entities = [], []
             
             if report_on_canonicals: 
@@ -167,6 +167,10 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
         
         f1s.append(f1_(P,R))
         mccs.append(mcc_(P,R))
+
+        print(" ### Validation Classification Metrics Debug ### "+\
+            f"hyp: {hyp}\nref: {ref}\nentities: {hyp_ents_ref_ents}\nPrecision: {P}\nRecall: {R}"+\
+                " ### Debug Metrics End ### ")
             
     assert len(hyps) == len(refs) == len(f1s) == len(mccs), (len(hyps), len(refs), len(f1s), len(mccs))
     f1_avg = sum(f1s) / len(f1s)
