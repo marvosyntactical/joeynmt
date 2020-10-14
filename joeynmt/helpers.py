@@ -257,11 +257,15 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 # should match up
                 assert calcKbLen == kb_lens[kb_num]+1, (calcKbLen, kb_lens[kb_num]+1)
 
-            assertion_str = f"plotting idx={i} with kb_num={kb_num} and kb_len={kb_lens[kb_num]+1},\n\
-                kb_before: {kb_lens[kb_num-1]+1}, kb_after: {kb_lens[kb_num+1]+1};\n\
-                att_scores.shape={attention_scores.shape};\n\
-                calcKbLen={calcKbLen};\n\
-                kb_lens[kb_num]+1={kb_lens[kb_num]+1};"
+            if len(kb_lens) > 3:
+                assertion_str = f"plotting idx={i} with kb_num={kb_num} and kb_len={kb_lens[kb_num]+1},\n\
+                    kb_before: {kb_lens[kb_num-1]+1}, kb_after: {kb_lens[kb_num+1]+1};\n\
+                    att_scores.shape={attention_scores.shape};\n\
+                    calcKbLen={calcKbLen};\n\
+                    kb_lens[kb_num]+1={kb_lens[kb_num]+1};"
+            else:
+                # TODO 
+                assertion_str = ""
 
             # make sure attention plots have the right shape
             if not calcKbLen == attention_scores.shape[0]:
