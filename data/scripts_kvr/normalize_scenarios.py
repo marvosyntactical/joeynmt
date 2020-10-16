@@ -58,10 +58,10 @@ def normalize_weather(d, eric=False):
                 temp_low = temp_low.split()[-1] # just degree f
                 temp_high = temp_high.split()[-1] # just degree f
 
-                normed_kb.append((subject,weekday+" date",weekday.split()[-1])) # 'monday' or 'today'
-                normed_kb.append((subject,weekday+" weather",weather_attribute))
-                normed_kb.append((subject,weekday+" temperature low",temp_low))
-                normed_kb.append((subject,weekday+" temperature high",temp_high))
+                normed_kb.append((subject+weekday.split()[-1],weekday+" date",weekday.split()[-1])) # 'monday' or 'today'
+                normed_kb.append((subject+weather_attribute,weekday+" weather",weather_attribute))
+                normed_kb.append((subject+temp_low,weekday+" temperature low",temp_low))
+                normed_kb.append((subject+temp_high,weekday+" temperature high",temp_high))
 
     assert len(location_keys_length) == 1, f" {location_keys_length}; all KB items (locations) should have same number of keys (weekdays)"
     # add how many dummy entries using num of entries from first kb example
@@ -106,7 +106,7 @@ def normalize_navigate(d, eric=False):
                 subject = poi_type
 
         for relation in blimp.keys():
-            normed_kb.append((subject,relation,blimp[relation]))
+            normed_kb.append((subject+" "+blimp[relation],relation,blimp[relation]))
 
     assert len(blimp_keys_length) == 1, f"{blimp_keys_length}; all KB items ) should have same number of keys (weekdays)"
     # add how many dummy entries using num of entries from first kb example
@@ -144,7 +144,7 @@ def normalize_schedule(d, eric=False):
             # also check appointment[relation] != "-"
             # to filter out unassigned rooms/agendas/..
             # if appointment[relation] != "-":
-            normed_kb.append((event,relation,appointment[relation]))
+            normed_kb.append((event+" "+appointment[relation],relation,appointment[relation]))
 
     assert len(appointment_keys_lengths) == 1, f"{appointment_keys_lengths}; all KB items should have same number of keys"
     # add how many dummy entries using num of entries from first kb example

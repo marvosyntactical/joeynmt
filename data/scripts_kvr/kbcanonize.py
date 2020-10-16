@@ -33,7 +33,10 @@ def find_relation(line:str, d, canon_join_char=CANON_JOIN_CHAR, rel_join_char=RE
     # hardcoded because im smart enough to use the same delimiter as appears in traffic_info, poi_type etc
     if relation in ["info", "type", "low", "high"]:
         relation = splitrelation[-2]+"_"+relation
-    replacement_raw = d[relation]
+    try:
+        replacement_raw = d[relation]
+    except:
+        assert False, d
     return relation
 
 def replace_lines(lines:List[str], d: defaultdict = kbval_lkp, fine_grained = False):

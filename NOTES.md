@@ -5,47 +5,15 @@
 
 # _OPEN ISSUES_
 
-
-### 28.09.30 motivation for multiple hops:
-
-* unk from copying *DONE*
-* bad performance *TEST*
-* try: feed utilities; actually use feeding layer, aggregate vector in kth hop?
-* try: feed all utilities:
-prevKbUtilities: [prevKbUtilities-1, ..., prevKbUtilities-n]
-
-"Where's the nearest cafe?"
-hop 1:
-feeding: None
-
-subjects:
-=> cafe-a-name <> 3 miles, cafe-b-name <> 5 miles
-relations:
-=> address 
-
-=> utility vector high scores: cafe-a-address, cafe-b-address
-
-hop 2:
-feeding: module list of n nn.Linear(kb\_max[i], hidden/n) => concatenate and feed
-
-subjects:
-=> cafe-a-name <> 3 miles, cafe-b-name <> 5 miles
-relations:
-=> name
-
-=> utility vector high scores: cafe-a-name
-
 ### 06.10. discussion
 
 * multidim speed up => theoretical mmul complexity? => n**2.3
-* => try with luong attention?
-* transformer grid?
+* => try with luong attention? no
+* transformer grid? no
 * change after gridsearch: copy from source YES, ???
 * what do I do with energy layer postproc heuristic thing during backprop? where comes loss signal from?
 * check matchup 
 * find fitting transformer
-
-
 
 ### 30.09. problemz
 
@@ -69,47 +37,13 @@ KB mismatches:
 lkp data seems all good though?? lkp line 213 says 83???
 * in dev data: (calendar) example 752 uses previous (traffic) KB 290
 lkp data seems all good though?? lkp line 752 says 291???
-=> magically fixed? DONE?
+=> fixed? DONE?
 
-Grid search:
-* add code for singular experiments *TODO*
-DONE:
-* update main code with current grid params
-* fix sed issues: no replacements
-* add dry run option without queueing
-
-### 09.09. grid search hyperparams
-
-These hyperparams are all orthogonal:
-
-* eric et al replication: RNN, 1 hop, no kb input feeding, teacher force, @meeting\_time level, kb dim: 1, same module for all hops, 
-
-Architecture independent:
-* 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
-* 2 metric reporting: raw, canonized
-* 4 scheduled sampling: teacherforce, invsigmoid, linear, autoregressive
 
 ---
 
-These only for bahdanau version (RNN):
-* 2 kb embedding: source, separate
-* 2 copy\_from\_source: True, False
-* 2 kb\_values\_in\_keys: False, True
-* 2 multihead feeding
-* 2 different modules all hops
-* 2 architecture: rnn, transformer (autoregressive 24 hours 256 GB ???)
-* 2 bidirectional: False, True
 
-
-
-These only for vaswani version (tfTF):
-* 2 in feeding: False, True
-* 2 out feeding with LSTM: False, True 
-* 2 bias output: False, True
-* 3 double decoder: False, True, tied
-
-
-### Config wise
+### Config wise additional experiments
 1 run per line (modified params) grouped by init configs:
 
 rnnBest (rnn100x16x32x0):
