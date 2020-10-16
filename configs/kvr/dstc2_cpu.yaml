@@ -12,7 +12,7 @@ data: # specify your data here
     kb_len: "len"                 # KVR: kb lengths file ext
     kb_truvals: "kbv"             # KVR: file extension for truvals
     trutrg: "system"                          # KVR: file extension for uncanonized target data
-    global.trv: "global.values"      # KVR: concatenation of train/dev/test trv files for lookup vocab building
+    canonization_mode: "hash"
     
     train: "data/dstc2-restaurant/dialog-babi-task6-dstc2-trn"                # training data
     dev: "data/dstc2-restaurant/dialog-babi-task6-dstc2-dev"                    # development data for validation

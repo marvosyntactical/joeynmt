@@ -96,18 +96,46 @@ These only for bahdanau version (RNN):
 * 2 copy\_from\_source: True, False
 * 2 kb\_values\_in\_keys: False, True
 * 2 multihead feeding
-* 2 same module all hops
+* 2 different modules all hops
 * 2 architecture: rnn, transformer (autoregressive 24 hours 256 GB ???)
 * 2 bidirectional: False, True
 
-=> +7 runs
+
 
 These only for vaswani version (tfTF):
 * 2 in feeding: False, True
 * 2 out feeding with LSTM: False, True 
 * 2 bias output: False, True
+* 3 double decoder: False, True, tied
 
-=> +3 runs
+
+### Config wise
+1 run per line (modified params) grouped by init configs:
+
+rnnBest (rnn100x16x32x0):
+
+- trutrg: "carnoNODEFAULT"; do\_postproc: False
+- kb\_embedding: separate
+- multihead\_feeding: True
+- kb\_values\_in\_keys: True
+- same\_module\_for\_all\_hops: False
+- teacher\_force: False
+- scheduled sampling: 'invsigmoid'; scheduled sampling k: 10000 or something; c= 0.2
+
+rnnEric (rnn100x256x0):
+
+- trutrg: "carnoNODEFAULT"; do\_postproc: False
+- copy\_from\_source: False
+- bidirectional: False
+
+tfRecurrentKbAtt (tf100x256x0):
+- teacher\_force: False
+
+tftf (tftf):
+- input\_feed: True
+- double\_decoder: True
+- double\_decoder: True, tied\_side\_softmax: True
+=> +14 runs
 
 ---
 
@@ -120,14 +148,11 @@ Multiply:
 Gridsearch Experimente: 27
 
 Add:
-10 runs einzelne params
-4 runs metric report für: ericEtAl vs bestGrid, raw vs can
-3 runs sampling
-Einzelne Experimente: 17
+14 runs einzelne params
 
 Time:
-parameter * laufzeit * 1/(zahl parallele runs) * queue time 
-44 x 16 x 1/8 x 1.5 = 131 stunden = 5.5 tage 
+parameter * laufzeit * 1/(zahl parallele runs) * queue time factor
+14 x 16 x 1/8 x 1.5 = 42 stunden = 1.75 tage 
 
 ### 26.08.20 start writing
 

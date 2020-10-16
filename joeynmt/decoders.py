@@ -1123,6 +1123,7 @@ class TransformerDecoder(Decoder):
                  kb_task: bool = False,
                  infeedkb: bool = False,
                  outfeedkb: bool = False,
+                 double_decoder: bool = False,
                  **kwargs):
         """
         Initialize a Transformer decoder.
@@ -1146,13 +1147,22 @@ class TransformerDecoder(Decoder):
         self._output_size = hidden_size # FIXME see interface classes at top of this file: vocab layer moved to Generator
 
         # create num_layers decoder layers and put them in a list
-        self.layers = nn.ModuleList([
+        self.kb_layers = nn.ModuleList([
             TransformerDecoderLayer(
                 size=hidden_size, ff_size=ff_size, num_heads=num_heads,
                 dropout=dropout, kb_task=kb_task, 
                 tfstyletf=True)
                      for _ in range(num_layers)])
 
+        self.double_decoder = double_decoder
+        if self.double_decoder:
+            self.layers = nn.ModuleList([
+                TransformerDecoderLayer(
+                    size=hidden_size, ff_size=ff_size, num_heads=num_heads,
+                    dropout=dropout,
+                    tfstyletf=False)
+                        for _ in range(num_layers)])
+            
         self.pe = PositionalEncoding(hidden_size)
         self.layer_norm = nn.LayerNorm(hidden_size, eps=1e-6)
 
@@ -1161,14 +1171,13 @@ class TransformerDecoder(Decoder):
         self.kb_task = kb_task
         if self.kb_task:
             self.kb_energy_layer = nn.Linear(num_heads, 1)
-            self.kb_layers = int(num_layers//2) # half the GRU layers as tf layers for feeding
-
+            self.num_feed_layers = int(num_layers//2) # half the GRU layers as tf layers for feeding
 
         if infeedkb:
             # feed previous kb output into next kb module using LSTM?
             self.feed_in_rnn = nn.LSTM(   
                                     hidden_size, hidden_size, # hidden size must be == decoder hidden size
-                                    self.kb_layers, batch_first=True, 
+                                    self.num_feed_layers, batch_first=True, 
                                     dropout=dropout if num_layers > 1 else 0.
             )
 
@@ -1180,8 +1189,8 @@ class TransformerDecoder(Decoder):
             # TODO put this into modulelist optionally (separate feeding module per tf layer)
 
             self.feed_out_nn = VariableCellLSTM(hidden_size,
-                                self.kb_layers, batch_first=True,
-                                dropout=dropout if self.kb_layers > 1 else 0.)
+                                self.num_feed_layers, batch_first=True,
+                                dropout=dropout if self.num_feed_layers > 1 else 0.)
                 
 
         else:
@@ -1222,10 +1231,14 @@ class TransformerDecoder(Decoder):
         """
         with self.timer(f"fwd", logname=f"fwd"):
 
+            # kb_mask = B x M x KB; masks unfilled slots as in calendar
+            kb_mask = kb_mask.unsqueeze(1).repeat(1,trg_embed.size(1),1).to(dtype=torch.bool)
+
             assert trg_mask is not None, "trg_mask required for Transformer"
 
             x = self.pe(trg_embed) # add position encoding to word embedding
             x = self.emb_dropout(x)
+            x_cache = x
 
             trg_mask = trg_mask & subsequent_mask(
                 trg_embed.size(1)).type_as(trg_mask)
@@ -1235,7 +1248,7 @@ class TransformerDecoder(Decoder):
                 kb_output = x.new_zeros(x.shape)
                 # knowledgebase feeding hiddens at time step k
                 if self.feed_in_rnn is not None:
-                    kb_feed_in_hidden = x.new_zeros(self.kb_layers, x.size(1), self._hidden_size)
+                    kb_feed_in_hidden = x.new_zeros(self.num_feed_layers, x.size(1), self._hidden_size)
                 else:
                     kb_feed_in_hidden = None
                 if self.feed_out_nn is not None:
@@ -1243,13 +1256,14 @@ class TransformerDecoder(Decoder):
                 else:
                     kb_feed_out_hidden = None
 
-            with self.timer(f"main loop, num_l={len(self.layers)}, infeedkb={self.feed_in_rnn is not None}, outfeedkb={self.feed_out_nn is not None}", logname=f"main_loop"):
-                for k, layer in enumerate(self.layers):
-                    x, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden = layer(
+            with self.timer(f"main loop, num_l={len(self.kb_layers)}, infeedkb={self.feed_in_rnn is not None}, outfeedkb={self.feed_out_nn is not None}", logname=f"main_loop"):
+                for j, kb_layer in enumerate(self.kb_layers):
+                    x, kb_output, kb_att, kb_feed_in_hidden, kb_feed_out_hidden = kb_layer(
                                 x=x, 
                                 memory=encoder_output, 
                                 src_mask=src_mask, 
                                 trg_mask=trg_mask, 
+                                kb_mask=kb_mask,
                                 kb_keys=kb_keys, 
                                 kb_values_embed=kb_values_embed,
                                 prev_kb_output=kb_output,
@@ -1258,17 +1272,31 @@ class TransformerDecoder(Decoder):
                                 kb_feed_out=self.feed_out_nn,
                                 kb_feed_out_hidden=kb_feed_out_hidden,
                                 )
-            
+                    assert (x==x).all(), (j, (kb_att==float("-inf")).any()) # FIXME remove me (check for NaN)
             x = self.layer_norm(x)
+            if self.double_decoder:
+                # normal transformer decoder block
+                with self.timer(f"side loop, num_l={len(self.layers)}"):
+                    for j, layer in enumerate(self.layers):
+                        x_side , _, _, _, _ = layer(
+                                    x=x_cache, 
+                                    memory=encoder_output, 
+                                    src_mask=src_mask, 
+                                    trg_mask=trg_mask, 
+                                    )
+                    x_side = self.layer_norm(x_side)
+                    x = (x, x_side) # pass tuple of both layer loop's hidden states along for the generator to 'merge'
 
-            if self.kb_task :
+                    for i, t in enumerate(x):
+                        # check for NaN values because of weird torch autograd bug with log softmax
+                        assert (t==t).all().item(), (i, t,(t!=t), )
+
+            if self.kb_task:
                 assert kb_keys is not None
-
                 # fuse the heads of last kb attentions using energy layer
                 # kb_att = B x num_h x M x KB
                 kb_probs = self.kb_energy_layer(kb_att.transpose(1,3)) # B x KB x M x 1
                 kb_probs = kb_probs.transpose(1,2).squeeze(-1) # B x M x KB
-
             else:
                 kb_probs = None
 
@@ -1466,7 +1494,7 @@ class TransformerKBrnnDecoder(TransformerDecoder):
 
             with self.timer(f"main loop, num_l={len(self.layers)}", logname=f"main_loop"):
                 for i, layer in enumerate(self.layers):
-                    x, _, _ = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
+                    x, _, _, _, _ = layer(x=x, memory=encoder_output, src_mask=src_mask, trg_mask=trg_mask)
 
             x = self.layer_norm(x)
 
@@ -1564,24 +1592,46 @@ class Generator(Gen):
 
     """
 
-    def __init__(self, dec_hidden_size, vocab_size, add_kb_biases_to_output, **kwargs):
+    def __init__(self, dec_hidden_size, vocab_size, add_kb_biases_to_output, double_decoder, **kwargs):
         super(Generator, self).__init__()
 
         self._hidden_size = dec_hidden_size
         self._output_size = vocab_size
 
+        self.double_decoder = bool(double_decoder)
         self.output_layer = nn.Linear(self._hidden_size, self._output_size, bias=False)
+
+        if not self.double_decoder:
+            self.output_layer_wrap = lambda x: self.output_layer(x)
+        else:
+            # add the outputs of two separate decoder blocks after passing through two separate output layer matrices
+            self.side_output_layer = nn.Linear(self._hidden_size, self._output_size, bias=False)
+            self.output_layer_wrap = lambda x_1_x_2: self.output_layer(x_1_x_2[0]) + self.side_output_layer(x_1_x_2[1])
+
         self.add_kb_biases_to_output = bool(add_kb_biases_to_output)
 
     def forward(self, x, kb_values=None, kb_probs=None, **kwargs):
-        # x := 
-        # transformer: x
-        # recurrent: att_vectors
+        # x = 
+        # transformer: x (hidden state)
+        # recurrent: att_vectors (\tilde{h}_t)
 
         # kb_probs : batch x unroll x kb
         # kb_values : batch x kb 
 
-        outputs = self.output_layer(x) # Batch x Time x Voc
+        if isinstance(x, tuple):
+            assert self.double_decoder, [x_.shape for x_ in x]
+            assert hasattr(self, "side_output_layer"), f"tuple hidden state passed to generator but generator isnt in double decoder mode; x={tuple([x_.shape for x_ in x])}"
+            assert len(x) == 2, len(x)
+            assert x[0].shape == x[1].shape, [x_.shape for x_ in x]
+            assert x[0].size(-1) == self._hidden_size, (x[0].shape, self._hidden_size)
+        else:
+            assert isinstance(x, torch.Tensor), type(x)
+            assert x.size(-1) == self._hidden_size, (x.shape, self._hidden_size)
+
+        outputs = self.output_layer_wrap(x) # Batch x Time x Voc
+        
+        if isinstance(x, tuple):
+            assert x[0].shape[:-1] == outputs.shape[:-1], [t.shape for t in [x[0], x[1], outputs]]
 
         if self.add_kb_biases_to_output and kb_values is not None and kb_probs is not None:
 
@@ -1614,7 +1664,7 @@ def init_proj_keys(kvr_attentions, kb_dims, k_hops, kb_keys):
     assert isinstance(kb_keys, tuple)
     # kb_keys is: b x kb x emb OR tuple of (b x kb_max_i x emb,) * n
     for dim in range(kb_dims):
-        # only compute proj keys once for all hops
+        # compute proj keys for all hops
         for hop in range(k_hops):
             kvr_attentions[hop * kb_dims + dim].compute_proj_keys(keys=kb_keys[dim])
 
@@ -1690,7 +1740,7 @@ def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query,
 
             idx = j * kb_dims + dim
 
-            # feed the entire cache of previous utilities ?
+            # feed the entire cache of previous utilities ? as input to multihead feed layer
             prev_u = utils_dims_cache[dim] if not multihead_feed else utils_dims_cache
 
             # u_t_j_m = b x kb_curr[dim] x hidden 

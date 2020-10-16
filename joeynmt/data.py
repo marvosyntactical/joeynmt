@@ -19,13 +19,13 @@ from torchtext.data import Dataset, Iterator, Field, Batch
 
 from joeynmt.constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN
 from joeynmt.vocabulary import build_vocab, Vocabulary
+#from joeynmt import helpers
+#assert False, dir(helpers)
+#hash_canons = helpers.hash_canons
 
 # FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
 from data.scripts_kvr.canonize import load_json, preprocess_entity_dict, canonize_sequence
 # joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
-
-
-
 
 def pkt_tokenize(s)-> List:
     s = s+" "
@@ -92,7 +92,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
     src_lang = data_cfg["src"]
     trg_lang = data_cfg["trg"]
 
-
     train_path = data_cfg["train"]
     dev_path = data_cfg["dev"]
     test_path = data_cfg.get("test", None)
@@ -109,8 +108,12 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_lkp = data_cfg.get("kb_lkp", "lkp")
         kb_len = data_cfg.get("kb_len", "len")
         kb_trv = data_cfg.get("kb_truvals", "trv")
-        global_trv = data_cfg.get("global_trv", "global.trv")
+        global_trv = data_cfg.get("global_trv", "")
+        if global_trv:
+            raise UserWarning(f"global_trv parameter deprecated, use nothing instead.")
         trutrg = data_cfg.get("trutrg", "car") 
+        canonization_mode = data_cfg.get("canonization_mode", "canonize")
+        assert canonization_mode in ["canonize", "hash"], canonization_mode
 
         # TODO FIXME following is hardcoded; add to configs please
         pnctprepro = True
@@ -302,14 +305,15 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         # trv_vocab._from_file(trv_path)
         trv_vocab = deepcopy(trg_vocab)
-        # assert "scheduled" in trv_vocab.itos
         # FIXME only add this for source copying?
         trv_vocab._from_list(src_vocab.itos)
 
         trv_vocab._from_file(trv_train_path)
         trv_vocab._from_file(trv_dev_path)
         trv_vocab._from_file(trv_test_path)
-
+        if canonization_mode == "canonize":
+            # stanford data
+            assert "schedule" in trv_vocab.itos
         # NOTE really important for model.postprocess: 
         # trv_vocab must begin with trg_vocab
         # to look up canonical tokens correctly
@@ -325,12 +329,23 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         entities = load_json(fp=entities_path)
         efficient_entities = preprocess_entity_dict(entities, lower=lowercase, tok_fun=tok_fun)
 
-        # FIXME 
+        can_fun = canonize_sequence if canonization_mode == "canonize" else hash_canons
+        if canonization_mode == "hash":
+            hash_vocab = build_vocab(fields=vocab_building_trg_fields, 
+                                    min_freq=1, 
+                                    vocab_file=trv_train_path)
+            # hash_vocab._from_file(trv_train_path)
+            hash_vocab._from_file(trv_dev_path)
+            hash_vocab._from_file(trv_test_path)
+
+            assert False, [tok for tok in hash_vocab.itos if "_" not in tok ]
+        print(can_fun(["your", "meeting", "in", "conference", "room", "100", "is", "with", "martha"], efficient_entities)) # assert False, # NOTE
+
         class Canonizer:
             def __init__(self, copy_from_source: bool = False):
                 self.copy_from_source = bool(copy_from_source)
             def __call__(self, seq):
-                processed, indices, matches = canonize_sequence(seq, efficient_entities)
+                processed, indices, matches = can_fun(seq, efficient_entities)
                 return processed, indices, matches
 
     if not kb_task: #default values for normal pipeline
@@ -410,7 +425,6 @@ def make_data_iter(dataset: Dataset,
 
     return data_iter
 
-
 class TorchBatchWithKB(Batch):
     # inherits from torch batch, not joey batch!
     def __init__(self, data=None, dataset=None, kb_data=None, kb_truval_data=None, device=None, canon_dataset=None):
@@ -483,8 +497,6 @@ class TorchBatchWithKB(Batch):
                         setattr(self, self.canon_field, field.process(canontrg_batch, device=device))
                         # assert False, (batch, field.vocab.arrays_to_sentences(self.trgcanon[0].numpy().tolist())[0])
 
-                        
-
     @classmethod
     def fromvars(cls, dataset, kb_data, batch_size, train=None, **kwargs):
         """Create a Batch directly from a number of Variables."""
@@ -496,7 +508,6 @@ class TorchBatchWithKB(Batch):
         for k, v in kwargs.items():
             setattr(batch, k, v)
         return batch
-
 
 class KB_minibatch(list):
     """
@@ -530,11 +541,11 @@ def dummy_KB_on_the_fly(trg_voc, kb_fields, kbtrv_fields):
     return dummy_kb, dummy_kbtrv
 
 
-def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, c_fun):
+def create_KB_on_the_fly(src_seq_str, trg_voc, kb_fields, kbtrv_fields, canonization_mode):
     # called in data.batch_with_kb and again in helpers.store_attention_plots
 
     src = src_seq_str
-    relations, indices, matches = c_fun(src) # canonized source, try to make KB out of this 
+    relations, indices, matches = canonization_mode(src) # canonized source, try to make KB out of this 
     del matches # TODO use matches instead of this implementation below
     
     rels_vals = dict()
@@ -711,7 +722,6 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         # there's no more data examples to append to this last minibatch, yield it and return 
         yield minibatch
 
-
 class KB_Iterator(Iterator):
     """
     Iterates over a kb in parallel to the dataset
@@ -822,8 +832,6 @@ class MonoDataset(Dataset):
         src_file.close()
 
         super(MonoDataset, self).__init__(examples, fields, **kwargs)
-
-
 
 def make_data_iter_kb(dataset: Dataset,
                     kb_data: TranslationDataset,

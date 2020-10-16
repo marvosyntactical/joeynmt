@@ -190,6 +190,7 @@ class Model(nn.Module):
         do_teacher_force = e_i >= greedy_threshold # prefer to still do teacher forcing when e_i="label taking probability" is high in scheduled sampling
 
         trg, trg_input, trg_mask = batch.trg, batch.trg_input, batch.trg_mask
+        batch_size = trg.size(0)
 
         if hasattr(batch, "kbsrc"):
             kb_keys, kb_values, kb_values_embed, _, kb_mask = self.preprocess_batch_kb(batch, kbattdims=self.kb_att_dims)
@@ -203,9 +204,11 @@ class Model(nn.Module):
 
             # FIXME hardcoded attribute name
             if hasattr(batch, "trgcanon"): 
-                # get loss on canonized target data, see joeynmt.prediction.validate_on_data
+                # get loss on canonized target data during validation, see joeynmt.prediction.validate_on_data
+                # batch size sanity check
+                assert batch.trgcanon.shape[0] == batch.trg.shape[0], [t.shape for t in [batch.trg, batch.trgcanon]]
+                # reassign these variables for loss calculation 
                 trg, trg_input, trg_mask = batch.trgcanon, batch.trgcanon_input, batch.trgcanon_mask
-
             
             if not do_teacher_force: # scheduled sampling
                 # only use true labels with probability 0 <= e_i < 1; otherwise take previous model generation;
@@ -255,12 +258,22 @@ class Model(nn.Module):
             # same generator fwd pass for KB task and no KB task if teacher forcing
             # pass output through Generator and add biases for KB entries in vocab indexes of kb values
             log_probs = self.generator(out, kb_probs=kb_probs, kb_values=kb_values)
-
+        
         if hasattr(batch, "trgcanon"):
-            assert not log_probs.requires_grad, "this shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
+            # only calculate loss on this field of the batch during validation loss calculation 
+            assert not log_probs.requires_grad, "using batch.trgcanon shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
 
         # compute batch loss
-        batch_loss = loss_function(log_probs, trg)
+        try:
+            batch_loss = loss_function(log_probs, trg)
+        except Exception as e:
+            print(f"batch_size: {batch_size}")
+            print(f"log_probs= {log_probs.shape}")
+            print(f"trg = {trg.shape}")
+            print(f"")
+            print(f"")
+            raise e
+
         # confirm trg is actually canonical:
         # input(f"loss is calculated on these sequences: {self.trv_vocab.arrays_to_sentences(trg.cpu().numpy())}")
 
@@ -744,14 +757,12 @@ def build_model(cfg: dict = None,
         src_embed = Embeddings(
             **cfg["encoder"]["embeddings"], vocab_size=len(src_vocab),
             padding_idx=src_padding_idx)
-        try:
-            kbsrc_embed = Embeddings(
-                **cfg["decoder"]["kb_key_embeddings"], vocab_size=len(src_vocab),
-                padding_idx=src_padding_idx)
-        except Exception: # not present in config
+        if cfg.get("kb_embed_separate", False):
             kbsrc_embed = Embeddings(
                 **cfg["encoder"]["embeddings"], vocab_size=len(src_vocab),
                 padding_idx=src_padding_idx)
+        else:
+            kbsrc_embed = src_embed 
 
         # this ties source and target embeddings
         # for softmax layer tying, see further below
@@ -801,14 +812,14 @@ def build_model(cfg: dict = None,
     outfeedkb = bool(cfg.get("outfeedkb", False))
     add_kb_biases_to_output = bool(cfg.get("add_kb_biases_to_output", True))
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
+    double_decoder = cfg.get("double_decoder", False)
+    tied_side_softmax = cfg.get("tied_side_softmax", False) # actually use separate linear layers, tying only the main one
 
     if hasattr(kb_max_dims, "__iter__"):
         kb_max_dims = tuple(kb_max_dims)
     else:
         assert type(kb_max_dims) == int, kb_max_dims
         kb_max_dims = (kb_max_dims,)
-
-
 
     assert cfg["decoder"]["hidden_size"]
     dec_dropout = cfg["decoder"].get("dropout", 0.)
@@ -820,7 +831,8 @@ def build_model(cfg: dict = None,
                 **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
                 emb_size=trg_embed.embedding_dim, emb_dropout=dec_emb_dropout,
                 kb_task=kb_task, kb_key_emb_size=kbsrc_embed.embedding_dim,
-                feed_kb_hidden=kb_input_feeding, infeedkb=infeedkb, outfeedkb=outfeedkb
+                feed_kb_hidden=kb_input_feeding, infeedkb=infeedkb, outfeedkb=outfeedkb,
+                double_decoder=double_decoder
                 )
         else:
             decoder = TransformerKBrnnDecoder(
@@ -853,9 +865,10 @@ def build_model(cfg: dict = None,
     
     # specify generator which is mostly just the output layer
     generator = Generator(
-        dec_hidden_size=cfg["decoder"]["hidden_size"],
+        dec_hidden_size= cfg["decoder"]["hidden_size"],
         vocab_size=len(trg_vocab),
-        add_kb_biases_to_output=add_kb_biases_to_output
+        add_kb_biases_to_output=add_kb_biases_to_output,
+        double_decoder=double_decoder
     )
 
     model = Model(
@@ -877,6 +890,12 @@ def build_model(cfg: dict = None,
                 model.generator.output_layer.weight.shape:
             # (also) share trg embeddings and softmax layer:
             model.generator.output_layer.weight = trg_embed.lut.weight
+            if model.generator.double_decoder:
+                # (also also) share trg embeddings and side softmax layer
+                assert hasattr(model.generator, "side_output_layer")
+                if tied_side_softmax:
+                    # because of distributivity this becomes O (x_1+x_2) instead of O_1 x_1 + O_2 x_2
+                    model.generator.side_output_layer.weight = trg_embed.lut.weight
         else:
             raise ConfigurationError(
                 "For tied_softmax, the decoder embedding_dim and decoder "

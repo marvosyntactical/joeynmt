@@ -11,7 +11,7 @@ import shutil
 import random
 import logging
 from logging import Logger
-from typing import Callable, Optional, List, Tuple
+from typing import Callable, Optional, List, Tuple, Dict
 from contextlib import contextmanager
 import time
 import numpy as np
@@ -27,10 +27,8 @@ from joeynmt.vocabulary import Vocabulary
 from joeynmt.plotting import plot_heatmap
 from joeynmt.data import create_KB_on_the_fly
 
-
 class ConfigurationError(Exception):
     """ Custom exception for misspecifications of configuration """
-
 
 def make_model_dir(model_dir: str, overwrite=False) -> str:
     """
@@ -340,7 +338,6 @@ def load_checkpoint(path: str, use_cuda: bool = True) -> dict:
     checkpoint = torch.load(path, map_location='cuda' if use_cuda else 'cpu')
     return checkpoint
 
-
 product = lambda iterable : 1 if len(iterable) == 0 else product(iterable[:-1]) * iterable[-1]
 
 # from onmt
@@ -461,7 +458,6 @@ class Timer(object):
     def logAllParams(self):
         return {activity: self[logname] for logname, activity in self.activities.items()}
 
-
 def split_tensor_on_pads(tensor, pad_val):
     # ["cafe", "central", "<PAD>", "distance", "<PAD>", "<PAD>"]
     # -> [["cafe", "central"], ["distance"]]
@@ -482,3 +478,29 @@ def split_tensor_on_pads(tensor, pad_val):
             r.append([]) # make new list to hold coming elems after this PAD value
     return r
 
+def hash_canons(tokzd_sequence: List[str], vocab_token_list: List[str]) -> (List[str], List[int], List[Tuple[str, List[str]]]):
+    """
+    To canonize dstc2; mapping vocab to canonical is 1:1
+    :param tokzd_sequence:
+    :param vocab_token_list:
+    
+    :return:
+    processed: tokzd sequence with canonical tokens hashed 
+    indices: list(range(len(tokzd_sequence)))
+    matches: list of tuple: (hash_val: [orig token])
+    """
+    processed = [str(hash(tok)) if tok in vocab_token_list else tok for tok in tokzd_sequence]
+    indices = list(range(len(tokzd_sequence)))
+    matches = []
+    for i, tok in enumerate(processed):
+        this = tokzd_sequence[i]
+        if str(hash(this)) == tok:
+            # hashed tok 
+            lkp = [this] # indices that were also mapped to this token
+            for idx in len(processed):
+                other = tokzd_sequence[idx]
+                if str(hash(other)) == tok:
+                    lkp+=[other]
+            if tok not in set([m[0] for m in matches]):
+                matches += [(tok, lkp)]
+    return processed, indices, matches
