@@ -19,9 +19,9 @@ echo
 
 
 #paths
-cfg_path=configs/kvr/grid/
+cfg_path=configs/kvr/add/
 sbatch_path=sbatch/
-model_path=models/grid/
+model_path=models/add/
 
 #extensions
 cfg_ext=".yaml"
@@ -85,7 +85,7 @@ sed -i "s/model_dir: [^#]*#/model_dir: \"${model_path_no_slash}\/${model_dir}\" 
 sbatch="$sbatch_path$name$sbatch_ext"
 echo "creating sbatch $sbatch:"
 
-template="${sbatch_path}gridtemplate$sbatch_ext"
+template="${sbatch_path}addtemplate$sbatch_ext"
 cp -rp "$template" "$sbatch"
 
 #replace all occurences of JOBNAME with name

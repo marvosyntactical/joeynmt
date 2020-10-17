@@ -53,7 +53,7 @@ def main(args):
     init = "GridInit"
     path = "configs/kvr/grid/"
     ext  = ".yaml"
-    models = "models/grid/"
+    models = "modelsgrid/"
 
     architecture = architectures[0] # for the moment: only do gridsearch for RNN
     _arch_cfg = architecture + init + ext 
@@ -86,6 +86,7 @@ def main(args):
 
                     ### check if model directory exists; if yes then continue ###
                     existing_models = str(check_output(["ls", models])).split("\\n")
+
                     skip_job = False
                     for model in existing_models:
                         if gridcombo in model:
