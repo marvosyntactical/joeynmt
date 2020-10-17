@@ -195,10 +195,10 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
 
             # look at the perfect or imperfect continuations of the first found token
             if matching_continuation:
-                #winner is simply longest candidate (in sequence with "2", "pm", match time (both tokens) instead of distance (only first token))
+                # winner is simply longest candidate (in sequence with "2", "pm", match time (both tokens) instead of distance (only first token))
                 winning_candidate, lbl = max(candidates, key=lambda tup: len(tup[0]))
                 r += [lbl]
-                matches += [(lbl, seq[len(r)-1+len(matches):len(r)+len(winning_candidate)-1+len(matches)])]
+                matches += [(lbl, seq[len(r)-2+len(matches):len(r)+len(winning_candidate)+len(matches)])]
                 indices += [len(r)-1] * len(winning_candidate)
                 i += len(winning_candidate)-1
             elif partial_match_backup:

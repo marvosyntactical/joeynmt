@@ -5,47 +5,15 @@
 
 # _OPEN ISSUES_
 
-
-### 28.09.30 motivation for multiple hops:
-
-* unk from copying *DONE*
-* bad performance *TEST*
-* try: feed utilities; actually use feeding layer, aggregate vector in kth hop?
-* try: feed all utilities:
-prevKbUtilities: [prevKbUtilities-1, ..., prevKbUtilities-n]
-
-"Where's the nearest cafe?"
-hop 1:
-feeding: None
-
-subjects:
-=> cafe-a-name <> 3 miles, cafe-b-name <> 5 miles
-relations:
-=> address 
-
-=> utility vector high scores: cafe-a-address, cafe-b-address
-
-hop 2:
-feeding: module list of n nn.Linear(kb\_max[i], hidden/n) => concatenate and feed
-
-subjects:
-=> cafe-a-name <> 3 miles, cafe-b-name <> 5 miles
-relations:
-=> name
-
-=> utility vector high scores: cafe-a-name
-
 ### 06.10. discussion
 
 * multidim speed up => theoretical mmul complexity? => n**2.3
-* => try with luong attention?
-* transformer grid?
+* => try with luong attention? no
+* transformer grid? no
 * change after gridsearch: copy from source YES, ???
 * what do I do with energy layer postproc heuristic thing during backprop? where comes loss signal from?
 * check matchup 
 * find fitting transformer
-
-
 
 ### 30.09. problemz
 
@@ -69,45 +37,39 @@ KB mismatches:
 lkp data seems all good though?? lkp line 213 says 83???
 * in dev data: (calendar) example 752 uses previous (traffic) KB 290
 lkp data seems all good though?? lkp line 752 says 291???
-=> magically fixed? DONE?
+=> fixed? DONE?
 
-Grid search:
-* add code for singular experiments *TODO*
-DONE:
-* update main code with current grid params
-* fix sed issues: no replacements
-* add dry run option without queueing
-
-### 09.09. grid search hyperparams
-
-These hyperparams are all orthogonal:
-
-* eric et al replication: RNN, 1 hop, no kb input feeding, teacher force, @meeting\_time level, kb dim: 1, same module for all hops, 
-
-Architecture independent:
-* 2 training data level: @time, @meeting\_time *TODO*, 3 pm 
-* 2 metric reporting: raw, canonized
-* 4 scheduled sampling: teacherforce, invsigmoid, linear, autoregressive
 
 ---
 
-These only for bahdanau version (RNN):
-* 2 kb embedding: source, separate
-* 2 copy\_from\_source: True, False
-* 2 kb\_values\_in\_keys: False, True
-* 2 multihead feeding
-* 2 same module all hops
-* 2 architecture: rnn, transformer (autoregressive 24 hours 256 GB ???)
-* 2 bidirectional: False, True
 
-=> +7 runs
+### Config wise additional experiments
+1 run per line (modified params) grouped by init configs:
 
-These only for vaswani version (tfTF):
-* 2 in feeding: False, True
-* 2 out feeding with LSTM: False, True 
-* 2 bias output: False, True
+rnnBest (rnn100x16x32x0):
 
-=> +3 runs
+- trutrg: "carnoNODEFAULT"; do\_postproc: False
+- kb\_embedding: separate
+- multihead\_feeding: True
+- kb\_values\_in\_keys: True
+- same\_module\_for\_all\_hops: False
+- teacher\_force: False
+- scheduled sampling: 'invsigmoid'; scheduled sampling k: 10000 or something; c= 0.2
+
+rnnEric (rnn100x256x0):
+
+- trutrg: "carnoNODEFAULT"; do\_postproc: False
+- copy\_from\_source: False
+- bidirectional: False
+
+tfRecurrentKbAtt (tf100x256x0):
+- teacher\_force: False
+
+tftf (tftf):
+- input\_feed: True
+- double\_decoder: True
+- double\_decoder: True, tied\_side\_softmax: True
+=> +14 runs
 
 ---
 
@@ -120,14 +82,11 @@ Multiply:
 Gridsearch Experimente: 27
 
 Add:
-10 runs einzelne params
-4 runs metric report für: ericEtAl vs bestGrid, raw vs can
-3 runs sampling
-Einzelne Experimente: 17
+14 runs einzelne params
 
 Time:
-parameter * laufzeit * 1/(zahl parallele runs) * queue time 
-44 x 16 x 1/8 x 1.5 = 131 stunden = 5.5 tage 
+parameter * laufzeit * 1/(zahl parallele runs) * queue time factor
+14 x 16 x 1/8 x 1.5 = 42 stunden = 1.75 tage 
 
 ### 26.08.20 start writing
 

@@ -71,6 +71,7 @@ model:
     infeedkb: False
     outfeedkb: True
     add_kb_biases_to_output: False
+    double_decoder: True
 
 
     initializer: "xavier"
@@ -80,6 +81,7 @@ model:
     bias_initializer: "zeros"
     tied_embeddings: False
     tied_softmax: True
+    tied_side_softmax: True
     encoder:
         type: "transformer"
         num_layers: 6

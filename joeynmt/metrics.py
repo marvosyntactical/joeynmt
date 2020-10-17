@@ -138,7 +138,7 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
             entities = [\
                 " ".join([raw for map_idx, raw in zip(indices,seq_tokzd) if map_idx==i])
                      for i in range(len((canons)))
-                         ]
+            ]
 
             # Filter out tokens that werent changed (noncanonical)
             try:
@@ -159,7 +159,6 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
             hyp_ents_ref_ents.append(seq_enty_voc_indices)
             debug.append(entities)
 
-        # assert False, (debug, hyp, ref)
         pred, truth = hyp_ents_ref_ents
 
         P = precision(pred,truth)

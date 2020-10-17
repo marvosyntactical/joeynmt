@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# how to generate differently preprocessed data for KVRN:
+# Step 1. make desired change to appropriate script in scriptsInOrder
+# Step 2. execute 'bash go.sh NEWFILEEXTENSION' with custom NEWFILEEXTENSION to avoid overwriting other preprocessed files
+# Step 3. in the joeynmt config, change the data entry values to "valueNEWFILEEXTENSION"
+# Step 4. Done
+
+
 EXT=$1
 
 scriptsInOrder=(parse_kvr_json normalize_scenarios split_normalized_scenarios kbcanonize canonize)
