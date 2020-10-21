@@ -435,6 +435,7 @@ class Model(nn.Module):
                 kb_repr = []
                 steps = [1]
                 dim_embeds = []
+                dim_embeddings_word_wise = [] 
 
                 for dim, entries in enumerate(kb_dim_entries): 
 
@@ -446,25 +447,22 @@ class Model(nn.Module):
                     entries_padded_stacked = cat(entries_padded, dim=1)
 
                     # sum embeddings for each dim
-                    kb_dim_embed = self.kbsrc_embed(entries_padded_stacked).sum(dim=0) # kb_size x emb 
+                    word_wise_embed_of_dim = self.kbsrc_embed(entries_padded_stacked) # num_entry_tokens x kb_size x emb 
+                    kb_dim_embed = word_wise_embed_of_dim.sum(dim=0) # kb_size x emb 
                     dim_embeds += [kb_dim_embed]
+                    dim_embeddings_word_wise += [word_wise_embed_of_dim]
 
-                    # KB = num_entries * attr_0 * attr_1 * ...
-
-                    # TODO FIXME make 2, FIXME then n dimensional
-                    
                     if len(kb_dim_embed) == 1:
                         steps += [1]
                         continue
 
-                    # find out block (num of entries for first subject)
+                    # find out size of block (num of entries for first subject)
                     # and step (num of entries until relation same as first relation)
-                    # sizes 
 
                     i = step = 1
                     found_second_entry = False
                     block_flag, step_flag = False, False
-                    first_entry = kb_dim_embed[i] 
+                    first_entry = word_wise_embed_of_dim[1,i] # embed of first token of first dim of first KB entry 
 
                     # find out if first entry is repeated
                     # multiple times in a block (subjects)
@@ -473,17 +471,17 @@ class Model(nn.Module):
                     while i < kb_size-1:
                         # FIXME doing the step & block calc like this is extremely inefficient
                         # do this before embed & sum?
-                        if not kb_dim_embed[i+1].allclose(first_entry):
+                        if not word_wise_embed_of_dim[1,i+1].allclose(first_entry):
                             # continue step  (found different entry)
                             step_flag = True
                         else:
                             # finish step
                             if step_flag == True:
-                                step = i
+                                step = i # did see different entry in between first and this same one; this dimension is arranged in steps of i (relations)
                                 found_second_entry = True
                                 break
                             elif step_flag == False:
-                                step = 1
+                                step = 1 # didnt see different entry in between first and this same one; no step size; all entries are entrered in a contiguous block (subjects)
                                 found_second_entry = True
                                 break
                         i += 1
@@ -496,6 +494,9 @@ class Model(nn.Module):
 
                 # steps = [1,1,5,15,60] => step_i = steps[i+1]//steps[i], block_i = kb_size/step_i+1
                 # dim_sizes = [5,3,4]
+
+                # attempt at FIXME ing VALINKEY bug:
+                steps = sorted(steps)
 
                 dim_sizes = [int(steps[i]/steps[i-1]) for i in range(1,len(steps))] 
                 block_sizes = dim_sizes[1:]+[kb_size] 
@@ -517,6 +518,7 @@ class Model(nn.Module):
                 if len(kb_repr) == kbattdims:
                     kb_keys = tuple(kb_repr)
                 else: # just one dummy entry, use it for both dims
+                    assert kb_size == 1, kb_size
                     kb_keys = tuple(kb_repr[0], deepcopy(kb_repr[0]))
 
                 if detailed_debug:
@@ -530,10 +532,9 @@ class Model(nn.Module):
                     [key_dim.shape[1] for key_dim in kb_keys]
                 # make sure none of the dims is 1 if KB can be decomposed
 
-                # FIXME should check this: sometimes one dimension is just 1 and the other has all the info
+                # FIXME should check this: rarely one dimension is just 1 and the other has all the info
 
-            else:
-                # normal (1D) mode 
+            else: # normal (1D) mode 
                 # option for positonal encoding here
 
                 # NOTE: values dont need to be embedded! they are only used for indexing

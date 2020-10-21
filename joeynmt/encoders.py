@@ -124,22 +124,26 @@ class RecurrentEncoder(Encoder):
         output, _ = pad_packed_sequence(output, batch_first=True)
         # hidden: dir*layers x batch x hidden
         # output: batch x max_length x directions*hidden
-        batch_size = hidden.size()[1]
+        batch_size = hidden.size(1)
         # separate final hidden states by layer and direction
         hidden_layerwise = hidden.view(self.rnn.num_layers,
                                        2 if self.rnn.bidirectional else 1,
                                        batch_size, self.rnn.hidden_size)
-        # final_layers: layers x directions x batch x hidden
-
-        # concatenate the final states of the last layer for each directions
-        # thanks to pack_padded_sequence final states don't include padding
-        fwd_hidden_last = hidden_layerwise[-1:, 0]
-        bwd_hidden_last = hidden_layerwise[-1:, 1]
+        # hidden_layerwise: layers x directions x batch x hidden
 
         # only feed the final state of the top-most layer to the decoder
-        #pylint: disable=no-member
-        hidden_concat = torch.cat(
-            [fwd_hidden_last, bwd_hidden_last], dim=2).squeeze(0)
+        # concatenate the final states of the last layer for both directions if applicable
+        # thanks to pack_padded_sequence final states don't include padding
+        fwd_hidden_last = hidden_layerwise[-1, 0] # last layer of forward unroll
+
+        if self.rnn.bidirectional:
+            bwd_hidden_last = hidden_layerwise[-1, 1]# last layer of backwards unroll
+            #pylint: disable=no-member
+            hidden_concat = torch.cat(
+                [fwd_hidden_last, bwd_hidden_last], dim=1)
+        else:
+            hidden_concat = fwd_hidden_last
+
         # final: batch x directions*hidden
         return output, hidden_concat
 

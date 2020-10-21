@@ -102,7 +102,7 @@ model:                               # specify your model architecture here
             scale: False            # scale the embeddings by sqrt of their size, default: False
             freeze: False           # if True, embeddings are not updated during training
         hidden_size: 200            # size of RNN
-        bidirectional: True         # use a bi-directional encoder, default: True
+        bidirectional: False        # use a bi-directional encoder, default: True
         dropout: 0.12               # apply dropout to the inputs to the RNN, default: 0.0
         num_layers: 3               # stack this many layers of equal size, default: 1
         freeze: False               # if True, encoder parameters are not updated during training (does not include embedding parameters)
