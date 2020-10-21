@@ -371,6 +371,7 @@ class TransformerDecoderLayer(nn.Module):
 
             if kb_feed_in is not None:
                 assert kb_feed_in_hidden is not None
+                raise NotImplementedError()
                 # feed this query at kth hop using RNN (GRU)
                 _, query_k = kb_feed_in(prev_kb_output, kb_feed_in_hidden)
             else:

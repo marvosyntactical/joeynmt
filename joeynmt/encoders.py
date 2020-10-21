@@ -134,10 +134,10 @@ class RecurrentEncoder(Encoder):
         # only feed the final state of the top-most layer to the decoder
         # concatenate the final states of the last layer for both directions if applicable
         # thanks to pack_padded_sequence final states don't include padding
-        fwd_hidden_last = hidden_layerwise[-1, 0] # last layer of forward unroll
+        fwd_hidden_last = hidden_layerwise[-1, 0] # last layer of forward roll
 
         if self.rnn.bidirectional:
-            bwd_hidden_last = hidden_layerwise[-1, 1]# last layer of backwards unroll
+            bwd_hidden_last = hidden_layerwise[-1, 1]# last layer of backwards roll
             #pylint: disable=no-member
             hidden_concat = torch.cat(
                 [fwd_hidden_last, bwd_hidden_last], dim=1)
