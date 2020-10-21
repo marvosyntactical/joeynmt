@@ -17,14 +17,22 @@ def alphanumify(s: str):
             r+= c
     return r
 
-def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,6], update=10):
+def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,6], init_update=10):
     """ waits until my squeue has a place"""
 
+    update = init_update
+    i = 0
+    sleeplonger_once_checked_this_often = 10
+    longer_update = init_update * 6
+
     while True:
+        i += 1
+        if i == sleeplonger_once_checked_this_often:
+            update = longer_update
 
         print(f"Waiting for another {update} seconds to check if there's an opening on any of: {partitions}")
 
-        time.sleep(update)
+        time.sleep(init_update)
 
         partition_with_slot = -1
 
@@ -49,7 +57,7 @@ def main(args):
     clean = "clean" in args
 
     # inplace dicts of config changes as compared to best grid config (eric et al plus multi dimensional KBs)
-    # config name: list of changed param dictionary for each run
+    # search space is dict of config name: list of changed param dictionary for each run
     # NOTE remember to add 'param: defaultvalue #' into default configs here NOTE
     search_space = {
             "rnnBest_100x16x32x0": [
@@ -57,7 +65,17 @@ def main(args):
                 {'kb_embed_separate': True},
                 {'sched_sampl_type': "linear", 'sched_sampl_k':0.0, 'sched_sampl_c_e':[0.0,0.0]}, # autoregressive 
                 {'sched_sampl_type': "invsigmoid", 'sched_sampl_k':10000, 'sched_sampl_c_e':[0.0,0.0]}, # sigmoidal scheduled sampling
-                {'kb_values_in_key_rep': True}
+                {
+                    'src': "usrVALINKEY",
+                    'trg': "carnoVALINKEY",
+                    'kb_src': "kbkVALINKEY",
+                    'kb_trg': "kbcVALINKEY",
+                    'kb_lkp': "lkpVALINKEY",
+                    'kb_len': "lenVALINKEY",
+                    'kb_truvals': "trvVALINKEY",
+                    'trutrg': "carVALINKEY",
+                    'global.trv': "global.trvVALINKEY",
+                }
                 ],
             "rnnBestMultiHop_300x256x0": [
                 {'same_module_for_all_hops': False},
@@ -68,7 +86,7 @@ def main(args):
             "rnnEric_100x256x0": [
                 {'trutrg':"carnoNODEFAULT", 'do_postproc': False},
                 {'copy_from_source': False},
-                {'bidirectional', False},
+                {'bidirectional': False},
                 ],
             "tfRecurrentKbatt_100x16x32x0": [
                 {'sched_sampl_type': "linear", 'sched_sampl_k':1.0, 'sched_sampl_c_e':[0.0,1.0]}, # teacher force # NOTE default
@@ -82,6 +100,14 @@ def main(args):
                 {'double_decoder': True},
                 {'double_decoder': True, 'tied_side_softmax':True},
                 ],
+            "tfdot_9enc_3dec": [
+                {'infeedkb': False}, # NOTE default
+                {'infeedkb': True},
+                {'outfeedkb': True}, # gated feeding/LSTM, mostly doesnt learn
+                {'double_decoder': True},
+                {'double_decoder': True, 'tied_side_softmax':True},
+                ],
+
             }
 
     path = "configs/kvr/add/"
@@ -134,7 +160,11 @@ def main(args):
             for param, setting in config_changes.items():
                 # change each parameters setting according to search space entry
 
-                param_regex_replace = f"s/{param}: [^#]*#/{param}: {setting}  #/g"
+                if type(setting) == str:
+                    # add escaped string chars
+                    param_regex_replace = f"s/{param}: [^#]*#/{param}: \"{setting}\"  #/g"
+                else:
+                    param_regex_replace = f"s/{param}: [^#]*#/{param}: {setting}  #/g"
                 Popen('sed -i '+f'\"{param_regex_replace}\" '+new_cfg, shell=True).wait()
             
             # sanity check: were different parameters actually entered in newly created new_cfg?

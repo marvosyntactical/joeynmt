@@ -84,7 +84,7 @@ model:
     tied_side_softmax: True
     encoder:
         type: "transformer"
-        num_layers: 6
+        num_layers: 9
         num_heads: 4
         embeddings:
             embedding_dim: 256
@@ -96,7 +96,7 @@ model:
         dropout: 0.12
     decoder:
         type: "transformer"
-        num_layers: 6
+        num_layers: 3
         num_heads: 4
         embeddings:
             embedding_dim: 256

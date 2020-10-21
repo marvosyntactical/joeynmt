@@ -48,7 +48,7 @@ training:
     validation_freq: 500
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/175_tUnGated_11-10" #
+    model_dir: "modelsadd/10_tfdot_9enc_3dec.outfeedkbTrue_21-10" #
     overwrite: False
     shuffle: True
     use_cuda: True
@@ -67,7 +67,7 @@ model:
     copy_from_source: True #
     tfstyletf: True  # 
     infeedkb: False # 
-    outfeedkb: False #
+    outfeedkb: True  #
     add_kb_biases_to_output: False # 
     keep_last_ckpts: 3
     double_decoder: False # 
@@ -84,7 +84,7 @@ model:
     tied_side_softmax: True
     encoder:
         type: "transformer"
-        num_layers: 6
+        num_layers: 9
         num_heads: 4
         embeddings:
             embedding_dim: 256
@@ -96,7 +96,7 @@ model:
         dropout: 0.12
     decoder:
         type: "transformer"
-        num_layers: 6
+        num_layers: 3
         num_heads: 4
         embeddings:
             embedding_dim: 256

@@ -82,11 +82,11 @@ Multiply:
 Gridsearch Experimente: 27
 
 Add:
-14 runs einzelne params
+22 runs einzelne params
 
 Time:
 parameter * laufzeit * 1/(zahl parallele runs) * queue time factor
-14 x 16 x 1/8 x 1.5 = 42 stunden = 1.75 tage 
+22 x 16 x 1/8 x 1.5 = 66 stunden = 2.75 tage 
 
 ### 26.08.20 start writing
 

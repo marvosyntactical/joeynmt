@@ -53,7 +53,7 @@ training:                                  # specify training details here
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "modelsgrid/1_rnn100x16x32x0_12-10" # directory where models and validation results are stored, required
+    model_dir: "modelsadd/2_rnnBest_100x16x32x0.schedsampLinearschedsamp00schedsamp0000_17-10" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
@@ -61,9 +61,9 @@ training:                                  # specify training details here
     print_valid_sents: [0,1,2,3,297,298,299,307,308,309,310,311,312,313,314,315,400,401,402,403,404,405,406,407,408,409,410,500,501,502,550,551,553]    # print these validation sentences during each validation run, default: [0, 1, 2]
     keep_last_ckpts: 5                     # keep this many of the latest checkpoints, if -1: all of them, default: 5
     label_smoothing: 0.0                   # label smoothing: reference tokens will have 1-label_smoothing probability instead of 1, rest of probability mass is uniformly distributed over the rest of the vocabulary, default: 0.0 (off)
-    sched_sampl_type: "linear"           # scheduled sampling type, must be one of linear(default) or exponential or invsigmoid
-    sched_sampl_k: 1.                    # k value for sched sampl, cf. https://arxiv.org/abs/1506.03099 Section 2.4
-    sched_sampl_c_e: [0.0, 1.0]          # c (negative slope) and e (minimal truth) values for sched sampl (only required/used if sched_sampl_type=="linear")
+    sched_sampl_type: linear  # scheduled sampling type, must be one of linear(default) or exponential or invsigmoid
+    sched_sampl_k: 0.0  # k value for sched sampl, cf. https://arxiv.org/abs/1506.03099 Section 2.4
+    sched_sampl_c_e: [0.0, 0.0]  # c (negative slope) and e (minimal truth) values for sched sampl (only required/used if sched_sampl_type=="linear")
     
 
 model:                                     # specify your model architecture here
@@ -77,7 +77,7 @@ model:                                     # specify your model architecture her
     kb_max_dims: [16, 32] #
     kb_input_feeding: False #
     kb_feed_rnn: False #
-    kb_values_in_key_rep: False # NOTE implement me plz
+    kb_embed_separate: False #
 
     initializer: "xavier"                  # initializer for all trainable weights (xavier, zeros, normal, uniform)
     init_weight: 0.01                      # weight to initialize; for uniform, will use [-weight, weight]

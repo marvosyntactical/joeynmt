@@ -7,6 +7,7 @@ docs/build/*
 *__pycache__*
 models/*
 modelsgrid/*
+modelsadd/*
 data/ner/*
 data/voc/*
 runs/*

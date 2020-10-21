@@ -48,7 +48,7 @@ training:
     validation_freq: 500
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/175_tUnGated_11-10" #
+    model_dir: "modelsadd/7_tfdotKbatt.infeedkbFalse_19-10" #
     overwrite: False
     shuffle: True
     use_cuda: True
@@ -66,7 +66,7 @@ model:
     kb_max_dims: [256]              # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [200] for flat KB (eric et al)
     copy_from_source: True #
     tfstyletf: True  # 
-    infeedkb: False # 
+    infeedkb: False  # 
     outfeedkb: False #
     add_kb_biases_to_output: False # 
     keep_last_ckpts: 3

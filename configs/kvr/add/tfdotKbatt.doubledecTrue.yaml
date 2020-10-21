@@ -48,7 +48,7 @@ training:
     validation_freq: 500
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/175_tUnGated_11-10" #
+    model_dir: "modelsadd/8_tfdotKbatt.doubledecTrue_19-10" #
     overwrite: False
     shuffle: True
     use_cuda: True
@@ -70,7 +70,7 @@ model:
     outfeedkb: False #
     add_kb_biases_to_output: False # 
     keep_last_ckpts: 3
-    double_decoder: False # 
+    double_decoder: True  # 
     kb_embed_separate: False #
 
 

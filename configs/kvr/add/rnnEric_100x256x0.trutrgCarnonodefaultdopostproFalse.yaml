@@ -11,7 +11,7 @@ data: # specify your data here
     kb_lkp: "lkpNODEFAULT"                 # KVR: kb association lkp file ext
     kb_len: "lenNODEFAULT"                 # KVR: kb lengths file ext
     kb_truvals: "trvNODEFAULT"             # KVR: file extension for truvals
-    trutrg: "carNODEFAULT"                          # KVR: file extension for uncanonized target data
+    trutrg: carnoNODEFAULT  # KVR: file extension for uncanonized target data
     global.trv: "global.trvNODEFAULT"      # KVR: concatenation of train/dev/test trv files for lookup vocab building
     
     train: "data/kvr/train"                # training data
@@ -53,7 +53,7 @@ training:                                  # specify training details here
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "modelsadd/2_rnnBest_100x16x32x0.kbembedsTrue_17-10" # directory where models and validation results are stored, required
+    model_dir: "modelsadd/5_rnnEric_100x256x0.trutrgCarnonodefaultdopostproFalse_18-10" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
@@ -68,16 +68,17 @@ training:                                  # specify training details here
 
 model:                                     # specify your model architecture here
     kb: True                               # kb decoder used or not?
-    k_hops: 1 # num of kvr att layers
-    do_postproc: True                      # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
+    k_hops: 1                              # num of kvr att layers
+    do_postproc: False  # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
     copy_from_source: True                # whether to create KBs from source as backup when KB empty 
     same_module_for_all_hops: True #
     kb_multihead_feed: False #
     posEncKBkeys: False #
-    kb_max_dims: [16, 32] #
+    kb_max_dims: [256] #
     kb_input_feeding: False #
     kb_feed_rnn: False #
-    kb_embed_separate: True  #
+    kb_embed_separate: False #
+
 
     initializer: "xavier"                  # initializer for all trainable weights (xavier, zeros, normal, uniform)
     init_weight: 0.01                      # weight to initialize; for uniform, will use [-weight, weight]
