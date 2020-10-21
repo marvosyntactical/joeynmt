@@ -110,7 +110,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         kb_trv = data_cfg.get("kb_truvals", "trv")
         global_trv = data_cfg.get("global_trv", "")
         if global_trv:
-            raise UserWarning(f"global_trv parameter deprecated, use nothing instead.")
+            print(f"UserWarning global_trv parameter deprecated, use nothing instead.")
         trutrg = data_cfg.get("trutrg", "car") 
         canonization_mode = data_cfg.get("canonization_mode", "canonize")
         assert canonization_mode in ["canonize", "hash"], canonization_mode
