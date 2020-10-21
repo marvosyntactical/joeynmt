@@ -95,14 +95,12 @@ def main(args):
                 ],
             "tfdotKbatt": [
                 {'infeedkb': False}, # NOTE default
-                {'infeedkb': True},
                 {'outfeedkb': True}, # gated feeding/LSTM, mostly doesnt learn
                 {'double_decoder': True},
                 {'double_decoder': True, 'tied_side_softmax':True},
                 ],
             "tfdot_9enc_3dec": [
                 {'infeedkb': False}, # NOTE default
-                {'infeedkb': True},
                 {'outfeedkb': True}, # gated feeding/LSTM, mostly doesnt learn
                 {'double_decoder': True},
                 {'double_decoder': True, 'tied_side_softmax':True},
