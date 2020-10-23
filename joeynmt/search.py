@@ -493,7 +493,8 @@ def beam_search(
             topk_log_probs = topk_scores * length_penalty
 
         # reconstruct beam origin and true word ids from flattened order
-        topk_beam_index = topk_ids.div(generator.output_size) # NOTE why divide by voc size??
+        
+        topk_beam_index = topk_ids.floor_divide(generator.output_size) # NOTE why divide by voc size??
         topk_ids = topk_ids.fmod(generator.output_size) # NOTE why mod voc size? isnt every entry < voc size?
 
         # map beam_index to batch_index in the flat representation
@@ -691,7 +692,16 @@ def beam_search(
             if util_dims_cache is not None:
                 util_dims_cache = [utils.index_select(0, select_indices) for utils in util_dims_cache if utils is not None]
             if kb_feed_hidden_cache is not None:
-                kb_feed_hidden_cache = [hidden.index_select(1, select_indices) for hidden in kb_feed_hidden_cache if hidden is not None]
+                try:
+                    kb_feed_hidden_cache = [kbf_hidden.index_select(0, select_indices) for kbf_hidden in kb_feed_hidden_cache if kbf_hidden is not None]
+                except IndexError as IE:
+                    print(hidden[0].shape)
+                    print([t.shape for t in kb_feed_hidden_cache])
+                    print(select_indices)
+                    print(select_indices.shape)
+                    print(size)
+                    print(generator.output_size)
+                    raise IE
 
     def pad_and_stack_hyps(hyps, pad_value):
         filled = np.ones((len(hyps), max([h.shape[0] for h in hyps])),

@@ -15,11 +15,8 @@
 * check matchup 
 * find fitting transformer
 
-### 30.09. problemz
+### 30.09. code problems
 
-Code:
-* calculate/profile attention runtime *DONE*
-* autoregressive transformer: implement fast version/try vanilla *TODO*
 * correct entity F1 reporting
 => dont modify code and get trained "tflstm" model from cluster to debug
 
@@ -30,20 +27,19 @@ Plotting:
  - on the fly kb: 128 x 2
 * only empty KBs get plotted for transformer
 * 2 hop attentions arent plotted
-*TODO*
 
-KB mismatches:
-* in train data: (weather) example 213 uses previous (calendar) KB 82
-lkp data seems all good though?? lkp line 213 says 83???
-* in dev data: (calendar) example 752 uses previous (traffic) KB 290
-lkp data seems all good though?? lkp line 752 says 291???
-=> fixed? DONE?
+=> test locally
+
+
+* testing code
+
+
 
 
 ---
 
-
 ### Config wise additional experiments
+
 1 run per line (modified params) grouped by init configs:
 
 rnnBest (rnn100x16x32x0):
@@ -66,7 +62,6 @@ tfRecurrentKbAtt (tf100x256x0):
 - teacher\_force: False
 
 tftf (tftf):
-- input\_feed: True
 - double\_decoder: True
 - double\_decoder: True, tied\_side\_softmax: True
 => +14 runs
@@ -88,6 +83,13 @@ Time:
 parameter * laufzeit * 1/(zahl parallele runs) * queue time factor
 22 x 16 x 1/8 x 1.5 = 66 stunden = 2.75 tage 
 
+---
+
+# Issues Archive
+
+## Old Issue
+
+## Old Issue
 ### 26.08.20 start writing
 
 Outline:
@@ -100,13 +102,7 @@ Dataset
 Experiments
 Conclusion
 
----
 
-# Issues Archive
-
-## Old Issue
-
-## Old Issue
 
 ## Old Issue
 ### 10.09.20 DUMMY entries vs deciding to copy from source
@@ -130,7 +126,6 @@ Conclusion
 
 * did you do autoregressive training? -> no
 * canon level -> intermediate
-
 
 
 ## Old Issue

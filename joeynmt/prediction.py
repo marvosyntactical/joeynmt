@@ -273,11 +273,11 @@ def test(cfg_file,
     _, dev_data, test_data,\
     src_vocab, trg_vocab,\
     _, dev_kb, test_kb,\
-    _, dev_kb_lookup, test_kb_lookup,\
+    _, dev_kb_lookup, test_kb_lookup, \
     _, dev_kb_lengths, test_kb_lengths,\
     _, dev_kb_truvals, test_kb_truvals, \
     trv_vocab, canon_fun,\
-         dev_data_canon, test_data_canon\
+         dev_data_canon, test_data_canon \
         = load_data(
         data_cfg=cfg["data"]
     )
@@ -289,8 +289,11 @@ def test(cfg_file,
     model_checkpoint = load_checkpoint(ckpt, use_cuda=use_cuda)
 
     # build model and load parameters into it
-    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, trv_vocab=trv_vocab)
+    model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab, trv_vocab=trv_vocab, canonizer=canon_fun)
     model.load_state_dict(model_checkpoint["model_state"])
+
+    # FIXME for the moment, for testing, try overriding model.canonize with canon_fun from test functions loaded data
+    # should hopefully not be an issue with gridsearch results...
 
     if use_cuda:
         model.cuda() # move to GPU
@@ -306,9 +309,9 @@ def test(cfg_file,
     for data_set_name, data_set in data_to_predict.items():
         
         if data_set_name == "dev":
-            kb_info = [dev_kb, dev_kb_lookup, dev_kb_lengths, dev_kb_truvals]
+            kb_info = [dev_kb, dev_kb_lookup, dev_kb_lengths, dev_kb_truvals, dev_data_canon]
         elif data_set_name == "test":
-            kb_info = [test_kb, test_kb_lookup, test_kb_lengths, test_kb_truvals]
+            kb_info = [test_kb, test_kb_lookup, test_kb_lengths, test_kb_truvals, test_data_canon]
         else:
             raise ValueError((data_set_name,data_set))
         
@@ -331,7 +334,7 @@ def test(cfg_file,
             valid_kb_lkp=kb_info[1], 
             valid_kb_lens=kb_info[2],
             valid_kb_truvals=kb_info[3],
-            valid_data_canon=dev_data_canon,
+            valid_data_canon=kb_info[4],
             )
         """
                 batch_size=self.eval_batch_size,
