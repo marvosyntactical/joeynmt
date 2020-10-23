@@ -168,7 +168,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         canon_trg = trg_lang # keep this for loss reporting (load dev/test data from here separately)
         trg_lang = trutrg
 
-
         train_kb_truvals = MonoDataset(
                                         path=train_path,
                                         ext=("."+kb_trv),
@@ -356,6 +355,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
         dev_data_canon, test_data_canon = [], []
         Canonizer = None
+
     
     # FIXME return dict here lol
     return train_data, dev_data, test_data,\
@@ -652,7 +652,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             # this is a scheduling dialogue without KB
             # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME TODO XXX
             kb_empty = True
-            if c.copy_from_source: 
+            if c is not None and c.copy_from_source: 
 
                 otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src,data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
                 if len(otf_kb) > 0:
@@ -671,7 +671,12 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
 
         minibatch.append(ex)
         if canon_data is not None:
-            minibatch.canontrg.append(canon_data[i])
+            try:
+                minibatch.canontrg.append(canon_data[i])
+            except Exception as e:
+                print([len(thing) for thing in (canon_data, data)])
+                print([[ex.trg for ex in thing] for thing in (canon_data, data)])
+                raise e
 
         # debug start:
         previous_kb_len = kb_lens[last_corresponding_kb] 

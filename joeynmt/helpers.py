@@ -265,6 +265,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 # TODO 
                 assertion_str = ""
 
+            """
             # make sure attention plots have the right shape
             if not calcKbLen == attention_scores.shape[0]:
                 print(f"Couldnt plot example {i} because knowledgebase was created on the fly")
@@ -273,9 +274,7 @@ def store_attention_plots(attentions: np.array, targets: List[List[str]],
                 # FIXME FIXME FIXME FIXME im doing something wrong with the vocab lookup in the code above
                 failure += 1
                 continue
-                
-
-
+            """
 
             print(f"KB PLOTTING: calcKbLen: {calcKbLen}")
             print(f"KB PLOTTING: calcKbLen should be != 0 often!!: {assertion_str}")
