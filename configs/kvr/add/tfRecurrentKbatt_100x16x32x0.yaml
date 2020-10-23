@@ -3,16 +3,16 @@ name: "❤️"
 # This configuration serves the purpose of documenting and explaining the kb settings, *NOT* as an example for good hyperparamter settings.
 
 data: # specify your data here
-    src: "usr"                       # src language: expected suffix of train files, e.g. "train.de"
-    trg: "carno"                       # trg language
+    src: "usrNODEFAULT"                       # src language: expected suffix of train files, e.g. "train.de"
+    trg: "carnoNODEFAULT"                       # trg language
     
     kb_task: "YES"                   # KVR: assig this with boolean val of True if KVR task performed 
     kb_src: "kbkNODEFAULT"                         # KVR: kb keys (subj pad rel) extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_trg: "kbcNODEFAULT"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
-    kb_lkp: "lkp"                       # KVR: kb association lkp file ext
+    kb_lkp: "lkpNODEFAULT"                       # KVR: kb association lkp file ext
     kb_len: "lenNODEFAULT"                       # KVR: kb lengths file ext
     kb_truvals: "trvNODEFAULT"                   # KVR: file extension for truvals
-    trutrg: "car"                       # KVR: file extension for uncanonized target data (for valid/test postprocessing)
+    trutrg: "carNODEFAULT"                       # KVR: file extension for uncanonized target data (for valid/test postprocessing)
     global_trv: "global.trvNODEFAULT"            # KVR: concatenation of train/dev/test trv files for lookup vocab building
     
     train: "data/kvr/train"    # training data

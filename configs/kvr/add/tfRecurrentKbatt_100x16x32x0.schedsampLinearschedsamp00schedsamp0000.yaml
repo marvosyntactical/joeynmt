@@ -3,16 +3,16 @@ name: "❤️"
 # This configuration serves the purpose of documenting and explaining the kb settings, *NOT* as an example for good hyperparamter settings.
 
 data: # specify your data here
-    src: "usr"                       # src language: expected suffix of train files, e.g. "train.de"
-    trg: "carno"                       # trg language
+    src: "usrNODEFAULT"                       # src language: expected suffix of train files, e.g. "train.de"
+    trg: "carnoNODEFAULT"                       # trg language
     
     kb_task: "YES"                   # KVR: assig this with boolean val of True if KVR task performed 
     kb_src: "kbkNODEFAULT"                         # KVR: kb keys (subj pad rel) extension; see add_canon...py script for alternative extension; atm either of kb, can
     kb_trg: "kbcNODEFAULT"                         # KVR: kb canon vals extension; see add_canon...py script for alternative extension; atm either of kb, can
-    kb_lkp: "lkp"                       # KVR: kb association lkp file ext
+    kb_lkp: "lkpNODEFAULT"                       # KVR: kb association lkp file ext
     kb_len: "lenNODEFAULT"                       # KVR: kb lengths file ext
     kb_truvals: "trvNODEFAULT"                   # KVR: file extension for truvals
-    trutrg: "car"                       # KVR: file extension for uncanonized target data (for valid/test postprocessing)
+    trutrg: "carNODEFAULT"                       # KVR: file extension for uncanonized target data (for valid/test postprocessing)
     global_trv: "global.trvNODEFAULT"            # KVR: concatenation of train/dev/test trv files for lookup vocab building
     
     train: "data/kvr/train"    # training data
@@ -58,7 +58,7 @@ training:                           # specify training details here
     logging_freq: 10                # log the training progress after this many updates, default: 100
     eval_metric: "bleu"             # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "eval_metric"   # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "modelsadd/9_tfRecurrentKbatt_100x16x32x0.schedsampLinearschedsamp00schedsamp0000_21-10" # directory where models and validation results are stored, required
+    model_dir: "modelsadd/13_tfRecurrentKbatt_100x16x32x0.schedsampLinearschedsamp00schedsamp0000_23-10" # directory where models and validation results are stored, required
     overwrite: False # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                   # shuffle the training data, default: True
     use_cuda: True # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
