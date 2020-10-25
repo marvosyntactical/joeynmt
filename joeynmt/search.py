@@ -494,11 +494,7 @@ def beam_search(
 
         # reconstruct beam origin and true word ids from flattened order
         
-        try:
-            topk_beam_index = topk_ids.floor_divide(generator.output_size) # NOTE why divide by voc size??
-        except Exception as e:
-            print(torch.__version__)
-            raise e
+        topk_beam_index = topk_ids//generator.output_size # NOTE why divide by voc size??
         topk_ids = topk_ids.fmod(generator.output_size) # NOTE why mod voc size? isnt every entry < voc size?
 
         # map beam_index to batch_index in the flat representation
