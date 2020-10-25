@@ -15,25 +15,13 @@
 * check matchup 
 * find fitting transformer
 
+
+### 25.10. dstc2 metrics
+
 ### 30.09. code problems
 
 * correct entity F1 reporting
 => dont modify code and get trained "tflstm" model from cluster to debug
-
-Plotting: 
-* misalign: on the fly empty kb in first example of dev set has
- - attention matrix: 128 x 5 # find out where this happens (put asserts in model run batch)
- - remade on the fly kb: 128 x 2
- - on the fly kb: 128 x 2
-* only empty KBs get plotted for transformer
-* 2 hop attentions arent plotted
-
-=> test locally
-
-
-* testing code
-
-
 
 
 ---
