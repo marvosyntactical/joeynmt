@@ -1,0 +1,5 @@
+usage: Joey NMT [-h] [--ckpt CKPT] [--output_path OUTPUT_PATH]
+                [--save_attention]
+                {train,test,translate} config_path
+Joey NMT: error: the following arguments are required: config_path
+srun: error: gpu06: task 0: Exited with exit code 2

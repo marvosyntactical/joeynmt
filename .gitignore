@@ -22,4 +22,5 @@ wmt_ende_best/*
 wmt*
 tensorboard_plots/*
 results/*
+*dstc2*
 
