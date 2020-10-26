@@ -774,10 +774,14 @@ def beam_search(
 
         # stacked_attention_scores: batch x max output len x src len
         if len(results["att_scores"][0]):
-            stacked_attention_scores = np.stack([
-                # select attentions of top (0) beam
-                atts[0].T for atts in results["att_scores"]
-                ], axis=0)
+            try:
+                stacked_attention_scores = np.stack([
+                    # select attentions of top (0) beam
+                    atts[0].T for atts in results["att_scores"]
+                    ], axis=0)
+            except Exception as e:
+                print([atts[0].shape for atts in results["att_scores"]])
+                raise e
         else:
             stacked_attention_scores = None
 
