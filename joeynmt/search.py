@@ -656,11 +656,11 @@ def beam_search(
 
                 if 0 not in att_alive.shape:
                     att_alive = att_alive.index_select(0, non_finished) \
-                        .view(-1, attentions.size(-1), attentions.size(-2))
+                        .view(-1, attentions.size(-2), attentions.size(-1))
 
                 shape__  = kb_att_alive.shape
                 kb_att_alive = kb_att_alive.index_select(0, non_finished) \
-                    .view(-1, kb_attentions.size(-1), kb_attentions.size(-2))
+                    .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
 
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)
