@@ -461,6 +461,8 @@ def beam_search(
             log_probs = generator(att_vectors, kb_values=kb_values, kb_probs=kb_scores)
         except Exception as e:
             print(kb_scores.shape)
+            print(kb_mask_before_index)
+            print(kb_mask_after_index)
             raise e
 
         # hidden = ?? x batch*k x dec hidden        #FIXME why 3 ??????
@@ -647,9 +649,9 @@ def beam_search(
                         
             # remove finished batches for the next step
             batch_index = batch_index.index_select(0, non_finished)
+            batch_offset = batch_offset.index_select(0, non_finished)
 
             topk_log_probs = topk_log_probs.index_select(0, non_finished)
-            batch_offset = batch_offset.index_select(0, non_finished)
             alive_seq = predictions.index_select(0, non_finished) \
                 .view(-1, alive_seq.size(-1))
 
@@ -665,7 +667,6 @@ def beam_search(
                     att_alive = att_alive.index_select(0, non_finished) \
                         .view(-1, attentions.size(-2), attentions.size(-1))
 
-                shape__  = kb_att_alive.shape
                 kb_att_alive = kb_att_alive.index_select(0, non_finished) \
                     .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
 
@@ -713,7 +714,9 @@ def beam_search(
                     print(size)
                     print(generator.output_size)
                     raise IE
+            kb_mask_before_index = kb_mask.shape
             kb_mask = kb_mask.index_select(0, select_indices)
+            kb_mask_after_index = kb_mask.shape
 
     def pad_and_stack_hyps(hyps, pad_value):
         filled = np.ones((len(hyps), max([h.shape[0] for h in hyps])),
