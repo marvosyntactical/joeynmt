@@ -510,10 +510,10 @@ def beam_search(
              topk_ids.view(-1, 1)], -1)  # batch_size*k x hyp_len
 
         if knowledgebase is not None:
-            print(f"kb_att_alive.shape: {kb_att_alive.shape}")
-            print(f"kb_size: {kb_size}")
-            print(kb_att_alive.index_select(0,select_indices).shape)
-            print(kb_scores.index_select(0,select_indices).shape)
+            # print(f"kb_att_alive.shape: {kb_att_alive.shape}")
+            # print(f"kb_size: {kb_size}")
+            # print(kb_att_alive.index_select(0,select_indices).shape)
+            # print(kb_scores.transpose(1,2).index_select(0,select_indices).shape)
            
             if att_scores is not None:
                 # FIXME sometimes this way sometimes the other idk
@@ -521,7 +521,7 @@ def beam_search(
                     att_alive = torch.cat( # batch * k x src len x time
                         [
                             att_alive.index_select(0, select_indices),
-                            att_scores.index_select(0, select_indices)
+                            att_scores.transpose(1,2).index_select(0, select_indices)
                         ],
                     -1 ) 
                 except RuntimeError as e:
@@ -529,28 +529,16 @@ def beam_search(
                     print(f"att_alive.shape: {att_alive.shape}")
                     print(f"encoder steps: {encoder_output.size(1)}")
                     print(att_alive.index_select(0,select_indices).shape)
-                    print(att_scores.index_select(0,select_indices).shape)
+                    print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
+                    raise e
 
-                    att_alive = torch.cat( # batch * k x src len x time
-                        [
-                            att_alive.index_select(0, select_indices),
-                            att_scores.transpose(1,2).index_select(0, select_indices)
-                        ],
-                    -1 )
-            try:
-                kb_att_alive = torch.cat( # batch * k x KB x time
-                    [
-                        kb_att_alive.index_select(0, select_indices),
-                        kb_scores.index_select(0,select_indices)
-                    ],
-                -1) 
-            except RuntimeError as e:
-                kb_att_alive = torch.cat( # batch * k x KB x time
-                    [
-                        kb_att_alive.index_select(0, select_indices),
-                        kb_scores.transpose(1,2).index_select(0,select_indices)
-                    ],
-                -1) 
+            kb_att_alive = torch.cat( # batch * k x KB x time
+                [
+                    kb_att_alive.index_select(0, select_indices),
+                    kb_scores.transpose(1,2).index_select(0,select_indices)
+                ],
+            -1) 
+        
 
 
 
