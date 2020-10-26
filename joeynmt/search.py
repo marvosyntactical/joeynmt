@@ -513,14 +513,14 @@ def beam_search(
             print(f"kb_att_alive.shape: {kb_att_alive.shape}")
             print(f"kb_size: {kb_size}")
             print(kb_att_alive.index_select(0,select_indices).shape)
-            print(kb_scores.transpose(1,2).index_select(0,select_indices).shape)
-
+            print(kb_scores.index_select(0,select_indices).shape)
+           
             if att_scores is not None:
                 try:
                     att_alive = torch.cat( # batch * k x src len x time
                         [
                             att_alive.index_select(0, select_indices),
-                            att_scores.transpose(1, 2).index_select(0, select_indices)
+                            att_scores.index_select(0, select_indices)
                         ],
                     -1 ) 
                 except RuntimeError as e:
@@ -528,13 +528,12 @@ def beam_search(
                     print(f"att_alive.shape: {att_alive.shape}")
                     print(f"encoder steps: {encoder_output.size(1)}")
                     print(att_alive.index_select(0,select_indices).shape)
-                    print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
+                    print(att_scores.index_select(0,select_indices).shape)
                     raise e
-
             kb_att_alive = torch.cat( # batch * k x KB x time
                 [
                     kb_att_alive.index_select(0, select_indices),
-                    kb_scores.transpose(1,2).index_select(0,select_indices)
+                    kb_scores.index_select(0,select_indices)
                 ],
             -1) 
 
