@@ -408,7 +408,8 @@ def beam_search(
             [[[] for _ in range(kb_size)] for _ in range(batch_size * size)]
         ).to(dtype=torch.float32, device=encoder_output.device)
         
-        print(f"kb_att_alive.shape: {kb_att_alive.shape}")
+        debug_tnsrs = (kb_values, kb_mask, kb_values_embed, (kb_keys if isinstance(kb_keys, torch.Tensor) else kb_keys[0]), alive_seq)
+        assert set([t.size(0) for t in debug_tnsrs]) == set([batch_size * size]), [t.shape for t in debug_tnsrs]
         
         stacked_attention_scores = [[] for _ in range(batch_size)]
         stacked_kb_att_scores = [[] for _ in range(batch_size)]
@@ -666,6 +667,8 @@ def beam_search(
                 shape__  = kb_att_alive.shape
                 kb_att_alive = kb_att_alive.index_select(0, non_finished) \
                     .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
+
+                kb_mask = kb_mask.index_select(0, non_finished)
 
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)
