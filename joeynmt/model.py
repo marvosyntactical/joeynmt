@@ -584,7 +584,7 @@ class Model(nn.Module):
 
 
     
-    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_truval) -> np.array:
+    def postprocess_batch_hypotheses(self, stacked_output, stacked_kb_att_scores, kb_values, kb_truval, pad_value=float("-inf")) -> np.array:
 
         """
         called in self.run_batch() during knowledgebase task
@@ -593,10 +593,11 @@ class Model(nn.Module):
         replaces kb value tokens such as @meeting_time with 7pm
 
         Arguments:
-        :param stacked_output: Tensor
-        :param stacked_kb_att_scores: Tensor
+        :param stacked_output: array
+        :param stacked_kb_att_scores: array
         :param kb_values: Tensor
         :param kb_truval: Tensor
+        :param attention_pad_value: float indicating what parts of each attention matrix in the stacked_kb_att_score array to cut off in case of beam search
         :return: post_proc_stacked_output
         """
 
@@ -625,6 +626,13 @@ class Model(nn.Module):
                     break
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
+                    kb_att_i = kb_att[i]
+                    # try to remove padded columns
+                    if (kb_att_i == pad_value).any():
+
+                        idx_first_pad_ = (kb_att_i==pad_val).non_zero(as_tuple)[:,1].min().item()
+                        kb_att_i = kb_att_i[:,:idx_first_pad_]
+
                     str_tok = trvSent([token])
                     hypotSent = self.trg_vocab.array_to_sentence(hyp)
 
@@ -645,8 +653,9 @@ class Model(nn.Module):
 
                         print(f"pp: SUCCESS! Found matches for canonical: {str_tok}")
 
+
                         # now order matching != -1 by corresponding attention values
-                        matching_scores = np.where(matching_trv_candidates != -1, kb_att[i,step,:], float("-inf"))
+                        matching_scores = np.where(matching_trv_candidates != -1, kb_att_i[step,:], float("-inf"))
 
                         print(f"pp: matching_scores (should have no '-1's):\n{matching_scores}") # should not contain '-1's
 
@@ -670,7 +679,7 @@ class Model(nn.Module):
 
                         print(f"pp: FAILURE! Found no matches for canonical: {str_tok}")
 
-                        scores = kb_att[i,step,:]
+                        scores = kb_att_i[step,:]
                         hi_scores = np.argsort(scores)[::-1].copy()
                         print(f"pp: failure debug: highest attended tokens overall:\n\
                             {trvSent(kb_trv[hi_scores].tolist())}")

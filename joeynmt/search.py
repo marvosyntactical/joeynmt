@@ -753,12 +753,29 @@ def beam_search(
             kb_mask_after_index = kb_mask.shape
 
     def pad_and_stack_hyps(hyps, pad_value):
+        # hyps is arrays of hypotheses
         filled = np.ones((len(hyps), max([h.shape[0] for h in hyps])),
                          dtype=int) * pad_value
         for j, h in enumerate(hyps):
             for k, i in enumerate(h):
                 filled[j, k] = i
         return filled
+    
+    def pad_and_stack_attention_matrices(atts, pad_value=float("-inf")):
+        # NOTE pad_value is used in model.postprocess to recover original part of matrix
+        # atts is array of attention matrices, each of dims time x att_dim, where both dims vary from matrix to matrix
+        try:
+            filled = np.ones((len(atts), max([att.shape[-2] for att in atts]),max([att.shape[-1] for att in atts])),
+                            dtype=atts[0].dtype) * pad_value
+        except Exception as e:
+            print(atts[0].size())
+            raise e
+        for batch_index, attention_matrix in enumerate(atts):
+            for t, attentions_at_decoding_step in enumerate(attention_matrix):
+                for attention_key, score in enumerate(attentions_at_decoding_step):
+
+                    filled[batch_index, t, attention_key] = score
+        return filled # b x decoder unroll x attention keys
 
     # from results to stacked outputs
     assert n_best == 1
@@ -774,20 +791,11 @@ def beam_search(
 
         # stacked_attention_scores: batch x max output len x src len
         if len(results["att_scores"][0]):
-            try:
-                stacked_attention_scores = np.stack([
-                    # select attentions of top (0) beam
-                    atts[0].T for atts in results["att_scores"]
-                    ], axis=0)
-            except Exception as e:
-                print([atts[0].shape for atts in results["att_scores"]])
-                raise e
+            stacked_attention_scores = pad_and_stack_attention_matrices([atts[0] for atts in results["att_scores"]])
         else:
             stacked_attention_scores = None
 
         # stacked_kb_att_scores: batch x max output len x kb
-        stacked_kb_att_scores = np.stack([
-            kb_atts[0].T for kb_atts in results["kb_att_scores"]
-            ], axis=0)
+        stacked_kb_att_scores = pad_and_stack_attention_matrices([kb_atts[0] for kb_atts in results["kb_att_scores"]])
 
     return final_outputs, stacked_attention_scores, stacked_kb_att_scores
