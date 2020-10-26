@@ -263,6 +263,9 @@ class Model(nn.Module):
             # only calculate loss on this field of the batch during validation loss calculation 
             assert not log_probs.requires_grad, "using batch.trgcanon shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
 
+
+        assert log_probs.size(-1) == self.generator.output_size, (log_probs.shape, self.generator.output_size)
+
         # compute batch loss
         try:
             batch_loss = loss_function(log_probs, trg)

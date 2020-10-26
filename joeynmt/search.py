@@ -549,9 +549,9 @@ def beam_search(
         is_finished = topk_ids.eq(eos_index) # batch x k
         if step + 1 == max_output_length:
             # force finish
-            is_finished.fill_(1)
+            is_finished.fill_(True)
         # end condition is whether the top beam is finished
-        end_condition = is_finished[:, 0].eq(1)
+        end_condition = is_finished[:, 0].eq(True)
 
         # save finished hypotheses
         if is_finished.any():
@@ -641,9 +641,9 @@ def beam_search(
                                 results["att_scores"][b].append(best_atts_d_[n])
                             results["kb_att_scores"][b].append(best_kb_atts_d_[n])
                         
+            non_finished = end_condition.eq(False).nonzero().view(-1) # batch
             # if all sentences are translated, no need to go further
             # pylint: disable=len-as-condition
-            non_finished = end_condition.eq(0).nonzero().view(-1) # batch
             if len(non_finished) == 0:
                 break
                         

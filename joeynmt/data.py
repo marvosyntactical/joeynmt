@@ -627,7 +627,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         try:
             corresponding_kb = kb_lkp[i]
         except:
-            assert False, kb_lkp
+            assert False, kb_lkp # using different lkp file extension than expected?
 
         if chunk >= max_chunk:
             yield minibatch

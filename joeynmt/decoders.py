@@ -1792,13 +1792,16 @@ def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query,
         if len(kb_mask.shape)+1 == len(u_t_k.shape):
             kb_mask = kb_mask.unsqueeze(1)
 
+        kb_mask = ~kb_mask # invert mask: 1 = keep (valued entry), 0 = discard (unvalued entry)
+
         assert kb_mask.shape == u_t_k.shape, (kb_mask.shape, u_t_k.shape)
 
         with torch.no_grad():
             zeros_like_u_t_k = u_t_k.new_zeros(u_t_k.shape)
 
         u_t_k = torch.where(
-            ~kb_mask, u_t_k, zeros_like_u_t_k 
+            kb_mask, u_t_k, zeros_like_u_t_k 
         )
+        assert (u_t_k == u_t_k).all(), ((u_t_k != u_t_k), kb_mask.dtype)
 
     return u_t_k, utils_dims_cache, kb_feed_hidden_cache
