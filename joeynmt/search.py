@@ -323,107 +323,109 @@ def beam_search(
         - stacked_kb_att_scores: kb attention scores (3d array)
     """
 
-    # init
-    transformer = isinstance(decoder, TransformerDecoder)
-    batch_size = src_mask.size(0)
-    att_vectors = None  # not used for Transformer
+    with torch.no_grad():
+        # initializations and so on, this should keep weird cuda errors from happening
 
-    # Recurrent models only: initialize RNN hidden state
-    # pylint: disable=protected-access
-    if not transformer:
-        hidden = decoder._init_hidden(encoder_hidden)
-    else:
-        hidden = None
+        # init
+        transformer = isinstance(decoder, TransformerDecoder)
+        batch_size = src_mask.size(0)
+        att_vectors = None  # not used for Transformer
 
-    # tile encoder states and decoder initial states beam_size times
-    if hidden is not None:
-        hidden = tile(hidden, size, dim=1)  # layers x batch*k x dec_hidden_size
-
-    encoder_output = tile(encoder_output.contiguous(), size,
-                          dim=0)  # batch*k x src_len x enc_hidden_size
-    src_mask = tile(src_mask, size, dim=0)  # batch*k x 1 x src_len
-
-    # Transformer only: create target mask
-    if transformer:
-        trg_mask = src_mask.new_ones([1, 1, 1])  # transformer only
-    else:
-        trg_mask = None
-
-    # numbering elements in the batch
-    batch_offset = torch.arange(
-        batch_size, dtype=torch.long, device=encoder_output.device)
-
-    # numbering elements in the extended batch, i.e. beam size copies of each
-    # batch element
-    beam_offset = torch.arange(
-        0,
-        batch_size * size,
-        step=size,
-        dtype=torch.long,
-        device=encoder_output.device)
-
-    # keeps track of the top beam size hypotheses to expand for each element
-    # in the batch to be further decoded (that are still "alive")
-    alive_seq = torch.full(
-        [batch_size * size, 1],
-        bos_index,
-        dtype=torch.long,
-        device=encoder_output.device)
-
-    # Give full probability to the first beam on the first step.
-    # pylint: disable=not-callable
-    topk_log_probs = (torch.tensor([0.0] + [float("-inf")] * (size - 1),
-                                   device=encoder_output.device).repeat(
-                                    batch_size))
-
-    # Structure that holds finished hypotheses in order of completion.
-    hypotheses = [[] for _ in range(batch_size)]
-
-    results = {}
-
-    results["predictions"] = [[] for _ in range(batch_size)]
-    results["scores"] = [[] for _ in range(batch_size)]
-    results["att_scores"] = [[] for _ in range(batch_size)]
-    results["kb_att_scores"] = [[] for _ in range(batch_size)]
-
-    # kb task: also tile kb tensors along batch dimension as done with other inputs above
-    if knowledgebase != None:
-        kb_values = tile(knowledgebase[1], size, dim=0)
-        kb_mask = tile(knowledgebase[-1], size, dim=0)
-        kb_values_embed = tile(knowledgebase[2], size, dim=0)
-
-        kb_size = kb_values.size(1)
-        kb_keys = knowledgebase[0]
-
-        if isinstance(kb_keys, tuple):
-            kb_keys = tuple([tile(key_dim, size, dim=0) for key_dim in kb_keys])
+        # Recurrent models only: initialize RNN hidden state
+        # pylint: disable=protected-access
+        if not transformer:
+            hidden = decoder._init_hidden(encoder_hidden)
         else:
-            kb_keys = tile(kb_keys, size, dim=0)
+            hidden = None
 
-        att_alive = torch.Tensor( # batch * k x src x time
-            [[[] for _ in range(encoder_output.size(1))] for _ in range(batch_size * size)]
-        ).to(dtype=torch.float32, device=encoder_output.device)
-        
-        kb_att_alive = torch.Tensor( # batch*k x KB x time
-            [[[] for _ in range(kb_size)] for _ in range(batch_size * size)]
-        ).to(dtype=torch.float32, device=encoder_output.device)
-        
-        debug_tnsrs = (kb_values, kb_mask, kb_values_embed, (kb_keys if isinstance(kb_keys, torch.Tensor) else kb_keys[0]), alive_seq)
-        assert set([t.size(0) for t in debug_tnsrs]) == set([batch_size * size]), [t.shape for t in debug_tnsrs]
-        
-        stacked_attention_scores = [[] for _ in range(batch_size)]
-        stacked_kb_att_scores = [[] for _ in range(batch_size)]
+        # tile encoder states and decoder initial states beam_size times
+        if hidden is not None:
+            hidden = tile(hidden, size, dim=1)  # layers x batch*k x dec_hidden_size
 
-        util_dims_cache = None
-        kb_feed_hidden_cache = None
+        encoder_output = tile(encoder_output.contiguous(), size,
+                            dim=0)  # batch*k x src_len x enc_hidden_size
+        src_mask = tile(src_mask, size, dim=0)  # batch*k x 1 x src_len
 
-    else:
-        kb_keys, kb_values, kb_mask = None, None, None
-        kb_size = None
-        att_alive = None 
-        kb_att_alive = None 
-        stacked_attention_scores, stacked_kb_att_scores = None, None
-       
+        # Transformer only: create target mask
+        if transformer:
+            trg_mask = src_mask.new_ones([1, 1, 1])  # transformer only
+        else:
+            trg_mask = None
+
+        # numbering elements in the batch
+        batch_offset = torch.arange(
+            batch_size, dtype=torch.long, device=encoder_output.device)
+
+        # numbering elements in the extended batch, i.e. beam size copies of each
+        # batch element
+        beam_offset = torch.arange(
+            0,
+            batch_size * size,
+            step=size,
+            dtype=torch.long,
+            device=encoder_output.device)
+
+        # keeps track of the top beam size hypotheses to expand for each element
+        # in the batch to be further decoded (that are still "alive")
+        alive_seq = torch.full(
+            [batch_size * size, 1],
+            bos_index,
+            dtype=torch.long,
+            device=encoder_output.device)
+
+        # Give full probability to the first beam on the first step.
+        # pylint: disable=not-callable
+        topk_log_probs = torch.zeros(batch_size, size, device=encoder_output.device)
+        topk_log_probs[:, 1:] = float("-inf")
+
+        # Structure that holds finished hypotheses in order of completion.
+        hypotheses = [[] for _ in range(batch_size)]
+
+        results = {}
+
+        results["predictions"] = [[] for _ in range(batch_size)]
+        results["scores"] = [[] for _ in range(batch_size)]
+        results["att_scores"] = [[] for _ in range(batch_size)]
+        results["kb_att_scores"] = [[] for _ in range(batch_size)]
+
+        # kb task: also tile kb tensors along batch dimension as done with other inputs above
+        if knowledgebase != None:
+            kb_values = tile(knowledgebase[1], size, dim=0)
+            kb_mask = tile(knowledgebase[-1], size, dim=0)
+            kb_values_embed = tile(knowledgebase[2], size, dim=0)
+
+            kb_size = kb_values.size(1)
+            kb_keys = knowledgebase[0]
+
+            if isinstance(kb_keys, tuple):
+                kb_keys = tuple([tile(key_dim, size, dim=0) for key_dim in kb_keys])
+            else:
+                kb_keys = tile(kb_keys, size, dim=0)
+
+            att_alive = torch.Tensor( # batch * k x src x time
+                [[[] for _ in range(encoder_output.size(1))] for _ in range(batch_size * size)]
+            ).to(dtype=torch.float32, device=encoder_output.device)
+            
+            kb_att_alive = torch.Tensor( # batch*k x KB x time
+                [[[] for _ in range(kb_size)] for _ in range(batch_size * size)]
+            ).to(dtype=torch.float32, device=encoder_output.device)
+            
+            debug_tnsrs = (kb_values, kb_mask, kb_values_embed, (kb_keys if isinstance(kb_keys, torch.Tensor) else kb_keys[0]), alive_seq)
+            assert set([t.size(0) for t in debug_tnsrs]) == set([batch_size * size]), [t.shape for t in debug_tnsrs]
+            
+            stacked_attention_scores = [[] for _ in range(batch_size)]
+            stacked_kb_att_scores = [[] for _ in range(batch_size)]
+
+            util_dims_cache = None
+            kb_feed_hidden_cache = None
+
+        else:
+            kb_keys, kb_values, kb_mask = None, None, None
+            kb_size = None
+            att_alive = None 
+            kb_att_alive = None 
+            stacked_attention_scores, stacked_kb_att_scores = None, None
+        
     for step in range(max_output_length):
 
         # This decides which part of the predicted sentence we feed to the
@@ -480,8 +482,21 @@ def beam_search(
         # batch * k x trg_vocab
         log_probs = log_probs.squeeze(1)
 
-        # multiply probs by the beam probability ( = add logprobs)
-        log_probs += topk_log_probs.view(-1).unsqueeze(1)
+        # multiply probs by the probability of each beam thus far ( = add logprobs)
+        try:
+            log_probs += topk_log_probs.view(-1).unsqueeze(1)
+        except Exception as e:
+            dbg_tnsrs=[hidden, att_scores, att_vectors, kb_scores, util_dims_cache, kb_feed_hidden_cache]
+            print([t.shape for t in dbg_tnsrs if isinstance(t,torch.Tensor)])
+            print([t.size(0) for t in dbg_tnsrs if isinstance(t,torch.Tensor)])
+            print(step)
+            print(encoder_output.shape)
+            print(select_indices)
+            print(batch_index)
+            print(non_finished)
+            print(non_finished.shape)
+            print(batch_size*size)
+            raise e
         curr_scores = log_probs
 
         # compute length penalty
@@ -493,15 +508,15 @@ def beam_search(
         curr_scores = curr_scores.reshape(-1, size * generator.output_size) # batch x k * voc FIXME
 
         # pick currently best top k hypotheses (flattened order)
-        topk_scores, topk_ids = curr_scores.topk(size, dim=-1) # each: batch x k * k
+        topk_scores, topk_ids = curr_scores.topk(size, dim=-1) # each: batch x k
 
         if alpha > -1:
             # recover original log probs
-            topk_log_probs = topk_scores * length_penalty
+            topk_log_probs = topk_scores * length_penalty # b x k
 
         # reconstruct beam origin and true word ids from flattened order
         
-        topk_beam_index = topk_ids//generator.output_size # NOTE why divide by voc size?? this should always be 0
+        topk_beam_index = (topk_ids//generator.output_size).to(dtype=torch.int64) # NOTE why divide by voc size?? this should always be 0
         topk_ids = topk_ids.fmod(generator.output_size) # NOTE why mod voc size? isnt every entry < voc size?
 
         # map beam_index to batch_index in the flat representation
@@ -530,11 +545,11 @@ def beam_search(
                             att_scores.transpose(1,2).index_select(0, select_indices).contiguous()
                         ],
                     -1 ) 
-                except RuntimeError as e:
+                except Exception as e:
                     print(f"step: {step}")
+                    print(select_indices)
                     print(f"att_alive.shape: {att_alive.shape}")
                     print(f"encoder steps: {encoder_output.size(1)}")
-                    print(att_alive.index_select(0,select_indices).shape)
                     print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
                     raise e
 
@@ -550,10 +565,10 @@ def beam_search(
         if step + 1 == max_output_length:
             # force finish
             is_finished.fill_(True)
-        # end condition is whether the top beam is finished
+        # end condition is whether the top beam of given batch is finished
         end_condition = is_finished[:, 0].eq(True)
 
-        # save finished hypotheses
+        # save finished hypotheses if any of the batches finished 
         if is_finished.any():
 
             predictions = alive_seq.view(-1, size, alive_seq.size(-1)) # batch x k x time
@@ -563,43 +578,51 @@ def beam_search(
                 b = batch_offset[i]
                 if end_condition[i]:
                     # this batch finished 
-                    is_finished[i].fill_(1)
+                    is_finished[i].fill_(True)
 
-                finished_hyp = is_finished[i].nonzero().view(-1) # k
+                finished_hyp = is_finished[i].nonzero(as_tuple=False).view(-1) # k
 
                 # store finished hypotheses for this batch
                 # (that doesnt mean the batch is completely finished, 
                 # hence the list 'hypotheses' is maintained outside the unroll loop)
-                for j in finished_hyp: # iter over beams
-                    hypotheses[b].append((
-                        topk_scores[i, j], # for sorting beams by prob (below)
-                        predictions[i, j, 1:])  # ignore start_token
-                    )
-                    if knowledgebase is not None:
+                for j in finished_hyp: # iter over finished beams
 
-                        # batch x k x src len x time 
-                        if 0 not in att_alive.shape:
-                            # at least one attention matrix has been inserted
-                            attentions = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) 
-                            stacked_attention_scores[b].append(
-                                attentions[i,j].cpu().numpy()
-                            )
-                        else:
-                            attentions = None
-
-                        # batch x k x KB x time 
-                        kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
-
-                        stacked_kb_att_scores[b].append(
-                            kb_attentions[i,j].cpu().numpy()
+                    # first time EOS appears in this beam, save it as hypothesis
+                    # (also save attentions here)
+                    if (predictions[i, j, 1:] == eos_index).nonzero(
+                            as_tuple=False).numel() < 2:
+                        hypotheses[b].append((
+                            topk_scores[i, j], # for sorting beams by prob (below)
+                            predictions[i, j, 1:])  # ignore BOS token 
                         )
+                        if knowledgebase is not None:
 
-                # if the batch reached the end, save the n_best hypotheses
+                            # batch x k x src len x time 
+                            if 0 not in att_alive.shape:
+                                # at least one attention matrix has been inserted
+                                attentions = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) 
+                                stacked_attention_scores[b].append(
+                                    attentions[i,j].cpu().numpy()
+                                )
+                            else:
+                                attentions = None
+
+                            # batch x k x KB x time 
+                            kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
+
+                            stacked_kb_att_scores[b].append(
+                                kb_attentions[i,j].cpu().numpy()
+                            )
+
+                # if the batch reached the end, save the n best hypotheses (and their attentions and kb attentions)
                 if end_condition[i]:
-
+                    # (hypotheses[b] is list of the completed hypotheses of this batch in order of completion => find out which is best)
+                    # (stacked_attention_scores[b] and stacked_kb_att_scores[b] are also in order of completion)
+ 
                     # which beam is best?
                     best_hyps_descending = sorted(
-                        hypotheses[b], key=lambda x: x[0], reverse=True)
+                        hypotheses[b], key=lambda x: x[0], reverse=True
+                    )
 
                     dbg = np.array([hyp[1].cpu().numpy() for hyp in best_hyps_descending])
                     print(dbg.shape, dbg[0])
@@ -617,16 +640,24 @@ def beam_search(
                         best_hyps_d_ = hyps[best_hyps_idx]
 
                         # sanity check implementation
-                        assert np.allclose( best_hyps_d_ , dbg)
+                        try:
+                            assert set([(t1==t2).all() for t1,t2 in zip(best_hyps_d_ , dbg)]) == {True}
+                        except Exception as e:
+                            print(best_hyps_d_.dtype)
+                            print(dbg.dtype)
+                            print([[t.dtype for t in tup] for tup in (best_hyps_d_, dbg)])
+                            raise e
 
-                        stck_att_np = np.array(stacked_attention_scores[b])
-                        stck_kb_att_np = np.array(stacked_kb_att_scores[b])
+                        assert n_best == 1, f"This is a massive clutch: Currently indexing only top 1 beam while saving attentions"
+                        
+                        # FIXME TODO NOTE XXX
 
-                        if len(stck_att_np):
-                            best_atts_d_ = stck_att_np[best_hyps_idx] 
+                        if 0 not in att_alive.shape:
+                            best_atts_d_ = [stacked_attention_scores[b][best_hyps_idx[0]]]
                         else:
                             best_atts_d_ = None
-                        best_kb_atts_d_ = stck_kb_att_np[best_hyps_idx]
+                        best_kb_atts_d_ = [stacked_kb_att_scores[b][best_hyps_idx[0]]]
+
                     
                     # TODO replace best_hyps_descending with best_hyps_d_ FIXME XXX (after cluster beam test)
                     for n, (score, pred) in enumerate(best_hyps_descending):
@@ -640,7 +671,7 @@ def beam_search(
                                 results["att_scores"][b].append(best_atts_d_[n])
                             results["kb_att_scores"][b].append(best_kb_atts_d_[n])
                         
-            non_finished = end_condition.eq(False).nonzero().view(-1) # batch
+            non_finished = end_condition.eq(False).nonzero(as_tuple=False).view(-1) # batch
             # if all sentences are translated, no need to go further
             # pylint: disable=len-as-condition
             if len(non_finished) == 0:
@@ -657,18 +688,21 @@ def beam_search(
             if knowledgebase is not None:
 
                 # going from 
-                # batch x k x att x time 
+                # batch x k x time x att
                 # to
                 # batch * k x time x att
                 # where att = src_len for attentions, and att = kb_size for kb_attentions
 
                 if 0 not in att_alive.shape:
-                    att_alive = att_alive.index_select(0, non_finished) \
+                    att_alive = att_alive \
+                        .view(-1, size, att_alive.size(-2), att_alive.size(-1)) \
+                        .index_select(0, non_finished) \
                         .view(-1, attentions.size(-2), attentions.size(-1))
 
-                kb_att_alive = kb_att_alive.index_select(0, non_finished) \
-                    .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
-
+                kb_att_alive = kb_att_alive \
+                        .view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1)) \
+                        .index_select(0, non_finished) \
+                        .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
 
         # reorder indices, outputs and masks using this
         select_indices = batch_index.view(-1)
