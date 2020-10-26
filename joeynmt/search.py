@@ -558,8 +558,8 @@ def beam_search(
                 finished_hyp = is_finished[i].nonzero().view(-1) # k
 
                 # store finished hypotheses for this batch
-                # (that doesnt mean the batch is completely finished, hence
-                # the list 'hypotheses' being maintained outside the unroll loop)
+                # (that doesnt mean the batch is completely finished, 
+                # hence the list 'hypotheses' is maintained outside the unroll loop)
                 for j in finished_hyp: # iter over beams
                     hypotheses[b].append((
                         topk_scores[i, j], # for sorting beams by prob (below)
@@ -613,7 +613,6 @@ def beam_search(
                         stck_att_np = np.array(stacked_attention_scores[b])
                         stck_kb_att_np = np.array(stacked_kb_att_scores[b])
 
-
                         if len(stck_att_np):
                             best_atts_d_ = stck_att_np[best_hyps_idx] 
                         else:
@@ -647,17 +646,19 @@ def beam_search(
 
             if knowledgebase is not None:
 
-                # TODO: go from 
-                # batch x k x src len x time 
+                # going from 
+                # batch x k x att x time 
                 # to
-                # batch * k x time x src
+                # batch * k x time x att
+                # where att = src_len for attentions, and att = kb_size for kb_attentions
 
                 if 0 not in att_alive.shape:
                     att_alive = att_alive.index_select(0, non_finished) \
                         .view(-1, attentions.size(-1), attentions.size(-2))
 
+                shape__  = kb_att_alive.shape
                 kb_att_alive = kb_att_alive.index_select(0, non_finished) \
-                    .view(-1, attentions.size(-1), attentions.size(-2))
+                    .view(-1, kb_attentions.size(-1), kb_attentions.size(-2))
 
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)
