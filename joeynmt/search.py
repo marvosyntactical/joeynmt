@@ -494,7 +494,7 @@ def beam_search(
 
         # reconstruct beam origin and true word ids from flattened order
         
-        topk_beam_index = topk_ids//generator.output_size # NOTE why divide by voc size??
+        topk_beam_index = topk_ids//generator.output_size # NOTE why divide by voc size?? this should always be 0
         topk_ids = topk_ids.fmod(generator.output_size) # NOTE why mod voc size? isnt every entry < voc size?
 
         # map beam_index to batch_index in the flat representation
@@ -510,23 +510,26 @@ def beam_search(
              topk_ids.view(-1, 1)], -1)  # batch_size*k x hyp_len
 
         if knowledgebase is not None:
-            # print(f"step: {step}")
-            # print(f"att_alive.shape: {att_alive.shape}")
-            # print(f"encoder steps: {encoder_output.size(1)}")
-            # print(att_alive.index_select(0,select_indices).shape)
-            # print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
-            # print(f"kb_att_alive.shape: {kb_att_alive.shape}")
-            # print(f"kb_size: {kb_size}")
-            # print(kb_att_alive.index_select(0,select_indices).shape)
-            # print(kb_scores.transpose(1,2).index_select(0,select_indices).shape)
+            print(f"kb_att_alive.shape: {kb_att_alive.shape}")
+            print(f"kb_size: {kb_size}")
+            print(kb_att_alive.index_select(0,select_indices).shape)
+            print(kb_scores.transpose(1,2).index_select(0,select_indices).shape)
 
             if att_scores is not None:
-                att_alive = torch.cat( # batch * k x src len x time
-                    [
-                        att_alive.index_select(0, select_indices),
-                        att_scores.transpose(1, 2).index_select(0, select_indices)
-                    ],
-                -1 ) 
+                try:
+                    att_alive = torch.cat( # batch * k x src len x time
+                        [
+                            att_alive.index_select(0, select_indices),
+                            att_scores.transpose(1, 2).index_select(0, select_indices)
+                        ],
+                    -1 ) 
+                except RuntimeError as e:
+                    print(f"step: {step}")
+                    print(f"att_alive.shape: {att_alive.shape}")
+                    print(f"encoder steps: {encoder_output.size(1)}")
+                    print(att_alive.index_select(0,select_indices).shape)
+                    print(att_scores.transpose(1,2).index_select(0,select_indices).shape)
+                    raise e
 
             kb_att_alive = torch.cat( # batch * k x KB x time
                 [
