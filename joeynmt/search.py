@@ -646,8 +646,9 @@ def beam_search(
                 break
                         
             # remove finished batches for the next step
-            topk_log_probs = topk_log_probs.index_select(0, non_finished)
             batch_index = batch_index.index_select(0, non_finished)
+
+            topk_log_probs = topk_log_probs.index_select(0, non_finished)
             batch_offset = batch_offset.index_select(0, non_finished)
             alive_seq = predictions.index_select(0, non_finished) \
                 .view(-1, alive_seq.size(-1))
@@ -668,7 +669,6 @@ def beam_search(
                 kb_att_alive = kb_att_alive.index_select(0, non_finished) \
                     .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
 
-                kb_mask = kb_mask.index_select(0, non_finished)
 
         # reorder indices, outputs and masks
         select_indices = batch_index.view(-1)
@@ -713,6 +713,7 @@ def beam_search(
                     print(size)
                     print(generator.output_size)
                     raise IE
+            kb_mask = kb_mask.index_select(0, select_indices)
 
     def pad_and_stack_hyps(hyps, pad_value):
         filled = np.ones((len(hyps), max([h.shape[0] for h in hyps])),
