@@ -516,6 +516,7 @@ def beam_search(
             print(kb_scores.index_select(0,select_indices).shape)
            
             if att_scores is not None:
+                # FIXME sometimes this way sometimes the other idk
                 try:
                     att_alive = torch.cat( # batch * k x src len x time
                         [
@@ -529,13 +530,29 @@ def beam_search(
                     print(f"encoder steps: {encoder_output.size(1)}")
                     print(att_alive.index_select(0,select_indices).shape)
                     print(att_scores.index_select(0,select_indices).shape)
-                    raise e
-            kb_att_alive = torch.cat( # batch * k x KB x time
-                [
-                    kb_att_alive.index_select(0, select_indices),
-                    kb_scores.index_select(0,select_indices)
-                ],
-            -1) 
+
+                    att_alive = torch.cat( # batch * k x src len x time
+                        [
+                            att_alive.index_select(0, select_indices),
+                            att_scores.transpose(1,2).index_select(0, select_indices)
+                        ],
+                    -1 )
+            try:
+                kb_att_alive = torch.cat( # batch * k x KB x time
+                    [
+                        kb_att_alive.index_select(0, select_indices),
+                        kb_scores.index_select(0,select_indices)
+                    ],
+                -1) 
+            except RuntimeError as e:
+                kb_att_alive = torch.cat( # batch * k x KB x time
+                    [
+                        kb_att_alive.index_select(0, select_indices),
+                        kb_scores.transpose(1,2).index_select(0,select_indices)
+                    ],
+                -1) 
+
+
 
         # which batches are finished? 
         is_finished = topk_ids.eq(eos_index) # batch x k
