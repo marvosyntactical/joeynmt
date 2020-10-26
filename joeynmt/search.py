@@ -527,7 +527,7 @@ def beam_search(
                     att_alive = torch.cat( # batch * k x src len x time
                         [
                             att_alive.index_select(0, select_indices),
-                            att_scores.transpose(1,2).index_select(0, select_indices)
+                            att_scores.transpose(1,2).index_select(0, select_indices).contiguous()
                         ],
                     -1 ) 
                 except RuntimeError as e:
@@ -541,7 +541,7 @@ def beam_search(
             kb_att_alive = torch.cat( # batch * k x KB x time
                 [
                     kb_att_alive.index_select(0, select_indices),
-                    kb_scores.transpose(1,2).index_select(0,select_indices)
+                    kb_scores.transpose(1,2).index_select(0,select_indices).contiguous()
                 ],
             -1) 
 
@@ -581,16 +581,15 @@ def beam_search(
                         if 0 not in att_alive.shape:
                             # at least one attention matrix has been inserted
                             attentions = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) 
+                            stacked_attention_scores[b].append(
+                                attentions[i,j].cpu().numpy()
+                            )
                         else:
                             attentions = None
 
                         # batch x k x KB x time 
                         kb_attentions = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1))
 
-                        if attentions is not None:
-                            stacked_attention_scores[b].append(
-                                attentions[i,j].cpu().numpy()
-                            )
                         stacked_kb_att_scores[b].append(
                             kb_attentions[i,j].cpu().numpy()
                         )
@@ -617,7 +616,7 @@ def beam_search(
                         best_hyps_idx = np.argsort(sort_key)[::-1].copy() 
                         best_hyps_d_ = hyps[best_hyps_idx]
 
-                        # unit test implementation
+                        # sanity check implementation
                         assert np.allclose( best_hyps_d_ , dbg)
 
                         stck_att_np = np.array(stacked_attention_scores[b])
@@ -671,8 +670,9 @@ def beam_search(
                     .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
 
 
-        # reorder indices, outputs and masks
+        # reorder indices, outputs and masks using this
         select_indices = batch_index.view(-1)
+
         encoder_output = encoder_output.index_select(0, select_indices)
         src_mask = src_mask.index_select(0, select_indices) # for transformer
 

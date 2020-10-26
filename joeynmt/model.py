@@ -264,6 +264,8 @@ class Model(nn.Module):
             assert not log_probs.requires_grad, "using batch.trgcanon shouldnt happen / be done during training (canonized data is used in the 'trg' field there)"
 
 
+        # check number of classes equals prediction distribution support
+        # (can otherwise lead to nasty CUDA device side asserts that dont give a traceback to here)
         assert log_probs.size(-1) == self.generator.output_size, (log_probs.shape, self.generator.output_size)
 
         # compute batch loss
