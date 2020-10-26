@@ -1635,7 +1635,11 @@ class Generator(Gen):
 
         if self.add_kb_biases_to_output and kb_values is not None and kb_probs is not None:
 
-            _batch, _unroll, _kb = kb_probs.shape
+            try:
+                _batch, _unroll, _kb = kb_probs.shape
+            except Exception as e:
+                print(kb_probs.shape)
+                raise e
 
             # kb_values: b x kb => b x time x kb
             kb_values = kb_values.unsqueeze(1).repeat((1, _unroll, 1))
@@ -1785,8 +1789,16 @@ def kvr_att_step(  utils_dims_cache, kb_feed_hidden_cache, query,
 
     if kb_mask is not None:
         # mask entries that arent actually assigned (happens in scheduling)
+        if len(kb_mask.shape)+1 == len(u_t_k.shape):
+            kb_mask = kb_mask.unsqueeze(1)
+
+        assert kb_mask.shape == u_t_k.shape, (kb_mask.shape, u_t_k.shape)
+
+        with torch.no_grad():
+            zeros_like_u_t_k = u_t_k.new_zeros(u_t_k.shape)
+
         u_t_k = torch.where(
-            ~kb_mask.unsqueeze(1), u_t_k, u_t_k.new_zeros(u_t_k.shape) 
+            ~kb_mask, u_t_k, zeros_like_u_t_k 
         )
 
     return u_t_k, utils_dims_cache, kb_feed_hidden_cache

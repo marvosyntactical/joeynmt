@@ -455,8 +455,12 @@ def beam_search(
             kb_feed_hidden_cache=kb_feed_hidden_cache
         )
 
-        # generator applies output layer, biases towards KB values, then applies log_softmax
-        log_probs = generator(att_vectors, kb_values=kb_values, kb_probs=kb_scores)
+        try:
+            # generator applies output layer, biases towards KB values, then applies log_softmax
+            log_probs = generator(att_vectors, kb_values=kb_values, kb_probs=kb_scores)
+        except Exception as e:
+            print(kb_scores.shape)
+            raise e
 
         # hidden = ?? x batch*k x dec hidden        #FIXME why 3 ??????
         # att_scores = batch*k x 1 x src_len        #TODO  Find correct beam in dim 0 at every timestep.
@@ -503,7 +507,6 @@ def beam_search(
             + beam_offset[:topk_beam_index.size(0)].unsqueeze(1))
         select_indices = batch_index.view(-1) # batch * k 
 
-
         # append latest prediction
         alive_seq = torch.cat(
             [alive_seq.index_select(0, select_indices), # index first dim (batch * k) with the beams we want to continue this step
@@ -538,9 +541,6 @@ def beam_search(
                     kb_scores.transpose(1,2).index_select(0,select_indices)
                 ],
             -1) 
-        
-
-
 
         # which batches are finished? 
         is_finished = topk_ids.eq(eos_index) # batch x k
