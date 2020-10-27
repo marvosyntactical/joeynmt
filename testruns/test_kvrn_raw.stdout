@@ -196,11 +196,14 @@ proc_batch: batch.trg: ['i', 'have', '<unk>', 'an', 'appointment', 'for', '<unk>
 proc_batch: kbkeys: [['meeting', '<pad>', 'room', '<pad>'], ['meeting', '<pad>', 'event', '<pad>'], ['meeting', '<pad>', 'date', '<pad>'], ['meeting', '<pad>', 'time', '<pad>']]
 proc_batch: kbvalues: [['@room'], ['@event'], ['@date'], ['@time']]
 debug: batch.kbtrv:[['conference room 100'], ['meeting'], ['monday'], ['3pm']]
-Time spent on converting arrays to sentences for current batch: 0.0005781650543212891
+Time spent on converting arrays to sentences for current batch: 0.0007264614105224609
 debug: kb_true_vals :torch.Size([2, 4])
 debug: kb_true_vals content:tensor([[1822, 1047, 1134, 1178],
         [1822, 1047, 1134, 1178]], device='cuda:0')
-Time spent on kb_true_vals checks: 0.0007441043853759766
-Time spent on knowledgebase attention dimensions == 1: 0.0002627372741699219
-kb_att_alive.shape: torch.Size([20, 4, 0])
-1.4.0
+Time spent on kb_true_vals checks: 0.0009312629699707031
+Time spent on knowledgebase attention dimensions == 1: 0.0003590583801269531
+(11,) [ 8 22 10  4  3]
+(tensor(-3.0991, device='cuda:0'), tensor([ 8, 22, 10,  3], device='cuda:0')) <class 'tuple'>
+(12,) [ 20 966   5   9 955  11 965   4   3]
+(tensor(-2.7279, device='cuda:0'), tensor([ 20, 966,   5,   9, 955,   4,   3], device='cuda:0')) <class 'tuple'>
+[(36, 9), (36, 5)]

@@ -1,0 +1,210 @@
+processing data for fields=('src', 'kbsrc')
+processed data for fields=('src', 'kbsrc') with [('src', 208721), ('kbsrc', 6276)] Attribute Errors per field
+
+
+rearranging vocabulary to put all strings starting with '@' after self.canonical_onwards in itos             (at the end of vocab) ...
+took some canonical @tokens from vocab, correcting self.stoi now
+reappending the canonical tokens at end now ...
+done vocabulary setup, returning 
+
+processing data for fields=('trg', 'kbtrg')
+processed data for fields=('trg', 'kbtrg') with [('trg', 208721), ('kbtrg', 6276)] Attribute Errors per field
+
+
+rearranging vocabulary to put all strings starting with '@' after self.canonical_onwards in itos             (at the end of vocab) ...
+took some canonical @tokens from vocab, correcting self.stoi now
+reappending the canonical tokens at end now ...
+done vocabulary setup, returning 
+
+Added true value lines as tokens to trv_vocab of length=1835
+Made entity classification for seq up to here:
+                    ['your', 'meeting'];
+candidates are:
+                    [(['meeting'], '@event')];
+partial matches are:
+                    [];
+choice is:
+                    (['meeting'], '@event');
+r is:
+['your', '@event']
+Made entity classification for seq up to here:
+                    ['your', 'meeting', 'in', 'conference', 'room', '100', 'is'];
+candidates are:
+                    [(['conference'], '@event'), (['conference', 'room', '100'], '@room')];
+partial matches are:
+                    [(['conference', 'room', '102'], '@room', 2), (['conference', 'room', '50'], '@room', 2)];
+choice is:
+                    (['conference', 'room', '100'], '@room');
+r is:
+['your', '@event', 'in', '@room']
+Made entity classification for seq up to here:
+                    ['your', 'meeting', 'in', 'conference', 'room', '100', 'is', 'with', 'martha'];
+candidates are:
+                    [(['martha'], '@party')];
+partial matches are:
+                    [];
+choice is:
+                    (['martha'], '@party');
+r is:
+['your', '@event', 'in', '@room', 'is', 'with', '@party']
+
+========================================
+	Finished up Sequence
+['your', 'meeting', 'in', 'conference', 'room', '100', 'is', 'with', 'martha']
+and transformed it to
+['your', '@event', 'in', '@room', 'is', 'with', '@party']
+========================================
+
+(['your', '@event', 'in', '@room', 'is', 'with', '@party'], [0, 1, 2, 3, 3, 3, 4, 5, 6], [('@event', ['your', 'meeting', 'in']), ('@room', ['conference', 'room', '100', 'is', 'with']), ('@party', ['with', 'martha'])])
+
+---------- ENTER VALIDATION ----------
+
+['what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', '@event', 'room', '?'] [0, 203, 40, 35, 36, 0, 203, 40, 203, 203, 35, 203, 36, 203, 0, 203, 35, 40, 203, 40, 203, 0, 48, 203, 0, 0, 203, 35, 203, 203, 0, 203, 40, 0, 35, 203, 203, 35, 36, 40, 203, 203, 203, 203, 35, 0, 203, 0, 35, 36, 40, 40, 203, 0, 0, 40, 40, 203, 48, 40, 0, 0, 203, 36, 203, 35, 203, 203, 203, 40, 203, 36, 203, 0, 35, 40, 203, 0, 203, 203, 35, 35, 0, 203, 203, 35, 203, 40, 0, 36, 203, 40, 203, 48, 0, 40, 203, 36, 36, 35, 35, 203, 0, 35, 40, 35, 36, 203, 0, 48, 40, 48, 0, 0, 40, 36, 203, 35, 35, 203, 203, 0, 48, 35, 40, 40, 48, 0, 40, 203, 35, 203, 48, 203, 48, 203, 203, 35, 0, 0, 35, 36, 0, 48, 0, 48, 35, 40, 0, 203, 36, 35, 36, 40, 0, 36, 35, 40, 203, 48, 36, 203, 40, 35, 203, 35, 35, 35, 0, 203, 40, 35, 40, 0, 0, 203, 48, 203, 35, 203, 35, 35, 35, 203, 0, 35, 40, 203, 0, 48, 203, 36, 203, 36, 36, 203, 35, 40, 0, 40, 40, 40, 203, 203, 0, 40, 35, 0, 203, 40, 48, 40, 40, 48, 0, 35, 35, 203, 203, 0, 203, 0, 203, 203, 203, 0, 36, 203, 48, 203, 35, 203, 0, 0, 0, 48, 203, 203, 203, 0, 35, 203, 0, 40, 203, 36, 203, 0, 35, 40, 203, 35, 35, 0, 203, 40, 203, 35, 203, 40, 35, 203, 203, 35, 203, 0, 203, 40, 203, 40, 40, 203, 36, 203, 0, 48, 203, 35, 203, 0, 35, 0, 203, 0, 203, 40, 203, 203, 0, 40, 36, 0, 203, 40, 0, 0, 0, 40, 35, 203, 48] 0
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later'];
+candidates are:
+                    [(['conference'], '@event'), (['conference', 'room', '100'], '@room')];
+partial matches are:
+                    [(['conference', 'room', '102'], '@room', 2), (['conference', 'room', '50'], '@room', 2)];
+choice is:
+                    (['conference', 'room', '100'], '@room');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room']
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting'];
+candidates are:
+                    [(['meeting'], '@event')];
+partial matches are:
+                    [];
+choice is:
+                    (['meeting'], '@event');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event']
+
+========================================
+	Finished up Sequence
+['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting']
+and transformed it to
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event']
+========================================
+
+
+minibatch.kb length: 2
+minibatch.kb:
+[(['meeting', '<pad>', 'room'], ['@room'], ['conference room 100']),
+ (['meeting', '<pad>', 'event'], ['@event'], ['meeting'])]
+
+minibatch.src/trg: (['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting'], ['what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', '@event', 'room', '?'])
+
+batch_with_kb: current, kb_len, current+kb_len:  0 0 0
+
+corresponding_kb: 0
+
+example number: 0
+
+kb_lkp array neighborhood of 2 (center item is corresponding_kb=kb_lkp[0]): []
+['i', 'have', 'made', 'an', 'appointment', 'for', '@date', 'at', '@time', 'for', 'the', '@event', '.'] [0, 203, 40, 35, 36, 0, 203, 40, 203, 203, 35, 203, 36, 203, 0, 203, 35, 40, 203, 40, 203, 0, 48, 203, 0, 0, 203, 35, 203, 203, 0, 203, 40, 0, 35, 203, 203, 35, 36, 40, 203, 203, 203, 203, 35, 0, 203, 0, 35, 36, 40, 40, 203, 0, 0, 40, 40, 203, 48, 40, 0, 0, 203, 36, 203, 35, 203, 203, 203, 40, 203, 36, 203, 0, 35, 40, 203, 0, 203, 203, 35, 35, 0, 203, 203, 35, 203, 40, 0, 36, 203, 40, 203, 48, 0, 40, 203, 36, 36, 35, 35, 203, 0, 35, 40, 35, 36, 203, 0, 48, 40, 48, 0, 0, 40, 36, 203, 35, 35, 203, 203, 0, 48, 35, 40, 40, 48, 0, 40, 203, 35, 203, 48, 203, 48, 203, 203, 35, 0, 0, 35, 36, 0, 48, 0, 48, 35, 40, 0, 203, 36, 35, 36, 40, 0, 36, 35, 40, 203, 48, 36, 203, 40, 35, 203, 35, 35, 35, 0, 203, 40, 35, 40, 0, 0, 203, 48, 203, 35, 203, 35, 35, 35, 203, 0, 35, 40, 203, 0, 48, 203, 36, 203, 36, 36, 203, 35, 40, 0, 40, 40, 40, 203, 203, 0, 40, 35, 0, 203, 40, 48, 40, 40, 48, 0, 35, 35, 203, 203, 0, 203, 0, 203, 203, 203, 0, 36, 203, 48, 203, 35, 203, 0, 0, 0, 48, 203, 203, 203, 0, 35, 203, 0, 40, 203, 36, 203, 0, 35, 40, 203, 35, 35, 0, 203, 40, 203, 35, 203, 40, 35, 203, 203, 35, 203, 0, 203, 40, 203, 40, 40, 203, 36, 203, 0, 48, 203, 35, 203, 0, 35, 0, 203, 0, 203, 40, 203, 203, 0, 40, 36, 0, 203, 40, 0, 0, 0, 40, 35, 203, 48] 0
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later'];
+candidates are:
+                    [(['conference'], '@event'), (['conference', 'room', '100'], '@room')];
+partial matches are:
+                    [(['conference', 'room', '102'], '@room', 2), (['conference', 'room', '50'], '@room', 2)];
+choice is:
+                    (['conference', 'room', '100'], '@room');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room']
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting'];
+candidates are:
+                    [(['meeting'], '@event')];
+partial matches are:
+                    [];
+choice is:
+                    (['meeting'], '@event');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event']
+Warning: Omitting possible match ['the', '1st']; only matched with first token!
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the'];
+candidates are:
+                    [];
+partial matches are:
+                    [(['the', '1st'], '@date', 1), (['the', '2nd'], '@date', 1), (['the', '3rd'], '@date', 1), (['the', '4th'], '@date', 1), (['the', '5th'], '@date', 1), (['the', '6th'], '@date', 1), (['the', '7th'], '@date', 1), (['the', '8th'], '@date', 1), (['the', '9th'], '@date', 1), (['the', '10th'], '@date', 1), (['the', '11th'], '@date', 1), (['the', '12th'], '@date', 1), (['the', '13th'], '@date', 1), (['the', '14th'], '@date', 1), (['the', '15th'], '@date', 1), (['the', '16th'], '@date', 1), (['the', '17th'], '@date', 1), (['the', '18th'], '@date', 1), (['the', '19th'], '@date', 1), (['the', '20th'], '@date', 1), (['the', 'clement'], '@poi_name', 1), (['the', 'westin'], '@poi_name', 1)];
+choice is:
+                    (['the', '1st'], '@date');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the']
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', 'conference', 'room'];
+candidates are:
+                    [(['conference'], '@event')];
+partial matches are:
+                    [(['conference', 'room', '100'], '@room', 2), (['conference', 'room', '102'], '@room', 2), (['conference', 'room', '50'], '@room', 2)];
+choice is:
+                    (['conference'], '@event');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', '@event']
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', 'conference', 'room', '?', '@dot', 'monday'];
+candidates are:
+                    [(['monday'], '@date')];
+partial matches are:
+                    [];
+choice is:
+                    (['monday'], '@date');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', '@event', 'room', '?', '@dot', '@date']
+Made entity classification for seq up to here:
+                    ['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', 'conference', 'room', '?', '@dot', 'monday', 'at', '3pm'];
+candidates are:
+                    [(['3pm'], '@time')];
+partial matches are:
+                    [];
+choice is:
+                    (['3pm'], '@time');
+r is:
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', '@event', 'room', '?', '@dot', '@date', 'at', '@time']
+
+========================================
+	Finished up Sequence
+['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', 'conference', 'room', '?', '@dot', 'monday', 'at', '3pm', '.']
+and transformed it to
+['make', 'an', 'appointment', 'to', 'reserve', '@room', 'later', 'this', 'week', 'for', 'a', '@event', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', '@event', 'room', '?', '@dot', '@date', 'at', '@time', '.']
+========================================
+
+
+minibatch.kb length: 4
+minibatch.kb:
+[(['meeting', '<pad>', 'room'], ['@room'], ['conference room 100']),
+ (['meeting', '<pad>', 'event'], ['@event'], ['meeting']),
+ (['meeting', '<pad>', 'date'], ['@date'], ['monday']),
+ (['meeting', '<pad>', 'time'], ['@time'], ['3pm'])]
+
+minibatch.src/trg: (['make', 'an', 'appointment', 'to', 'reserve', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', 'reserve', 'the', 'conference', 'room', '?', '@dot', 'monday', 'at', '3pm', '.'], ['i', 'have', 'made', 'an', 'appointment', 'for', '@date', 'at', '@time', 'for', 'the', '@event', '.'])
+
+batch_with_kb: current, kb_len, current+kb_len:  0 0 0
+
+corresponding_kb: 0
+
+example number: 1
+
+kb_lkp array neighborhood of 2 (center item is corresponding_kb=kb_lkp[1]): []
+matches for unk:                             []
+proc_batch: batch.src: ['make', 'an', 'appointment', 'to', '<unk>', 'conference', 'room', '100', 'later', 'this', 'week', 'for', 'a', 'meeting', '@dot', 'what', 'day', 'and', 'time', 'should', 'i', 'set', 'an', 'appointment', 'to', '<unk>', 'the', 'conference', 'room', '?', '@dot', 'monday', 'at', '3pm', '.']
+proc_batch: batch.trg: ['i', 'have', '<unk>', 'an', 'appointment', 'for', '@date', 'at', '@time', 'for', 'the', '@event', '.']
+proc_batch: kbkeys: [['meeting', '<pad>', 'room', '<pad>'], ['meeting', '<pad>', 'event', '<pad>'], ['meeting', '<pad>', 'date', '<pad>'], ['meeting', '<pad>', 'time', '<pad>']]
+proc_batch: kbvalues: [['@room'], ['@event'], ['@date'], ['@time']]
+debug: batch.kbtrv:[['conference room 100'], ['meeting'], ['monday'], ['3pm']]
+Time spent on converting arrays to sentences for current batch: 0.00040221214294433594
+debug: kb_true_vals :torch.Size([2, 4])
+debug: kb_true_vals content:tensor([[1822, 1047, 1134, 1178],
+        [1822, 1047, 1134, 1178]], device='cuda:0')
+Time spent on kb_true_vals checks: 0.0005643367767333984
+[1, 1, 4] 4 [torch.Size([2, 1, 200]), torch.Size([2, 4, 200])] [['room'], ['event'], ['date'], ['time']]
+Time spent on knowledgebase attention dimensions == 2: 0.005319118499755859
+(13,) [29 77 62 25 37  6 47 15 13  3]
+(tensor(-2.9359, device='cuda:0'), tensor([ 29,  77,   5,  20, 966,   9, 955,   4,   3], device='cuda:0')) <class 'tuple'>
+(11,) [ 61   7  43  18  47  15  20 966   9 955  11 965   4   3]
+(tensor(-2.5050, device='cuda:0'), tensor([ 47,  37,  15, 966,   9, 955,  11, 965,   4,   3], device='cuda:0')) <class 'tuple'>
+[(36, 10), (36, 14)]

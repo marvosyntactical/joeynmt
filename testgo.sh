@@ -22,10 +22,9 @@ reverse() {
 
 name=$1
 model_path=${2:-"models/"}
-ckpt_path=${3:-"modelsadd/1_rnnBest_100x16x32x0.trutrgCarnonodefaultdopostproFalse_17-10/best.ckpt"}
-duration=${4:-"0-16:00:00"} # duration should have syntax 2-12:15:59
-memory=${5:-"128000"}
-partition=${6:-"gpulong"}
+duration=${3:-"0-16:00:00"} # duration should have syntax 2-12:15:59
+memory=${4:-"128000"}
+partition=${5:-"gpulong"}
 
 
 clear
@@ -50,7 +49,8 @@ sbatch_ext=".sh"
 config="$cfg_path$name$cfg_ext"
 
 # best checkpoint has to be provided under config.load_model
-ckpt_path=$(grep "best.ckpt" $config | awk '{print $2}')
+ckpt_path=$(grep "load_model" $config | awk '{print $2}')
+echo $ckpt_path
 
 if [ -e "$config" ]
 then
@@ -123,6 +123,16 @@ echo "--------------------------------------------------------------------------
 cat $sbatch
 echo "---------------------------------------------------------------------------"
 echo 
+
+loadmodel_not_replaced=$(grep LOADMODEL $sbatch | wc -l)
+if [ $loadmodel_not_replaced == "0" ]
+then
+	echo "successfully replaced LOADMODEL"
+else
+	echo "failed to replace LOADMODEL above for some reason"
+	exit
+fi
+
 
 echo $ckpt_path_escape_slash
 

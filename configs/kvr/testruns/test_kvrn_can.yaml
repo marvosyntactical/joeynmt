@@ -29,7 +29,7 @@ testing:                                   # specify which inference algorithm t
     alpha: 1.0                             # length penalty for beam search
 
 training:                                  # specify training details here
-    load_model: "modelsadd/5_rnnEric_100x256x0.trutrgCarnonodefaultdopostproFalse_18-10" # if given, load a pre-trained model from this checkpoint
+    load_model: "modelsadd/5_rnnEric_100x256x0.trutrgCarnonodefaultdopostproFalse_18-10/best.ckpt" # if given, load a pre-trained model from this checkpoint
     random_seed: 42                        # set this seed to make training deterministic
     optimizer: "adam"                      # choices: "sgd", "adam", "adadelta", "adagrad", "rmsprop", default is SGD
     adam_betas: [0.9, 0.999]               # beta parameters for Adam. These are the defaults. Typically these are different for Transformer models.
@@ -53,7 +53,7 @@ training:                                  # specify training details here
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "modelsadd/15_test_kvrn_can_25-10" # directory where models and validation results are stored, required
+    model_dir: "modelsadd/15_test_kvrn_can_26-10" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
