@@ -7,18 +7,13 @@ Traceback (most recent call last):
     main()
   File "/home/students/koss/bachelor/joeynmt/joeynmt/__main__.py", line 31, in main
     test(cfg_file=args.config_path, ckpt=args.ckpt,
-  File "/home/students/koss/bachelor/joeynmt/joeynmt/prediction.py", line 320, in test
+  File "/home/students/koss/bachelor/joeynmt/joeynmt/prediction.py", line 325, in test
     hypotheses_raw, attention_scores, kb_att_scores, ent_f1, ent_mcc = validate_on_data(
-  File "/home/students/koss/bachelor/joeynmt/joeynmt/prediction.py", line 142, in validate_on_data
+  File "/home/students/koss/bachelor/joeynmt/joeynmt/prediction.py", line 147, in validate_on_data
     output, attention_scores, kb_att_scores = model.run_batch(
   File "/home/students/koss/bachelor/joeynmt/joeynmt/model.py", line 341, in run_batch
     beam_search(
-  File "/home/students/koss/bachelor/joeynmt/joeynmt/search.py", line 784, in beam_search
-    raise e
-  File "/home/students/koss/bachelor/joeynmt/joeynmt/search.py", line 778, in beam_search
-    stacked_attention_scores = np.stack([
-  File "<__array_function__ internals>", line 5, in stack
-  File "/home/students/koss/anaconda3/envs/venv/lib/python3.8/site-packages/numpy/core/shape_base.py", line 426, in stack
-    raise ValueError('all input arrays must have the same shape')
-ValueError: all input arrays must have the same shape
-srun: error: gpu06: task 0: Exited with exit code 1
+  File "/home/students/koss/bachelor/joeynmt/joeynmt/search.py", line 697, in beam_search
+    att_alive = att_alive \
+RuntimeError: shape '[-1, 131, 8]' is invalid for input of size 11790
+srun: error: gpu07: task 0: Exited with exit code 1

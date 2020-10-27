@@ -23,4 +23,5 @@ wmt*
 tensorboard_plots/*
 results/*
 *dstc2*
+testruns/*
 
