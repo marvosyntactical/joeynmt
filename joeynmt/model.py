@@ -627,11 +627,13 @@ class Model(nn.Module):
                 if token >= self.trg_vocab.canon_onwards: # this token is a canonical token (@traffic\_info) => replace it
 
                     kb_att_i = kb_att[i]
-                    # try to remove padded columns
+                    """
                     if (kb_att_i == pad_value).any():
+                        # try to remove padded columns
 
-                        idx_first_pad_ = (kb_att_i==pad_val).non_zero(as_tuple)[:,1].min().item()
-                        kb_att_i = kb_att_i[:,:idx_first_pad_]
+                        idx_first_pad_ = (kb_att_i==pad_val).non_zero(as_tuple)[:,0].min().item()
+                        kb_att_i = kb_att_i[:idx_first_pad_,:]
+                    """
 
                     str_tok = trvSent([token])
                     hypotSent = self.trg_vocab.array_to_sentence(hyp)
@@ -653,9 +655,12 @@ class Model(nn.Module):
 
                         print(f"pp: SUCCESS! Found matches for canonical: {str_tok}")
 
-
-                        # now order matching != -1 by corresponding attention values
-                        matching_scores = np.where(matching_trv_candidates != -1, kb_att_i[step,:], float("-inf"))
+                        try:
+                            # now order matching != -1 by corresponding attention values
+                            matching_scores = np.where(matching_trv_candidates != -1, kb_att_i[step,:], float("-inf"))
+                        except Exception as e:
+                            print(stacked_kb_att_scores.shape)
+                            raise e
 
                         print(f"pp: matching_scores (should have no '-1's):\n{matching_scores}") # should not contain '-1's
 

@@ -762,20 +762,22 @@ def beam_search(
         return filled
     
     def pad_and_stack_attention_matrices(atts, pad_value=float("-inf")):
+        assert len(list(set([att.shape[1] for att in atts]))) == 1, \
+            f"attention matrices have differing attention key bag dimension: {[att.shape[1] for att in atts]}"
+        # atts is array of attention matrices, each of dims time x att_dim, where time dims may vary from matrix to matrix
         # NOTE pad_value is used in model.postprocess to recover original part of matrix
-        # atts is array of attention matrices, each of dims time x att_dim, where both dims vary from matrix to matrix
         try:
-            filled = np.ones((len(atts), max([att.shape[-2] for att in atts]),max([att.shape[-1] for att in atts])),
-                            dtype=atts[0].dtype) * pad_value
+            filled = np.ones((len(atts), max([att.shape[-2] for att in atts]), atts[0].shape[-1]), dtype=atts[0].dtype) 
+            filled = filled * pad_value
         except Exception as e:
-            print(atts[0].size())
+            print(atts[0].shape)
             raise e
-        for batch_index, attention_matrix in enumerate(atts):
+        for batch_element_index, attention_matrix in enumerate(atts):
             for t, attentions_at_decoding_step in enumerate(attention_matrix):
                 for attention_key, score in enumerate(attentions_at_decoding_step):
 
-                    filled[batch_index, t, attention_key] = score
-        return filled # b x decoder unroll x attention keys
+                    filled[batch_element_index, t, attention_key] = score
+        return filled # b x time x attention keys
 
     # from results to stacked outputs
     assert n_best == 1
@@ -791,11 +793,11 @@ def beam_search(
 
         # stacked_attention_scores: batch x max output len x src len
         if len(results["att_scores"][0]):
-            stacked_attention_scores = pad_and_stack_attention_matrices([atts[0] for atts in results["att_scores"]])
+            stacked_attention_scores = pad_and_stack_attention_matrices([atts[0].T for atts in results["att_scores"]])
         else:
             stacked_attention_scores = None
 
         # stacked_kb_att_scores: batch x max output len x kb
-        stacked_kb_att_scores = pad_and_stack_attention_matrices([kb_atts[0] for kb_atts in results["kb_att_scores"]])
+        stacked_kb_att_scores = pad_and_stack_attention_matrices([kb_atts[0].T for kb_atts in results["kb_att_scores"]])
 
     return final_outputs, stacked_attention_scores, stacked_kb_att_scores

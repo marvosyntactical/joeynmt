@@ -332,6 +332,7 @@ class TrainManager:
                         start = time.time()
                         total_valid_duration = 0
 
+
                     # validate on the entire dev set
                     if self.steps % self.validation_freq == 0 and update:
 
@@ -340,6 +341,7 @@ class TrainManager:
                             self.decoder_timer.reset()
 
                         valid_start_time = time.time()
+
                         
                         valid_score, valid_loss, valid_ppl, valid_sources, \
                         valid_sources_raw, valid_references, valid_hypotheses, \
@@ -354,7 +356,7 @@ class TrainManager:
                                 use_cuda=self.use_cuda,
                                 max_output_length=self.max_output_length,
                                 loss_function=self.loss,
-                                beam_size=10,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
+                                beam_size=5,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
                                 batch_type=self.eval_batch_type,
                                 kb_task=kb_task,
                                 valid_kb=valid_kb,
@@ -479,8 +481,14 @@ class TrainManager:
         :param update: if False, only store gradient. if True also make update
         :return: loss for batch (sum)
         """
-        batch_loss = self.model.get_loss_for_batch(
-            batch=batch, loss_function=self.loss, e_i=self.scheduled_sampling(self.minibatch_count))
+
+        with torch.autograd.profiler.profile(use_cuda=self.use_cuda) as tmp_prof:
+            batch_loss = self.model.get_loss_for_batch(
+                batch=batch, loss_function=self.loss, e_i=self.scheduled_sampling(self.minibatch_count))
+
+        # NOTE remove me FIXME TODO XXX
+        with open("._tmp_torch_model_glfb_pro_file.txt", "w") as _tmp_pro_file:
+            _tmp_pro_file.writelines([l+"\n" for l in str(tmp_prof).split("\n")])
 
         # normalize batch loss
         if self.normalization == "batch":

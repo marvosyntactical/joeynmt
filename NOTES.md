@@ -17,6 +17,7 @@
 
 
 ### 25.10. dstc2 metrics
+??? implement entF1 hashing
 
 ### 30.09. code problems
 
