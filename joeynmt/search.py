@@ -687,22 +687,22 @@ def beam_search(
 
             if knowledgebase is not None:
 
-                # going from 
+                # briefly go to  
                 # batch x k x time x att
-                # to
+                # to easily index_select finished batches in batch dimension 0
+
+                # afterwards reshape to 
                 # batch * k x time x att
                 # where att = src_len for attentions, and att = kb_size for kb_attentions
 
                 if 0 not in att_alive.shape:
-                    att_alive = att_alive \
-                        .view(-1, size, att_alive.size(-2), att_alive.size(-1)) \
-                        .index_select(0, non_finished) \
-                        .view(-1, attentions.size(-2), attentions.size(-1))
+                    att_alive = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) \
+                        .index_select(0, non_finished) 
+                    att_alive = att_alive.view(-1, att_alive.size(-2), att_alive.size(-1))
 
-                kb_att_alive = kb_att_alive \
-                        .view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1)) \
-                        .index_select(0, non_finished) \
-                        .view(-1, kb_attentions.size(-2), kb_attentions.size(-1))
+                kb_att_alive = kb_att_alive.view(-1, size, kb_att_alive.size(-2), kb_att_alive.size(-1)) \
+                        .index_select(0, non_finished) 
+                kb_att_alive = kb_att_alive.view(-1, kb_att_alive.size(-2), kb_att_alive.size(-1))
 
         # reorder indices, outputs and masks using this
         select_indices = batch_index.view(-1)
