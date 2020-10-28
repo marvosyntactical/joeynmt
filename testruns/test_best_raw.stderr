@@ -1,4 +1,9 @@
-2020-10-27 16:05:33,361 -  dev bleu:   1.56 [Beam search decoding with beam size = 10 and alpha = 1.0]
+2020-10-28 02:26:41,720 Hello! This is Joey-NMT.
+2020-10-28 02:26:42.427036: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2020-10-28 02:26:46,931 Total params: 5239200
+2020-10-28 02:26:46,932 Trainable parameters: ['decoder.att_vector_layer.bias', 'decoder.att_vector_layer.weight', 'decoder.attention.energy_layer.weight', 'decoder.attention.key_layer.weight', 'decoder.attention.query_layer.weight', 'decoder.bridge_layer.bias', 'decoder.bridge_layer.weight', 'decoder.kvr_attention.0.W2.weight', 'decoder.kvr_attention.0.energy_layer.weight', 'decoder.kvr_attention.0.key_layer.weight', 'decoder.kvr_attention.0.linear_multihop_feeding_1.weight', 'decoder.kvr_attention.0.query_layer.weight', 'decoder.kvr_attention.1.W2.weight', 'decoder.kvr_attention.1.energy_layer.weight', 'decoder.kvr_attention.1.key_layer.weight', 'decoder.kvr_attention.1.linear_multihop_feeding_1.weight', 'decoder.kvr_attention.1.query_layer.weight', 'decoder.output_layer.weight', 'decoder.rnn.bias_hh_l0', 'decoder.rnn.bias_hh_l1', 'decoder.rnn.bias_hh_l2', 'decoder.rnn.bias_ih_l0', 'decoder.rnn.bias_ih_l1', 'decoder.rnn.bias_ih_l2', 'decoder.rnn.weight_hh_l0', 'decoder.rnn.weight_hh_l1', 'decoder.rnn.weight_hh_l2', 'decoder.rnn.weight_ih_l0', 'decoder.rnn.weight_ih_l1', 'decoder.rnn.weight_ih_l2', 'encoder.rnn.bias_hh_l0', 'encoder.rnn.bias_hh_l0_reverse', 'encoder.rnn.bias_hh_l1', 'encoder.rnn.bias_hh_l1_reverse', 'encoder.rnn.bias_hh_l2', 'encoder.rnn.bias_hh_l2_reverse', 'encoder.rnn.bias_ih_l0', 'encoder.rnn.bias_ih_l0_reverse', 'encoder.rnn.bias_ih_l1', 'encoder.rnn.bias_ih_l1_reverse', 'encoder.rnn.bias_ih_l2', 'encoder.rnn.bias_ih_l2_reverse', 'encoder.rnn.weight_hh_l0', 'encoder.rnn.weight_hh_l0_reverse', 'encoder.rnn.weight_hh_l1', 'encoder.rnn.weight_hh_l1_reverse', 'encoder.rnn.weight_hh_l2', 'encoder.rnn.weight_hh_l2_reverse', 'encoder.rnn.weight_ih_l0', 'encoder.rnn.weight_ih_l0_reverse', 'encoder.rnn.weight_ih_l1', 'encoder.rnn.weight_ih_l1_reverse', 'encoder.rnn.weight_ih_l2', 'encoder.rnn.weight_ih_l2_reverse', 'generator.output_layer.weight', 'src_embed.lut.weight', 'trg_embed.lut.weight']
+2020-10-28 02:26:46,933 Training with or without cuda=True
+2020-10-28 02:26:52,725 Loading model from modelsgrid/1_rnn100x16x32x0_12-10/best.ckpt
 Traceback (most recent call last):
   File "/home/students/koss/anaconda3/envs/venv/lib/python3.8/runpy.py", line 193, in _run_module_as_main
     return _run_code(code, main_globals, None,
@@ -6,9 +11,15 @@ Traceback (most recent call last):
     exec(code, run_globals)
   File "/home/students/koss/bachelor/joeynmt/joeynmt/__main__.py", line 41, in <module>
     main()
-  File "/home/students/koss/bachelor/joeynmt/joeynmt/__main__.py", line 31, in main
-    test(cfg_file=args.config_path, ckpt=args.ckpt,
-  File "/home/students/koss/bachelor/joeynmt/joeynmt/prediction.py", line 405, in test
-    with open(output_path_set, mode="w", encoding="utf-8") as out_file:
-FileNotFoundError: [Errno 2] No such file or directory: 'results/test_best_raw/.dev'
-srun: error: gpu03: task 0: Exited with exit code 1
+  File "/home/students/koss/bachelor/joeynmt/joeynmt/__main__.py", line 29, in main
+    train(cfg_file=args.config_path)
+  File "/home/students/koss/bachelor/joeynmt/joeynmt/training.py", line 666, in train
+    trainer = TrainManager(model=model, config=cfg)
+  File "/home/students/koss/bachelor/joeynmt/joeynmt/training.py", line 164, in __init__
+    self.init_from_checkpoint(model_load_path)
+  File "/home/students/koss/bachelor/joeynmt/joeynmt/training.py", line 221, in init_from_checkpoint
+    self.optimizer.load_state_dict(model_checkpoint["optimizer_state"])
+  File "/home/students/koss/anaconda3/envs/venv/lib/python3.8/site-packages/torch/optim/optimizer.py", line 116, in load_state_dict
+    raise ValueError("loaded state dict contains a parameter group "
+ValueError: loaded state dict contains a parameter group that doesn't match the size of optimizer's group
+srun: error: gpu06: task 0: Exited with exit code 1
