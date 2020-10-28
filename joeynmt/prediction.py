@@ -364,8 +364,9 @@ def test(cfg_file,
             decoding_description = "Greedy decoding" if beam_size == 0 else \
                 "Beam search decoding with beam size = {} and alpha = {}".\
                     format(beam_size, beam_alpha)
-            logger.info("%4s %s: %6.2f [%s]",
-                        data_set_name, eval_metric, score, decoding_description)
+
+            logger.info("%4s %s: %6.2f %6.2f %6.2f [%s]",
+                        data_set_name, eval_metric, score, ent_f1, ent_mcc, decoding_description)
         else:
             logger.info("No references given for %s -> no evaluation.",
                         data_set_name)
