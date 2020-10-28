@@ -16,10 +16,10 @@
 * find fitting transformer
 
 
-### 25.10. dstc2 metrics
-??? implement entF1 hashing
+## 27.10. TODO
 
-### 30.09. code problems
+* dstc2 metrics: ??? implement entF1 hashing
+* results: 10 bleu validation during train; 3 bleu validation during test
 
 * correct entity F1 reporting
 => dont modify code and get trained "tflstm" model from cluster to debug

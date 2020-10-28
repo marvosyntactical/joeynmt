@@ -693,7 +693,8 @@ def beam_search(
 
                 # afterwards reshape to 
                 # batch * k x time x att
-                # where att = src_len for attentions, and att = kb_size for kb_attentions
+
+                # where att = src_len for alive attentions, and att = kb_size for kb_attentions alive
 
                 if 0 not in att_alive.shape:
                     att_alive = att_alive.view(-1, size, att_alive.size(-2), att_alive.size(-1)) \
