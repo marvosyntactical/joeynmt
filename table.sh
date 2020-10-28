@@ -13,7 +13,7 @@ reverse() {
 }
 
 
-models_path="modelsgrid/"
+models_path=$1
 models=$(ls $models_path)
 for model in $models; do
 	if [ -e "$models_path$model/best.ckpt" ]
