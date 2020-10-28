@@ -18,6 +18,11 @@
 
 ## 27.10. TODO
 
+* swap validation and test set,
+* decrease learning rate of transformer
+* fix learning rate instead of sampling, exclude easy examples
+* dstc2 test
+
 * dstc2 metrics: ??? implement entF1 hashing
 * results: 10 bleu validation during train; 3 bleu validation during test
 

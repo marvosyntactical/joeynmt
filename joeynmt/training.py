@@ -356,7 +356,7 @@ class TrainManager:
                                 use_cuda=self.use_cuda,
                                 max_output_length=self.max_output_length,
                                 loss_function=self.loss,
-                                beam_size=5,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
+                                beam_size=0,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
                                 batch_type=self.eval_batch_type,
                                 kb_task=kb_task,
                                 valid_kb=valid_kb,
