@@ -1,9 +1,4 @@
-## Small Technical _TODOs_ & questions
-
-##### Optimization
-(later)
-
-# _OPEN ISSUES_
+# ```OPEN ISSUES```
 
 ### 06.10. discussion
 
@@ -15,20 +10,17 @@
 * check matchup 
 * find fitting transformer
 
-
 ## 27.10. TODO
 
-* swap validation and test set,
-* decrease learning rate of transformer
-* fix learning rate instead of sampling, exclude easy examples
-* dstc2 test
+* *RUNNING* swapped validation and test set
+* *BAD* fix learning rate instead of sampling, exclude easy examples
+=> Plateau Transformer didnt work out better => < 6.3 BLEU
+* *TODO* dstc2 test (bash dstc2go.sh kvrn && bash dstc2go.sh 3hop)
+ - find out if I should use local KB for dstc2
 
-* dstc2 metrics: ??? implement entF1 hashing
 * results: 10 bleu validation during train; 3 bleu validation during test
-
 * correct entity F1 reporting
 => dont modify code and get trained "tflstm" model from cluster to debug
-
 
 ---
 
