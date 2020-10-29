@@ -17,6 +17,7 @@
 => Plateau Transformer didnt work out better => < 6.3 BLEU
 * *TODO* dstc2 test (bash dstc2go.sh kvrn && bash dstc2go.sh 3hop)
  - find out if I should use local KB for dstc2
+ - FIXME re-add API call as utterance target
 
 * results: 10 bleu validation during train; 3 bleu validation during test
 * correct entity F1 reporting
