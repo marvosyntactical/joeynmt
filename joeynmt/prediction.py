@@ -250,6 +250,8 @@ def test(cfg_file,
 
     cfg = load_config(cfg_file)
 
+
+
     if "test" not in cfg["data"].keys():
         raise ValueError("Test data must be specified in config.")
 
@@ -286,6 +288,9 @@ def test(cfg_file,
         = load_data(
         data_cfg=cfg["data"]
     )
+
+    report_entf1_on_canonicals = cfg["training"].get("report_entf1_on_canonicals", False)
+
     kb_task = (test_kb!=None)
 
     data_to_predict = {"dev": dev_data, "test": test_data}
@@ -340,7 +345,7 @@ def test(cfg_file,
             valid_kb_lens=kb_info[2],
             valid_kb_truvals=kb_info[3],
             valid_data_canon=kb_info[4],
-            report_on_canonicals=self.report_entf1_on_canonicals
+            report_on_canonicals=report_entf1_on_canonicals
             )
         """
                 batch_size=self.eval_batch_size,
