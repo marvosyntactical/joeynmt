@@ -340,6 +340,7 @@ def test(cfg_file,
             valid_kb_lens=kb_info[2],
             valid_kb_truvals=kb_info[3],
             valid_data_canon=kb_info[4],
+            report_on_canonicals=self.report_entf1_on_canonicals
             )
         """
                 batch_size=self.eval_batch_size,
