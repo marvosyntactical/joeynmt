@@ -72,7 +72,6 @@ def main(args):
 
     # assert False, (len(convos), convos[0])
 
-
     # process convos into dialog batch of srcs, trgs
     batches = []
     for convo in convos:
@@ -91,6 +90,7 @@ def main(args):
 
                 split_line_no_num = no_num.split(SRC_TRG_DELIM)
                 if len(split_line_no_num) == 2:
+                    """
                     if API_CALL in split_line_no_num[1]:
                         # update history by source and add this to srcs
                         src = split_line_no_num[0]
@@ -103,15 +103,18 @@ def main(args):
                         history += trg+" "+HISTORY_SEP_TOKEN+" "
                         trgs += [trg]
                     else:
-                        # default case;
-                        # update history by src, trg and add them to srcs, trgs
-                        src, trg = split_line_no_num
-                        history += src+" "+HISTORY_SEP_TOKEN+" "
-                        srcs += [history[:-len(HISTORY_SEP_TOKEN)-2]] # without latest sep token
-                        history += trg+" "+HISTORY_SEP_TOKEN+" "
-                        trgs += [trg] # without latest sep token
+                    """
+                    # default case;
+                    # update history by src, trg and add them to srcs, trgs
+                    src, trg = split_line_no_num
+                    history += src+" "+HISTORY_SEP_TOKEN+" "
+                    srcs += [history[:-len(HISTORY_SEP_TOKEN)-2]] # without latest sep token
+                    history += trg+" "+HISTORY_SEP_TOKEN+" "
+                    trgs += [trg] # without latest sep token
                 else:
-                    assert lines_after_api_call
+                    # this a Knowledgebase line
+                    # assert lines_after_api_call
+                    pass
         lines_after_api_call = False
         batches += [list(zip(srcs,trgs))]
 
@@ -124,13 +127,13 @@ def main(args):
 
     # write lines to files 
     user, system = ".user",".system"
-    with open(path+file_stem+user, "w") as usr_out_file:
+    filename_usr = path+file_stem+user+EXT
+    with open(filename_usr, "w") as usr_out_file:
         usr_out_file.writelines(user_parts)
 
-    with open(path+file_stem+system, "w") as sys_out_file:
+    filename_sys = path+file_stem+system+EXT
+    with open(filename_sys, "w") as sys_out_file:
         sys_out_file.writelines(system_parts)
-
-
 
 if __name__ ==  "__main__":
     import sys

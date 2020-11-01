@@ -476,30 +476,3 @@ def split_tensor_on_pads(tensor, pad_val):
 
             r.append([]) # make new list to hold coming elems after this PAD value
     return r
-
-def hash_canons(tokzd_sequence: List[str], vocab_token_list: List[str]) -> (List[str], List[int], List[Tuple[str, List[str]]]):
-    """
-    To canonize dstc2; mapping vocab to canonical is 1:1
-    :param tokzd_sequence:
-    :param vocab_token_list:
-    
-    :return:
-    processed: tokzd sequence with canonical tokens hashed 
-    indices: list(range(len(tokzd_sequence)))
-    matches: list of tuple: (hash_val: [orig token])
-    """
-    processed = [str(hash(tok)) if tok in vocab_token_list else tok for tok in tokzd_sequence]
-    indices = list(range(len(tokzd_sequence)))
-    matches = []
-    for i, tok in enumerate(processed):
-        this = tokzd_sequence[i]
-        if str(hash(this)) == tok:
-            # hashed tok 
-            lkp = [this] # indices that were also mapped to this token
-            for idx in len(processed):
-                other = tokzd_sequence[idx]
-                if str(hash(other)) == tok:
-                    lkp+=[other]
-            if tok not in set([m[0] for m in matches]):
-                matches += [(tok, lkp)]
-    return processed, indices, matches

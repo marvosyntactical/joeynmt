@@ -45,10 +45,10 @@ training:
     batch_type: "token"
     early_stopping_metric: "eval_metric"
     epochs: 100
-    validation_freq: 5
+    validation_freq: 3
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/tf"
+    model_dir: "models/tf_cpu_test_short"
     overwrite: True
     shuffle: True
     use_cuda: False 

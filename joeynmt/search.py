@@ -725,7 +725,10 @@ def beam_search(
 
         if att_vectors is not None:
 
-            att_vectors = att_vectors.index_select(0, select_indices)
+            if isinstance(att_vectors, tuple):
+                att_vectors = tuple([att_v.index_select(0, select_indices) for att_v in att_vectors])
+            else:
+                att_vectors = att_vectors.index_select(0, select_indices)
 
         if knowledgebase is not None:
 

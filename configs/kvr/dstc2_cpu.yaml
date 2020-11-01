@@ -72,7 +72,7 @@ training:                                  # specify training details here
 model:                                     # specify your model architecture here
     kb: True                               # kb decoder used or not?
     k_hops: 1                              # num of kvr att layers
-    do_postproc: False                     # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
+    do_postproc: True                      # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
     copy_from_source: True                 # whether to create KBs from source as backup when KB empty 
     same_module_for_all_hops: True #
     kb_multihead_feed: False #

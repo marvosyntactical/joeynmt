@@ -20,9 +20,6 @@ from torchtext.data import Dataset, Iterator, Field, Batch
 
 from joeynmt.constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN
 from joeynmt.vocabulary import build_vocab, Vocabulary
-#from joeynmt import helpers
-#assert False, dir(helpers)
-#hash_canons = helpers.hash_canons
 
 # FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
 from data.scripts_kvr.canonize import load_json, preprocess_entity_dict, canonize_sequence
@@ -54,6 +51,33 @@ def pkt_tokenize(s)-> List:
 
 def tokenize(s):
     return s.split()
+
+def hash_canons(tokzd_sequence: List[str], vocab_token_list: List[str]) -> (List[str], List[int], List[Tuple[str, List[str]]]):
+    """
+    To canonize dstc2; mapping vocab to canonical is 1:1
+
+    :param tokzd_sequence:
+    :param vocab_token_list:
+    :return processed: tokzd sequence with canonical tokens hashed 
+    :return indices: list(range(len(tokzd_sequence)))
+    :return matches: list of tuple: (hash_val: [orig token])
+    """
+    processed = [str(hash(tok)) if tok in vocab_token_list else tok for tok in tokzd_sequence]
+    indices = list(range(len(tokzd_sequence)))
+    matches = []
+    for i, tok in enumerate(processed):
+        raw_curr = tokzd_sequence[i]
+        if str(hash(raw_curr)) == tok:
+            # hashed tok 
+            lkp = [] # indices that were also mapped to this token
+            for idx in range(len(processed)):
+                raw_other = tokzd_sequence[idx]
+                if str(hash(raw_other)) == tok:
+                    lkp+=[raw_other]
+            if tok not in set([m[0] for m in matches]):
+                matches += [(tok, lkp)]
+    assert False, (processed, indices, matches)
+    return processed, indices, matches
 
 def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                                   Vocabulary, Vocabulary):
@@ -126,16 +150,22 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
     tok_fun = list if level == "char" else (pkt_tokenize if pnctprepro else tokenize)
 
-    src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
-                           pad_token=PAD_TOKEN, tokenize=tok_fun,
-                           batch_first=True, lower=lowercase,
+    src_field = data.Field(init_token=None,
+                           eos_token=EOS_TOKEN,
+                           pad_token=PAD_TOKEN,
+                           tokenize=tok_fun,
+                           batch_first=True,
+                           lower=lowercase,
                            unk_token=UNK_TOKEN,
                            include_lengths=True)
 
-    trg_field = data.Field(init_token=BOS_TOKEN, eos_token=EOS_TOKEN,
-                           pad_token=PAD_TOKEN, tokenize=tok_fun,
+    trg_field = data.Field(init_token=BOS_TOKEN, 
+                           eos_token=EOS_TOKEN,
+                           pad_token=PAD_TOKEN,
+                           tokenize=tok_fun,
                            unk_token=UNK_TOKEN,
-                           batch_first=True, lower=lowercase,
+                           batch_first=True,
+                           lower=lowercase,
                            include_lengths=True)
 
     if kb_task:
@@ -331,15 +361,16 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
 
         can_fun = canonize_sequence if canonization_mode == "canonize" else hash_canons
         if canonization_mode == "hash":
-            hash_vocab = build_vocab(fields=vocab_building_trg_fields, 
+            # initialize with train knowledgebases
+            hash_vocab = build_vocab(max_size=4096, dataset=train_kb, fields=vocab_building_trg_fields, 
                                     min_freq=1, 
                                     vocab_file=trv_train_path)
-            # hash_vocab._from_file(trv_train_path)
+            hash_vocab._from_file(trv_train_path)
             hash_vocab._from_file(trv_dev_path)
             hash_vocab._from_file(trv_test_path)
 
-            assert False, [tok for tok in hash_vocab.itos if "_" not in tok ]
-        print(can_fun(["your", "meeting", "in", "conference", "room", "100", "is", "with", "martha"], efficient_entities)) # assert False, # NOTE
+            # assert False, hash_vocab.itos 
+        # print(can_fun(["your", "meeting", "in", "conference", "room", "100", "is", "with", "martha"], efficient_entities)) # assert False, # NOTE
 
         class Canonizer:
             def __init__(self, copy_from_source: bool = False):

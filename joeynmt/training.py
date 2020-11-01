@@ -85,7 +85,7 @@ class TrainManager:
         self.ckpt_queue = queue.Queue(
             maxsize=train_config.get("keep_last_ckpts", 5))
         self.eval_metric = train_config.get("eval_metric", "bleu")
-        if self.eval_metric not in ['bleu', 'chrf']:
+        if self.eval_metric not in ['bleu', 'chrf', 'sequence_accuracy', 'token_accuracy']:
             raise ConfigurationError("Invalid setting for 'eval_metric', "
                                      "valid options: 'bleu', 'chrf'.")
         self.early_stopping_metric = train_config.get("early_stopping_metric",
@@ -97,7 +97,7 @@ class TrainManager:
         if self.early_stopping_metric in ["ppl", "loss"]:
             self.minimize_metric = True
         elif self.early_stopping_metric == "eval_metric":
-            if self.eval_metric in ["bleu", "chrf"]:
+            if self.eval_metric in ["bleu", "chrf", "sequence_accuracy", "token_accuracy"]:
                 self.minimize_metric = False
             else:  # eval metric that has to get minimized (not yet implemented)
                 self.minimize_metric = True
@@ -356,7 +356,7 @@ class TrainManager:
                                 use_cuda=self.use_cuda,
                                 max_output_length=self.max_output_length,
                                 loss_function=self.loss,
-                                beam_size=5,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
+                                beam_size=0,  # greedy validations #FIXME XXX NOTE TODO BUG set to 0 again!
                                 batch_type=self.eval_batch_type,
                                 kb_task=kb_task,
                                 valid_kb=valid_kb,
