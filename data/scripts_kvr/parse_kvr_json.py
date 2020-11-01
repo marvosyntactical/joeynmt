@@ -53,6 +53,9 @@ def main(args):
             if not utterance.strip():
                 input("skip?: {}".format(convo))
                 skip = True # skip this dialogue; someone didnt answer
+        if not scenario["kb"]["items"] and EXT=="DISCARD":
+            # DISCARD DIALOGUES WITH NO KB TO AVOID JUST TRAINING ON THESE
+            skip = True
         if not skip:
             scenarios.append(scenario)
             dialogues.append(convo)
