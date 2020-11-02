@@ -22,9 +22,9 @@ reverse() {
 
 name=$1
 model_path=${2:-"models/"}
-duration=${3:-"0-16:00:00"} # duration should have syntax 2-12:15:59
+duration=${3:-"0-02:00:00"} # duration should have syntax 2-12:15:59
 memory=${4:-"128000"}
-partition=${5:-"gpulong"}
+partition=${5:-"students"}
 
 
 clear

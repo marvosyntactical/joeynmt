@@ -107,7 +107,7 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
             tp, fp = zip(*[(1,0) if pred in gold_labels else (0,1) for pred in predictions])
             return sum(tp)/positives
         else:
-            return 0.
+            return 1.
 
     def recall(predictions: List[int], gold_labels: List[int]):
         # TP/(TP+FN) => iterate over ground truths (gold labels)
@@ -116,7 +116,7 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
             tp, fn  = zip(*[(1,0) if gold in predictions else (0,1) for gold in gold_labels])
             return sum(tp)/truths
         else:
-            return 0.
+            return 1.
 
     f1_ = lambda p, r: 2 * (p*r)/(p+r) if p+r != 0. else 0.
     mcc_ = lambda p, r: sqrt((r+(1/r)-1)*(p+(1/p)-1)) if r != 0. and p != 0. else 0.

@@ -76,7 +76,7 @@ def hash_canons(tokzd_sequence: List[str], vocab_token_list: List[str]) -> (List
                     lkp+=[raw_other]
             if tok not in set([m[0] for m in matches]):
                 matches += [(tok, lkp)]
-    assert False, (processed, indices, matches)
+    # assert False, (processed, indices, matches)
     return processed, indices, matches
 
 def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
@@ -251,7 +251,6 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             random_state=random.getstate())
         train_data = keep
 
-    
     dev_data = TranslationDataset(path=dev_path,
                                   exts=("." + src_lang, "." + trg_lang),
                                   fields=(src_field, trg_field))

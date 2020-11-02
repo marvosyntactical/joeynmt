@@ -175,6 +175,7 @@ def validate_on_data(model: Model,
         
         decoded_valid = decoding_vocab.arrays_to_sentences(arrays=all_outputs,
                                                             cut_at_eos=True)
+        print(decoded_valid)
 
 
         # evaluate with metric on full dataset
@@ -193,6 +194,8 @@ def validate_on_data(model: Model,
         # if references are given, evaluate against them
         if valid_references:
             assert len(valid_hypotheses) == len(valid_references)
+
+            print(list(zip(valid_sources, valid_references, valid_hypotheses)))
 
             current_valid_score = 0
             if eval_metric.lower() == 'bleu':
@@ -249,8 +252,6 @@ def test(cfg_file,
         logger.setLevel(level=logging.DEBUG)
 
     cfg = load_config(cfg_file)
-
-
 
     if "test" not in cfg["data"].keys():
         raise ValueError("Test data must be specified in config.")
@@ -371,7 +372,7 @@ def test(cfg_file,
                 "Beam search decoding with beam size = {} and alpha = {}".\
                     format(beam_size, beam_alpha)
 
-            logger.info("%4s %s: %6.2f %6.2f %6.2f [%s]",
+            logger.info("%4s %s: %6.2f f1: %6.2f mcc: %6.2f [%s]",
                         data_set_name, eval_metric, score, ent_f1, ent_mcc, decoding_description)
         else:
             logger.info("No references given for %s -> no evaluation.",
