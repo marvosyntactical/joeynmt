@@ -87,8 +87,8 @@ def validate_on_data(model: Model,
     print(f"\n{'-'*10}  VALIDATION DEBUG {'-'*10}\n")
 
     print("---data---")
-    print(dir(data))
-    print([attr[:5] for attr in data if hasattr(attr,"__iter__") and "kb" in attr or "src" in attr or "trg" in attr])
+    print(dir(data[0]))
+    print([[attr for attr in dir(example) if hasattr(attr, "__iter__") and "kb" in attr or "src" in attr or "trg" in attr] for example in data[:3] ])
     print(batch_size)
     print(use_cuda)
     print(max_output_length)
@@ -100,17 +100,18 @@ def validate_on_data(model: Model,
     print(batch_type)
     print(kb_task)
     print("---valid_kb---")
-    print(valid_kb)
-    print([attr[:5] for attr in valid_kb if hasattr(attr,"__iter__") and "kb" in attr or "src" in attr or "trg" in attr])
+    print(dir(valid_kb[0]))
+    print([[attr for attr in dir(example) if hasattr(attr, "__iter__") and "kb" in attr or "src" in attr or "trg" in attr] for example in valid_kb[:3] ])
     print(valid_kb_lkp)
     print(valid_kb_lens)
     print("---valid_kb_truvals---")
     print(valid_kb_truvals)
-    print([attr[:5] for attr in valid_kb_truvals if hasattr(attr,"__iter__") and "kb" in attr or "src" in attr or "trg" in attr or "trv" in attr])
+    print([[attr for attr in dir(example)  if hasattr(attr, "__iter__") and "kb" in attr or "src" in attr or "trg" in attr or "trv" in attr]for example in valid_kb_truvals[:3]])
     print("---valid_data_canon---")
     print(valid_data_canon)
-    print([attr[:5] for attr in valid_data_canon if hasattr(attr,"__iter__") and"kb" in attr or "src" in attr or "trg" in attr or "trv" or "can" in attr])
+    print([[attr for attr in dir(example) if hasattr(attr, "__iter__") and"kb" in attr or "src" in attr or "trg" in attr or "trv" or "can" in attr]for example in valid_data_canon[:3] ])
     print(report_on_canonicals)
+    assert False
 
     print(f"\n{'-'*10} END VALIDATION DEBUG {'-'*10}\n")
 

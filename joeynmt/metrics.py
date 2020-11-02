@@ -167,7 +167,7 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
         f1s.append(f1_(P,R))
         mccs.append(mcc_(P,R))
 
-        print(" ### Validation Classification Metrics Debug ### "+\
+        print(" ### Validation Classification Metrics Debug ###\n"+\
             f"hyp: {hyp}\nref: {ref}\nentities: {hyp_ents_ref_ents}\nPrecision: {P}\nRecall: {R}"+\
                 " ### Debug Metrics End ### ")
             
