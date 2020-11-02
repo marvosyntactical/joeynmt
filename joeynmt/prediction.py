@@ -84,6 +84,36 @@ def validate_on_data(model: Model,
 
     print(f"\n{'-'*10} ENTER VALIDATION {'-'*10}\n")
 
+    print(f"\n{'-'*10}  VALIDATION DEBUG {'-'*10}\n")
+
+    print("---data---")
+    print(dir(data))
+    print([attr[:5] for attr in data if hasattr(attr,"__iter__") and "kb" in attr or "src" in attr or "trg" in attr])
+    print(batch_size)
+    print(use_cuda)
+    print(max_output_length)
+    print(level)
+    print(eval_metric)
+    print(loss_function)
+    print(beam_size)
+    print(beam_alpha)
+    print(batch_type)
+    print(kb_task)
+    print("---valid_kb---")
+    print(valid_kb)
+    print([attr[:5] for attr in valid_kb if hasattr(attr,"__iter__") and "kb" in attr or "src" in attr or "trg" in attr])
+    print(valid_kb_lkp)
+    print(valid_kb_lens)
+    print("---valid_kb_truvals---")
+    print(valid_kb_truvals)
+    print([attr[:5] for attr in valid_kb_truvals if hasattr(attr,"__iter__") and "kb" in attr or "src" in attr or "trg" in attr or "trv" in attr])
+    print("---valid_data_canon---")
+    print(valid_data_canon)
+    print([attr[:5] for attr in valid_data_canon if hasattr(attr,"__iter__") and"kb" in attr or "src" in attr or "trg" in attr or "trv" or "can" in attr])
+    print(report_on_canonicals)
+
+    print(f"\n{'-'*10} END VALIDATION DEBUG {'-'*10}\n")
+
     if not kb_task:
         valid_iter = make_data_iter(
             dataset=data, batch_size=batch_size, batch_type=batch_type,
