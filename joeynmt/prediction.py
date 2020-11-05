@@ -88,7 +88,7 @@ def validate_on_data(model: Model,
 
     print("---data---")
     print(dir(data[0]))
-    print([[attr for attr in dir(example) if hasattr(attr, "__iter__") and "kb" in attr or "src" in attr or "trg" in attr] for example in data[:3] ])
+    print([[getattr(example, attr) for attr in dir(example) if hasattr(getattr(example, attr), "__iter__") and "kb" in attr or "src" in attr or "trg" in attr] for example in data[:3] ])
     print(batch_size)
     print(use_cuda)
     print(max_output_length)
@@ -101,17 +101,16 @@ def validate_on_data(model: Model,
     print(kb_task)
     print("---valid_kb---")
     print(dir(valid_kb[0]))
-    print([[attr for attr in dir(example) if hasattr(attr, "__iter__") and "kb" in attr or "src" in attr or "trg" in attr] for example in valid_kb[:3] ])
-    print(valid_kb_lkp)
-    print(valid_kb_lens)
+    print([[getattr(example, attr) for attr in dir(example) if hasattr(getattr(example, attr), "__iter__") and "kb" in attr or "src" in attr or "trg" in attr] for example in valid_kb[:3] ])
+    print(len(valid_kb_lkp), valid_kb_lkp[-5:])
+    print(len(valid_kb_lens), valid_kb_lens[-5:])
     print("---valid_kb_truvals---")
-    print(valid_kb_truvals)
-    print([[attr for attr in dir(example)  if hasattr(attr, "__iter__") and "kb" in attr or "src" in attr or "trg" in attr or "trv" in attr]for example in valid_kb_truvals[:3]])
+    print(len(valid_kb_truvals), valid_kb_lens[-5:])
+    print([[getattr(example, attr) for attr in dir(example)  if hasattr(getattr(example, attr), "__iter__") and "kb" in attr or "src" in attr or "trg" in attr or "trv" in attr]for example in valid_kb_truvals[:3]])
     print("---valid_data_canon---")
-    print(valid_data_canon)
-    print([[attr for attr in dir(example) if hasattr(attr, "__iter__") and"kb" in attr or "src" in attr or "trg" in attr or "trv" or "can" in attr]for example in valid_data_canon[:3] ])
+    print(len(valid_data_canon), valid_data_canon[-5:])
+    print([[getattr(example, attr) for attr in dir(example) if hasattr(getattr(example, attr), "__iter__") and"kb" in attr or "src" in attr or "trg" in attr or "trv" or "can" in attr]for example in valid_data_canon[:3] ])
     print(report_on_canonicals)
-    assert False
 
     print(f"\n{'-'*10} END VALIDATION DEBUG {'-'*10}\n")
 
@@ -203,9 +202,11 @@ def validate_on_data(model: Model,
 
         # decode back to symbols
         decoding_vocab = model.trg_vocab if not kb_task else model.trv_vocab
-        
+
         decoded_valid = decoding_vocab.arrays_to_sentences(arrays=all_outputs,
                                                             cut_at_eos=True)
+
+        print(f"decoding_vocab.itos: {decoding_vocab.itos}")
         print(decoded_valid)
 
 

@@ -1,4 +1,0 @@
-2020-10-27 16:57:27,825 -  dev bleu:   2.78 [Beam search decoding with beam size = 10 and alpha = 1.0]
-2020-10-27 16:57:27,829 - Translations saved to: results/test_kvrn_raw/.dev
-2020-10-27 16:58:17,722 - test bleu:   3.36 [Beam search decoding with beam size = 10 and alpha = 1.0]
-2020-10-27 16:58:17,725 - Translations saved to: results/test_kvrn_raw/.test

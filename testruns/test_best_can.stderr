@@ -1,10 +1,4 @@
-2020-10-27 16:57:48,001 -  dev bleu:  12.96 [Beam search decoding with beam size = 10 and alpha = 1.0]
-2020-10-27 16:57:48,003 - Translations saved to: results/test_best_can/.dev
-2020-10-27 16:58:48,606 - test bleu:  14.56 [Beam search decoding with beam size = 10 and alpha = 1.0]
-2020-10-27 16:58:48,609 - Translations saved to: results/test_best_can/.test
-srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
-srun: got SIGCONT
-slurmstepd: *** JOB 391945 ON gpu07 CANCELLED AT 2020-10-27T17:01:14 ***
-srun: forcing job termination
-slurmstepd: *** STEP 391945.0 ON gpu07 CANCELLED AT 2020-10-27T17:01:14 ***
-srun: error: gpu07: task 0: Terminated
+2020-11-01 15:24:10,396 -  dev bleu:  12.98   0.00   0.00 [Beam search decoding with beam size = 10 and alpha = 1.0]
+2020-11-01 15:24:10,399 - Translations saved to: results/test_best_can/.dev
+2020-11-01 15:25:03,492 - test bleu:  14.38   0.00   0.00 [Beam search decoding with beam size = 10 and alpha = 1.0]
+2020-11-01 15:25:03,495 - Translations saved to: results/test_best_can/.test
