@@ -358,7 +358,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
         entities = load_json(fp=entities_path)
         efficient_entities = preprocess_entity_dict(entities, lower=lowercase, tok_fun=tok_fun)
 
-        can_fun = canonize_sequence if canonization_mode == "canonize" else hash_canons
+
         if canonization_mode == "hash":
             # initialize with train knowledgebases
             hash_vocab = build_vocab(max_size=4096, dataset=train_kb, fields=vocab_building_trg_fields, 
@@ -369,21 +369,34 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
             hash_vocab._from_file(trv_test_path)
 
             # assert False, hash_vocab.itos 
-        # print(can_fun(["your", "meeting", "in", "conference", "room", "100", "is", "with", "martha"], efficient_entities)) # assert False, # NOTE
+        
+        # assert False, canonize_sequence(["your", "meeting", "in", "conference", "room", "100", "is", "with", "martha"], efficient_entities) # assert False, # NOTE
+        # assert False, hash_canons(["Sure" , "the", "chinese", "good", "luck", "chinese", "food", "takeaway", "is", "on","the_good_luck_chinese_food_takeaway_address"], hash_vocab.itos) # assert False, # NOTE
 
-        class Canonizer:
-            def __init__(self, copy_from_source: bool = False):
-                self.copy_from_source = bool(copy_from_source)
-            def __call__(self, seq):
-                processed, indices, matches = can_fun(seq, efficient_entities)
-                return processed, indices, matches
+        if canonization_mode == "canonize":
+            class Canonizer:
+                def __init__(self, copy_from_source: bool = False):
+                    self.copy_from_source = bool(copy_from_source)
+                def __call__(self, seq):
+                    processed, indices, matches = canonize_sequence(seq, efficient_entities)
+                    return processed, indices, matches
+        elif canonization_mode == "hash":
+            class Canonizer:
+                def __init__(self, copy_from_source: bool = False):
+                    self.copy_from_source = bool(copy_from_source)
+                def __call__(self, seq):
+                    processed, indices, matches = hash_canons(seq, hash_vocab)
+                    return processed, indices, matches
+        else:
+            raise ValueError(f"canonization mode {canonization_mode} not implemented")
+
 
     if not kb_task: #default values for normal pipeline
         train_kb, dev_kb, test_kb = None, None, None
-        trv_vocab = None, None
         train_kb_lookup, dev_kb_lookup, test_kb_lookup = [],[],[]
         train_kb_lengths, dev_kb_lengths, test_kb_lengths = [],[],[]
         train_kb_truvals, dev_kb_truvals, test_kb_truvals = [],[],[]
+        trv_vocab = None
         dev_data_canon, test_data_canon = [], []
         Canonizer = None
 

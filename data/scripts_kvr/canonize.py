@@ -198,7 +198,8 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                 # winner is simply longest candidate (in sequence with "2", "pm", match time (both tokens) instead of distance (only first token))
                 winning_candidate, lbl = max(candidates, key=lambda tup: len(tup[0]))
                 r += [lbl]
-                matches += [(lbl, seq[len(r)-2+len(matches):len(r)+len(winning_candidate)+len(matches)])]
+                bisherig = len(r)-1 + max(sum(len(m[1])-1 for m in matches), 0)
+                matches += [(lbl, seq[bisherig: bisherig+len(winning_candidate)])]
                 indices += [len(r)-1] * len(winning_candidate)
                 i += len(winning_candidate)-1
             elif partial_match_backup:
@@ -208,17 +209,17 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
                     print(f"Warning: Omitting possible match {winning_candidate}; only matched with first token!")
                     if len(winning_candidate)>1 and winning_candidate[1] == "collision":
                         r += [lbl]
-                        matches += [(lbl, seq[len(r)-1+len(matches):len(r)-1+upto+len(matches)])]
+                        bisherig = len(r)-1 + max(sum(len(m[1])-1 for m in matches), 0)
+                        matches += [(lbl, seq[bisherig:bisherig+upto])]
                         indices += [len(r)-1] * (upto)
                         i += upto-1
-
-
                     else:
                         r += [token]
                         indices += [len(r)-1]
                 else:
                     r += [lbl]
-                    matches += [(lbl, seq[len(r)-1+len(matches):len(r)-1+upto+len(matches)])]
+                    bisherig = len(r)-1 + max(sum(len(m[1])-1 for m in matches), 0)
+                    matches += [(lbl, seq[bisherig:bisherig+upto])]
                     indices += [len(r)-1] * (upto)
                     i += upto-1
             else:
@@ -236,6 +237,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     print(f"\tFinished up Sequence\n{seq}\nand transformed it to\n{r}")
     print(("="*40)+"\n")
     assert len(indices) == len(seq), (indices, seq)
+    # input(("correct?", r, indices, matches))
     return r, indices, matches
 
 def canonize_sequences(seqs: List[List[str]] = [], dictionary: defaultdict = defaultdict()):
