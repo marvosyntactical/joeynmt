@@ -385,7 +385,7 @@ def load_data(data_cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
                 def __init__(self, copy_from_source: bool = False):
                     self.copy_from_source = bool(copy_from_source)
                 def __call__(self, seq):
-                    processed, indices, matches = hash_canons(seq, hash_vocab)
+                    processed, indices, matches = hash_canons(seq, hash_vocab.itos)
                     return processed, indices, matches
         else:
             raise ValueError(f"canonization mode {canonization_mode} not implemented")

@@ -237,7 +237,7 @@ def canonize_sequence(seq: List[str]=[], entities:defaultdict=defaultdict()) -> 
     print(f"\tFinished up Sequence\n{seq}\nand transformed it to\n{r}")
     print(("="*40)+"\n")
     assert len(indices) == len(seq), (indices, seq)
-    # input(("correct?", r, indices, matches))
+    input(("correct?", r, indices, matches))
     return r, indices, matches
 
 def canonize_sequences(seqs: List[List[str]] = [], dictionary: defaultdict = defaultdict()):
