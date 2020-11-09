@@ -41,7 +41,7 @@ def main(args):
     path = "../"
     splitpart = "dev"
     txt = ".txt"
-    EXT = ""
+    EXT = "RESULT"
     file_template = "dialog-babi-task6-dstc2-{}"
     if args == 0:
         pass
@@ -49,6 +49,50 @@ def main(args):
         splitpart = args[0]
         if len(args) >= 2:
             EXT = args[1]
+
+    if EXT == "RESULT":
+        create_local_kbs = True
+        try:
+            from  joeynmt.constants import PAD_TOKEN
+        except ImportError:
+            PAD_TOKEN = "<pad>"
+            print(f"Importing of joeynmt failed in preproc path \
+                {'/'.join(__file__.split('/')[:-1])}, falling back to \
+                PAD_TOKEN=={PAD_TOKEN}")
+
+        KB_DELIMITER = " "
+
+        from split_normalized_scenarios import canonify
+
+        # READ main global knowledgebase to init 
+        # knowledgebases_keys, knowledgebases_vals
+
+        kb_path = "../"
+        kb_file_identifier = "kb"
+        kb_txt = ".txt"
+        kb_filename_template = "dialog-babi-task6-dstc2-{}"
+        kb_file_stem = kb_filename_template.format(kb_file_identifier)
+        kb_file = kb_file_stem + txt
+
+        with open(kb_path+kb_file, "r") as kb:
+            _knowledgebase = kb.readlines()
+
+        # init for below
+        knowledgebases_keys, knowledgebases_vals = [], []
+
+        for line in _knowledgebase:
+            triple = line[2:-1]
+            if not triple: continue # skip empty line
+            key_rep, val = canonify(triple)
+
+            knowledgebases_keys.append(key_rep)
+            knowledgebases_vals.append(val)
+            assert len(knowledgebases_keys) == len(knowledgebases_vals), \
+                    (len(knowledgebases_keys) == len(knowledgebases_vals))
+            lens = [len(knowledgebases_keys)]
+
+    else:
+        create_local_kbs = False
 
     assert splitpart in ["trn","dev","tst"], splitpart
 
@@ -74,12 +118,19 @@ def main(args):
 
     # process convos into dialog batch of srcs, trgs
     batches = []
-    for convo in convos:
+    if create_local_kbs:
+        lkp = [] # at index of utterance, contains corresponding knowledgebase index
+        _empty_count = 0
+
+    # loop over convos
+
+    for kb_idx, convo in enumerate(convos):
         if not convo: continue # empty conversation
         # historical sources: add lines appropriately
         history = ""
         srcs, trgs = [], []
-        lines_after_api_call = False
+        if create_local_kbs:
+            keys, vals = [], []
         for i, line in enumerate(convo):
             # discard/skip first line
             if line.startswith("1 "):
@@ -96,7 +147,6 @@ def main(args):
                         src = split_line_no_num[0]
                         history += src+" "+HISTORY_SEP_TOKEN+" "
                         srcs += [history[:-len(HISTORY_SEP_TOKEN)-2]] # without latest sep token
-                        lines_after_api_call = True
                     elif SILENCE in split_line_no_num[0]:
                         # update history by trg and add this to trgs
                         trg = split_line_no_num[1]
@@ -111,19 +161,41 @@ def main(args):
                     srcs += [history[:-len(HISTORY_SEP_TOKEN)-2]] # without latest sep token
                     history += trg+" "+HISTORY_SEP_TOKEN+" "
                     trgs += [trg] # without latest sep token
+                    if create_local_kbs:
+                        lkp += [kb_idx+1]
                 else:
-                    # this a Knowledgebase line
-                    # assert lines_after_api_call
-                    pass
-        lines_after_api_call = False
+                    # split_line_no_num is a list containing a KB line string
+                    subj, rel, val = split_line_no_num[0][1:].split(KB_DELIMITER)
+                    key_rep = f" {PAD_TOKEN} ".join((subj, rel))
+                    keys += [key_rep]
+                    vals += [val]
         batches += [list(zip(srcs,trgs))]
+
+        if create_local_kbs:
+
+            assert len(keys) == len(vals), (len(keys), len(vals))
+            if not len(keys):
+                # correct lkp entries for this convo to point to lkp[0]
+                # which is big global KB <3
+                lkp[-len(convo):] = [0]*len(convo) # the src/trg examples in this KBless batch should point to global KB
+                _empty_count += 1
+            else:
+                lens += [len(keys)]
+                knowledgebases_keys += keys
+                knowledgebases_vals += vals
+
+    if create_local_kbs:
+        # number of KB length entries + number of skipped KBs should be == #batches +1(+1 for global KB)
+        assert len(lens)+_empty_count == len(batches)+1, (len(lens), _empty_count, len(batches))
+        assert lkp[-1] == len(batches)
+        assert len(knowledgebases_keys) == len(knowledgebases_vals), \
+                (len(knowledgebases_keys),len(knowledgebases_vals))
+
 
     # NOTE user and system parts below ignore batches: just use one global knowledgebase
 
     user_parts = [ex[0]+"\n" for b in batches for ex in b]
     system_parts = [ex[1]+"\n" for b in batches for ex in b]
-
-    # assert False, user_parts[:10]
 
     # write lines to files 
     user, system = ".user",".system"
@@ -134,6 +206,22 @@ def main(args):
     filename_sys = path+file_stem+system+EXT
     with open(filename_sys, "w") as sys_out_file:
         sys_out_file.writelines(system_parts)
+
+    if create_local_kbs:
+        kb_src_ext, kb_trg_ext, = ["kbk","kbv"]
+
+        # KB src, trg
+        with open(path+file_stem+"."+kb_src_ext+EXT, "w") as kbsrc:
+            kbsrc.writelines([k+"\n" for k in keys])
+        with open(path+file_stem+"."+kb_trg_ext+EXT, "w") as kbtrg:
+            kbtrg.writelines([v+"\n" for v in vals])
+
+        # lkp, length info
+        with open(path+file_stem+".lkp"+EXT, "w") as lkp_file:
+            lkp_file.writelines([str(KB_IDX)+"\n" for KB_IDX in lkp])
+        with open(path+file_stem+".len"+EXT, "w") as len_file:
+            len_file.writelines([str(KB_LEN)+"\n" for KB_LEN in lkp])
+
 
 if __name__ ==  "__main__":
     import sys

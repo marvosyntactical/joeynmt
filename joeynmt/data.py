@@ -658,9 +658,12 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
 
     # max_chunk is maximum batch size if KB is the same for more than that many examples
 
+    dstc2 = "r_phone" in kb_data.fields["kbsrc"].vocab.itos
+    assert dstc2, kb_data.fields["kbsrc"].vocab.itos
+
     minibatch = KB_minibatch()
     current = 0
-    corresponding_kb = 0
+    corresponding_kb = 0 if not dstc2 else 1 # dstc2 has global KB as first KB so skip this
     kb_len = 0
     chunk = 0
 
@@ -679,16 +682,19 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
 
         elif corresponding_kb != last_corresponding_kb:
 
+            print(f"minibatch #{i}; future ex.trg: {ex}")
             yield minibatch
             minibatch = KB_minibatch()
 
             # sum over last kb and all inbetween that and current one (excluding current)
             # sometimes a KB is skipped
-            current += sum(kb_lens[last_corresponding_kb:corresponding_kb])
+            current = sum(kb_lens[:corresponding_kb])
             chunk = 0 # reset chunk batch size
             
         print(ex.trg, kb_lens, corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
+        # REMOVEME: FIXME
+        assert kb_len, (corresponding_kb, kb_lkp[i], i, current)
 
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
@@ -699,7 +705,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             kb_empty = True
             if c is not None and c.copy_from_source: 
 
-                otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src,data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
+                otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src, data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
                 if len(otf_kb) > 0:
                     kb_empty = False
                     minibatch.kb = otf_kb
@@ -769,7 +775,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         # debug end
 
     if minibatch:
-        # there's no more data examples to append to this last minibatch, yield it and return 
+        # there's no more data examples to append to this last minibatch, yield it
         yield minibatch
 
 class KB_Iterator(Iterator):
