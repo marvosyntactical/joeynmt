@@ -659,7 +659,6 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
     # max_chunk is maximum batch size if KB is the same for more than that many examples
 
     dstc2 = "r_phone" in kb_data.fields["kbsrc"].vocab.itos
-    assert dstc2, kb_data.fields["kbsrc"].vocab.itos
 
     minibatch = KB_minibatch()
     current = 0

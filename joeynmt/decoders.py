@@ -549,6 +549,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                  kb_feed_rnn: bool = True,
                  same_module_for_all_hops: bool = False,
                  kb_multihead_feed: bool = False,
+                 do_pad_kb_keys: bool = False,
                  **kwargs) -> None:
         """
         Create a recurrent decoder with attention and key value attention over a knowledgebase.
@@ -687,6 +688,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
             _k_hops_same_module = 1 
             
         self.kb_multihead_feed = bool(kb_multihead_feed)
+        self.do_pad_kb_keys = bool(do_pad_kb_keys)
 
         # list of [kvr for dim 0, kvr for dim 1] * k_hops
         self.kvr_attention = nn.ModuleList([
@@ -698,7 +700,7 @@ class KeyValRetRNNDecoder(RecurrentDecoder):
                                             feed_rnn=self.kb_feed_rnn,
                                             num_layers=num_layers,
                                             dropout=dropout,
-                                            pad_keys=True,
+                                            pad_keys=self.do_pad_kb_keys, # doesnt need to be true for 1 hop (=>BIG PERFORMANCE SAVE), needs to be true for >= 2 hops
                                             multihead_feed=self.kb_multihead_feed,
                                             )
                                 for i in range(_k_hops * self.kb_dims)] * _k_hops_same_module

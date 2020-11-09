@@ -834,6 +834,7 @@ def build_model(cfg: dict = None,
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
     double_decoder = cfg.get("double_decoder", False)
     tied_side_softmax = cfg.get("tied_side_softmax", False) # actually use separate linear layers, tying only the main one
+    do_pad_kb_keys = cfg.get("pad_kb_keys", False)# doesnt need to be true for 1 hop (=>BIG PERFORMANCE SAVE), needs to be true for >= 2 hops
 
     if hasattr(kb_max_dims, "__iter__"):
         kb_max_dims = tuple(kb_max_dims)
@@ -881,7 +882,8 @@ def build_model(cfg: dict = None,
                 kb_key_emb_size=kbsrc_embed.embedding_dim, 
                 kb_input_feeding=kb_input_feeding, 
                 kb_feed_rnn=kb_feed_rnn,
-                kb_multihead_feed=kb_multihead_feed)
+                kb_multihead_feed=kb_multihead_feed,
+                do_pad_kb_keys=do_pad_kb_keys)
     
     # specify generator which is mostly just the output layer
     generator = Generator(

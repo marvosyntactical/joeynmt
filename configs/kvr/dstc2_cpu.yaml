@@ -80,6 +80,7 @@ model:                                     # specify your model architecture her
     kb_max_dims: [1024] #
     kb_input_feeding: False #
     kb_feed_rnn: False #
+    pad_kb_keys: False
 
     initializer: "xavier"                  # initializer for all trainable weights (xavier, zeros, normal, uniform)
     init_weight: 0.01                      # weight to initialize; for uniform, will use [-weight, weight]
