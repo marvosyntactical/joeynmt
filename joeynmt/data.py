@@ -689,11 +689,9 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             # sometimes a KB is skipped
             current = sum(kb_lens[:corresponding_kb])
             chunk = 0 # reset chunk batch size
-            
+
         print(ex.trg, kb_lens, corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
-        # REMOVEME: FIXME
-        assert kb_len, (corresponding_kb, kb_lkp[i], i, current)
 
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]

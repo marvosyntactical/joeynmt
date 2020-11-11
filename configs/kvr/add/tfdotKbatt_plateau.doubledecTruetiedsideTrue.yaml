@@ -37,7 +37,7 @@ training:
     patience: 8
     decrease_factor: 0.8
     loss: "crossentropy"
-    learning_rate: 0.001
+    learning_rate: 0.0003
     learning_rate_min: 0.0001
     weight_decay: 0.0
     label_smoothing: 0.1
@@ -48,7 +48,7 @@ training:
     validation_freq: 500
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "modelsadd/16_tfdotKbatt_plateau.doubledecTruetiedsideTrue_28-10" #
+    model_dir: "modelsadd/38_tfdotKbatt_plateau.doubledecTruetiedsideTrue_11-11" #
     overwrite: False
     shuffle: True
     use_cuda: True

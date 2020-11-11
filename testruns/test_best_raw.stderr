@@ -1,4 +1,4 @@
-2020-11-01 18:11:56,751 -  dev bleu:   1.57   0.06   0.20 [Beam search decoding with beam size = 10 and alpha = 1.0]
-2020-11-01 18:11:56,754 - Translations saved to: results/test_best_raw/.dev
-2020-11-01 18:12:51,790 - test bleu:   1.51   0.05   0.16 [Beam search decoding with beam size = 10 and alpha = 1.0]
-2020-11-01 18:12:51,793 - Translations saved to: results/test_best_raw/.test
+2020-11-07 00:31:52,112 -  dev bleu:   1.56 f1:   0.20 mcc:   0.34 [Beam search decoding with beam size = 10 and alpha = 1.0]
+2020-11-07 00:31:52,561 - Translations saved to: results/test_best_raw/.dev
+2020-11-07 00:32:30,233 - test bleu:   1.50 f1:   0.23 mcc:   0.34 [Beam search decoding with beam size = 10 and alpha = 1.0]
+2020-11-07 00:32:30,235 - Translations saved to: results/test_best_raw/.test

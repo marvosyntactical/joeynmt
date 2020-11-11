@@ -3,8 +3,8 @@ import shutil
 from subprocess import Popen, check_output
 import time
 
-partitions = ["students", "gpulong"] # order == priority
-jobbers = {0:"studentsgo", 1: "longgo"} # sbatch creator for each partition
+partitions = ["gpulong", "students"] # order == priority
+jobbers = {0:"longgo", 1: "studentsgo"} # sbatch creator for each partition
 
 me = check_output(["whoami"])[:-1].decode("utf-8") # only worx when nobody else has koss in their name <3
 shellext = ".sh"
@@ -17,7 +17,7 @@ def alphanumify(s: str):
             r+= c
     return r
 
-def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,6], init_update=10):
+def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[4,2], init_update=10):
     """ waits until my squeue has a place"""
 
     update = init_update
@@ -38,8 +38,8 @@ def wait_for_green_light(partitions=partitions, my_jobs_per_partition=[2,6], ini
 
         sq = str(check_output(["squeue"])).split("\\n")
         for i, part in enumerate(partitions):
-
             # check if partition is empty enough
+
             allowed_num_jobs_here = my_jobs_per_partition[i]
 
             part_sq = [ job for job in sq if len(job.split()) > 5 and part in job.split()[1] ]
@@ -114,6 +114,7 @@ def main(args):
 
             new_cfg = path+new_cfg_name+ext
 
+            """
             ### check if model directory exists; if yes then continue ###
             existing_models = str(check_output(["ls", models])).split("\\n")
 
@@ -124,6 +125,7 @@ def main(args):
                     break
             if skip_job: continue
             ### end check ###
+            """
 
             Popen([f"cp {init_cfg} {new_cfg}"], shell=True).wait() # copy the default config for this architecture into a new one
             assert os.path.isfile(new_cfg), (os.listdir(path), init_cfg, new_cfg) # confirm the copying worked 

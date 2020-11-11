@@ -8,7 +8,7 @@ source ~/.bashrc
 # script call signature:
 
 name=$1
-duration=${2:-"0-16:00:00"} # duration should have syntax 2-12:15:59
+duration=${2:-"3-00:00:00"} # duration should have syntax 2-12:15:59
 memory=${3:-"128000"}
 partition=${4:-"gpulong"}
 
