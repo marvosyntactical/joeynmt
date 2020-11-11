@@ -40,8 +40,8 @@ def find_relation(line:str, d, canon_join_char=CANON_JOIN_CHAR, rel_join_char=RE
     return relation
 
 def replace_lines(lines:List[str], d: defaultdict = kbval_lkp, fine_grained = False):
-    #hardcoded; relies on kb entries being represented with underscores
-    #with end of string being in kbval_lkp.keys(),e.g. 'meeting_agenda'
+    # hardcoded; relies on kb entries being represented with underscores
+    # with end of string being in kbval_lkp.keys(),e.g. 'meeting_agenda'
 
     replacements = []
     for i, line in enumerate(lines):
@@ -83,14 +83,11 @@ def main(args):
     ll = [l[:-1] if l.endswith("\n") else l for l in ll] #remove newlines at end of lines
     ll = [l for l in ll if l] # remove empty lines
 
-    #code
-
     processed = replace_lines(ll, fine_grained=fine_grained)
     processed = [line+"\n" for line in processed]
     print(processed[:50])
     with open(fp, "w") as coarse:
         coarse.writelines(processed)
-
 
     return 0
 
