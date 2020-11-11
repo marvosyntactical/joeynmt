@@ -81,6 +81,7 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
       - False: compare in 7 pm == 8 pm;  vocab must be model.trv_vocab !
 
     :return:
+    microaveraged: (num_entitites(utterance)/num_entities(total)) * metric(utterance)
      - f1_avg: float f1 score == 2* (P*R) / (P + R) ('harmonic mean of P and R'); averaged over all examples
      - mcc_avg: float mcc score == sqrt((R+(1/R)-1)*(P+(1/P)-1)) ('geometric mean of Informedness and Markedness'); averaged over all examples
     """
@@ -125,6 +126,7 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
 
     f1s = [] # accumulate scores
     mccs = [] # accumulate matthew's correlation coefficients
+    num_ents = []
     for i, (hyp,ref) in enumerate(zip(hyps, refs)):
 
         hyp_ents_ref_ents = [] # will hold entity vocabulary indices in the order hyp,ref
@@ -150,6 +152,9 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
                 entities = canonical_entities
             else:
                 entities = surface_entities
+            
+            # record number of decisions made for this hypothesis
+            num_ents += [len(entities)]
 
             # Filter out unk IDs
             entities = [tok for tok in entities if not vocab.is_unk(tok)]
@@ -172,6 +177,6 @@ def calc_ent_f1_and_ent_mcc(hyps: List[str], refs: List[str], vocab, c_fun, repo
                 " ### Debug Metrics End ### ")
             
     assert len(hyps) == len(refs) == len(f1s) == len(mccs), (len(hyps), len(refs), len(f1s), len(mccs))
-    f1_avg = sum(f1s) / len(f1s)
-    mcc_avg = sum(mccs) / len(mccs)
+    f1_avg = sum([num_ents[i]*f1s[i] for i in range(len(f1s))]) / sum(num_ents) if len(num_ents) else 0
+    mcc_avg = sum([num_ents[i]*mccs[i] for i in range(len(mccs))]) / sum(num_ents) if len(num_ents) else 0
     return f1_avg, mcc_avg
