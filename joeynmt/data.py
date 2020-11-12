@@ -662,26 +662,22 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
 
     minibatch = KB_minibatch()
     current = 0
-    corresponding_kb = 0 if not dstc2 else 1 # dstc2 has global KB as first KB so skip this
+    last_corresponding_kb = 0 if not dstc2 else 1 # dstc2 has global KB as first KB so skip this
     kb_len = 0
     chunk = 0
 
     for i, ex in enumerate(data):
 
-        last_corresponding_kb = corresponding_kb
         try:
             corresponding_kb = kb_lkp[i]
         except:
             corresponding_kb = 0
             # assert False, kb_lkp # using different lkp file extension than expected?
 
-        if chunk >= max_chunk:
-            yield minibatch
-            minibatch = KB_minibatch()
 
-        elif corresponding_kb != last_corresponding_kb:
+        if corresponding_kb != last_corresponding_kb:
 
-            print(f"minibatch #{i}; future ex.trg: {ex}")
+            print(f"minibatch #{i}; future ex.trg: {ex.trg}")
             yield minibatch
             minibatch = KB_minibatch()
 
@@ -690,18 +686,29 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             current = sum(kb_lens[:corresponding_kb])
             chunk = 0 # reset chunk batch size
 
-        print(ex.trg, kb_lens, corresponding_kb)
+        elif chunk >= max_chunk:
+            yield minibatch
+            minibatch = KB_minibatch()
+            chunk = 0
+
+        # print(ex.trg, kb_lens, corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
+
 
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
+
+        if not minibatch.kb:
+            assert kb_lens[corresponding_kb] == 0
+            input((i, corresponding_kb, kb_len))
+        else:
+            input(([ex.kbsrc for ex in minibatch.kb], len(minibatch.kb)))
 
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
             # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME TODO XXX
             kb_empty = True
             if c is not None and c.copy_from_source: 
-
                 otf_kb, otf_kbtrv = create_KB_on_the_fly(ex.src, data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields, c)
                 if len(otf_kb) > 0:
                     kb_empty = False

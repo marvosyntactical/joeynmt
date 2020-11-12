@@ -5,6 +5,7 @@ the good luck chinese food takeaway is a nice restaurant in the south of town in
  you are welcome
 What kind of food would you like?
 api_call lebanese west R_price
+ api_call no result
 Sorry there is no lebanese restaurant in the west of town
 api_call thai west R_price
 sala_thong is a nice restaurant in the west of town serving thai food
@@ -16,6 +17,7 @@ sala_thong is in the expensive price range
 Would you like something in the cheap , moderate , or expensive price range?
 What part of town do you have in mind?
 api_call vegetarian R_location cheap
+ api_call no result
 Sorry there is no vegetarian restaurant in the cheap price range
 api_call indian R_location cheap
 the_missing_sock is a nice restaurant in the east of town serving international food
@@ -25,6 +27,7 @@ Sure , mahal_of_cambridge is on mahal_of_cambridge_address
  you are welcome
 What part of town do you have in mind?
 api_call cantonese R_location expensive
+ api_call no result
 Sorry there is no cantonese restaurant in the expensive price range
 api_call north_american R_location expensive
 gourmet_burger_kitchen is a great restaurant serving north_american food and it is in the expensive price range
@@ -32,6 +35,7 @@ The phone number of gourmet_burger_kitchen is gourmet_burger_kitchen_phone
 The post code of gourmet_burger_kitchen is gourmet_burger_kitchen_post_code
  you are welcome
 api_call persian R_location expensive
+ api_call no result
 Sorry there is no persian restaurant in the expensive price range
 api_call european R_location expensive
 eraina is a great restaurant serving european food and it is in the expensive price range
@@ -49,6 +53,7 @@ golden_wok is on golden_wok_address
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 ask is in the centre part of town .
 Sure , ask is on ask_address
  you are welcome
@@ -68,6 +73,7 @@ nandos_city_centre serves portuguese food .
 Sure , nandos_city_centre is on nandos_city_centre_address
  you are welcome
 api_call cuban west R_price
+ api_call no result
 Sorry there is no cuban restaurant in the west of town
 api_call italian west R_price
 prezzo is a nice restaurant in the west of town serving italian food
@@ -93,6 +99,7 @@ Sure , peking_restaurant is on peking_restaurant_address
  you are welcome
 I am sorry but there is no jamaican restaurant that matches your request
 api_call jamaican R_location cheap
+ api_call no result
 Sorry there is no jamaican restaurant in the cheap price range
 api_call mediterranean R_location cheap
 the_gardenia is a great restaurant serving mediterranean food and it is in the cheap price range
@@ -117,6 +124,7 @@ The phone number of royal_standard is royal_standard_phone
 Would you like something in the cheap , moderate , or expensive price range?
 What part of town do you have in mind?
 api_call italian north moderate
+ api_call no result
 Sorry there is no moderate restaurant in the north of town serving italian food
  you are welcome
 api_call portuguese R_location R_price
@@ -134,9 +142,11 @@ The phone number of taj_tandoori is taj_tandoori_phone
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 thanh_binh is a great restaurant
  you are welcome
 api_call corsica R_location R_price
+ api_call no result
 Sorry there is no corsica restaurant in the centre of town
 You are looking for a restaurant is that right?
 api_call north_american R_location R_price
@@ -167,6 +177,7 @@ The phone number of the_gandhi is the_gandhi_phone
  you are welcome
 What kind of food would you like?
 api_call danish south R_price
+ api_call no result
 Sorry there is no danish restaurant in the south of town
 api_call portuguese R_location R_price
 nandos is a nice restaurant in the south of town serving portuguese food
@@ -183,8 +194,10 @@ The phone number of ali_baba is ali_baba_phone
 Would you like something in the cheap , moderate , or expensive price range?
 What kind of food would you like?
 api_call japanese west expensive
+ api_call no result
 Sorry there is no expensive restaurant in the west of town serving japanese food
 api_call italian west expensive
+ api_call no result
 Sorry there is no expensive restaurant in the west of town serving italian food
 api_call italian R_location moderate
 prezzo is a nice restaurant in the west of town serving italian food
@@ -193,6 +206,7 @@ The phone number of prezzo is prezzo_phone
 I am sorry but there is no caribbean restaurant that matches your request
 Would you like something in the cheap , moderate , or expensive price range?
 api_call caribbean west R_price
+ api_call no result
 Sorry there is no chinese restaurant in the west of town
 api_call thai west R_price
 sala_thong is a nice restaurant in the west of town serving thai food
@@ -204,6 +218,7 @@ Sure , sala_thong is on sala_thong_address
 Would you like something in the cheap , moderate , or expensive price range?
 What kind of food would you like?
 api_call venetian R_location R_price
+ api_call no result
 Sorry there is no vegetarian restaurant in the centre of town
 dojo_noodle_bar is a nice restaurant in the centre of town serving asian_oriental food
 The phone number of dojo_noodle_bar is dojo_noodle_bar_phone
@@ -219,8 +234,10 @@ kymmoy is a nice place in the centre of town
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 the_gardenia is a great restaurant
 api_call creative R_location moderate
+ api_call no result
 The price range at restaurant_one_seven is moderate .
 api_call british R_location moderate
 restaurant_one_seven is a great restaurant serving british food and it is in the moderate price range
@@ -258,6 +275,7 @@ Can I help you with anything else?
 The phone number of the_missing_sock is the_missing_sock_phone
  you are welcome
 api_call australian north R_price
+ api_call no result
 Sorry there is no australian restaurant in the north of town
 api_call indian north R_price
 the_nirala is a nice restaurant in the north of town serving indian food
@@ -273,6 +291,7 @@ Sure , meghna is on meghna_address
  you are welcome
 What part of town do you have in mind?
 api_call brazilian R_location moderate
+ api_call no result
 Sorry there is no brazilian restaurant in the moderate price range
 the cow pizza kitchen and bar is a great restaurant serving gastropub food and it is in the moderate price range
 Sure , the cow pizza kitchen and bar is on the_cow_pizza_kitchen_and_bar_address
@@ -291,6 +310,7 @@ Sure , prezzo is on prezzo_address
  you are welcome
 I am sorry but there is no english restaurant that matches your request
 api_call irish R_location R_price
+ api_call no result
 Sorry there is no english restaurant in the expensive price range
 darrys_cookhouse_and_wine_shop is a great restaurant serving modern_european food and it is in the expensive price range
 Sure , darrys_cookhouse_and_wine_shop is on darrys_cookhouse_and_wine_shop_address
@@ -307,6 +327,7 @@ The post code of cambridge_lodge_restaurant is cambridge_lodge_restaurant_post_c
  you are welcome
 What kind of food would you like?
 api_call polynesian south R_price
+ api_call no result
 Sorry there is no polynesian restaurant in the south of town
 api_call italian south R_price
 frankie_and_bennys is a nice restaurant in the south of town serving italian food
@@ -316,6 +337,7 @@ The post code of frankie_and_bennys is frankie_and_bennys_post_code
 What part of town do you have in mind?
 What kind of food would you like?
 api_call corsica R_location expensive
+ api_call no result
 Sorry there is no corsica restaurant in the expensive price range
 api_call thai R_location expensive
 hk_fusion is a nice restaurant in the centre of town serving chinese food
@@ -339,6 +361,7 @@ The phone number of pizza_hut_cherry_hinton is pizza_hut_cherry_hinton_phone
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 royal_spice is in the north part of town .
 api_call indian R_location R_price
 royal_spice is a nice restaurant in the north of town serving indian food
@@ -364,6 +387,7 @@ The post code of taj_tandoori is taj_tandoori_post_code
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call british north R_price
+ api_call no result
 Sorry there is no british restaurant in the north of town
 api_call indian north R_price
 graffiti is a nice restaurant in the west of town serving british food
@@ -414,6 +438,7 @@ nandos_city_centre serves portuguese food .
 The phone number of nandos_city_centre is nandos_city_centre_phone
  you are welcome
 api_call european R_location cheap
+ api_call no result
 Sorry there is no european restaurant in the cheap price range
 api_call vietnamese R_location cheap
 thanh_binh is a great restaurant serving vietnamese food and it is in the cheap price range
@@ -437,6 +462,7 @@ Sure , the_oak_bistro is on the_oak_bistro_address
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 j_restaurant is a great restaurant
 j_restaurant is in the centre part of town .
 api_call fusion R_location R_price
@@ -459,9 +485,11 @@ The phone number of saigon_city is saigon_city_phone
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 The price range at prezzo is moderate .
 hk_fusion is a nice restaurant in the centre of town in the expensive price range
 api_call traditional R_location R_price
+ api_call no result
 Sorry there is no traditional restaurant in the centre of town
 api_call turkish R_location R_price
 anatolia is a nice restaurant in the centre of town serving turkish food
@@ -470,6 +498,7 @@ anatolia is in the moderate price range
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 meze_bar_restaurant is a great restaurant
 api_call chinese R_location R_price
 rice_house serves chinese food .
@@ -478,6 +507,7 @@ rice_house serves chinese food .
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 golden_wok is a great restaurant
 api_call italian R_location R_price
 da_vinci_pizzeria serves italian food .
@@ -538,6 +568,7 @@ Can I help you with anything else?
  you are welcome
 What kind of food would you like?
 api_call european R_location cheap
+ api_call no result
 Sorry there is no european restaurant in the cheap price range
  you are welcome
 api_call R_cuisine north R_price
@@ -683,6 +714,7 @@ shiraz_restaurant is a nice restaurant in the centre of town serving mediterrane
 The phone number of shiraz_restaurant is shiraz_restaurant_phone
  you are welcome
 api_call swiss north R_price
+ api_call no result
 Sorry there is no swiss restaurant in the north of town
 api_call indian north R_price
 meghna is a nice restaurant in the north of town serving indian food
@@ -690,6 +722,7 @@ The phone number of meghna is meghna_phone
 meghna is in the moderate price range
  you are welcome
 api_call austrian north R_price
+ api_call no result
 Sorry there is no austrian restaurant in the north of town
 api_call indian north R_price
 tandoori_palace is a nice restaurant in the north of town serving indian food
@@ -697,6 +730,7 @@ The phone number of tandoori_palace is tandoori_palace_phone
 tandoori_palace is in the expensive price range
  you are welcome
 api_call german R_location R_price
+ api_call no result
 Sorry there is no german restaurant in the centre of town
 api_call international R_location R_price
 the_varsity_restaurant is a nice restaurant in the centre of town serving international food
@@ -707,6 +741,7 @@ shiraz_restaurant is a great restaurant serving mediterranean food and it is in 
 The phone number of shiraz_restaurant is shiraz_restaurant_phone
  you are welcome
 api_call R_cuisine R_location expensive
+ api_call no result
 Sorry there is no belgian restaurant in the expensive price range
 api_call european R_location expensive
 michaelhouse_cafe is a great restaurant serving european food and it is in the expensive price range
@@ -850,10 +885,12 @@ The post code of royal_spice is royal_spice_post_code
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 la_tasca is a great restaurant
 I am sorry but there is no belgian restaurant that matches your request
 I am sorry but there is no greek restaurant that matches your request
 api_call belgian R_location R_price
+ api_call no result
 curry_garden serves indian food .
 api_call korean R_location R_price
 little_seoul serves korean food .
@@ -864,6 +901,7 @@ The phone number of little_seoul is little_seoul_phone
 little_seoul is a nice place in the centre of town
  you are welcome
 api_call cuban R_location cheap
+ api_call no result
 Sorry there is no cuban restaurant in the cheap price range
 api_call chinese R_location cheap
 the_missing_sock is a great restaurant serving international food and it is in the cheap price range
@@ -897,6 +935,7 @@ The phone number of thanh_binh is thanh_binh_phone
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 bangkok_city is in the centre part of town .
 I am sorry but there is no traditional restaurant that matches your request
 api_call italian R_location R_price
@@ -914,6 +953,7 @@ Sure , curry_prince is on curry_prince_address
  you are welcome
 What kind of food would you like?
 api_call thai north R_price
+ api_call no result
 sala_thong serves thai food .
 bangkok_city serves thai food .
 Sorry there is no thai restaurant in the north of town
@@ -924,6 +964,7 @@ golden_wok is a nice place in the north of town
  you are welcome
 What part of town do you have in mind?
 api_call vietnamese R_location moderate
+ api_call no result
 golden_wok is a nice restaurant in the north of town in the moderate price range
 Sure , golden_wok is on golden_wok_address
  you are welcome
@@ -940,6 +981,7 @@ the good luck chinese food takeaway is in the expensive price range
  you are welcome
 What kind of food would you like?
 api_call christmas west R_price
+ api_call no result
 Sorry there is no christmas restaurant in the west of town
 api_call british west R_price
 graffiti is a nice restaurant in the west of town serving british food
@@ -997,11 +1039,13 @@ the_nirala serves indian food
  you are welcome
 What kind of food would you like?
 api_call traditional R_location R_price
+ api_call no result
 Sorry there is no traditional restaurant in the centre of town
 api_call turkish R_location R_price
 anatolia is a nice restaurant in the centre of town serving turkish food
  you are welcome
 api_call venetian R_location expensive
+ api_call no result
 Sorry there is no venetian restaurant in the expensive price range
 api_call turkish R_location expensive
 meze_bar_restaurant is a great restaurant serving turkish food and it is in the expensive price range
@@ -1018,6 +1062,7 @@ The phone number of eraina is eraina_phone
 What part of town do you have in mind?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call english R_location R_price
+ api_call no result
 Sorry there is no english restaurant in the centre of town
 api_call mediterranean R_location R_price
 la_mimosa is a nice restaurant in the centre of town serving mediterranean food
@@ -1026,6 +1071,7 @@ The phone number of la_mimosa is la_mimosa_phone
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 la_mimosa is a great restaurant
 I am sorry but there is no cantonese restaurant that matches your request
 api_call north_american R_location R_price
@@ -1089,6 +1135,7 @@ The phone number of cambridge_lodge_restaurant is cambridge_lodge_restaurant_pho
  you are welcome
 What part of town do you have in mind?
 api_call swiss R_location R_price
+ api_call no result
 efes_restaurant is in the centre part of town .
 efes_restaurant is a great restaurant
 Sure , efes_restaurant is on efes_restaurant_address
@@ -1143,6 +1190,7 @@ thanh_binh is a nice place in the west of town
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 don_pasquale_pizzeria is a great restaurant
 api_call R_cuisine R_location moderate
 The price range at restaurant_alimentum is moderate .
@@ -1179,6 +1227,7 @@ peking_restaurant is in the south part of town .
 Would you like something in the cheap , moderate , or expensive price range?
 What kind of food would you like?
 api_call lebanese north R_price
+ api_call no result
 Sorry there is no lebanese restaurant in the north of town
 api_call italian north R_price
 da_vinci_pizzeria is a nice restaurant in the north of town serving italian food
@@ -1222,8 +1271,10 @@ Sure , restaurant_alimentum is on restaurant_alimentum_address
 The phone number of restaurant_alimentum is restaurant_alimentum_phone
  you are welcome
 api_call malaysian R_location cheap
+ api_call no result
 Sorry there is no malaysian restaurant in the cheap price range
 api_call european R_location cheap
+ api_call no result
 Sorry there is no european restaurant in the cheap price range
  you are welcome
 What kind of food would you like?
@@ -1256,6 +1307,7 @@ shanghai_family_restaurant is a great restaurant
  you are welcome
 What part of town do you have in mind?
 api_call traditional R_location R_price
+ api_call no result
 da_vinci_pizzeria is in the north part of town .
 The phone number of da_vinci_pizzeria is da_vinci_pizzeria_phone
  you are welcome
@@ -1277,6 +1329,7 @@ The phone number of cote is cote_phone
 What kind of food would you like?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 grafton_hotel_restaurant is in the east part of town .
 api_call R_cuisine west cheap
 the_missing_sock is a nice restaurant in the east of town in the cheap price range
@@ -1288,16 +1341,20 @@ Sure , the_missing_sock is on the_missing_sock_address
 Can I help you with anything else?
  you are welcome
 api_call tuscan R_location expensive
+ api_call no result
 Sorry there is no tuscan restaurant in the expensive price range
 There are restaurants serving tuscan in the expensive price range . What area would you like?
 api_call thai R_location expensive
+ api_call no result
 Sorry there is no tuscan restaurant in the moderate price range
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 hotel_du_vin_and_bistro is a great restaurant
 I am sorry but there is no greek restaurant that matches your request
 api_call greek R_location R_price
+ api_call no result
 curry_garden serves indian food .
 api_call european R_location R_price
 michaelhouse_cafe serves european food .
@@ -1305,17 +1362,20 @@ The phone number of michaelhouse_cafe is michaelhouse_cafe_phone
  you are welcome
 What part of town do you have in mind?
 api_call brazilian R_location R_price
+ api_call no result
 sala_thong is a great restaurant
 The phone number of sala_thong is sala_thong_phone
 sala_thong is a great restaurant
  you are welcome
 What kind of food would you like?
 api_call romanian R_location R_price
+ api_call no result
 hotel_du_vin_and_bistro is a great restaurant
 The phone number of hotel_du_vin_and_bistro is hotel_du_vin_and_bistro_phone
  you are welcome
 What part of town do you have in mind?
 api_call romanian R_location R_price
+ api_call no result
 golden_wok is in the north part of town .
 I am sorry but there is no romanian restaurant that matches your request
 curry_garden is a nice restaurant in the centre of town serving indian food
@@ -1388,6 +1448,7 @@ The phone number of the_nirala is the_nirala_phone
  you are welcome
 You are looking for a restaurant is that right?
 api_call danish R_location R_price
+ api_call no result
 Sorry there is no danish restaurant in the centre of town
 api_call thai R_location R_price
 shanghai_family_restaurant is a nice restaurant in the centre of town serving chinese food
@@ -1428,6 +1489,7 @@ cote is in the expensive price range
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 the_gandhi is a great restaurant
 the_gandhi serves indian food
 api_call korean R_location R_price
@@ -1437,10 +1499,12 @@ Can I help you with anything else?
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 mahal_of_cambridge is a great restaurant
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 restaurant_one_seven is a great restaurant
 I am sorry but there is no polynesian restaurant that matches your request
 api_call korean R_location R_price
@@ -1457,10 +1521,12 @@ The phone number of the_gardenia is the_gardenia_phone
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 The price range at stazione_restaurant_and_coffee_bar is expensive .
 api_call R_cuisine east R_price
 yu_garden is a nice restaurant in the east of town in the expensive price range
 api_call austrian east R_price
+ api_call no result
 Sorry there is no austrian restaurant in the east of town
 api_call chinese east R_price
 yu_garden is a nice restaurant in the east of town serving chinese food
@@ -1482,6 +1548,7 @@ rajmahal is a nice restaurant in the east of town in the moderate price range
 The phone number of rajmahal is rajmahal_phone
  you are welcome
 api_call mexican R_location cheap
+ api_call no result
 Sorry there is no mexican restaurant in the cheap price range
 api_call chinese R_location cheap
 rice_house is a great restaurant serving chinese food and it is in the cheap price range
@@ -1497,6 +1564,7 @@ Can I help you with anything else?
 What part of town do you have in mind?
 What kind of food would you like?
 api_call greek R_location cheap
+ api_call no result
 Sorry there is no greek restaurant in the cheap price range
 api_call italian R_location cheap
 da_vinci_pizzeria is a nice restaurant in the north of town serving italian food
@@ -1512,6 +1580,7 @@ city_stop_restaurant is in the north part of town .
 The phone number of city_stop_restaurant is city_stop_restaurant_phone
  you are welcome
 api_call scandinavian R_location cheap
+ api_call no result
 Sorry there is no scandinavian restaurant in the cheap price range
 api_call italian R_location cheap
 la_margherita is a great restaurant serving italian food and it is in the cheap price range
@@ -1583,6 +1652,7 @@ The post code of cocum is cocum_post_code
  you are welcome
 I am sorry but there is no cantonese restaurant that matches your request
 api_call cantonese R_location R_price
+ api_call no result
 curry_garden serves indian food .
 What part of town do you have in mind?
 api_call thai R_location R_price
@@ -1600,6 +1670,7 @@ shanghai_family_restaurant is a great restaurant
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 the_gandhi is a great restaurant
 api_call international R_location R_price
 the_missing_sock serves international food .
@@ -1608,6 +1679,7 @@ the_missing_sock serves international food .
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 restaurant_alimentum is in the south part of town .
 api_call french R_location R_price
 cote is a nice restaurant in the centre of town serving french food
@@ -1657,10 +1729,12 @@ The phone number of ali_baba is ali_baba_phone
 ali_baba serves lebanese food .
  you are welcome
 api_call R_cuisine east moderate
+ api_call no result
 Sorry there is no moderate restaurant in the east of town serving halal food
  you are welcome
 What part of town do you have in mind?
 api_call polynesian R_location R_price
+ api_call no result
 golden_house is in the centre part of town .
 golden_house is a great restaurant
 golden_house serves chinese food
@@ -1671,8 +1745,10 @@ The phone number of hotel_du_vin_and_bistro is hotel_du_vin_and_bistro_phone
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 michaelhouse_cafe is a nice restaurant in the centre of town serving european food
 api_call caribbean R_location R_price
+ api_call no result
 Sorry there is no caribbean restaurant in the centre of town
 api_call european R_location R_price
 de_luca_cucina_and_bar is a nice restaurant in the centre of town serving modern_european food
@@ -1744,6 +1820,7 @@ The phone number of da_vinci_pizzeria is da_vinci_pizzeria_phone
  you are welcome
 I am sorry but there is no danish restaurant that matches your request
 api_call danish R_location R_price
+ api_call no result
 curry_garden serves indian food .
 What part of town do you have in mind?
 Would you like something in the cheap , moderate , or expensive price range?
@@ -1775,6 +1852,7 @@ royal_spice is a nice restaurant in the north of town in the cheap price range
 The phone number of royal_spice is royal_spice_phone
  you are welcome
 api_call kosher north R_price
+ api_call no result
 Sorry there is no kosher restaurant in the north of town
 api_call italian north R_price
 da_vinci_pizzeria is a nice restaurant in the north of town serving italian food
@@ -1785,6 +1863,7 @@ I am sorry but there is no welsh restaurant that matches your request
 You are looking for a restaurant is that right?
 What part of town do you have in mind?
 api_call welsh R_location R_price
+ api_call no result
 restaurant_alimentum is a nice restaurant in the south of town serving modern_european food
 restaurant_alimentum serves modern_european food .
 The phone number of restaurant_alimentum is restaurant_alimentum_phone
@@ -1804,6 +1883,7 @@ The phone number of prezzo is prezzo_phone
 Sure , prezzo is on prezzo_address
  you are welcome
 api_call scottish R_location moderate
+ api_call no result
 Sorry there is no scottish restaurant in the moderate price range
 What part of town do you have in mind?
 api_call british R_location moderate
@@ -1825,6 +1905,7 @@ Sure , restaurant_two_two is on restaurant_two_two_address
 The phone number of restaurant_two_two is restaurant_two_two_phone
  you are welcome
 api_call french south R_price
+ api_call no result
 Sorry there is no french restaurant in the south of town
 api_call indian south R_price
 restaurant_two_two is a nice restaurant in the north of town serving french food
@@ -1866,6 +1947,7 @@ The post code of gourmet_burger_kitchen is gourmet_burger_kitchen_post_code
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 Sorry there is no barbeque restaurant in the centre of town
 api_call indian R_location R_price
 curry_garden is a nice restaurant in the centre of town serving indian food
@@ -1897,11 +1979,14 @@ Sure , peking_restaurant is on peking_restaurant_address
 The phone number of peking_restaurant is peking_restaurant_phone
  you are welcome
 api_call malaysian R_location cheap
+ api_call no result
 Sorry there is no malaysian restaurant in the cheap price range
 You are looking for a restaurant is that right?
 api_call european R_location cheap
+ api_call no result
 Sorry there is no european restaurant in the cheap price range
 api_call malaysian R_location cheap
+ api_call no result
 Sorry there is no malaysian restaurant in the cheap price range
 api_call european R_location R_price
 Sorry there is no european restaurant in the cheap price range
@@ -1922,6 +2007,7 @@ meghna serves indian food
 The phone number of meghna is meghna_phone
  you are welcome
 api_call indonesian east R_price
+ api_call no result
 Sorry there is no indonesian restaurant in the east of town
 api_call chinese east R_price
 yu_garden is a nice restaurant in the east of town serving chinese food
@@ -1953,6 +2039,7 @@ The phone number of thanh_binh is thanh_binh_phone
 thanh_binh is in the cheap price range
  you are welcome
 api_call basque east R_price
+ api_call no result
 Sorry there is no basque restaurant in the east of town
 api_call indian east R_price
 pipasha_restaurant is a nice restaurant in the east of town serving indian food
@@ -1974,6 +2061,7 @@ The phone number of restaurant_alimentum is restaurant_alimentum_phone
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 curry_king is a great restaurant
 Sure , curry_king is on curry_king_address
 curry_king is a great restaurant
@@ -2022,6 +2110,7 @@ chiquito_restaurant_bar is a nice restaurant in the south of town in the expensi
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 nandos_city_centre is a great restaurant
 api_call R_cuisine north moderate
 golden_wok is a nice restaurant in the north of town in the moderate price range
@@ -2036,6 +2125,7 @@ api_call R_cuisine north R_price
 saigon_city is a great restaurant
 saigon_city is in the north part of town .
 api_call japanese north R_price
+ api_call no result
 Sorry there is no japanese restaurant in the north of town
 api_call indian north R_price
 the_nirala is a nice restaurant in the north of town serving indian food
@@ -2064,6 +2154,7 @@ grafton_hotel_restaurant is on grafton_hotel_restaurant_address
 The post code of grafton_hotel_restaurant is grafton_hotel_restaurant_post_code
  you are welcome
 api_call english west R_price
+ api_call no result
 Sorry there is no english restaurant in the west of town
 api_call british west R_price
 graffiti is a nice restaurant in the west of town serving british food
@@ -2104,6 +2195,7 @@ The price range at dojo_noodle_bar is cheap .
  you are welcome
 What part of town do you have in mind?
 api_call mexican R_location moderate
+ api_call no result
 Sorry there is no mexican restaurant in the moderate price range
 api_call international R_location moderate
 bloomsbury_restaurant is a great restaurant serving international food and it is in the moderate price range
@@ -2147,6 +2239,7 @@ Sure , the_lucky_star is on the_lucky_star_address
 the_lucky_star serves chinese food
  you are welcome
 api_call mexican R_location cheap
+ api_call no result
 chiquito_restaurant_bar serves mexican food .
 chiquito_restaurant_bar is in the expensive price range
 thanh_binh is a great restaurant serving vietnamese food and it is in the cheap price range
@@ -2222,6 +2315,7 @@ the good luck chinese food takeaway is in the expensive price range
 The phone number of the good luck chinese food takeaway is the_good_luck_chinese_food_takeaway_phone
  you are welcome
 api_call world east R_price
+ api_call no result
 Sorry there is no world restaurant in the east of town
 api_call chinese east R_price
 yu_garden is a nice restaurant in the east of town serving chinese food
@@ -2231,6 +2325,7 @@ The post code of yu_garden is yu_garden_post_code
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 curry_king is in the centre part of town .
 curry_king is a great restaurant
 Sure , curry_king is on curry_king_address
@@ -2262,6 +2357,7 @@ The phone number of royal_spice is royal_spice_phone
 royal_spice serves indian food
  you are welcome
 api_call irish R_location expensive
+ api_call no result
 Sorry there is no irish restaurant in the expensive price range
 api_call italian R_location expensive
 caffe_uno is a great restaurant serving italian food and it is in the expensive price range
@@ -2277,6 +2373,7 @@ The post code of royal_standard is royal_standard_post_code
  you are welcome
 What kind of food would you like?
 api_call scottish R_location R_price
+ api_call no result
 Sorry there is no scottish restaurant in the moderate price range
 I am sorry but there is no scottish restaurant that matches your request
 api_call gastropub R_location R_price
@@ -2314,6 +2411,7 @@ The phone number of la_margherita is la_margherita_phone
  you are welcome
 What kind of food would you like?
 api_call moroccan R_location cheap
+ api_call no result
 Sorry there is no moroccan restaurant in the cheap price range
 api_call indian R_location cheap
 mahal_of_cambridge is a great restaurant serving indian food and it is in the cheap price range
@@ -2329,6 +2427,7 @@ royal_standard is a nice restaurant in the east of town in the expensive price r
  you are welcome
 What kind of food would you like?
 api_call romanian R_location R_price
+ api_call no result
 Sorry there is no romanian restaurant in the centre of town
 api_call european R_location R_price
 curry_garden is a nice restaurant in the centre of town serving indian food
@@ -2348,6 +2447,7 @@ grafton_hotel_restaurant is a nice restaurant in the east of town serving britis
 Can I help you with anything else?
  you are welcome
 api_call greek south R_price
+ api_call no result
 Sorry there is no greek restaurant in the south of town
 api_call chinese south R_price
 the_lucky_star is a nice restaurant in the south of town serving chinese food
@@ -2355,6 +2455,7 @@ Sure , the_lucky_star is on the_lucky_star_address
 the_lucky_star is in the cheap price range
  you are welcome
 api_call christmas west R_price
+ api_call no result
 Sorry there is no christmas restaurant in the west of town
 api_call italian west R_price
 la_margherita is a nice restaurant in the west of town serving italian food
@@ -2404,6 +2505,7 @@ api_call portuguese R_location R_price
 nandos serves portuguese food .
  you are welcome
 api_call eritrean east R_price
+ api_call no result
 Sorry there is no korean restaurant in the east of town
 api_call chinese east R_price
 yu_garden is a nice restaurant in the east of town serving chinese food
@@ -2418,14 +2520,17 @@ Sure , the_lucky_star is on the_lucky_star_address
 The phone number of the_lucky_star is the_lucky_star_phone
  you are welcome
 api_call korean north R_price
+ api_call no result
 Sorry there is no korean restaurant in the north of town
 api_call persian north R_price
+ api_call no result
 Sorry there is no persian restaurant in the north of town
 api_call chinese north R_price
 the_hotpot is a nice restaurant in the north of town serving chinese food
 The phone number of the_hotpot is the_hotpot_phone
  you are welcome
 api_call tuscan R_location expensive
+ api_call no result
 Sorry there is no tuscan restaurant in the expensive price range
 api_call french R_location expensive
 cote is a great restaurant serving french food and it is in the expensive price range
@@ -2479,6 +2584,7 @@ The phone number of grafton_hotel_restaurant is grafton_hotel_restaurant_phone
 Can I help you with anything else?
  you are welcome
 api_call turkish south R_price
+ api_call no result
 Sorry there is no turkish restaurant in the south of town
 api_call chinese south R_price
 Sorry there is no japanese restaurant in the south of town
@@ -2489,6 +2595,7 @@ Sure , peking_restaurant is on peking_restaurant_address
  you are welcome
 What kind of food would you like?
 api_call scandinavian north R_price
+ api_call no result
 Sorry there is no scandinavian restaurant in the north of town
 You are looking for a restaurant is that right?
 api_call italian north R_price
@@ -2516,6 +2623,7 @@ The phone number of restaurant_two_two is restaurant_two_two_phone
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call jamaican R_location R_price
+ api_call no result
 The price range at saffron_brasserie is expensive .
 saffron_brasserie is a great restaurant
 I am sorry but there is no jamaican restaurant that matches your request
@@ -2525,6 +2633,7 @@ Sure , nandos_city_centre is on nandos_city_centre_address
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call hungarian west R_price
+ api_call no result
 Sorry there is no hungarian restaurant in the west of town
 api_call indian west R_price
 india_house is a nice restaurant in the west of town serving indian food
@@ -2599,13 +2708,16 @@ The phone number of the_lucky_star is the_lucky_star_phone
 What part of town do you have in mind?
 What kind of food would you like?
 api_call tuscan east R_price
+ api_call no result
 Sorry there is no tuscan restaurant in the east of town
 api_call tuscan south R_price
+ api_call no result
 Sorry there is no european restaurant in the east of town
 Sorry there is no european restaurant in the south of town
  you are welcome
 What kind of food would you like?
 api_call scandinavian R_location R_price
+ api_call no result
 Sorry there is no scandinavian restaurant in the cheap price range
 dojo_noodle_bar is a great restaurant serving asian_oriental food and it is in the cheap price range
 The phone number of dojo_noodle_bar is dojo_noodle_bar_phone
@@ -2621,6 +2733,7 @@ Sure , nandos_city_centre is on nandos_city_centre_address
 What part of town do you have in mind?
 What kind of food would you like?
 api_call swedish R_location R_price
+ api_call no result
 Sorry there is no swedish restaurant in the centre of town
 api_call indian R_location R_price
 curry_garden is a nice restaurant in the centre of town serving indian food
@@ -2637,6 +2750,7 @@ The post code of the_lucky_star is the_lucky_star_post_code
 I am sorry but there is no christmas restaurant that matches your request
 There are restaurants serving christmas food . What area do you want?
 api_call christmas R_location R_price
+ api_call no result
 Sorry there is no christmas restaurant in the centre of town
 api_call indian R_location R_price
 kohinoor is a nice restaurant in the centre of town serving indian food
@@ -2649,6 +2763,7 @@ The phone number of bedouin is bedouin_phone
 You are looking for a restaurant is that right?
 I am sorry but there is no polish restaurant that matches your request
 api_call polish R_location R_price
+ api_call no result
 curry_garden serves indian food .
 api_call thai R_location R_price
 sala_thong serves thai food .
@@ -2656,6 +2771,7 @@ Sure , sala_thong is on sala_thong_address
 The phone number of sala_thong is sala_thong_phone
  you are welcome
 api_call caribbean south R_price
+ api_call no result
 Sorry there is no caribbean restaurant in the south of town
 api_call italian south R_price
 pizza_hut_cherry_hinton is a nice restaurant in the south of town serving italian food
@@ -2664,6 +2780,7 @@ The post code of pizza_hut_cherry_hinton is pizza_hut_cherry_hinton_post_code
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 sesame_restaurant_and_bar is a great restaurant
 api_call turkish R_location R_price
 sesame_restaurant_and_bar serves chinese food
@@ -2678,16 +2795,20 @@ meze_bar_restaurant is in the expensive price range
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 taj_tandoori is a great restaurant
 the_gardenia is in the centre part of town .
 api_call romanian R_location R_price
+ api_call no result
 Sorry there is no romanian restaurant in the centre of town
 dojo_noodle_bar is a nice restaurant in the centre of town serving asian_oriental food
 The phone number of dojo_noodle_bar is dojo_noodle_bar_phone
  you are welcome
 api_call R_cuisine south R_price
+ api_call no result
 Sorry there is no eritrean restaurant in the south of town
 api_call portuguese south R_price
+ api_call no result
 taj_tandoori is a nice restaurant in the south of town serving indian food
 nandos is a nice restaurant in the south of town serving portuguese food
 The phone number of nandos is nandos_phone
@@ -2733,6 +2854,7 @@ The phone number of peking_restaurant is peking_restaurant_phone
  you are welcome
 What kind of food would you like?
 api_call persian R_location R_price
+ api_call no result
 ali_baba is a great restaurant
 api_call R_cuisine north R_price
 hakka is in the north part of town .
@@ -2750,6 +2872,7 @@ Sorry there is no jamaican restaurant in the east of town
  you are welcome
 What kind of food would you like?
 api_call european north R_price
+ api_call no result
 Sorry there is no european restaurant in the north of town
 api_call indian north R_price
 royal_spice is a nice restaurant in the north of town serving indian food
@@ -2758,6 +2881,7 @@ The phone number of royal_spice is royal_spice_phone
 Sure , royal_spice is on royal_spice_address
  you are welcome
 api_call kosher south R_price
+ api_call no result
 Sorry there is no kosher restaurant in the south of town
 api_call portuguese R_location R_price
 nandos is a nice restaurant in the south of town serving portuguese food
@@ -2766,6 +2890,7 @@ Sure , nandos is on nandos_address
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call belgian R_location R_price
+ api_call no result
 Sorry there is no polish restaurant in the centre of town
 Sorry there is no belgian restaurant in the centre of town
 little_seoul is a nice restaurant in the centre of town serving korean food
@@ -2855,6 +2980,7 @@ bloomsbury_restaurant is a great restaurant serving international food and it is
 The phone number of bloomsbury_restaurant is bloomsbury_restaurant_phone
  you are welcome
 api_call basque west R_price
+ api_call no result
 Sorry there is no basque restaurant in the west of town
 api_call italian west R_price
 prezzo is a nice restaurant in the west of town serving italian food
@@ -2868,6 +2994,7 @@ Sure , the_missing_sock is on the_missing_sock_address
 The phone number of the_missing_sock is the_missing_sock_phone
  you are welcome
 api_call romanian R_location R_price
+ api_call no result
 Sorry there is no romanian restaurant in the centre of town
 api_call european R_location R_price
 michaelhouse_cafe is a nice restaurant in the centre of town serving european food
@@ -2887,6 +3014,7 @@ The post code of the_missing_sock is the_missing_sock_post_code
  you are welcome
 What kind of food would you like?
 api_call world south R_price
+ api_call no result
 Sorry there is no world restaurant in the south of town
 api_call portuguese R_location R_price
 nandos is a nice restaurant in the south of town serving portuguese food
@@ -2894,6 +3022,7 @@ The phone number of nandos is nandos_phone
 Sure , nandos is on nandos_address
  you are welcome
 api_call international north R_price
+ api_call no result
 Sorry there is no international restaurant in the north of town
 api_call italian north R_price
 da_vinci_pizzeria is a nice restaurant in the north of town serving italian food
@@ -2936,6 +3065,7 @@ Sure , la_margherita is on la_margherita_address
 The phone number of la_margherita is la_margherita_phone
  you are welcome
 api_call cuban south R_price
+ api_call no result
 Sorry there is no cuban restaurant in the south of town
 api_call portuguese R_location R_price
 nandos is a nice restaurant in the south of town serving portuguese food
@@ -2950,6 +3080,7 @@ Sure , meghna is on meghna_address
  you are welcome
 What kind of food would you like?
 api_call swedish R_location moderate
+ api_call no result
 Sorry there is no swedish restaurant in the moderate price range
 api_call chinese R_location moderate
 jinling_noodle_bar is a great restaurant serving chinese food and it is in the moderate price range
@@ -2964,6 +3095,7 @@ thanh_binh serves vietnamese food
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 the_varsity_restaurant is in the centre part of town .
 the_varsity_restaurant is a great restaurant
  you are welcome
@@ -2975,6 +3107,7 @@ chiquito_restaurant_bar is on chiquito_restaurant_bar_address
  you are welcome
 What kind of food would you like?
 api_call cantonese west R_price
+ api_call no result
 Sorry there is no cantonese restaurant in the west of town
 api_call british west R_price
 saint_johns_chop_house is a nice restaurant in the west of town serving british food
@@ -3009,6 +3142,7 @@ golden_wok is a great restaurant serving chinese food and it is in the moderate 
  you are welcome
 What kind of food would you like?
 api_call vegetarian R_location expensive
+ api_call no result
 Sorry there is no vegetarian restaurant in the expensive price range
 api_call mediterranean R_location expensive
 la_mimosa is a great restaurant serving mediterranean food and it is in the expensive price range
@@ -3042,10 +3176,12 @@ The phone number of golden_wok is golden_wok_phone
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
 api_call R_cuisine R_location R_price
+ api_call no result
 The price range at grafton_hotel_restaurant is expensive .
 api_call R_cuisine east R_price
 grafton_hotel_restaurant is in the east part of town .
 api_call caribbean east R_price
+ api_call no result
 Sorry there is no caribbean restaurant in the east of town
 api_call chinese east R_price
 yu_garden is a nice restaurant in the east of town serving chinese food
@@ -3064,6 +3200,7 @@ The phone number of la_mimosa is la_mimosa_phone
  you are welcome
 What kind of food would you like?
 api_call polish west R_price
+ api_call no result
 Sorry there is no polish restaurant in the west of town
 api_call indian west R_price
 cocum is a nice restaurant in the west of town serving indian food
@@ -3072,6 +3209,7 @@ The phone number of cocum is cocum_phone
  you are welcome
 What part of town do you have in mind?
 api_call R_cuisine R_location R_price
+ api_call no result
 curry_garden is in the centre part of town .
 I am sorry but there is no swedish restaurant that matches your request
 api_call chinese R_location R_price
@@ -3083,6 +3221,7 @@ The phone number of golden_house is golden_house_phone
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 bedouin serves african food .
 api_call R_cuisine south cheap
 the_lucky_star is a nice restaurant in the south of town serving chinese food
@@ -3092,12 +3231,14 @@ The phone number of the_lucky_star is the_lucky_star_phone
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 midsummer_house_restaurant is a great restaurant
 Sure , midsummer_house_restaurant is on midsummer_house_restaurant_address
 midsummer_house_restaurant is a great restaurant
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 bangkok_city is a great restaurant
 api_call R_cuisine north R_price
 meghna is in the north part of town .
@@ -3119,6 +3260,7 @@ saint_johns_chop_house is in the moderate price range
  you are welcome
 What kind of food would you like?
 api_call seafood R_location cheap
+ api_call no result
 Sorry there is no seafood restaurant in the cheap price range
 api_call chinese R_location cheap
 golden_house is a great restaurant serving chinese food and it is in the cheap price range
@@ -3137,6 +3279,7 @@ The phone number of the_hotpot is the_hotpot_phone
 Would you like something in the cheap , moderate , or expensive price range?
 What kind of food would you like?
 api_call lebanese south R_price
+ api_call no result
 Sorry there is no lebanese restaurant in the south of town
 api_call chinese south R_price
 peking_restaurant is a nice restaurant in the south of town serving chinese food
@@ -3188,6 +3331,7 @@ Sure , pizza_hut_cherry_hinton is on pizza_hut_cherry_hinton_address
  you are welcome
 I am sorry but there is no polish restaurant that matches your request
 api_call polish R_location expensive
+ api_call no result
 Sorry there is no polish restaurant in the expensive price range
 api_call north_american R_location expensive
 gourmet_burger_kitchen is a great restaurant serving north_american food and it is in the expensive price range
@@ -3202,6 +3346,7 @@ Sure , rajmahal is on rajmahal_address
 The phone number of rajmahal is rajmahal_phone
  you are welcome
 api_call portuguese R_location expensive
+ api_call no result
 Sorry there is no portuguese restaurant in the expensive price range
 api_call R_cuisine R_location expensive
 nandos is a great restaurant serving portuguese food and it is in the cheap price range
@@ -3296,6 +3441,7 @@ Sure , taj_tandoori is on taj_tandoori_address
  you are welcome
 You are looking for a restaurant is that right?
 api_call R_cuisine R_location R_price
+ api_call no result
 sala_thong is a great restaurant
 api_call R_cuisine R_location moderate
 The price range at restaurant_one_seven is moderate .
@@ -3339,6 +3485,7 @@ The phone number of pipasha_restaurant is pipasha_restaurant_phone
  you are welcome
 What kind of food would you like?
 api_call hungarian R_location R_price
+ api_call no result
 midsummer_house_restaurant serves british food .
 midsummer_house_restaurant is a nice place in the centre of town
 midsummer_house_restaurant is a great restaurant
@@ -3358,6 +3505,7 @@ The phone number of eraina is eraina_phone
  you are welcome
 What part of town do you have in mind?
 api_call german R_location R_price
+ api_call no result
 the_lucky_star is in the south part of town .
 I am sorry but there is no german restaurant that matches your request
 api_call european R_location R_price
@@ -3375,6 +3523,7 @@ The post code of thanh_binh is thanh_binh_post_code
  you are welcome
 What kind of food would you like?
 api_call swiss R_location expensive
+ api_call no result
 Sorry there is no swiss restaurant in the expensive price range
 api_call mediterranean R_location expensive
 shiraz_restaurant is a great restaurant serving mediterranean food and it is in the expensive price range
@@ -3383,6 +3532,7 @@ The phone number of shiraz_restaurant is shiraz_restaurant_phone
  you are welcome
 I am sorry but there is no persian restaurant that matches your request
 api_call persian R_location R_price
+ api_call no result
 nandos_city_centre serves portuguese food .
 nandos_city_centre is in the cheap price range
 nandos_city_centre serves portuguese food .
@@ -3392,6 +3542,7 @@ Sure , nandos_city_centre is on nandos_city_centre_address
 What kind of food would you like?
 I am sorry but there is no persian restaurant that matches your request
 api_call persian R_location R_price
+ api_call no result
 gourmet_burger_kitchen is a nice restaurant in the centre of town serving north_american food
 api_call vietnamese R_location R_price
 the_hotpot is a nice restaurant in the north of town serving chinese food
@@ -3401,6 +3552,7 @@ The phone number of thanh_binh is thanh_binh_phone
  you are welcome
 What kind of food would you like?
 api_call cuban R_location R_price
+ api_call no result
 Sorry there is no cuban restaurant in the centre of town
 api_call european R_location R_price
 michaelhouse_cafe is a nice restaurant in the centre of town serving european food
@@ -3412,6 +3564,7 @@ Sure , the_lucky_star is on the_lucky_star_address
  you are welcome
 What kind of food would you like?
 api_call cuban R_location moderate
+ api_call no result
 Sorry there is no cuban restaurant in the moderate price range
 api_call british R_location moderate
 saint_johns_chop_house is a great restaurant serving british food and it is in the moderate price range
@@ -3426,6 +3579,7 @@ royal_spice serves indian food
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 yu_garden is a nice restaurant in the east of town serving chinese food
 api_call R_cuisine south R_price
 golden_wok is a nice restaurant in the north of town serving chinese food
@@ -3444,6 +3598,7 @@ da_vinci_pizzeria is a nice restaurant in the north of town in the cheap price r
 Sure , da_vinci_pizzeria is on da_vinci_pizzeria_address
 da_vinci_pizzeria is a nice restaurant in the north of town in the cheap price range
 api_call chinese north cheap
+ api_call no result
 Sorry there is no cheap restaurant in the north of town serving chinese food
  you are welcome
 Would you like something in the cheap , moderate , or expensive price range?
@@ -3456,6 +3611,7 @@ The phone number of restaurant_alimentum is restaurant_alimentum_phone
 Can I help you with anything else?
  you are welcome
 api_call polynesian south R_price
+ api_call no result
 Sorry there is no polynesian restaurant in the south of town
 api_call italian south R_price
 pizza_hut_cherry_hinton is a nice restaurant in the south of town serving italian food
@@ -3471,6 +3627,7 @@ Sure , meze_bar_restaurant is on meze_bar_restaurant_address
 Would you like something in the cheap , moderate , or expensive price range?
 What kind of food would you like?
 api_call afghan R_location R_price
+ api_call no result
 Sorry there is no afghan restaurant in the cheap price range
 I am sorry but there is no afghan restaurant that matches your request
 api_call european R_location R_price
@@ -3502,6 +3659,7 @@ The phone number of saigon_city is saigon_city_phone
 Would you like something in the cheap , moderate , or expensive price range?
 What kind of food would you like?
 api_call R_cuisine west R_price
+ api_call no result
 Sorry there is no basque restaurant in the west of town
 api_call vietnamese west R_price
 saint_johns_chop_house is a nice restaurant in the west of town serving british food
@@ -3511,8 +3669,10 @@ The phone number of thanh_binh is thanh_binh_phone
 What part of town do you have in mind?
 What kind of food would you like?
 api_call australian R_location moderate
+ api_call no result
 Sorry there is no australian restaurant in the moderate price range
 api_call gastropub R_location moderate
+ api_call no result
 saint_johns_chop_house is a nice restaurant in the west of town serving british food
 the cow pizza kitchen and bar is a nice restaurant in the centre of town serving gastropub food
 Sure , the cow pizza kitchen and bar is on the_cow_pizza_kitchen_and_bar_address
@@ -3526,6 +3686,7 @@ peking_restaurant is a nice restaurant in the south of town serving chinese food
 The phone number of peking_restaurant is peking_restaurant_phone
  you are welcome
 api_call russian R_location R_price
+ api_call no result
 Sorry there is no russian restaurant in the centre of town
 api_call british R_location R_price
 cotto is a nice restaurant in the centre of town serving british food
@@ -3595,6 +3756,7 @@ The phone number of frankie_and_bennys is frankie_and_bennys_phone
 Sure , frankie_and_bennys is on frankie_and_bennys_address
  you are welcome
 api_call kosher north R_price
+ api_call no result
 Sorry there is no kosher restaurant in the north of town
 api_call french north R_price
 restaurant_two_two is a nice restaurant in the north of town serving french food
@@ -3607,6 +3769,7 @@ Sure , restaurant_alimentum is on restaurant_alimentum_address
 Would you like something in the cheap , moderate , or expensive price range?
 What kind of food would you like?
 api_call english west R_price
+ api_call no result
 Sorry there is no english restaurant in the west of town
 api_call italian west R_price
 Sorry there is no german restaurant in the west of town

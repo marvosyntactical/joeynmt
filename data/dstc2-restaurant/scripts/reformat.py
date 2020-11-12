@@ -82,7 +82,8 @@ def main(args):
 
         for line in _knowledgebase:
             triple = line[2:-1]
-            if not triple: continue # skip empty line
+            if not triple:
+                continue # skip empty line
             key_rep, val = canonify(triple)
 
             knowledgebases_keys.append(key_rep)
@@ -125,7 +126,9 @@ def main(args):
     # loop over convos
 
     for kb_idx, convo in enumerate(convos):
-        if not convo: continue # empty conversation
+        if not convo:
+            print("empty? : ", convo)
+            continue # empty conversation
         # historical sources: add lines appropriately
         history = ""
         srcs, trgs = [], []
@@ -140,7 +143,7 @@ def main(args):
                 no_num = line[line.find(" "):]
 
                 split_line_no_num = no_num.split(SRC_TRG_DELIM)
-                if len(split_line_no_num) == 2:
+                if len(split_line_no_num) == 2 or (len(split_line_no_num)==1 and API_CALL in split_line_no_num[0]):
                     """
                     if API_CALL in split_line_no_num[1]:
                         # update history by source and add this to srcs
@@ -156,7 +159,12 @@ def main(args):
                     """
                     # default case;
                     # update history by src, trg and add them to srcs, trgs
-                    src, trg = split_line_no_num
+                    if len(split_line_no_num) == 2:
+                        src, trg = split_line_no_num
+                    else:
+                        assert len(split_line_no_num) == 1, split_line_no_num
+                        src = ""
+                        trg = split_line_no_num[0]
                     history += src+" "+HISTORY_SEP_TOKEN+" "
                     srcs += [history[:-len(HISTORY_SEP_TOKEN)-2]] # without latest sep token
                     history += trg+" "+HISTORY_SEP_TOKEN+" "
@@ -169,6 +177,8 @@ def main(args):
                     key_rep = f" {PAD_TOKEN} ".join((subj, rel))
                     keys += [key_rep]
                     vals += [val]
+        # input(f"extending batch list for {splitpart} by \n\n {list(zip(srcs,trgs))}")
+        # input(f"also extending the knowledgebase list by this corresponding KB:\n\n {list(zip(keys,vals))}")
         batches += [list(zip(srcs,trgs))]
 
         if create_local_kbs:
@@ -178,7 +188,7 @@ def main(args):
                 # correct lkp entries for this convo to point to lkp[0]
                 # which is big global KB <3
                 lkp[-len(convo):] = [0]*len(convo) # the src/trg examples in this KBless batch should point to global KB
-                _empty_count += 1
+                lens += [lens[0]]
             else:
                 lens += [len(keys)]
                 knowledgebases_keys += keys
@@ -186,7 +196,7 @@ def main(args):
 
     if create_local_kbs:
         # number of KB length entries + number of skipped KBs should be == #batches +1(+1 for global KB)
-        assert len(lens)+_empty_count == len(batches)+1, (len(lens), _empty_count, len(batches))
+        assert len(lens) == len(batches)+1, (len(lens), len(batches))
         assert lkp[-1] == len(batches)
         assert len(knowledgebases_keys) == len(knowledgebases_vals), \
                 (len(knowledgebases_keys),len(knowledgebases_vals))
@@ -211,16 +221,21 @@ def main(args):
         kb_src_ext, kb_trg_ext, = ["kbk","kbv"]
 
         # KB src, trg
-        with open(path+file_stem+"."+kb_src_ext+EXT, "w") as kbsrc:
-            kbsrc.writelines([k+"\n" for k in keys])
-        with open(path+file_stem+"."+kb_trg_ext+EXT, "w") as kbtrg:
-            kbtrg.writelines([v+"\n" for v in vals])
+        kb_src_full_path = path+file_stem+"."+kb_src_ext+EXT
+        print("writing to ",kb_src_full_path)
+        with open(kb_src_full_path, "w") as kbsrc:
+            kbsrc.writelines([k+"\n" for k in knowledgebases_keys])
+
+        kb_trg_full_path = path+file_stem+"."+kb_trg_ext+EXT
+        print("writing to ",kb_trg_full_path)
+        with open(kb_trg_full_path, "w") as kbtrg:
+            kbtrg.writelines([v+"\n" for v in knowledgebases_vals])
 
         # lkp, length info
         with open(path+file_stem+".lkp"+EXT, "w") as lkp_file:
             lkp_file.writelines([str(KB_IDX)+"\n" for KB_IDX in lkp])
         with open(path+file_stem+".len"+EXT, "w") as len_file:
-            len_file.writelines([str(KB_LEN)+"\n" for KB_LEN in lkp])
+            len_file.writelines([str(KB_LEN)+"\n" for KB_LEN in lens])
 
 
 if __name__ ==  "__main__":

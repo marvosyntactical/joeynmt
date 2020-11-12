@@ -744,6 +744,7 @@ I am sorry but there is no other african restaurant that matches your request
 Can I help you with anything else?
  you are welcome
 api_call singaporean R_location R_price
+ api_call no result
 little_seoul serves korean food
 I am sorry but there is no other korean restaurant that matches your request
 Can I help you with anything else?
@@ -981,6 +982,7 @@ prezzo is a nice place in the west of town and the prices are moderate
 The phone number of prezzo is prezzo_phone
  you are welcome
 api_call singaporean R_location R_price
+ api_call no result
 little_seoul serves korean food
 Can I help you with anything else?
 little_seoul is a nice place in the centre of town serving tasty korean food
@@ -1018,6 +1020,7 @@ You are looking for a modern_european restaurant right?
 Did you say you are looking for a restaurant in the centre of town?
 There are restaurants serving modern_european in the centre of town . What price range would you like?
 api_call jamaican R_location R_price
+ api_call no result
 darrys_cookhouse_and_wine_shop is a nice place in the centre of town serving tasty modern_european food
 darrys_cookhouse_and_wine_shop is on darrys_cookhouse_and_wine_shop_address
  you are welcome
@@ -1539,6 +1542,7 @@ api_call portuguese R_location R_price
 grafton_hotel_restaurant is a nice place in the east of town
 I'm sorry but there is no portuguese restaurant in the east of town
 api_call portuguese west R_price
+ api_call no result
 nandos serves portuguese food
 Sure , nandos is on nandos_address
  you are welcome
@@ -1557,6 +1561,7 @@ There are restaurants in the moderate price range . What type of food do you wan
 You are looking for a restaurant serving any kind of food right?
 What part of town do you have in mind?
 api_call greek R_location moderate
+ api_call no result
 anatolia is in the moderate price range
 anatolia is a great restaurant
 Can I help you with anything else?
@@ -1915,6 +1920,7 @@ Sure , nandos is on nandos_address
 What kind of food would you like?
 You are looking for a restaurant serving any kind of food right?
 api_call singaporean R_location R_price
+ api_call no result
 little_seoul serves korean food
 little_seoul is a nice place in the centre of town serving tasty korean food
 You are looking for a korean restaurant right?
@@ -2363,6 +2369,7 @@ hotel_du_vin_and_bistro is a nice place in the centre of town
  you are welcome
 You are looking for a persian restaurant right?
 api_call japanese west R_price
+ api_call no result
 wagamama serves japanese food
 I'm sorry but there is no japanese restaurant in the west of town
 Can I help you with anything else?
@@ -2604,6 +2611,7 @@ Sure , the_lucky_star is on the_lucky_star_address
 You are looking for a chinese restaurant right?
 There are restaurants serving chinese in the moderate price range . What area would you like?
 api_call thai R_location moderate
+ api_call no result
 shanghai_family_restaurant serves chinese food in the moderate price range
 shanghai_family_restaurant is a great restaurant
 Can I help you with anything else?
@@ -2884,6 +2892,7 @@ There are restaurants serving gastropub food . What area do you want?
 Ok , a restaurant in any part of town is that right?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call singaporean R_location R_price
+ api_call no result
 backstreet_bistro serves gastropub food
 Sure , backstreet_bistro is on backstreet_bistro_address
 The phone number of backstreet_bistro is backstreet_bistro_phone
@@ -3037,6 +3046,7 @@ What kind of food would you like?
 There are restaurants serving british in the centre of town . What price range would you like?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call irish R_location R_price
+ api_call no result
 cotto is a nice place in the centre of town serving tasty british food
 the_oak_bistro is a nice place in the centre of town serving tasty british food
 I'm sorry but there is no restaurant serving irish food
@@ -3202,6 +3212,7 @@ I'm sorry but there is no portuguese restaurant in the east of town
 What part of town do you have in mind?
 You are looking for a portuguese restaurant right?
 api_call portuguese north R_price
+ api_call no result
 nandos_city_centre is a nice place in the centre of town serving tasty portuguese food
 Sure , nandos_city_centre is on nandos_city_centre_address
  you are welcome
@@ -3234,6 +3245,7 @@ The phone number of la_margherita is la_margherita_phone
 What kind of food would you like?
 You are looking for a restaurant serving any kind of food right?
 api_call singaporean R_location R_price
+ api_call no result
 little_seoul serves korean food
 I am sorry but there is no other korean restaurant that matches your request
 Can I help you with anything else?
@@ -3251,6 +3263,7 @@ bloomsbury_restaurant serves international food in the moderate price range
 bloomsbury_restaurant is on bloomsbury_restaurant_address
  you are welcome
 api_call R_cuisine R_location R_price
+ api_call no result
 bedouin serves african food
 Can I help you with anything else?
 api_call african R_location R_price
@@ -3266,6 +3279,7 @@ I'm sorry but there is no restaurant serving tuscan food
 Could you please repeat that?
 There are restaurants serving european in the moderate price range . What area would you like?
 api_call tuscan R_location moderate
+ api_call no result
 hotel_du_vin_and_bistro serves european food in the moderate price range
 Sure , hotel_du_vin_and_bistro is on hotel_du_vin_and_bistro_address
 The post code of hotel_du_vin_and_bistro is hotel_du_vin_and_bistro_post_code
@@ -3447,6 +3461,7 @@ peking_restaurant is in the expensive price range
 There are restaurants in the moderate price range . What type of food do you want?
 What kind of food would you like?
 api_call russian R_location moderate
+ api_call no result
 yippee_noodle_bar is in the moderate price range
 Can I help you with anything else?
 I'm sorry but there is no restaurant serving russian food
@@ -3769,6 +3784,7 @@ You are looking for a spanish restaurant right?
 There are restaurants serving spanish food in any part of town . What price range would you like?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call swedish R_location R_price
+ api_call no result
 la_raza serves spanish food
 la_tasca serves spanish food
 I am sorry but there is no other spanish restaurant that matches your request
@@ -3784,6 +3800,7 @@ There are restaurants serving european in the expensive price range . What area 
 I'm sorry but there is no european restaurant in the south of town
 Could you please repeat that?
 api_call european south expensive
+ api_call no result
 cambridge_lodge_restaurant serves european food in the expensive price range
 The phone number of cambridge_lodge_restaurant is cambridge_lodge_restaurant_phone
 Can I help you with anything else?
@@ -3937,6 +3954,7 @@ Sure , the_missing_sock is on the_missing_sock_address
  you are welcome
 There are restaurants in the cheap price range . What type of food do you want?
 api_call R_cuisine R_location R_price
+ api_call no result
 loch_fyne serves seafood food
 Can I help you with anything else?
 api_call R_cuisine R_location expensive
@@ -4688,6 +4706,7 @@ What kind of food would you like?
 There are restaurants serving gastropub food . What area do you want?
 There are restaurants serving gastropub food in any part of town . What price range would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 backstreet_bistro serves gastropub food
 Sure , backstreet_bistro is on backstreet_bistro_address
 the cow pizza kitchen and bar serves gastropub food
@@ -4698,6 +4717,7 @@ You are looking for a british restaurant right?
 What part of town do you have in mind?
 There are restaurants serving british food in any part of town . What price range would you like?
 api_call brazilian R_location R_price
+ api_call no result
 cotto serves british food
 I'm sorry but there is no restaurant serving brazilian food
 little_seoul serves korean food
@@ -4964,6 +4984,7 @@ There are restaurants in the east of town . What type of food do you want?
 I'm sorry but there is no restaurant serving cantonese food
 You are looking for a korean restaurant right?
 api_call catalan R_location R_price
+ api_call no result
 little_seoul serves korean food
 I'm sorry but there is no korean restaurant in the east of town
 Can I help you with anything else?
@@ -5216,6 +5237,7 @@ The phone number of michaelhouse_cafe is michaelhouse_cafe_phone
  you are welcome
 I'm sorry but there is no restaurant serving creative food
 api_call creative R_location moderate
+ api_call no result
 hotel_du_vin_and_bistro serves european food in the moderate price range
 Sure , hotel_du_vin_and_bistro is on hotel_du_vin_and_bistro_address
 The post code of hotel_du_vin_and_bistro is hotel_du_vin_and_bistro_post_code
@@ -5258,6 +5280,7 @@ Sorry, I can't hear you
 You are looking for a british restaurant right?
 There are restaurants serving british in the centre of town . What price range would you like?
 api_call russian R_location R_price
+ api_call no result
 the_cambridge_chop_house is a nice place in the centre of town serving tasty british food
 the_cambridge_chop_house is a great restaurant
 Sure , the_cambridge_chop_house is on the_cambridge_chop_house_address
@@ -5412,6 +5435,7 @@ I'm sorry but there is no restaurant serving brazilian food
 You are looking for a portuguese restaurant right?
 There are restaurants serving portuguese in the cheap price range . What area would you like?
 api_call brazilian R_location cheap
+ api_call no result
 nandos_city_centre serves portuguese food in the cheap price range
 Sure , nandos_city_centre is on nandos_city_centre_address
  you are welcome
@@ -5503,6 +5527,7 @@ Could you please repeat that?
 There are restaurants serving portuguese food . What area do you want?
 There are restaurants serving portuguese food in any part of town . What price range would you like?
 api_call halal R_location R_price
+ api_call no result
 nandos serves portuguese food
 The phone number of nandos is nandos_phone
 Sure , nandos is on nandos_address
@@ -5790,6 +5815,7 @@ There are restaurants in the cheap price range . What type of food do you want?
 I'm sorry but there is no restaurant serving german food
 Could you please repeat that?
 api_call german R_location cheap
+ api_call no result
 nandos_city_centre serves portuguese food in the cheap price range
 Sure , nandos_city_centre is on nandos_city_centre_address
  you are welcome
@@ -5804,6 +5830,7 @@ The phone number of travellers_rest is travellers_rest_phone
  you are welcome
 What kind of food would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 little_seoul serves korean food
 Sure , little_seoul is on little_seoul_address
 The phone number of little_seoul is little_seoul_phone
@@ -5993,6 +6020,7 @@ You are looking for a indian restaurant right?
 What part of town do you have in mind?
 There are restaurants serving indian food in any part of town . What price range would you like?
 api_call R_cuisine R_location R_price
+ api_call no result
 panahar serves indian food
 curry_king serves indian food
 curry_king is a great restaurant
@@ -6198,6 +6226,7 @@ Sorry but there is no other restaurant in the expensive price range and the east
 You are looking for a christmas restaurant right?
 You are looking for a vietnamese restaurant right?
 api_call christmas south R_price
+ api_call no result
 thanh_binh serves vietnamese food
 I'm sorry but there is no restaurant serving christmas food
 Can I help you with anything else?
@@ -6217,6 +6246,7 @@ The phone number of thanh_binh is thanh_binh_phone
 There are restaurants serving european in the expensive price range . What area would you like?
 What part of town do you have in mind?
 api_call caribbean R_location expensive
+ api_call no result
 eraina serves european food in the expensive price range
 I'm sorry but there is no restaurant serving caribbean food
 sala_thong serves thai food in the expensive price range
@@ -6406,6 +6436,7 @@ There are restaurants serving portuguese food . What area do you want?
 Ok , a restaurant in any part of town is that right?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call welsh R_location R_price
+ api_call no result
 nandos_city_centre serves portuguese food
 The phone number of nandos_city_centre is nandos_city_centre_phone
 Sure , nandos_city_centre is on nandos_city_centre_address
@@ -6554,6 +6585,7 @@ You are looking for a modern_european restaurant right?
 Did you say you are looking for a restaurant in the centre of town?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call jamaican R_location R_price
+ api_call no result
 de_luca_cucina_and_bar is a nice place in the centre of town serving tasty modern_european food
 Sure , de_luca_cucina_and_bar is on de_luca_cucina_and_bar_address
  you are welcome
@@ -6948,6 +6980,7 @@ You are looking for a modern_european restaurant right?
 There are restaurants serving modern_european in the moderate price range . What area would you like?
 What part of town do you have in mind?
 api_call japanese R_location moderate
+ api_call no result
 riverside_brasserie serves modern_european food in the moderate price range
 The phone number of riverside_brasserie is riverside_brasserie_phone
  you are welcome
@@ -7022,6 +7055,7 @@ What part of town do you have in mind?
 You are looking for a european restaurant right?
 Let me confirm , You are looking for a restaurant in the moderate price range right?
 api_call fusion R_location moderate
+ api_call no result
 hotel_du_vin_and_bistro is a great restaurant serving moderate european food in the centre of town .
 hotel_du_vin_and_bistro is on hotel_du_vin_and_bistro_address
  you are welcome
@@ -8161,6 +8195,7 @@ I'm sorry but there is no restaurant serving creative food
 Could you please repeat that?
 There are restaurants serving european in the moderate price range . What area would you like?
 api_call creative R_location moderate
+ api_call no result
 hotel_du_vin_and_bistro serves european food in the moderate price range
 Sure , hotel_du_vin_and_bistro is on hotel_du_vin_and_bistro_address
 The post code of hotel_du_vin_and_bistro is hotel_du_vin_and_bistro_post_code
@@ -8568,6 +8603,7 @@ There are restaurants in the moderate price range . What type of food do you wan
 You are looking for a restaurant serving any kind of food right?
 What part of town do you have in mind?
 api_call gastropub R_location moderate
+ api_call no result
 meghna is in the moderate price range
 meghna serves indian food
 restaurant_one_seven is in the moderate price range
@@ -8675,6 +8711,7 @@ There are restaurants serving european food . What area do you want?
 Ok , a restaurant in any part of town is that right?
 Would you like something in the cheap , moderate , or expensive price range?
 api_call basque R_location R_price
+ api_call no result
 hotel_du_vin_and_bistro serves european food
 The phone number of hotel_du_vin_and_bistro is hotel_du_vin_and_bistro_phone
  you are welcome
@@ -8804,6 +8841,7 @@ There are restaurants in the cheap price range . What type of food do you want?
 There are restaurants serving italian in the cheap price range . What area would you like?
 What part of town do you have in mind?
 api_call italian south cheap
+ api_call no result
 la_margherita is a great restaurant serving cheap italian food in the west of town .
 I'm sorry but there is no italian restaurant in the south of town and the cheap price range
 Can I help you with anything else?
@@ -9008,6 +9046,7 @@ You are looking for a restaurant serving any kind of food right?
 There are restaurants in the east of town serving any kind of food . What price range would you like?
 Did you say you are looking for a restaurant in the east of town?
 api_call lebanese east R_price
+ api_call no result
 yu_garden is a nice place in the east of town
 yu_garden serves chinese food
 pizza_hut_fen_ditton is a nice place in the east of town
@@ -9571,6 +9610,7 @@ The phone number of the_copper_kettle is the_copper_kettle_phone
  you are welcome
 What kind of food would you like?
 api_call catalan R_location R_price
+ api_call no result
 little_seoul serves korean food
 I am sorry but there is no other korean restaurant that matches your request
 Can I help you with anything else?
@@ -10074,6 +10114,7 @@ Could you please repeat that?
 There are restaurants serving portuguese in the cheap price range . What area would you like?
 What part of town do you have in mind?
 api_call polish R_location cheap
+ api_call no result
 nandos_city_centre serves portuguese food in the cheap price range
 Sure , nandos_city_centre is on nandos_city_centre_address
  you are welcome
