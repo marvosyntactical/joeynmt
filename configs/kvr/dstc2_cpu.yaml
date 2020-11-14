@@ -50,7 +50,7 @@ training:                                  # specify training details here
     patience: 5                            # specific to plateau scheduler: wait for this many validations without improvement before decreasing the learning rate
     decrease_factor: 0.9                   # specific to plateau & exponential scheduler: decrease the learning rate by this factor
     epochs: 1000                           # train for this many epochs
-    validation_freq: 10 # validate after this many updates (number of mini-batches), default: 1000
+    validation_freq: 5 # validate after this many updates (number of mini-batches), default: 1000
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
@@ -72,7 +72,7 @@ training:                                  # specify training details here
 model:                                     # specify your model architecture here
     kb: True                               # kb decoder used or not?
     k_hops: 1                              # num of kvr att layers
-    do_postproc: True                      # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
+    do_postproc: False                     # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
     copy_from_source: True                 # whether to create KBs from source as backup when KB empty 
     same_module_for_all_hops: True #
     kb_multihead_feed: False #

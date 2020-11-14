@@ -674,8 +674,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             corresponding_kb = 0
             # assert False, kb_lkp # using different lkp file extension than expected?
 
-
-        if corresponding_kb != last_corresponding_kb:
+        if corresponding_kb != last_corresponding_kb and len(minibatch):
 
             print(f"minibatch #{i}; future ex.trg: {ex.trg}")
             yield minibatch

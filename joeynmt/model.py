@@ -86,7 +86,7 @@ class Model(nn.Module):
         self.eos_idx_src = self.src_vocab.stoi[EOS_TOKEN]
         self.k_hops = k_hops # FIXME global number of kvr attention forward passes to do
         self.do_postproc = do_postproc
-        self.canonize = canonize
+        self.canonize = canonize # the canonicalizer piggybacks off the model to be passed to validation and plotting
         self.kb_att_dims = kb_att_dims
         if posEncKBkeys:
             try:
