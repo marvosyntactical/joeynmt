@@ -1,0 +1,44 @@
+[3J[H[2JStarting procedure for job kvrn_discard ...
+
+Found configs/kvr/kvrn_discard.yaml, resuming ...
+creating sbatch sbatch/kvrn_discard.sh:
+
+---------------------------------------------------------------------------
+#!/bin/bash
+#
+#SBATCH --job-name='kvrn_discard'
+#SBATCH -n1 -c1
+#SBATCH --mem=128000
+#SBATCH -p students 
+#SBATCH --gres=gpu:1
+#SBATCH --qos=normal
+#SBATCH --time=3-00:00:00
+#SBATCH --mail-user=koss@cl.uni-heidelberg.de
+#SBATCH -o 'srunz/kvrn_discard.stdout'
+#SBATCH -e 'srunz/kvrn_discard.stderr'
+
+printf "$(date -R)\t[start training kvrn_discard]\n" >> time.log
+source ~/.bashrc
+source activate venv
+srun python3 -m joeynmt train 'configs/kvr/kvrn_discard.yaml' 
+printf "$(date -R)\t[done training kvrn_discard]\n" >> time.log
+---------------------------------------------------------------------------
+
+
+Started Job number 393841
+
+            393841  students kvrn_dis     koss PD       0:00      1 (None)
+
+model can be found under models/197_kvrn_discard_12-11
+
+===========================================================================
+
+    starting 197th training job named kvrn_discard, now go away and pray
+
+                                   🛐
+
+===========================================================================
+            393841  students kvrn_dis     koss PD       0:00      1 (None)
+            393835  students     kvrn     koss  R      15:51      1 gpu08
+            393840      main slurmgo.     koss  R       0:00      1 node16
+

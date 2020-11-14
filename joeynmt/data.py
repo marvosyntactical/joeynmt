@@ -698,11 +698,13 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
 
+        """
         if not minibatch.kb:
             assert kb_lens[corresponding_kb] == 0
             input((i, corresponding_kb, kb_len))
         else:
             input(([ex.kbsrc for ex in minibatch.kb], len(minibatch.kb)))
+        """
 
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB

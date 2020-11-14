@@ -1,0 +1,44 @@
+[3J[H[2JStarting procedure for job load_swap ...
+
+Found configs/kvr/load_swap.yaml, resuming ...
+creating sbatch sbatch/load_swap.sh:
+
+---------------------------------------------------------------------------
+#!/bin/bash
+#
+#SBATCH --job-name='load_swap'
+#SBATCH -n1 -c1
+#SBATCH --mem=128000
+#SBATCH -p gpulong 
+#SBATCH --gres=gpu:1
+#SBATCH --qos=normal
+#SBATCH --time=3-00:00:00
+#SBATCH --mail-user=koss@cl.uni-heidelberg.de
+#SBATCH -o 'srunz/load_swap.stdout'
+#SBATCH -e 'srunz/load_swap.stderr'
+
+printf "$(date -R)\t[start training load_swap]\n" >> time.log
+source ~/.bashrc
+source activate venv
+srun python3 -m joeynmt train 'configs/kvr/load_swap.yaml' 
+printf "$(date -R)\t[done training load_swap]\n" >> time.log
+---------------------------------------------------------------------------
+
+
+Started Job number 393838
+
+            393838   gpulong load_swa     koss PD       0:00      1 (None)
+
+model can be found under models/196_load_swap_12-11
+
+===========================================================================
+
+    starting 196th training job named load_swap, now go away and pray
+
+                                   🛐
+
+===========================================================================
+            393838   gpulong load_swa     koss PD       0:00      1 (None)
+            393835  students     kvrn     koss  R      13:37      1 gpu08
+            393837      main slurmgo.     koss  R       0:01      1 node16
+

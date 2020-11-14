@@ -45,7 +45,7 @@ training:                                  # specify training details here
     eval_batch_size: 10                    # mini-batch size for evaluation (see batch_size above)
     eval_batch_type: "sentence"            # evaluation batch type ("sentence", default) or tokens ("token")
     batch_multiplier: 10                   # increase the effective batch size with values >1 to batch_multiplier*batch_size without increasing memory consumption by making updates only every batch_multiplier batches
-    scheduling: "sample"                   # learning rate scheduling, optional, if not specified stays constant, options: "plateau", "exponential", "decaying", "noam" (for Transformer)
+    scheduling: "plateau"                   # learning rate scheduling, optional, if not specified stays constant, options: "plateau", "exponential", "decaying", "noam" (for Transformer)
     patience: 5                            # specific to plateau scheduler: wait for this many validations without improvement before decreasing the learning rate
     decrease_factor: 0.9                   # specific to plateau & exponential scheduler: decrease the learning rate by this factor
     epochs: 1000                           # train for this many epochs
@@ -53,7 +53,7 @@ training:                                  # specify training details here
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/45_kvrn_discard_02-11" # directory where models and validation results are stored, required
+    model_dir: "models/199_kvrn_discard_12-11" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
