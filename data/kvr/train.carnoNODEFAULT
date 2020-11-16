@@ -22,7 +22,7 @@ on @date in @location it will be a high of @temperature .
 you are very welcome .
 there will be @weather_attribute today in @location .
 anytime .
-the @weather_attribute on @date is @temperature in @location
+the @weather on @date is @temperature_low to @temperature_high in @location
 you are welcome .
 what city would you like the 2 day forecast for ?
 there is no @weather_attribute in @location today .
