@@ -13,7 +13,7 @@ data:
     kb_len: "lenNODEFAULT"
     kb_truvals: "trvNODEFAULT"
     global.trv: "global.trvNODEFAULT"
-    trutrg: "carNODEFAULT"
+    trutrg: "carnoNODEFAULT"
 
     # kb end
 
@@ -49,7 +49,7 @@ training:
     validation_freq: 500
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/209_tfdot6enc6decplateauDoubleDec_16-11" #
+    model_dir: "models/212_tfdot6enc6decplateauDoubleDec_canonical_test_16-11" #
     overwrite: False
     shuffle: True
     use_cuda: True
@@ -63,7 +63,7 @@ training:
 model:
     kb: True                        # kb decoder used or not?
     k_hops: 1                       # num of kvr att layers
-    do_postproc: True               # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
+    do_postproc: False              # do postprocessing in inference (use False and trutrg = car to report cheated metrics)
     kb_max_dims: [256]              # max num of entries per KB dimension,e.g. [16, 32] for subj x relation or [200] for flat KB (eric et al)
     copy_from_source: True #
     tfstyletf: True  # 

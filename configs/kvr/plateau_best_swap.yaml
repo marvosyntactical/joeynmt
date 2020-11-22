@@ -29,11 +29,11 @@ testing:                                   # specify which inference algorithm t
     alpha: 1.0                             # length penalty for beam search
 
 training:                                  # specify training details here
-    load_model: "models/202_best_swap_dev_test_13-11/best.ckpt" # if given, load a pre-trained model from this checkpoint
+    # load_model: "models/202_best_swap_dev_test_13-11/best.ckpt" # if given, load a pre-trained model from this checkpoint
     random_seed: 42                        # set this seed to make training deterministic
     optimizer: "adam"                      # choices: "sgd", "adam", "adadelta", "adagrad", "rmsprop", default is SGD
     adam_betas: [0.9, 0.999]               # beta parameters for Adam. These are the defaults. Typically these are different for Transformer models.
-    learning_rate: 1.0e-3                  # initial learning rate, default: 3.0e-4
+    learning_rate: 3.0e-3                  # initial learning rate, default: 3.0e-4
     learning_rate_min: 1.0e-4              # stop learning when learning rate is reduced below this threshold, default: 1.0e-8
     #learning_rate_factor: 1               # factor for Noam scheduler (used with Transformer)
     #learning_rate_warmup: 4000            # warmup steps for Noam scheduler (used with Transformer)
@@ -47,13 +47,13 @@ training:                                  # specify training details here
     batch_multiplier: 10                   # increase the effective batch size with values >1 to batch_multiplier*batch_size without increasing memory consumption by making updates only every batch_multiplier batches
     scheduling: "plateau"                   # learning rate scheduling, optional, if not specified stays constant, options: "plateau", "exponential", "decaying", "noam" (for Transformer)
     patience: 5                            # specific to plateau scheduler: wait for this many validations without improvement before decreasing the learning rate
-    decrease_factor: 0.9                   # specific to plateau & exponential scheduler: decrease the learning rate by this factor
+    decrease_factor: 0.8                   # specific to plateau & exponential scheduler: decrease the learning rate by this factor
     epochs: 1000                           # train for this many epochs
     validation_freq: 500 # validate after this many updates (number of mini-batches), default: 1000
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/207_load_best_swap_15-11" # directory where models and validation results are stored, required
+    model_dir: "models/215_plateau_best_swap_22-11" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.
