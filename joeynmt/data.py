@@ -690,20 +690,12 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
             minibatch = KB_minibatch()
             chunk = 0
 
-        # print(ex.trg, kb_lens, corresponding_kb)
         kb_len = kb_lens[corresponding_kb]
-
+        with open("._tmp_kblens.txt", "a") as myfile:
+            print(kb_len, file=myfile)
 
         minibatch.kb = kb_data[current:current+kb_len]
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
-
-        """
-        if not minibatch.kb:
-            assert kb_lens[corresponding_kb] == 0
-            input((i, corresponding_kb, kb_len))
-        else:
-            input(([ex.kbsrc for ex in minibatch.kb], len(minibatch.kb)))
-        """
 
         if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
@@ -743,10 +735,11 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         print(f"minibatch.kb length: {len(minibatch.kb)}")
         print(f"minibatch.kb:")
         pprint([(entry.kbsrc, entry.kbtrg, tru.kbtrv) for entry, tru in zip(minibatch.kb,minibatch.kbtrv)], width=110)
+        # input() # FIXME remove
         print()
         print(f"minibatch.src/trg: {(ex.src, ex.trg)}")
         print()
-        print("batch_with_kb: current, kb_len, current+kb_len: ",current, kb_len,current+kb_len)
+        print("batch_with_kb: current, kb_len, current+kb_len: ",current, kb_len, current+kb_len)
         print()
         print(f"corresponding_kb: {corresponding_kb}")
         print()
