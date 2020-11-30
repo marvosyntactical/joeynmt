@@ -11,6 +11,7 @@ name=$1
 duration=${2:-"3-00:00:00"} # duration should have syntax 2-12:15:59
 memory=${3:-"128000"}
 partition=${4:-"gpulong"}
+template_name=${4:-"dstc2template"}
 
 
 clear
@@ -86,7 +87,7 @@ sed -i "s/model_dir: [^#]*#/model_dir: \"${model_path_no_slash}\/${model_dir}\" 
 sbatch="$sbatch_path$name$sbatch_ext"
 echo "creating sbatch $sbatch:"
 
-template="${sbatch_path}dstc2template$sbatch_ext"
+template="${sbatch_path}$tempalate_name$sbatch_ext"
 cp -rp "$template" "$sbatch"
 
 #replace all occurences of JOBNAME with name

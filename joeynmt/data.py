@@ -21,9 +21,12 @@ from torchtext.data import Dataset, Iterator, Field, Batch
 from joeynmt.constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN
 from joeynmt.vocabulary import build_vocab, Vocabulary
 
-# FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
-from data.scripts_kvr.canonize import load_json, preprocess_entity_dict, canonize_sequence
-# joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
+try:
+    # FIXME this import from scripts needed to canonize scheduling requests to fill empty scheduling KBs
+    from data.scripts_kvr.canonize import load_json, preprocess_entity_dict, canonize_sequence
+    # joeynmt.data.canonize_sequence is referred to form other parts of joeynmt (.metrics; maybe .helpers) FIXME
+except ImportError:
+    from canonize_link import *
 
 def pkt_tokenize(s)-> List:
     s = s+" "

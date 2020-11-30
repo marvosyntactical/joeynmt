@@ -15,8 +15,8 @@ data: # specify your data here
     global.trv: "global.trvNODEFAULT"      # KVR: concatenation of train/dev/test trv files for lookup vocab building
     
     train: "data/kvr/train"                # training data
-    dev: "data/kvr/test"                    # development data for validation
-    test: "data/kvr/dev"                  # test data for testing final model; optional
+    dev: "data/kvr/dev"                    # development data for validation
+    test: "data/kvr/test"                  # test data for testing final model; optional
     level: "word"                          # segmentation level: either "word", "bpe" or "char"
     lowercase: True                        # lowercase the data, also for validation
     #max_sent_length: 30                   # filter out longer sentences from training (src+trg)
@@ -53,7 +53,7 @@ training:                                  # specify training details here
     logging_freq: 10                       # log the training progress after this many updates, default: 100
     eval_metric: "bleu"                    # validation metric, default: "bleu", other options: "chrf", "token_accuracy", "sequence_accuracy"
     early_stopping_metric: "ppl"           # when a new high score on this metric is achieved, a checkpoint is written, when "eval_metric" (default) is maximized, when "loss" or "ppl" is minimized
-    model_dir: "models/224_plateau_best_swap_29-11" # directory where models and validation results are stored, required
+    model_dir: "models/225_plateau_best_29-11" # directory where models and validation results are stored, required
     overwrite: False                       # overwrite existing model directory, default: False. Do not set to True unless for debugging!
     shuffle: True                          # shuffle the training data, default: True
     use_cuda: True                         # use CUDA for acceleration on GPU, required. Set to False when working on CPU.

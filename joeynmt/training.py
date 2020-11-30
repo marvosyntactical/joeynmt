@@ -142,7 +142,7 @@ class TrainManager:
         if self.use_cuda:
             self.model.cuda()
             self.loss.cuda()
-        
+
         self.report_entf1_on_canonicals = train_config.get("report_entf1_on_canonicals", False)
 
         # initialize training statistics

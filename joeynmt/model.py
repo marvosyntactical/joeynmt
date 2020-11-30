@@ -834,7 +834,7 @@ def build_model(cfg: dict = None,
     kb_max_dims = cfg.get("kb_max_dims", (16,32)) # should be tuple
     double_decoder = cfg.get("double_decoder", False)
     tied_side_softmax = cfg.get("tied_side_softmax", False) # actually use separate linear layers, tying only the main one
-    do_pad_kb_keys = cfg.get("pad_kb_keys", False)# doesnt need to be true for 1 hop (=>BIG PERFORMANCE SAVE), needs to be true for >= 2 hops
+    do_pad_kb_keys = cfg.get("pad_kb_keys", True)# doesnt need to be true for 1 hop (=>BIG PERFORMANCE SAVE), needs to be true for >= 2 hops
 
     if hasattr(kb_max_dims, "__iter__"):
         kb_max_dims = tuple(kb_max_dims)
