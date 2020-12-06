@@ -701,6 +701,10 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
 
         if len(minibatch.kb) == 0:
+            raise ValueError(f"minibatch={minibatch} has empty kb={minibatch.kb}, current={current}, kb_len={kb_len}")
+
+        """
+        if len(minibatch.kb) == 0:
             # this is a scheduling dialogue without KB
             # try to set minibatch.kb, minibatch.kbtrv in a hacky, heuristic way by copying from source FIXME TODO XXX
             kb_empty = True
@@ -714,7 +718,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
                 dummy_kb, dummy_kbtrv = dummy_KB_on_the_fly(data.fields["trg"].vocab, kb_data.fields, kb_truvals.fields)
                 minibatch.kb = dummy_kb
                 minibatch.kbtrv = dummy_kbtrv
-
+        """
         chunk += 1
                 
         assert len(minibatch.kb) == len(minibatch.kbtrv), \
@@ -971,9 +975,3 @@ def lowest_med_match(query, keys, return_idx=True, topk=1, short_penalty=False):
         return [top[1] for top in topk_scores_keys]
     else:
         return [keys[top[1]] for top in topk_scores_keys]
-
-"""
-       JobID  MaxVMSize  MaxVMSizeNode  MaxVMSizeTask  AveVMSize     MaxRSS MaxRSSNode MaxRSSTask     AveRSS MaxPages MaxPagesNode   MaxPagesTask   AvePages     MinCPU MinCPUNode MinCPUTask     AveCPU   NTasks AveCPUFreq ReqCPUFreqMin ReqCPUFreqMax ReqCPUFreqGov ConsumedEnergy  MaxDiskRead MaxDiskReadNode MaxDiskReadTask  AveDiskRead MaxDiskWrite MaxDiskWriteNode MaxDiskWriteTask AveDiskWrite 
------------- ---------- -------------- -------------- ---------- ---------- ---------- ---------- ---------- -------- ------------ -------------- ---------- ---------- ---------- ---------- ---------- -------- ---------- ------------- ------------- ------------- -------------- ------------ --------------- --------------- ------------ ------------ ---------------- ---------------- ------------ 
-399765.0      34859844K          gpu03              0  34.859.844K  15.412.840K      gpu03          0  15.412.840K        0        gpu03              0          0  17:08.000      gpu03          0  17:08.000        1      2.30G       Unknown       Unknown       Unknown              0          54M           gpu03               0          54M          33M            gpu03                0          33M 
-"""
