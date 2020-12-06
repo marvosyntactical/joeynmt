@@ -701,7 +701,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         minibatch.kbtrv = kb_truvals[current:current+kb_len]
 
         if len(minibatch.kb) == 0:
-            raise ValueError(f"minibatch={minibatch} has empty kb={minibatch.kb}, current={current}, kb_len={kb_len}")
+            raise ValueError(f"minibatch={minibatch} number {i} has empty kb={minibatch.kb} number {kb_lkp[i]}, current={current}, kb_len={kb_len}")
 
         """
         if len(minibatch.kb) == 0:
@@ -738,6 +738,7 @@ def batch_with_kb(data, kb_data, kb_lkp, kb_lens, kb_truvals, c=None, canon_data
         previous_kb = kb_data[current-previous_kb_len:current]
         previous_trv = kb_truvals[current-previous_kb_len:current]
 
+        # assert False, (sum(kb_lens[:621]), kb_lens[621], len(kb_data))
         print()
         print(f"minibatch.kb length: {len(minibatch.kb)}")
         print(f"minibatch.kb:")

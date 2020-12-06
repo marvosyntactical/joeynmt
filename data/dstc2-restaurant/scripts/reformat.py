@@ -188,7 +188,7 @@ def main(args):
                 # correct lkp entries for this convo to point to lkp[0]
                 # which is big global KB <3
                 lkp[-len(convo):] = [0]*len(convo) # the src/trg examples in this KBless batch should point to global KB
-                lens += [lens[0]]
+                lens += [0]
             else:
                 lens += [len(keys)]
                 knowledgebases_keys += keys
