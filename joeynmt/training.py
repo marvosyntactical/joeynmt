@@ -342,7 +342,7 @@ class TrainManager:
 
                         valid_start_time = time.time()
 
-                        
+
                         valid_score, valid_loss, valid_ppl, valid_sources, \
                         valid_sources_raw, valid_references, valid_hypotheses, \
                             valid_hypotheses_raw, valid_attention_scores, valid_kb_att_scores, \
@@ -482,13 +482,8 @@ class TrainManager:
         :return: loss for batch (sum)
         """
 
-        with torch.autograd.profiler.profile(use_cuda=self.use_cuda) as tmp_prof:
-            batch_loss = self.model.get_loss_for_batch(
-                batch=batch, loss_function=self.loss, e_i=self.scheduled_sampling(self.minibatch_count))
-
-        # NOTE remove me FIXME TODO XXX
-        with open("._tmp_torch_model_glfb_pro_file.txt", "w") as _tmp_pro_file:
-            _tmp_pro_file.writelines([l+"\n" for l in str(tmp_prof).split("\n")])
+        batch_loss = self.model.get_loss_for_batch(
+            batch=batch, loss_function=self.loss, e_i=self.scheduled_sampling(self.minibatch_count))
 
         # normalize batch loss
         if self.normalization == "batch":

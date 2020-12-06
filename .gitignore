@@ -1,4 +1,3 @@
-lisa/*
 .idea/*
 build/*
 dist/*
@@ -24,4 +23,3 @@ tensorboard_plots/*
 results/*
 testruns/*
 ._tmp*
-
